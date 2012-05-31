@@ -11,6 +11,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -21,6 +22,7 @@ import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -73,8 +75,18 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
                 theStartYear = new Integer(simpleDateformat.format(endDate));
             holidayCalendarInfoList = buildOfficialHolidayCalendarInfoList(theStartYear);
         }
+
+        // build a list of already added holiday calendars to avoid including them in the returned list
+        Collection<String> addedHolidayCalendarIds = new ArrayList<String>(acalForm.getHolidayCalendarList().size());
+        for(HolidayCalendarWrapper hcw : acalForm.getHolidayCalendarList()) {
+            addedHolidayCalendarIds.add(hcw.getId());
+        }
         
-        for(HolidayCalendarInfo holidayCalendarInfo:holidayCalendarInfoList){
+        for(HolidayCalendarInfo holidayCalendarInfo:holidayCalendarInfoList) {
+            if (addedHolidayCalendarIds.contains(holidayCalendarInfo.getId())) {
+                continue;
+            }
+
             ConcreteKeyValue keyValue = new ConcreteKeyValue();
             keyValue.setKey(holidayCalendarInfo.getId());
             keyValue.setValue(holidayCalendarInfo.getName());
