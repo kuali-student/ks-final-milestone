@@ -9,6 +9,8 @@ import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
+import org.kuali.student.r2.common.assembler.TransformUtility;
+import org.kuali.student.r2.common.entity.AttributeOwnerNew;
 import org.kuali.student.r2.common.entity.BaseEntity;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -20,7 +22,7 @@ import org.kuali.student.r2.lum.clu.infc.LuCode;
 
 @Entity
 @Table(name = "KSEN_LUI")
-public class LuiEntity extends MetaEntity {
+public class LuiEntity extends MetaEntity implements AttributeOwnerNew<LuiAttributeEntity>{
 
     @Column(name = "NAME")
     private String name;
@@ -72,8 +74,8 @@ public class LuiEntity extends MetaEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuCodeEntity> luiCodes;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LuiAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LuiAttributeEntity> attributes;
 
     public LuiEntity() {
     }
@@ -237,35 +239,7 @@ public class LuiEntity extends MetaEntity {
         //Now we need to delete the leftovers (orphaned entities)
         orphansToDelete.addAll(existinguLuiUnitsDeploymentEntities.values());
 
-        // Lui Attributes
-        Map<String, LuiAttributeEntity> existingAttributes = new HashMap<String, LuiAttributeEntity>();
-
-        // Find all the old attributes
-        if(attributes != null){
-            for (LuiAttributeEntity attribute : attributes) {
-                existingAttributes.put(attribute.getKey(), attribute);
-            }
-        }
-
-        //Clear out the attributes
-        attributes = new ArrayList<LuiAttributeEntity>();
-
-        //Update anything that exists, or create a new attribute if it doesn't
-        for (Attribute attributeInfo: lui.getAttributes()) {
-            LuiAttributeEntity attribute;
-            if (existingAttributes.containsKey(attributeInfo.getKey())) {
-                attribute = existingAttributes.remove(attributeInfo.getKey());
-            }else{
-                attribute = new LuiAttributeEntity();
-                attribute.setOwner(this);
-                attribute.setKey(attributeInfo.getKey());
-            }
-            attribute.setValue(attributeInfo.getValue());
-            attributes.add(attribute);
-        }
-
-        //Remove the orphaned attributes
-        orphansToDelete.addAll(existingAttributes.values());
+        TransformUtility.toEntityAttributes(LuiAttributeEntity.class, lui, this, orphansToDelete);
 
         return orphansToDelete;
     }
@@ -452,7 +426,7 @@ public class LuiEntity extends MetaEntity {
     // public void setWaitlistMaximum(Integer waitlistMaximum) {
     // this.waitlistMaximum = waitlistMaximum;
     // }
-    public void setAttributes(List<LuiAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
@@ -464,7 +438,7 @@ public class LuiEntity extends MetaEntity {
         this.identifiers = identifiers;
     }
 
-    public List<LuiAttributeEntity> getAttributes() {
+    public Set<LuiAttributeEntity> getAttributes() {
         return attributes;
     }
 
