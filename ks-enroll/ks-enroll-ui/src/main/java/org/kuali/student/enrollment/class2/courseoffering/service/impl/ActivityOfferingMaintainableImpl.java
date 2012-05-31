@@ -78,6 +78,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             ActivityOfferingFormObject formObject = new ActivityOfferingFormObject(info);
             document.getNewMaintainableObject().setDataObject(formObject);
             document.getOldMaintainableObject().setDataObject(formObject);
+            document.getDocumentHeader().setDocumentDescription("Edit AO - " + info.getActivityCode());
 //            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
 //            formObject.setStateName(state.getName());
             return formObject;
