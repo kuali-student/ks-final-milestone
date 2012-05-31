@@ -2,17 +2,6 @@
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-	<mapping>
-		<class-a>org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo
-		</class-a>
-		<class-b>org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo
-		</class-b>
-		<field>
-			<a>objectTypeURI</a>
-			<b>refObjectUri</b>
-		</field>
-	</mapping>
-
 	<!-- ks-core-api: org.kuali.student.r*.core.atp.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.core.atp.dto.AtpInfo</class-a>
