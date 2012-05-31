@@ -1,22 +1,24 @@
 package org.kuali.student.r2.core.class1.process.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.infc.Check;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_CHECK")
@@ -52,11 +54,11 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     @Column(name = "AGENDA_ID")
     private String agendaId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<CheckAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<CheckAttributeEntity> attributes;
 
     @Override
-    public void setAttributes(List<CheckAttributeEntity> attributes) {
+    public void setAttributes(Set<CheckAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
@@ -72,7 +74,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         if (check.getStateKey() != null) {
             this.setCheckState(check.getStateKey());
         }
-        this.setAttributes(new ArrayList<CheckAttributeEntity>());
+        this.setAttributes(new HashSet<CheckAttributeEntity>());
         if (null != check.getAttributes()) {
             for (Attribute att : check.getAttributes()) {
                 CheckAttributeEntity attEntity = new CheckAttributeEntity(att);
@@ -188,7 +190,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     }
 
     @Override
-    public List<CheckAttributeEntity> getAttributes() {
+    public Set<CheckAttributeEntity> getAttributes() {
         return attributes;
     }
 }

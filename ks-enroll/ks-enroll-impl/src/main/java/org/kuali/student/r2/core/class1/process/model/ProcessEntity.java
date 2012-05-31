@@ -1,23 +1,24 @@
 package org.kuali.student.r2.core.class1.process.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.infc.Process;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_PROCESS")
@@ -39,8 +40,8 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
 	@Column(name = "OWNER_ORG_ID")
 	private String ownerOrgID;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval = true)
-    private List<ProcessAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<ProcessAttributeEntity> attributes;
 
     public ProcessEntity(){
 
@@ -59,7 +60,7 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
         this.setProcessState(process.getStateKey());
         this.setOwnerOrgID(process.getOwnerOrgId());
 
-        this.setAttributes(new ArrayList<ProcessAttributeEntity>());
+        this.setAttributes(new HashSet<ProcessAttributeEntity>());
         if (null != process.getAttributes()) {
             for (Attribute att : process.getAttributes()) {
                 ProcessAttributeEntity attEntity = new ProcessAttributeEntity(att);
@@ -133,12 +134,12 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
 	public void setOwnerOrgID(String ownerOrgID) { this.ownerOrgID = ownerOrgID; }
 
 	@Override
-	public List<ProcessAttributeEntity> getAttributes() {
+	public Set<ProcessAttributeEntity> getAttributes() {
 		 return attributes;
 	}
 
     @Override
-	public void setAttributes(List<ProcessAttributeEntity> attributes) {
+	public void setAttributes(Set<ProcessAttributeEntity> attributes) {
 		this.attributes = attributes;
 	}
 }

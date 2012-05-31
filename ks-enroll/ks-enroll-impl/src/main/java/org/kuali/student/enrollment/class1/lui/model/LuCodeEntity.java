@@ -1,16 +1,5 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -20,6 +9,19 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI_LU_CD")
@@ -36,8 +38,8 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
     @ManyToOne
     @JoinColumn(name = "LUI_ID")
     private LuiEntity lui;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LuCodeAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LuCodeAttributeEntity> attributes;
 
     public LuCodeEntity() {
     }
@@ -56,7 +58,7 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
             this.setDescrFormatted(rt.getFormatted());
             this.setDescrPlain(rt.getPlain());
         }
-        this.setAttributes(new ArrayList<LuCodeAttributeEntity>());
+        this.setAttributes(new HashSet<LuCodeAttributeEntity>());
         if (null != luCode.getAttributes()) {
             for (Attribute att : luCode.getAttributes()) {
                 LuCodeAttributeEntity attEntity = new LuCodeAttributeEntity(att);
@@ -128,12 +130,12 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
     }
 
     @Override
-    public void setAttributes(List<LuCodeAttributeEntity> attributes) {
+    public void setAttributes(Set<LuCodeAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<LuCodeAttributeEntity> getAttributes() {
+    public Set<LuCodeAttributeEntity> getAttributes() {
         return attributes;
     }
 

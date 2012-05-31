@@ -7,9 +7,20 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LRR")
@@ -38,8 +49,8 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
     @JoinTable(name = "KSEN_LRR_RES_SRC_RELTN", joinColumns = @JoinColumn(name = "LRR_ID"), inverseJoinColumns = @JoinColumn(name = "RES_SRC_ID"))
     private List<ResultSourceEntity> resultSourceList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LrrAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LrrAttributeEntity> attributes;
 
     public LearningResultRecordEntity() {
 
@@ -58,7 +69,7 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
 	        this.setDescr(new LrrRichTextEntity(dto.getDescr()));
         }
 
-        this.setAttributes(new ArrayList<LrrAttributeEntity>());
+        this.setAttributes(new HashSet<LrrAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 this.getAttributes().add(new LrrAttributeEntity(att));
@@ -115,14 +126,14 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
     }
 
     @Override
-    public void setAttributes(List<LrrAttributeEntity> attributes) {
+    public void setAttributes(Set<LrrAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<LrrAttributeEntity> getAttributes() {
+    public Set<LrrAttributeEntity> getAttributes() {
         if (attributes == null) {
-            attributes = new ArrayList<LrrAttributeEntity>();
+            attributes = new HashSet<LrrAttributeEntity>();
         }
         return attributes;
     }

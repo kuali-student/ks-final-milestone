@@ -1,7 +1,12 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.infc.LprTransaction;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,14 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.infc.LprTransaction;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS")
@@ -39,7 +40,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "LPR_TRANS_ID")
-    private List<LprTransactionItemEntity> lprTransactionItems;
+    private Set<LprTransactionItemEntity> lprTransactionItems;
 
     @Column(name = "LPR_TYPE_ID")
     private String lprTransType;
@@ -47,8 +48,8 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     @Column(name = "STATE_ID")
     private String lprTransState;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LprTransAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LprTransAttributeEntity> attributes;
 
     public LprTransactionEntity() {}
 
@@ -57,7 +58,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         this.setName(lprTransaction.getName());
         this.setRequestingPersonId(lprTransaction.getRequestingPersonId());
         this.requestingPersonId = lprTransaction.getAtpId();
-        this.lprTransactionItems = new ArrayList<LprTransactionItemEntity>();
+        this.lprTransactionItems = new HashSet<LprTransactionItemEntity>();
         this.setLprTransState(lprTransaction.getStateKey());
         this.setLprTransType(lprTransaction.getTypeKey());
         this.setId(lprTransaction.getId());
@@ -156,21 +157,21 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     
     
 
-    public List<LprTransactionItemEntity> getLprTransactionItems() {
+    public Set<LprTransactionItemEntity> getLprTransactionItems() {
         return lprTransactionItems;
     }
 
-    public void setLprTransactionItems(List<LprTransactionItemEntity> lprTransactionItems) {
+    public void setLprTransactionItems(Set<LprTransactionItemEntity> lprTransactionItems) {
         this.lprTransactionItems = lprTransactionItems;
     }
 
     @Override
-    public void setAttributes(List<LprTransAttributeEntity> attributes) {
+    public void setAttributes(Set<LprTransAttributeEntity> attributes) {
         this.setAttributes(attributes);
     }
 
     @Override
-    public List<LprTransAttributeEntity> getAttributes() {
+    public Set<LprTransAttributeEntity> getAttributes() {
         return this.attributes;
     }
 

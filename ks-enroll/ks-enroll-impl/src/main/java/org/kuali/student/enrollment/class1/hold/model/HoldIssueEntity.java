@@ -24,9 +24,14 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.hold.dto.IssueInfo;
 import org.kuali.student.r2.core.hold.infc.Issue;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This is a description of what this class does - andy don't forget to fill this in.
@@ -52,8 +57,8 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<HoldIssueAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<HoldIssueAttributeEntity> attributes;
 
     @Column(name = "HOLD_ISSUE_STATE", nullable = false)
     private String holdIssueState;
@@ -77,7 +82,7 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
             setDescrFormatted(issue.getDescr().getFormatted());
             setDescrPlain(issue.getDescr().getPlain());
         }
-        this.setAttributes(new ArrayList<HoldIssueAttributeEntity>());
+        this.setAttributes(new HashSet<HoldIssueAttributeEntity>());
         for (Attribute att : issue.getAttributes()) {
             HoldIssueAttributeEntity attEntity = new HoldIssueAttributeEntity(att);
             this.getAttributes().add(attEntity);
@@ -85,12 +90,12 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
     }
 
     @Override
-    public void setAttributes(List<HoldIssueAttributeEntity> attributes) {
+    public void setAttributes(Set<HoldIssueAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<HoldIssueAttributeEntity> getAttributes() {
+    public Set<HoldIssueAttributeEntity> getAttributes() {
         return attributes;
     }
 

@@ -1,24 +1,26 @@
 package org.kuali.student.enrollment.class1.lrc.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LRC_RES_VALUE")
@@ -52,8 +54,8 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<ResultValueAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<ResultValueAttributeEntity> attributes;
 
     public ResultValueEntity() {}
 
@@ -72,7 +74,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         setValue(dto.getValue());
         this.setState(dto.getStateKey());
 
-        this.setAttributes(new ArrayList<ResultValueAttributeEntity>());
+        this.setAttributes(new HashSet<ResultValueAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 ResultValueAttributeEntity attEntity = new ResultValueAttributeEntity(att);
@@ -155,12 +157,12 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     }
 
     @Override
-    public void setAttributes(List<ResultValueAttributeEntity> attributes) {
+    public void setAttributes(Set<ResultValueAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<ResultValueAttributeEntity> getAttributes() {
+    public Set<ResultValueAttributeEntity> getAttributes() {
         return attributes;
     }
 

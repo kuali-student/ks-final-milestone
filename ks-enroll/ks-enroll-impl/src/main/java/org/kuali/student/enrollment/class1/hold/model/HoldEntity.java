@@ -1,19 +1,5 @@
 package org.kuali.student.enrollment.class1.hold.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -22,6 +8,20 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;
 import org.kuali.student.r2.core.hold.infc.Hold;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_HOLD")
@@ -54,11 +54,11 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     @Column(name = "PERS_ID")
     private String personId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<HoldAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<HoldAttributeEntity> attributes;
 
     @Override
-    public void setAttributes(List<HoldAttributeEntity> attributes) {
+    public void setAttributes(Set<HoldAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
@@ -79,7 +79,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         this.setReleasedDate(hold.getReleasedDate());
         this.setDescrPlain(hold.getDescr().getPlain());
         this.setDescrFormatted(hold.getDescr().getFormatted());
-        this.setAttributes(new ArrayList<HoldAttributeEntity>());
+        this.setAttributes(new HashSet<HoldAttributeEntity>());
         for (Attribute att : hold.getAttributes()) {
             HoldAttributeEntity attEntity = new HoldAttributeEntity(att);
             this.getAttributes().add(attEntity);
@@ -174,7 +174,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     }
 
     @Override
-    public List<HoldAttributeEntity> getAttributes() {
+    public Set<HoldAttributeEntity> getAttributes() {
         return attributes;
     }
 }

@@ -7,12 +7,6 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.jws.WebService;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
@@ -51,6 +45,13 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebService;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author sambit
@@ -608,7 +609,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             lprTransactionEntity.setDescr(new LprRichTextEntity(lprTransactionInfo.getDescr()));
         }
 
-        List<LprTransactionItemEntity> lprTransItemEntities = new ArrayList<LprTransactionItemEntity>();
+        Set<LprTransactionItemEntity> lprTransItemEntities = new HashSet<LprTransactionItemEntity>();
 
         for (LprTransactionItemInfo lprTransItemInfo : lprTransactionInfo.getLprTransactionItems()) {
 
@@ -647,7 +648,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             newLprTransactionEntity.setId(UUIDHelper.genStringUUID());
             newLprTransactionEntity.setAttributes(existingLprTransactionEntity.getAttributes());
             newLprTransactionEntity.setDescr(existingLprTransactionEntity.getDescr());
-            List<LprTransactionItemEntity> newItems = new ArrayList(existingLprTransactionEntity.getLprTransactionItems().size());
+            Set<LprTransactionItemEntity> newItems = new HashSet(existingLprTransactionEntity.getLprTransactionItems().size());
             for (LprTransactionItemEntity existingItem : existingLprTransactionEntity.getLprTransactionItems()) {
                 LprTransactionItemEntity newItem = new LprTransactionItemEntity();
                 newItem.setId(UUIDHelper.genStringUUID());
@@ -856,7 +857,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 modifiedLprTrans.setLprTransType(lprTransactionInfo.getTypeKey());
             }
 
-            List<LprTransactionItemEntity> lprTransItemEntityList = processLprTransactionItemsModification(lprTransactionInfo, lprTrans, context);
+            Set<LprTransactionItemEntity> lprTransItemEntityList = processLprTransactionItemsModification(lprTransactionInfo, lprTrans, context);
 
             modifiedLprTrans.setLprTransactionItems(lprTransItemEntityList);
             lprTransDao.merge(modifiedLprTrans);
@@ -868,8 +869,8 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Transactional(readOnly = false)
-    private List<LprTransactionItemEntity> processLprTransactionItemsModification(LprTransactionInfo modifiedTransactionInfo, LprTransactionEntity originalLprTransEntity, ContextInfo context) {
-        List<LprTransactionItemEntity> modifiedLprTransItemEntities = new ArrayList<LprTransactionItemEntity>();
+    private Set<LprTransactionItemEntity> processLprTransactionItemsModification(LprTransactionInfo modifiedTransactionInfo, LprTransactionEntity originalLprTransEntity, ContextInfo context) {
+        Set<LprTransactionItemEntity> modifiedLprTransItemEntities = new HashSet<LprTransactionItemEntity>();
         LprTransactionInfo originalLprTransInfo = originalLprTransEntity.toDto();
         List<String> deletedItems = new ArrayList<String>();
         // Assume all original items are deleted until matched

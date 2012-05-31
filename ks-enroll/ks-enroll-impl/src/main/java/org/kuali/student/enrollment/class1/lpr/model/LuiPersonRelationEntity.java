@@ -1,27 +1,25 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Igor
@@ -53,8 +51,8 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     private String personRelationStateId;
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LuiPersonRelationAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LuiPersonRelationAttributeEntity> attributes;
 
     public LuiPersonRelationEntity() {}
 
@@ -74,7 +72,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setPersonRelationStateId(dto.getStateKey());
-        this.setAttributes(new ArrayList<LuiPersonRelationAttributeEntity>());
+        this.setAttributes(new HashSet<LuiPersonRelationAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 this.getAttributes().add(new LuiPersonRelationAttributeEntity(att));
@@ -147,12 +145,12 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 //    }
 
     @Override
-    public List<LuiPersonRelationAttributeEntity> getAttributes() {
+    public Set<LuiPersonRelationAttributeEntity> getAttributes() {
         return attributes;
     }
 
     @Override
-    public void setAttributes(List<LuiPersonRelationAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiPersonRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 

@@ -6,9 +6,18 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LRR_RES_SOURCE")
@@ -30,8 +39,8 @@ public class ResultSourceEntity extends MetaEntity implements AttributeOwner<Res
     @Column(name = "RES_TRANS_ID")
     private String resultTransformationId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<ResultSourceAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<ResultSourceAttributeEntity> attributes;
 
     public ResultSourceEntity(){
 
@@ -47,7 +56,7 @@ public class ResultSourceEntity extends MetaEntity implements AttributeOwner<Res
 	        this.setDescr(new ResultSourceRichTextEntity(dto.getDescr()));
         }
 
-        this.setAttributes(new ArrayList<ResultSourceAttributeEntity>());
+        this.setAttributes(new HashSet<ResultSourceAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 this.getAttributes().add(new ResultSourceAttributeEntity(att));
@@ -97,12 +106,12 @@ public class ResultSourceEntity extends MetaEntity implements AttributeOwner<Res
     }
 
     @Override
-    public void setAttributes(List<ResultSourceAttributeEntity> attributes) {
+    public void setAttributes(Set<ResultSourceAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<ResultSourceAttributeEntity> getAttributes() {
+    public Set<ResultSourceAttributeEntity> getAttributes() {
         return attributes;
     }
 

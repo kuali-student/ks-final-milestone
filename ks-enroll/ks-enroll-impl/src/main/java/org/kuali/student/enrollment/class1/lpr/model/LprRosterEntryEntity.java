@@ -1,8 +1,10 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,12 +14,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LPR_ROSTER_ENTRY")
@@ -45,7 +46,7 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
     private String lprEntryRelationState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private List<LprRosterEntryAttributeEntity> attributes;
+    private Set<LprRosterEntryAttributeEntity> attributes;
 
     public LprRosterEntryEntity() {}
 
@@ -60,7 +61,7 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
             if (dto.getStateKey() != null) {
                 this.setLprEntryRelationState(dto.getStateKey());
             }
-            this.setAttributes(new ArrayList<LprRosterEntryAttributeEntity>());
+            this.setAttributes(new HashSet<LprRosterEntryAttributeEntity>());
             if (null != dto.getAttributes()) {
                 for (Attribute att : dto.getAttributes()) {
                     LprRosterEntryAttributeEntity attEntity = new LprRosterEntryAttributeEntity(att);
@@ -111,12 +112,12 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
     }
 
     @Override
-    public List<LprRosterEntryAttributeEntity> getAttributes() {
+    public Set<LprRosterEntryAttributeEntity> getAttributes() {
         return attributes;
     }
 
     @Override
-    public void setAttributes(List<LprRosterEntryAttributeEntity> attributes) {
+    public void setAttributes(Set<LprRosterEntryAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
