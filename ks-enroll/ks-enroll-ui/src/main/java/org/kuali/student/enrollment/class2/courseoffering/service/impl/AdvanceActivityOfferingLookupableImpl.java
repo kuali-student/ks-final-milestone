@@ -74,9 +74,8 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
 
             //3. get all AOs based on  courseOfferingId
             if(!finalResult.isEmpty() && finalResult.size()==1){
-                // Get THE CO
+                //Get the courseOfferingId from THE CO
                 courseOfferingId = finalResult.get(0).getId();
-                System.out.println(">>> courseOfferingId = "+courseOfferingId);
                 activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, new ContextInfo());
 
             }
