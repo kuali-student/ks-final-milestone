@@ -796,7 +796,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<ActivityOfferingInfo> list = new ArrayList<ActivityOfferingInfo>();
         List<FormatOfferingInfo> formats = this.getFormatOfferingsByCourseOffering(courseOfferingId, context);
         for (FormatOfferingInfo fo : formats) {
-            List<ActivityOfferingInfo> activities = this.getActivityOfferingsByFormatOffering(courseOfferingId, context);
+            List<ActivityOfferingInfo> activities = this.getActivityOfferingsByFormatOffering(fo.getId(), context);
             list.addAll(activities);
         }
         return list;
