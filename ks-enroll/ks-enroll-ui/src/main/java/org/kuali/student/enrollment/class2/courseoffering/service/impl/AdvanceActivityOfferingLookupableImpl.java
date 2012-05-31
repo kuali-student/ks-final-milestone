@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -27,66 +28,36 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
-        String termId = null;
         String courseOfferingId = null;
         String termCode = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_TERM_CODE);
         String courseOfferingCode = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_CODE);
+
+        final Logger logger = Logger.getLogger(FormatOfferingInfoMaintainableImpl.class);
+
         try {
-            //1. get termId based on termCode
-            if (StringUtils.isNotBlank(termCode)) {
+            //get courseOfferingId based on courseOfferingCode and termCode
+            if (StringUtils.isNotBlank(courseOfferingCode) && StringUtils.isNotBlank(termCode)) {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                qbcBuilder.setPredicates(PredicateFactory.equal(ActivityOfferingConstants.ATP_CODE, termCode));
-                QueryByCriteria criteria = qbcBuilder.build();
-
-                // Do search.  In ideal case, termList contains one element, which is the desired term.
-                List<TermInfo> termList = getAcalService().searchForTerms(criteria, new ContextInfo());
-
-                if (termList != null  && termList.size()>0 ){
-                    // Always get first term
-                    termId = termList.get(0).getId();
-                    System.out.println(">>> termId = "+termId);
-                    if(termList.size()>1){
-                        //TODO: need to log --> find more than one term for specified termCode
-                        System.out.println(">>Alert: find more than one term for specified termCode: "+termCode);
-                    }
-                } else {
-                    new Exception("Error: Does not find a valid term with the termCode equal to "+ termCode);
-                }
-            }
-
-            //2. get courseOffering based on courseOfferingCode
-            List<CourseOfferingInfo> finalResult = new ArrayList<CourseOfferingInfo>();
-            if (StringUtils.isNotBlank(courseOfferingCode)) {
-                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                qbcBuilder.setPredicates(PredicateFactory.equal("atpId", termId));
+                qbcBuilder.setPredicates(PredicateFactory.and(
+                        PredicateFactory.equalIgnoreCase(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_CODE, courseOfferingCode),
+                        PredicateFactory.equalIgnoreCase("atpId", termCode)));
                 QueryByCriteria criteria = qbcBuilder.build();
 
                 //Do search.  In ideal case, returns one element, which is the desired CO.
                 List<CourseOfferingInfo> courseOfferingList = getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
-                //Just a quick fix as PredicateFactory doesn't support search within collections
-                for (CourseOfferingInfo coInfo : courseOfferingList){
-                System.out.println("<<< courseOfferingCode from CO:    "+coInfo.getCourseOfferingCode());
-                    if (StringUtils.equalsIgnoreCase(coInfo.getCourseOfferingCode(),courseOfferingCode)){
-                        finalResult.add(coInfo);                               
+                if(courseOfferingList!=null && courseOfferingList.size()>0){
+                    // Always get first CO
+                    courseOfferingId = courseOfferingList.get(0).getId();
+                    if(courseOfferingList.size()>1){
+                        logger.warn("AdvanceActivityOfferingLookupableImpl - find more than one CO for specified courseOfferingCode: " + courseOfferingCode) ;
                     }
+                } else {
+                    new Exception("Error: Does not find a valid Course Offering with the courseOfferingCode equal to "+courseOfferingCode);
                 }
             }
 
-            //3. get all AOs based on  courseOfferingId
-            if(!finalResult.isEmpty() && finalResult.size()==1){
-                //Get the courseOfferingId from THE CO
-                courseOfferingId = finalResult.get(0).getId();
-                activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, new ContextInfo());
-
-            }
-            else if(finalResult.size()>1){
-                    //TODO: need to log --> find more than one CO for specified courseOfferingCode
-                    System.out.println(">>Error: find more than one CO for specified courseOfferingCode: "+courseOfferingCode);
-            }
-            else {
-                new Exception("Error: Does not find a valid Course Offering with the courseOfferingCode equal to "+courseOfferingCode);
-            }
-
+            //get all AOs based on the retrieved courseOfferingId
+            activityOfferingInfos =  getCourseOfferingService().getActivityOfferingsByCourseOffering (courseOfferingId, getContextInfo());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
