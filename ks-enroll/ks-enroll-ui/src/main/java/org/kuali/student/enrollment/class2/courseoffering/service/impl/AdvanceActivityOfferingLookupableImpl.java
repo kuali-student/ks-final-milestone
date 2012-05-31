@@ -57,14 +57,18 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
             //get courseOfferingId based on courseOfferingCode
             if (StringUtils.isNotBlank(courseOfferingCode)) {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.equal("atpId", termId));
                 QueryByCriteria criteria = qbcBuilder.build();
 
                 //Do search.  In ideal case, returns one element, which is the desired CO.
                 List<CourseOfferingInfo> courseOfferingList = getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
-                //Just a quick fix as PredicateFactory doesnt support search within collections
+                System.out.println(">>>courseOfferingList size ="+courseOfferingList.size());
+                //Just a quick fix as PredicateFactory doesn't support search within collections
+                System.out.println("<<< courseOfferingCode from input: "+courseOfferingCode);
                 for (CourseOfferingInfo coInfo : courseOfferingList){
+                System.out.println("<<< courseOfferingCode from CO:    "+coInfo.getCourseOfferingCode());
                     if (StringUtils.equalsIgnoreCase(coInfo.getCourseOfferingCode(),courseOfferingCode)){
-                        finalResult.add(coInfo);
+                        finalResult.add(coInfo);                               
                     }
                 }
             }
