@@ -62,7 +62,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
             String subjectCode = form.getInputCode();
             form.setSubjectCode(subjectCode);
             getViewHelperService(form).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode,form);
-            return getUIFModelAndView(form, "manageCourseOffingsPage");
+            return getUIFModelAndView(form, "manageCourseOfferingsPage");
         }
         else {
             //load courseOffering based on courseOfferingCode and load all associated activity offerings 
