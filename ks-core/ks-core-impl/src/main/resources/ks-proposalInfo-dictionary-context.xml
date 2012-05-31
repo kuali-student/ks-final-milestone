@@ -10,7 +10,6 @@
 			value="org.kuali.student.r2.core.proposal.dto.ProposalInfo" />
 		<property name="attributes">
 			<list>
-				<ref bean="proposalInfo.detailDesc" />
 				<ref bean="proposalInfo.descr" />
 				<ref bean="proposalInfo.effectiveDate" />
 				<ref bean="proposalInfo.expirationDate" />
@@ -125,13 +124,6 @@
 	
 	
     <!-- Normal Proposal Fields -->
-	<bean id="proposalInfo.detailDesc-parent" abstract="true"
-		parent="baseComplex">
-		<property name="name" value="detailDesc" />
-		<property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
-	</bean>
-	<bean id="proposalInfo.detailDesc" parent="proposalInfo.detailDesc-parent" />
-
 	<bean id="proposalInfo.effectiveDate-parent" abstract="true"
 		parent="baseKualiEffectiveDate">
 		<property name="name" value="effectiveDate" />
