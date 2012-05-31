@@ -98,22 +98,13 @@
                 <bean parent="Uif-VerticalBoxSection">
                  <property name="headerText" value="Enrollment Limits, Retrictions, Seatpools, and Waitlists"/>
                  <property name="items">
-                     <list>
-                       <!-- Jira 1234 Please do not delete the following commented out code, we may have to resue it at a later time for Waitlists Tanveer 05/30/2012 -->
-                       <!--  <bean parent="Uif-InputField"
-                               p:label="Waitlists"
-                               p:propertyName="waitListIndicator">
-                             <property name="control">
-                                 <bean parent="Uif-CheckboxControl"/>
-                             </property>
-                         </bean>  -->
-                                                      <!-- p:propertyName=finalExamSpaceCode is being used as a stub, should be replaced later on Tanveer 05/30/2012 -->
-                         <bean parent="Uif-DataField" p:propertyName="aoInfo.finalExamSpaceCode" p:label="Waitlist Type" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:defaultValue="Automatic"/>
+                     <list>                      <!-- p:propertyName=finalExamSpaceCode is being used as a stub, should be replaced later on Tanveer 05/31/2012 -->
+                         <bean parent="Uif-DataField" p:propertyName="aoInfo.finalExamSpaceCode" p:label="Waitlists" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:defaultValue="There is no wait list for this offering."/>
                      </list>
                  </property>
              </bean>
 
-            <bean parent="Uif-VerticalBoxSection">
+                <bean parent="Uif-VerticalBoxSection">
                 <property name="headerText" value="Personnel"/>
                 <property name="items">
                         <list>
