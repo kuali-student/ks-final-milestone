@@ -39,5 +39,11 @@
         <li><portal:portalLink displayTitle="true" title="Enrollment Fee Info" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.EnrollmentFeeFormObject&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
     </ul>
 
+    <strong>Course Offering Maintenance</strong>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Course Offering (Edit)" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper&coInfo.id=Lui-4&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+        <%--<li><portal:portalLink displayTitle="true" title="Course Offering (Edit)" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper&coInfo.id=9a2956fb-86b2-4613-8125-5d692927e733&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>--%>
+    </ul>
+
 </div>
 <channel:portalChannelBottom />
