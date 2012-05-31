@@ -371,8 +371,11 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         try{
+            boolean alreadyOfficial = "kuali.atp.state.Official".equals(academicCalendarForm.getAcademicCalendarInfo().getStateKey());
+            String  messageText = alreadyOfficial ? "info.enroll.term.saved" : "info.enroll.term.official";
             academicCalendarForm.getViewHelperService().saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(),true);
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS,"info.enroll.term.official",termWrapper.getTermNameForUI());
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, messageText, termWrapper.getTermNameForUI());
+            // GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS,"info.enroll.term.official",termWrapper.getTermNameForUI());
         }catch (Exception e){
            throw new RuntimeException(e);
         }
