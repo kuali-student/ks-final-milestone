@@ -24,6 +24,7 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 public class ContextRegistryTest {
@@ -37,7 +38,7 @@ public class ContextRegistryTest {
 
 	private static class DeveloperContext implements Context<String> {
 
-	    public Map<String, Object> createContextMap(String id) throws OperationFailedException {
+	    public Map<String, Object> createContextMap(String id, ContextInfo contextInfo) throws OperationFailedException {
 	        Map<String, Object> contextMap = new HashMap<String, Object>();
 	        contextMap.put(id, id);
 	        

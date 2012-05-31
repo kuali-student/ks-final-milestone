@@ -17,6 +17,7 @@ package org.kuali.student.r1.core.statement.config.context.lu;
 
 import java.util.Map;
 
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
@@ -33,11 +34,16 @@ public class CourseListContextImpl extends AbstractLuContext<ReqComponentInfo> {
 	/**
      * Creates the context map (template data) for the requirement component.
      * 
+     *
+     *
+     *
+     *
      * @param reqComponent Requirement component
+     * @param contextInfo
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(reqComponent);
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(reqComponent, contextInfo);
         contextMap.put(CLU_SET_TOKEN, getCluSet(reqComponent));
         return contextMap;
     }

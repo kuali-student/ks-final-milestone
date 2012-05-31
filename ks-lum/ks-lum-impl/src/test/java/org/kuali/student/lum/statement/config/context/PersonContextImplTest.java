@@ -35,7 +35,7 @@ public class PersonContextImplTest {
 
 	@Test
     public void testCreateContextMap() throws OperationFailedException {
-		Map<String, Object> contextMap = personContext.createContextMap(reqComponent1);
+		Map<String, Object> contextMap = personContext.createContextMap(reqComponent1, new org.kuali.student.r2.common.dto.ContextInfo());
 
 		Assert.assertNotNull(contextMap);
 		Assert.assertEquals("1234567890", contextMap.get(PersonContextImpl.PERSON_TOKEN));

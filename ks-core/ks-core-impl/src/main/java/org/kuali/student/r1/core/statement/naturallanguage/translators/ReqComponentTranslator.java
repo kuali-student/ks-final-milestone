@@ -15,13 +15,6 @@
 
 package org.kuali.student.r1.core.statement.naturallanguage.translators;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.entity.ReqComponent;
 import org.kuali.student.r1.core.statement.entity.ReqComponentType;
@@ -29,8 +22,15 @@ import org.kuali.student.r1.core.statement.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.r1.core.statement.naturallanguage.Context;
 import org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry;
 import org.kuali.student.r1.core.statement.service.impl.StatementAssembler;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * This class translates requirement components into a specific
@@ -146,7 +146,7 @@ public class ReqComponentTranslator {
         }
         Map<String, Object> contextMap = new HashMap<String, Object>();
         for(Context<ReqComponentInfo> context : contextList) {
-    		Map<String, Object> cm = context.createContextMap(reqComponent);
+    		Map<String, Object> cm = context.createContextMap(reqComponent, new org.kuali.student.r2.common.dto.ContextInfo());  // KSCM contextInfo is not passed through here
     		contextMap.putAll(cm);
     	}
 

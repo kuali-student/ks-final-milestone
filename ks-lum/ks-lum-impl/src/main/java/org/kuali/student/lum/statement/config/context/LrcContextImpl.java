@@ -93,6 +93,7 @@ public class LrcContextImpl extends BasicContextImpl {
     /**
      * Creates the context map (template data) for the requirement component.
      * 
+     *
      * @param reqComponent Requirement component
      * @throws OperationFailedException Creating context map fails
      */

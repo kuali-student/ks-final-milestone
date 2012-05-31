@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.naturallanguage.AbstractContext;
 import org.kuali.student.r1.core.statement.naturallanguage.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 
@@ -161,11 +162,16 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * Creates the context map (template data) for the requirement component.
      * Also, adds the field token map to the context map.
      * 
+     *
+     *
+     *
+     *
      * @param reqComponent Requirement component
+     * @param contextInfo
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(reqComponent);
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(reqComponent, contextInfo);
 		contextMap.put(EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getType()));
         contextMap.put(OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.OPERATOR_KEY.getType()));
         return contextMap;

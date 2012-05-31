@@ -28,6 +28,7 @@ import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**
  * This is an abstract class for creating a map (containing token/data) used
@@ -107,10 +108,13 @@ public abstract class AbstractContext<T> implements Context<T> {
      * Creates the context map (template data) for the requirement component.
      * Also, adds the field token map to the context map.
      *
+     *
+     *
      * @param reqComponent Requirement component
+     * @param contextInfo
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         contextMap.put(FIELDS_TOKEN, getReqComponentFieldMap(reqComponent));
         return contextMap;

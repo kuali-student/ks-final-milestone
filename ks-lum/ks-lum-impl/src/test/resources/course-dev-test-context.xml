@@ -78,12 +78,12 @@
 	<bean id="courseAssembler" class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
 		<property name="formatAssembler" ref="formatAssembler"/>
 		<property name="courseJointAssembler" ref="courseJointAssembler"/>
-		<property name="luService" ref="cluClient"/>
+		<property name="CluService" ref="cluClient"/>
 	</bean>
 	
 	<bean id="formatAssembler" class="org.kuali.student.lum.course.service.assembler.FormatAssembler">
 		<property name="activityAssembler" ref="activityAssembler"/>
-		<property name="luService" ref="cluClient"/>
+		<property name="CluService" ref="cluClient"/>
 	</bean>
 	
 	<bean id="activityAssembler" class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
@@ -94,9 +94,7 @@
 		<property name="cluService" ref="cluClient"/>
 	</bean>
 	
-	<bean id="dictionaryService" class="org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
-		<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />	
-	</bean>
+
 	
 	<bean id="serviceValidator" class="org.kuali.student.r2.common.validator.DefaultValidatorImpl">
 		<!--<property name="messageService" ref="ks.messageServiceMock"/>-->		

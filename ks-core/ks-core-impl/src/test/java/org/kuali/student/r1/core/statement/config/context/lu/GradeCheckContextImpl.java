@@ -18,6 +18,7 @@ package org.kuali.student.r1.core.statement.config.context.lu;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.naturallanguage.ReqComponentFieldTypes;
@@ -32,10 +33,16 @@ public class GradeCheckContextImpl extends AbstractLuContext<ReqComponentInfo> {
     /**
      * Creates the context map (template data) for the requirement component.
      * 
+     *
+     *
+     *
+     *
+     *
      * @param reqComponent Requirement component
+     * @param contextInfo
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
     	Map<String, Object> contextMap = new HashMap<String, Object>();
     	contextMap.put(GPA_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GPA_KEY.getType()));
 

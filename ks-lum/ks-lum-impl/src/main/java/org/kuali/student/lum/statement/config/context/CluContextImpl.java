@@ -200,11 +200,12 @@ public class CluContextImpl extends BasicContextImpl {
     /**
      * Creates the context map (template data) for the requirement component.
      * 
+     *
      * @param reqComponent Requirement component
      * @throws OperationFailedException Creating context map fails
      */
     public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(reqComponent);
+        Map<String, Object> contextMap = super.createContextMap(reqComponent, contextInfo);
 
         CluInfo clu = getClu(reqComponent, ReqComponentFieldTypes.CLU_KEY.getId(), contextInfo);
         if(clu != null) {

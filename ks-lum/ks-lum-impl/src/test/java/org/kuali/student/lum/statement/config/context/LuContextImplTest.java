@@ -21,7 +21,7 @@ import java.util.*;
 public class LuContextImplTest {
 
 	private CluService cluService = new LuServiceMock();
-	private LuContextImpl cluContext = new LuContextImpl();
+	private CluContextImpl cluContext = new CluContextImpl();
 
 	private ReqComponentInfo reqComponent1;
 	private ReqComponentInfo reqComponent2;
@@ -133,18 +133,18 @@ public class LuContextImplTest {
 
 	@Before
 	public void beforeMethod() {
-		cluContext.setLuService(cluService);
+		cluContext.setCluService(cluService);
 		setupReqComponent1();
 		setupReqComponent2();
 	}
 
 	@Test
     public void testCreateContextMap_Clu() throws OperationFailedException {
-		Map<String, Object> contextMap = cluContext.createContextMap(reqComponent1);
-		CluInfo clu = (CluInfo) contextMap.get(LuContextImpl.CLU_TOKEN);
-		CluInfo courseClu = (CluInfo) contextMap.get(LuContextImpl.COURSE_CLU_TOKEN);
-		CluInfo programClu = (CluInfo) contextMap.get(LuContextImpl.PROGRAM_CLU_TOKEN);
-		CluInfo testClu = (CluInfo) contextMap.get(LuContextImpl.TEST_CLU_TOKEN);
+		Map<String, Object> contextMap = cluContext.createContextMap(reqComponent1, new ContextInfo());
+		CluInfo clu = (CluInfo) contextMap.get(CluContextImpl.CLU_TOKEN);
+		CluInfo courseClu = (CluInfo) contextMap.get(CluContextImpl.COURSE_CLU_TOKEN);
+		CluInfo programClu = (CluInfo) contextMap.get(CluContextImpl.PROGRAM_CLU_TOKEN);
+		CluInfo testClu = (CluInfo) contextMap.get(CluContextImpl.TEST_CLU_TOKEN);
 
 		Assert.assertNotNull(contextMap);
 		Assert.assertEquals("CLU-NL-1", clu.getId());
@@ -159,11 +159,11 @@ public class LuContextImplTest {
 
 	@Test
     public void testCreateContextMap_CluSet() throws OperationFailedException {
-		Map<String, Object> contextMap = cluContext.createContextMap(reqComponent1);
-		NLCluSet cluSet = (NLCluSet) contextMap.get(LuContextImpl.CLU_SET_TOKEN);
-		NLCluSet courseCluSet = (NLCluSet) contextMap.get(LuContextImpl.COURSE_CLU_SET_TOKEN);
-		NLCluSet programCluSet = (NLCluSet) contextMap.get(LuContextImpl.PROGRAM_CLU_SET_TOKEN);
-		NLCluSet testCluSet = (NLCluSet) contextMap.get(LuContextImpl.TEST_CLU_SET_TOKEN);
+		Map<String, Object> contextMap = cluContext.createContextMap(reqComponent1, new ContextInfo());
+		NLCluSet cluSet = (NLCluSet) contextMap.get(CluContextImpl.CLU_SET_TOKEN);
+		NLCluSet courseCluSet = (NLCluSet) contextMap.get(CluContextImpl.COURSE_CLU_SET_TOKEN);
+		NLCluSet programCluSet = (NLCluSet) contextMap.get(CluContextImpl.PROGRAM_CLU_SET_TOKEN);
+		NLCluSet testCluSet = (NLCluSet) contextMap.get(CluContextImpl.TEST_CLU_SET_TOKEN);
 
 
 		Assert.assertNotNull(contextMap);
@@ -184,15 +184,15 @@ public class LuContextImplTest {
 
 	@Test
     public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
-		Map<String, Object> contextMap = cluContext.createContextMap(reqComponent2);
-		CluInfo clu = (CluInfo) contextMap.get(LuContextImpl.CLU_TOKEN);
-		CluInfo courseClu = (CluInfo) contextMap.get(LuContextImpl.COURSE_CLU_TOKEN);
-		CluInfo programClu = (CluInfo) contextMap.get(LuContextImpl.PROGRAM_CLU_TOKEN);
-		CluInfo testClu = (CluInfo) contextMap.get(LuContextImpl.TEST_CLU_TOKEN);
-		NLCluSet cluSet = (NLCluSet) contextMap.get(LuContextImpl.CLU_SET_TOKEN);
-		NLCluSet courseCluSet = (NLCluSet) contextMap.get(LuContextImpl.COURSE_CLU_SET_TOKEN);
-		NLCluSet programCluSet = (NLCluSet) contextMap.get(LuContextImpl.PROGRAM_CLU_SET_TOKEN);
-		NLCluSet testCluSet = (NLCluSet) contextMap.get(LuContextImpl.TEST_CLU_SET_TOKEN);
+		Map<String, Object> contextMap = cluContext.createContextMap(reqComponent2, new ContextInfo());
+		CluInfo clu = (CluInfo) contextMap.get(CluContextImpl.CLU_TOKEN);
+		CluInfo courseClu = (CluInfo) contextMap.get(CluContextImpl.COURSE_CLU_TOKEN);
+		CluInfo programClu = (CluInfo) contextMap.get(CluContextImpl.PROGRAM_CLU_TOKEN);
+		CluInfo testClu = (CluInfo) contextMap.get(CluContextImpl.TEST_CLU_TOKEN);
+		NLCluSet cluSet = (NLCluSet) contextMap.get(CluContextImpl.CLU_SET_TOKEN);
+		NLCluSet courseCluSet = (NLCluSet) contextMap.get(CluContextImpl.COURSE_CLU_SET_TOKEN);
+		NLCluSet programCluSet = (NLCluSet) contextMap.get(CluContextImpl.PROGRAM_CLU_SET_TOKEN);
+		NLCluSet testCluSet = (NLCluSet) contextMap.get(CluContextImpl.TEST_CLU_SET_TOKEN);
 
 		Assert.assertNotNull(contextMap);
 		Assert.assertEquals(null, clu);

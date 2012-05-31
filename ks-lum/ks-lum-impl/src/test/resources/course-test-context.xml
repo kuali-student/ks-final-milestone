@@ -51,6 +51,8 @@
 			value="${jdbc.xaDataSourceClassName}" />
 		<property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="reapTimeout" value="0"/>
+
 	</bean>
 
 	<!-- JPA EntityManagerFactory -->

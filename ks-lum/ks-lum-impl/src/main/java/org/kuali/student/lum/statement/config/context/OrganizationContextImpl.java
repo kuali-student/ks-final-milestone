@@ -53,14 +53,15 @@ public class OrganizationContextImpl extends BasicContextImpl {
     /**
      * Creates the context map (template data) for the requirement component.
      * 
+     *
      * @param reqComponent Requirement component
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo context) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
         String orgId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.ORGANIZATION_KEY.getId());
-        OrgInfo org = getOrganization(orgId, context);
+        OrgInfo org = getOrganization(orgId, contextInfo);
         
-        Map<String, Object> contextMap = super.createContextMap(reqComponent);
+        Map<String, Object> contextMap = super.createContextMap(reqComponent, contextInfo);
         contextMap.put(ORG_TOKEN, org);
         return contextMap;
     }

@@ -15,9 +15,10 @@
 
 package org.kuali.student.r1.core.statement.naturallanguage;
 
-import java.util.Map;
-
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+
+import java.util.Map;
 
 @Deprecated
 public interface Context<T> {
@@ -25,8 +26,10 @@ public interface Context<T> {
      * Creates the template context map (template token and data) for 
      * a specific context.
      * 
+     *
      * @param context Context to create the map from
+     * @param contextInfo
      * @throws OperationFailedException If creating context data map fails
      */
-	public Map<String, Object> createContextMap(T context) throws OperationFailedException;
+	public Map<String, Object> createContextMap(T context, ContextInfo contextInfo) throws OperationFailedException;
 }

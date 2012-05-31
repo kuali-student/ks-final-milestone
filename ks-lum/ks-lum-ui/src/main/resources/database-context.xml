@@ -49,6 +49,7 @@
         <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
         <property name="testQuery" value="${jdbc.validationQuery}"/>
         <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
+        <property name="reapTimeout" value="0"/>
     </bean>
     
     <bean id="applicationStateDataSource" parent="defaultDataSource">

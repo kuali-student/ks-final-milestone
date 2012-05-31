@@ -101,7 +101,7 @@
 
     <bean id="programServiceMethodInvoker"
           class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
-        <property name="luService" ref="cluClient"/>
+        <property name="CluService" ref="cluClient"/>
     </bean>
     
    <bean id="programSearchManager"

@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 
@@ -33,10 +34,13 @@ public class PersonContextImpl extends BasicContextImpl {
     /**
      * Creates the context map (template data) for the requirement component.
      * 
+     *
+     *
      * @param reqComponent Requirement component
+     * @param contextInfo
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         contextMap.put(PERSON_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.PERSON_KEY.getId()));
         return contextMap;

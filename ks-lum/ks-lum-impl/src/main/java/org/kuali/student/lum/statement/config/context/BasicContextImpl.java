@@ -22,7 +22,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.naturallanguage.AbstractContext;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
-
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 public class BasicContextImpl extends AbstractContext<ReqComponentInfo> {
 	/**
@@ -50,14 +50,17 @@ public class BasicContextImpl extends AbstractContext<ReqComponentInfo> {
      * Creates the context map (template data) for the requirement component.
      * Also, adds the field token map to the context map.
      *
+     *
+     *
      * @param reqComponent Requirement component
+     * @param contextInfo
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
     	String value = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId());
     	String operator = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.OPERATOR_KEY.getId());
     	
-    	Map<String, Object> contextMap = super.createContextMap(reqComponent);
+    	Map<String, Object> contextMap = super.createContextMap(reqComponent,contextInfo);
         contextMap.put(NL_HELPER_TOKEN, NLHelper.class);
 		if(operator != null) {
 	        contextMap.put(OPERATOR_TOKEN, operator);
