@@ -32,7 +32,7 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
         String termCode = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_TERM_CODE);
         String courseOfferingCode = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_CODE);
         try {
-            //get termId based on termCode
+            //1. get termId based on termCode
             if (StringUtils.isNotBlank(termCode)) {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
                 qbcBuilder.setPredicates(PredicateFactory.equal(ActivityOfferingConstants.ATP_CODE, termCode));
@@ -53,8 +53,9 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                     new Exception("Error: Does not find a valid term with the termCode equal to "+ termCode);
                 }
             }
+
+            //2. get courseOffering based on courseOfferingCode
             List<CourseOfferingInfo> finalResult = new ArrayList<CourseOfferingInfo>();
-            //get courseOfferingId based on courseOfferingCode
             if (StringUtils.isNotBlank(courseOfferingCode)) {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
                 qbcBuilder.setPredicates(PredicateFactory.equal("atpId", termId));
@@ -62,9 +63,7 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
 
                 //Do search.  In ideal case, returns one element, which is the desired CO.
                 List<CourseOfferingInfo> courseOfferingList = getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
-                System.out.println(">>>courseOfferingList size ="+courseOfferingList.size());
                 //Just a quick fix as PredicateFactory doesn't support search within collections
-                System.out.println("<<< courseOfferingCode from input: "+courseOfferingCode);
                 for (CourseOfferingInfo coInfo : courseOfferingList){
                 System.out.println("<<< courseOfferingCode from CO:    "+coInfo.getCourseOfferingCode());
                     if (StringUtils.equalsIgnoreCase(coInfo.getCourseOfferingCode(),courseOfferingCode)){
@@ -73,7 +72,7 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                 }
             }
 
-            //get all AOs based on  courseOfferingId
+            //3. get all AOs based on  courseOfferingId
             if(!finalResult.isEmpty() && finalResult.size()==1){
                 // Get THE CO
                 courseOfferingId = finalResult.get(0).getId();
