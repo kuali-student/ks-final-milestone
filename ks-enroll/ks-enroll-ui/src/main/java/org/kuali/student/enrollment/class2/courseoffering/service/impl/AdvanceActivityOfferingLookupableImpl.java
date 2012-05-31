@@ -53,7 +53,7 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                     new Exception("Error: Does not find a valid term with the termCode equal to "+ termCode);
                 }
             }
-
+            List<CourseOfferingInfo> finalResult = new ArrayList<CourseOfferingInfo>();
             //get courseOfferingId based on courseOfferingCode
             if (StringUtils.isNotBlank(courseOfferingCode)) {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -62,35 +62,29 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                 //Do search.  In ideal case, returns one element, which is the desired CO.
                 List<CourseOfferingInfo> courseOfferingList = getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
                 //Just a quick fix as PredicateFactory doesnt support search within collections
-                List<CourseOfferingInfo> finalResult = new ArrayList<CourseOfferingInfo>();
                 for (CourseOfferingInfo coInfo : courseOfferingList){
                     if (StringUtils.equalsIgnoreCase(coInfo.getCourseOfferingCode(),courseOfferingCode)){
                         finalResult.add(coInfo);
                     }
                 }
-
-                if(finalResult!=null && finalResult.size()>0){
-                    // Always get first CO
-                    courseOfferingId = finalResult.get(0).getId();
-                    System.out.println(">>> courseOfferingId = "+courseOfferingId);
-                    if(finalResult.size()>1){
-                        //TODO: need to log --> find more than one CO for specified courseOfferingCode
-                        System.out.println(">>Alert: find more than one CO for specified courseOfferingCode: "+courseOfferingCode);
-                    }
-                } else {
-                    new Exception("Error: Does not find a valid Course Offering with the courseOfferingCode equal to "+courseOfferingCode);
-                }
             }
 
-            //get all AOs based on termId and courseOfferingId
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            if (StringUtils.isNotBlank(termId) && StringUtils.isNotBlank(courseOfferingId)) {
-                qbcBuilder.setPredicates(PredicateFactory.and(
-                        PredicateFactory.equalIgnoreCase("termId", termId),
-                        PredicateFactory.equalIgnoreCase("courseOfferingId", courseOfferingId)));
-                QueryByCriteria criteria = qbcBuilder.build();
-                activityOfferingInfos = getCourseOfferingService().searchForActivityOfferings(criteria, getContextInfo());
+            //get all AOs based on  courseOfferingId
+            if(!finalResult.isEmpty() && finalResult.size()==1){
+                // Get THE CO
+                courseOfferingId = finalResult.get(0).getId();
+                System.out.println(">>> courseOfferingId = "+courseOfferingId);
+                activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, new ContextInfo());
+
             }
+            else if(finalResult.size()>1){
+                    //TODO: need to log --> find more than one CO for specified courseOfferingCode
+                    System.out.println(">>Error: find more than one CO for specified courseOfferingCode: "+courseOfferingCode);
+            }
+            else {
+                new Exception("Error: Does not find a valid Course Offering with the courseOfferingCode equal to "+courseOfferingCode);
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
