@@ -152,10 +152,8 @@ public class CourseOfferingManagementController extends UifControllerBase {
         Object selectedObject = _getSelectedObject(theForm, "edit");
 
         if(selectedObject instanceof CourseOfferingInfo){
-            //urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"start",true,getContextInfo());
-            //controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
-            urlParameters = new Properties();
-            controllerPath ="maintenance";
+            urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"maintenanceEdit",false,getContextInfo());
+            controllerPath = "maintenance";
         }
         else if(selectedObject instanceof ActivityOfferingInfo) {
             urlParameters = _buildAOURLParameters((ActivityOfferingInfo)selectedObject,"maintenanceEdit",false,getContextInfo());
@@ -165,6 +163,17 @@ public class CourseOfferingManagementController extends UifControllerBase {
         }
 
         return super.performRedirect(theForm,controllerPath, urlParameters);
+
+    }
+
+    private Properties _buildCOURLParameters(CourseOfferingInfo courseOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
+
+        Properties props = new Properties();
+        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        props.put("coInfo.id", courseOfferingInfo.getId());
+        props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper");
+
+        return props;
 
     }
 
