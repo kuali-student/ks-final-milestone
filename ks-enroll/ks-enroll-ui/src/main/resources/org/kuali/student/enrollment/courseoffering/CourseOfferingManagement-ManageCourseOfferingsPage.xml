@@ -122,14 +122,14 @@
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions" p:style="display:inline;"/>
         </property>
         <property name="lineActions">
             <list>
                 <bean parent="KS-SubmitActionLink" p:methodToCall="loadAOs" p:actionLabel="Edit Activity Offerings  " />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="viewCO" p:actionLabel="View  " />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="editCO" p:actionLabel="Edit  " />
-                <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="deleteCO" p:actionLabel="Delete" />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View  " />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
+                <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="delete" p:actionLabel="Delete" />
             </list>
         </property>
     </bean>
