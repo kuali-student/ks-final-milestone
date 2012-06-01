@@ -50,8 +50,9 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                     termId = termList.get(0).getId();
                     System.out.println(">>> termId = "+termId);
                     if(termList.size()>1){
-                        logger.warn("AdvanceActivityOfferingLookupableImpl - find more than one term for specified termCode: " + termCode) ;
+                        //logger.warn("AdvanceActivityOfferingLookupableImpl - find more than one term for specified termCode: " + termCode) ;
                         //System.out.println(">>Alert: find more than one term for specified termCode: "+termCode);
+                        throw new RuntimeException("Alert: find more than one term for specified termCode: "+termCode);
                     }
                 } else {
                     new Exception("Error: Does not find a valid term with the termCode equal to "+ termCode);
@@ -72,7 +73,8 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                     // Always get first CO
                     courseOfferingId = courseOfferingList.get(0).getId();
                     if(courseOfferingList.size()>1){
-                        logger.warn("AdvanceActivityOfferingLookupableImpl - find more than one CO for specified courseOfferingCode: " + courseOfferingCode) ;
+                        //logger.warn("AdvanceActivityOfferingLookupableImpl - find more than one CO for specified courseOfferingCode: " + courseOfferingCode) ;
+                        throw new RuntimeException("Alert: find more than one CO for specified courseOfferingCode: "+courseOfferingCode);
                     }
                 } else {
                     new Exception("Error: Does not find a valid Course Offering with the courseOfferingCode equal to "+courseOfferingCode);
