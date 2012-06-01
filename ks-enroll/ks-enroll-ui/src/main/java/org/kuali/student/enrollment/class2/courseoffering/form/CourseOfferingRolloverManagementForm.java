@@ -18,8 +18,9 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * This class //TODO ...
@@ -48,7 +49,7 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private String dateCompleted;
     private String courseOfferingsAllowed;
     private String activityOfferingsAllowed;
-    private List<SocRolloverResultItemInfo> socRolloverResultItemInfos;
+    private List<SocRolloverResultItemWrapper> socRolloverResultItems;
 
     public CourseOfferingRolloverManagementForm(){
         targetTermCode = "";
@@ -66,8 +67,8 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         rolloverTargetTerm = "";
         dateInitiated = "";
         dateCompleted = "";
-
-    }
+        socRolloverResultItems = new ArrayList<SocRolloverResultItemWrapper>();
+     }
 
     public String getTargetTermCode() {
         return targetTermCode;
@@ -188,12 +189,12 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         this.activityOfferingsAllowed = activityOfferingsNotAllowed;
     }
     
-    public List<SocRolloverResultItemInfo> getSocRolloverResultItemInfos(){
-        return socRolloverResultItemInfos;
+    public List<SocRolloverResultItemWrapper> getSocRolloverResultItems(){
+        return socRolloverResultItems;
     }
     
-    public void setSocRolloverResultItemInfos(List<SocRolloverResultItemInfo> socRolloverResultItemInfos){
-        this.socRolloverResultItemInfos = socRolloverResultItemInfos;
+    public void setSocRolloverResultItems(List<SocRolloverResultItemWrapper> socRolloverResultItems){
+        this.socRolloverResultItems = socRolloverResultItems;
     }
 
     public String getStatusField() {
@@ -218,5 +219,23 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
 
     public void setTargetTerm(TermInfo targetTerm) {
         this.targetTerm = targetTerm;
+    }
+
+    public void resetForm(){
+        targetTermCode = "";
+        sourceTermCode = "";
+        displayedTargetTermCode = "";
+        targetTermStartDate = "";
+        targetTermEndDate = "";
+        targetLastRolloverDate = "";
+        displayedSourceTermCode = "";
+        sourceTermStartDate = "";
+        sourceTermEndDate = "";
+        statusField = "";
+        //rollover details fields
+        rolloverSourceTerm = "";
+        dateInitiated = "";
+        dateCompleted = "";
+        socRolloverResultItems = new ArrayList<SocRolloverResultItemWrapper>();
     }
  }

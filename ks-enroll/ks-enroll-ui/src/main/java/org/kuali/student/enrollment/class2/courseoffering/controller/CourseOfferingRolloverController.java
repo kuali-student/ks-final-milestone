@@ -21,14 +21,18 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -44,6 +48,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This class //TODO ...
@@ -55,6 +60,7 @@ import java.util.List;
 public class CourseOfferingRolloverController extends UifControllerBase {
     private CourseOfferingViewHelperService viewHelperService;
     private CourseOfferingSetService socService;
+    private CourseOfferingService coService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -222,9 +228,11 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                     form.setStatusField("In Progress");
             //SocInfo service to get Source Term Id
             SocInfo socInfo = _getSocService().getSoc(socRolloverResultInfo.getSourceSocId(),new ContextInfo());
-            if(socInfo!=null)
-               form.setRolloverSourceTerm(socInfo.getTermId());
-
+            if(socInfo!=null){
+               String pattern = "([0-9]+)([a-zA-Z]+)";
+               String term = socInfo.getTermId().replaceAll(pattern,"$2 $1");
+               form.setRolloverSourceTerm(term);
+            }
             Date dateInitiated = socRolloverResultInfo.getMeta().getCreateTime();
             SimpleDateFormat format = new SimpleDateFormat("MMMM d yyyy, hh:mm");
             String startDate = format.format(dateInitiated);
@@ -245,7 +253,20 @@ public class CourseOfferingRolloverController extends UifControllerBase {
              try{
                  List<SocRolloverResultItemInfo> socRolloverResultItemInfos =
                            _getSocService().getSocRolloverResultItemsByResultId(socRolloverResultInfo.getId(),new ContextInfo());
-                 form.setSocRolloverResultItemInfos(socRolloverResultItemInfos);
+                 List<SocRolloverResultItemInfo> socRolloverResultItemInfos1 = new CopyOnWriteArrayList<SocRolloverResultItemInfo>(socRolloverResultItemInfos);
+                 for(SocRolloverResultItemInfo socRolloverResultItemInfo:socRolloverResultItemInfos1){
+                     if(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY.equalsIgnoreCase(socRolloverResultItemInfo.getStateKey())){
+                       socRolloverResultItemInfos.remove(socRolloverResultItemInfo);
+                     }else{
+                           CourseOfferingInfo courseOfferingInfo =_getCourseOfferingService().getCourseOffering(socRolloverResultItemInfo.getTargetCourseOfferingId(),new ContextInfo());
+                           SocRolloverResultItemWrapper socRolloverResultItemWrapper = new SocRolloverResultItemWrapper();
+                           socRolloverResultItemWrapper.setCourse(courseOfferingInfo.getCourseOfferingCode());
+                           if(socRolloverResultItemInfo.getMessage()!=null)
+                              socRolloverResultItemWrapper.setMessage(socRolloverResultItemInfo.getMessage().getPlain());
+                           socRolloverResultItemWrapper.setState(socRolloverResultItemInfo.getStateKey());
+                           form.getSocRolloverResultItems().add(socRolloverResultItemWrapper);
+                         }
+                 }
              }catch(UnhandledException ue){
 
              }
@@ -253,7 +274,10 @@ public class CourseOfferingRolloverController extends UifControllerBase {
 
              }
         }
-        return getUIFModelAndView(form);
+        else{
+             form.resetForm();
+            }
+         return getUIFModelAndView(form);
     }
 
     private CourseOfferingSetService _getSocService() {
@@ -262,5 +286,13 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                     CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return socService;
+    }
+
+    private CourseOfferingService _getCourseOfferingService() {
+        if (coService == null) {
+            coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
+                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return coService;
     }
 }

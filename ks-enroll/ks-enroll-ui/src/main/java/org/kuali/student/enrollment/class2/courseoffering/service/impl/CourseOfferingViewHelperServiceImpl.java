@@ -473,9 +473,8 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     public List<SocRolloverResultInfo> findRolloverByTerm(String term) throws Exception{
         List<SocRolloverResultInfo> socRolloverResultInfos = new ArrayList<SocRolloverResultInfo>();
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        String term1[] = term.split(" ");
-        term1[0] = term1[0].toUpperCase();
-        term = term1[1] + term1[0];
+        String pattern = "([a-zA-Z]+)(\\s{1})([0-9]+)";
+        term = term.replaceAll(pattern,"$3$1").toUpperCase();
         qbcBuilder.setPredicates(PredicateFactory.equal("targetTermId", term));
         ContextInfo contextInfo = new ContextInfo();
         QueryByCriteria criteria = qbcBuilder.build();

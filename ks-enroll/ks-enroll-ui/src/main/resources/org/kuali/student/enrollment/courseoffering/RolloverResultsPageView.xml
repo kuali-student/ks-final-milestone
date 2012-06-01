@@ -49,17 +49,19 @@
                                              <bean parent="Uif-HorizontalBoxSection">
                                                   <property name="items">
                                                        <list>
-                                                         <bean parent="Uif-InputField" p:propertyName="rolloverTargetTerm" p:label="Term">
+                                                         <bean parent="Uif-InputField" p:propertyName="rolloverTargetTerm" p:label="Term" p:required="true">
                                                             <property name="control">
-                                                               <bean parent="Uif-TextControl" p:size="10" p:watermarkText="Fall 2012" p:minLength="9" p:maxLength="10"/>
+                                                               <bean parent="Uif-TextControl" p:size="9" p:watermarkText="Fall 2012" p:minLength="9" p:maxLength="9" />
                                                             </property>
+
                                                          </bean>
                                                          <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Go" p:methodToCall="goRolloverTerm" p:valign="bottom"/>
+                                                         <bean parent="Uif-Message" p:messageText="Enter Valid Term" p:render="@{rolloverSourceTerm=='' and rolloverTargetTerm!=''}" p:style="color:red;"/>
                                                        </list>
                                                   </property>
                                              </bean>
-                                             <bean parent="Uif-GridSection" p:headerText="@{rolloverTargetTerm} Rollover"
-                                                   p:layoutManager.numberOfColumns="3" p:render="@{rolloverTargetTerm!=''}">
+                                             <bean id="KS-RolloverResultsInfoSection" parent="Uif-GridSection" p:headerText="@{rolloverTargetTerm!=''?rolloverTargetTerm: 'Enter valid Term'} Rollover"
+                                                   p:layoutManager.numberOfColumns="3" p:render="@{rolloverTargetTerm!='' and rolloverSourceTerm!=''}">
                                                 <property name="items">
                                                     <list>
                                                         <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:style="background-color:#C0C0C0;">
@@ -146,49 +148,22 @@
                                                     </list>
                                                 </property>
                                              </bean>   <!-- grid section-->
-                                             <bean parent="Uif-VerticalBoxSection" p:headerText="Non-Transitioned Course Offerings">
-                                               <property name="items">
+                                             <bean parent="Uif-TableCollectionSection" p:headerText="Non-Transitioned Course Offerings"
+                                                   p:layoutManager.numberOfColumns="3" p:renderAddLine="false"
+                                                   p:renderLineActions="false" p:render="@{rolloverTargetTerm!='' and rolloverSourceTerm!=''}">
+
+                                                 <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper"/>
+                                                 <property name="propertyName" value="socRolloverResultItems"/>
+                                                 <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                                 <property name="layoutManager.renderSequenceField" value="false" />
+                                                 <property name="layoutManager.applyDefaultCellWidths" value="true" />
+                                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                                 <property name="items">
                                                    <list>
-                                                       <bean parent="Uif-HorizontalBoxSection" >
-                                                         <property name="items">
-                                                           <list>
-                                                             <bean parent="Uif-Label" p:labelText="Course" />
-                                                             <bean parent="Uif-Label" p:labelText="Reason/ReasonDetails"/>
-                                                           </list>
-                                                         </property>
-                                                       </bean>
-                                                       <bean parent="Uif-HorizontalBoxSection" >
-                                                         <property name="items">
-                                                           <list>
-                                                             <bean parent="Uif-DataField" p:propertyName="socRolloverResultItemInfos[0].sourceCourseOfferingId"/>
-                                                             <bean parent="Uif-DataField" p:propertyName="socRolloverResultItemInfos[0].message"/>
-                                                           </list>
-                                                         </property>
-                                                       </bean>
-                                                       <bean parent="Uif-HorizontalBoxSubSection" >
-                                                         <property name="items">
-                                                           <list>
-                                                             <bean parent="Uif-DataField" p:propertyName="socRolloverResultItemInfos[1].sourceCourseOfferingId"/>
-                                                             <bean parent="Uif-DataField" p:propertyName="socRolloverResultItemInfos[1].message"/>
-                                                           </list>
-                                                         </property>
-                                                       </bean>
-                                                       <bean parent="Uif-HorizontalBoxSubSection" >
-                                                         <property name="items">
-                                                           <list>
-                                                             <bean parent="Uif-DataField" p:propertyName="socRolloverResultItemInfos[2].sourceCourseOfferingId"/>
-                                                             <bean parent="Uif-DataField" p:propertyName="socRolloverResultItemInfos[2].message"/>
-                                                           </list>
-                                                         </property>
-                                                       </bean>
-                                                       <bean parent="Uif-HorizontalBoxSubSection" >
-                                                         <property name="items">
-                                                           <list>
-                                                             <bean parent="Uif-DataField" p:propertyName="socRolloverResultItemInfos[3].sourceCourseOfferingId"/>
-                                                             <bean parent="Uif-DataField" p:propertyName="socRolloverResultItemInfos[3].message"/>
-                                                           </list>
-                                                         </property>
-                                                       </bean>
+
+                                                             <bean parent="Uif-DataField" p:propertyName="course"/>
+                                                             <bean parent="Uif-DataField" p:propertyName="state"/>
+                                                             <bean parent="Uif-DataField" p:propertyName="message"/>
                                                    </list>
                                                </property>
                                              </bean>  <!-- -->
