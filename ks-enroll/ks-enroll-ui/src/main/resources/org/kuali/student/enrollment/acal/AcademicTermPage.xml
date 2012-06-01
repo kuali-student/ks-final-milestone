@@ -117,7 +117,7 @@
      </property>
    </bean>
 
-   <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection"
+   <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSubSection"
          p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}"
          p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 9}">
      <property name="headerText" value="" />
