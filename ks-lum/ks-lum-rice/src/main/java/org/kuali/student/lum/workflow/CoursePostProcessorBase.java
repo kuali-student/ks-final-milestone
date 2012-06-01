@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +55,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
         
         if (proposalInfo != null){
-            String proposalDocType=proposalInfo.getTypeKey();      
+            String proposalDocType=proposalInfo.getType();      
             // The current two proposal docTypes which being withdrawn will cause a course to be 
             // disapproved are Create and Modify (because a new DRAFT version is created when these 
             // proposals are submitted.)
@@ -99,13 +99,13 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
 
          String courseId = getCourseId(proposalInfo);        
-         String prevEndTermAtpId = proposalInfo.getAttributeInfoValue(proposalInfo.getAttributes(), "prevEndTerm");
+         String prevEndTermAtpId = proposalInfo.getAttributes().get("prevEndTerm");
          
          // Get the current "existing" courseInfo
          CourseInfo courseInfo = getCourseService().getCourse(courseId, contextInfo);
          
          // Get the new state the course should now change to        
-         String newCourseState = getCluStateForRouteStatus(courseInfo.getStateKey(), statusChangeEvent.getNewRouteStatus(), proposalInfo.getTypeKey());
+         String newCourseState = getCluStateForRouteStatus(courseInfo.getStateKey(), statusChangeEvent.getNewRouteStatus(), proposalInfo.getType());
          
          //Use the state change service to update to active and update preceding versions
          if (newCourseState != null){
@@ -160,11 +160,10 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
          if (DtoConstants.STATE_RETIRED.equals(courseState)){
              if ((proposalInfo != null) && (proposalInfo.getAttributes() != null))
              {
-             RichTextInfo rationaleText = proposalInfo.getRationale();
-             String rationale = rationaleText != null ? rationaleText.getPlain() : null;
-             String proposedEndTerm = proposalInfo.getAttributeInfoValue(proposalInfo.getAttributes(), "proposedEndTerm");       
-             String proposedLastTermOffered = proposalInfo.getAttributeInfoValue(proposalInfo.getAttributes(), "proposedLastTermOffered");
-             String proposedLastCourseCatalogYear = proposalInfo.getAttributeInfoValue(proposalInfo.getAttributes(), "proposedLastCourseCatalogYear");
+             String rationale = proposalInfo.getRationale();
+             String proposedEndTerm = proposalInfo.getAttributes().get("proposedEndTerm");          
+             String proposedLastTermOffered = proposalInfo.getAttributes().get("proposedLastTermOffered");
+             String proposedLastCourseCatalogYear = proposalInfo.getAttributes().get("proposedLastCourseCatalogYear");
                    
              courseInfo.setEndTerm(proposedEndTerm);             
              courseInfo.getAttributes().add(new AttributeInfo("retirementRationale", rationale));
@@ -182,8 +181,8 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
                // Just copy the "proposalInfo.proposedEndTerm" value (required for saves, so it will be filled out) 
                // into "courseInfo.lastTermOffered" to pass validation.   
                if ((proposalInfo!=null) && (courseInfo!=null) && 
-                         (proposalInfo.getAttributeInfoValue(proposalInfo.getAttributes(), "lastTermOffered")==null)) {
-                    courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", proposalInfo.getAttributeInfoValue(proposalInfo.getAttributes(), "proposedEndTerm")));
+                         (courseInfo.getAttributeInfoValue(courseInfo.getAttributes(), "lastTermOffered")==null)) {
+                    courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", proposalInfo.getAttributes().get("proposedEndTerm")));
                }
              }
          }

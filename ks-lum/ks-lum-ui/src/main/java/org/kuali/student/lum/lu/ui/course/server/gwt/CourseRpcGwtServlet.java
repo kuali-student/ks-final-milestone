@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;

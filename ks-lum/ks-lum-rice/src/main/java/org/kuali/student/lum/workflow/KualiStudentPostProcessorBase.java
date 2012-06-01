@@ -32,8 +32,8 @@ import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r1.core.proposal.service.ProposalService;
 
 import javax.xml.namespace.QName;
 import java.util.LinkedHashMap;
@@ -70,7 +70,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         String actionTakeCode = actionTakenEvent.getActionTaken().getActionTaken().getCode();
 		// on a save action we may not have access to the proposal object because the transaction may not have committed
 		if (!StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, actionTakeCode)) {
-            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString(), contextInfo);
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString());
             if (actionTaken == null) {
                 throw new OperationFailedException("No action taken found for document id " + actionTakenEvent.getDocumentId());
             }
@@ -131,10 +131,10 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 	        // assume the proposal status is already correct
             success = processCustomRouteStatusSavedStatusChange(documentRouteStatusChange);
 	    } else {
-            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteStatusChange.getDocumentId(), new ContextInfo());
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteStatusChange.getDocumentId());
             
             // update the proposal state if the proposalState value is not null (allows for clearing of the state)
-            String proposalState = getProposalStateForRouteStatus(proposalInfo.getStateKey(), documentRouteStatusChange.getNewRouteStatus());
+            String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), documentRouteStatusChange.getNewRouteStatus());
             updateProposal(documentRouteStatusChange, proposalState, proposalInfo, new ContextInfo());
             success = processCustomRouteStatusChange(documentRouteStatusChange, proposalInfo, new ContextInfo());
 	    }
@@ -144,7 +144,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     //TODO KSCM-392 we added the logic suplied in ks1.3 still neeeds to be tested.
     @Override
     public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
-        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId(), new ContextInfo());
+        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId());
 
 		// if this is the initial route then clear only edit permissions as per KSLUM-192
 		if (StringUtils.equals(StudentWorkflowConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME,documentRouteLevelChange.getOldNodeName())) {
@@ -175,7 +175,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     }
 
     public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange, ContextInfo contextInfo) throws Exception {
-        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId(), contextInfo);
+        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId());
 
 		// if this is the initial route then clear only edit permissions as per KSLUM-192
 		if (StringUtils.equals(StudentWorkflowConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME,documentRouteLevelChange.getOldNodeName())) {
@@ -210,10 +210,10 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 	        // assume the proposal status is already correct
             success = processCustomRouteStatusSavedStatusChange(statusChangeEvent);
 	    } else {
-            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(statusChangeEvent.getDocumentId(), contextInfo);
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(statusChangeEvent.getDocumentId());
 
             // update the proposal state if the proposalState value is not null (allows for clearing of the state)
-            String proposalState = getProposalStateForRouteStatus(proposalInfo.getStateKey(), statusChangeEvent.getNewRouteStatus());
+            String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), statusChangeEvent.getNewRouteStatus());
             updateProposal(statusChangeEvent, proposalState, proposalInfo, contextInfo);
             success = processCustomRouteStatusChange(statusChangeEvent, proposalInfo, contextInfo);
 	    }
@@ -315,12 +315,12 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         }
         boolean requiresSave = false;
         if (proposalState != null) {
-            proposalInfo.setStateKey(proposalState);
+            proposalInfo.setState(proposalState);
             requiresSave = true;
         }
         requiresSave |= preProcessProposalSave(iDocumentEvent, proposalInfo);
         if (requiresSave) {
-            getProposalService().updateProposal(proposalInfo.getId(), proposalInfo, contextInfo);
+            getProposalService().updateProposal(proposalInfo.getId(), proposalInfo);
         }
     }
 

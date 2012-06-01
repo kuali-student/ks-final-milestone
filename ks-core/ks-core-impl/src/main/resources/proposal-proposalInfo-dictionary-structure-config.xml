@@ -33,10 +33,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.proposalInfo -->
 <!-- **************************************** -->
 <!-- Detailed information about a proposal. -->
-<dict:objectStructure key="org.kuali.student.r2.core.proposal.dto.ProposalInfo" id="object.proposalInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r1.core.proposal.dto.ProposalInfo" id="object.proposalInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.proposalInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.r2.core.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r1.core.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
 
 <dict:type key="*" id="type.proposalInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

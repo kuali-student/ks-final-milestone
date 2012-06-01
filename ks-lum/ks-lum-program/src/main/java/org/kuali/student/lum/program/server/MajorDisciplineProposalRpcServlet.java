@@ -22,8 +22,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
@@ -224,7 +224,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
             // ProposalWorkflowFilter.applyOutboundDataFilter().  Set on line 130-131.  Use these for reference ID.
            
             // Ask the proposal service to return a list of proposals with this reference id    
-            List<ProposalInfo> proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId,ContextUtils.getContextInfo());
+            List<ProposalInfo> proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId);
             
             // If at least one proposal is returned, this is a proposal, so return true
             if (proposals != null && proposals.size() >= 1){

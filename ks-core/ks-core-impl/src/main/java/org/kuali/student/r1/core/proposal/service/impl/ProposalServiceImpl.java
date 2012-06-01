@@ -52,7 +52,6 @@ import org.kuali.student.r1.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.r1.core.proposal.entity.ProposalType;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.springframework.transaction.annotation.Transactional;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 
 /**
  * Implementation of the Proposal Service

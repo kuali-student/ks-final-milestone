@@ -4,13 +4,13 @@
 	<import resource="classpath:ks-base-dictionary-context.xml" />
 
 	<!-- Generic ProposalInfo-->
-	<bean id="org.kuali.student.r2.core.proposal.dto.ProposalInfo-parent"
+	<bean id="org.kuali.student.r1.core.proposal.dto.ProposalInfo-parent"
 		abstract="true" parent="objectStructureDefinition">
 		<property name="name"
-			value="org.kuali.student.r2.core.proposal.dto.ProposalInfo" />
+			value="org.kuali.student.r1.core.proposal.dto.ProposalInfo" />
 		<property name="attributes">
 			<list>
-				<ref bean="proposalInfo.descr" />
+				<ref bean="proposalInfo.detailDesc" />
 				<ref bean="proposalInfo.effectiveDate" />
 				<ref bean="proposalInfo.expirationDate" />
 				<ref bean="proposalInfo.id" />
@@ -22,25 +22,18 @@
 				<ref bean="proposalInfo.proposerOrg" />
 				<ref bean="proposalInfo.proposerPerson" />
 				<ref bean="proposalInfo.rationale" />
-				<ref bean="proposalInfo.stateKey" />
-				<ref bean="proposalInfo.typeKey" />
+				<ref bean="proposalInfo.state" />
+				<ref bean="proposalInfo.type" />
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
 	</bean>
-	<bean id="org.kuali.student.r2.core.proposal.dto.ProposalInfo"
-		parent="org.kuali.student.r2.core.proposal.dto.ProposalInfo-parent" />
+	<bean id="org.kuali.student.r1.core.proposal.dto.ProposalInfo"
+		parent="org.kuali.student.r1.core.proposal.dto.ProposalInfo-parent" />
 		
-	<bean id="proposalInfo.descr-parent" abstract="true"
-		parent="baseComplex">
-		<property name="name" value="descr" />
-		<property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
-	</bean>
-	<bean id="proposalInfo.descr" parent="proposalInfo.descr-parent" />
-
 	<!-- Proposal definition for Course Proposal. NOTE: There is no java class called CourseProposalInfo -->
 	<bean id="org.kuali.student.core.proposal.definition.CourseProposalInfo"
-		parent="org.kuali.student.r2.core.proposal.dto.ProposalInfo" >
+		parent="org.kuali.student.r1.core.proposal.dto.ProposalInfo" >
 		<property name="name"
 			value="org.kuali.student.core.proposal.definition.CourseProposalInfo" />
 		<property name="attributes">
@@ -53,7 +46,7 @@
 	
 	<!-- Proposal definition for Retire Course *By Proposal*. KSCM-982 -->
 	<bean id="org.kuali.student.core.proposal.definition.RetireCourseProposalInfo"
-		parent="org.kuali.student.r2.core.proposal.dto.ProposalInfo" >
+		parent="org.kuali.student.r1.core.proposal.dto.ProposalInfo" >
 		<property name="name"
 			value="org.kuali.student.core.proposal.definition.RetireCourseProposalInfo" />
 		<property name="attributes">
@@ -69,7 +62,7 @@
 
 	<!-- Proposal definition for Program Proposal. NOTE: There is no java class called ProgramProposalInfo -->
 	<bean id="org.kuali.student.core.proposal.definition.ProgramProposalInfo"
-		parent="org.kuali.student.r2.core.proposal.dto.ProposalInfo" >
+		parent="org.kuali.student.r1.core.proposal.dto.ProposalInfo" >
 		<property name="name"
 			value="org.kuali.student.core.proposal.definition.ProgramProposalInfo" />
 		<property name="attributes">
@@ -124,6 +117,12 @@
 	
 	
     <!-- Normal Proposal Fields -->
+    <bean id="proposalInfo.detailDesc-parent" abstract="true"
+		parent="baseKualiDescription">
+		<property name="name" value="detailDesc" />
+	</bean>
+	<bean id="proposalInfo.detailDesc" parent="proposalInfo.detailDesc-parent" />
+	
 	<bean id="proposalInfo.effectiveDate-parent" abstract="true"
 		parent="baseKualiEffectiveDate">
 		<property name="name" value="effectiveDate" />
@@ -424,18 +423,17 @@
 	    </constructor-arg>
 	</bean>
 
-	<bean id="proposalInfo.stateKey-parent" abstract="true"
+	<bean id="proposalInfo.state-parent" abstract="true"
 		parent="baseKualiState">
-		<property name="name" value="stateKey" />
+		<property name="name" value="state" />
 	</bean>
-	<bean id="proposalInfo.stateKey" parent="proposalInfo.stateKey-parent" />
+	<bean id="proposalInfo.state" parent="proposalInfo.state-parent" />
 
-	<bean id="proposalInfo.typeKey-parent" abstract="true"
+	<bean id="proposalInfo.type-parent" abstract="true"
 		parent="baseKualiTypeRequired">
-		<property name="name" value="typeKey" />
+		<property name="name" value="type" />
 	</bean>
-	<bean id="proposalInfo.typeKey" parent="proposalInfo.typeKey-parent" />
-
+	<bean id="proposalInfo.type" parent="proposalInfo.type-parent" />
 
 	<bean id="programProposalInfo.abstract-parent" abstract="true" parent="baseKualiDescription">
 		<property name="name" value="abstract" />		

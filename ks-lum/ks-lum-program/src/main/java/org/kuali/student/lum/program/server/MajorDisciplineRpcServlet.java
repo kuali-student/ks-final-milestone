@@ -14,8 +14,8 @@ import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
@@ -254,7 +254,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
        
         // Ask the proposal service to return a list of proposals with this reference id    
         List<ProposalInfo> proposals = null;
-        proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId,ContextUtils.getContextInfo());
+        proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId);
         
         // If at least one proposal is returned, this is a proposal, so return true
         if (proposals != null && proposals.size() >= 1){

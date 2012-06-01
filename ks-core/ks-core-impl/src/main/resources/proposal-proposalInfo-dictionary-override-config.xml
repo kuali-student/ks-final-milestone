@@ -34,14 +34,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.proposalInfo -->
 <!-- **************************************** -->
 <!-- Detailed information about a proposal. -->
-<dict:objectStructure key="org.kuali.student.r2.core.proposal.dto.ProposalInfo" id="object.proposalInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r1.core.proposal.dto.ProposalInfo" id="object.proposalInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.proposalInfo.CreateCreditCourse"/>
 	<dict:typeRef bean="type.proposalInfo.ModifyCreditCourse"/>
 	<dict:typeRef bean="type.proposalInfo.RetireaCreditCourse"/>
 	<dict:typeRef bean="type.proposalInfo.CreateProgram"/>
 	<dict:typeRef bean="type.proposalInfo.Grouped"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.r2.core.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r1.core.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
 
 <!-- This is a grouping of types -->
 <dict:type key="kuali.proposal.type.course.*" id="type.proposalInfo.AllCourseProposalTypes.abstract" abstract="true">
