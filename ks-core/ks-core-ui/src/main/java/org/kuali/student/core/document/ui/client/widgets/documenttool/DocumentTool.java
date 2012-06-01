@@ -21,6 +21,7 @@ import java.util.Map;
 import org.kuali.student.common.assembly.data.ConstraintMetadata;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -76,8 +77,11 @@ import com.google.gwt.widgetideas.client.ProgressBar.TextFormatter;
 
 /*
  * Messages hard-coded throughout since this can't access KSMG-MESSAGE
+ * This is not actually true. Added getMessage method for more flexible documentTool Instructions.
+ * However all the other original hardcoded messages still exist here.
  */
-public class DocumentTool extends DelayedToolView implements HasReferenceId{
+public class DocumentTool extends DelayedToolView implements HasReferenceId{    
+	private static final String MSG_GROUP = "common";
 	private String referenceId;
 	private String referenceTypeKey;
 	private String referenceType;
@@ -87,7 +91,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	
 	private static final int POLL_INTERVAL = 2000;
 
-	private DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
+	protected DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
     private VerticalFlowPanel documentList = new VerticalFlowPanel();
     private VerticalFlowPanel uploadList = new VerticalFlowPanel();
@@ -316,7 +320,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         return labelKey;
     }
 
-    private MultiplicityConfiguration setupMultiplicityConfig(  MultiplicityConfiguration.MultiplicityType multiplicityType
+    protected MultiplicityConfiguration setupMultiplicityConfig(  MultiplicityConfiguration.MultiplicityType multiplicityType
                                                               , MultiplicityConfiguration.StyleType styleType
                                                               , String path, String addItemlabelMessageKey
                                                               , String itemLabelMessageKey
@@ -396,8 +400,17 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     protected MessageKeyInfo generateMessageInfo(String labelKey) {
         return new MessageKeyInfo("groupName", "type", "state", labelKey);
     }
+    
+    public String getMessage(String courseMessageKey) {
+    	String msg = Application.getApplicationContext().getMessage(MSG_GROUP, courseMessageKey);
+    	if (msg == null) {
+    		msg = courseMessageKey;
+    	}
+    	return msg;
+    }
 
-    private Widget createUploadForm() {
+
+    protected Widget createUploadForm() {
         final VerticalSectionView verticalSectionView= new VerticalSectionView(this.getViewEnum(), this.getName(), this.getController().getDefaultModelId());
         MultiplicitySection ms= new MultiplicitySection(setupMultiplicityConfig(  MultiplicityConfiguration.MultiplicityType.GROUP
                                                                                 , MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP
@@ -429,8 +442,15 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
                     }
                     
                     if(verticalSectionView instanceof SectionView){
+                    	
+                    	// Get University Specific Instructions, if available.
+                        String documentToolInstructions = getMessage("documentToolInstructions");
                         
-                        ((SectionView) verticalSectionView).setInstructions(  "Multiple supporting documents associated with this course can be uploaded.<br>"
+                        // Set default if not.
+                        if (documentToolInstructions.equals("documentToolInstructions")){
+                        	documentToolInstructions = "Multiple supporting documents associated with this course can be uploaded.<br>";
+                        }
+                        ((SectionView) verticalSectionView).setInstructions( documentToolInstructions   
                         		                                            + "&nbsp;&nbsp;&nbsp;<b>Acceptable file types:</b>&nbsp;&nbsp;" + "<i>" + acceptableDocumentTypesString + "</i><br>"
                         		                                            + "&nbsp;&nbsp;&nbsp;<b>Max file size:</b>&nbsp;&nbsp;" + "<i>~" + maxFileSizeInt + "MB </i>");
                     }
