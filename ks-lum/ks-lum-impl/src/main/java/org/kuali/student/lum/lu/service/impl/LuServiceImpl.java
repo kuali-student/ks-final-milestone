@@ -883,8 +883,9 @@ public class LuServiceImpl implements CluService {
             		LuCodeAttribute.class, R1R2ConverterUtil.convert(luCodeInfo, org.kuali.student.r1.lum.lu.dto.LuCodeInfo.class).getAttributes(), luCode,
             		luDao));
             BeanUtils.copyProperties(luCodeInfo, luCode, new String[]{
-                    "attributes", "meta"});
+                    "attributes", "meta", "descr", "typeKey"});
             luCode.setDescr(luCodeInfo.getDescr() != null ? luCodeInfo.getDescr().getPlain() : null);
+            luCode.setType(luCodeInfo.getTypeKey());
             luCode.setClu(clu);
             clu.getLuCodes().add(luCode);
         }
