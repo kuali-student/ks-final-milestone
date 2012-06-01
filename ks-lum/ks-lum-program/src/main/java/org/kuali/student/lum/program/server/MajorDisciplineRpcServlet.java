@@ -207,6 +207,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     
     @Override
 	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
+        try {
     	//Perform a search to see if there are any new versions of the course that are approved, draft, etc.
     	//We don't want to version if there are
     	SearchRequest request = new SearchRequest("lu.search.isVersionable");
@@ -221,7 +222,13 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     	SearchResult result = cluService.search(request);
     	
     	String resultString = result.getRows().get(0).getCells().get(0).getValue();
-    	return "0".equals(resultString);	    	
+    	return "0".equals(resultString);	  
+        }
+        catch(Exception ex){
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
  	}
 
 	public void setProgramService(ProgramService programService) {

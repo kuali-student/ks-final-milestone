@@ -109,10 +109,10 @@ public class ProgramConstants {
     public static final String LAST_UPDATED_DATE = "metaInfo/updateTime";
 
     //Versioning
-    public static final String VERSION = "versionInfo/sequenceNumber";
-    public static final String VERSION_IND_ID = "versionInfo/versionIndId";
-    public static final String VERSION_FROM_ID = "versionInfo/versionedFromId";
-    public static final String VERSION_SEQUENCE_NUMBER = "versionInfo/sequenceNumber";
+    public static final String VERSION = "version/sequenceNumber";
+    public static final String VERSION_IND_ID = "version/versionIndId";
+    public static final String VERSION_FROM_ID = "version/versionedFromId";
+    public static final String VERSION_SEQUENCE_NUMBER = "version/sequenceNumber";
 
     public static final String PREV_END_PROGRAM_ENTRY_TERM = "prevEndProgramEntryTerm";
     public static final String PREV_END_PROGRAM_ENROLL_TERM = "prevEndTerm";

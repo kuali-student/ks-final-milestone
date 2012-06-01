@@ -3,8 +3,6 @@ package org.kuali.student.r1.core.assembly.data;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.r2.common.validator.ConstraintMockAddress;
-
 public class MockPerson {
     protected String firstName;
     
