@@ -134,6 +134,7 @@ public class ActivityOfferingTransformer {
 
         for (OfferingInstructorInfo instructorInfo : instructors) {
             LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
+            lprInfo.setId(instructorInfo.getId());
             lprInfo.setCommitmentPercent(instructorInfo.getPercentageEffort());
             lprInfo.setLuiId(luiInfo.getId());
             lprInfo.setPersonId(instructorInfo.getPersonId());

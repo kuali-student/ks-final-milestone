@@ -11,6 +11,12 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.lum.course.dto.ActivityInfo;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -21,6 +27,7 @@ import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -30,6 +37,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private ContextInfo contextInfo;
     private transient TypeService typeService;
     private transient StateService stateService;
+    private CourseService courseService;
 
     @Override
     public void saveDataObject() {
@@ -39,8 +47,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 ActivityOfferingFormObject activityOfferingFormObject = (ActivityOfferingFormObject) getDataObject();
                 ActivityOfferingInfo toSave = activityOfferingFormObject.getAoInfo();
 
-                //temporary Testing only
-                toSave.setFormatOfferingId("LuiFO-1-1");
+                // **** BEGIN HARD-CODED DEFAULTS FOR TESTING ****
+                // TODO REMOVE THESE
+                toSave.setFormatOfferingId("LuiFO-1-106");
 
                 FormatOfferingInfo foInfo = getCourseOfferingService().getFormatOffering(toSave.getFormatOfferingId(), getContextInfo());
 
@@ -48,12 +57,31 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 toSave.setTermId(foInfo.getTermId());
                 toSave.setTermCode(foInfo.getTermId());
 
-                toSave.setActivityId(foInfo.getFormatId());  //TODO: is this right?
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(foInfo.getCourseOfferingId(), getContextInfo());
 
                 toSave.setCourseOfferingId(coInfo.getId());
                 toSave.setCourseOfferingCode(coInfo.getCourseOfferingCode());
                 toSave.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
+
+                CourseInfo course = getCourseService().getCourse(coInfo.getCourseId());
+
+                // find the format that matches the offering we have
+                List<FormatInfo> formats = course.getFormats();
+                FormatInfo foundFormat = null;
+                for(FormatInfo format : formats) {
+                    if(format.getId().equals(foInfo.getFormatId())) {
+                        foundFormat = format;
+                        break;
+                    }
+                }
+
+                //
+                if (!foundFormat.getActivities().isEmpty()) {
+                    toSave.setActivityId(foundFormat.getActivities().get(0).getId());
+                }
+
+                // **** END HARD-CODED DEFAULTS FOR TESTING ****
+                // TODO REMOVE THESE
 
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().createActivityOffering(activityOfferingFormObject.getAoInfo().getFormatOfferingId(),activityOfferingFormObject.getAoInfo().getActivityId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,activityOfferingFormObject.getAoInfo(),getContextInfo());
                 setDataObject(new ActivityOfferingFormObject(activityOfferingInfo));
@@ -131,5 +159,15 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, "CourseOfferingService"));
         }
         return courseOfferingService;
+    }
+
+    private CourseService getCourseService() {
+        if(courseService == null) {
+            Object o = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "course",
+                    "CourseService"));
+            courseService = (CourseService) o;
+        }
+
+        return courseService;
     }
 }

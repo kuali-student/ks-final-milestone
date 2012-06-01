@@ -1025,13 +1025,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // rebuild activity to return it
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
         ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, context);
-        LuiInfo foLui = this.findFormatOfferingLui(lui.getId(), context);
-        LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(),context);
-        ao.setFormatOfferingId(foLui.getId());
-        ao.setCourseOfferingId(coLui.getId());
-        ao.setFormatOfferingName(foLui.getName());
-        ao.setCourseOfferingCode(coLui.getOfficialIdentifier().getCode());
-        ao.setCourseOfferingTitle(coLui.getOfficialIdentifier().getLongName());
+        FormatOfferingInfo foInfo = this.getFormatOffering(activityOfferingInfo.getFormatOfferingId(), context);
+        CourseOfferingInfo coInfo = this.getCourseOffering(foInfo.getCourseOfferingId(), context);
+        ao.setFormatOfferingId(foInfo.getId());
+        ao.setCourseOfferingId(coInfo.getId());
+        ao.setFormatOfferingName(foInfo.getName());
+        ao.setCourseOfferingCode(coInfo.getCourseOfferingCode());
+        ao.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
         AtpInfo termAtp = getAtpService().getAtp(ao.getTermId(),context);
         ao.setTermCode(termAtp.getCode());
         return ao;

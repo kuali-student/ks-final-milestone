@@ -8,7 +8,6 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
@@ -16,19 +15,25 @@ import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Date;
-import java.text.SimpleDateFormat;
+import java.util.List;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 
 public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements Serializable {

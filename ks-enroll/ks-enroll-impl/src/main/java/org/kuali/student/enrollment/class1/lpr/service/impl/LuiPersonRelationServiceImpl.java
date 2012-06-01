@@ -293,17 +293,17 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         LuiPersonRelationEntity lprEntity = lprDao.find(luiPersonRelationId);
 
         if (lprEntity != null) {
-            LuiPersonRelationEntity modifiedLpr = new LuiPersonRelationEntity(luiPersonRelationInfo);
+            lprEntity.fromDto(luiPersonRelationInfo);
 
             if (luiPersonRelationInfo.getStateKey() != null) {
-                modifiedLpr.setPersonRelationStateId(luiPersonRelationInfo.getStateKey());
+                lprEntity.setPersonRelationStateId(luiPersonRelationInfo.getStateKey());
             }
 
             if (luiPersonRelationInfo.getTypeKey() != null) {
-                modifiedLpr.setPersonRelationTypeId(luiPersonRelationInfo.getTypeKey());
+                lprEntity.setPersonRelationTypeId(luiPersonRelationInfo.getTypeKey());
             }
 
-            return lprDao.merge(modifiedLpr).toDto();
+            return lprDao.merge(lprEntity).toDto();
         } else {
             throw new DoesNotExistException(luiPersonRelationId);
         }

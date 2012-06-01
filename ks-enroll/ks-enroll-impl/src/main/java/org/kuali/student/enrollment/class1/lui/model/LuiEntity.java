@@ -239,7 +239,12 @@ public class LuiEntity extends MetaEntity implements AttributeOwnerNew<LuiAttrib
         //Now we need to delete the leftovers (orphaned entities)
         orphansToDelete.addAll(existinguLuiUnitsDeploymentEntities.values());
 
-        TransformUtility.toEntityAttributes(LuiAttributeEntity.class, lui, this, orphansToDelete);
+        // the list of attributes returned by toEntityAttributes includes modified existing attributes
+        // and also newly created attributes.
+        // So we need to clear the existing list of attributes and add the returned set to the entity
+        Set<LuiAttributeEntity> modifiedAttributes = TransformUtility.toEntityAttributes(LuiAttributeEntity.class, lui, this, orphansToDelete);
+        attributes.clear();
+        attributes.addAll(modifiedAttributes);
 
         return orphansToDelete;
     }
