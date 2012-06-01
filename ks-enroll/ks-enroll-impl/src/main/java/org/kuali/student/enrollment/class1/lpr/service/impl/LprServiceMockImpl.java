@@ -42,6 +42,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
 public class LprServiceMockImpl implements LprService {
 
@@ -317,7 +318,7 @@ public class LprServiceMockImpl implements LprService {
                 bsi.setId(created.getId());
             } catch (DataValidationErrorException de) {
                 bsi.setSuccess(Boolean.FALSE);
-                bsi.setMessage(asString(de.getValidationResults()));
+                bsi.setMessage(ValidationUtils.asString(de.getValidationResults()));
             }
             list.add(bsi);
         }

@@ -267,7 +267,7 @@ public class TestLprServiceMockImpl {
         expectedList.add(expected1);
 
         LprInfo expected2 = new LprInfo();
-        expected2.setPersonId("person1");
+        expected2.setPersonId("person2");
         expected2.setLuiId("lui2");
         expected2.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
         expected2.setStateKey(LprServiceConstants.CONFIRMED_STATE_KEY);
@@ -279,7 +279,7 @@ public class TestLprServiceMockImpl {
         new AttributeTester().add2ForCreate(expected2.getAttributes());
         expectedList.add(expected2);
 
-        List<BulkStatusInfo> actualBulkList = lprService.createLprsForLui(expected1.getPersonId(), expected1.getTypeKey(),
+        List<BulkStatusInfo> actualBulkList = lprService.createLprsForLui(expected1.getLuiId(), expected1.getTypeKey(),
                 expectedList, callContext);
         assertNotNull(actualBulkList);
         assertEquals(2, actualBulkList.size());
@@ -294,7 +294,7 @@ public class TestLprServiceMockImpl {
         boolean found2 = false;
         for (LprInfo actual : lprs) {
             LprInfo expected = null;
-            if (actual.getLuiId().equals(expected1.getLuiId())) {
+            if (actual.getPersonId().equals(expected1.getPersonId())) {
                 expected = expected1;
                 found1 = true;
             } else {
@@ -304,7 +304,7 @@ public class TestLprServiceMockImpl {
             new RelationshipTester().check(expected, actual);
             new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
             new MetaTester().checkAfterCreate(actual.getMeta());
-            new ListOfStringTester().check(expected.getResultValuesGroupKeys(), actual.getResultValuesGroupKeys());
+            new ListOfStringTester().check(expected.getResultValuesGroupKeys(), actual.getResultValuesGroupKeys()); 
             assertEquals(expected.getPersonId(), actual.getPersonId());
             assertEquals(expected.getLuiId(), actual.getLuiId());
             assertEquals(expected.getCommitmentPercent(), actual.getCommitmentPercent());
@@ -328,7 +328,7 @@ public class TestLprServiceMockImpl {
             PermissionDeniedException,
             ReadOnlyException {
         // test create
-        List<LprInfo> expectedList = new ArrayList();
+        List<LprInfo> expectedList = new ArrayList<LprInfo>();
         LprInfo expected1 = new LprInfo();
         expected1.setPersonId("person1");
         expected1.setLuiId("lui1");

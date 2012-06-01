@@ -41,6 +41,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -130,8 +131,30 @@ public class LprServiceImpl implements LprService {
             throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException {
-        // TODO Implement method
-        return null;
+    	  List<BulkStatusInfo> bulkStatusInfoList = new ArrayList<BulkStatusInfo>();
+          
+          /*
+           * This is an intentionally simple implementation.
+           * 
+           * Later we can manage the transactions ourselves and use a paging approach.
+           */
+          
+          for (LprInfo lprInfo : lprInfos) {
+  		
+        	  BulkStatusInfo bsi = new BulkStatusInfo();
+          	
+         	 try {
+                  LprInfo created = this.createLpr(personId, lprInfo.getLuiId(), lprTypeKey, lprInfo, contextInfo);
+                  bsi.setSuccess(Boolean.TRUE);
+                  bsi.setId(created.getId());
+              } catch (DataValidationErrorException de) {
+                  bsi.setSuccess(Boolean.FALSE);
+                  bsi.setMessage(ValidationUtils.asString(de.getValidationResults()));
+              }
+          }
+          
+          
+  		return bulkStatusInfoList;
     }
 
     @Override
@@ -224,7 +247,7 @@ public class LprServiceImpl implements LprService {
 
     @Override
     @Transactional
-    public LprInfo createLpr(String personId, String luiId, String luiPersonRelationType, LprInfo luiPersonRelationInfo, ContextInfo context)
+    public LprInfo createLpr(String personId, String luiId, String lprType, LprInfo luiPersonRelationInfo, ContextInfo context)
             throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -233,7 +256,7 @@ public class LprServiceImpl implements LprService {
         // make sure params are consistent with lprInfo:
         luiPersonRelationInfo.setPersonId(personId);
         luiPersonRelationInfo.setLuiId(luiId);
-        luiPersonRelationInfo.setTypeKey(luiPersonRelationType);
+        luiPersonRelationInfo.setTypeKey(lprType);
         
         LprEntity lpr = new LprEntity(luiPersonRelationInfo);
         
@@ -805,6 +828,7 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
+    @Transactional
     public List<BulkStatusInfo> createLprsForLui(String luiId,
             String lprTypeKey,
             List<LprInfo> lprInfos,
@@ -812,7 +836,32 @@ public class LprServiceImpl implements LprService {
             throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException {
-        return null;
-        // TODO Mezba - implement method
+    	
+        List<BulkStatusInfo> bulkStatusInfoList = new ArrayList<BulkStatusInfo>();
+        
+        /*
+         * This is an intentionally simple implementation.
+         * 
+         * Later we can manage the transactions ourselves and use a paging approach.
+         */
+        
+        for (LprInfo lprInfo : lprInfos) {
+		
+        	BulkStatusInfo bsi = new BulkStatusInfo();
+        	
+        	 try {
+                 LprInfo created = this.createLpr(lprInfo.getPersonId(), luiId, lprTypeKey, lprInfo, contextInfo);
+                 bsi.setSuccess(Boolean.TRUE);
+                 bsi.setId(created.getId());
+             } catch (DataValidationErrorException de) {
+                 bsi.setSuccess(Boolean.FALSE);
+                 bsi.setMessage(ValidationUtils.asString(de.getValidationResults()));
+             }
+        	
+        	 bulkStatusInfoList.add(bsi);
+        }
+        
+        
+		return bulkStatusInfoList;
     }
 }
