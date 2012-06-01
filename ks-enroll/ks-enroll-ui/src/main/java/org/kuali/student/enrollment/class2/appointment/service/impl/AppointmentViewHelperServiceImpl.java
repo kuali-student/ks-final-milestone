@@ -29,6 +29,7 @@ import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConsta
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
@@ -204,8 +205,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         if (isValid){
             try{
                 if (apptWindow.getEndDate() != null && !apptWindow.getEndTime().isEmpty() && !apptWindow.getEndTimeAmPm().isEmpty()){
-                    Date startDate = _updateTime(apptWindow.getStartDate(), apptWindow.getStartTime(), apptWindow.getStartTimeAmPm());
-                    Date endDate = _updateTime(apptWindow.getEndDate(), apptWindow.getEndTime(), apptWindow.getEndTimeAmPm());
+                    Date startDate = CommonUtils.getDateWithTime(apptWindow.getStartDate(), apptWindow.getStartTime(), apptWindow.getStartTimeAmPm());
+                    Date endDate = CommonUtils.getDateWithTime(apptWindow.getEndDate(), apptWindow.getEndTime(), apptWindow.getEndTimeAmPm());
                     if(startDate.after(endDate)){
                         GlobalVariables.getMessageMap().putError( "newCollectionLines['appointmentWindows'].endDate",
                                 AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
@@ -240,8 +241,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         AppointmentWindowInfo appointmentWindowInfo = appointmentWindowWrapper.getAppointmentWindowInfo();
         appointmentWindowInfo.setTypeKey(appointmentWindowWrapper.getWindowTypeKey());
         appointmentWindowInfo.setPeriodMilestoneId(appointmentWindowWrapper.getPeriodKey());
-        appointmentWindowInfo.setStartDate(_updateTime(appointmentWindowWrapper.getStartDate(), appointmentWindowWrapper.getStartTime(), appointmentWindowWrapper.getStartTimeAmPm()));
-        appointmentWindowInfo.setEndDate(_updateTime(appointmentWindowWrapper.getEndDate(), appointmentWindowWrapper.getEndTime(), appointmentWindowWrapper.getEndTimeAmPm()));
+        appointmentWindowInfo.setStartDate(CommonUtils.getDateWithTime(appointmentWindowWrapper.getStartDate(), appointmentWindowWrapper.getStartTime(), appointmentWindowWrapper.getStartTimeAmPm()));
+        appointmentWindowInfo.setEndDate(CommonUtils.getDateWithTime(appointmentWindowWrapper.getEndDate(), appointmentWindowWrapper.getEndTime(), appointmentWindowWrapper.getEndTimeAmPm()));
 
         //TODO Default to some value if nothing is entered(Service team needs to make up some real types or make not nullable)
         if(appointmentWindowInfo.getAssignedOrderTypeKey() == null || appointmentWindowInfo.getAssignedOrderTypeKey().isEmpty()){
@@ -343,37 +344,6 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             super.performAddLineValidation(view, collectionGroup, model, addLine);
         }
         return isValid;
-    }
-
-    //Copied from AcademicCalendarViewHelperServiceImpl //TODO(should be moved into common util class)
-    private Date _updateTime(Date date,String time,String amPm){
-
-        if(date == null || time == null || amPm == null){
-            return null;
-        }
-
-        //FIXME: Use Joda DateTime
-
-        // Get Calendar object set to the date and time of the given Date object
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-
-        // Set time fields to zero
-        cal.set(Calendar.HOUR, Integer.parseInt(StringUtils.substringBefore(time, ":")));
-        cal.set(Calendar.MINUTE, Integer.parseInt(StringUtils.substringAfter(time,":")));
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        if (StringUtils.isNotBlank(amPm)){
-            if (StringUtils.equalsIgnoreCase(amPm,"am")){
-                cal.set(Calendar.AM_PM,Calendar.AM);
-            }else if(StringUtils.equalsIgnoreCase(amPm,"pm")){
-                cal.set(Calendar.AM_PM,Calendar.PM);
-            }else{
-                throw new RuntimeException("Unknown AM/PM format.");
-            }
-        }
-
-        return cal.getTime();
     }
 
     public AcademicCalendarService getAcalService() {

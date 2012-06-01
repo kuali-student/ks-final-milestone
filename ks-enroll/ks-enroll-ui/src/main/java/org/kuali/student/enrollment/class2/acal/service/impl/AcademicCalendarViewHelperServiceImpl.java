@@ -837,11 +837,12 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 if (isSaveAction && StringUtils.startsWith(startTime,"12:") && StringUtils.equalsIgnoreCase(startTimeApPm,"am")){
                     startTime = StringUtils.replace(startTime,"12:","00:");
                 }
-                return updateTime(timeSetWrapper.getStartDate(),startTime,startTimeApPm);
+                return CommonUtils.getDateWithTime(timeSetWrapper.getStartDate(),startTime,startTimeApPm);
             }else{
                 timeSetWrapper.setStartTime("12:00");
                 timeSetWrapper.setStartTimeAmPm("AM");
-                return updateTime(timeSetWrapper.getStartDate(),timeSetWrapper.getStartTime(),timeSetWrapper.getStartTimeAmPm());
+                return CommonUtils.getDateWithTime(timeSetWrapper.getStartDate(),
+                                           timeSetWrapper.getStartTime(),timeSetWrapper.getStartTimeAmPm());
             }
         }else{
             return timeSetWrapper.getStartDate();
@@ -891,7 +892,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         if (timeSetWrapper.isAllDay()) {
             if (timeSetWrapper.isDateRange()) {
                 //just clearing out any time already set in end date
-                endDateToInfo = updateTime(timeSetWrapper.getEndDate(),"00:00",StringUtils.EMPTY);
+                endDateToInfo = CommonUtils.getDateWithTime(timeSetWrapper.getEndDate(),"00:00",StringUtils.EMPTY);
             }
             else {
                 endDateToInfo = null;
@@ -922,34 +923,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 timeSetWrapper.setEndTimeAmPm(endTimeAmPm);
             }
 
-            endDateToInfo = updateTime(endDate,endTime,endTimeAmPm);
+            endDateToInfo = CommonUtils.getDateWithTime(endDate,endTime,endTimeAmPm);
         }
 
         return endDateToInfo;
-    }
-
-    private Date updateTime(Date date,String time,String amPm) {
-
-        // Get Calendar object set to the date and time of the given Date object
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-
-        // Set time fields to zero
-        if (StringUtils.isNotBlank(time)){
-            cal.set(Calendar.HOUR, Integer.parseInt(StringUtils.substringBefore(time,":")));
-            cal.set(Calendar.MINUTE, Integer.parseInt(StringUtils.substringAfter(time,":")));
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);
-            if (StringUtils.isNotBlank(amPm)){
-                if (StringUtils.equalsIgnoreCase(amPm,"am")){
-                    cal.set(Calendar.AM_PM,Calendar.AM);
-                }else {
-                    cal.set(Calendar.AM_PM,Calendar.PM);
-                }
-            }
-        }
-
-        return cal.getTime();
     }
 
     public void deleteTerm(List<AcademicTermWrapper> termWrapperList,int selectedIndex, String acalId) throws Exception{
