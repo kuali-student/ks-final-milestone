@@ -89,7 +89,7 @@ public class LprTransactionItemEntity extends MetaEntity {
 	@OneToMany (cascade = CascadeType.ALL, mappedBy = "lprTransactionItem")
 	private List<LprTransactionItemResultValueGroupEntity>resultValueGroups;
 	
-	@ManyToOne 
+	@ManyToOne
 	@JoinColumn(name="LPR_TRANS_ID")
 	private LprTransactionEntity owner;
 
@@ -198,6 +198,8 @@ public class LprTransactionItemEntity extends MetaEntity {
 					LprTransactionItemRequestOption info) {
 				
 				entity.fromDto(info);
+				
+				entity.setLprTransactionItem(LprTransactionItemEntity.this);
 				
 				return new ArrayList<Object>();
 			}

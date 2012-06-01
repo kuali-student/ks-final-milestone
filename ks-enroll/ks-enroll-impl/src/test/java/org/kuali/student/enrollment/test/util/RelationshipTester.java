@@ -4,8 +4,11 @@
  */
 package org.kuali.student.enrollment.test.util;
 
+import static org.junit.Assert.assertEquals;
+
+import java.sql.Timestamp;
+
 import org.kuali.student.r2.common.dto.RelationshipInfo;
-import static org.junit.Assert.*;
 
 /**
  * Helps create a dynamic 
@@ -14,10 +17,12 @@ import static org.junit.Assert.*;
 public class RelationshipTester {
 
     public void check (RelationshipInfo expected, RelationshipInfo actual) {
+    	
         assertEquals(expected.getTypeKey(), actual.getTypeKey());
         assertEquals(expected.getStateKey(), actual.getStateKey());
-        assertEquals(expected.getEffectiveDate(), actual.getEffectiveDate());
-        assertEquals(expected.getExpirationDate(), actual.getExpirationDate());
+        
+        new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
+        new TimeTester().check(expected.getExpirationDate(), actual.getExpirationDate());
     }
 
    

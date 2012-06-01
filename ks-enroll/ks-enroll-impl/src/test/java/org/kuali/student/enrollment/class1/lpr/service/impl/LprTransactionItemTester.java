@@ -51,9 +51,9 @@ public class LprTransactionItemTester {
         }
         assertEquals(expectedList.size(), actualList.size());
         List<LprTransactionItemInfo> expectedSorted = new ArrayList<LprTransactionItemInfo>(expectedList);
-        Collections.sort(expectedSorted, new LprTransactionItemInfoComparator());
+//        Collections.sort(expectedSorted, new LprTransactionItemInfoComparator());
         List<LprTransactionItemInfo> actualSorted = new ArrayList<LprTransactionItemInfo>(actualList);
-        Collections.sort(actualSorted, new LprTransactionItemInfoComparator());
+//        Collections.sort(actualSorted, new LprTransactionItemInfoComparator());
         for (int i = 0; i < expectedSorted.size(); i++) {
             LprTransactionItemInfo expected = expectedSorted.get(i);
             LprTransactionItemInfo actual = actualSorted.get(i);
@@ -87,22 +87,36 @@ public class LprTransactionItemTester {
 
         @Override
         public int compare(LprTransactionItemInfo o1, LprTransactionItemInfo o2) {
-            return calcSortKey(o1).compareTo(calcSortKey(o2));
+        	
+        	String k1 = calcSortKey(o1);
+        	String k2 = calcSortKey(o2);
+        	
+            return k1.compareTo(k2);
         }
 
         private String calcSortKey(LprTransactionItemInfo item) {
             StringBuilder sb = new StringBuilder();
-            sb.append(item.getId());
-            sb.append("\t");
+            
+            boolean existingElement = false;
+            
             if (item.getId() != null) {
                 sb.append(item.getId());
+                existingElement = true;
             }
-            sb.append("\t");
+          
             if (item.getNewLuiId() != null) {
+            	
+            	if (existingElement)
+            		  sb.append("\t");
+            	
                 sb.append(item.getNewLuiId());
+                
+                existingElement = true;
             }
-            sb.append("\t");
             if (item.getExistingLuiId() != null) {
+            	if (existingElement)
+          		  sb.append("\t");
+            	
                 sb.append(item.getExistingLuiId());
             }
             return sb.toString();

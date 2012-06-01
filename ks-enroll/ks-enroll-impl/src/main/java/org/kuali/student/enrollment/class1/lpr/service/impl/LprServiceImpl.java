@@ -302,6 +302,9 @@ public class LprServiceImpl implements LprService {
 
         LprTransactionEntity transactionEntity = lprTransDao.find(lprTransactionId);
 
+        if (transactionEntity == null)
+        	throw new DoesNotExistException("No LprTransactionEntity for id = " + lprTransactionId);
+        
         return transactionEntity.toDto();
     }
 
@@ -365,18 +368,12 @@ public class LprServiceImpl implements LprService {
 
         for (LprTransactionItemInfo lprTransItemInfo : lprTransactionInfo.getLprTransactionItems()) {
 
-            LprTransactionItemEntity lprTransItemEntity = createLprTransactionItem(lprTransItemInfo, context);
+            LprTransactionItemEntity lprTransItemEntity = createLprTransactionItem(lprTransItemInfo, lprTransactionEntity, context);
 
             lprTransItemEntities.add(lprTransItemEntity);
         }
 
         lprTransactionEntity.setLprTransactionItems(lprTransItemEntities);
-        LprTransactionEntity existing = lprTransDao.find(lprTransactionEntity.getId());
-
-        if (existing != null) {
-            // throw new AlreadyExistsException();
-            // TODO Mezba - decide what to do here
-        }
         
         lprTransactionEntity.setEntityCreated(context);
 
@@ -579,20 +576,20 @@ public class LprServiceImpl implements LprService {
         LprTransactionEntity lprTrans = lprTransDao.find(lprTransactionId);
 
         if (null != lprTrans) {
-            LprTransactionEntity modifiedLprTrans = new LprTransactionEntity(lprTransactionInfo);
+        	
+        	 lprTransDao.mergeFromDto(lprTrans, lprTransactionInfo);
+        	 
             if (lprTransactionInfo.getStateKey() != null) {
-                modifiedLprTrans.setLprTransState(lprTransactionInfo.getStateKey());
+            	lprTrans.setLprTransState(lprTransactionInfo.getStateKey());
             }
             if (lprTransactionInfo.getTypeKey() != null) {
-                modifiedLprTrans.setLprTransType(lprTransactionInfo.getTypeKey());
+            	lprTrans.setLprTransType(lprTransactionInfo.getTypeKey());
             }
 
-            List<LprTransactionItemEntity> lprTransItemEntityList = processLprTransactionItemsModification(lprTransactionInfo,
-                    lprTrans, context);
-
-            modifiedLprTrans.setLprTransactionItems(lprTransItemEntityList);
-            lprTransDao.merge(modifiedLprTrans);
-            return lprTransDao.find(modifiedLprTrans.getId()).toDto();
+            
+            lprTrans.setEntityUpdated(context);
+            
+            return lprTransDao.find(lprTransactionId).toDto();
 
         } else {
             throw new DoesNotExistException(lprTransactionId);
@@ -625,7 +622,7 @@ public class LprServiceImpl implements LprService {
             }
 
             if (!existingItem || modifiedTransactionItemInfo.getId() == null) {
-                modifiedLprTransItemEntities.add(createLprTransactionItem(modifiedTransactionItemInfo, context));
+                modifiedLprTransItemEntities.add(createLprTransactionItem(modifiedTransactionItemInfo, originalLprTransEntity,context));
             }
         }
 
@@ -654,8 +651,10 @@ public class LprServiceImpl implements LprService {
         return modifiedLprItemEntity;
     }
 
-    private LprTransactionItemEntity createLprTransactionItem(LprTransactionItemInfo lprTransactionItemInfo, ContextInfo context) {
+    private LprTransactionItemEntity createLprTransactionItem(LprTransactionItemInfo lprTransactionItemInfo, LprTransactionEntity owner, ContextInfo context) {
+    	
         LprTransactionItemEntity lprTransItemEntity = new LprTransactionItemEntity(lprTransactionItemInfo);
+        
         if (lprTransItemEntity.getId() == null) {
             lprTransItemEntity.setId(UUIDHelper.genStringUUID());
         }
@@ -673,6 +672,8 @@ public class LprServiceImpl implements LprService {
         }
         
         lprTransItemEntity.setEntityCreated(context);
+        
+        lprTransItemEntity.setOwner(owner);
 
 
         lprTransItemDao.persist(lprTransItemEntity);

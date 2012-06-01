@@ -195,6 +195,7 @@ public class TestLprServiceMockImpl {
         assertEquals(expected.getAtpId(), actual.getAtpId());
         new LprTransactionItemTester().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
 
+        
 
         // test read
         expected = actual;
@@ -205,7 +206,7 @@ public class TestLprServiceMockImpl {
         new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
         assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
         assertEquals(expected.getAtpId(), actual.getAtpId());
-        new LprTransactionItemTester().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
+        new LprTransactionItemTester().check(expected.getLprTransactionItems(), actual.getLprTransactionItems()); 
 
         // test update
         expected = actual;

@@ -129,7 +129,12 @@ public class LprTransactionEntity extends MetaEntity {
 
 			@Override
 			public LprTransactionAttributeEntity create(Attribute att) {
-				return new LprTransactionAttributeEntity(att);
+				LprTransactionAttributeEntity attr = new LprTransactionAttributeEntity(att);
+				
+				attr.setOwner(LprTransactionEntity.this);
+				
+				return attr;
+				
 			}
         	 
 		});
@@ -194,7 +199,6 @@ public class LprTransactionEntity extends MetaEntity {
             lpr.setStateKey(this.getLprTransState());
         
         lpr.setMeta(super.toDTO());
-        
        
         if (getAttributes() != null) {
             List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
