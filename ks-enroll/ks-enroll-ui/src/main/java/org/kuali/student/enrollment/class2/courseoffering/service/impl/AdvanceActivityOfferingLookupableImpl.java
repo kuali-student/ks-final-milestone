@@ -28,12 +28,13 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
+        List<CourseOfferingInfo> courseOfferingList = new ArrayList<CourseOfferingInfo>();
         String termId = null;
         String courseOfferingId = null;
         String termCode = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_TERM_CODE);
         String courseOfferingCode = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_CODE);
 
-        final Logger logger = Logger.getLogger(FormatOfferingInfoMaintainableImpl.class);
+        //final Logger logger = Logger.getLogger(FormatOfferingInfoMaintainableImpl.class);
 
         try {
             //1. get termId based on termCode
@@ -67,22 +68,21 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                         PredicateFactory.equalIgnoreCase("atpId", termId)));
                 QueryByCriteria criteria = qbcBuilder.build();
 
-                //Do search.  In ideal case, returns one element, which is the desired CO.
-                List<CourseOfferingInfo> courseOfferingList = getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
-                if(courseOfferingList!=null && courseOfferingList.size()>0){
-                    // Always get first CO
-                    courseOfferingId = courseOfferingList.get(0).getId();
-                    if(courseOfferingList.size()>1){
-                        //logger.warn("AdvanceActivityOfferingLookupableImpl - find more than one CO for specified courseOfferingCode: " + courseOfferingCode) ;
-                        throw new RuntimeException("Alert: find more than one CO for specified courseOfferingCode: "+courseOfferingCode);
-                    }
-                } else {
-                    new Exception("Error: Does not find a valid Course Offering with the courseOfferingCode equal to "+courseOfferingCode);
-                }
+                //Do search. In ideal case, returns one element, which is the desired CO.
+                courseOfferingList = getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
             }
 
             //get all AOs based on the retrieved courseOfferingId
-            activityOfferingInfos =  getCourseOfferingService().getActivityOfferingsByCourseOffering (courseOfferingId, getContextInfo());
+            if(!courseOfferingList.isEmpty() && courseOfferingList.size()==1){
+                //Get the courseOfferingId from THE CO
+                courseOfferingId = courseOfferingList.get(0).getId();
+                activityOfferingInfos =  getCourseOfferingService().getActivityOfferingsByCourseOffering (courseOfferingId, getContextInfo());
+            } else if (courseOfferingList.size()>1) {
+                throw new RuntimeException("Error: find more than one CO for specified courseOfferingCode: "+courseOfferingCode);
+            } else {
+                throw new RuntimeException("Error: Does not find a valid Course Offering with the courseOfferingCode equal to "+courseOfferingCode);
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
