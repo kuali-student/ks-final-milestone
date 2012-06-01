@@ -28,6 +28,7 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
+        String termId = null;
         String courseOfferingId = null;
         String termCode = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_TERM_CODE);
         String courseOfferingCode = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_CODE);
@@ -35,12 +36,34 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
         final Logger logger = Logger.getLogger(FormatOfferingInfoMaintainableImpl.class);
 
         try {
-            //get courseOfferingId based on courseOfferingCode and termCode
-            if (StringUtils.isNotBlank(courseOfferingCode) && StringUtils.isNotBlank(termCode)) {
+            //1. get termId based on termCode
+            if (StringUtils.isNotBlank(termCode)) {
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.equal(ActivityOfferingConstants.ATP_CODE, termCode));
+                QueryByCriteria criteria = qbcBuilder.build();
+
+                // Do search.  In ideal case, termList contains one element, which is the desired term.
+                List<TermInfo> termList = getAcalService().searchForTerms(criteria, new ContextInfo());
+
+                if (termList != null  && termList.size()>0 ){
+                    // Always get first term
+                    termId = termList.get(0).getId();
+                    System.out.println(">>> termId = "+termId);
+                    if(termList.size()>1){
+                        logger.warn("AdvanceActivityOfferingLookupableImpl - find more than one term for specified termCode: " + termCode) ;
+                        //System.out.println(">>Alert: find more than one term for specified termCode: "+termCode);
+                    }
+                } else {
+                    new Exception("Error: Does not find a valid term with the termCode equal to "+ termCode);
+                }
+            }
+
+            //get courseOfferingId based on courseOfferingCode and termId
+            if (StringUtils.isNotBlank(courseOfferingCode) && StringUtils.isNotBlank(termId)) {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
                 qbcBuilder.setPredicates(PredicateFactory.and(
                         PredicateFactory.equalIgnoreCase(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_CODE, courseOfferingCode),
-                        PredicateFactory.equalIgnoreCase("atpId", termCode)));
+                        PredicateFactory.equalIgnoreCase("atpId", termId)));
                 QueryByCriteria criteria = qbcBuilder.build();
 
                 //Do search.  In ideal case, returns one element, which is the desired CO.
