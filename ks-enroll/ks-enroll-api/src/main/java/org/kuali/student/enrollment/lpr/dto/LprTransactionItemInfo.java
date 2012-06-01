@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
-import org.kuali.student.enrollment.lpr.infc.LprRequestOption;
+import org.kuali.student.enrollment.lpr.infc.LprTransactionItemRequestOption;
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItemResult;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
@@ -46,7 +46,7 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
     @XmlElement
     private List<String> resultValuesGroupKeys;
     @XmlElement
-    private List<RequestOptionInfo> requestOptions;
+    private List<LprTransactionItemRequestOptionInfo> requestOptions;
     @XmlElement
     private LprTransactionItemResultInfo lprTransactionItemResult;
     @XmlAnyElement
@@ -64,11 +64,11 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
             this.transactionId = lprTransactionItem.getTransactionId();
             this.newLuiId = lprTransactionItem.getNewLuiId();
             this.existingLuiId = lprTransactionItem.getExistingLuiId();
-
-            this.requestOptions = new ArrayList<RequestOptionInfo>();
+            
+            this.requestOptions = new ArrayList<LprTransactionItemRequestOptionInfo>();
             if (null != lprTransactionItem.getRequestOptions()) {
-                for (LprRequestOption reqOp : lprTransactionItem.getRequestOptions()) {
-                    this.requestOptions.add(new RequestOptionInfo(reqOp));
+                for (LprTransactionItemRequestOption reqOp : lprTransactionItem.getRequestOptions()) {
+                    this.requestOptions.add(new LprTransactionItemRequestOptionInfo(reqOp));
                 }
             }
 
@@ -96,14 +96,14 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
     }
 
     @Override
-    public List<RequestOptionInfo> getRequestOptions() {
+    public List<LprTransactionItemRequestOptionInfo> getRequestOptions() {
         if (requestOptions == null) {
-            requestOptions = new ArrayList<RequestOptionInfo> ();
+            requestOptions = new ArrayList<LprTransactionItemRequestOptionInfo> ();
         }
         return requestOptions;
     }
 
-    public void setRequestOptions(List<RequestOptionInfo> requestOptions) {
+    public void setRequestOptions(List<LprTransactionItemRequestOptionInfo> requestOptions) {
         this.requestOptions = requestOptions;
     }
 

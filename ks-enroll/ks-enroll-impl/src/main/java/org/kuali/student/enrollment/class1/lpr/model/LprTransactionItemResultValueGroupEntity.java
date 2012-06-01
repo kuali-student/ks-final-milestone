@@ -28,7 +28,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "KSEN_LPR_TRANS_ITEM_RVG", uniqueConstraints = { @UniqueConstraint(columnNames = {
 		"LPR_TRANS_ITEM_ID", "RESULT_VAL_GRP_ID" }) })
-public class LprTransactionItemResultValueGroup extends
+public class LprTransactionItemResultValueGroupEntity extends
 		AbstractResultValueGroupEntity {
 
 	@ManyToOne
@@ -38,7 +38,12 @@ public class LprTransactionItemResultValueGroup extends
 	/**
 	 * 
 	 */
-	public LprTransactionItemResultValueGroup() {
+	public LprTransactionItemResultValueGroupEntity() {
+		super();
+	}
+
+	public LprTransactionItemResultValueGroupEntity(String value) {
+		super(value);
 	}
 
 	public LprTransactionItemEntity getLprTransactionItem() {

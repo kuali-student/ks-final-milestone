@@ -9,16 +9,16 @@
 	<!-- JPA test "unit" -->
 	<persistence-unit name="persistentUnit"
 		transaction-type="JTA">
-
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
 		<class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprRequestOptionEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
 		<class>org.kuali.student.enrollment.class1.lpr.model.LprResultValueGroupEntity</class>
 		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionAttributeEntity</class>
 		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemResultValueGroup</class>
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransAttributeEntity</class>
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransItemAttributeEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemAttributeEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemRequestOptionEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemResultValueGroupEntity</class>
+		
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2012 The Kuali Foundation
+ *
+ * Licensed under the the Educational Community License, Version 1.0
+ * (the "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.enrollment.class1.lpr.model;
 
 import java.util.ArrayList;
@@ -6,20 +21,18 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.kuali.student.common.entity.KSEntityConstants;
-import org.kuali.student.common.entity.RichText;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.infc.LprTransaction;
+import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.helper.EntityMergeHelper;
+import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeResult;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 
@@ -42,49 +55,134 @@ public class LprTransactionEntity extends MetaEntity {
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrPlain;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
-    @JoinColumn(name = "LPR_TRANS_ID")
-    private List<LprTransactionItemEntity> lprTransactionItems;
-
-    @Column(name = "LPR_TRANS_TYPE")
+    @Column(name = "LPR_TRANS_TYPE", nullable=false)
     private String lprTransType;
 
-    @Column(name = "LRP_TRANS_STATE")
+    @Column(name = "LRP_TRANS_STATE", nullable=false)
     private String lprTransState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LprTransAttributeEntity> attributes;
+    private List<LprTransactionAttributeEntity> attributes;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="owner")
+    private List<LprTransactionItemEntity> lprTransactionItems;
+
 
     public LprTransactionEntity() {}
 
     public LprTransactionEntity(LprTransaction lprTransaction) {
         super(lprTransaction);
-        this.setName(lprTransaction.getName());
-        this.setRequestingPersonId(lprTransaction.getRequestingPersonId());
-        this.requestingPersonId = lprTransaction.getAtpId();
-        this.lprTransactionItems = new ArrayList<LprTransactionItemEntity>();
-        this.setLprTransState(lprTransaction.getStateKey());
-        this.setLprTransType(lprTransaction.getTypeKey());
+        
+        // TODO: determine if these are the static fields on the Entity.
         this.setId(lprTransaction.getId());
-        if (lprTransaction.getDescr() != null) {
-            this.setDescrFormatted(lprTransaction.getDescr().getFormatted());
-            this.setDescrPlain(lprTransaction.getDescr().getPlain());
-        } else {
-            this.setDescrFormatted(null);
-            this.setDescrPlain(null);
-        }
+        this.setLprTransType(lprTransaction.getTypeKey());
         
-        this.setAttributes(new ArrayList<LprTransAttributeEntity>());
-        
-        if (null != lprTransaction.getAttributes()) {
-            for (Attribute att : lprTransaction.getAttributes()) {
-                this.getAttributes().add(new LprTransAttributeEntity(att));
-
-            }
-        }
-
+       this.fromDto(lprTransaction);
     }
 
+    @SuppressWarnings("unchecked")
+	public List<Object>fromDto (LprTransaction lprTransaction) {
+    	
+    	List<Object>orphanList = new ArrayList<Object>();
+		
+    	 this.setName(lprTransaction.getName());
+    	 
+         this.setRequestingPersonId(lprTransaction.getRequestingPersonId());
+         this.setAtpId(lprTransaction.getAtpId());
+         
+         this.setLprTransState(lprTransaction.getStateKey());
+         
+         
+         if (lprTransaction.getDescr() != null) {
+             this.setDescrFormatted(lprTransaction.getDescr().getFormatted());
+             this.setDescrPlain(lprTransaction.getDescr().getPlain());
+         } else {
+             this.setDescrFormatted(null);
+             this.setDescrPlain(null);
+         }
+         
+         
+         EntityMergeHelper<LprTransactionAttributeEntity, Attribute>attributeMergeHelper = new EntityMergeHelper<LprTransactionAttributeEntity, Attribute>();
+         
+         EntityMergeResult<LprTransactionAttributeEntity> attributeMergeResults = attributeMergeHelper.merge(this.attributes, (List<Attribute>) lprTransaction.getAttributes(), new EntityMergeHelper.EntityMergeOptions<LprTransactionAttributeEntity, Attribute>() {
+
+			@Override
+			public String getEntityId(LprTransactionAttributeEntity entity) {
+				return entity.getId();
+			}
+
+			@Override
+			public String getInfoId(Attribute info) {
+				return info.getId();
+			}
+
+			@Override
+			public List<Object> merge(LprTransactionAttributeEntity entity,
+					Attribute info) {
+				
+				entity.fromDto(info);
+				
+				entity.setOwner(LprTransactionEntity.this);
+				
+				return new ArrayList<Object>();
+			}
+
+			@Override
+			public LprTransactionAttributeEntity create(Attribute att) {
+				return new LprTransactionAttributeEntity(att);
+			}
+        	 
+		});
+         
+         this.setAttributes(attributeMergeResults.getMergedList());
+         
+         orphanList.addAll(attributeMergeResults.getOrphanList());
+         
+         
+         EntityMergeHelper<LprTransactionItemEntity, LprTransactionItem>transactionItemMergeHelper = new EntityMergeHelper<LprTransactionItemEntity, LprTransactionItem>();
+         
+         EntityMergeResult<LprTransactionItemEntity> transactionItemMergeResult = transactionItemMergeHelper.merge(this.lprTransactionItems, (List<LprTransactionItem>) lprTransaction.getLprTransactionItems(), new EntityMergeHelper.EntityMergeOptions<LprTransactionItemEntity, LprTransactionItem>() {
+
+			@Override
+			public String getEntityId(LprTransactionItemEntity entity) {
+				return entity.getId();
+			}
+
+			@Override
+			public String getInfoId(LprTransactionItem info) {
+				return info.getId();
+			}
+
+			@Override
+			public List<Object> merge(LprTransactionItemEntity entity,
+					LprTransactionItem info) {
+				
+				List<Object>orphanList = entity.fromDto(info);
+				
+				entity.setOwner(LprTransactionEntity.this);
+				
+				return orphanList;
+			}
+
+			@Override
+			public LprTransactionItemEntity create(LprTransactionItem info) {
+				LprTransactionItemEntity lprTransactionItemEntity = new LprTransactionItemEntity(info);
+			
+				lprTransactionItemEntity.setOwner(LprTransactionEntity.this);
+				
+				return lprTransactionItemEntity;
+			}
+        	 
+		});
+         
+         this.setLprTransactionItems(transactionItemMergeResult.getMergedList());
+         
+         orphanList.addAll(transactionItemMergeResult.getOrphanList());
+		
+		return orphanList;
+    }
+    
+    
     public LprTransactionInfo toDto() {
 
         LprTransactionInfo lpr = new LprTransactionInfo();
@@ -94,12 +192,13 @@ public class LprTransactionEntity extends MetaEntity {
             lpr.setTypeKey(this.getLprTransType());
         if (this.getLprTransState() != null)
             lpr.setStateKey(this.getLprTransState());
+        
         lpr.setMeta(super.toDTO());
         
        
         if (getAttributes() != null) {
             List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-            for (LprTransAttributeEntity att : getAttributes()) {
+            for (LprTransactionAttributeEntity att : getAttributes()) {
                 AttributeInfo attInfo = att.toDto();
                 atts.add(attInfo);
             }
@@ -172,11 +271,11 @@ public class LprTransactionEntity extends MetaEntity {
         this.lprTransactionItems = lprTransactionItems;
     }
 
-    public void setAttributes(List<LprTransAttributeEntity> attributes) {
+    public void setAttributes(List<LprTransactionAttributeEntity> attributes) {
        this.attributes = attributes;
     }
 
-    public List<LprTransAttributeEntity> getAttributes() {
+    public List<LprTransactionAttributeEntity> getAttributes() {
         return this.attributes;
     }
 

@@ -48,6 +48,12 @@ public abstract class AbstractResultValueGroupEntity {
 	
 	public AbstractResultValueGroupEntity() {
 	}
+	
+	public AbstractResultValueGroupEntity(String resultValueGroupId) {
+		this();
+		
+		setResultValueGroupId(resultValueGroupId);
+	}
 
 	public String getId() {
 		return id;

@@ -342,6 +342,8 @@ public class LprServiceImpl implements LprService {
             OperationFailedException, PermissionDeniedException {
 
         LprTransactionEntity lprTransactionEntity = new LprTransactionEntity(lprTransactionInfo);
+        
+        
         if (lprTransactionEntity.getId() == null) {
             lprTransactionEntity.setId(UUIDHelper.genStringUUID());
         }

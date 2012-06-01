@@ -8,7 +8,7 @@ import org.kuali.student.r2.common.infc.HasId;
  * 
  * @author Kuali Student Team (sambitpatnaik)
  */
-public interface LprRequestOption extends HasId{
+public interface LprTransactionItemRequestOption extends HasId{
     /**
      * The option value data type of the request option e.g., Boolean, String
      * etc.

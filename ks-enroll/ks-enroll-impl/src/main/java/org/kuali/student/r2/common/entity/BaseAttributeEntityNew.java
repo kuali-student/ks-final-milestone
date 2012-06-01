@@ -28,9 +28,8 @@ public abstract class BaseAttributeEntityNew<T> extends BaseEntity {
 
     public BaseAttributeEntityNew(Attribute att) {
         this.setId(att.getId());
-        this.key = att.getKey();
-        this.value = att.getValue();
-        // this.owner = att.getOwner();
+       
+        this.fromDto(att);
     }
 
     public String getKey() {
@@ -52,6 +51,13 @@ public abstract class BaseAttributeEntityNew<T> extends BaseEntity {
     public abstract void setOwner(T owner);
 
     public abstract T getOwner();
+
+    public void fromDto(Attribute info) {
+		
+		this.setKey(info.getKey());
+		this.setValue(info.getValue());
+		
+	}
 
     public AttributeInfo toDto() {
         AttributeInfo attributeInfo = new AttributeInfo();

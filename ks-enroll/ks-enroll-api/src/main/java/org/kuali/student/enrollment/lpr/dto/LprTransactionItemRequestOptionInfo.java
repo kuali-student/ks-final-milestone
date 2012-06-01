@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.lpr.infc.LprRequestOption;
+import org.kuali.student.enrollment.lpr.infc.LprTransactionItemRequestOption;
 import org.w3c.dom.Element;
 
 /**
@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RequestOptionInfo", propOrder = {"id", "optionKey", "optionValue", "_futureElements"})
-public class RequestOptionInfo implements LprRequestOption {
+public class LprTransactionItemRequestOptionInfo implements LprTransactionItemRequestOption {
 
     @XmlElement
     private String id;
@@ -37,10 +37,10 @@ public class RequestOptionInfo implements LprRequestOption {
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public RequestOptionInfo() {
+    public LprTransactionItemRequestOptionInfo() {
     }
 
-    public RequestOptionInfo(LprRequestOption reqOp) {
+    public LprTransactionItemRequestOptionInfo(LprTransactionItemRequestOption reqOp) {
         if (null == reqOp) {
             return;
         }
