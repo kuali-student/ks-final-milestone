@@ -55,4 +55,16 @@ public class LprTransactionItemResultValueGroupEntity extends
 		this.lprTransactionItem = lprTransactionItem;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("LprTransactionItemResultValueGroupEntity [id=");
+		builder.append(getId());
+		builder.append(", resultValueGroupId=");
+		builder.append(getResultValueGroupId());
+		builder.append("]");
+		return builder.toString();
+	}
+
+	
 }

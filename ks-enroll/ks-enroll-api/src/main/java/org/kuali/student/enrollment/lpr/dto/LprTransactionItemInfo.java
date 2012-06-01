@@ -158,4 +158,27 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
     public void setLprTransactionItemResult(LprTransactionItemResultInfo lprTransactionItemResult) {
         this.lprTransactionItemResult = lprTransactionItemResult;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("LprTransactionItemInfo [id=");
+		builder.append(getId());
+		builder.append(", type=");
+		builder.append(getTypeKey());
+		builder.append(", state=");
+		builder.append(getStateKey());
+		builder.append(", personId=");
+		builder.append(personId);
+		builder.append(", transactionId=");
+		builder.append(transactionId);
+		builder.append(", newLuiId=");
+		builder.append(newLuiId);
+		builder.append(", existingLuiId=");
+		builder.append(existingLuiId);
+		builder.append("]");
+		return builder.toString();
+	}
+    
+    
 }

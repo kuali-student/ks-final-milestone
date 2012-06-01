@@ -70,6 +70,17 @@ public abstract class AbstractResultValueGroupEntity {
 	public void setResultValueGroupId(String resultValueGroupId) {
 		this.resultValueGroupId = resultValueGroupId;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("AbstractResultValueGroupEntity [id=");
+		builder.append(id);
+		builder.append(", resultValueGroupId=");
+		builder.append(resultValueGroupId);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 	
 

@@ -96,4 +96,20 @@ public class LprTransactionItemResultInfo implements LprTransactionItemResult, S
 		this.message = message;
 	}
 
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("LprTransactionItemResultInfo [resultingLprId=");
+		builder.append(resultingLprId);
+		builder.append(", message=");
+		builder.append(message);
+		builder.append(", status=");
+		builder.append(status);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+
 }

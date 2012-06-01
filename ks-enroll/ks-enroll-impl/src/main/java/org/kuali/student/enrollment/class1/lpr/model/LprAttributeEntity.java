@@ -53,4 +53,21 @@ public class LprAttributeEntity extends BaseAttributeEntityNew<LprEntity> {
     	setKey(att.getKey());
     	setValue(att.getValue());
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("LprAttributeEntity [owner=");
+		builder.append(owner);
+		builder.append(", id=");
+		builder.append(getId());
+		builder.append(", key=");
+		builder.append(getKey());
+		builder.append(", value=");
+		builder.append(getValue());
+		builder.append("]");
+		return builder.toString();
+	}
+    
+    
 }

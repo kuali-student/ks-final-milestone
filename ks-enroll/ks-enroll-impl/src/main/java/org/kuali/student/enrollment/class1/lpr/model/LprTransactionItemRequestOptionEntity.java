@@ -98,5 +98,20 @@ public class LprTransactionItemRequestOptionEntity extends MetaEntity {
 		return info;
 	}
 
+
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("LprTransactionItemRequestOptionEntity [id=");
+		builder.append(getId());
+		builder.append(", optionKey=");
+		builder.append(optionKey);
+		builder.append(", optionValue=");
+		builder.append(optionValue);
+		builder.append("]");
+		return builder.toString();
+	}
+
     
 }

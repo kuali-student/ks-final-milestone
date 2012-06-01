@@ -295,4 +295,26 @@ public class LprTransactionEntity extends MetaEntity {
 		this.descrPlain = descrPlain;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("LprTransactionEntity [version=");
+		builder.append(getVersionNumber());
+		builder.append(", id=");
+		builder.append(getId());
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", requestingPersonId=");
+		builder.append(requestingPersonId);
+		builder.append(", atpId=");
+		builder.append(atpId);
+		builder.append(", lprTransType=");
+		builder.append(lprTransType);
+		builder.append(", lprTransState=");
+		builder.append(lprTransState);
+		builder.append("]");
+		return builder.toString();
+	}
+
+	
 }

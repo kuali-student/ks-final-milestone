@@ -60,5 +60,18 @@ public abstract class BaseAttributeEntity<T extends AttributeOwner<?>> extends B
         attributeInfo.setValue(this.getValue());
         return attributeInfo;
     }
+    
+    @Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("BaseAttributeEntityNew [id=");
+		builder.append(getId());
+		builder.append(", key=");
+		builder.append(key);
+		builder.append(", value=");
+		builder.append(value);
+		builder.append("]");
+		return builder.toString();
+	}
 
 }

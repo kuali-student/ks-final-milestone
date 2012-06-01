@@ -74,4 +74,19 @@ public class LprTransactionItemRequestOptionInfo implements LprTransactionItemRe
     public void setOptionKey(String optionKey) {
         this.optionKey = optionKey;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("LprTransactionItemRequestOptionInfo [id=");
+		builder.append(id);
+		builder.append(", optionKey=");
+		builder.append(optionKey);
+		builder.append(", optionValue=");
+		builder.append(optionValue);
+		builder.append("]");
+		return builder.toString();
+	}
+    
+    
 }

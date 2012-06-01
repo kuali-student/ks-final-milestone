@@ -100,4 +100,25 @@ public class LprInfo extends RelationshipInfo implements Lpr, Serializable {
     public void setResultValuesGroupKeys(List<String> resultValuesGroupKeys) {
         this.resultValuesGroupKeys = resultValuesGroupKeys;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("LprInfo [id=");
+		builder.append(getId());
+		builder.append(", type=");
+		builder.append(getTypeKey());
+		builder.append(", state=");
+		builder.append(getStateKey());
+		builder.append(", luiId=");
+		builder.append(luiId);
+		builder.append(", personId=");
+		builder.append(personId);
+		builder.append(", commitmentPercent=");
+		builder.append(commitmentPercent);
+		builder.append("]");
+		return builder.toString();
+	}
+    
+    
 }

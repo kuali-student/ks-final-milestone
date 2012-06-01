@@ -114,8 +114,9 @@ public class LprTransactionItemEntity extends MetaEntity {
 		this.setNewLuiId(lprTransactionItem.getNewLuiId());
 		this.setExistingLuiId(lprTransactionItem.getExistingLuiId());
 		this.setPersonId(lprTransactionItem.getPersonId());
-		this.setLprTransactionItemState(lprTransactionItem.getStateKey());
 		
+		this.setLprTransactionItemState(lprTransactionItem.getStateKey());
+		this.setLprTransactionItemType(lprTransactionItem.getTypeKey());
 		
 		if (lprTransactionItem.getDescr() != null) {
 			this.setDescrFormatted(lprTransactionItem.getDescr()
@@ -446,6 +447,29 @@ public class LprTransactionItemEntity extends MetaEntity {
 	public void setResultValueGroups(
 			List<LprTransactionItemResultValueGroupEntity> resultValueGroups) {
 		this.resultValueGroups = resultValueGroups;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("LprTransactionItemEntity [id=");
+		builder.append(getId());
+		builder.append(", personId=");
+		builder.append(personId);
+		builder.append(", newLuiId=");
+		builder.append(newLuiId);
+		builder.append(", existingLuiId=");
+		builder.append(existingLuiId);
+		builder.append(", resultingLprId=");
+		builder.append(resultingLprId);
+		builder.append(", groupId=");
+		builder.append(groupId);
+		builder.append(", lprTransactionItemType=");
+		builder.append(lprTransactionItemType);
+		builder.append(", lprTransactionItemState=");
+		builder.append(lprTransactionItemState);
+		builder.append("]");
+		return builder.toString();
 	}
 	
 	
