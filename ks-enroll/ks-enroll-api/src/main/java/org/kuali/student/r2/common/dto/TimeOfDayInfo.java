@@ -52,5 +52,4 @@ public class TimeOfDayInfo implements TimeOfDay {
     public boolean equals (TimeOfDay timeOfDay) {
         return (this.milliSeconds.compareTo(timeOfDay.getMilliSeconds()) == 0);
     }
-
 }

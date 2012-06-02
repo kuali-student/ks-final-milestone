@@ -1,142 +1,137 @@
 package org.kuali.student.r2.core.class1.process.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwnerNew;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.process.dto.CheckInfo;
+import org.kuali.student.r2.core.process.infc.Check;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.process.dto.CheckInfo;
-import org.kuali.student.r2.core.process.infc.Check;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "KSEN_CHECK")
-public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttributeEntity> {
+public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAttributeEntity> {
 
-    //NAME
+    ////////////////////
+    // DATA FIELDS
+    ////////////////////
+
+    @Column(name = "PROCESS_CHECK_TYPE", nullable = false)
+    private String checkType;
+
+    @Column(name = "PROCESS_CHECK_STATE", nullable = false)
+    private String checkState;
+
     @Column(name = "NAME")
     private String name;
 
-    //RT_DESCR_ID
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private CheckRichTextEntity descr;
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String descrPlain;
 
-    //STATE_ID
-    @Column(name = "CHECK_STATE")
-    private String checkState;
-
-    //TYPE_ID
-    @Column(name = "CHECK_TYPE")
-    private String checkType;
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String descrFormatted;
 
     @Column(name = "ISSUE_ID")
     private String issueId;
 
-    @Column(name = "MILESTONE_TYPE_ID")
-    private String milestoneTypeId;
-
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "PROCESS_ID")
-    private ProcessEntity process;
+    @Column(name = "MILESTONE_TYPE")
+    private String milestoneType;
 
     @Column(name = "AGENDA_ID")
     private String agendaId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @Column(name = "RIGHT_AGENDA_ID")
+    private String rightAgendaId;
+
+    @Column(name = "LEFT_AGENDA_ID")
+    private String leftAgendaId;
+
+    @Column(name = "CHILD_PROCESS_ID")
+    private String childProcessId;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true)
     private List<CheckAttributeEntity> attributes;
 
-    @Override
-    public void setAttributes(List<CheckAttributeEntity> attributes) {
-        this.attributes = attributes;
-    }
+    //////////////////////////
+    // CONSTRUCTORS ETC.
+    //////////////////////////
 
     public CheckEntity() {}
 
     public CheckEntity(Check check) {
         super(check);
         this.setId(check.getId());
+        this.setCheckType(check.getTypeKey());
+        this.fromDTO(check);
+    }
+
+    public void fromDTO(Check check) {
+        this.setCheckState(check.getStateKey());
         this.setName(check.getName());
         if (check.getDescr() != null) {
-            this.setDescr(new CheckRichTextEntity(check.getDescr()));
+            this.setDescrFormatted(check.getDescr().getFormatted());
+            this.setDescrPlain(check.getDescr().getPlain());
+        } else {
+            this.setDescrFormatted(null);
+            this.setDescrPlain(null);
         }
-        if (check.getStateKey() != null) {
-            this.setCheckState(check.getStateKey());
-        }
-        this.setAttributes(new ArrayList<CheckAttributeEntity>());
-        if (null != check.getAttributes()) {
-            for (Attribute att : check.getAttributes()) {
-                CheckAttributeEntity attEntity = new CheckAttributeEntity(att);
-                this.getAttributes().add(attEntity);
-            }
-        }
-
         this.setIssueId(check.getIssueId());
-        this.setMilestoneTypeId(check.getMilestoneTypeKey());
+        this.setMilestoneType(check.getMilestoneTypeKey());
         this.setAgendaId(check.getAgendaId());
+        this.setRightAgendaId(check.getRightComparisonValue());
+        this.setLeftAgendaId(check.getLeftComparisonAgendaId());
+        this.setChildProcessId(check.getProcessKey());
+        this.setAttributes(new ArrayList<CheckAttributeEntity>());
+        for (Attribute att : check.getAttributes()) {
+            this.getAttributes().add(new CheckAttributeEntity(att, this));
+        }
     }
 
     /**
      * @return Process Information DTO
      */
     public CheckInfo toDto() {
-        CheckInfo obj = new CheckInfo();
-        obj.setMeta(super.toDTO());
-        obj.setId(getId());
-        obj.setName(name);
-        if (checkType != null) {
-            obj.setTypeKey(checkType);
+        CheckInfo checkInfo = new CheckInfo();
+        checkInfo.setMeta(super.toDTO());
+        checkInfo.setId(getId());
+        checkInfo.setTypeKey(checkType);
+        checkInfo.setStateKey(checkState);
+        checkInfo.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
+        checkInfo.setIssueId(issueId);
+        checkInfo.setMilestoneTypeKey(milestoneType);
+        checkInfo.setAgendaId(agendaId);
+        checkInfo.setRightComparisonAgendaId(rightAgendaId);
+        checkInfo.setLeftComparisonAgendaId(leftAgendaId);
+        checkInfo.setProcessKey(childProcessId);
+        List<AttributeInfo> attributes = checkInfo.getAttributes();
+        if (getAttributes() != null) {
+            for (CheckAttributeEntity att : getAttributes()) {
+                AttributeInfo attInfo = att.toDto();
+                attributes.add(attInfo);
+            }
         }
-        if (checkState != null) {
-            obj.setStateKey(checkState);
-        }
-        if (descr != null) {
-            obj.setDescr(descr.toDto());
-        }
-
-        if (null != process) {
-            obj.setProcessKey(process.getId());
-        }
-
-        obj.setIssueId(issueId);
-        obj.setMilestoneTypeKey(milestoneTypeId);
-        obj.setAgendaId(agendaId);
-
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (CheckAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
-        }
-        obj.setAttributes(atts);
-
-        return obj;
+        return checkInfo;
     }
 
-    // NAME
-    public String getName() {
-        return name;
+    ///////////////////////////
+    // GETTERS AND SETTERS
+    ///////////////////////////
+
+    public String getCheckType() {
+        return checkType;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    // RT_DESCR_ID
-    public CheckRichTextEntity getDescr() {
-        return descr;
-    }
-
-    public void setDescr(CheckRichTextEntity descr) {
-        this.descr = descr;
+    public void setCheckType(String checkType) {
+        this.checkType = checkType;
     }
 
     public String getCheckState() {
@@ -147,12 +142,28 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         this.checkState = checkState;
     }
 
-    public String getCheckType() {
-        return checkType;
+    public String getName() {
+        return name;
     }
 
-    public void setCheckType(String checkType) {
-        this.checkType = checkType;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescrPlain() {
+        return descrPlain;
+    }
+
+    public void setDescrPlain(String descrPlain) {
+        this.descrPlain = descrPlain;
+    }
+
+    public String getDescrFormatted() {
+        return descrFormatted;
+    }
+
+    public void setDescrFormatted(String descrFormatted) {
+        this.descrFormatted = descrFormatted;
     }
 
     public String getIssueId() {
@@ -163,20 +174,12 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         this.issueId = issueId;
     }
 
-    public String getMilestoneTypeId() {
-        return milestoneTypeId;
+    public String getMilestoneType() {
+        return milestoneType;
     }
 
-    public void setMilestoneTypeId(String milestoneTypeId) {
-        this.milestoneTypeId = milestoneTypeId;
-    }
-
-    public ProcessEntity getProcess() {
-        return process;
-    }
-
-    public void setProcess(ProcessEntity process) {
-        this.process = process;
+    public void setMilestoneType(String milestoneType) {
+        this.milestoneType = milestoneType;
     }
 
     public String getAgendaId() {
@@ -186,9 +189,38 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     public void setAgendaId(String agendaId) {
         this.agendaId = agendaId;
     }
+    public String getRightAgendaId() {
+        return rightAgendaId;
+    }
+
+    public void setRightAgendaId(String rightAgendaId) {
+        this.rightAgendaId = rightAgendaId;
+    }
+
+    public String getLeftAgendaId() {
+        return leftAgendaId;
+    }
+
+    public void setLeftAgendaId(String leftAgendaId) {
+        this.leftAgendaId = leftAgendaId;
+    }
+
+    public String getChildProcessId() {
+        return childProcessId;
+    }
+
+    public void setChildProcessId(String childProcessId) {
+        this.childProcessId = childProcessId;
+    }
 
     @Override
     public List<CheckAttributeEntity> getAttributes() {
         return attributes;
     }
+
+    @Override
+    public void setAttributes(List<CheckAttributeEntity> attributes) {
+        this.attributes = attributes;
+    }
+
 }

@@ -1,43 +1,33 @@
 package org.kuali.student.r2.core.class1.process.service.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.class1.process.dao.CheckDao;
+import org.kuali.student.r2.core.class1.process.dao.InstructionDao;
+import org.kuali.student.r2.core.class1.process.dao.ProcessDao;
+import org.kuali.student.r2.core.class1.process.model.CheckEntity;
+import org.kuali.student.r2.core.class1.process.model.InstructionEntity;
+import org.kuali.student.r2.core.class1.process.model.ProcessEntity;
+import org.kuali.student.r2.core.process.dto.CheckInfo;
+import org.kuali.student.r2.core.process.dto.InstructionInfo;
+import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
+import org.kuali.student.r2.core.process.dto.ProcessInfo;
+import org.kuali.student.r2.core.process.service.ProcessService;
+import org.kuali.student.r2.core.state.service.StateService;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-
-import javax.jws.WebParam;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
-import org.kuali.student.r2.core.class1.process.dao.CheckDao;
-import org.kuali.student.r2.core.class1.process.dao.InstructionDao;
-import org.kuali.student.r2.core.class1.process.dao.ProcessDao;
-import org.kuali.student.r2.core.process.dto.CheckInfo;
-import org.kuali.student.r2.core.process.dto.InstructionInfo;
-import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
-import org.kuali.student.r2.core.process.dto.ProcessInfo;
-import org.kuali.student.r2.core.class1.process.model.CheckEntity;
-import org.kuali.student.r2.core.class1.process.model.InstructionEntity;
-import org.kuali.student.r2.core.class1.process.model.ProcessEntity;
-import org.kuali.student.r2.core.process.service.ProcessService;
-import org.kuali.student.r2.core.state.service.StateService;
-import org.springframework.transaction.annotation.Transactional;
 
 public class ProcessServiceImpl implements ProcessService {
 
@@ -437,9 +427,9 @@ public class ProcessServiceImpl implements ProcessService {
             if (null == process) {
                 throw new InvalidParameterException("Check processKey not valid.");
             }
-            checkEntity.setProcess(process);
+            checkEntity.setChildProcessId(process.getId());
         } else {
-            checkEntity.setProcess(null);
+            checkEntity.setChildProcessId(null);
         }
 
         checkDao.persist(checkEntity);
@@ -471,9 +461,9 @@ public class ProcessServiceImpl implements ProcessService {
             if (null == process) {
                 throw new InvalidParameterException("Check processKey not valid.");
             }
-            toUpdate.setProcess(process);
+            toUpdate.setChildProcessId(process.getId());
         } else {
-            toUpdate.setProcess(null);
+            toUpdate.setChildProcessId(null);
         }
 
         checkDao.merge(toUpdate);

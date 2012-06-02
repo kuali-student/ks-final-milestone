@@ -52,17 +52,17 @@ public class CheckInfo
     @XmlElement 
     private String agendaId;
 
-    @XmlElement 
-    private String processKey;
+    @XmlElement
+    private String rightComparisonAgendaId;
 
-    @XmlElement 
+    @XmlElement
     private String rightComparisonValue;
 
-    @XmlElement 
+    @XmlElement
     private String leftComparisonAgendaId;
 
     @XmlElement 
-    private String rightComparisonAgendaId;
+    private String processKey;
 
     @XmlAnyElement
     private List<Element> _futureElements;
