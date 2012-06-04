@@ -15,36 +15,128 @@
 
 package org.kuali.student.lum.lu.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import javax.jws.WebService;
+import javax.persistence.NoResultException;
+
 import org.apache.log4j.Logger;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.lu.dao.LuDao;
-import org.kuali.student.lum.lu.entity.*;
+import org.kuali.student.lum.lu.entity.Clu;
+import org.kuali.student.lum.lu.entity.CluAccounting;
+import org.kuali.student.lum.lu.entity.CluAccountingAttribute;
+import org.kuali.student.lum.lu.entity.CluAccreditation;
+import org.kuali.student.lum.lu.entity.CluAccreditationAttribute;
+import org.kuali.student.lum.lu.entity.CluAdminOrg;
+import org.kuali.student.lum.lu.entity.CluAdminOrgAttribute;
+import org.kuali.student.lum.lu.entity.CluAtpTypeKey;
+import org.kuali.student.lum.lu.entity.CluAttribute;
+import org.kuali.student.lum.lu.entity.CluCampusLocation;
+import org.kuali.student.lum.lu.entity.CluCluRelation;
+import org.kuali.student.lum.lu.entity.CluCluRelationAttribute;
+import org.kuali.student.lum.lu.entity.CluFee;
+import org.kuali.student.lum.lu.entity.CluIdentifier;
+import org.kuali.student.lum.lu.entity.CluInstructor;
+import org.kuali.student.lum.lu.entity.CluInstructorAttribute;
+import org.kuali.student.lum.lu.entity.CluLoRelation;
+import org.kuali.student.lum.lu.entity.CluLoRelationAttribute;
+import org.kuali.student.lum.lu.entity.CluLoRelationType;
+import org.kuali.student.lum.lu.entity.CluPublication;
+import org.kuali.student.lum.lu.entity.CluPublicationAttribute;
+import org.kuali.student.lum.lu.entity.CluPublicationType;
+import org.kuali.student.lum.lu.entity.CluPublicationVariant;
+import org.kuali.student.lum.lu.entity.CluResult;
+import org.kuali.student.lum.lu.entity.CluResultType;
+import org.kuali.student.lum.lu.entity.CluSet;
+import org.kuali.student.lum.lu.entity.CluSetAttribute;
+import org.kuali.student.lum.lu.entity.CluSetJoinVersionIndClu;
+import org.kuali.student.lum.lu.entity.CluSetType;
+import org.kuali.student.lum.lu.entity.DeliveryMethodType;
+import org.kuali.student.lum.lu.entity.InstructionalFormatType;
+import org.kuali.student.lum.lu.entity.LuCode;
+import org.kuali.student.lum.lu.entity.LuCodeAttribute;
+import org.kuali.student.lum.lu.entity.LuCodeType;
+import org.kuali.student.lum.lu.entity.LuLuRelationType;
+import org.kuali.student.lum.lu.entity.LuPublicationType;
+import org.kuali.student.lum.lu.entity.LuRichText;
+import org.kuali.student.lum.lu.entity.LuType;
+import org.kuali.student.lum.lu.entity.MembershipQuery;
+import org.kuali.student.lum.lu.entity.ResultOption;
+import org.kuali.student.lum.lu.entity.ResultUsageType;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.entity.Amount;
 import org.kuali.student.r1.common.entity.TimeAmount;
 import org.kuali.student.r1.common.entity.Version;
 import org.kuali.student.r1.common.entity.VersionEntity;
-import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchDispatcher;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r2.core.search.dto.SearchParamHelper;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.service.util.AssemblerHelper;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.lum.clu.dto.*;
+import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
+import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
+import org.kuali.student.r2.lum.clu.dto.FieldInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
+import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
-import org.kuali.student.r2.core.search.dto.SearchParamHelper;
-
-import javax.jws.WebService;
-import javax.persistence.NoResultException;
-import java.util.*;
-import java.util.Map.Entry;
 
 @WebService(endpointInterface = "org.kuali.student.r2.lum.clu.service.CluService", serviceName = "CluService", portName = "CluService", targetNamespace = "http://student.kuali.org/wsdl/clu")
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -374,7 +466,15 @@ public class LuServiceImpl implements CluService {
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(cluSetId, "cluSetId");
         CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
-        CluSetInfo cluSetInfo = R1R2ConverterUtil.convert(LuServiceAssembler.toCluSetInfo(cluSet), CluSetInfo.class);
+        org.kuali.student.r1.lum.lu.dto.CluSetInfo r1CluSetInfo = LuServiceAssembler.toCluSetInfo(cluSet);
+        CluSetInfo cluSetInfo = R1R2ConverterUtil.convert(r1CluSetInfo, CluSetInfo.class);
+        
+        //Do this manually because Dozer cannot convert this, should be removed when r1 is removed.
+        if (cluSetInfo.getMembershipQuery() != null){
+            List<SearchParamInfo> searchParms = SearchParamHelper.toSearchParamInfos(r1CluSetInfo.getMembershipQuery().getQueryParamValueList());
+            cluSetInfo.getMembershipQuery().setQueryParamValues(searchParms);
+        }
+        
         setMembershipQuerySearchResult(cluSetInfo);
         return cluSetInfo;
     }
@@ -1824,7 +1924,8 @@ public class LuServiceImpl implements CluService {
         for (SearchResultRow row : rows) {
             List<SearchResultCell> cells = row.getCells();
             for (SearchResultCell cell : cells) {
-                if (cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId") && cell.getValue() != null) {
+				if((cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId") || cell.getKey().equals("lo.resultColumn.loLuOptionalVersionIndId")) 
+						&& (cell.getValue() != null)) {
                     cluIds.add(cell.getValue());
                 }
             }
@@ -2337,6 +2438,7 @@ public class LuServiceImpl implements CluService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
 
