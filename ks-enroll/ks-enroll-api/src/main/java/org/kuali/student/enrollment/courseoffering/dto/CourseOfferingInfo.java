@@ -45,9 +45,10 @@ import org.w3c.dom.Element;
         "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds", 
         "unitsContentOwnerOrgIds",  "maximumEnrollment",
         "minimumEnrollment", "jointOfferingIds", "gradingOptionId", 
-        "registrationGradingOptionIds","creditOptionId", "waitlistLevelTypeKey",
-        "hasWaitlist", "waitlistTypeKey","campusLocations", "hasFinalExam", "isEvaluated",
-        "fundingSource", "isFeeAtActivityOffering", "isFinancialAidEligible",
+        "registrationGradingOptionIds", "creditOptionDisplay", "creditOptionId", 
+        "waitlistLevelTypeKey", "hasWaitlist", "waitlistTypeKey","campusLocations", 
+        "hasFinalExam", "isEvaluated", "fundingSource", "isFeeAtActivityOffering", 
+        "isFinancialAidEligible",
         "meta", "attributes", "_futureElements"})
 
 public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseOffering {
@@ -95,6 +96,9 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     @XmlElement
     private List<String> registrationGradingOptionIds;
+
+    @XmlElement
+    private String creditOptionDisplay;
 
     @XmlElement
     private String creditOptionId;
@@ -176,6 +180,7 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
         this.gradingOptionId =  offering.getGradingOptionId();
         this.registrationGradingOptionIds = (null != offering.getRegistrationGradingOptionIds()) ? new ArrayList<String>(offering.getRegistrationGradingOptionIds()) : null;
+        this.creditOptionDisplay = offering.getCreditOptionDisplay();
         this.creditOptionId = offering.getCreditOptionId();
 
         this.campusLocations = (null != offering.getCampusLocations()) ? new ArrayList<String>(offering.getCampusLocations()) : null;
@@ -364,6 +369,15 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     public void setRegistrationGradingOptionIds(List<String> gradingOptionIds) {
         this.registrationGradingOptionIds = registrationGradingOptionIds;
+    }
+
+    @Override
+    public String getCreditOptionDisplay() {
+        return this.creditOptionDisplay;
+    }
+
+    public void setCreditOptionDisplay(String creditOptionDisplay) {
+        this.creditOptionDisplay = creditOptionDisplay;
     }
 
     @Override

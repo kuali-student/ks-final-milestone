@@ -188,6 +188,14 @@ public interface CourseOffering extends IdNamelessEntity{
     public List<String> getRegistrationGradingOptionIds();
 
     /**
+     * A display string for the credit option.
+     * 
+     * @name Credit Option Display
+     * @readOnly
+     */
+    public String getCreditOptionDisplay();
+
+    /**
      * Type of credit of course offering. This field is initially copied from
      * the canonical course but then, depending on configuration, it may be
      * updated. TODO: figure out which of the credit options will be copied down
