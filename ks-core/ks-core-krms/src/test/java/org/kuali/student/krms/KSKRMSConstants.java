@@ -2,6 +2,7 @@ package org.kuali.student.krms;
 
 public class KSKRMSConstants {
 
+	public static final String KSNAMESPACE = "KR-RULE-TEST";
 	public static final String TERM_SPEC_CREDITS = "Credits";
 	public static final String CREDITS_DESCR = "Credits Term Specification";
 	public static final String TERM_SPEC_ORG_NUMBER = "Org Number";
