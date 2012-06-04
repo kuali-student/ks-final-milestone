@@ -20,6 +20,8 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
+import java.util.HashSet;
+
 /**
  * Lui Service Constants
  *
@@ -92,6 +94,18 @@ public class LuiServiceConstants {
         COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY,
         VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY};
 
+    // TODO: May want to do this for other groupings
+    private static HashSet<String> ACTIVITY_TYPES_HASH_SET = null;
+    public static boolean isActivityType(String possibleActivityType) {
+        if (ACTIVITY_TYPES_HASH_SET == null) {
+            // One time initialization
+            ACTIVITY_TYPES_HASH_SET = new HashSet<String>();
+            for (String aType: ALL_ACTIVITY_TYPES) {
+                ACTIVITY_TYPES_HASH_SET.add(aType);
+            }
+        }
+        return ACTIVITY_TYPES_HASH_SET.contains(possibleActivityType);
+    }
     /**
      * States
      */
@@ -156,15 +170,20 @@ public class LuiServiceConstants {
     public static final String LUI_IDENTIFIER_ACTIVE_STATE_KEY = "kuali.lui.identifier.state.active";
     public static final String LUI_IDENTIFIER_INACTIVE_STATE_KEY = "kuali.lui.identifier.state.inactive";
     public static final String[] LUI_IDENTIFIER_PROCESS_KEYS = {LUI_IDENTIFIER_ACTIVE_STATE_KEY,
-        LUI_IDENTIFIER_INACTIVE_STATE_KEY};
+        LUI_IDENTIFIER_INACTIVE_STATE_KEY
+    };
     
     /**
      *  Waitlist types?
+     *  These are values for the dynamic attribute, WAIT_LIST_TYPE_KEY_ATTR = "kuali.attribute.wait.list.type.key",
+     *  defined in CourseOfferingServiceConstants
      */
     public static final String AUTOMATIC_WAITLIST_TYPE_KEY = "kuali.waitlist.type.automatic";
     public static final String SEMIAUTOMATIC_WAITLIST_TYPE_KEY = "kuali.waitlist.type.semiautomatic";  
     public static final String MANUAL_WAITLIST_TYPE_KEY = "kuali.waitlist.type.manual";
-    
+    public static final String[] ALL_WAITLIST_TYPES = { AUTOMATIC_WAITLIST_TYPE_KEY, SEMIAUTOMATIC_WAITLIST_TYPE_KEY,
+        MANUAL_WAITLIST_TYPE_KEY
+    };
     /**
      *  Registration ordering types?
      */

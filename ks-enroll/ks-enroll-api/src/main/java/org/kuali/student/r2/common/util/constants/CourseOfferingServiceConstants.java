@@ -38,6 +38,7 @@ public class CourseOfferingServiceConstants {
 
 
     //dynamic attribute keys
+    public static final String WAIT_LIST_TYPE_KEY_ATTR = "kuali.attribute.wait.list.type.key"; // Value is in WaitlistLevel enum
     public static final String WAIT_LIST_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.wait.list.level.type.key";
     public static final String GRADE_ROSTER_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.grade.roster.level.type.key";
     public static final String FINAL_EXAM_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.final.exam.level.type";

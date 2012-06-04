@@ -287,7 +287,8 @@ public interface CourseOffering extends IdNamelessEntity{
     public String getWaitlistTypeKey();
 
     /**
-     *  Indicates the waitlist level, i.e., CourseOffering or ActivityOffering
+     *  Indicates the waitlist level, i.e., CourseOffering or ActivityOffering.
+     *  Values are in WaitListLevel enum.
      *
      * @name Waitlist Level Type Key
     */
