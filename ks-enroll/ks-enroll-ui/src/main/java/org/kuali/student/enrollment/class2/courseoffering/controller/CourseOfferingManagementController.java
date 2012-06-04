@@ -113,6 +113,18 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
     }
 
+    @RequestMapping(params = "methodToCall=loadCOs")
+    public ModelAndView loadCOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();
+        String subjectCode = theCourseOffering.getSubjectArea();
+        String termId = theForm.getTermInfo().getId();
+        theForm.setRadioSelection("subjectCode");
+        theForm.setInputCode(subjectCode);
+        getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
+        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+    }
+
     /**
      * Method used to view a CO or an AO
 
@@ -187,29 +199,6 @@ public class CourseOfferingManagementController extends UifControllerBase {
         return props;
 
     }
-
-
-
-    /*
-    private Properties _buildCOURLParameters(CourseOfferingInfo courseOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
-
-        Properties props = new Properties();
-        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put("id", courseOfferingInfo.getId());
-        props.put(UifParameters.VIEW_ID, "");
-
-//        if (StringUtils.equals(methodToCall,CalendarConstants.HC_COPY_METHOD)){
-//            props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_COPYPAGE);
-//        }else if (StringUtils.equals(methodToCall,CalendarConstants.HC_VIEW_METHOD) && readOnlyView){
-//            props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
-//        } else {
-//            props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
-//        }
-
-        return props;
-
-    }
-    */
 
     private Object _getSelectedObject(CourseOfferingManagementForm theForm, String actionLink){
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);

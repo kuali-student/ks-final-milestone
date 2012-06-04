@@ -48,7 +48,7 @@
     <bean id="KS-CourseOfferingManagement-CourseOfferingLinks" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean parent="Uif-LinkGroup"  p:linkSeparator="|">
                     <property name="items">
                         <list>
                             <bean parent="KS-SubmitActionLink" p:methodToCall="viewTheCO" p:actionLabel="View Details" />
@@ -57,10 +57,12 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean parent="Uif-LinkGroup" p:linkSeparator="|"  p:style="float:right">
                     <property name="items">
                         <list>
+                            <bean parent="KS-SubmitActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="Previous" />
                             <bean parent="KS-SubmitActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" />
+                            <bean parent="KS-SubmitActionLink" p:methodToCall="loadNextCO" p:actionLabel="Next" />
                         </list>
                     </property>
                 </bean>
@@ -102,9 +104,9 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-SubmitActionLink" p:methodToCall="copyToCreateANewAO" p:actionLabel="Copy  " />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View  " />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="copyToCreateANewAO" p:actionLabel="Copy" />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                 <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete this activity offering?')" p:methodToCall="delete" p:actionLabel="Delete" />
             </list>
         </property>
