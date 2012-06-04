@@ -15,8 +15,22 @@ import org.kuali.rice.krms.api.engine.ExecutionFlag;
 import org.kuali.rice.krms.api.engine.ExecutionOptions;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.context.ContextDefinition;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
+import org.kuali.rice.krms.framework.engine.Agenda;
+import org.kuali.rice.krms.framework.engine.AgendaTree;
+import org.kuali.rice.krms.framework.engine.BasicAgenda;
+import org.kuali.rice.krms.framework.engine.BasicAgendaTree;
+import org.kuali.rice.krms.impl.repository.AgendaBoService;
+import org.kuali.rice.krms.impl.repository.ContextBoService;
+import org.kuali.rice.krms.impl.repository.FunctionBoServiceImpl;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.rice.krms.impl.repository.RuleBoService;
+import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.rice.krms.test.KRMSTestCase;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -25,7 +39,27 @@ import static org.junit.Assert.assertTrue;
 public class ExecuteAgendaTest extends KRMSTestCase {
 
 	private RulesEvaluationUtil rulesEvaluationUtil;
+	protected ContextBoService contextRepository;
+	protected KrmsTypeRepositoryService krmsTypeRepository;
+	private AgendaBoService agendaBoService;
+	private RuleBoService ruleBoService;
+	private FunctionBoServiceImpl functionBoService;
+	private TermBoService termBoService;
+	
+	
+	@Before
+	public void setup() {
+		getLoadApplicationLifecycle();
+		termBoService = KrmsRepositoryServiceLocator.getTermBoService();
+		agendaBoService = KrmsRepositoryServiceLocator.getAgendaBoService();
+		contextRepository = KrmsRepositoryServiceLocator.getContextBoService();
+		ruleBoService = KrmsRepositoryServiceLocator.getRuleBoService();
+		krmsTypeRepository = KrmsRepositoryServiceLocator
+				.getKrmsTypeRepositoryService();
+		functionBoService = KrmsRepositoryServiceLocator
+				.getBean("functionRepositoryService");
 
+	}
 	private EngineResults engineExecute(String contextName, String termName) {
 		Map<String, String> contextQualifiers = new HashMap<String, String>();
 		contextQualifiers.put("name", contextName);
@@ -55,47 +89,47 @@ public class ExecuteAgendaTest extends KRMSTestCase {
 				ToStringStyle.MULTI_LINE_STYLE));
 	}
 
-//	public void testKrms(
-//			String studentId, String courseOfferingId, ContextInfo context)
-//			throws InvalidParameterException, MissingParameterException,
-//			OperationFailedException, PermissionDeniedException {
-//
-//		CourseOfferingInfo courseOffering = null;
-//		try {
-//			courseOffering = courseOfferingService.getCourseOffering(
-//					courseOfferingId, context);
-//		} catch (DoesNotExistException e) {
-//			throw new InvalidParameterException(
-//					"Invalid courseOfferingId, no course offering found with id of: "
-//							+ courseOfferingId);
-//		}
-//
-//		List<StatementTreeViewInfo> statements;
-//
-//		try {
-//			// TODO fill in nlUsageType and language parameters once the
-//			// implementation actually uses them
-//			statements = courseService.getCourseStatements(
-//					courseOffering.getCourseId(), null, null);
-//		} catch (Exception e) {
-//			throw new OperationFailedException(e.getMessage(), e);
-//		}
-//
+	
+	private AgendaDefinition getKRMSAgenda(String agendaName, ContextDefinition contextDef) {
+		AgendaDefinition agendaDef = agendaBoService
+				.getAgendaByNameAndContextId(agendaName,
+						contextDef.getId());
+		return agendaDef;
+	}
+	
+	private ContextDefinition getKRMSContext(String context) {
+		return contextRepository.getContextByNameAndNamespace(
+				context, KSKRMSConstants.KSNAMESPACE);
+	}
+	
+	public void testKrms(
+			String studentId, String courseOfferingId) {
+
+		// TODO 1.  Get the agenda for the course...
+		AgendaDefinition agendaDef = getKRMSAgenda(KSKRMSConstants.AGENDA1, getKRMSContext(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY));
+		Map<String, String> qualifierMap = null;
+		if (qualifierMap == null) {
+            qualifierMap = Collections.emptyMap();
+        }
+        Agenda agenda = new BasicAgenda(qualifierMap, null);
+
+    	
+
+		// TODO 2.  Setup the executionFacts...
+        Map<String, Object> executionFacts = new HashMap<String, Object>();
+//        executionFacts.put(KSKRMSConstants.TERM_APPROVED_COURSE, studentId);
+
+        // TODO 3.  Execute the agenda...
+		EngineResults engineResults = rulesEvaluationUtil
+				.executeAgenda(agenda,
+						executionFacts);
+
 //		List<ValidationResultInfo> resultInfos = new ArrayList<ValidationResultInfo>();
 //
 //		// find and process statements that the PropositionBuilder can handle
 //		for (StatementTreeViewInfo statementTree : statements) {
 //			if (PropositionBuilder.TRANSLATABLE_STATEMENT_TYPES
 //					.contains(statementTree.getType())) {
-//				PropositionBuilder.TranslationResults translationResults = null;
-//				try {
-//					translationResults = propositionBuilder.translateStatement(
-//							statementTree, null);
-//				} catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
-//					throw new OperationFailedException(
-//							"Exception thrown attempting statement translation for statement: "
-//									+ statementTree.getId(), e);
-//				}
 //
 //				Map<String, Object> executionFacts = new HashMap<String, Object>();
 //				executionFacts
@@ -146,6 +180,6 @@ public class ExecuteAgendaTest extends KRMSTestCase {
 //		}
 //
 //		return resultInfos;
-//	}
+	}
 
 }
