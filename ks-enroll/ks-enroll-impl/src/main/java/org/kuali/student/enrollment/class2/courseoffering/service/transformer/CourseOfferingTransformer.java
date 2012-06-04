@@ -36,7 +36,9 @@ public class CourseOfferingTransformer {
         co.setUnitsDeployment(lui.getUnitsDeployment());
         co.setUnitsContentOwner(lui.getUnitsContentOwner());
 
-        co.setGradingOptionIds(lui.getResultValuesGroupKeys());
+        // TODO: to copy Grading Option Id as well and this should
+        //       be filtered on type?
+        co.setRegistrationGradingOptionIds(lui.getResultValuesGroupKeys());
 
         LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
         if (identifier == null) {
@@ -122,7 +124,10 @@ public class CourseOfferingTransformer {
         lui.setUnitsDeployment(co.getUnitsDeploymentOrgIds());
         lui.setMaximumEnrollment(co.getMaximumEnrollment());
         lui.setMinimumEnrollment(co.getMinimumEnrollment());
-        lui.setResultValuesGroupKeys(co.getGradingOptionIds());
+
+        List<String> options = new ArrayList(co.getRegistrationGradingOptionIds());
+        options.add(co.getCreditOptionId());
+        lui.setResultValuesGroupKeys(options);
 
         LuiIdentifierInfo oi = lui.getOfficialIdentifier();
         if (oi == null) {
@@ -164,21 +169,14 @@ public class CourseOfferingTransformer {
         courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
         courseOfferingInfo.setUnitsContentOwner(courseInfo.getUnitsContentOwner());
         courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
-        courseOfferingInfo.setGradingOptionIds(courseInfo.getGradingOptions());
-        if (courseInfo.getCreditOptions() == null) {
-            courseOfferingInfo.setCreditOptionIds(null);
-        } else if (courseInfo.getCreditOptions().isEmpty()) {
-            courseOfferingInfo.setCreditOptionIds(null);
-        } else {
-            List<String> creditOptionIds =  new ArrayList<String>();
-            for( ResultComponentInfo creditOption: courseInfo.getCreditOptions()){
-                creditOptionIds.add(creditOption.getId());
 
-             }
-
-            courseOfferingInfo.setCreditOptionIds(creditOptionIds);
-
+        // TODO
+        // courseOfferingInfo.setGradingOptionIds(courseInfo.getGradingOptions());
+        if ((courseInfo.getCreditOptions() != null) && !courseInfo.getCreditOptions().isEmpty()) {
+            /* TODO: which one shouldbe copied ? */
+            courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getId());
         }
+
         courseOfferingInfo.setDescr(new R1ToR2CopyHelper().copyRichText(courseInfo.getDescr()));
         courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
     }

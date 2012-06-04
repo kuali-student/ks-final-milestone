@@ -39,10 +39,13 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
-        "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", "isHonorsOffering",
-        "instructors", "subjectArea", "unitsDeploymentOrgIds", "unitsContentOwnerOrgIds",  "maximumEnrollment",
-        "minimumEnrollment", "jointOfferingIds", "creditOptionIds", "gradingOptionIds", "waitlistLevelTypeKey",
+@XmlType(name = "CourseOfferingInfo", propOrder = {
+        "id", "typeKey", "stateKey", "descr", "courseId",
+        "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", 
+        "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds", 
+        "unitsContentOwnerOrgIds",  "maximumEnrollment",
+        "minimumEnrollment", "jointOfferingIds", "gradingOptionId", 
+        "registrationGradingOptionIds","creditOptionId", "waitlistLevelTypeKey",
         "hasWaitlist", "waitlistTypeKey","campusLocations", "hasFinalExam", "isEvaluated",
         "fundingSource", "isFeeAtActivityOffering", "isFinancialAidEligible",
         "meta", "attributes", "_futureElements"})
@@ -88,20 +91,23 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     private List<String> unitsContentOwnerOrgIds;
 
     @XmlElement
-    private List<String> creditOptionIds;
+    private String gradingOptionId;
 
     @XmlElement
-    private List<String> gradingOptionIds;
+    private List<String> registrationGradingOptionIds;
+
+    @XmlElement
+    private String creditOptionId;
 
     @XmlElement
     private Boolean hasWaitlist;
 
     @XmlElement
-    private String waitlistLevelTypeKey;
-
-    @XmlElement
     private String waitlistTypeKey;
 
+    @XmlElement
+    private String waitlistLevelTypeKey;
+    
     @XmlElement
     private Integer maximumEnrollment;
 
@@ -167,9 +173,11 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
         this.unitsDeploymentOrgIds = offering.getUnitsDeploymentOrgIds();
         this.unitsContentOwnerOrgIds = offering.getUnitsContentOwnerOrgIds();
-        this.creditOptionIds =offering.getCreditOptionIds();
-        this.gradingOptionIds = (null != offering.getGradingOptionIds()) ? new ArrayList<String>(
-                offering.getGradingOptionIds()) : null;
+
+        this.gradingOptionId =  offering.getGradingOptionId();
+        this.registrationGradingOptionIds = (null != offering.getRegistrationGradingOptionIds()) ? new ArrayList<String>(offering.getRegistrationGradingOptionIds()) : null;
+        this.creditOptionId = offering.getCreditOptionId();
+
         this.campusLocations = (null != offering.getCampusLocations()) ? new ArrayList<String>(offering.getCampusLocations()) : null;
 
         this.waitlistTypeKey = offering.getWaitlistTypeKey();
@@ -191,8 +199,8 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         if (offering.getDescr() != null) {
             this.descr = new RichTextInfo(offering.getDescr());
         }
-        this.isFeeAtActivityOffering = offering.getIsFeeAtActivityOffering();
 
+        this.isFeeAtActivityOffering = offering.getIsFeeAtActivityOffering();
         this.hasFinalExam = offering.getHasFinalExam();
     }
 
@@ -201,61 +209,17 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         return this.courseId;
     }
 
-
-
-    @Override
-    public String getSubjectArea() {
-        return this.subjectArea;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
-
-    @Override
-    public Boolean getIsHonorsOffering() {
-        return this.isHonorsOffering;
-    }
-
-    @Override
-    public List<String> getUnitsDeploymentOrgIds() {
-        if (null == this.unitsDeploymentOrgIds) {
-            this.unitsDeploymentOrgIds = new ArrayList<String>();
-        }
-
-        return this.unitsDeploymentOrgIds;
-    }
-
-    @Override
-    public List<String> getUnitsContentOwnerOrgIds() {
-        if (null == this.unitsContentOwnerOrgIds) {
-            this.unitsContentOwnerOrgIds = new ArrayList<String>();
-        }
-
-        return this.unitsContentOwnerOrgIds;
-    }
-
-
-    @Override
-    public String getWaitlistTypeKey() {
-        return this.waitlistTypeKey;
-    }
-
-    @Override
-    public String getWaitlistLevelTypeKey() {
-        return this.waitlistLevelTypeKey;
-    }
-
 
     @Override
     public String getTermId() {
         return this.termId;
     }
 
-    @Override
-    public String getCourseOfferingCode() {
-        return this.courseOfferingCode;
-    }
-
-    @Override
-    public String getCourseNumberSuffix() {
-        return this.courseNumberSuffix;
+    public void setTermId(String termId) {
+        this.termId = termId;
     }
 
     @Override
@@ -263,131 +227,8 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         return this.courseOfferingTitle;
     }
 
-    @Override
-    public Integer getMaximumEnrollment() {
-        return this.maximumEnrollment;
-    }
-
-    @Override
-    public Integer getMinimumEnrollment() {
-        return this.minimumEnrollment;
-    }
-
-    @Override
-    public List<String> getJointOfferingIds() {
-        if (null == this.jointOfferingIds) {
-            this.jointOfferingIds = new ArrayList<String>();
-        }
-
-        return this.jointOfferingIds;
-    }
-
-    @Override
-    public List<String> getCreditOptionIds() {
-        return this.creditOptionIds;
-    }
-
-    @Override
-    public Boolean getHasWaitlist() {
-        return this.hasWaitlist;
-    }
-
-
-    @Override
-    public String getFundingSource() {
-        return this.fundingSource;
-    }
-
-    @Override
-    public Boolean getIsFinancialAidEligible() {
-        return this.isFinancialAidEligible;
-    }
-
-    @Override
-    public List<String> getGradingOptionIds() {
-        return this.gradingOptionIds;
-    }
-
-    @Override
-    public List<OfferingInstructorInfo> getInstructors() {
-        if (instructors == null) {
-            instructors = new ArrayList<OfferingInstructorInfo> ();
-        }
-        return instructors;
-    }
-
-    public void setInstructors(List<OfferingInstructorInfo> instructors) {
-        this.instructors = instructors;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
-    }
-
-    public void setSubjectArea(String subjectArea) {
-        this.subjectArea = subjectArea;
-    }
-
-    public void setIsHonorsOffering(Boolean isHonorsOffering) {
-        this.isHonorsOffering = isHonorsOffering;
-    }
-
-    public void setUnitsDeployment(List<String> unitsDeployment) {
-        this.unitsDeploymentOrgIds = unitsDeployment;
-    }
-
-    public void setUnitsContentOwner(List<String> unitsContentOwner) {
-        this.unitsContentOwnerOrgIds = unitsContentOwner;
-    }
-
-
-
-    public void setTermId(String termId) {
-        this.termId = termId;
-    }
-
-    public void setCourseOfferingCode(String courseOfferingCode) {
-        this.courseOfferingCode = courseOfferingCode;
-    }
-
-    public void setCourseNumberSuffix(String courseNumberSuffix) {
-        this.courseNumberSuffix = courseNumberSuffix;
-    }
-
     public void setCourseOfferingTitle(String courseOfferingTitle) {
         this.courseOfferingTitle = courseOfferingTitle;
-    }
-
-    public void setMaximumEnrollment(Integer maximumEnrollment) {
-        this.maximumEnrollment = maximumEnrollment;
-    }
-
-    public void setMinimumEnrollment(Integer minimumEnrollment) {
-        this.minimumEnrollment = minimumEnrollment;
-    }
-
-    public void setJointOfferingIds(List<String> jointOfferingIds) {
-        this.jointOfferingIds = jointOfferingIds;
-    }
-
-    public void setCreditOptionIds(List<String> creditOptionIds) {
-        this.creditOptionIds = creditOptionIds;
-    }
-
-    public void setGradingOptionIds(List<String> gradingOptionIds) {
-        this.gradingOptionIds = gradingOptionIds;
-    }
-
-    public void setHasWaitlist(Boolean hasWaitlist) {
-        this.hasWaitlist = hasWaitlist;
-    }
-
-    public void setFundingSource(String fundingSource) {
-        this.fundingSource = fundingSource;
-    }
-
-    public void setIsFinancialAidEligible(Boolean isFinancialAidEligible) {
-        this.isFinancialAidEligible = isFinancialAidEligible;
     }
 
     @Override
@@ -398,11 +239,50 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     public void setDescr(RichTextInfo descr) {
         this.descr = descr;
     }
+
+    @Override
+    public String getCourseOfferingCode() {
+        return this.courseOfferingCode;
+    }
+
+    public void setCourseOfferingCode(String courseOfferingCode) {
+        this.courseOfferingCode = courseOfferingCode;
+    }
+
+    @Override
+    public String getCourseNumberSuffix() {
+        return this.courseNumberSuffix;
+    }
+
+    public void setCourseNumberSuffix(String courseNumberSuffix) {
+        this.courseNumberSuffix = courseNumberSuffix;
+    }
+
+    @Override
+    public String getSubjectArea() {
+        return this.subjectArea;
+    }
+
+    public void setSubjectArea(String subjectArea) {
+        this.subjectArea = subjectArea;
+    }
+
+    @Override
+    public Boolean getIsHonorsOffering() {
+        return this.isHonorsOffering;
+    }
+
+    public void setIsHonorsOffering(Boolean isHonorsOffering) {
+        this.isHonorsOffering = isHonorsOffering;
+    }
+
+    @Deprecated
     @Override
     public Boolean getHonorsOffering() {
         return isHonorsOffering;
     }
 
+    @Deprecated
     public void setHonorsOffering(Boolean honorsOffering) {
         isHonorsOffering = honorsOffering;
     }
@@ -417,6 +297,170 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     }
 
     @Override
+    public List<OfferingInstructorInfo> getInstructors() {
+        if (instructors == null) {
+            instructors = new ArrayList<OfferingInstructorInfo> ();
+        }
+        return instructors;
+    }
+
+    public void setInstructors(List<OfferingInstructorInfo> instructors) {
+        this.instructors = instructors;
+    }
+
+    @Override
+    public List<String> getUnitsDeploymentOrgIds() {
+        if (null == this.unitsDeploymentOrgIds) {
+            this.unitsDeploymentOrgIds = new ArrayList<String>();
+        }
+
+        return this.unitsDeploymentOrgIds;
+    }
+
+    public void setUnitsDeploymentOrgIds(List<String> unitsDeploymentOrgIds) {
+        this.unitsDeploymentOrgIds = unitsDeploymentOrgIds;
+    }
+
+    @Deprecated
+    public void setUnitsDeployment(List<String> unitsDeployment) {
+        this.unitsDeploymentOrgIds = unitsDeployment;
+    }
+
+    @Override
+    public List<String> getUnitsContentOwnerOrgIds() {
+        if (null == this.unitsContentOwnerOrgIds) {
+            this.unitsContentOwnerOrgIds = new ArrayList<String>();
+        }
+
+        return this.unitsContentOwnerOrgIds;
+    }
+
+    public void setUnitsContentOwnerOrgIds(List<String> unitsContentOwnerOrgIds) {
+        this.unitsContentOwnerOrgIds = unitsContentOwnerOrgIds;
+    }
+
+    @Deprecated
+    public void setUnitsContentOwner(List<String> unitsContentOwner) {
+        this.unitsContentOwnerOrgIds = unitsContentOwner;
+    }
+
+    @Override
+    public String getGradingOptionId() {
+        return this.gradingOptionId;
+    }
+
+    public void setGradingOptionId(String gradingOptionId) {
+        this.gradingOptionId = gradingOptionId;
+    }
+
+    @Override
+    public List<String> getRegistrationGradingOptionIds() {
+        if (registrationGradingOptionIds == null) {
+            registrationGradingOptionIds = new ArrayList<String>();
+        }
+
+        return this.registrationGradingOptionIds;
+    }
+
+    public void setRegistrationGradingOptionIds(List<String> gradingOptionIds) {
+        this.registrationGradingOptionIds = registrationGradingOptionIds;
+    }
+
+    @Override
+    public String getCreditOptionId() {
+        return this.creditOptionId;
+    }
+
+    public void setCreditOptionId(String creditOptionId) {
+        this.creditOptionId = creditOptionId;
+    }
+
+    @Override
+    public Boolean getHasWaitlist() {
+        return this.hasWaitlist;
+    }
+
+    public void setHasWaitlist(Boolean hasWaitlist) {
+        this.hasWaitlist = hasWaitlist;
+    }
+
+    @Override
+    public String getWaitlistTypeKey() {
+        return this.waitlistTypeKey;
+    }
+
+    public void setWaitlistTypeKey(String waitlistTypeKey) {
+        this.waitlistTypeKey = waitlistTypeKey;
+    }
+
+    @Override
+    public String getWaitlistLevelTypeKey() {
+        return this.waitlistLevelTypeKey;
+    }
+
+    public void setWaitlistLevelTypeKey(String waitlistLevelTypeKey) {
+        this.waitlistLevelTypeKey = waitlistLevelTypeKey;
+    }
+
+    @Override
+    public Integer getMaximumEnrollment() {
+        return this.maximumEnrollment;
+    }
+
+    public void setMaximumEnrollment(Integer maximumEnrollment) {
+        this.maximumEnrollment = maximumEnrollment;
+    }
+
+    @Override
+    public Integer getMinimumEnrollment() {
+        return this.minimumEnrollment;
+    }
+
+    public void setMinimumEnrollment(Integer minimumEnrollment) {
+        this.minimumEnrollment = minimumEnrollment;
+    }
+
+    @Override
+    public Boolean getHasFinalExam(){
+          return this.hasFinalExam;
+    }
+
+    public void setHasFinalExam(Boolean hasFinalExam) {
+        this.hasFinalExam = hasFinalExam;
+    }
+
+    @Override
+    public List<String> getJointOfferingIds() {
+        if (null == this.jointOfferingIds) {
+            this.jointOfferingIds = new ArrayList<String>();
+        }
+
+        return this.jointOfferingIds;
+    }
+
+    public void setJointOfferingIds(List<String> jointOfferingIds) {
+        this.jointOfferingIds = jointOfferingIds;
+    }
+
+    @Override
+    public String getFundingSource() {
+        return this.fundingSource;
+    }
+
+    public void setFundingSource(String fundingSource) {
+        this.fundingSource = fundingSource;
+    }
+
+    @Override
+    public Boolean getIsFinancialAidEligible() {
+        return this.isFinancialAidEligible;
+    }
+
+    public void setIsFinancialAidEligible(Boolean isFinancialAidEligible) {
+        this.isFinancialAidEligible = isFinancialAidEligible;
+    }
+
+    @Override
     public Boolean getFinancialAidEligible() {
         return isFinancialAidEligible;
     }
@@ -426,28 +470,12 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     }
 
     @Override
-    public Boolean getHasFinalExam(){
-          return this.hasFinalExam;
+    public Boolean getIsEvaluated() {
+        return isEvaluated;
     }
 
-    public void setUnitsDeploymentOrgIds(List<String> unitsDeploymentOrgIds) {
-        this.unitsDeploymentOrgIds = unitsDeploymentOrgIds;
-    }
-
-    public void setUnitsContentOwnerOrgIds(List<String> unitsContentOwnerOrgIds) {
-        this.unitsContentOwnerOrgIds = unitsContentOwnerOrgIds;
-    }
-
-    public void setWaitlistTypeKey(String waitlistTypeKey) {
-        this.waitlistTypeKey = waitlistTypeKey;
-    }
-
-    public void setWaitlistLevelTypeKey(String waitlistLevelTypeKey) {
-        this.waitlistLevelTypeKey = waitlistLevelTypeKey;
-    }
-
-    public void setHasFinalExam(Boolean hasFinalExam) {
-        this.hasFinalExam = hasFinalExam;
+    public void setEvaluated(Boolean evaluated) {
+        isEvaluated = evaluated;
     }
 
     @Override
@@ -457,15 +485,5 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     public void setFeeAtActivityOffering(Boolean feeAtActivityOffering) {
         isFeeAtActivityOffering = feeAtActivityOffering;
-    }
-
-    @Override
-    public Boolean getIsEvaluated() {
-        return isEvaluated;
-    }
-
-
-    public void setEvaluated(Boolean evaluated) {
-        isEvaluated = evaluated;
     }
 }

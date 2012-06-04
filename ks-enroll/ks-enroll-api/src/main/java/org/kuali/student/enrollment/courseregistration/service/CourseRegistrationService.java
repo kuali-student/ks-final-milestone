@@ -308,7 +308,7 @@ public interface CourseRegistrationService  {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public ActivityRegistrationInfo getActivityRegistration(@WebParam(name = "activityRegistrationId") String activityRegistrationId,
-                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws DoesNotExistException, 
                InvalidParameterException,
                MissingParameterException, 
@@ -429,7 +429,7 @@ public interface CourseRegistrationService  {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ActivityRegistrationInfo> getActivityRegistrationsByActivityOffering(@WebParam(name = "courseOfferingId") String courseOfferingId,
-                                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException,
                MissingParameterException, 
                OperationFailedException, 
@@ -454,8 +454,8 @@ public interface CourseRegistrationService  {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ActivityRegistrationInfo> getActivityRegistrationsByStudentAndActivityOffering(@WebParam(name = "studentId") String studentId,
-                                                                                         @WebParam(name = "courseOfferingId") String courseOfferingId,
-                                                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                                                                                               @WebParam(name = "courseOfferingId") String courseOfferingId,
+                                                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException,
                MissingParameterException, 
                OperationFailedException, 
@@ -480,8 +480,8 @@ public interface CourseRegistrationService  {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ActivityRegistrationInfo> getActivityRegistrationsByStudentAndTerm(@WebParam(name = "studentId") String studentId,
-                                                                               @WebParam(name = "termId") String termId,
-                                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                                                                                   @WebParam(name = "termId") String termId,
+                                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException,
                MissingParameterException, 
                OperationFailedException, 
@@ -528,7 +528,7 @@ public interface CourseRegistrationService  {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ActivityRegistrationInfo> searchForActivityRegistrations(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException,
                MissingParameterException, 
                OperationFailedException, 
@@ -1002,7 +1002,7 @@ public interface CourseRegistrationService  {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> checkStudentEligibility(@WebParam(name = "studentId") String studentId, 
-                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException,
                InvalidParameterException,
                MissingParameterException, 
