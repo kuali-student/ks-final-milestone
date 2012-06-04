@@ -7,6 +7,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
+import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -103,6 +106,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
             ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(dataObjectKeys.get("aoInfo.id"),getContextInfo());
+
+            ViewHelperUtil.getInstructorNames(info.getInstructors());
             ActivityOfferingFormObject formObject = new ActivityOfferingFormObject(info);
             document.getNewMaintainableObject().setDataObject(formObject);
             document.getOldMaintainableObject().setDataObject(formObject);
@@ -129,43 +134,36 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     public ContextInfo getContextInfo() {
         if (null == contextInfo) {
-            contextInfo = new ContextInfo();
-            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            LocaleInfo localeInfo = new LocaleInfo();
-            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-            contextInfo.setLocale(localeInfo);
+            contextInfo = ContextBuilder.loadContextInfo();
         }
+
         return contextInfo;
     }
 
     public TypeService getTypeService() {
            if(typeService == null) {
-             typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+             typeService = CourseOfferingResourceLoader.loadTypeService();
         }
         return this.typeService;
     }
 
     public StateService getStateService() {
            if(stateService == null) {
-             stateService = (StateService) GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART));
+             stateService = CourseOfferingResourceLoader.loadStateService();
         }
         return stateService;
     }
 
     protected CourseOfferingService getCourseOfferingService() {
         if (courseOfferingService == null) {
-            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, "CourseOfferingService"));
+            courseOfferingService = CourseOfferingResourceLoader.loadCourseOfferingService();
         }
         return courseOfferingService;
     }
 
     private CourseService getCourseService() {
         if(courseService == null) {
-            Object o = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "course",
-                    "CourseService"));
-            courseService = (CourseService) o;
+            courseService = CourseOfferingResourceLoader.loadCourseService();
         }
 
         return courseService;

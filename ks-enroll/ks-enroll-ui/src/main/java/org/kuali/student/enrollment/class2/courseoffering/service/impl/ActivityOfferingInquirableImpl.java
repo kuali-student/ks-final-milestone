@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -37,6 +38,7 @@ public class ActivityOfferingInquirableImpl extends InquirableImpl {
     public ActivityOfferingInfo retrieveDataObject(Map<String, String> parameters) {
         try {
             ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(parameters.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID), getContextInfo());
+            ViewHelperUtil.getInstructorNames(activityOfferingInfo.getInstructors());
             return activityOfferingInfo;
         } catch (Exception e) {
            throw new RuntimeException(e);
