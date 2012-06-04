@@ -37,8 +37,6 @@ import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
 import org.kuali.student.r1.common.assembly.transform.TransformFilter;
 import org.kuali.student.r1.common.assembly.util.IdTranslator;
 import org.kuali.student.r1.common.dto.DtoConstants;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.w3c.dom.DOMImplementation;
@@ -81,7 +79,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
     List<DocumentTypeConfiguration> docTypeConfigs;
     
     private IdTranslator idTranslator;
-
+    
     /**
      *  This removes the proposal data from incoming data and saves it to be used by the outbound filter
      */
@@ -448,8 +446,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	 * Used to set the simple doc service required by this filter
 	 * @param simpleDocService
 	 */
-	public void setSimpleDocService(WorkflowDocumentActionsService simpleDocService) {
-		this.workflowDocumentActionsService = simpleDocService;
+	public void setWorkflowDocumentActionsService(WorkflowDocumentActionsService workflowDocumentActionsService) {
+		this.workflowDocumentActionsService = workflowDocumentActionsService;
 	}
 
     public void setProposalService(ProposalService proposalService) {

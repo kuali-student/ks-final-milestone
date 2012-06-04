@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
 import org.kuali.rice.kew.api.action.ReturnPoint;
@@ -22,23 +24,17 @@ import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.DocumentUpdate;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
-import org.kuali.rice.kew.api.action.DocumentActionResult;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.rice.authorization.CollaboratorHelper;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-import java.util.*;
-import java.util.logging.Level;
 
 public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements WorkflowRpcService {
 
@@ -48,10 +44,9 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	
 	private WorkflowDocumentActionsService workflowDocumentActionsService;
     private WorkflowDocumentService workflowDocumentService;
-    private DocumentTypeService workflowDocumentTypeService;
+    private DocumentTypeService documentTypeService;
 	private IdentityService identityService;
 	private PermissionService permissionService;
-    private CollaboratorHelper collaboratorHelper;
 
     public static final String WORKFLOW_DOCUMENT_ACTION_ACKNOWLEGE = "Acknowlege";
     public static final String WORKFLOW_DOCUMENT_ACTION_APPROVE = "Approve";
@@ -232,7 +227,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                         }
                 	}
             	}
-            String docTypeName = getWorkflowDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId()).getName();
+            String docTypeName = getDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId()).getName();
             // if user can withdraw document then add withdraw button
             Map<String,String> permDetails = new LinkedHashMap<String,String>();
             permDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docTypeName);
@@ -378,7 +373,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	    try {
             if (docId != null && (!"".equals(docId.trim()))) {
                 DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(docId);
-                DocumentType docType = getWorkflowDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
+                DocumentType docType = getDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
                 Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
                 permissionDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());
                 Map<String,String> roleQuals = new LinkedHashMap<String,String>();
@@ -406,7 +401,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 		return workflowDocumentActionsService;
 	}
 
-	public void setWorkflowDocumentService(WorkflowDocumentService WorkflowDocumentService) {
+	public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
 		this.workflowDocumentService = workflowDocumentService;
 	}
 
@@ -419,16 +414,16 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	}
 
 
-    public DocumentTypeService getWorkflowDocumentTypeService() throws OperationFailedException {
-        if(workflowDocumentTypeService ==null){
-        	throw new OperationFailedException("Workflow Document Type Service is unavailable");
+    public DocumentTypeService getDocumentTypeService() throws OperationFailedException {
+        if(documentTypeService ==null){
+        	throw new OperationFailedException("Document Type Service is unavailable");
         }
 
-        return workflowDocumentTypeService;
+        return documentTypeService;
     }
 
-    public void setWorkflowDocumentTypeService(DocumentTypeService workflowDocumentTypeService) {
-        this.workflowDocumentTypeService = workflowDocumentTypeService;
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
     }
 
 	public void setIdentityService(IdentityService identityService) {
@@ -455,17 +450,4 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 		return permissionService;
 	}
 
-
-    public void setCollaboratorHelper(CollaboratorHelper collaboratorHelper) {
-        this.collaboratorHelper = collaboratorHelper;
-    }
-
-    public CollaboratorHelper getCollaboratorHelper() throws OperationFailedException {
-        if(collaboratorHelper==null) {
-            throw new OperationFailedException("Collaborator Helper not initialized");
-        }
-        return collaboratorHelper;
-    }
-
-    
 }

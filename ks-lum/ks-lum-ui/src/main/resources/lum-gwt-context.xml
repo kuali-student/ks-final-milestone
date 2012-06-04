@@ -284,6 +284,7 @@
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="identityService" ref="identityServiceClient"/>
         <property name="workflowDocumentService" ref="workflowDocumentClient"/>
+        <property name="documentTypeService" ref="documentTypeServiceClient"/>
     </bean>
 
     <bean id="CourseRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseRpcGwtServlet">
@@ -633,7 +634,7 @@
 	
     <bean id="parentProposalWorkflowFilter" class="org.kuali.student.core.assembly.transform.ProposalWorkflowFilter" abstract="true">
         <property name="workflowDocumentService" ref="workflowDocumentClient"/>
-        <property name="simpleDocService" ref="workflowDocumentActionsClient"/>
+        <property name="workflowDocumentActionsService" ref="workflowDocumentActionsClient"/>
         <property name="proposalService" ref="proposalClient"/>
         <property name="metadataService" ref="metadataServiceImpl"/>
     </bean>
@@ -954,13 +955,13 @@
     <!-- TODO: RICE-R2.0 UPGRADE - change the qName when R2.0 deploys this service -->
     <bean id="workflowDocumentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.rice.kew.api.document.WorkflowDocumentService"/>
-        <property name="serviceQName" value="{http://student.kuali.org/wsdl/kew}WorkflowDocumentServiceSOAP"/>
+        <property name="serviceQName" value="{http://rice.kuali.org/kew/v2_0}workflowDocumentService"/>
     </bean>
 
     <bean id="workflowDocumentActionsClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.rice.kew.api.action.WorkflowDocumentActionsService"/>
-        <property name="serviceQName" value="{http://rice.kuali.org/kew/v2_0}workflowDocumentActionsServiceSoap"/>
+        <property name="serviceQName" value="{http://rice.kuali.org/kew/v2_0}workflowDocumentActionsService"/>
     </bean>
 
     <bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -1003,7 +1004,7 @@
 
     <bean id="documentTypeServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.rice.kew.api.doctype.DocumentTypeService"/>
-        <property name="serviceQName" value="{http://rice.kuali.org/kew/v2_0}documentTypeServiceSoap"/>
+        <property name="serviceQName" value="{http://rice.kuali.org/kew/v2_0}documentTypeService"/>
     </bean>
 
 	<!-- Export services and service to present exported file to user in browser -->
