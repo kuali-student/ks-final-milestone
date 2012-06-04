@@ -12,7 +12,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r1.common.validator.ServerDateParser;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;

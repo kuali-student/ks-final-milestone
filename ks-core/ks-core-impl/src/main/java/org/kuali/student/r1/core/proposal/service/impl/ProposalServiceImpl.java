@@ -78,7 +78,7 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#createProposal(java.lang.String, org.kuali.student.core.proposal.dto.ProposalInfo)
+     * @see org.kuali.student.r1.core.proposal.service.ProposalService#createProposal(java.lang.String, org.kuali.student.r1.core.proposal.dto.ProposalInfo)
      */
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -254,7 +254,7 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#updateProposal(java.lang.String, org.kuali.student.core.proposal.dto.ProposalInfo)
+     * @see org.kuali.student.r1.core.proposal.service.ProposalService#updateProposal(java.lang.String, org.kuali.student.r1.core.proposal.dto.ProposalInfo)
      */
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -283,7 +283,7 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#validateProposal(java.lang.String, org.kuali.student.core.proposal.dto.ProposalInfo)
+     * @see org.kuali.student.r1.core.proposal.service.ProposalService#validateProposal(java.lang.String, org.kuali.student.r1.core.proposal.dto.ProposalInfo)
      */
     @Override
     public List<ValidationResultInfo> validateProposal(String validationType, ProposalInfo proposalInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
