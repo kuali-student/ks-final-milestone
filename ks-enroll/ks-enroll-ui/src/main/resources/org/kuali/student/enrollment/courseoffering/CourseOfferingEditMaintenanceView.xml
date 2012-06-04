@@ -75,17 +75,12 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="coInfo.gradingOptionIds" p:label="TEST" p:width="auto"
-                                  p:instructionalText="RadioGroupControl test" p:defaultValue="2">
+                            <bean parent="Uif-InputField" p:propertyName="gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:width="100pt">
                                 <property name="control">
-                                    <bean parent="Uif-VerticalRadioControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Radio 1"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Radio 2"/>
-                                            </list>
-                                        </property>
-                                    </bean>
+                                    <bean parent="Uif-VerticalRadioControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradeTypeKeyValues" p:addBlankOption="false" />
                                 </property>
                             </bean>
                         </list>
