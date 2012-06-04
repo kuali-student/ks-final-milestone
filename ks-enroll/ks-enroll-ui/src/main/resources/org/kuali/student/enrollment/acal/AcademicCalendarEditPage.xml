@@ -229,11 +229,18 @@
         <property name="headerText" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+        <property name="layoutManager">
+             <ref bean="Uif-StackedCollectionLayout-WithBoxItems"/>
+        </property>
         <property name="propertyName" value="holidayCalendarList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarInfo.name}"/>
         <property name="layoutManager.lineGroupPrototype.footer.render" value="@{#isAddLine}"/>
         <property name="layoutManager.lineGroupPrototype.header.style" value="margin-bottom:1em;"/>
+        <property name="layoutManager.subCollectionFieldGroupPrototype">
+          <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
+                p:cssClasses="uif-subCollection"/>
+        </property>
         <property name="addLineLabel.labelText" value=""/>
         <property name="layoutManager.lineGroupPrototype.header.cssClasses">
           <list merge="true">
@@ -347,16 +354,16 @@
      <property name="layoutManager.separateAddLine" value="false" />
      <property name="layoutManager.richTable.render" value="false" />
      <property name="header.style" value="margin-bottom:1em;"/>
-     <property name="header.cssClasses">
+     <!--<property name="header.cssClasses">
       <list merge="true">
         <value>ks-borderBottom1</value>
       </list>
-     </property>
-     <property name="layoutManager.cssClasses">
+     </property>-->
+     <!--<property name="layoutManager.cssClasses">
         <list merge="true">
             <value>ks-tablecollection-header-center</value>
         </list>
-     </property>
+     </property>-->
      <property name="items">
        <list>
          <bean parent="Uif-InputField" p:propertyName="holidayInfo.name">
