@@ -15,7 +15,7 @@ public interface CourseOfferingManagementViewHelperService {
      * @throws Exception
      */
     public List<TermInfo> findTermByTermCode(String termCode) throws Exception;
-    public List<CourseOfferingInfo> findCourseOfferingsByCourseOfferingCode (String termId, String courseOfferingCode, CourseOfferingManagementForm form) throws Exception;
+    public List<CourseOfferingInfo> findCourseOfferingsByTermAndCourseOfferingCode (String termId, String courseOfferingCode, CourseOfferingManagementForm form) throws Exception;
     public void loadCourseOfferingsByTermAndSubjectCode (String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception;
     public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception;
 }

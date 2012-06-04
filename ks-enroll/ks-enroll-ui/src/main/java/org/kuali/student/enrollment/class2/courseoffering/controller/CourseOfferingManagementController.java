@@ -80,7 +80,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
             //load courseOffering based on courseOfferingCode and load all associated activity offerings 
             String courseOfferingCode = form.getInputCode();
             List<CourseOfferingInfo> courseOfferingList = getViewHelperService(form).
-                                            findCourseOfferingsByCourseOfferingCode(termId, courseOfferingCode, form);
+                                       findCourseOfferingsByTermAndCourseOfferingCode(termId, courseOfferingCode, form);
             if (!courseOfferingList.isEmpty() && courseOfferingList.size() == 1 )  {
                 CourseOfferingInfo theCourseOffering= form.getCourseOfferingList().get(0);
                 getViewHelperService(form).loadActivityOfferingsByCourseOffering(theCourseOffering, form);

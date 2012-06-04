@@ -56,7 +56,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         }
     }
 
-    public List<CourseOfferingInfo> findCourseOfferingsByCourseOfferingCode (String termId, String courseOfferingCode, CourseOfferingManagementForm form) throws Exception{
+    public List<CourseOfferingInfo> findCourseOfferingsByTermAndCourseOfferingCode (String termId, String courseOfferingCode, CourseOfferingManagementForm form) throws Exception{
         List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
         //TODO: implement the proper logic
         return courseOfferings;
