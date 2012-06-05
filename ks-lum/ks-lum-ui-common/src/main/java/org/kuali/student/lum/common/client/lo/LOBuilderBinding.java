@@ -100,11 +100,11 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
                 LOPicker picker = new LOPicker(LOBuilder.getMessageGroup(), LOBuilder.getType(), LOBuilder.getState(), LOBuilder.getRepoKey(), LOBuilder.getLoListDescLength());
                 
                 LoInfoHelper loInfoHelper = new LoInfoHelper(loDisplayInfoHelper.getLoInfo());
-                RichTextHelper descriptionHelper = new RichTextHelper(loInfoHelper.getDesc());
+                RichTextHelper descriptionHelper = new RichTextHelper(loInfoHelper.getDescr());
                 picker.setLOText(descriptionHelper.getPlain());
                 List<LoCategoryInfo> categories = getCategoryList(loDisplayInfoHelper);
                 picker.setLOCategories(categories);
-                picker.setMetaInfoData(loInfoHelper.getMetaInfo());
+                picker.setMetaInfoData(loInfoHelper.getMeta());
                 OutlineNode<LOPicker> node = new OutlineNode<LOPicker>();
 
                 node.setUserObject(picker);
@@ -145,7 +145,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         String loDesc = node.getUserObject().getLOText();
         richTextHelper.setFormatted(loDesc);
         richTextHelper.setPlain(loDesc);
-        loInfoHelper.setDesc(richTextHelper.getData());
+        loInfoHelper.setDescr(richTextHelper.getData());
         // loInfo.name
         if (null == loInfoHelper.getName() || loInfoHelper.getName().length() == 0) {
             loInfoHelper.setName("SINGLE USE LO");
@@ -161,7 +161,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         loInfoHelper.setSequence(Integer.toString(sequence));
 
         // loInfo.metaInfo
-        loInfoHelper.setMetaInfo(node.getUserObject().getMetaInfoData());
+        loInfoHelper.setMeta(node.getUserObject().getMetaInfoData());
 
         loDisplayInfoDataHelper.setLoInfo(loInfoHelper.getData());
         loDisplayInfoDataHelper.setCategoryInfoList(categoriesData);

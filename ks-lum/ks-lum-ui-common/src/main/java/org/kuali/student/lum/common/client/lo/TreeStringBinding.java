@@ -35,7 +35,7 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
             Data loDisplayInfoData = property.getValue();
             LoDisplayInfoHelper loDisplayInfoHelper = new LoDisplayInfoHelper(loDisplayInfoData);
             LoInfoHelper loInfoHelper = new LoInfoHelper(loDisplayInfoHelper.getLoInfo());
-            RichTextHelper descriptionHelper = new RichTextHelper(loInfoHelper.getDesc());
+            RichTextHelper descriptionHelper = new RichTextHelper(loInfoHelper.getDescr());
             Data categoriesData = loDisplayInfoHelper.getCategoryInfoList();
             List<String> categories = new ArrayList<String>();
 

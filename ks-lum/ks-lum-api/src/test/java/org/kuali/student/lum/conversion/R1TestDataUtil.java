@@ -28,9 +28,6 @@ import org.kuali.student.r1.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r1.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.r1.lum.course.dto.CourseVariationInfo;
 import org.kuali.student.r1.lum.course.dto.FormatInfo;
-import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r1.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.r1.lum.lo.dto.LoInfo;
 import org.kuali.student.r1.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.r1.lum.lu.dto.AffiliatedOrgInfo;
@@ -50,8 +47,6 @@ import org.kuali.student.r1.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.r1.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.r1.lum.lu.dto.ResultOptionInfo;
-import org.kuali.student.r1.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.r1.lum.program.dto.ProgramVariationInfo;
 
 public class R1TestDataUtil {
 
@@ -150,70 +145,6 @@ public class R1TestDataUtil {
         return r1CluInfo;
     }
     
-    public static List<LoDisplayInfo> getLoDisplayInfoDataList() {
-        List<LoDisplayInfo> r1LoDisplayInfoList = new ArrayList<LoDisplayInfo>();
-        r1LoDisplayInfoList.add(R1TestDataUtil.getLoDisplayInfoData());
-        return r1LoDisplayInfoList;
-    }
-
-    public static LoDisplayInfo getLoDisplayInfoData() {
-        LoDisplayInfo r1LoDisplayInfo = new LoDisplayInfo();
-        r1LoDisplayInfo.setLoCategoryInfoList(R1TestDataUtil.getLoCategoryInfoDataList());
-        r1LoDisplayInfo.setLoDisplayInfoList(R1TestDataUtil.getNestedLoDisplayInfoDataList());
-        r1LoDisplayInfo.setLoInfo(R1TestDataUtil.getLoInfoData());
-        r1LoDisplayInfo.setParentLoRelationid("R1 Parent Lo Relation Id");
-        r1LoDisplayInfo.setParentRelType("R1 Parent Rel Type");
-        return r1LoDisplayInfo;
-    }
-
-    private static List<LoDisplayInfo> getNestedLoDisplayInfoDataList() {
-        List<LoDisplayInfo> r1NestedLoDisplayInfoList = new ArrayList<LoDisplayInfo>();
-        LoDisplayInfo r1NestedLoDisplayInfo = new LoDisplayInfo();
-        r1NestedLoDisplayInfo.setLoCategoryInfoList(R1TestDataUtil.getLoCategoryInfoDataList());
-        r1NestedLoDisplayInfo.setLoDisplayInfoList(null);
-        r1NestedLoDisplayInfo.setLoInfo(R1TestDataUtil.getLoInfoData());
-        r1NestedLoDisplayInfo.setParentLoRelationid("R1 Nested Parent Lo Relation Id");
-        r1NestedLoDisplayInfo.setParentRelType("R1 Nested Parent Rel Type");
-        r1NestedLoDisplayInfoList.add(r1NestedLoDisplayInfo);
-        return r1NestedLoDisplayInfoList;
-    }
-
-    public static List<LoCategoryInfo> getLoCategoryInfoDataList() {
-        List<LoCategoryInfo> r1LoCatInfoList = new ArrayList<LoCategoryInfo>();
-        r1LoCatInfoList.add(R1TestDataUtil.getLoCategoryInfoData());
-        return r1LoCatInfoList;
-    }
-
-    public static LoCategoryInfo getLoCategoryInfoData() {
-        LoCategoryInfo r1LoCategoryInfo = new LoCategoryInfo();
-        r1LoCategoryInfo.setAttributes(R1TestDataUtil.getAttributeData());
-        r1LoCategoryInfo.setDesc(R1TestDataUtil.getRichTextInfoData());
-        r1LoCategoryInfo.setEffectiveDate(new Date());
-        r1LoCategoryInfo.setExpirationDate(new Date());
-        r1LoCategoryInfo.setId("R1 Id");
-        r1LoCategoryInfo.setLoRepository("R1 Repository");
-        r1LoCategoryInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1LoCategoryInfo.setName("R1 Name");
-        r1LoCategoryInfo.setState("R1 State");
-        r1LoCategoryInfo.setType("R1 Type");
-        return r1LoCategoryInfo;
-    }
-
-    public static LoInfo getLoInfoData() {
-        LoInfo r1LoInfo = new LoInfo();
-        r1LoInfo.setAttributes(R1TestDataUtil.getAttributeData());
-        r1LoInfo.setDesc(R1TestDataUtil.getRichTextInfoData());
-        r1LoInfo.setEffectiveDate(new Date());
-        r1LoInfo.setExpirationDate(new Date());
-        r1LoInfo.setId("R1 Id");
-        r1LoInfo.setLoRepositoryKey("R1 Repository Key");
-        r1LoInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1LoInfo.setName("R1 Name");
-        r1LoInfo.setState("R1 State");
-        r1LoInfo.setType("R1 Type");
-        return r1LoInfo;
-    }
-
     public static List<ResultValuesGroupInfo> getResultComponentInfoDataList() {
         List<ResultValuesGroupInfo> r1ResultComponentList = new ArrayList<ResultValuesGroupInfo>();
         ResultValuesGroupInfo r1ResultCompInfo = new ResultValuesGroupInfo();
@@ -646,98 +577,6 @@ public class R1TestDataUtil {
         AccreditationInfo r1AccrInfo = R1TestDataUtil.getAccreditationInfoData();
         r1AccrInfoList.add(r1AccrInfo);
         return r1AccrInfoList;
-    }
-    
-    public static CoreProgramInfo getCoreProgramInfo() {
-        CoreProgramInfo r1 = new CoreProgramInfo();
-        r1.setAttributes(R1TestDataUtil.getAttributeData());
-        r1.setCatalogDescr(R1TestDataUtil.getRichTextInfoData());
-        r1.setCatalogPublicationTargets(null);
-        //No matching R2 attribute r1.setCip2000Code("R1 Cip 2000 Code");
-        //No matching R2 attribute r1.setCip2010Code("R1 Cip 2010 Code");
-        r1.setCode("R1 Code");
-        r1.setDescr(R1TestDataUtil.getRichTextInfoData());
-        //No matching R2 attribute r1.setDiplomaTitle("R1 Diploma Title");
-        r1.setDivisionsContentOwner(null);
-        List<String> divStudentOversightList = new ArrayList<String>();
-        divStudentOversightList.add("R1 Div Student Oversight");
-        r1.setDivisionsStudentOversight(divStudentOversightList);
-        r1.setEndProgramEntryTerm("R1 End Program Entry Term");
-        r1.setEndTerm("R1 End Term");
-        //No matching R2 attribute r1.setHegisCode("R1 Hegis Code");
-        r1.setId("R1 Id");
-        r1.setLearningObjectives(R1TestDataUtil.getLoDisplayInfoDataList());
-        r1.setLongTitle("R1 Long Title");
-        List<String> programReqList = new ArrayList<String>();
-        programReqList.add("R1 Program Requirement");
-        r1.setProgramRequirements(programReqList);
-        r1.setReferenceURL("R1 Reference URL");
-        //No matching R2 attribute r1.setSelectiveEnrollmentCode("R1 Selective Enrollment Code");
-        r1.setShortTitle("R1 Short Title");
-        r1.setStartTerm("R1 Start Term");
-        r1.setState("R1 State");
-        r1.setTranscriptTitle("R1 Transcript Title");
-        r1.setType("R1 Type");
-        List<String> r1UnitContentOwnerList = new ArrayList<String>();
-        r1UnitContentOwnerList.add("R1 Unit Content Owner");
-        r1.setUnitsContentOwner(r1UnitContentOwnerList);
-        List<String> r1UnitStudentOversightList = new ArrayList<String>();
-        r1UnitStudentOversightList.add("R1 Unit Student Oversight");
-        r1.setUnitsStudentOversight(r1UnitStudentOversightList);
-        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1.setVersionInfo(R1TestDataUtil.getVersionInfoData());
-        return r1;
-    }
-
-    
-    
-    public static List<ProgramVariationInfo> getProgramVariationInfoDataList() {
-        List<ProgramVariationInfo> r1ProgVarInfoList = new ArrayList<ProgramVariationInfo>();
-        ProgramVariationInfo r1ProgVarInfo = new ProgramVariationInfo();
-        r1ProgVarInfo.setAttributes(R1TestDataUtil.getAttributeData());
-        List<String> campusLocations = new ArrayList<String>();
-        campusLocations.add("R1 Campus Location");
-        r1ProgVarInfo.setCampusLocations(campusLocations);
-        r1ProgVarInfo.setCatalogDescr(R1TestDataUtil.getRichTextInfoData());
-        r1ProgVarInfo.setCatalogPublicationTargets(null);
-        r1ProgVarInfo.setCip2000Code("R1 Cip 2000 Code");
-        r1ProgVarInfo.setCip2010Code("R1 Cip 2010 Code");
-        r1ProgVarInfo.setCode("R1 Code");
-        r1ProgVarInfo.setDescr(R1TestDataUtil.getRichTextInfoData());
-        r1ProgVarInfo.setDiplomaTitle("R1 Diploma Title");
-        r1ProgVarInfo.setDivisionsContentOwner(null);
-        r1ProgVarInfo.setDivisionsDeployment(null);
-        r1ProgVarInfo.setDivisionsFinancialControl(null);
-        r1ProgVarInfo.setDivisionsFinancialResources(null);
-        r1ProgVarInfo.setDivisionsStudentOversight(null);
-        r1ProgVarInfo.setEffectiveDate(new Date());
-        r1ProgVarInfo.setEndProgramEntryTerm("R1 End Program Entry Term");
-        r1ProgVarInfo.setEndTerm("R1 End Term");
-        r1ProgVarInfo.setHegisCode("R1 Hegis Code");
-        r1ProgVarInfo.setId("R1 Id");
-        r1ProgVarInfo.setIntensity("R1 Intensity");
-        r1ProgVarInfo.setLearningObjectives(R1TestDataUtil.getLoDisplayInfoDataList());
-        r1ProgVarInfo.setLongTitle("R1 Long Title");
-        r1ProgVarInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1ProgVarInfo.setProgramRequirements(null);
-        r1ProgVarInfo.setReferenceURL("R1 Reference URL");
-        r1ProgVarInfo.setResultOptions(null);
-        r1ProgVarInfo.setSelectiveEnrollmentCode("R1 Selective Enrollment Code");
-        r1ProgVarInfo.setShortTitle("R1 Short Title");
-        r1ProgVarInfo.setStartTerm("R1 Start Term");
-        r1ProgVarInfo.setState("R1 State");
-        r1ProgVarInfo.setStdDuration(R1TestDataUtil.getTimeAmountInfoData());
-        r1ProgVarInfo.setTranscriptTitle("R1 Transcript Title");
-        r1ProgVarInfo.setType("R1 Type");
-        r1ProgVarInfo.setUnitsContentOwner(null);
-        r1ProgVarInfo.setUnitsDeployment(null);
-        r1ProgVarInfo.setUnitsFinancialControl(null);
-        r1ProgVarInfo.setUnitsFinancialResources(null);
-        r1ProgVarInfo.setUnitsStudentOversight(null);
-        r1ProgVarInfo.setUniversityClassification("R1 University Classification");
-        r1ProgVarInfo.setVersionInfo(R1TestDataUtil.getVersionInfoData());
-        r1ProgVarInfoList.add(r1ProgVarInfo);
-        return r1ProgVarInfoList;
     }
     
     public static StatementTreeViewInfo getStatementTreeViewInfoData() {
