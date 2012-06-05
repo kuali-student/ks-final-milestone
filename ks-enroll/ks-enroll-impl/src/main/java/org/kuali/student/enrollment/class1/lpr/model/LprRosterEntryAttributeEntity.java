@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class LprRosterEntryAttributeEntity extends BaseAttributeEntity<LprRosterEntryEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private LprRosterEntryEntity owner;
 
     public LprRosterEntryAttributeEntity() {}

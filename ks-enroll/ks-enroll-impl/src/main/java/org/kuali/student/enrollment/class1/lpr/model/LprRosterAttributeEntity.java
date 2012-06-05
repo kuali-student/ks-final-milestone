@@ -14,7 +14,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 public class LprRosterAttributeEntity extends BaseAttributeEntity<LprRosterEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private LprRosterEntity owner;
 
     public LprRosterAttributeEntity () {

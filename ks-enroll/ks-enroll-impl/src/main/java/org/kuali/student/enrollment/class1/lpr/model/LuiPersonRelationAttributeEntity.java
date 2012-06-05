@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 public class LuiPersonRelationAttributeEntity extends BaseAttributeEntity<LuiPersonRelationEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private LuiPersonRelationEntity owner;
 
     public LuiPersonRelationAttributeEntity() {}

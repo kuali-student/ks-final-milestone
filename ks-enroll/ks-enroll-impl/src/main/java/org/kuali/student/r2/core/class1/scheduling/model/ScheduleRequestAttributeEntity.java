@@ -1,6 +1,6 @@
 package org.kuali.student.r2.core.class1.scheduling.model;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "KSEN_SCHED_RQST_ATTR")
-public class ScheduleRequestAttributeEntity extends BaseAttributeEntityNew<ScheduleRequestEntity> {
+public class ScheduleRequestAttributeEntity extends BaseAttributeEntity<ScheduleRequestEntity> {
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
     private ScheduleRequestEntity owner;

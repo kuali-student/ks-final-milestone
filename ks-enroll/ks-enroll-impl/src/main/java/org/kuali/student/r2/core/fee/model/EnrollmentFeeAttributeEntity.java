@@ -16,7 +16,7 @@
  */
 package org.kuali.student.r2.core.fee.model;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
@@ -31,7 +31,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "KSEN_ENROLLMENT_FEE_ATTR")
-public class EnrollmentFeeAttributeEntity extends BaseAttributeEntityNew<EnrollmentFeeEntity> {
+public class EnrollmentFeeAttributeEntity extends BaseAttributeEntity<EnrollmentFeeEntity> {
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
     private EnrollmentFeeEntity owner;

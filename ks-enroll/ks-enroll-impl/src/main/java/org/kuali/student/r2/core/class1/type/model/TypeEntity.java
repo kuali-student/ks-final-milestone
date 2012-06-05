@@ -10,19 +10,19 @@
  */
 package org.kuali.student.r2.core.class1.type.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.*;
-
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.infc.Type;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_TYPE")
@@ -32,7 +32,7 @@ import org.kuali.student.r2.core.type.infc.Type;
 @AttributeOverrides({
     @AttributeOverride(name = "id", column =
     @Column(name = "TYPE_KEY"))})
-public class TypeEntity extends MetaEntity {
+public class TypeEntity extends MetaEntity implements AttributeOwner<TypeAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;
@@ -49,7 +49,7 @@ public class TypeEntity extends MetaEntity {
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<TypeAttributeEntity> attributes;
+    private Set<TypeAttributeEntity> attributes = new HashSet<TypeAttributeEntity>();
 
     public TypeEntity() {
     }
@@ -68,7 +68,7 @@ public class TypeEntity extends MetaEntity {
         this.name = name;
     }
 
-    public List<TypeAttributeEntity> getAttributes() {
+    public Set<TypeAttributeEntity> getAttributes() {
         return attributes;
     }
 
@@ -96,7 +96,7 @@ public class TypeEntity extends MetaEntity {
         return refObjectURI;
     }
 
-    public void setAttributes(List<TypeAttributeEntity> attributes) {
+    public void setAttributes(Set<TypeAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
@@ -131,7 +131,7 @@ public class TypeEntity extends MetaEntity {
         this.setRefObjectURI(type.getRefObjectUri());
         this.setEffectiveDate(type.getEffectiveDate());
         this.setExpirationDate(type.getExpirationDate());
-        this.setAttributes(new ArrayList<TypeAttributeEntity>());
+        this.setAttributes(new HashSet<TypeAttributeEntity>());
         for (Attribute att : type.getAttributes()) {
             this.getAttributes().add(new TypeAttributeEntity(att, this));
         }

@@ -13,7 +13,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 public class LuiAffiliatedOrgAttributeEntity extends BaseAttributeEntity<LuiAffiliatedOrgEntity> {
     
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private LuiAffiliatedOrgEntity owner;
 
     public LuiAffiliatedOrgAttributeEntity () {

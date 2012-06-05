@@ -13,7 +13,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 public class ProcessAttributeEntity extends BaseAttributeEntity<ProcessEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private ProcessEntity owner;
 
     public ProcessAttributeEntity () {}

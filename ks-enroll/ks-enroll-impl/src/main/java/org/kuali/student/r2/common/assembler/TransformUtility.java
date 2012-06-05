@@ -1,7 +1,7 @@
 package org.kuali.student.r2.common.assembler;
 
-import org.kuali.student.r2.common.entity.AttributeOwnerNew;
-import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.HasAttributes;
 
@@ -25,7 +25,7 @@ public class TransformUtility {
      *
      * @return The attributes to set on the entity
      */
-    public static <A extends BaseAttributeEntityNew<O>, O extends AttributeOwnerNew<A>> Set<A>
+    public static <A extends BaseAttributeEntity<O>, O extends AttributeOwner<A>> Set<A>
         toEntityAttributes(Class<A> attributeClass, HasAttributes dto, O owner, List<Object> orphansToDelete) {
 
         Set<A> attributes = new HashSet<A>();

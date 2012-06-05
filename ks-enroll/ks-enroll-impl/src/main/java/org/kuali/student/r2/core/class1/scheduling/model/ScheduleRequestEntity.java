@@ -1,20 +1,18 @@
 package org.kuali.student.r2.core.class1.scheduling.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequest;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Version 2.0
@@ -22,7 +20,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "KSEN_SCHED_RQST")
-public class ScheduleRequestEntity extends MetaEntity {
+public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<ScheduleRequestAttributeEntity> {
 
     @Column(name = "REF_OBJECT_ID")
     private String refObjectId;
@@ -50,7 +48,7 @@ public class ScheduleRequestEntity extends MetaEntity {
     private String schedReqState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<ScheduleRequestAttributeEntity> attributes = new ArrayList<ScheduleRequestAttributeEntity>();
+    private Set<ScheduleRequestAttributeEntity> attributes = new HashSet<ScheduleRequestAttributeEntity>();
 
     public ScheduleRequestEntity() {
     }
@@ -70,7 +68,7 @@ public class ScheduleRequestEntity extends MetaEntity {
         for (ScheduleRequestComponent component : scheduleRequest.getScheduleRequestComponents()) {
             this.getScheduleRequestComponentEntities().add(new ScheduleRequestComponentEntity(component));
         }
-        this.setAttributes(new ArrayList<ScheduleRequestAttributeEntity>());
+        this.setAttributes(new HashSet<ScheduleRequestAttributeEntity>());
         if (null != scheduleRequest.getAttributes()) {
             for (Attribute att : scheduleRequest.getAttributes()) {
                 this.getAttributes().add(new ScheduleRequestAttributeEntity(att, this));
@@ -165,11 +163,11 @@ public class ScheduleRequestEntity extends MetaEntity {
         this.schedReqState = schedReqState;
     }
 
-    public List<ScheduleRequestAttributeEntity> getAttributes() {
+    public Set<ScheduleRequestAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<ScheduleRequestAttributeEntity> attributes) {
+    public void setAttributes(Set<ScheduleRequestAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 }

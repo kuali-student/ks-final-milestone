@@ -1,24 +1,23 @@
 package org.kuali.student.enrollment.class2.courseofferingset.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.infc.Soc;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
-import org.kuali.student.enrollment.courseofferingset.infc.Soc;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_SOC")
-public class SocEntity extends MetaEntity {
+public class SocEntity extends MetaEntity implements AttributeOwner<SocAttributeEntity> {
 
     @Column(name = "SOC_TYPE", nullable = false)
     private String socType;
@@ -37,7 +36,7 @@ public class SocEntity extends MetaEntity {
     @Column(name = "UNITS_CONTENT_OWNER_ID")
     private String unitsContentOwnerId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<SocAttributeEntity> attributes = new ArrayList<SocAttributeEntity>();
+    private Set<SocAttributeEntity> attributes = new HashSet<SocAttributeEntity>();
 
     public SocEntity() {
     }
@@ -62,7 +61,7 @@ public class SocEntity extends MetaEntity {
         }
         this.setSubjectArea(soc.getSubjectArea());
         this.setUnitsContentOwnerId(soc.getUnitsContentOwnerId());
-        this.setAttributes(new ArrayList<SocAttributeEntity>());
+        this.setAttributes(new HashSet<SocAttributeEntity>());
         for (Attribute att : soc.getAttributes()) {
             this.getAttributes().add(new SocAttributeEntity(att, this));
         }
@@ -93,12 +92,12 @@ public class SocEntity extends MetaEntity {
         this.socState = socState;
     }
 
-    public void setAttributes(List<SocAttributeEntity> attributes) {
+    public void setAttributes(Set<SocAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-    public List<SocAttributeEntity> getAttributes() {
+    public Set<SocAttributeEntity> getAttributes() {
         return attributes;
     }
 

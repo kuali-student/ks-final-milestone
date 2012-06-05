@@ -12,7 +12,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 @Table(name = "KSEN_LPR_TRANS_ITEM_ATTR")
 public class LprTransItemAttributeEntity extends BaseAttributeEntity<LprTransactionItemEntity> {
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private LprTransactionItemEntity owner;
 
     public LprTransItemAttributeEntity(Attribute att) {

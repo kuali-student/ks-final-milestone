@@ -1,25 +1,20 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "KSEN_LUI_IDENT")
-public class LuiIdentifierEntity extends MetaEntity {
+public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<LuiIdentifierAttributeEntity>{
 
     @Column(name = "LUI_CD")
     private String code;
@@ -40,8 +35,8 @@ public class LuiIdentifierEntity extends MetaEntity {
     @ManyToOne
     @JoinColumn(name = "LUI_ID")
     private LuiEntity lui;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LuiIdentifierAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LuiIdentifierAttributeEntity> attributes;
 
     public LuiIdentifierEntity() {
     }
@@ -61,7 +56,7 @@ public class LuiIdentifierEntity extends MetaEntity {
         this.setShortName(luiIdentifier.getShortName());
         this.setSuffixCode(luiIdentifier.getSuffixCode());
         this.setVariation(luiIdentifier.getVariation());
-        this.setAttributes(new ArrayList<LuiIdentifierAttributeEntity>());
+        this.setAttributes(new HashSet<LuiIdentifierAttributeEntity>());
         //TODO This will cause all sorts of leftovers and duplicate data
         for (Attribute att : luiIdentifier.getAttributes()) {
             LuiIdentifierAttributeEntity attEntity = new LuiIdentifierAttributeEntity(att);
@@ -155,12 +150,12 @@ public class LuiIdentifierEntity extends MetaEntity {
         this.state = state;
     }
 
-    public void setAttributes(List<LuiIdentifierAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiIdentifierAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-    public List<LuiIdentifierAttributeEntity> getAttributes() {
+    public Set<LuiIdentifierAttributeEntity> getAttributes() {
         return attributes;
 
         //This is bad, never change the collection in the getter/setter it will cause jpa problems

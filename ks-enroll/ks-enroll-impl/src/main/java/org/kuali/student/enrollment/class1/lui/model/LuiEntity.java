@@ -1,28 +1,23 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import java.util.*;
-
-import javax.persistence.*;
-
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.r2.common.assembler.TransformUtility;
-import org.kuali.student.r2.common.entity.AttributeOwnerNew;
-import org.kuali.student.r2.common.entity.BaseEntity;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
+
+import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Table(name = "KSEN_LUI")
-public class LuiEntity extends MetaEntity implements AttributeOwnerNew<LuiAttributeEntity>{
+public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;

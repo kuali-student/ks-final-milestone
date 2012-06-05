@@ -116,7 +116,7 @@ public class TestAtpDao {
         assertEquals("atpTest", atp2.getName());
         assertEquals("plain", atp2.getDescrPlain());
         assertEquals(1, atp2.getAttributes().size());
-        assertEquals("kuali.lu.type.credential.Baccalaureate", atp2.getAttributes().get(0).getValue());
+        assertEquals("kuali.lu.type.credential.Baccalaureate", atp2.getAttributes().iterator().next().getValue());
     }
 
     @Test
@@ -142,6 +142,6 @@ public class TestAtpDao {
         AtpEntity atp2 = dao.find("testAtpId2");
         assertNotNull(atp2);
         assertEquals(1, atp2.getAttributes().size());
-        assertEquals("bar", atp2.getAttributes().get(0).getValue());
+        assertEquals("bar", atp2.getAttributes().iterator().next().getValue());
     }
 }

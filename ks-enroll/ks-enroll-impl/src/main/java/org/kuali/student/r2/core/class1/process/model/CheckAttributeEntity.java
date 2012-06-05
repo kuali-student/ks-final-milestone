@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class CheckAttributeEntity extends BaseAttributeEntity<CheckEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private CheckEntity owner;
 
     public CheckAttributeEntity() {}

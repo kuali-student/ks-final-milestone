@@ -16,23 +16,16 @@
  */
 package org.kuali.student.r2.core.class1.appointment.model;
 
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.kuali.student.r2.core.appointment.infc.AppointmentSlot;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class //TODO ...
@@ -41,7 +34,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "KSEN_APPT_SLOT")
-public class AppointmentSlotEntity extends MetaEntity {
+public class AppointmentSlotEntity extends MetaEntity implements AttributeOwner<AppointmentSlotAttributeEntity> {
     // These refer to columns unique to AppointmentSlotEntity (i.e., not inherited)
     // We use AppointmentWindowEntity because ORMs recognize foreign keys not by strings, but by objects that
     // represent a row in that table.  The ORM handles looking up the foreign key.
@@ -66,7 +59,7 @@ public class AppointmentSlotEntity extends MetaEntity {
     private String apptSlotState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<AppointmentSlotAttributeEntity> attributes = new ArrayList<AppointmentSlotAttributeEntity>();
+    private Set<AppointmentSlotAttributeEntity> attributes = new HashSet<AppointmentSlotAttributeEntity>();
     // -- Note: version number, create time, create id, update time, update id should be
     // inherited via MetaEntity.  id and object id are inherited as well
 
@@ -122,11 +115,11 @@ public class AppointmentSlotEntity extends MetaEntity {
         this.apptSlotState = apptSlotState;
     }
 
-    public void setAttributes(List<AppointmentSlotAttributeEntity> attributes) {
+    public void setAttributes(Set<AppointmentSlotAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
-    public List<AppointmentSlotAttributeEntity> getAttributes() {
+    public Set<AppointmentSlotAttributeEntity> getAttributes() {
         return attributes;
     }
 
@@ -137,7 +130,7 @@ public class AppointmentSlotEntity extends MetaEntity {
         // Type are in every entity though, in this case, named to AppointmentSlot
         this.setApptSlotState(apptSlot.getStateKey());
         // Add attributes individually
-        this.setAttributes(new ArrayList<AppointmentSlotAttributeEntity>());
+        this.setAttributes(new HashSet<AppointmentSlotAttributeEntity>());
         if (null != apptSlot.getAttributes()) {
             for (Attribute att : apptSlot.getAttributes()) {
                 this.getAttributes().add(new AppointmentSlotAttributeEntity(att, this));

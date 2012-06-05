@@ -24,7 +24,7 @@ import javax.persistence.Table;
 public class ResultSourceAttributeEntity extends BaseAttributeEntity<ResultSourceEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private ResultSourceEntity owner;
 
     public ResultSourceAttributeEntity() {}
