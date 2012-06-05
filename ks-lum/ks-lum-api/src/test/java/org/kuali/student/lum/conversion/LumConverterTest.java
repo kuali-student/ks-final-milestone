@@ -206,51 +206,6 @@ public class LumConverterTest {
     }
 
     @Test
-    public void testLoLoRelationInfo() {
-        org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo r1 = new org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo();
-        r1.setEffectiveDate(new Date());
-        r1.setExpirationDate(new Date());
-        r1.setId("R1 Id");
-        r1.setLoId("R1 Id");
-        r1.setRelatedLoId("R1 Id");
-        r1.setState("R1 State");
-        r1.setType("R1 Type");
-        r1.setAttributes(R1TestDataUtil.getAttributeData());
-        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        LoLoRelationInfo r2 = R1R2ConverterUtil.convert(r1, LoLoRelationInfo.class);
-        Assert.assertEquals(r1.getEffectiveDate(), r2.getEffectiveDate());
-        Assert.assertEquals(r1.getExpirationDate(), r2.getExpirationDate());
-        Assert.assertEquals(r1.getId(), r2.getId());
-        Assert.assertEquals(r1.getLoId(), r2.getLoId());
-        Assert.assertEquals(r1.getRelatedLoId(), r2.getRelatedLoId());
-        Assert.assertEquals(r1.getState(), r2.getStateKey());
-        Assert.assertEquals(r1.getType(), r2.getTypeKey());
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-    }
-
-    @Test
-    public void testLoRepositoryInfo() {
-        org.kuali.student.r1.lum.lo.dto.LoRepositoryInfo r1 = new org.kuali.student.r1.lum.lo.dto.LoRepositoryInfo();
-        r1.setEffectiveDate(new Date());
-        r1.setExpirationDate(new Date());
-        // No matching R2 attribute r1.setId("R1 Id");
-        r1.setName("R1 Name");
-        r1.setRootLoId("R1 Id");
-        r1.setAttributes(R1TestDataUtil.getAttributeData());
-        r1.setDesc(R1TestDataUtil.getRichTextInfoData());
-        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        LoRepositoryInfo r2 = R1R2ConverterUtil.convert(r1, LoRepositoryInfo.class);
-        Assert.assertEquals(r1.getEffectiveDate(), r2.getEffectiveDate());
-        Assert.assertEquals(r1.getExpirationDate(), r2.getExpirationDate());
-        Assert.assertEquals(r1.getName(), r2.getName());
-        Assert.assertEquals(r1.getRootLoId(), r2.getRootLoId());
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getDesc().getPlain(), r2.getDescr().getPlain());
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-    }
-    
-    @Test
     public void testAcademicSubjectOrgInfo() {
         org.kuali.student.r1.lum.lu.dto.AcademicSubjectOrgInfo r1 = new org.kuali.student.r1.lum.lu.dto.AcademicSubjectOrgInfo();
         r1.setOrgId("R1 Org Id");

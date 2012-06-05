@@ -666,49 +666,7 @@
 			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
 		</field>
 	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo</class-a>
-		<class-b>org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo</class-b>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
-			<a>attributes</a><!-- This is a Map<String, String> -->
-			<b>attributes</b><!-- This is a List<AttributeInfo> -->
-			<a-hint>java.util.HashMap</a-hint>
-			<b-hint>java.util.ArrayList</b-hint>
-		</field>
-		<field>
-			<a>metaInfo</a>
-			<b get-method="getMeta" set-method="setMeta">meta</b>
-		</field>
-		<field>
-			<a>state</a>
-			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
-		</field>
-		<field>
-			<a>type</a>
-			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
-		</field>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.lum.lo.dto.LoRepositoryInfo</class-a>
-		<class-b>org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo</class-b>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
-			<a>attributes</a><!-- This is a Map<String, String> -->
-			<b>attributes</b><!-- This is a List<AttributeInfo> -->
-			<a-hint>java.util.HashMap</a-hint>
-			<b-hint>java.util.ArrayList</b-hint>
-		</field>
-		<field>
-			<a>metaInfo</a>
-			<b get-method="getMeta" set-method="setMeta">meta</b>
-		</field>
-		<field>
-			<a>desc</a>
-			<b set-method="setDescr" get-method="getDescr">descr</b>
-		</field>
-	</mapping>
-
+	
 	<!-- org.kuali.student.r*.lum.program.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.program.dto.CoreProgramInfo
