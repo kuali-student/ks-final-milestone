@@ -8,6 +8,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -181,6 +182,31 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
     }
 
+    /**
+     * Method used to search and set a valid termInfo based on termCode
+     */
+    @RequestMapping(params = "methodToCall=view")
+    public ModelAndView view(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Properties urlParameters;
+        String controllerPath;
+        Object selectedObject = _getSelectedObject(theForm, "view");
+
+        if(selectedObject instanceof CourseOfferingInfo){
+            urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"maintenanceEdit",true,getContextInfo());
+            controllerPath = "maintenance";
+        }
+        else if(selectedObject instanceof ActivityOfferingInfo) {
+            urlParameters = _buildAOURLParameters((ActivityOfferingInfo)selectedObject,"maintenanceEdit",true,getContextInfo());
+            controllerPath ="maintenance";
+        } else {
+            throw new RuntimeException("Invalid type. Does not support for now");
+        }
+
+        return super.performRedirect(theForm,controllerPath, urlParameters);
+    }
+
     private Properties _buildCOURLParameters(CourseOfferingInfo courseOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
 
         Properties props = new Properties();
@@ -198,7 +224,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("aoInfo.id", activityOfferingInfo.getId());
         props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject");
-
+        props.put(CalendarConstants.READ_ONLY_VIEW,""+ true);
         return props;
 
     }
