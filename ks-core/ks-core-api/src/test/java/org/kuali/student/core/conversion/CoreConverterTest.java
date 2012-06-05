@@ -137,20 +137,6 @@ public class CoreConverterTest {
         Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
     
-    /*@Test
-    public void testEnumerationInfo() {
-        org.kuali.student.r1.core.enumerationmanagement.dto.EnumerationInfo r1 = new org.kuali.student.r1.core.enumerationmanagement.dto.EnumerationInfo();
-        r1.setAttributes(R1TestDataUtil.getAttributeData());
-        List<String> r1ContextDescriptors = new ArrayList<String>();
-        r1ContextDescriptors.add("R1 Context Descriptor");
-        r1.setContextDescriptors(r1ContextDescriptors);
-        r1.setDescr("R1 Descr");
-        EnumerationInfo r2 = R1R2ConverterUtil.convert(r1, EnumerationInfo.class);
-        Assert.assertEquals(r1.getAttributes().get("R1-Key"), r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getContextDescriptors().get(0), r2.getContextDescriptors().get(0));
-        Assert.assertEquals(r1.getDescr(), r2.getDescr().getPlain());
-    }*/
-    
     @Test
     public void testOrgCodeInfo() {
         org.kuali.student.r1.core.organization.dto.OrgCodeInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgCodeInfo();
@@ -163,30 +149,6 @@ public class CoreConverterTest {
         Assert.assertEquals("R1 Meta Info Version Id", r2.getMeta().getVersionInd());
     }
     
-    /*@Test
-    public void testOrgHierarchyInfo() {
-        org.kuali.student.r1.core.organization.dto.OrgHierarchyInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgHierarchyInfo();
-        r1.setAttributes(R1TestDataUtil.getAttributeData());
-        r1.setDescr("R1 Descr");
-        OrgHierarchyInfo r2 = R1R2ConverterUtil.convert(r1, OrgHierarchyInfo.class);
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getDescr(), r2.getDescr().getPlain());
-    }*/   
-    
-    @Test
-    public void testProposalDocRelationInfo() {
-        org.kuali.student.r1.core.proposal.dto.ProposalDocRelationInfo r1 = new org.kuali.student.r1.core.proposal.dto.ProposalDocRelationInfo();
-        r1.setAttributes(R1TestDataUtil.getAttributeData());
-        r1.setDesc(R1TestDataUtil.getRichTextInfoData());
-        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1.setState("R1 State");
-        r1.setType("R1 Type");
-        ProposalDocRelationInfo r2 = R1R2ConverterUtil.convert(r1, ProposalDocRelationInfo.class);
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getState(), r2.getStateKey());
-        Assert.assertEquals(r1.getType(), r2.getTypeKey());
-    }
     
     @Test
     public void testProposalInfo() {
