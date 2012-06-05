@@ -4602,7 +4602,7 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
@@ -4794,7 +4794,7 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
@@ -4858,15 +4858,15 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_LPR_TYPE" name="FKDF4BE635A8427FA">
-            <reference foreign="TYPE_KEY" local="OWNER"/>
+            <reference foreign="TYPE_KEY" local="OWNER_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSEN_LPR" name="FKDF4BE635DC3CD520">
-            <reference foreign="ID" local="OWNER"/>
+            <reference foreign="ID" local="OWNER_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSEN_COMM_STATE" name="FKDF4BE635EA869E3D">
-            <reference foreign="ID" local="OWNER"/>
+            <reference foreign="ID" local="OWNER_ID"/>
         </foreign-key>
     </table>
     <table name="KSEN_LPR_ROSTER">
@@ -4935,7 +4935,7 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LPR_TRANS_ITEMS">
         <column name="ID" size="255" type="VARCHAR"/>
@@ -4962,7 +4962,7 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LPR_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4997,7 +4997,7 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LRC_RES_VALUE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5022,7 +5022,7 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LRC_RES_VAL_GRP">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5048,7 +5048,7 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LRC_RVGP_RV_RELTN">
         <column name="RES_VAL_GRP_ID" size="255" type="VARCHAR"/>
@@ -5093,9 +5093,9 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_LRR" name="FKSF4BE635DC3CD510">
-            <reference foreign="ID" local="OWNER"/>
+            <reference foreign="ID" local="OWNER_ID"/>
         </foreign-key>
     </table>
     <table name="KSEN_LRR_RES_SOURCE">
@@ -5117,7 +5117,7 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LRR_RES_SRC_RELTN">
         <column name="LRR_ID" size="255" type="VARCHAR"/>
@@ -5463,7 +5463,7 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
