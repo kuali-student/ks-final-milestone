@@ -328,12 +328,19 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
 	
 	@Override
-	public String getDataIdFromWorkflowId(String workflowId) throws OperationFailedException {
-        String username = SecurityUtils.getCurrentUserId();
-        Document docResponse = getWorkflowDocumentService().getDocument(workflowId);
+    public String getDataIdFromWorkflowId(String workflowId) throws OperationFailedException {
+        try
+        {
+            String username = SecurityUtils.getCurrentUserId();
+            Document docResponse = getWorkflowDocumentService().getDocument(workflowId);
 
-        return docResponse.getApplicationDocumentId();
-	}
+            return docResponse.getApplicationDocumentId();
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
 	@Override
 	public List<String> getWorkflowNodes(String workflowId)
@@ -358,15 +365,23 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
 
 	@Override
-    public Boolean isAuthorizedAddReviewer(String docId) throws OperationFailedException{
-		if (docId != null && (!"".equals(docId.trim()))) {
-			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
-			Map<String,String> roleQuals = new LinkedHashMap<String,String>();
-			roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
-			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(SecurityUtils.getCurrentUserId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
-					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
-		}
-		return Boolean.FALSE;
+    public Boolean isAuthorizedAddReviewer(String docId) throws OperationFailedException {
+        try
+        {
+            if (docId != null && (!"".equals(docId.trim()))) {
+                Map<String, String> permissionDetails = new LinkedHashMap<String, String>();
+                Map<String, String> roleQuals = new LinkedHashMap<String, String>();
+                roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER, docId);
+                return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(SecurityUtils.getCurrentUserId(),
+                        PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(),
+                        PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
+            }
+            return Boolean.FALSE;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
     }
 
 	public Boolean isAuthorizedRemoveReviewers(String docId) throws OperationFailedException {

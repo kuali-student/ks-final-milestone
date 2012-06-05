@@ -54,66 +54,103 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 
     @Override
     public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws Exception {
-        List<StatementTreeViewInfo> rules = courseService.getCourseStatements(courseId, nlUsageTypeKey, language, ContextUtils.getContextInfo());
-        if (rules != null) {
-        	for (StatementTreeViewInfo rule : rules) {
-        		setReqCompNL(rule, ContextUtils.getContextInfo());
-        	}
+        try
+        {
+            List<StatementTreeViewInfo> rules = courseService.getCourseStatements(courseId, nlUsageTypeKey, language,
+                    ContextUtils.getContextInfo());
+            if (rules != null) {
+                for (StatementTreeViewInfo rule : rules) {
+                    setReqCompNL(rule, ContextUtils.getContextInfo());
+                }
+            }
+            return rules;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
-        return rules;
     }
     
     @Override
     public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states,
-                                                                        Map<Integer, StatementTreeViewInfo> rules) throws Exception {
+            Map<Integer, StatementTreeViewInfo> rules) throws Exception {
+        try
+        {
+            Map<Integer, StatementTreeViewInfo> storedRules = new HashMap<Integer, StatementTreeViewInfo>();
 
-        Map<Integer, StatementTreeViewInfo> storedRules = new HashMap<Integer, StatementTreeViewInfo>();
-
-        for (Integer key : rules.keySet()) {
-            StatementTreeViewInfo rule = rules.get(key);
-            switch (states.get(key)) {
-                case STORED:
-                    //rule was not changed so continue
-                    storedRules.put(key, null);
-                    break;
-                case ADDED:
-                    storedRules.put(key, createCourseStatement(courseId, courseState, rule));
-                    break;
-                case EDITED:
-                    storedRules.put(key, updateCourseStatement(courseId, courseState, rule));
-                    break;
-                case DELETED:
-                    storedRules.put(key, null);
-                    deleteCourseStatement(courseId, rule);
-                    break;
-                default:
-                    break;
+            for (Integer key : rules.keySet()) {
+                StatementTreeViewInfo rule = rules.get(key);
+                switch (states.get(key)) {
+                    case STORED:
+                        //rule was not changed so continue
+                        storedRules.put(key, null);
+                        break;
+                    case ADDED:
+                        storedRules.put(key, createCourseStatement(courseId, courseState, rule));
+                        break;
+                    case EDITED:
+                        storedRules.put(key, updateCourseStatement(courseId, courseState, rule));
+                        break;
+                    case DELETED:
+                        storedRules.put(key, null);
+                        deleteCourseStatement(courseId, rule);
+                        break;
+                    default:
+                        break;
+                }
             }
+            return storedRules;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
-        return storedRules;
     }
 
     @Override
     public StatementTreeViewInfo createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-    	StatementUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
-    	CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
-        StatementTreeViewInfo rule = courseService.createCourseStatement(courseId, statementTreeViewInfo, ContextUtils.getContextInfo());
-        setReqCompNL(rule, ContextUtils.getContextInfo());
-        return rule;
+        try
+        {
+            StatementUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
+            CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
+            StatementTreeViewInfo rule = courseService.createCourseStatement(courseId, statementTreeViewInfo,
+                    ContextUtils.getContextInfo());
+            setReqCompNL(rule, ContextUtils.getContextInfo());
+            return rule;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
     public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-        return courseService.deleteCourseStatement(courseId, statementTreeViewInfo, ContextUtils.getContextInfo());
+        try
+        {
+            return courseService.deleteCourseStatement(courseId, statementTreeViewInfo, ContextUtils.getContextInfo());
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
     public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-    	StatementUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
-    	CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
-        StatementTreeViewInfo rule = courseService.updateCourseStatement(courseId, null ,statementTreeViewInfo, ContextUtils.getContextInfo());
-        setReqCompNL(rule, ContextUtils.getContextInfo());
-        return rule;
+        try
+        {
+            StatementUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
+            CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
+            StatementTreeViewInfo rule = courseService.updateCourseStatement(courseId, null, statementTreeViewInfo,
+                    ContextUtils.getContextInfo());
+            setReqCompNL(rule, ContextUtils.getContextInfo());
+            return rule;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
     }
 
 	@Override
@@ -135,7 +172,14 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 	
 	@Override
     public StatusInfo changeState(String courseId, String newState, String prevEndTerm) throws Exception {
-    	return stateChangeService.changeState(courseId, newState, prevEndTerm, ContextUtils.getContextInfo());
+        try
+        {
+            return stateChangeService.changeState(courseId, newState, prevEndTerm, ContextUtils.getContextInfo());
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
     }
 	
 	/**
@@ -145,20 +189,27 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
      * <p>
      */
     public Boolean isAnyOtherRetireProposalsInWorkflow(String courseCluId) throws Exception{
+        try
+        {
             // Fill the request with the key to identify the search
             SearchRequest request = new SearchRequest("proposal.search.countForProposals");
-            
+
             // Add search parms.  In this case, we will use the cluId of the course
             // we are trying to retire
             request.addParam("proposal.queryParam.cluId", courseCluId);
-            
+
             // Perform search and get the result
-            SearchResult result = proposalService.search(request);          
+            SearchResult result = proposalService.search(request);
             String resultString = result.getRows().get(0).getCells().get(0).getValue();
-            
+
             // If there are no retire proposals enroute or in saved status/
             // return false, else return true
             return !"0".equals(resultString);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
     }
 
     private void setReqCompNL(StatementTreeViewInfo tree,ContextInfo contextInfo) throws Exception {
@@ -184,20 +235,27 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     @Override
 	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
     	//Perform a search to see if there are any new versions of the course that are approved, draft, etc.
-    	//We don't want to version if there are
-    	SearchRequest request = new SearchRequest("lu.search.isVersionable");
-    	request.addParam("lu.queryParam.versionIndId", versionIndId);
-    	request.addParam("lu.queryParam.sequenceNumber", versionSequenceNumber.toString());
-    	List<String> states = new ArrayList<String>();
-    	states.add("Approved");
-    	states.add("Active");
-    	states.add("Draft");
-    	states.add("Superseded");
-    	request.addParam("lu.queryParam.luOptionalState", states);
-    	SearchResult result = cluService.search(request);
-    	
-    	String resultString = result.getRows().get(0).getCells().get(0).getValue();
-    	return "0".equals(resultString);
+        //We don't want to version if there are
+        try
+        {
+            SearchRequest request = new SearchRequest("lu.search.isVersionable");
+            request.addParam("lu.queryParam.versionIndId", versionIndId);
+            request.addParam("lu.queryParam.sequenceNumber", versionSequenceNumber.toString());
+            List<String> states = new ArrayList<String>();
+            states.add("Approved");
+            states.add("Active");
+            states.add("Draft");
+            states.add("Superseded");
+            request.addParam("lu.queryParam.luOptionalState", states);
+            SearchResult result = cluService.search(request);
+
+            String resultString = result.getRows().get(0).getCells().get(0).getValue();
+            return "0".equals(resultString);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
 	}
     
     public void setCourseService(CourseService courseService) {

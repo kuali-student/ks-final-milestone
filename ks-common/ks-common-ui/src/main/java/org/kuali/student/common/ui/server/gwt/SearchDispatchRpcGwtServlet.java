@@ -62,41 +62,56 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
      */
     @Override
     public SearchResult search(SearchRequest searchRequest) {
-        SearchResult searchResult = searchDispatcher.dispatchSearch(searchRequest);
-        List<SearchParam> params  = searchRequest.getParams();
-        if(params != null && params.size() > 0){
-            SearchParam firstParam = params.get(0);
-            if(firstParam.getKey().equals("lu.queryParam.cluVersionIndId")){//FIXME can this special case be handled after this call?
-                doIdTranslation(searchResult);
+        try
+        {
+            SearchResult searchResult = searchDispatcher.dispatchSearch(searchRequest);
+            List<SearchParam> params = searchRequest.getParams();
+            if (params != null && params.size() > 0) {
+                SearchParam firstParam = params.get(0);
+                if (firstParam.getKey().equals("lu.queryParam.cluVersionIndId")) {//FIXME can this special case be handled after this call?
+                    doIdTranslation(searchResult);
+                }
             }
+            return searchResult;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
-        return searchResult;
     }
 
     @Override
     public SearchResult cachingSearch(SearchRequest searchRequest) {
-    	String cacheKey = searchRequest.toString();
-    	if(cachingEnabled){
-    		
-    		//Get From Cache
-    		MaxAgeSoftReference<SearchResult> ref = searchCache.get(cacheKey);
-    		if ( ref != null ) {
-    			SearchResult cachedSearchResult = ref.get();
-    			if(cachedSearchResult!=null){
-    				return cachedSearchResult;
-    			}
-    		}
-		}
+        try
+        {
+            String cacheKey = searchRequest.toString();
+            if (cachingEnabled) {
 
-    	//Perform the actual Search
-    	SearchResult searchResult = search(searchRequest);
-        
-    	if(cachingEnabled){
-    		//Store to cache
-    		searchCache.put(cacheKey, new MaxAgeSoftReference<SearchResult>( searchCacheMaxAgeSeconds, searchResult) );
-    	}
-    	
-        return searchResult;
+                //Get From Cache
+                MaxAgeSoftReference<SearchResult> ref = searchCache.get(cacheKey);
+                if (ref != null) {
+                    SearchResult cachedSearchResult = ref.get();
+                    if (cachedSearchResult != null) {
+                        return cachedSearchResult;
+                    }
+                }
+            }
+
+            //Perform the actual Search
+            SearchResult searchResult = search(searchRequest);
+
+            if (cachingEnabled) {
+                //Store to cache
+                searchCache
+                        .put(cacheKey, new MaxAgeSoftReference<SearchResult>(searchCacheMaxAgeSeconds, searchResult));
+            }
+
+            return searchResult;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
     }
 
     private void doIdTranslation(SearchResult searchResult) {

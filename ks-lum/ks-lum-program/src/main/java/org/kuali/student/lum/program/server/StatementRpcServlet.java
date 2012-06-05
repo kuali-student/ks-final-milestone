@@ -32,68 +32,124 @@ import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 
 public class StatementRpcServlet extends BaseRpcGwtServletAbstract<CluService> implements StatementRpcService {
 
-	private static final long serialVersionUID = 1L;
-	private StatementRpcService statmentDataService;
+    private static final long serialVersionUID = 1L;
+    private StatementRpcService statmentDataService;
 
-	public void setStatmentDataService(StatementRpcService statmentDataService) {
-		
-		this.statmentDataService = statmentDataService;
-	}
+    public void setStatmentDataService(StatementRpcService statmentDataService) {
 
-	@Override
-	public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(
-			String statementTypeKey) throws Exception {
-		return statmentDataService
-				.getStatementTypesForStatementTypeForCourse(statementTypeKey);
-	}
+        this.statmentDataService = statmentDataService;
+    }
 
-	@Override
-	public List<StatementTypeInfo> getStatementTypesForStatementType(
-			String statementTypeKey) throws Exception {
-		return statmentDataService
-				.getStatementTypesForStatementType(statementTypeKey);
-	}
+    @Override
+    public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(
+            String statementTypeKey) throws Exception {
+        try
+        {
+            return statmentDataService
+                    .getStatementTypesForStatementTypeForCourse(statementTypeKey);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
-	@Override
-	public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(
-			String luStatementTypeKey) throws Exception {
-		return statmentDataService
-				.getReqComponentTypesForStatementType(luStatementTypeKey);
-	}
+    @Override
+    public List<StatementTypeInfo> getStatementTypesForStatementType(
+            String statementTypeKey) throws Exception {
+        try
+        {
+            return statmentDataService
+                    .getStatementTypesForStatementType(statementTypeKey);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
-	@Override
-	public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo,
-			String nlUsageTypeKey, String language) throws Exception {
-		return statmentDataService.translateReqComponentToNL(reqComponentInfo,
-				nlUsageTypeKey, language);
-	}
+    @Override
+    public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(
+            String luStatementTypeKey) throws Exception {
+        try
+        {
+            return statmentDataService
+                    .getReqComponentTypesForStatementType(luStatementTypeKey);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
-	@Override
-	public String translateStatementTreeViewToNL(
-			StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey,
-			String language) throws Exception {
-		return statmentDataService.translateStatementTreeViewToNL(
-				statementTreeViewInfo, nlUsageTypeKey, language);
-	}
+    @Override
+    public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo,
+            String nlUsageTypeKey, String language) throws Exception {
+        try
+        {
+            return statmentDataService.translateReqComponentToNL(reqComponentInfo,
+                    nlUsageTypeKey, language);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
-	@Override
-	public List<String> translateReqComponentToNLs(
-			ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys,
-			String language) throws Exception {
-		return statmentDataService.translateReqComponentToNLs(reqComponentInfo,
-				nlUsageTypeKeys, language);
-	}
+    @Override
+    public String translateStatementTreeViewToNL(
+            StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey,
+            String language) throws Exception {
+        try
+        {
+            return statmentDataService.translateStatementTreeViewToNL(
+                    statementTreeViewInfo, nlUsageTypeKey, language);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
-	@Override
-	public CluInfo getClu(String cluId) throws Exception {
-		return statmentDataService.getClu(cluId);
-	}
+    @Override
+    public List<String> translateReqComponentToNLs(
+            ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys,
+            String language) throws Exception {
+        try
+        {
+            return statmentDataService.translateReqComponentToNLs(reqComponentInfo,
+                    nlUsageTypeKeys, language);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
-	@Override
-	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
-			String refObjectId) throws Exception {
-		return statmentDataService.getCurrentVersion(refObjectTypeURI,
-				refObjectId);
-	}
+    @Override
+    public CluInfo getClu(String cluId) throws Exception {
+        try
+        {
+            return statmentDataService.getClu(cluId);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
+
+    @Override
+    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
+            String refObjectId) throws Exception {
+        try
+        {
+            return statmentDataService.getCurrentVersion(refObjectTypeURI,
+                    refObjectId);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
 }

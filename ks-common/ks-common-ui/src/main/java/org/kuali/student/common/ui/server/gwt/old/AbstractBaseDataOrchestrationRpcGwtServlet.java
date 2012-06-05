@@ -118,35 +118,45 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
-		String user = getCurrentUser();
-		boolean result = false;
-		if (checkDocumentLevelPermissions()) {
-			if (type == null) {
-				return null;
-			}
-			String namespaceCode = type.getPermissionNamespace();
-			String permissionTemplateName = type.getPermissionTemplateName();
-			Map<String, String> roleQuals = new LinkedHashMap<String, String>();
-                        roleQuals.put (StudentIdentityConstants.DOCUMENT_TYPE_NAME, getDefaultWorkflowDocumentType());
-			if (attributes != null) {
-				roleQuals.putAll(attributes);
-			}
-			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
-				LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
-				result = getPermissionService().isAuthorizedByTemplate(user, namespaceCode, permissionTemplateName, new LinkedHashMap<String,String>(), roleQuals);
-			}
-			else {
-				LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '" + permissionTemplateName + "' for user '" + user + "'");
-				return Boolean.TRUE;
-			}
-		}
-		else {
-			LOG.info("Will not check for document level permissions. Defaulting authorization to true.");
-			result = true;
-		}
-		LOG.info("Result of authorization check for user '" + user + "': " + result);
-		return Boolean.valueOf(result);
-	}
+        try
+        {
+            String user = getCurrentUser();
+            boolean result = false;
+            if (checkDocumentLevelPermissions()) {
+                if (type == null) {
+                    return null;
+                }
+                String namespaceCode = type.getPermissionNamespace();
+                String permissionTemplateName = type.getPermissionTemplateName();
+                Map<String, String> roleQuals = new LinkedHashMap<String, String>();
+                roleQuals.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, getDefaultWorkflowDocumentType());
+                if (attributes != null) {
+                    roleQuals.putAll(attributes);
+                }
+                if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
+                    LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '"
+                            + user + "'");
+                    result = getPermissionService().isAuthorizedByTemplate(user, namespaceCode, permissionTemplateName,
+                            new LinkedHashMap<String, String>(), roleQuals);
+                }
+                else {
+                    LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '"
+                            + permissionTemplateName + "' for user '" + user + "'");
+                    return Boolean.TRUE;
+                }
+            }
+            else {
+                LOG.info("Will not check for document level permissions. Defaulting authorization to true.");
+                result = true;
+            }
+            LOG.info("Result of authorization check for user '" + user + "': " + result);
+            return Boolean.valueOf(result);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
 	protected abstract String deriveAppIdFromData(Data data);
 	protected abstract String deriveDocContentFromData(Data data);

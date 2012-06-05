@@ -36,15 +36,30 @@ public class MetadataRpcGwtServlet extends RemoteServiceServlet implements Metad
     }
 
     public List<Metadata> getMetadataList(String objectKey, List<String> types, String state) {
+      try
+      {
         List<Metadata> metadataList = new ArrayList<Metadata>();
         for (String type : types) {
             metadataList.add(serviceImpl.getMetadata(objectKey, type, state));
         }
         return metadataList;
+      }
+      catch(Exception ex){
+          // Log exception 
+          ex.printStackTrace();
+          throw new RuntimeException(ex);
+      }
     }
 
     public Metadata getMetadataList(String objectKey, String state) {
-        return serviceImpl.getMetadata(objectKey, state);                
+        try
+        {
+            return serviceImpl.getMetadata(objectKey, state);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
     }
     
     public void setServiceImpl(MetadataServiceImpl serviceImpl) {

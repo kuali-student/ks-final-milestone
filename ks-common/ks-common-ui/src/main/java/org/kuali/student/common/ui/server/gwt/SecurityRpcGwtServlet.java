@@ -59,68 +59,95 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
     }
 
 	@Override
-	public HashMap<String, Boolean> getScreenPermissions(ArrayList<String> screens) throws OperationFailedException {
-	    HashMap<String,Boolean> screenPermissions = new HashMap<String,Boolean>();
-        for (String screenName:screens){
-            boolean hasAccess = hasScreenPermission(screenName);
-            screenPermissions.put(screenName, hasAccess);
+    public HashMap<String, Boolean> getScreenPermissions(ArrayList<String> screens) throws OperationFailedException {
+        HashMap<String, Boolean> screenPermissions = new HashMap<String, Boolean>();
+        try
+        {
+            for (String screenName : screens) {
+                boolean hasAccess = hasScreenPermission(screenName);
+                screenPermissions.put(screenName, hasAccess);
+            }
+
+            return screenPermissions;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
-        
-        return screenPermissions;
-	}
+    }
 	 
 	@Override
-	public HashMap<String, Boolean> getPermissions(ArrayList<String> permissionNames) throws OperationFailedException{
-		String principalId = SecurityUtils.getCurrentPrincipalId();
-		
-		LOG.debug("Retreiving permissions for permission name: " + permissionNames + " for " + principalId);
-		
-		//FIXME: Is there a way to retrieve multiple permissions at once instead of calling isAuthorized multiple times?
-		Map<String, String> permDetails = new LinkedHashMap<String, String>();
-		HashMap<String,Boolean> permissions = new HashMap<String,Boolean>();
-		for (String permissionName:permissionNames){
-			boolean hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails);
-			permissions.put(permissionName, hasAccess);
-		}
-				
-		return permissions;
-	}
-	
-	@Override
-	public Boolean hasScreenPermission(String screenName) throws OperationFailedException {
-		String principalId = SecurityUtils.getCurrentPrincipalId();
-		
-		LOG.debug("Retreiving screen permission " + screenName + " for " + principalId);		
-			
-        Map<String, String> permDetails = new LinkedHashMap<String, String>();
-        permDetails.put(StudentIdentityConstants.SCREEN_COMPONENT, screenName);
-        boolean hasAccess = false;
-        hasAccess = getPermissionService().isAuthorizedByTemplate(principalId, 
-					PermissionType.USE_SCREEN.getPermissionNamespace(), 
-					PermissionType.USE_SCREEN.getPermissionTemplateName(), permDetails, 
-					permDetails);
+    public HashMap<String, Boolean> getPermissions(ArrayList<String> permissionNames) throws OperationFailedException {
+        String principalId = SecurityUtils.getCurrentPrincipalId();
+        try
+        {
+            LOG.debug("Retreiving permissions for permission name: " + permissionNames + " for " + principalId);
 
-        LOG.debug(principalId + " access : " + hasAccess);
-        
-		return hasAccess;
-	}
+            //FIXME: Is there a way to retrieve multiple permissions at once instead of calling isAuthorized multiple times?
+            Map<String, String> permDetails = new LinkedHashMap<String, String>();
+            HashMap<String, Boolean> permissions = new HashMap<String, Boolean>();
+            for (String permissionName : permissionNames) {
+                boolean hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName,
+                        permDetails);
+                permissions.put(permissionName, hasAccess);
+            }
+
+            return permissions;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
+	
+	@Override
+    public Boolean hasScreenPermission(String screenName) throws OperationFailedException {
+        try
+        {
+            String principalId = SecurityUtils.getCurrentPrincipalId();
+
+            LOG.debug("Retreiving screen permission " + screenName + " for " + principalId);
+
+            Map<String, String> permDetails = new LinkedHashMap<String, String>();
+            permDetails.put(StudentIdentityConstants.SCREEN_COMPONENT, screenName);
+            boolean hasAccess = false;
+            hasAccess = getPermissionService().isAuthorizedByTemplate(principalId,
+                    PermissionType.USE_SCREEN.getPermissionNamespace(),
+                    PermissionType.USE_SCREEN.getPermissionTemplateName(), permDetails,
+                    permDetails);
+
+            LOG.debug(principalId + " access : " + hasAccess);
+
+            return hasAccess;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 	
 	
 	@Override
-	public Boolean hasPermissionByPermissionName(String permissionName)	throws OperationFailedException {		
-		String principalId = SecurityUtils.getCurrentPrincipalId();
-		
-		LOG.debug("Retreiving permissions for permission name: " + permissionName + " for " + principalId);
-		
-		//TODO: Do we need to worry about permission details when checking by permission name
-		Map<String, String> permDetails = new LinkedHashMap<String, String>();
-		boolean hasAccess = false;
-		hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails);
-		
-		LOG.debug(principalId + " access : " + hasAccess);
-		
-		return hasAccess;
-	}
+    public Boolean hasPermissionByPermissionName(String permissionName) throws OperationFailedException {
+        String principalId = SecurityUtils.getCurrentPrincipalId();
+        try
+        {
+            LOG.debug("Retreiving permissions for permission name: " + permissionName + " for " + principalId);
+
+            //TODO: Do we need to worry about permission details when checking by permission name
+            Map<String, String> permDetails = new LinkedHashMap<String, String>();
+            boolean hasAccess = false;
+            hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails);
+
+            LOG.debug(principalId + " access : " + hasAccess);
+
+            return hasAccess;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
 	/**
 	 * This will return all permissions assigned to this user.
@@ -128,23 +155,31 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 	 * TODO: Need to determine if permission details are required.   
 	 */
 	@Override
-	public ArrayList<String> getPermissionsByType(PermissionType permissionType) throws OperationFailedException {
-		ArrayList<String> matchingPermissions = new ArrayList<String>();
-	
-		String principalId = SecurityUtils.getCurrentPrincipalId();
-		
-		LOG.debug("Retreiving permissions for template: " + permissionType.getPermissionTemplateName() + " for " + principalId);
- 
-		Map<String, String> permDetails = new LinkedHashMap<String, String>();
-		List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplate(
-				principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(), permDetails, permDetails);
+    public ArrayList<String> getPermissionsByType(PermissionType permissionType) throws OperationFailedException {
+        ArrayList<String> matchingPermissions = new ArrayList<String>();
+        try
+        {
+            String principalId = SecurityUtils.getCurrentPrincipalId();
 
-		for (Permission permissionInfo:permissions){
-			matchingPermissions.add(permissionInfo.getName());
-		}
-		
-		return matchingPermissions;
-	}
+            LOG.debug("Retreiving permissions for template: " + permissionType.getPermissionTemplateName() + " for "
+                    + principalId);
+
+            Map<String, String> permDetails = new LinkedHashMap<String, String>();
+            List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplate(
+                    principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(),
+                    permDetails, permDetails);
+
+            for (Permission permissionInfo : permissions) {
+                matchingPermissions.add(permissionInfo.getName());
+            }
+
+            return matchingPermissions;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 	
 	/**
      * This will return all permissions assigned to this user.
@@ -152,23 +187,33 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
      * TODO: Need to determine if permission details are required.   
      */
     @Override
-    public ArrayList<String> getPermissionsByType(PermissionType permissionType, HashMap<String,String> attributes) throws OperationFailedException {
+    public ArrayList<String> getPermissionsByType(PermissionType permissionType, HashMap<String, String> attributes)
+            throws OperationFailedException {
         ArrayList<String> matchingPermissions = new ArrayList<String>();
         //AttributeSet attributeSet = new AttributeSet(attributes);
-        String principalId = SecurityUtils.getCurrentPrincipalId();
-        
-        LOG.debug("Retreiving permissions for template: " + permissionType.getPermissionTemplateName() + " for " + principalId +" with details: "+attributes!=null?attributes.toString():"null");
- 
-        List<Permission> permissions = (List<Permission>)getPermissionService().getAuthorizedPermissionsByTemplate(
-                principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(), attributes, attributes);
-        
-        
-        for (Permission permissionInfo:permissions){
-            matchingPermissions.add(permissionInfo.getName());
+        try
+        {
+            String principalId = SecurityUtils.getCurrentPrincipalId();
+
+            LOG.debug("Retreiving permissions for template: " + permissionType.getPermissionTemplateName() + " for "
+                    + principalId + " with details: " + attributes != null ? attributes.toString() : "null");
+
+            List<Permission> permissions = (List<Permission>) getPermissionService()
+                    .getAuthorizedPermissionsByTemplate(
+                            principalId, permissionType.getPermissionNamespace(),
+                            permissionType.getPermissionTemplateName(), attributes, attributes);
+
+            for (Permission permissionInfo : permissions) {
+                matchingPermissions.add(permissionInfo.getName());
+            }
+
+            return matchingPermissions;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
-        
-        return matchingPermissions;
-    }	
+    }
 	
 	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
@@ -183,12 +228,19 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 	}
 
     protected Map<String, String> getQualification(String idType, String id, String docType) {
-        Map<String, String> qualification = new LinkedHashMap<String, String>();
-        qualification.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, docType);
-        qualification.put(idType, id);
-        //Put in a random number to avoid this request from being cached. Might want to do this only for specific templates to take advantage of caching
-        qualification.put("RAND_NO_CACHE", UUID.randomUUID().toString());
-        return qualification;
+        try
+        {
+            Map<String, String> qualification = new LinkedHashMap<String, String>();
+            qualification.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, docType);
+            qualification.put(idType, id);
+            //Put in a random number to avoid this request from being cached. Might want to do this only for specific templates to take advantage of caching
+            qualification.put("RAND_NO_CACHE", UUID.randomUUID().toString());
+            return qualification;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
     }
 
 }
