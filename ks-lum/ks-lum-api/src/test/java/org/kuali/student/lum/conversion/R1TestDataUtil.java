@@ -6,28 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.r2.common.dto.AmountInfo;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r1.lum.course.dto.ActivityInfo;
-import org.kuali.student.r1.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.r1.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.r1.lum.course.dto.CourseFeeInfo;
-import org.kuali.student.r1.lum.course.dto.CourseJointInfo;
-import org.kuali.student.r1.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.r1.lum.course.dto.CourseVariationInfo;
-import org.kuali.student.r1.lum.course.dto.FormatInfo;
 import org.kuali.student.r1.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.r1.lum.lu.dto.AffiliatedOrgInfo;
@@ -47,6 +30,15 @@ import org.kuali.student.r1.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.r1.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.r1.lum.lu.dto.ResultOptionInfo;
+import org.kuali.student.r2.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 public class R1TestDataUtil {
 
@@ -164,24 +156,6 @@ public class R1TestDataUtil {
         return r1ResultComponentList;
     }
 
-    public static List<CourseCrossListingInfo> getCourseCrossListingInfoDataList() {
-        List<CourseCrossListingInfo> r1ResultComponentList = new ArrayList<CourseCrossListingInfo>();
-        r1ResultComponentList.add(R1TestDataUtil.getCourseCrossListingInfoData());
-        return r1ResultComponentList;
-    }
-    
-    public static CourseCrossListingInfo getCourseCrossListingInfoData() {
-        CourseCrossListingInfo r1CourseCrossListingInfo = new CourseCrossListingInfo();
-        r1CourseCrossListingInfo.setAttributes(R1TestDataUtil.getAttributeData());
-        r1CourseCrossListingInfo.setCode("R1 Code");
-        r1CourseCrossListingInfo.setCourseNumberSuffix("R1 CourseNumber Suffix");
-        r1CourseCrossListingInfo.setDepartment("R1 Department");
-        r1CourseCrossListingInfo.setId("R1 Id");
-        r1CourseCrossListingInfo.setSubjectArea("R1 Subject Area");
-        r1CourseCrossListingInfo.setType("R1 Type");
-        return r1CourseCrossListingInfo;
-    }
-
     public static TimeAmountInfo getTimeAmountInfoData() {
         TimeAmountInfo r1TimeAmountInfo = new TimeAmountInfo();
         r1TimeAmountInfo.setAtpDurationTypeKey("R1 Atp Duration Type Key");
@@ -189,13 +163,6 @@ public class R1TestDataUtil {
         return r1TimeAmountInfo;
     }
 
-    public static CourseExpenditureInfo getCourseExpenditureInfoData() {
-        CourseExpenditureInfo r1CourseExpenditureInfo = new CourseExpenditureInfo();
-        r1CourseExpenditureInfo.setAttributes(R1TestDataUtil.getAttributeData());
-        r1CourseExpenditureInfo.setAffiliatedOrgs(R1TestDataUtil.getAffiliatedOrgInfoDataList());
-        return r1CourseExpenditureInfo;
-    }
-    
     public static AffiliatedOrgInfo getAffiliatedOrgInfoData() {
     	
         AffiliatedOrgInfo r1AffilOrgInfo = new AffiliatedOrgInfo();
@@ -214,24 +181,6 @@ public class R1TestDataUtil {
         return r1List;
     }
 
-    public static List<CourseFeeInfo> getCourseFeeInfoDataList() {
-        List<CourseFeeInfo> r1List = new ArrayList<CourseFeeInfo>();
-        r1List.add(R1TestDataUtil.getCourseFeeInfoData());
-        return r1List;
-    }
-    
-    public static CourseFeeInfo getCourseFeeInfoData() {
-        CourseFeeInfo r1CourseFeeInfo = new CourseFeeInfo();
-        r1CourseFeeInfo.setAttributes(R1TestDataUtil.getAttributeData());
-        r1CourseFeeInfo.setDescr(R1TestDataUtil.getRichTextInfoData());
-        r1CourseFeeInfo.setFeeAmounts(R1TestDataUtil.getCurrencyAmountInfoDataList());
-        r1CourseFeeInfo.setFeeType("R1 Fee Type");
-        r1CourseFeeInfo.setId("R1 Id");
-        r1CourseFeeInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1CourseFeeInfo.setRateType("R1 Rate Type");
-        return r1CourseFeeInfo;
-    }
-
     public static List<CurrencyAmountInfo> getCurrencyAmountInfoDataList() {
         List<CurrencyAmountInfo> r1List = new ArrayList<CurrencyAmountInfo>();
         CurrencyAmountInfo r1CurAmountInfo = new CurrencyAmountInfo();
@@ -241,49 +190,6 @@ public class R1TestDataUtil {
         r1CurAmountInfo.setMeta(R1TestDataUtil.getMetadataInfoData());
         r1List.add(r1CurAmountInfo);
         return r1List;
-    }
-
-    public static List<FormatInfo> getFormatInfoDataList() {
-        List<FormatInfo> r1List = new ArrayList<FormatInfo>();
-        r1List.add(R1TestDataUtil.getFormatInfoData());
-        return r1List;
-    }
-    
-    public static FormatInfo getFormatInfoData() {
-        FormatInfo r1FormatInfo = new FormatInfo();
-        r1FormatInfo.setActivities(R1TestDataUtil.getActivityInfoDataList());
-        r1FormatInfo.setAttributes(R1TestDataUtil.getAttributeData());
-        r1FormatInfo.setDuration(R1TestDataUtil.getTimeAmountInfoData());
-        r1FormatInfo.setId("R1 Id");
-        r1FormatInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1FormatInfo.setState("R1 State");
-        List<String> r1TermsOffered = new ArrayList<String>();
-        r1TermsOffered.add("R1 Terms Offered");
-        r1FormatInfo.setTermsOffered(r1TermsOffered);
-        r1FormatInfo.setType("R1 Type");
-        return r1FormatInfo;
-    }
-
-    public static List<ActivityInfo> getActivityInfoDataList() {
-        List<ActivityInfo> r1List = new ArrayList<ActivityInfo>();
-        r1List.add(R1TestDataUtil.getActivityInfoData());
-        return r1List;
-    }
-    
-    public static ActivityInfo getActivityInfoData() {
-        ActivityInfo r1ActInfo = new ActivityInfo();
-        r1ActInfo.setActivityType("R1 Activity Type");
-        r1ActInfo.setAttributes(R1TestDataUtil.getAttributeData());
-        r1ActInfo.setContactHours(R1TestDataUtil.getAmountInfoData());
-        r1ActInfo.setDefaultEnrollmentEstimate(1);
-        r1ActInfo.setDuration(R1TestDataUtil.getTimeAmountInfoData());
-        r1ActInfo.setId("R1 Id");
-        r1ActInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1ActInfo.setState("R1 State");
-        List<String> r1UnitContentOwnerList = new ArrayList<String>();
-        r1UnitContentOwnerList.add("R1 Unit Content Owner");
-        r1ActInfo.setUnitsContentOwner(r1UnitContentOwnerList);
-        return r1ActInfo;
     }
 
     public static AmountInfo getAmountInfoData() {
@@ -506,48 +412,6 @@ public class R1TestDataUtil {
     	r1ResultOptionInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
     	r1ResultOptionInfo.setResultUsageTypeKey("Result Usage TypeKey");
        return r1ResultOptionInfo;
-    }
-    
-    public static List<CourseJointInfo> getCourseJointInfoDataList() {
-        List<CourseJointInfo> r1CourseJointInfoList = new ArrayList<CourseJointInfo>();
-        CourseJointInfo r1CourseJointInfo = new CourseJointInfo();
-        r1CourseJointInfo.setCourseId("R1 Course Id");
-        r1CourseJointInfo.setCourseNumberSuffix("R1 Course Number Suffix");
-        r1CourseJointInfo.setCourseTitle("R1 Course Title");
-        r1CourseJointInfo.setRelationId("R1 Relation Id");
-        r1CourseJointInfo.setSubjectArea("R1 Subject Area");
-        r1CourseJointInfo.setType("R1 Type");
-        r1CourseJointInfoList.add(r1CourseJointInfo);
-        return r1CourseJointInfoList;
-    }
-    
-    public static List<CourseRevenueInfo> getCourseRevenueInfoDataList() {
-        List<CourseRevenueInfo> r1CourseRevenueInfoList = new ArrayList<CourseRevenueInfo>();
-        r1CourseRevenueInfoList.add(R1TestDataUtil.getCourseRevenueInfoData());
-        return r1CourseRevenueInfoList;
-    }
-    
-    public static CourseRevenueInfo getCourseRevenueInfoData() {
-        CourseRevenueInfo r1CourseRevenueInfo = new CourseRevenueInfo();
-        r1CourseRevenueInfo.setAffiliatedOrgs(R1TestDataUtil.getAffiliatedOrgInfoDataList());
-        r1CourseRevenueInfo.setAttributes(R1TestDataUtil.getAttributeData());
-        r1CourseRevenueInfo.setFeeType("R1 Fee Type");
-        r1CourseRevenueInfo.setId("R1 Id");
-        r1CourseRevenueInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        return r1CourseRevenueInfo;
-    }
-    
-    public static List<CourseVariationInfo> getCourseVariationInfoDataList() {
-        List<CourseVariationInfo> r1CourseVarInfoList = new ArrayList<CourseVariationInfo>();
-        CourseVariationInfo r1CourseVarInfo = new CourseVariationInfo();
-        r1CourseVarInfo.setCourseNumberSuffix("R1 Course Number Suffix");
-        r1CourseVarInfo.setId("R1 Id");
-        r1CourseVarInfo.setSubjectArea("R1 Subject Area");
-        r1CourseVarInfo.setType("R1 Type");
-        r1CourseVarInfo.setVariationCode("R1 Variation Code");
-        r1CourseVarInfo.setVariationTitle("R1 Variation Title");
-        r1CourseVarInfoList.add(r1CourseVarInfo);
-        return r1CourseVarInfoList;
     }
     
     public static AdminOrgInfo getAdminOrgInfoData() {

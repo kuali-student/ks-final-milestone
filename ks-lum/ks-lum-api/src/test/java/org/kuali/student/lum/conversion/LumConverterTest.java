@@ -27,88 +27,8 @@ import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
-import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
-import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
-import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 
 public class LumConverterTest {
-
-    @Test
-    public void testActivityInfo() {
-        org.kuali.student.r1.lum.course.dto.ActivityInfo r1 = R1TestDataUtil.getActivityInfoData();
-        ActivityInfo r2 = R1R2ConverterUtil.convert(r1, ActivityInfo.class);
-        Assert.assertEquals(r1.getState(), r2.getStateKey());
-        Assert.assertEquals(r1.getActivityType(), r2.getTypeKey());
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-        Assert.assertEquals(r1.getContactHours().getUnitTypeKey(), r2.getContactHours().getUnitTypeKey());
-        Assert.assertEquals(r1.getDuration().getAtpDurationTypeKey(), r2.getDuration().getAtpDurationTypeKey());
-    }
-
-    @Test
-    public void testCourseCrossListingInfo() {
-        org.kuali.student.r1.lum.course.dto.CourseCrossListingInfo r1 = R1TestDataUtil.getCourseCrossListingInfoData();
-        CourseCrossListingInfo r2 = R1R2ConverterUtil.convert(r1, CourseCrossListingInfo.class);
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getDepartment(), r2.getDepartment());
-        Assert.assertEquals(r1.getType(), r2.getTypeKey());
-    }
-
-    @Test
-    public void testCourseExpenditureInfo() {
-        org.kuali.student.r1.lum.course.dto.CourseExpenditureInfo r1 = R1TestDataUtil.getCourseExpenditureInfoData();
-        CourseExpenditureInfo r2 = R1R2ConverterUtil.convert(r1, CourseExpenditureInfo.class);
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getAffiliatedOrgs().get(0).getId(), r2.getAffiliatedOrgs().get(0).getId());
-    }
-
-    @Test
-    public void testCourseFeeInfo() {
-        org.kuali.student.r1.lum.course.dto.CourseFeeInfo r1 = R1TestDataUtil.getCourseFeeInfoData();
-        CourseFeeInfo r2 = R1R2ConverterUtil.convert(r1, CourseFeeInfo.class);
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getDescr().getPlain(), r2.getDescr().getPlain());
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-        Assert.assertEquals(r1.getFeeAmounts().get(0).getId(), r2.getFeeAmounts().get(0).getId());
-    }
-
-    @Test
-    public void testCourseRevenueInfo() {
-        org.kuali.student.r1.lum.course.dto.CourseRevenueInfo r1 = R1TestDataUtil.getCourseRevenueInfoData();
-        CourseRevenueInfo r2 = R1R2ConverterUtil.convert(r1, CourseRevenueInfo.class);
-        Assert.assertEquals(r1.getId(), r2.getId());
-        Assert.assertEquals(r1.getFeeType(), r2.getFeeType());
-        Assert.assertEquals(r1.getAffiliatedOrgs().get(0).getId(), r2.getAffiliatedOrgs().get(0).getId());
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-    }
-
-    @Test
-    public void testFormatInfo() {
-        org.kuali.student.r1.lum.course.dto.FormatInfo r1 = R1TestDataUtil.getFormatInfoData();
-        FormatInfo r2 = R1R2ConverterUtil.convert(r1, FormatInfo.class);
-        Assert.assertEquals(r1.getId(), r2.getId());
-        Assert.assertEquals(r1.getState(), r2.getStateKey());
-        Assert.assertEquals(r1.getType(), r2.getTypeKey());
-        Assert.assertEquals(r1.getActivities().get(0).getId(), r2.getActivities().get(0).getId());
-        Assert.assertEquals(r1.getDuration().getAtpDurationTypeKey(), r2.getDuration().getAtpDurationTypeKey());
-        Assert.assertEquals(r1.getTermsOffered().get(0), r2.getTermsOffered().get(0));
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-        Assert.assertEquals(r1.getState(), r2.getStateKey());
-        Assert.assertEquals(r1.getType(), r2.getTypeKey());
-    }
 
     @Test
     public void testAcademicSubjectOrgInfo() {
