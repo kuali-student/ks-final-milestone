@@ -370,6 +370,7 @@
         <property name="proposalService" ref="proposalClient"/>
         <property name="cluService" ref="cluClient"/>
         <property name="transformationManager" ref="courseProposalTransformationManager"/>
+        <property name="workflowDocumentService" ref="workflowDocumentClient"/>
     </bean>
     
     <bean id="CourseRetireProposalDataService"
@@ -379,6 +380,7 @@
         <property name="proposalService" ref="proposalClient"/>
         <property name="cluService" ref="cluClient"/>
         <property name="transformationManager" ref="courseRetireProposalTransformationManager"/>
+        <property name="workflowDocumentService" ref="workflowDocumentClient"/>
     </bean>
     
     <bean id="CluSetManagementRpcGwtServlet"
@@ -468,6 +470,7 @@
         <property name="programService" ref="programClient"/>
         <property name="cluService" ref="cluClient"/>
         <property name="atpService" ref="atpClient"/>
+        <property name="workflowDocumentService" ref="workflowDocumentClient"/>
     </bean>
 
     <bean id="credentialProgramDataService" class="org.kuali.student.lum.program.server.CredentialProgramDataService">
