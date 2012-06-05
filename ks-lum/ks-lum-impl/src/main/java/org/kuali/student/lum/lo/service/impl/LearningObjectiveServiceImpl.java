@@ -25,7 +25,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoCategory;
@@ -115,7 +114,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
             PermissionDeniedException {
 	    List<LoRepository> repositories = loDao.find(LoRepository.class);
   	
-	   return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoRepositoryInfos(repositories),LoRepositoryInfo.class);
+	   return LearningObjectiveServiceAssembler.toLoRepositoryInfos(repositories);
 	}
 
 
@@ -162,7 +161,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     @Transactional(readOnly=true)
 	public LoRepositoryInfo getLoRepository (String loRepositoryKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
-	    return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoRepositoryInfo(loDao.fetch(LoRepository.class, loRepositoryKey)),LoRepositoryInfo.class);
+	    return LearningObjectiveServiceAssembler.toLoRepositoryInfo(loDao.fetch(LoRepository.class, loRepositoryKey));
 		
 	}
 
@@ -307,7 +306,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 
 	    Lo lo = null;
 	    try {
-        lo = LearningObjectiveServiceAssembler.toLo(false, R1R2ConverterUtil.convert(loInfo,org.kuali.student.r1.lum.lo.dto.LoInfo.class), loDao);
+        lo = LearningObjectiveServiceAssembler.toLo(false, loInfo, loDao);
 	    } catch (VersionMismatchException vme) {
 	    	// should never happen in a create call, but
 	    	throw new OperationFailedException("VersionMismatchException caught during Learning Objective creation");
@@ -317,7 +316,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    loDao.create(lo);
 	   
 		
-	    return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoInfo(lo), LoInfo.class);
+	    return LearningObjectiveServiceAssembler.toLoInfo(lo);
 	   
 	}
 
@@ -362,7 +361,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
-	    return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoInfo(loDao.fetch(Lo.class, loId)), LoInfo.class);
+	    return LearningObjectiveServiceAssembler.toLoInfo(loDao.fetch(Lo.class, loId));
 		
 	}
 
@@ -394,7 +393,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loIds, "loId");
 	    checkForEmptyList(loIds, "loId");
 	    List<Lo> los = loDao.getLoByIdList(loIds);
-	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoInfos(los), LoInfo.class);
+	    return LearningObjectiveServiceAssembler.toLoInfos(los);
 	}
 
 	/* (non-Javadoc)
@@ -407,7 +406,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
 	    List<LoCategory> categories = loDao.getLoCategories(loRepositoryKey);
-	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoCategoryInfos(categories),LoCategoryInfo.class);
+	    return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
 	}
 
 	/* (non-Javadoc)
@@ -420,7 +419,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
 	    List<LoCategory> categories = loDao.getLoCategoriesForLo(loId);
-		return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoCategoryInfos(categories), LoCategoryInfo.class);
+		return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
 	}
 
 	/* (non-Javadoc)
@@ -434,7 +433,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loCategoryId, "loCategoryId");
 	    
  
-	    return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoCategoryInfo(loDao.fetch(LoCategory.class, loCategoryId)), LoCategoryInfo.class); 
+	    return LearningObjectiveServiceAssembler.toLoCategoryInfo(loDao.fetch(LoCategory.class, loCategoryId)); 
 	}
 
     @Override
@@ -484,7 +483,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loCategoryId, "loCategoryId");
 	    List<Lo> los = loDao.getLosByLoCategory(loCategoryId);
-	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoInfos(los),LoInfo.class);
+	    return LearningObjectiveServiceAssembler.toLoInfos(los);
 	}
 
     @Override
@@ -602,9 +601,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
             throw new VersionMismatchException("LO to be updated is not the current version");
         }
         
-        lo = LearningObjectiveServiceAssembler.toLo(true, lo, R1R2ConverterUtil.convert(loInfo,org.kuali.student.r1.lum.lo.dto.LoInfo.class), loDao);
+        lo = LearningObjectiveServiceAssembler.toLo(true, lo, loInfo, loDao);
         loDao.update(lo);
-        return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoInfo(lo), LoInfo.class);
+        return LearningObjectiveServiceAssembler.toLoInfo(lo);
 	}
 
 	/* (non-Javadoc)
@@ -641,7 +640,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         }
 	    LoCategory loCategory = loDao.fetch(LoCategory.class, loCategoryId);
         
-        if (!String.valueOf(loCategory.getVersionNumber()).equals(loCategoryInfo.getMetaInfo().getVersionInd())){
+        if (!String.valueOf(loCategory.getVersionNumber()).equals(loCategoryInfo.getMeta().getVersionInd())){
             throw new VersionMismatchException("LoCategory to be updated is not the current version");
         }
         
@@ -668,10 +667,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         if ( ! loCategory.getLoCategoryType().getId().equals(loCategoryInfo.getTypeKey()) ) {
         	loCategory = cloneLoCategory(loCategory, loCategoryInfo,contextInfo);
         } else {
-        	loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, R1R2ConverterUtil.convert(loCategoryInfo,org.kuali.student.r1.lum.lo.dto.LoCategoryInfo.class), loDao);
+        	loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
 	        loDao.update(loCategory);
         }
-       return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory),LoCategoryInfo.class) ;
+       return LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
 
 	}
 
@@ -688,10 +687,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     	}
         	
     	// clone the existing LO
-    	LoCategoryInfo newLoCategoryInfo = R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory),LoCategoryInfo.class);
+    	LoCategoryInfo newLoCategoryInfo = LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
     	newLoCategoryInfo.setTypeKey(catType.getId());
     	newLoCategoryInfo.setName(loCategoryInfo.getName());
-    	LoCategory newLoCategory = loDao.create(LearningObjectiveServiceAssembler.toLoCategory(R1R2ConverterUtil.convert(newLoCategoryInfo,org.kuali.student.r1.lum.lo.dto.LoCategoryInfo.class),loDao));
+    	LoCategory newLoCategory = loDao.create(LearningObjectiveServiceAssembler.toLoCategory(newLoCategoryInfo, loDao));
         	
     	// clone Lo-LoCategory relations
     	List<Lo> catsLos = loDao.getLosByLoCategory(loCategory.getId());         	
@@ -999,7 +998,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    LoLoRelation relation = null;
 
 	    try {
-	    	relation = LearningObjectiveServiceAssembler.toLoLoRelation(false,  R1R2ConverterUtil.convert(loLoRelationInfo,org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo.class ), loDao);
+	    	relation = LearningObjectiveServiceAssembler.toLoLoRelation(false,  loLoRelationInfo, loDao);
 	    } catch (VersionMismatchException vme) {
 	    	// should never happen in a create call, but
 	    	throw new OperationFailedException("VersionMismatchException caught during LoLoRelation creation");
@@ -1010,7 +1009,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    
 	    relation = loDao.create(relation);
 	    
-	  return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoLoRelationInfo(relation),LoLoRelationInfo.class );
+	  return LearningObjectiveServiceAssembler.toLoLoRelationInfo(relation);
 	
 	}
 	
@@ -1018,21 +1017,21 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	@Transactional(readOnly=true)
     public LoLoRelationInfo getLoLoRelation(@WebParam(name = "loLoRelationId") String loLoRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    checkForMissingParameter(loLoRelationId, "loLoRelationId");
-	 return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoLoRelationInfo(loDao.fetch(LoLoRelation.class, loLoRelationId)),LoLoRelationInfo.class);
+	 return LearningObjectiveServiceAssembler.toLoLoRelationInfo(loDao.fetch(LoLoRelation.class, loLoRelationId));
     }
 	
 	@Override
 	@Transactional(readOnly=true)
     public List<LoLoRelationInfo> getLoLoRelationsByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    List<LoLoRelation> llRelations = loDao.getLoLoRelationsByLoId(loId);
-	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoLoRelationInfos(llRelations),org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo.class);   
+	    return LearningObjectiveServiceAssembler.toLoLoRelationInfos(llRelations);   
     }
 	
 	@Override
 	@Transactional(readOnly=true)
     public List<LoInfo> getLosByRelatedLoId(@WebParam(name = "relatedLoId") String relatedLoId, @WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    List<Lo> relatedLos = loDao.getLosByRelatedLoId(relatedLoId, loLoRelationTypeKey);
-	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoInfos(relatedLos),org.kuali.student.r2.lum.lo.dto.LoInfo.class);
+	    return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
     }
 	
 	@Override
@@ -1041,7 +1040,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		checkForMissingParameter(loId, "loId");
 	    checkForMissingParameter(loLoRelationTypeKey, "loLoRelationTypeKey");
 		List<Lo> relatedLos = loDao.getRelatedLosByLoId(loId, loLoRelationTypeKey);
-	    return  R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoInfos(relatedLos),LoInfo.class);
+	    return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
     }
 
 	@Override
@@ -1099,13 +1098,13 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			
 		}
         
-	    LoCategory category = LearningObjectiveServiceAssembler.toLoCategory(R1R2ConverterUtil.convert(loCategoryInfo,org.kuali.student.r1.lum.lo.dto.LoCategoryInfo.class),loDao);
+	    LoCategory category = LearningObjectiveServiceAssembler.toLoCategory(loCategoryInfo,loDao);
 	    LoCategoryType loCatType = loDao.fetch(LoCategoryType.class, loCategoryTypeKey);
 	    category.setLoCategoryType(loCatType);
 	    LoRepository loRepository = loDao.fetch(LoRepository.class, loCategoryInfo.getLoRepositoryKey() );
 	    category.setLoRepository(loRepository);
 	    loDao.create(category);
-		return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoCategoryInfo(category), LoCategoryInfo.class);
+		return LearningObjectiveServiceAssembler.toLoCategoryInfo(category);
 	}
 
 	@Override
@@ -1134,7 +1133,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException {
 	    checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
 	    List<Lo> los = loDao.getLosByRepository(loRepositoryKey);
-	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoInfos(los),org.kuali.student.r2.lum.lo.dto.LoInfo.class);
+	    return LearningObjectiveServiceAssembler.toLoInfos(los);
 	}
 
 	@Override

@@ -296,17 +296,17 @@
     
 	<search:queryParam id="lo.queryParam.loCategoryRepo" parent="lo.queryParam.loCategoryRepo-parent"/>
 	<search:queryParam id="lo.queryParam.loCategoryRepo-parent"  abstract="true">
-		<ref bean="field.loCategoryInfo.loRepository.fd"/>
+		<ref bean="field.loCategoryInfo.loRepositoryKey.fd"/>
     </search:queryParam>
     
 	<search:queryParam id="lo.queryParam.loCategoryType" parent="lo.queryParam.loCategoryType-parent"/>
 	<search:queryParam id="lo.queryParam.loCategoryType-parent"  abstract="true">
-		<ref bean="field.loCategoryInfo.type.fd"/>
+		<ref bean="field.loCategoryInfo.typeKey.fd"/>
     </search:queryParam>
     
 	<search:queryParam id="lo.queryParam.loCategoryState" parent="lo.queryParam.loCategoryState-parent"/>
 	<search:queryParam id="lo.queryParam.loCategoryState-parent"  abstract="true">
-		<ref bean="field.loCategoryInfo.state.fd"/>
+		<ref bean="field.loCategoryInfo.stateKey.fd"/>
     </search:queryParam>
     
 	<search:queryParam id="lo.queryParam.startsWith.loCategoryName" parent="lo.queryParam.startsWith.loCategoryName-parent"/>

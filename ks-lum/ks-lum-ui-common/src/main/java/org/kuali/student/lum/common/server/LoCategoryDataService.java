@@ -67,7 +67,7 @@ public class LoCategoryDataService extends AbstractDataService {
         if (dto instanceof LoCategoryInfo) {
             LoCategoryInfo loCatInfo = (LoCategoryInfo) dto;
             if (loCatInfo.getId() == null ) {
-            	loCatInfo = loService.createLoCategory(loCatInfo.getLoRepositoryKey(), loCatInfo, contextInfo);
+            	loCatInfo = loService.createLoCategory(loCatInfo.getTypeKey(), loCatInfo, contextInfo);
             } else {
                 loCatInfo = loService.updateLoCategory(loCatInfo.getId(), loCatInfo,contextInfo);
             }

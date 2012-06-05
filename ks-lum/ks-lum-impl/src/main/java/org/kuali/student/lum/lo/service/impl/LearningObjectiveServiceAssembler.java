@@ -19,20 +19,7 @@ package org.kuali.student.lum.lo.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.r1.common.dao.CrudDao;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r1.common.service.impl.BaseAssembler;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.lo.dao.LoDao;
-import org.kuali.student.r1.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
-import org.kuali.student.r1.lum.lo.dto.LoInfo;
-import org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo;
-import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
-import org.kuali.student.r1.lum.lo.dto.LoRepositoryInfo;
-import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;
 import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoAttribute;
 import org.kuali.student.lum.lo.entity.LoCategory;
@@ -45,6 +32,19 @@ import org.kuali.student.lum.lo.entity.LoLoRelationType;
 import org.kuali.student.lum.lo.entity.LoRepository;
 import org.kuali.student.lum.lo.entity.LoRichText;
 import org.kuali.student.lum.lo.entity.LoType;
+import org.kuali.student.r1.common.dao.CrudDao;
+import org.kuali.student.r1.common.service.impl.BaseAssembler;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
+import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
+import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.service.util.AssemblerHelper;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r2.lum.lo.dto.LoInfo;
+import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
+import org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo;
 import org.springframework.beans.BeanUtils;
 
 public class LearningObjectiveServiceAssembler extends BaseAssembler {
@@ -64,17 +64,17 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
             if (lo == null) {
                 throw new DoesNotExistException((new StringBuilder()).append("Lo does not exist for id: ").append(dto.getId()).toString());
             }
-            if ( ! String.valueOf(lo.getVersionNumber()).equals(dto.getMetaInfo().getVersionInd()) ) {
+            if ( ! String.valueOf(lo.getVersionNumber()).equals(dto.getMeta().getVersionInd()) ) {
                 throw new VersionMismatchException("Lo to be updated is not the current version");
             }
         } else {
             lo = new Lo();
         }
 
-        BeanUtils.copyProperties(dto, lo, new String[] { "desc", "loRepository", "loType", "attributes", "metaInfo" });
-
-        lo.setAttributes(toGenericAttributes(LoAttribute.class, dto.getAttributes(), lo, dao));
-        lo.setDescr(toRichText(LoRichText.class, dto.getDesc()));
+        BeanUtils.copyProperties(dto, lo, new String[] { "descr", "loRepositoryKey", "typeKey", "attributes", "meta" });
+        
+        lo.setAttributes(AssemblerHelper.toGenericAttributes(LoAttribute.class, dto.getAttributes(), lo, dao));
+        lo.setDescr(toRichText(LoRichText.class, dto.getDescr()));
 
         LoRepository repository = dao.fetch(LoRepository.class, dto.getLoRepositoryKey());
         if(null == repository) {
@@ -82,24 +82,24 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         }
         lo.setLoRepository(repository);
         
-        LoType type = dao.fetch(LoType.class, dto.getType());
+        LoType type = dao.fetch(LoType.class, dto.getTypeKey());
         if(null == type) {
-            throw new InvalidParameterException((new StringBuilder()).append("LoType does not exist for id: ").append(dto.getType()).toString());
+            throw new InvalidParameterException((new StringBuilder()).append("LoType does not exist for id: ").append(dto.getTypeKey()).toString());
         }
         lo.setLoType(type);
         
         return lo;
     }
 
-    public static LoInfo toLoInfo( Lo entity) {
+    public static LoInfo toLoInfo(Lo entity) {
         LoInfo dto = new LoInfo();
 
         BeanUtils.copyProperties(entity, dto,
-                new String[] { "desc", "attributes", "type" });
-        dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setType(entity.getLoType().getId());
+                new String[] { "descr", "attributes", "loType" });
+        dto.setDescr(toRichTextInfo(entity.getDescr()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setAttributes(AssemblerHelper.toAttributeList(entity.getAttributes()));
+        dto.setTypeKey(entity.getLoType().getId());
         dto.setLoRepositoryKey(entity.getLoRepository() == null? null: entity.getLoRepository().getId());
         return dto;
     }
@@ -112,11 +112,12 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         if(entity == null)
             entity = new LoCategory();
         BeanUtils.copyProperties(dto, entity,
-                new String[] { "desc", "attributes", "metaInfo", "loRepository", "type", "id"});
-        entity.setDesc(toRichText(LoRichText.class, dto.getDesc()));
-        entity.setAttributes(toGenericAttributes(LoCategoryAttribute.class, dto.getAttributes(), entity, dao));
-        entity.setLoRepository(dao.fetch(LoRepository.class, dto.getLoRepository()));
-        entity.setLoCategoryType(dao.fetch(LoCategoryType.class, dto.getType()));
+                new String[] { "descr", "attributes", "meta", "loRepositoryKey", "typeKey", "id", "stateKey"});
+        entity.setDesc(toRichText(LoRichText.class, dto.getDescr()));
+        entity.setAttributes(AssemblerHelper.toGenericAttributes(LoCategoryAttribute.class, dto.getAttributes(), entity, dao));
+        entity.setLoRepository(dao.fetch(LoRepository.class, dto.getLoRepositoryKey()));
+        entity.setLoCategoryType(dao.fetch(LoCategoryType.class, dto.getTypeKey()));
+        entity.setState(dto.getStateKey());
         return entity;
     }
 
@@ -124,13 +125,13 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         LoCategoryInfo dto = new LoCategoryInfo();
 
         BeanUtils.copyProperties(entity, dto,
-                new String[] { "desc", "attributes", "loRepository", "loCategoryType" });
-        dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setLoRepository(entity.getLoRepository().getId());
-        dto.setType(entity.getLoCategoryType().getId());
-        
+                new String[] {"descr", "attributes", "loRepository", "loCategoryType", "state", "meta" });
+        dto.setDescr(toRichTextInfo(entity.getDescr()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setAttributes(AssemblerHelper.toAttributeList(entity.getAttributes()));
+        dto.setLoRepositoryKey(entity.getLoRepository().getId());
+        dto.setStateKey(entity.getState());
+        dto.setTypeKey(entity.getLoCategoryType().getId());
         return dto;
     }
     
@@ -138,10 +139,10 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         LoRepositoryInfo dto = new LoRepositoryInfo();
         
         BeanUtils.copyProperties(entity, dto,
-                new String[] { "desc", "attributes", "rootLo" });
-        dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+                new String[] { "descr", "attributes", "rootLo" });
+        dto.setDescr(toRichTextInfo(entity.getDescr()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setAttributes(AssemblerHelper.toAttributeList(entity.getAttributes()));
         dto.setRootLoId(entity.getRootLo() == null? null :entity.getRootLo().getId());
         return dto;
     }
@@ -222,16 +223,16 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
             if (llRelation == null) {
                 throw new DoesNotExistException((new StringBuilder()).append("LoLoRelation does not exist for id: ").append(dto.getId()).toString());
             }
-            if ( ! String.valueOf(llRelation.getVersionNumber()).equals(dto.getMetaInfo().getVersionInd()) ) {
+            if ( ! String.valueOf(llRelation.getVersionNumber()).equals(dto.getMeta().getVersionInd()) ) {
                 throw new VersionMismatchException("LoLoRelation to be updated is not the current version");
             }
         } else {
             llRelation = new LoLoRelation();
         }
 
-        BeanUtils.copyProperties(dto, llRelation, new String[] { "lo", "relatedLo", "attributes", "metaInfo" });
-
-        llRelation.setAttributes(toGenericAttributes(LoLoRelationAttribute.class, dto.getAttributes(), llRelation, dao));
+        BeanUtils.copyProperties(dto, llRelation, new String[] { "loId", "relatedLoId", "attributes", "meta" });
+        
+        llRelation.setAttributes(AssemblerHelper.toGenericAttributes(LoLoRelationAttribute.class, dto.getAttributes(), llRelation, dao));
 
         Lo lo = null;
         Lo relatedLo = null;
@@ -239,7 +240,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         try {
 	        lo = dao.fetch(Lo.class, dto.getLoId());
 	        relatedLo = dao.fetch(Lo.class, dto.getRelatedLoId());
-	        relationType = dao.fetch(LoLoRelationType.class, dto.getType());
+	        relationType = dao.fetch(LoLoRelationType.class, dto.getTypeKey());
         } catch (DoesNotExistException dnee) {
         	throw new DoesNotExistException((null == lo ? "Lo" : (null == relatedLo ? "Related Lo" : "Lo-Lo relation type")) +
         									" does not exist when creating LoLoRelation", dnee);
@@ -248,6 +249,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         llRelation.setLo(lo);
         llRelation.setRelatedLo(relatedLo);
         llRelation.setLoLoRelationType(relationType);
+        llRelation.setState(dto.getStateKey());
         
         return llRelation;
 	}
@@ -259,9 +261,10 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
                 new String[] { "lo", "relatedLo", "type", "attributes" });
         dto.setLoId(entity.getLo().getId());
         dto.setRelatedLoId(entity.getRelatedLo().getId());
-        dto.setType(entity.getLoLoRelationType().getId());
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setTypeKey(entity.getLoLoRelationType().getId());
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setAttributes(AssemblerHelper.toAttributeList(entity.getAttributes()));
+        dto.setStateKey(entity.getState());
         return dto;
 	}
 	
@@ -269,7 +272,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         if(entity == null)
             entity = new LoCategoryType();
         BeanUtils.copyProperties(dto, entity,
-                new String[] { "attributes", "metaInfo" });
+                new String[] { "attributes" });
         entity.setAttributes(toGenericAttributes(LoCategoryTypeAttribute.class, dto.getAttributes(), entity, dao));
         entity.setDescr(dto.getDesc());
         return entity;

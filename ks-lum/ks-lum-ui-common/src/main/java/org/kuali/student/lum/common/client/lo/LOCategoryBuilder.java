@@ -310,9 +310,9 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
                                 LoCategoryInfoHelper catHelper = new LoCategoryInfoHelper(new Data());
                                 catHelper.setName(nameTextBox.getText());
-                                catHelper.setState("Active");
-                                catHelper.setLoRepository(repoKey);
-                                catHelper.setType(typesDropDown.getSelectedItem());
+                                catHelper.setStateKey("Active");
+                                catHelper.setLoRepositoryKey(repoKey);
+                                catHelper.setTypeKey(typesDropDown.getSelectedItem());
 
                                 loCatRpcServiceAsync.saveData(catHelper.getData(), new KSAsyncCallback<DataSaveResult>() {
                                     @Override
