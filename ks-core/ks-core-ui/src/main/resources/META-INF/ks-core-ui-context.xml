@@ -29,13 +29,13 @@
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	
-	<bean id="config" class="org.kuali.rice.student.core.config.spring.RiceConfigFactoryBean">
+	<!-- <bean id="config" class="org.kuali.rice.student.core.config.spring.RiceConfigFactoryBean">
 		<property name="configLocations">
 			<list>
 				<value>classpath:META-INF/ks-core-ui-config.xml</value>
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
@@ -44,6 +44,7 @@
 	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
+				<value>classpath:META-INF/ks-core-ui-config.xml</value>
 				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
 			</list>
 		</property>
@@ -60,19 +61,34 @@
 		<property name="localServiceName" value="KSCoreUIContext"/>
 	</bean>
 
-	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
+    <bean id="ks.messageServiceMock" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.common.messages.service.MessageService" />
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/messages}MessageService" />
+    </bean>
+    
+	<!-- <bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
 			<list>
 				<value>classpath:org\kuali\student\common\ui\gwt-messages.xml</value>
 				<value>classpath:org\kuali\student\core\ui\gwt-messages.xml</value>
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/core/RiceDerbyDataSourceSpringBeans.xml" />
 
-	<bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
+	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
+		<property name="dataSource" ref="riceDataSource" />
+		<!--property name="serverDataSource" ref="krWorkflowDataSource"/-->
+		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
+		<property name="transactionManager" ref="jtaTransactionManager" />
+		<property name="userTransaction" ref="jtaUserTransaction" />
+	</bean>
+	
+	<bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer" depends-on="coreConfigurer"/>
+	
+	<!-- <bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
 		<property name="dataSource" ref="riceDataSource" />
 		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
 		<property name="transactionManager" ref="jtaTransactionManager" />
@@ -84,7 +100,7 @@
                 <property name="serviceServletUrl" value="${serviceServletUrl}" />
 			</bean>
 		</property>
-	</bean>
+	</bean> -->
 
     <!-- JTA -->
 	<alias name="jtaUserTransaction" alias="userTransaction"/>    

@@ -17,8 +17,6 @@ package org.kuali.student.core.organization.ui.client.view;
 
 
 //import org.kuali.student.r1.common.messages.dto.MessageList;
-import java.util.List;
-
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
@@ -29,7 +27,7 @@ import org.kuali.student.common.ui.client.util.BrowserUtils;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.core.organization.ui.client.mvc.controller.OrgApplicationManager;
 import org.kuali.student.core.organization.ui.client.theme.OrgTheme;
-import org.kuali.student.r2.common.messages.dto.MessageInfo;
+import org.kuali.student.r1.common.messages.dto.MessageList;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -55,9 +53,8 @@ public class OrgEntryPoint implements EntryPoint{
         loadApp(context);
 
         try {
-            List<MessageInfo> messages =  getSerializedObject( "i18nMessages");
-
-            context.addMessages(messages);
+            MessageList messageList =  getSerializedObject( "i18nMessages");
+            context.addMessages(messageList.getMessages());
 
         } catch (Exception e) {
             GWT.log("Error on ModuleLoad",e);
