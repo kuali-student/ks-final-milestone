@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r2.core.search.dto.SearchParamHelper;
-import org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
@@ -30,14 +29,6 @@ import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 
 public class LumConverterTest {
 
-    @Test
-    public void testAcademicSubjectOrgInfo() {
-        org.kuali.student.r1.lum.lu.dto.AcademicSubjectOrgInfo r1 = new org.kuali.student.r1.lum.lu.dto.AcademicSubjectOrgInfo();
-        r1.setOrgId("R1 Org Id");
-        AcademicSubjectOrgInfo r2 = R1R2ConverterUtil.convert(r1, AcademicSubjectOrgInfo.class);
-        Assert.assertEquals(r1.getOrgId(), r2.getOrgId());
-    }
-    
     @Test
     public void testAccreditationInfo() {
         org.kuali.student.r1.lum.lu.dto.AccreditationInfo r1 = R1TestDataUtil.getAccreditationInfoData();
