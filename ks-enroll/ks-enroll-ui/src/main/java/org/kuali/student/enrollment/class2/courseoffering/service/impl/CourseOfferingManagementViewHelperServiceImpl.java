@@ -10,6 +10,8 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -23,6 +25,8 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import org.apache.commons.lang.StringUtils;
 
 
 public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
@@ -56,9 +60,52 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         }
     }
 
-    public List<CourseOfferingInfo> findCourseOfferingsByTermAndCourseOfferingCode (String termId, String courseOfferingCode, CourseOfferingManagementForm form) throws Exception{
+    public List<CourseOfferingInfo> findCourseOfferingsByTermAndCourseOfferingCode (String termCode, String courseOfferingCode, CourseOfferingManagementForm form) throws Exception{
         List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
-        //TODO: implement the proper logic
+        String termId = null;
+
+        try {
+            //1. get termId based on termCode
+            if (StringUtils.isNotBlank(termCode)) {
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.equal(CourseOfferingConstants.ATP_CODE, termCode));
+                QueryByCriteria criteria = qbcBuilder.build();
+
+                // Do search.  In ideal case, termList contains one element, which is the desired term.
+                List<TermInfo> termList = _getAcalService().searchForTerms(criteria, new ContextInfo());
+
+                if (termList != null  && termList.size()>0 ){
+                    // Always get first term
+                    termId = termList.get(0).getId();
+                    System.out.println(">>> termId = "+termId);
+                    if(termList.size()>1){
+                        //logger.warn("AdvanceActivityOfferingLookupableImpl - find more than one term for specified termCode: " + termCode) ;
+                        //System.out.println(">>Alert: find more than one term for specified termCode: "+termCode);
+                        throw new RuntimeException("Alert: find more than one term for specified termCode: "+termCode);
+                    }
+                } else {
+                    new Exception("Error: Does not find a valid term with the termCode equal to "+ termCode);
+                }
+            }
+
+            //get courseOfferingId based on courseOfferingCode and termId
+            if (StringUtils.isNotBlank(courseOfferingCode) && StringUtils.isNotBlank(termId)) {
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.and(
+                        PredicateFactory.equalIgnoreCase(CourseOfferingConstants.COURSEOFFERING_COURSE_OFFERING_CODE, courseOfferingCode),
+                        PredicateFactory.equalIgnoreCase(CourseOfferingConstants.ATP_ID, termId)));
+                QueryByCriteria criteria = qbcBuilder.build();
+
+                //Do search. In ideal case, returns one element, which is the desired CO.
+                courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        form.setCourseOfferingList(courseOfferings);
+
         return courseOfferings;
     }
 
@@ -98,5 +145,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         return acalService;
     }
 
+    public CourseOfferingService getCourseOfferingService() {
+        return CourseOfferingResourceLoader.loadCourseOfferingService();
+    }
 
 }

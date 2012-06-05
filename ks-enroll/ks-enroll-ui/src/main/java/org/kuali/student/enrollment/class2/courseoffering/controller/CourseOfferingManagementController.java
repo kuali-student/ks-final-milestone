@@ -68,6 +68,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
     public ModelAndView show(@ModelAttribute("KualiForm") CourseOfferingManagementForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         String termId=form.getTermInfo().getId();
+        String termCode = form.getTermInfo().getCode();
         String radioSelection = form.getRadioSelection();
         if (radioSelection.equals("subjectCode")){
             //load all courseofferings based on subject Code
@@ -79,16 +80,18 @@ public class CourseOfferingManagementController extends UifControllerBase {
         else {
             //load courseOffering based on courseOfferingCode and load all associated activity offerings 
             String courseOfferingCode = form.getInputCode();
+            form.setCourseOfferingCode(courseOfferingCode);
             List<CourseOfferingInfo> courseOfferingList = getViewHelperService(form).
-                                       findCourseOfferingsByTermAndCourseOfferingCode(termId, courseOfferingCode, form);
+                                       findCourseOfferingsByTermAndCourseOfferingCode(termCode, courseOfferingCode, form);
             if (!courseOfferingList.isEmpty() && courseOfferingList.size() == 1 )  {
-                CourseOfferingInfo theCourseOffering= form.getCourseOfferingList().get(0);
+                CourseOfferingInfo theCourseOffering = courseOfferingList.get(0);
+                form.setTheCourseOffering(theCourseOffering);
                 getViewHelperService(form).loadActivityOfferingsByCourseOffering(theCourseOffering, form);
                 return getUIFModelAndView(form, "manageActivityOfferingsPage");
             }
             else{
                 //TODO: how to handle when size > 1
-                return getUIFModelAndView(form);
+                return getUIFModelAndView(form,  "manageActivityOfferingsPage");
             }
         }        
     }

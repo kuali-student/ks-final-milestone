@@ -12,6 +12,9 @@ public class CourseOfferingConstants {
     public final static String COURSEOFFERING_ID = "id";
     public final static String COURSEOFFERING_TERM_ID = "termId";
     public final static String COURSEOFFERING_SUBJECT_AREA = "subjectArea";
+    public final static String COURSEOFFERING_COURSE_OFFERING_CODE = "courseOfferingCode";
+    public final static String ATP_CODE = "atpCode";
+    public final static String ATP_ID = "atpId";
 
     //Attributes defined in SocRolloverResultInfo
     public final static String SOCROLLOVERRESULTINFO_ID = "id";
