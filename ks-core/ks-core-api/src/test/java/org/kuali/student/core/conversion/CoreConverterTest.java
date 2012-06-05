@@ -163,7 +163,7 @@ public class CoreConverterTest {
         Assert.assertEquals("R1 Meta Info Version Id", r2.getMeta().getVersionInd());
     }
     
-    @Test
+    /*@Test
     public void testOrgHierarchyInfo() {
         org.kuali.student.r1.core.organization.dto.OrgHierarchyInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgHierarchyInfo();
         r1.setAttributes(R1TestDataUtil.getAttributeData());
@@ -171,7 +171,7 @@ public class CoreConverterTest {
         OrgHierarchyInfo r2 = R1R2ConverterUtil.convert(r1, OrgHierarchyInfo.class);
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getDescr(), r2.getDescr().getPlain());
-    }   
+    }*/   
     
     @Test
     public void testProposalDocRelationInfo() {

@@ -51,7 +51,7 @@ import org.kuali.student.r1.common.entity.MetaEntity;
 		@NamedQuery(name = "OrgOrgRelation.getOrgOrgRelationsByIdList", query = "SELECT oor FROM OrgOrgRelation oor WHERE oor.id IN (:idList)"),
 		@NamedQuery(name = "OrgOrgRelation.OrgOrgRelation", query = "SELECT oor FROM OrgOrgRelation oor WHERE oor.org.id = :orgId"),
 		@NamedQuery(name = "OrgOrgRelation.getOrgOrgRelationsByRelatedOrg", query = "SELECT oor FROM OrgOrgRelation oor WHERE oor.relatedOrg.id = :relatedOrgId"),
-		@NamedQuery(name = "OrgOrgRelation.getOrgTreeInfo", query = "SELECT NEW org.kuali.student.r1.core.organization.dto.OrgTreeInfo(oor.relatedOrg.id, oor.org.id, oor.relatedOrg.longName) "
+		@NamedQuery(name = "OrgOrgRelation.getOrgTreeInfo", query = "SELECT NEW org.kuali.student.r2.core.organization.dto.OrgTreeInfo(oor.relatedOrg.id, oor.org.id, oor.relatedOrg.longName) "
 				+ "   FROM OrgOrgRelation oor "
 				+ "  WHERE oor.org.id = :orgId "
 				+ "    AND oor.type.orgHierarchy.id = :orgHierarchyId " 
