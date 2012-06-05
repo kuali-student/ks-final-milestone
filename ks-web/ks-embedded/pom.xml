@@ -162,6 +162,11 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-ksb-web</artifactId>
+      <version>${kuali.rice.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
       <artifactId>rice-development-tools</artifactId>
       <version>${kuali.rice.version}</version>
     </dependency>
