@@ -35,6 +35,8 @@ public class CourseOfferingTransformer {
         for (Attribute attr : lui.getAttributes()) {
             if (CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY_ATTR.equals(attr.getKey())){
                 co.setWaitlistLevelTypeKey(attr.getValue());
+            } else if  (CourseOfferingServiceConstants.WAIT_LIST_TYPE_KEY_ATTR.equals((attr.getKey()))){
+                co.setWaitlistTypeKey(attr.getValue());
             } else if (CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR.equals((attr.getKey()))){
                 co.setHasWaitlist(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR.equals(attr.getKey())){
@@ -161,6 +163,11 @@ public class CourseOfferingTransformer {
         waitlistLevelTypeKey.setKey(CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY_ATTR);
         waitlistLevelTypeKey.setValue(String.valueOf(co.getWaitlistLevelTypeKey()));
         attributes.add(waitlistLevelTypeKey);
+
+        AttributeInfo waitlistTypeKey = new AttributeInfo();
+        waitlistTypeKey.setKey(CourseOfferingServiceConstants.WAIT_LIST_TYPE_KEY_ATTR);
+        waitlistTypeKey.setValue(String.valueOf(co.getWaitlistTypeKey()));
+        attributes.add(waitlistTypeKey);
 
         AttributeInfo waitlistIndicator = new AttributeInfo();
         waitlistIndicator.setKey(CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR);
