@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -16,11 +15,8 @@ public class ActivityOfferingFormObject implements Serializable{
 
     public ActivityOfferingFormObject(){
         aoInfo = new ActivityOfferingInfo();
-        //FIXME: As we dont have Lui types in DB and in mock, just assigning term state for now to get the ui working...
-        aoInfo.setStateKey(AcademicCalendarServiceConstants.TERM_DRAFT_STATE_KEY);
+        aoInfo.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-//        aoInfo.setActivityId("CLU-4");
-//        aoInfo.setName("Activity Offering");
         formatOffering = new FormatOfferingInfo();
         term = new TermInfo();
     }
