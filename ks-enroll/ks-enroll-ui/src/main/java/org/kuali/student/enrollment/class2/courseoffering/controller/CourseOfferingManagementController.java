@@ -85,14 +85,15 @@ public class CourseOfferingManagementController extends UifControllerBase {
             List<CourseOfferingInfo> courseOfferingList = getViewHelperService(form).
                                        findCourseOfferingsByTermAndCourseOfferingCode(termCode, courseOfferingCode, form);
             if (!courseOfferingList.isEmpty() && courseOfferingList.size() == 1 )  {
+                form.setCourseOfferingList(courseOfferingList);
                 CourseOfferingInfo theCourseOffering = courseOfferingList.get(0);
                 form.setTheCourseOffering(theCourseOffering);
                 getViewHelperService(form).loadActivityOfferingsByCourseOffering(theCourseOffering, form);
                 return getUIFModelAndView(form, "manageActivityOfferingsPage");
-            }
-            else{
-                //TODO: how to handle when size > 1
-                return getUIFModelAndView(form,  "manageActivityOfferingsPage");
+            } else if (courseOfferingList.size()>1) {
+                throw new RuntimeException("Error: Found more than one CO for Course ID = "+courseOfferingCode);
+            } else {
+                throw new RuntimeException("Error: No valid Course Offering for Term = "+termId+" and Course ID = "+courseOfferingCode);
             }
         }        
     }

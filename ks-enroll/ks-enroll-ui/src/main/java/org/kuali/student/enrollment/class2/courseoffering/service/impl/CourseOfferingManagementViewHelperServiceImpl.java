@@ -103,9 +103,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        form.setCourseOfferingList(courseOfferings);
-
         return courseOfferings;
     }
 
