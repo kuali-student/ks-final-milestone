@@ -412,7 +412,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                             CalendarConstants.MSG_ERROR_KEY_DATE_TYPE_REQUIRED);
                     return false;
                 }
-                if (!isValidTimeSetWrapper(keydate, keydate.getKeyDateNameUI(), "newCollectionLines['keydates']")) {
+                if (!isValidTimeSetWrapper(keydate, keydate.getKeyDateNameUI(), collectionGroup.getAddLineBindingInfo().getBindingPath())) {
                     return false;
                 }
             }
@@ -420,13 +420,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 AcalEventWrapper eventWrapper = (AcalEventWrapper)addLine;
                 if (!isValidTimeSetWrapper(eventWrapper, eventWrapper.getEventTypeName(),
                         "newCollectionLines['events']")) {
-                    return false;
-                }
-            }
-            else if (addLine instanceof KeyDateWrapper) {
-                KeyDateWrapper keyDateWrapper = (KeyDateWrapper)addLine;
-                if (!isValidTimeSetWrapper(keyDateWrapper, keyDateWrapper.getKeyDateNameUI(),
-                        "newCollectionLines['keydates']")) {
                     return false;
                 }
             }
@@ -592,7 +585,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 GlobalVariables.getMessageMap().putWarningForSectionId("acal-info-event", "error.enroll.event.dateNotInAcal",eventWrapper.getEventTypeName());
             }
             if (eventWrapper.isDateRange() && !CommonUtils.isValidDateRange(eventWrapper.getStartDate(),eventWrapper.getEndDate())){
-                GlobalVariables.getMessageMap().putWarning("acal-info-event", "error.enroll.daterange.invalid",eventWrapper.getEventTypeName(),CommonUtils.formatDate(eventWrapper.getStartDate()),CommonUtils.formatDate(eventWrapper.getEndDate()));
+                GlobalVariables.getMessageMap().putWarningForSectionId("acal-info-event", "error.enroll.daterange.invalid",eventWrapper.getEventTypeName(),CommonUtils.formatDate(eventWrapper.getStartDate()),CommonUtils.formatDate(eventWrapper.getEndDate()));
             }
         }
 
