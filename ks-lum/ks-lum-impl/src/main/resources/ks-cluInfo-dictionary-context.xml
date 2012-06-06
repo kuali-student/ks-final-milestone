@@ -21,7 +21,6 @@
                 <ref bean="cluInfo.effectiveDate"/>
                 <ref bean="cluInfo.isEnrollable"/>
                 <ref bean="cluInfo.expectedFirstAtp"/>
-                <ref bean="cluInfo.expectedFirstAtpId"/>
                 <ref bean="cluInfo.expirationDate"/>
                 <ref bean="cluInfo.feeInfo"/>
                 <ref bean="cluInfo.isHasEarlyDropDeadline"/>
@@ -150,12 +149,6 @@
         <property name="lookupDefinition" ref="constraint.lookup.atp"/>
     </bean>
     <bean id="cluInfo.expectedFirstAtp" parent="cluInfo.expectedFirstAtp-parent"/>
-    
-     <bean id="cluInfo.expectedFirstAtpId-parent" abstract="true" parent="baseKualiType">
-        <property name="name" value="expectedFirstAtpId"/>
-        <property name="lookupDefinition" ref="constraint.lookup.atp"/>
-    </bean>
-    <bean id="cluInfo.expectedFirstAtpId" parent="cluInfo.expectedFirstAtpId-parent"/>
 
     <bean id="cluInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
         <property name="name" value="expirationDate"/>
@@ -1606,7 +1599,6 @@
    <list>
     <ref bean="membershipQueryInfo.id"/>
     <ref bean="membershipQueryInfo.queryParamValues"/>
-    <ref bean="membershipQueryInfo.queryParamValueList"/>
     <ref bean="membershipQueryInfo.searchTypeKey"/>
    
    </list>
@@ -1644,7 +1636,7 @@
   <property name="attributes">
    <list>
     <ref bean="searchParam.key"/>
-    <ref bean="searchParam.value"/>
+    <ref bean="searchParam.values"/>
    </list>
   </property>
  </bean>
@@ -1655,11 +1647,11 @@
  </bean>
  <bean id="searchParam.key" parent="searchParam.key-parent"/>
 
- <bean id="searchParam.value-parent" abstract="true" parent="baseString">
-  <property name="name" value="value"/>
-<!--   <property name="maxOccurs" value="unbounded" /> -->
+ <bean id="searchParam.values-parent" abstract="true" parent="baseString">
+  <property name="name" value="values"/>
+  <property name="maxOccurs" value="unbounded" />
  </bean>
- <bean id="searchParam.value" parent="searchParam.value-parent"/>
+ <bean id="searchParam.values" parent="searchParam.values-parent"/>
    
     
 </beans>
