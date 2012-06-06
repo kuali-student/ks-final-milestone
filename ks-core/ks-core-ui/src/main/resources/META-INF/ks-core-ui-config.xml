@@ -21,12 +21,15 @@
   	<param name="kew.mode">LOCAL</param>
   	<param name="ksb.mode">LOCAL</param>
 
-    <!-- config defaults -->
+	<param name="module.name">ks-core-ui</param>
+	<param name="application.id">KSCoreUI</param>
+	<param name="dev.mode">false</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/ks-ksb-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
     
-    <param name="module.name">ks-core-ui</param>
-    <param name="application.id">KSCoreUI</param>
+	<param name="ks.ignore.rice.login">true</param>
+    
     <param name="db.vendor">derby</param>
 	<param name="jpa.vendor">hibernate</param>
   

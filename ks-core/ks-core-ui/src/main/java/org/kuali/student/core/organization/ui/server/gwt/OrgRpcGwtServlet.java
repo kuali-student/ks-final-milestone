@@ -18,7 +18,6 @@ package org.kuali.student.core.organization.ui.server.gwt;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.in;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,11 +37,26 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
+import org.kuali.student.core.organization.dynamic.Field;
+import org.kuali.student.core.organization.dynamic.Fields;
+import org.kuali.student.core.organization.dynamic.MultipleField;
+import org.kuali.student.core.organization.dynamic.Section;
+import org.kuali.student.core.organization.dynamic.SectionConfig;
+import org.kuali.student.core.organization.dynamic.SectionView;
+import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfo;
+import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfoImpl;
+import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
+import org.kuali.student.core.organization.ui.client.mvc.model.MultipleFieldInfoImpl;
+import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
+import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
+import org.kuali.student.core.organization.ui.client.mvc.model.SectionViewInfo;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -52,24 +66,7 @@ import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
-import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
-import org.kuali.student.core.organization.dynamic.Field;
-import org.kuali.student.core.organization.dynamic.Fields;
-import org.kuali.student.core.organization.dynamic.MultipleField;
-import org.kuali.student.core.organization.dynamic.Section;
-import org.kuali.student.core.organization.dynamic.SectionConfig;
-import org.kuali.student.core.organization.dynamic.SectionView;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfo;
-import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfoImpl;
-import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
-import org.kuali.student.core.organization.ui.client.mvc.model.MultipleFieldInfoImpl;
-import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
-import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
-import org.kuali.student.core.organization.ui.client.mvc.model.SectionViewInfo;
-import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
 public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet implements OrgRpcService{
 	final Logger LOG = Logger.getLogger(OrgRpcGwtServlet.class);
@@ -109,7 +106,9 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     @Override
     public List<OrgHierarchyInfo> getOrgHierarchies() {
         try {
-        	return service.getOrgHierarchies(ContextUtils.getContextInfo());
+            List<OrgHierarchyInfo> orgHierarchies = new ArrayList<OrgHierarchyInfo>();
+            orgHierarchies.addAll(service.getOrgHierarchies(ContextUtils.getContextInfo()));
+        	return orgHierarchies;
         } catch (Exception e) {
         	LOG.error(e);
 		}
@@ -119,7 +118,9 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     @Override
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId) {
         try {
-        	return service.getOrgOrgRelationsByOrg(orgId,ContextUtils.getContextInfo());
+            List<OrgOrgRelationInfo> orgOrgRelations = new ArrayList<OrgOrgRelationInfo>();
+            orgOrgRelations.addAll(service.getOrgOrgRelationsByOrg(orgId,ContextUtils.getContextInfo()));
+            return orgOrgRelations;
         } catch (Exception e) {
         	LOG.error(e);
 		}
@@ -130,7 +131,9 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByRelatedOrg(String orgId) {
         
         try {
-        	return service.getOrgOrgRelationsByOrg(orgId, ContextUtils.getContextInfo());
+            List<OrgOrgRelationInfo> orgOrgRelations = new ArrayList<OrgOrgRelationInfo>();
+            orgOrgRelations.addAll(service.getOrgOrgRelationsByOrg(orgId, ContextUtils.getContextInfo()));
+        	return orgOrgRelations;
         } catch (Exception e) {
         	LOG.error(e);
 		}
@@ -140,7 +143,9 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     @Override
     public List<OrgInfo> getOrganizationsByIdList(List<String> orgIdList) {
         try {
-        	return service.getOrgsByIds(orgIdList, ContextUtils.getContextInfo());
+            List<OrgInfo> orgs = new ArrayList<OrgInfo>();
+            orgs.addAll(service.getOrgsByIds(orgIdList, ContextUtils.getContextInfo()));
+        	return orgs;
         } catch (Exception e) {
         	LOG.error(e);
 		}
@@ -150,7 +155,9 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     @Override
     public List<String> getAllDescendants(String orgId, String orgHierarchy) {
         try {
-        	return service.getAllDescendants(orgId, orgHierarchy, ContextUtils.getContextInfo());
+            List<String> descendants = new ArrayList<String>();
+            descendants.addAll(service.getAllDescendants(orgId, orgHierarchy, ContextUtils.getContextInfo()));
+        	return descendants;
         } catch (Exception e) {
         	LOG.error(e);
 		}
@@ -191,7 +198,9 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 
     public List<TypeInfo> getOrgPersonRelationTypes() {
         try {
-        	return service.getOrgPersonRelationTypes(ContextUtils.getContextInfo());
+            List<TypeInfo> types = new ArrayList<TypeInfo>();
+            types.addAll(service.getOrgPersonRelationTypes(ContextUtils.getContextInfo()));
+        	return types;
         } catch (Exception e) {
         	LOG.error(e);
 		}
@@ -200,7 +209,9 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 
     public List<TypeInfo> getOrgTypes() {
         try {
-        	return service.getOrgTypes(ContextUtils.getContextInfo());
+            List<TypeInfo> types = new ArrayList<TypeInfo>();
+        	types.addAll(service.getOrgTypes(ContextUtils.getContextInfo()));
+        	return types;
         } catch (Exception e) {
         	LOG.error(e);
 		}
@@ -210,7 +221,9 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 
     public List<TypeInfo> getOrgOrgRelationTypes() {
         try {
-        	return service.getOrgOrgRelationTypes(ContextUtils.getContextInfo());
+            List<TypeInfo> types = new ArrayList<TypeInfo>();
+            types.addAll(service.getOrgOrgRelationTypes(ContextUtils.getContextInfo()));
+        	return types;
         } catch (Exception e) {
         	LOG.error(e);
 		}
@@ -238,7 +251,9 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 
     public List<OrgTreeInfo> getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels) {
         try {
-        	return service.getOrgTree(orgId, orgHierarchy, maxLevels, ContextUtils.getContextInfo());
+            List<OrgTreeInfo> orgTrees = new ArrayList<OrgTreeInfo>();
+        	orgTrees.addAll(service.getOrgTree(orgId, orgHierarchy, maxLevels, ContextUtils.getContextInfo()));
+        	return orgTrees;
         } catch (Exception e) {
         	LOG.error(e);
 		}
@@ -259,7 +274,10 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         try {
             List<String> ids = new ArrayList<String>();
             ids.add(orgId);
-        	return service.getOrgPositionRestrictionsByIds(ids, ContextUtils.getContextInfo());
+            
+            List<OrgPositionRestrictionInfo> orgPosRestrictions = new ArrayList<OrgPositionRestrictionInfo>();
+        	orgPosRestrictions.addAll(service.getOrgPositionRestrictionsByIds(ids, ContextUtils.getContextInfo()));
+        	return orgPosRestrictions;
         } catch (Exception e) {
         	LOG.error(e);
 		}
@@ -313,7 +331,9 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     public List<TypeInfo> getOrgPersonRelationTypesForOrgType(
             String orgTypeKey) {
         try {
-        	return service.getOrgPersonRelationTypesForOrgType(orgTypeKey, ContextUtils.getContextInfo());
+            List<TypeInfo> types = new ArrayList<TypeInfo>();
+            types.addAll(service.getOrgPersonRelationTypesForOrgType(orgTypeKey, ContextUtils.getContextInfo()));
+            return types;
         } catch (Exception e) {
         	LOG.error(e);
 		}
@@ -323,7 +343,9 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     @Override
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId) {
         try {
-        	return service.getOrgPersonRelationsByOrg(orgId, ContextUtils.getContextInfo());
+            List<OrgPersonRelationInfo> orgPersonRelations = new ArrayList<OrgPersonRelationInfo>();
+            orgPersonRelations.addAll(service.getOrgPersonRelationsByOrg(orgId, ContextUtils.getContextInfo()));
+            return orgPersonRelations;
         } catch (Exception e) {
         	LOG.error(e);
 		}
@@ -496,23 +518,14 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 
     @Override
     public Map<String, MembershipInfo> getNamesForPersonIds(List<String> personIds) {
-        QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
-        builder.setPredicates(and(in("id", personIds.toArray()),
-                                  equal("active", "Y"),
-                                  and(
-                                    equal("names.active", "Y"),
-                                    equal("names.defaultValue", "Y"))));
-        EntityDefaultQueryResults qr = identityServiceNonCached.findEntityDefaults(builder.build());
-
         Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
-
-        for(EntityDefault entityDefault : qr.getResults()) {
+        for(String pId:personIds ){
+            EntityDefault entity = identityServiceNonCached.getEntityDefaultByPrincipalId(pId);
             MembershipInfo memeberEntity = new MembershipInfo();
-            memeberEntity.setFirstName(entityDefault.getName().getFirstName());
-            memeberEntity.setLastName(entityDefault.getName().getLastName());
-            identities.put(entityDefault.getEntityId(), memeberEntity);
+            memeberEntity.setFirstName(entity.getName().getFirstName());
+            memeberEntity.setLastName(entity.getName().getLastName());
+            identities.put(pId, memeberEntity);
         }
-
         return identities;
     }
 
