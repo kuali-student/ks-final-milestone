@@ -62,7 +62,8 @@
     
     <!--  Dynamic Attributes: Retirement Fields -->
     <ref bean="courseInfo.retirementRationale" />
-	<ref bean="courseInfo.lastTermOffered" /> 
+	<ref bean="courseInfo.lastTermOffered" />    
+	<ref bean="courseInfo.lastPublicationYear" />
 	<ref bean="courseInfo.specialCircumstances" />
 
     <!-- Searches -->
@@ -70,6 +71,10 @@
          their model structure
     see https://jira.kuali.org/browse/KSLUM-375
     -->
+	<ref bean="courseInfo.searchCourseVersions"/> 
+
+    <ref bean="freestanding.search.cluset" />
+    <ref bean="freestanding.search.findCourse" />
 
    </list>
   </property>
@@ -2068,6 +2073,13 @@
   </property>  
  </bean>
  <bean id="courseInfo.lastTermOffered" parent="courseInfo.lastTermOffered-parent" />
+
+ <bean id="courseInfo.lastPublicationYear-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="lastPublicationYear" />
+  <property name="dynamic" value="true"/>
+  <property name="lookupDefinition" ref="constraint.lookup.course.endTerm"/>
+ </bean>
+ <bean id="courseInfo.lastPublicationYear" parent="courseInfo.lastPublicationYear-parent" />
 
  <bean id="courseInfo.specialCircumstances" parent="baseString">
   <property name="name" value="specialCircumstances" />
