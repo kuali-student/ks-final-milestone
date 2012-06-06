@@ -20,7 +20,7 @@
      limitations under the License.
     -->
     <bean id="KS-CourseOfferingRolloverManagement-View" parent="KSFormView" p:applyDirtyCheck="true"
-          p:id="courseOfferingRolloverManagementView" p:headerText="Course Offerings-Rollover"
+          p:id="courseOfferingRolloverManagementView" p:headerText="Perform Rollover"
           p:entryPageId="selectTermsForRollover"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm">
@@ -34,28 +34,29 @@
 
     <property name="items">
         <list>
-
-
-        <bean id="KS-CourseOfferingRolloverManagement-SelectTermPage" parent="Uif-Page" p:disclosure.render="false"
-              p:id="selectTermsForRollover"
-              p:headerText=" ">
-            <property name="header">
-                <bean parent="Uif-HeaderTwo"/>
-            </property>
-            <property name="items">
+          <bean id="KS-CourseOfferingRolloverManagement-SelectTermPage" parent="Uif-Page" p:disclosure.render="false"
+              p:id="selectTermsForRollover">
+             <property name="items">
                 <list>
-                    <bean parent="Uif-HeaderOne" p:headerText="Select Source and Target Terms"/>
                     <bean parent="Uif-DataField" p:propertyName="statusField" p:label="Status (temp)"/>
-                    <bean parent="Uif-HorizontalBoxSection" p:style="min-width:17cm">
+                    <bean parent="Uif-VerticalBoxGroup" p:style="min-width:17cm">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-VerticalFieldGroup">
+                                <bean parent="Uif-GridSection" p:headerText="Select Target Term"
+                                      p:layoutManager.numberOfColumns="2">
+                                    <property name="validationMessages">
+                                        <bean parent="Uif-GroupValidationMessages">
+                                            <property name="displayFieldLabelWithMessages" value="false"/>
+                                        </bean>
+                                    </property>
                                     <property name="items">
                                         <list>
-                                            <bean parent="Uif-HorizontalBoxSection" p:valign="BOTTOM">
+                                            <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
                                                 <property name="items">
                                                     <list>
-                                                        <bean parent="Uif-InputField" p:propertyName="targetTermCode" p:label="Target Term" p:labelPlacement="TOP" p:required="true">
+                                                        <bean parent="Uif-InputField" p:propertyName="targetTermCode"
+                                                              p:label="Target Term" p:labelPlacement="TOP"
+                                                              p:required="true">
                                                             <property name="control">
                                                                 <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2009" p:minLength="7" p:maxLength="7"/>
                                                             </property>
@@ -64,7 +65,7 @@
                                                     </list>
                                                 </property>
                                             </bean>
-                                            <bean parent="Uif-VerticalBoxSection" p:headerText="Target Term Details">
+                                            <bean parent="Uif-VerticalBoxSubSection" p:render="@{displayedTargetTermCode!=''}">
                                                 <property name="items">
                                                     <list>
                                                     <!-- More stuff on left side here -->
@@ -78,10 +79,16 @@
                                         </list>
                                     </property>
                                 </bean>
-                                <bean parent="Uif-VerticalFieldGroup">
+                                <bean parent="Uif-GridSection" p:headerText="Select Source Term"
+                                      p:layoutManager.numberOfColumns="2">
+                                    <property name="validationMessages">
+                                        <bean parent="Uif-GroupValidationMessages">
+                                             <property name="displayFieldLabelWithMessages" value="false"/>
+                                        </bean>
+                                    </property>
                                     <property name="items">
                                         <list>
-                                            <bean parent="Uif-HorizontalFieldGroup">
+                                            <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
                                                 <property name="items">
                                                     <list>
                                                         <bean parent="Uif-InputField" p:propertyName="sourceTermCode" p:label="Source Term" p:labelPlacement="TOP" p:required="true">
@@ -94,7 +101,7 @@
                                                     </list>
                                                 </property>
                                             </bean>
-                                            <bean parent="Uif-VerticalBoxSection" p:headerText="Source Term Details">
+                                            <bean parent="Uif-VerticalBoxSubSection" p:render="@{displayedSourceTermCode!=''}">
                                                 <property name="items">
                                                     <list>
                                                         <!-- More stuff on right side here -->

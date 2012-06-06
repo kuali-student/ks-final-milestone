@@ -222,8 +222,6 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     }
 
     public void resetForm(){
-        targetTermCode = "";
-        sourceTermCode = "";
         displayedTargetTermCode = "";
         targetTermStartDate = "";
         targetTermEndDate = "";
