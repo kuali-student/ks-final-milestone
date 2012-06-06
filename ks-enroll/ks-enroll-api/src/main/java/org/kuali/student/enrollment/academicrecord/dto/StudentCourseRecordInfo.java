@@ -15,38 +15,40 @@
 
 package org.kuali.student.enrollment.academicrecord.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.enrollment.academicrecord.infc.StudentCourseRecord;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.enrollment.academicrecord.infc.StudentCourseRecord;
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentCourseRecordInfo", propOrder = {
-        "id", "typeKey", "stateKey", 
-        "sourceTypeKey", "courseRegistrationId",
-	"personId", "courseTitle", "courseCode", "activityCode", 
-        "termName", "courseBeginDate", "courseEndDate", 
-        "assignedGradeValue", "assignedGradeScaleKey", 
-        "administrativeGradeValue", "administrativeGradeScaleKey", 
-        "calculatedGradeValue", "calculatedGradeScaleKey", 
+        "id", "typeKey", "stateKey",
+        "courseOfferingId", "sourceTypeKey", "courseRegistrationId",
+        "personId", "courseTitle", "courseCode", "activityCode",
+        "termName", "courseBeginDate", "courseEndDate",
+        "assignedGradeValue", "assignedGradeScaleKey",
+        "administrativeGradeValue", "administrativeGradeScaleKey",
+        "calculatedGradeValue", "calculatedGradeScaleKey",
         "creditsAttempted", "creditsEarned", "creditsForGPA",
         "countsTowardCredits", "isRepeated",
         "meta", "attributes", "_futureElements"})
 
-public class StudentCourseRecordInfo     
-    extends IdNamelessEntityInfo
-    implements StudentCourseRecord, Serializable {
+public class StudentCourseRecordInfo
+        extends IdNamelessEntityInfo
+        implements StudentCourseRecord, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private String courseOfferingId;
 
     @XmlElement
     private String sourceTypeKey;
@@ -108,32 +110,10 @@ public class StudentCourseRecordInfo
     @XmlElement
     private Boolean isRepeated;
 
-    @XmlAnyElement    
+    @XmlAnyElement
     List<Element> _futureElements;
 
     public StudentCourseRecordInfo() {
-        sourceTypeKey = null;
-        courseRegistrationId = null;
-        personId = null;
-        courseTitle = null;
-        courseCode = null;
-        activityCode = null;
-        termName = null;
-        courseBeginDate = null;
-        courseEndDate = null;
-        assignedGradeValue = null;
-        assignedGradeScaleKey = null;
-        administrativeGradeValue = null;
-        administrativeGradeScaleKey = null;
-        calculatedGradeValue = null;
-        calculatedGradeScaleKey = null;
-        creditsAttempted = null;
-        creditsEarned = null;
-        creditsForGPA = null;
-        countsTowardCredits = new Boolean(false);
-        isRepeated = new Boolean(false);
-
-        _futureElements = null;
     }
 
     /**
@@ -145,28 +125,37 @@ public class StudentCourseRecordInfo
     public StudentCourseRecordInfo(StudentCourseRecord scr) {
         super(scr);
 
-        sourceTypeKey = scr.getSourceTypeKey();
-        courseRegistrationId = scr.getCourseRegistrationId();
-        personId = scr.getPersonId();;
-        courseTitle = scr.getCourseTitle();
-        courseCode = scr.getCourseCode();
-        activityCode = scr.getActivityCode();
-        termName = scr.getTermName();
-        courseBeginDate = scr.getCourseBeginDate();
-        courseEndDate = scr.getCourseEndDate();
-        assignedGradeValue = scr.getAssignedGradeValue();
-        assignedGradeScaleKey = scr.getAssignedGradeScaleKey();
-        administrativeGradeValue = scr.getAdministrativeGradeValue();
-        administrativeGradeScaleKey = scr.getAdministrativeGradeScaleKey();
-        calculatedGradeValue = scr.getCalculatedGradeValue();
-        calculatedGradeScaleKey = scr.getCalculatedGradeScaleKey();
-        creditsAttempted = scr.getCreditsAttempted();
-        creditsEarned = scr.getCreditsEarned();
-        creditsForGPA = scr.getCreditsForGPA();
-        countsTowardCredits = scr.getCountsTowardCredits();
-        isRepeated = scr.getIsRepeated();
+        this.courseOfferingId = scr.getCourseOfferingId();
+        this.sourceTypeKey = scr.getSourceTypeKey();
+        this.courseRegistrationId = scr.getCourseRegistrationId();
+        this.personId = scr.getPersonId();
+        ;
+        this.courseTitle = scr.getCourseTitle();
+        this.courseCode = scr.getCourseCode();
+        this.activityCode = scr.getActivityCode();
+        this.termName = scr.getTermName();
+        this.courseBeginDate = scr.getCourseBeginDate();
+        this.courseEndDate = scr.getCourseEndDate();
+        this.assignedGradeValue = scr.getAssignedGradeValue();
+        this.assignedGradeScaleKey = scr.getAssignedGradeScaleKey();
+        this.administrativeGradeValue = scr.getAdministrativeGradeValue();
+        this.administrativeGradeScaleKey = scr.getAdministrativeGradeScaleKey();
+        this.calculatedGradeValue = scr.getCalculatedGradeValue();
+        this.calculatedGradeScaleKey = scr.getCalculatedGradeScaleKey();
+        this.creditsAttempted = scr.getCreditsAttempted();
+        this.creditsEarned = scr.getCreditsEarned();
+        this.creditsForGPA = scr.getCreditsForGPA();
+        this.countsTowardCredits = scr.getCountsTowardCredits();
+        this.isRepeated = scr.getIsRepeated();
+    }
 
-        _futureElements = null;
+    @Override
+    public String getCourseOfferingId() {
+        return courseOfferingId;
+    }
+
+    public void setCourseOfferingId(String courseOfferingId) {
+        this.courseOfferingId = courseOfferingId;
     }
 
     @Override

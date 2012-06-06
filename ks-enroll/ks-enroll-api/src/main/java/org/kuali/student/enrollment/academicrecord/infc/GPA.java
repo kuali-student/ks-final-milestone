@@ -15,7 +15,7 @@
 
 package org.kuali.student.enrollment.academicrecord.infc;
 
-import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 /**
  * Information about a GPA.
@@ -25,13 +25,13 @@ import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
  */ 
 
 public interface GPA
-    extends HasAttributesAndMeta {
+    extends IdNamelessEntity {
 
     /**
      * The GPA value.
      *
      * @return a string representing a floating point decimal number
-     * @name GPA
+     * @name Value
      * @readOnly
      * @required
      */

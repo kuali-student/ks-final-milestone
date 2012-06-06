@@ -15,27 +15,27 @@
 
 package org.kuali.student.enrollment.academicrecord.dto;
 
-import java.io.Serializable;
-import java.util.List;
+import org.kuali.student.enrollment.academicrecord.infc.GPA;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.enrollment.academicrecord.infc.GPA;
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "GPAInfo", propOrder = {
-        "value", "calculationTypeKey", "scaleKey", 
-        "meta", "attributes", "_futureElements"})
+        "id", "meta", "attributes",
+        "value", "calculationTypeKey", "scaleKey",
+        "typeKey", "stateKey", "_futureElements"})
 
-public class GPAInfo 
-    extends HasAttributesAndMetaInfo 
-    implements GPA, Serializable {
+public class GPAInfo
+        extends IdNamelessEntityInfo
+        implements GPA, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,7 @@ public class GPAInfo
     @XmlElement
     private String scaleKey;
 
-    @XmlAnyElement    
+    @XmlAnyElement
     List<Element> _futureElements;
 
     public GPAInfo() {

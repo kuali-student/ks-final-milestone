@@ -15,9 +15,9 @@
 
 package org.kuali.student.enrollment.academicrecord.infc;
 
-import java.util.Date;
-
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
+
+import java.util.Date;
 
 /**
  * Information about a Student Course Record. A Student Course Record
@@ -31,6 +31,14 @@ import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 public interface StudentCourseRecord 
     extends IdNamelessEntity {
+
+    /**
+     * Id of the course that was taken by the student
+     * @name Course Offering Id
+     * @readOnly
+     * @required
+     */
+    public String getCourseOfferingId();
 
     /**
      *  The Source is represented by a Type to indicate what crated

@@ -20,12 +20,16 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
  * This class holds the constants used by the Academic Record service
  *
  * @author tom
+ *
+ * @Version 2.0
+ * @Author Sri komandur@uw.edu
  */
 public class AcademicRecordServiceConstants {
-
     /**
      * Reference Object URI's
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "academicrecord";
-    public static final String SERVICE_NAME = "AcademicRecordService";
+    public static final String SERVICE_NAME_LOCAL_PART = "AcademicRecordService";
+
+
 }
