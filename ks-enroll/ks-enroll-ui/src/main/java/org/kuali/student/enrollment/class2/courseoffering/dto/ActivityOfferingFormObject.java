@@ -12,6 +12,7 @@ public class ActivityOfferingFormObject implements Serializable{
     private ActivityOfferingInfo aoInfo;
     private FormatOfferingInfo formatOffering;
     private TermInfo term;
+    private boolean readOnlyView;
 
     public ActivityOfferingFormObject(){
         aoInfo = new ActivityOfferingInfo();
@@ -19,6 +20,7 @@ public class ActivityOfferingFormObject implements Serializable{
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         formatOffering = new FormatOfferingInfo();
         term = new TermInfo();
+        this.setReadOnlyView(false);
     }
 
     public ActivityOfferingFormObject(ActivityOfferingInfo info){
@@ -49,5 +51,14 @@ public class ActivityOfferingFormObject implements Serializable{
     public void setAoInfo(ActivityOfferingInfo aoInfo) {
         this.aoInfo = aoInfo;
     }
+
+    public boolean getReadOnlyView() {
+        return readOnlyView;
+    }
+
+    public void setReadOnlyView(boolean readOnlyView) {
+        this.readOnlyView = readOnlyView;
+    }
+
 
 }

@@ -28,7 +28,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping(value = "/courseOfferingManagement")
-public class CourseOfferingManagementController extends UifControllerBase {
+public class CourseOfferingManagementController extends UifControllerBase  {
     private CourseOfferingManagementViewHelperService viewHelperService;
 
     @Override
@@ -167,7 +167,6 @@ public class CourseOfferingManagementController extends UifControllerBase {
         Properties urlParameters;
         String controllerPath;
         Object selectedObject = _getSelectedObject(theForm, "edit");
-
         if(selectedObject instanceof CourseOfferingInfo){
             urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"maintenanceEdit",false,getContextInfo());
             controllerPath = "maintenance";
@@ -224,8 +223,9 @@ public class CourseOfferingManagementController extends UifControllerBase {
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("aoInfo.id", activityOfferingInfo.getId());
+        props.put("readOnlyView", readOnlyView);
         props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject");
-        props.put(CalendarConstants.READ_ONLY_VIEW,""+ true);
+
         return props;
 
     }

@@ -36,7 +36,7 @@
         </property>
       </bean>
 
-        <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView">
+        <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView}">
         <property name="headerText" value="Activity Offering Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />

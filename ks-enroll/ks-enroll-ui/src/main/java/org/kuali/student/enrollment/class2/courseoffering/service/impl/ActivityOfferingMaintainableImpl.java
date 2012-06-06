@@ -42,6 +42,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient StateService stateService;
     private CourseService courseService;
 
+
+
     @Override
     public void saveDataObject() {
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
@@ -106,9 +108,12 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
             ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(dataObjectKeys.get("aoInfo.id"),getContextInfo());
-
             ViewHelperUtil.getInstructorNames(info.getInstructors());
             ActivityOfferingFormObject formObject = new ActivityOfferingFormObject(info);
+
+            boolean readOnlyView = Boolean.parseBoolean(dataObjectKeys.get("readOnlyView"));
+            formObject.setReadOnlyView(readOnlyView);
+
             document.getNewMaintainableObject().setDataObject(formObject);
             document.getOldMaintainableObject().setDataObject(formObject);
             document.getDocumentHeader().setDocumentDescription("Edit AO - " + info.getActivityCode());
