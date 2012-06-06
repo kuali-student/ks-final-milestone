@@ -6,5 +6,5 @@
         ID="SPRING2012" NAME="Spring 2012 SOC"
         OBJ_ID="a4485520-aa8d-11e1-afa6-0800200c9a66"
         SOC_STATE="kuali.soc.state.published"
-        SOC_TYPE="kuali.soc.type.main" TERM_ID="kuali.atp.2012SPRING" VER_NBR="0"/>
+        SOC_TYPE="kuali.soc.type.main" TERM_ID="2012SPRING" VER_NBR="0"/>
 </dataset>
