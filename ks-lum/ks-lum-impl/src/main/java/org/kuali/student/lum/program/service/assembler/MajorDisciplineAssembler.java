@@ -1,17 +1,7 @@
 /*
- * Copyright 2007 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2007 The Kuali Foundation Licensed under the Educational Community License, Version 1.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at http://www.opensource.org/licenses/ecl1.php Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 package org.kuali.student.lum.program.service.assembler;
 
@@ -51,10 +41,8 @@ import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
 
-
 /**
- * @author KS TODO - Much of this should be shared with ProgramVariationAssembler (and probably other Program Assemblers to
- *         come). AssemblerUtils?
+ * @author KS TODO - Much of this should be shared with ProgramVariationAssembler (and probably other Program Assemblers to come). AssemblerUtils?
  */
 public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo, CluInfo> {
     final static Logger LOG = Logger.getLogger(CourseAssembler.class);
@@ -65,7 +53,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     private CoreProgramAssembler coreProgramAssembler;
     private CluAssemblerUtils cluAssemblerUtils;
     private ProgramAssemblerUtils programAssemblerUtils;
-
 
     @Override
     public MajorDisciplineInfo assemble(CluInfo baseDTO, MajorDisciplineInfo businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException {
@@ -91,25 +78,23 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setNextReviewPeriod(baseDTO.getNextReviewPeriod());
 
         if (!shallowBuild) {
-        	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) mdInfo, contextInfo);
+            programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) mdInfo, contextInfo);
             mdInfo.setCredentialProgramId(programAssemblerUtils.getCredentialProgramID(baseDTO.getId(), contextInfo));
             mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(baseDTO.getId(), contextInfo));
-            mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo));
+            mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild, contextInfo));
             mdInfo.setVariations(assembleVariations(baseDTO.getId(), shallowBuild, contextInfo));
             mdInfo.setOrgCoreProgram(assembleCoreProgram(baseDTO.getId(), shallowBuild, contextInfo));
             programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) mdInfo, contextInfo);
         }
-        
-       return mdInfo;
+
+        return mdInfo;
     }
-
-
 
     private CoreProgramInfo assembleCoreProgram(String cluId, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
         CoreProgramInfo coreProgramInfo = null;
         try {
             List<CluInfo> corePrograms = cluService.getRelatedClusByCluId(cluId, ProgramAssemblerConstants.HAS_CORE_PROGRAM);
-            // TODO - is it an error if there's more than one core program?                                                                           on
+            // TODO - is it an error if there's more than one core program? on
             if (corePrograms.size() == 1) {
                 coreProgramInfo = coreProgramAssembler.assemble(corePrograms.get(0), null, shallowBuild, contextInfo);
             } else if (corePrograms.size() > 1) {
@@ -125,13 +110,13 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         List<ProgramVariationInfo> variations = new ArrayList<ProgramVariationInfo>();
 
         try {
-        	Map<String, CluCluRelationInfo> currentRelations = programAssemblerUtils.getCluCluActiveRelations(cluId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION, contextInfo);
-        	if(currentRelations != null && !currentRelations.isEmpty()){
-        		for (String variationId : currentRelations.keySet()) {
+            Map<String, CluCluRelationInfo> currentRelations = programAssemblerUtils.getCluCluActiveRelations(cluId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION, contextInfo);
+            if (currentRelations != null && !currentRelations.isEmpty()) {
+                for (String variationId : currentRelations.keySet()) {
                     CluInfo variationClu = cluService.getClu(variationId, contextInfo);
-        			variations.add(programVariationAssembler.assemble(variationClu, null, shallowBuild, contextInfo));
-        		}
-        	}
+                    variations.add(programVariationAssembler.assemble(variationClu, null, shallowBuild, contextInfo));
+                }
+            }
         } catch (Exception e) {
             throw new AssemblyException(e);
         }
@@ -140,25 +125,24 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 
     @Override
     public BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> disassemble(MajorDisciplineInfo businessDTO, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
-		if (businessDTO == null) {
-		    LOG.error("Major for  disassemble is null!");
-			throw new AssemblyException("Major cannot be null");
-		}
+        if (businessDTO == null) {
+            LOG.error("Major for  disassemble is null!");
+            throw new AssemblyException("Major cannot be null");
+        }
 
-        //TODO   IDs for objects w/o ids
+        // TODO IDs for objects w/o ids
 
-		BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result = new BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo>(
-				this);
-		
-		CluInfo clu;
-		try {
-			clu = (NodeOperation.UPDATE == operation) ? cluService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
+        BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result = new BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo>(this);
+
+        CluInfo clu;
+        try {
+            clu = (NodeOperation.UPDATE == operation) ? cluService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
         } catch (Exception e) {
-			throw new AssemblyException("Error getting existing learning unit during major update", e);
-        } 
-        
+            throw new AssemblyException("Error getting existing learning unit during major update", e);
+        }
+
         boolean stateChanged = NodeOperation.UPDATE == operation && businessDTO.getStateKey() != null && !businessDTO.getStateKey().equals(clu.getStateKey());
-        
+
         programAssemblerUtils.disassembleBasics(clu, (ProgramCommonAssembly) businessDTO);
         if (businessDTO.getId() == null)
             businessDTO.setId(clu.getId());
@@ -167,19 +151,19 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.disassembleAtps(clu, (ProgramAtpAssembly) businessDTO, operation);
         programAssemblerUtils.disassembleIdentifiers(clu, (ProgramIdentifierAssembly) businessDTO, operation);
         programAssemblerUtils.disassemblePublications(clu, (ProgramPublicationAssembly) businessDTO, operation, result, contextInfo);
-        
-        if(businessDTO.getProgramRequirements() != null && !businessDTO.getProgramRequirements().isEmpty()) {
-        	programAssemblerUtils.disassembleRequirements(clu, (ProgramRequirementAssembly) businessDTO, operation, result, stateChanged, contextInfo);
+
+        if (businessDTO.getProgramRequirements() != null && !businessDTO.getProgramRequirements().isEmpty()) {
+            programAssemblerUtils.disassembleRequirements(clu, (ProgramRequirementAssembly) businessDTO, operation, result, stateChanged, contextInfo);
         }
 
         if (businessDTO.getVariations() != null && !businessDTO.getVariations().isEmpty()) {
             try {
-				disassembleVariations(businessDTO, operation, result, contextInfo);
-			} catch (Exception e) {
-				throw new AssemblyException("Error diassembling Variations during major update", e);
-			} 
+                disassembleVariations(businessDTO, operation, result, contextInfo);
+            } catch (Exception e) {
+                throw new AssemblyException("Error diassembling Variations during major update", e);
+            }
         }
-        if (businessDTO.getOrgCoreProgram() != null ) {
+        if (businessDTO.getOrgCoreProgram() != null) {
             disassembleCoreProgram(businessDTO, operation, result, contextInfo);
         }
         if (businessDTO.getCredentialProgramId() != null) {
@@ -189,12 +173,12 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
             disassembleResultOptions(businessDTO, operation, result, contextInfo);
         }
         if (businessDTO.getLearningObjectives() != null) {
-            disassembleLearningObjectives(businessDTO, operation, result,contextInfo);
+            disassembleLearningObjectives(businessDTO, operation, result, contextInfo);
         }
 
         AmountInfo intensity = new AmountInfo();
         intensity.setUnitTypeKey(businessDTO.getIntensity());
-		clu.setIntensity(intensity);
+        clu.setIntensity(intensity);
         clu.setStdDuration(businessDTO.getStdDuration());
         clu.setInstructors(businessDTO.getPublishedInstructors());
 
@@ -207,30 +191,31 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         clu.setAccreditations(businessDTO.getAccreditingAgencies());
         clu.setNextReviewPeriod(businessDTO.getNextReviewPeriod());
         clu.setStateKey(businessDTO.getStateKey());
+        if (clu.getIsEnrollable() == null) {
+            clu.setIsEnrollable(false);
+        }
+        // Add the Clu to the result
+        result.setNodeData(clu);
+        result.setOperation(operation);
+        result.setBusinessDTORef(businessDTO);
 
-		// Add the Clu to the result
-		result.setNodeData(clu);
-		result.setOperation(operation);
-		result.setBusinessDTORef(businessDTO);
-
-    	return result;
+        return result;
     }
 
-    private void disassembleLearningObjectives(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
-    	try {
-        	 List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(major.getId(), major.getStateKey(),  major.getLearningObjectives(), operation,contextInfo);
+    private void disassembleLearningObjectives(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
+        try {
+            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(major.getId(), major.getStateKey(), major.getLearningObjectives(), operation, contextInfo);
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
             }
-        } catch (DoesNotExistException e) {
-        } catch (Exception e) {
+        } catch (DoesNotExistException e) {} catch (Exception e) {
             throw new AssemblyException("Error while disassembling los", e);
         }
     }
 
     private void disassembleResultOptions(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
-        //TODO Check for ProgramAssemblerConstants.CERTIFICATE_RESULTS too
-        
+        // TODO Check for ProgramAssemblerConstants.CERTIFICATE_RESULTS too
+
         BaseDTOAssemblyNode<?, ?> degreeResults = cluAssemblerUtils.disassembleCluResults(major.getId(), major.getStateKey(), major.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option", contextInfo);
         if (degreeResults != null) {
             result.getChildNodes().add(degreeResults);
@@ -239,7 +224,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 
     private void disassembleCredentialProgram(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
 
-        List<BaseDTOAssemblyNode<?,?>> credentialResults;
+        List<BaseDTOAssemblyNode<?, ?>> credentialResults;
         try {
             credentialResults = programAssemblerUtils.disassembleCredentialProgram((ProgramCredentialAssembly) major, operation, ProgramAssemblerConstants.HAS_MAJOR_PROGRAM, contextInfo);
             if (credentialResults != null) {
@@ -251,65 +236,67 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     }
 
     private void disassembleVariations(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	Map<String, CluCluRelationInfo> currentRelations = null;
-    	List<BaseDTOAssemblyNode<?, ?>> nodes = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
-    	
-    	if (!NodeOperation.CREATE.equals(operation)){
-    		currentRelations = programAssemblerUtils.getCluCluActiveRelations(major.getId(), ProgramAssemblerConstants.HAS_PROGRAM_VARIATION, contextInfo);
-    	}
-    	
-    	// Loop through all the variations in this MD
+        Map<String, CluCluRelationInfo> currentRelations = null;
+        List<BaseDTOAssemblyNode<?, ?>> nodes = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
+
+        if (!NodeOperation.CREATE.equals(operation)) {
+            currentRelations = programAssemblerUtils.getCluCluActiveRelations(major.getId(), ProgramAssemblerConstants.HAS_PROGRAM_VARIATION, contextInfo);
+        }
+
+        // Loop through all the variations in this MD
         for (ProgramVariationInfo variation : major.getVariations()) {
-            BaseDTOAssemblyNode<?,?> variationNode;
+            BaseDTOAssemblyNode<?, ?> variationNode;
             variation.setStateKey(major.getStateKey());
             try {
-	            if (NodeOperation.UPDATE.equals(operation) && variation.getId() != null
-						&& (currentRelations != null && currentRelations.containsKey(variation.getId()))) {
-	                // If the relationship already exists update it
-	                // remove this entry from the map so we can tell what needs to be deleted at the end
-	            	variationNode = programVariationAssembler.disassemble(variation, operation, contextInfo);
-	            	if (variationNode != null) nodes.add(variationNode);
-	            	currentRelations.remove(variation.getId());  
-	            } else if (!NodeOperation.DELETE.equals(operation)) {
-					// the variation does not exist, so create variation & cluclurelation
-	            	variationNode = programVariationAssembler.disassemble(variation, NodeOperation.CREATE, contextInfo);
-	            	if (variationNode != null) nodes.add(variationNode);
-					programAssemblerUtils.addCreateRelationNode(major.getId(), variation.getId(), ProgramAssemblerConstants.HAS_PROGRAM_VARIATION, nodes);
-				}
+                if (NodeOperation.UPDATE.equals(operation) && variation.getId() != null && (currentRelations != null && currentRelations.containsKey(variation.getId()))) {
+                    // If the relationship already exists update it
+                    // remove this entry from the map so we can tell what needs to be deleted at the end
+                    variationNode = programVariationAssembler.disassemble(variation, operation, contextInfo);
+                    if (variationNode != null)
+                        nodes.add(variationNode);
+                    currentRelations.remove(variation.getId());
+                } else if (!NodeOperation.DELETE.equals(operation)) {
+                    // the variation does not exist, so create variation & cluclurelation
+                    variationNode = programVariationAssembler.disassemble(variation, NodeOperation.CREATE, contextInfo);
+                    if (variationNode != null)
+                        nodes.add(variationNode);
+                    programAssemblerUtils.addCreateRelationNode(major.getId(), variation.getId(), ProgramAssemblerConstants.HAS_PROGRAM_VARIATION, nodes);
+                }
             } catch (Exception e) {
                 throw new AssemblyException("Error while disassembling Variation", e);
-            } 
+            }
         }
-        
+
         // Now any leftover variation ids are no longer needed, so suspend them
-        if(currentRelations != null && currentRelations.size() > 0){
-        	programAssemblerUtils.addSuspendedRelationNodes(currentRelations, nodes);  	
-        	addInactivateVariationNodes(currentRelations, nodes, contextInfo);
+        if (currentRelations != null && currentRelations.size() > 0) {
+            programAssemblerUtils.addSuspendedRelationNodes(currentRelations, nodes);
+            addInactivateVariationNodes(currentRelations, nodes, contextInfo);
         }
 
         result.getChildNodes().addAll(nodes);
     }
 
-    private void addInactivateVariationNodes(Map<String, CluCluRelationInfo> currentRelations, List<BaseDTOAssemblyNode<?, ?>> nodes, ContextInfo contextInfo) throws AssemblyException{
-    	for (String variationId : currentRelations.keySet()) {
-			CluInfo variationClu;
-			try {
-                variationClu = cluService.getClu(variationId,contextInfo);
-				ProgramVariationInfo delVariation = programVariationAssembler.assemble(variationClu, null, true, contextInfo);
-				delVariation.setStateKey(DtoConstants.STATE_SUSPENDED);
-				BaseDTOAssemblyNode<?,?> variationNode = programVariationAssembler.disassemble(delVariation , NodeOperation.UPDATE, contextInfo);
-				if (variationNode != null) nodes.add(variationNode);
-			} catch (Exception e) {
-				throw new AssemblyException("Error while disassembling variation, deactivateVariations", e);
-			}
-    	}
+    private void addInactivateVariationNodes(Map<String, CluCluRelationInfo> currentRelations, List<BaseDTOAssemblyNode<?, ?>> nodes, ContextInfo contextInfo) throws AssemblyException {
+        for (String variationId : currentRelations.keySet()) {
+            CluInfo variationClu;
+            try {
+                variationClu = cluService.getClu(variationId, contextInfo);
+                ProgramVariationInfo delVariation = programVariationAssembler.assemble(variationClu, null, true, contextInfo);
+                delVariation.setStateKey(DtoConstants.STATE_SUSPENDED);
+                BaseDTOAssemblyNode<?, ?> variationNode = programVariationAssembler.disassemble(delVariation, NodeOperation.UPDATE, contextInfo);
+                if (variationNode != null)
+                    nodes.add(variationNode);
+            } catch (Exception e) {
+                throw new AssemblyException("Error while disassembling variation, deactivateVariations", e);
+            }
+        }
     }
-    
+
     private void disassembleCoreProgram(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
 
-        BaseDTOAssemblyNode<?,?> coreResults;
+        BaseDTOAssemblyNode<?, ?> coreResults;
         try {
-        	major.getOrgCoreProgram().setStateKey(major.getStateKey());
+            major.getOrgCoreProgram().setStateKey(major.getStateKey());
             coreResults = coreProgramAssembler.disassemble((CoreProgramInfo) major.getOrgCoreProgram(), operation, contextInfo);
             if (coreResults != null) {
                 result.getChildNodes().add(coreResults);
@@ -324,7 +311,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         this.cluService = cluService;
     }
 
-	public void setProgramVariationAssembler(ProgramVariationAssembler programVariationAssembler) {
+    public void setProgramVariationAssembler(ProgramVariationAssembler programVariationAssembler) {
         this.programVariationAssembler = programVariationAssembler;
     }
 
@@ -343,6 +330,5 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     public void setProgramAssemblerUtils(ProgramAssemblerUtils programAssemblerUtils) {
         this.programAssemblerUtils = programAssemblerUtils;
     }
-
 
 }
