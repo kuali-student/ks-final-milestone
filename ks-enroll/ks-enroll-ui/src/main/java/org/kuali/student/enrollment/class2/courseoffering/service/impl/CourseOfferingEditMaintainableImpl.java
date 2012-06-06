@@ -54,6 +54,9 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl impleme
     private transient TypeService typeService;
     private transient StateService stateService;
 
+
+    //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012).
+
     @Override
     public void saveDataObject() {
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||

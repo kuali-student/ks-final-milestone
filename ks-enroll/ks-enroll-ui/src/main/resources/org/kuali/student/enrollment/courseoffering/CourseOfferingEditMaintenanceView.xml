@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
     <!--
      Copyright 2007-2009 The Kuali Foundation
 
@@ -87,6 +86,52 @@
                     </property>
                 </bean>
 
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="headerText" value="Personnel"/>
+                    <property name="items">
+                        <list>
+                            <bean id="KS-ActivityOffering-PersonnelSection" parent="Uif-TableCollectionSection"
+                                  p:layoutManager.numberOfColumns="6"
+                                  p:layoutManager.style="width: 100%; display:block;">
+                                <property name="headerText" value="Affiliated Personnel" />
+                                <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo" />
+                                <property name="propertyName" value="coInfo.instructors" />
+                                <property name="layoutManager.renderSequenceField" value="false" />
+                                <property name="layoutManager.separateAddLine" value="false" />
+                                <property name="layoutManager.richTable.render" value="false" />
+                                <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                                <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID">
+                                            <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                                            <property name="quickfinder.fieldConversions">
+                                                <map>
+                                                    <entry key="name" value="personName"/>
+                                                    <entry key="entityId" value="personId"/>
+                                                </map>
+                                            </property>
+                                            <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="personName" p:label="Name" p:readOnly="true" />
+                                        <bean parent="Uif-InputField" p:propertyName="typeKey" p:label="AFFILIATION">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:options-ref="coInstructors-options" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="percentageEffort" p:label="INST.EFFORT">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="10" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
             </list>
         </property>
         <property name="footer.items">
@@ -109,5 +154,11 @@
         </property>
     </bean>
 
+
+    <util:list id="coInstructors-options">
+        <bean parent="Uif-KeyLabelPair" p:key="" p:value="Select One..."/>
+        <bean parent="Uif-KeyLabelPair" p:key="kuali.lpr.type.instructor.main" p:value="Instructor"/>
+        <bean parent="Uif-KeyLabelPair" p:key="kuali.lpr.type.instructor.assistant" p:value="Teaching Assistant"/>
+    </util:list>
 
 </beans>
