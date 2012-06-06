@@ -32,6 +32,6 @@
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-war ${workspace_loc:ks-core}/ks-core-ui/target/ks-core-ui-webapp -startupUrl org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp org.kuali.student.core.organization.ui.OrgEntry"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="ks-core"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.maven.ide.eclipse.launchconfig.sourcepathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx256M"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx512M -XX:PermSize=128m"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:ks-core/ks-core-ui/target}"/>
 </launchConfiguration>
