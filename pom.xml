@@ -987,6 +987,11 @@
         <artifactId>rice-kim-api</artifactId>
         <version>${kuali.rice.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.kuali.rice</groupId>
+        <artifactId>rice-kim-impl</artifactId>
+        <version>${kuali.rice.version}</version>
+      </dependency>
       <!-- RU dependency>
         <groupId>org.kuali.rice</groupId>
         <artifactId>rice-kew-api</artifactId>
