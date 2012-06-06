@@ -17,6 +17,7 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -229,7 +230,6 @@ public class CourseOfferingRolloverRunner implements Runnable {
         }
     }
 
-    //
     private SocRolloverResultItemInfo rolloverOneCourseOfferingReturningItem(String sourceCoId) throws Exception {
         CourseOfferingInfo targetCo = null;
         String error = null;
@@ -239,6 +239,8 @@ public class CourseOfferingRolloverRunner implements Runnable {
         } catch (AlreadyExistsException ex) {
             error = ex.getMessage();
         } catch (DataValidationErrorException ex) {
+            error = ex.getMessage();
+        } catch (InvalidParameterException ex) {
             error = ex.getMessage();
         }
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
