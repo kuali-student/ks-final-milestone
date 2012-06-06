@@ -44,5 +44,5 @@ public interface CourseOfferingViewHelperService extends ViewHelperService {
 
     public void cleanTargetTerm(String targetTermId, CourseOfferingRolloverManagementForm form);
 
-    public List<SocRolloverResultInfo> findRolloverByTerm(String term) throws Exception;
+    public List<SocRolloverResultInfo> findRolloverByTerm(String termId) throws Exception;
 }

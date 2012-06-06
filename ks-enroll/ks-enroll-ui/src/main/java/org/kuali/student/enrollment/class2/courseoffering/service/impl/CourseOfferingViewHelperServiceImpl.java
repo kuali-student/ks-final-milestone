@@ -470,12 +470,10 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
 
     // This method make service call to fetch soc rollover result infos for target term
     @Override
-    public List<SocRolloverResultInfo> findRolloverByTerm(String term) throws Exception{
+    public List<SocRolloverResultInfo> findRolloverByTerm(String termId) throws Exception{
         List<SocRolloverResultInfo> socRolloverResultInfos = new ArrayList<SocRolloverResultInfo>();
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        String pattern = "([a-zA-Z]+)(\\s{1})([0-9]+)";
-        term = term.replaceAll(pattern,"$3$1").toUpperCase();
-        qbcBuilder.setPredicates(PredicateFactory.equal("targetTermId", term));
+        qbcBuilder.setPredicates(PredicateFactory.equal("targetTermId", termId));
         ContextInfo contextInfo = new ContextInfo();
         QueryByCriteria criteria = qbcBuilder.build();
         socRolloverResultInfos = _getSocService().searchForSocRolloverResults(criteria, contextInfo);
