@@ -45,6 +45,8 @@ public class KSKRMSConstants {
 	public static final String TERM_SCORE = "Score";
 	public static final String TERM_TEST = "Test";
 	public static final String TERM_FREE_TEXT = "Free Text";
+	public static final String TERM_COMPLETED_COURSE = "Completed courses";
+	public static final String TERM_ENROLLED_COURSE = "Enrolled course by term";
 	
 	public static final String CONTEXT_TYPE_COURSE = "KSLumContextType-Course";
 	

@@ -272,6 +272,10 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 				KSKRMSConstants.TERM_TEST);
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_TEXT,
 				KSKRMSConstants.TERM_FREE_TEXT);
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_COMPLETED_COURSE);
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_ENROLLED_COURSE);
 		// createProposedCourseTermDefinition(nameSpace);
 		// createApprovedCourseTermDefinition(nameSpace);
 	}
