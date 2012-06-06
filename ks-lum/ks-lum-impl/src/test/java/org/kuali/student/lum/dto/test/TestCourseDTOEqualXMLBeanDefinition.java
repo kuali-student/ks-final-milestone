@@ -41,14 +41,13 @@ public class TestCourseDTOEqualXMLBeanDefinition {
 	
 	@Test
 	public void testCourseDTOsAgainstDataDictionary() {
-		System.out.println("testing statement dictionary");
+		System.out.println("testing course dictionary");
 		Set<String> startingClasses = new LinkedHashSet();
         startingClasses.add(ActivityInfo.class.getName());
         startingClasses.add(CourseCrossListingInfo.class.getName());
         startingClasses.add(CourseExpenditureInfo.class.getName());
         startingClasses.add(CourseFeeInfo.class.getName());
-		startingClasses.add(CourseInfo.class.getName());//NullPointerException
-        startingClasses.add(CourseJointInfo.class.getName());
+		startingClasses.add(CourseJointInfo.class.getName());
 		startingClasses.add(CourseRevenueInfo.class.getName());
 		startingClasses.add(CourseVariationInfo.class.getName());
 		startingClasses.add(FormatInfo.class.getName());
@@ -57,12 +56,30 @@ public class TestCourseDTOEqualXMLBeanDefinition {
 		String contextFile = "ks-courseInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
-				outFile, startingClasses, contextFile + ".xml", false);
+				outFile, startingClasses, contextFile + ".xml", true);
 		helper.setPrintDescrepenciesOnly(true);
 		List<String> errors = helper.doTest();
 		if (errors.size() > 0) {
 			fail("failed dictionary validation:\n" + formatAsString(errors));
 		}
 
+	}
+	
+	//@Test
+	public void testCourseDTOsAgainstDataDictionary_courseInfo() {
+		System.out.println("testing courseInfo dictionary");
+		Set<String> startingClasses = new LinkedHashSet();
+		
+		startingClasses.add(CourseInfo.class.getName());
+		
+		String contextFile = "ks-courseInfo-dictionary-context";
+		String outFile = "target/" + contextFile + ".txt";
+		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
+				outFile, startingClasses, contextFile + ".xml", true);
+		helper.setPrintDescrepenciesOnly(true);
+		List<String> errors = helper.doTest();
+		if (errors.size() > 0) {
+			fail("failed dictionary validation:\n" + formatAsString(errors));
+		}
 	}
 }
