@@ -131,8 +131,36 @@
         NMSPC_CD="KR-IDM" OBJ_ID="69FA55ACC2EE2598E0404F8189D86880" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
+        KIM_ATTR_DEFN_ID="47" NM="viewId" NMSPC_CD="KR-KRAD"
+        OBJ_ID="B7DBFABEFD308CBFE0402E0AA9D757C9" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
+        KIM_ATTR_DEFN_ID="48" NM="actionEvent" NMSPC_CD="KR-KRAD"
+        OBJ_ID="B7DBFABEFD318CBFE0402E0AA9D757C9" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
+        KIM_ATTR_DEFN_ID="49" NM="collectionPropertyName"
+        NMSPC_CD="KR-KRAD" OBJ_ID="B7DBFABEFD328CBFE0402E0AA9D757C9" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="5" NM="componentName" NMSPC_CD="KR-NS"
         OBJ_ID="5ADF18B6D48C7954E0404F8189D85002" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
+        KIM_ATTR_DEFN_ID="50" NM="fieldId" NMSPC_CD="KR-KRAD"
+        OBJ_ID="B7DBFABEFD338CBFE0402E0AA9D757C9" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
+        KIM_ATTR_DEFN_ID="51" NM="groupId" NMSPC_CD="KR-KRAD"
+        OBJ_ID="B7DBFABEFD348CBFE0402E0AA9D757C9" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
+        KIM_ATTR_DEFN_ID="52" NM="widgetId" NMSPC_CD="KR-KRAD"
+        OBJ_ID="B7DBFABEFD358CBFE0402E0AA9D757C9" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
+        KIM_ATTR_DEFN_ID="53" NM="actionId" NMSPC_CD="KR-KRAD"
+        OBJ_ID="B7DBFABEFD368CBFE0402E0AA9D757C9" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="6" NM="propertyName" NMSPC_CD="KR-NS"
