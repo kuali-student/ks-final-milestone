@@ -89,7 +89,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		this.setClearTables(false);
 	}
 
-	static final String KSNAMESPACE = "KS-SYS";
+	static final String KSNAMESPACE = "KR-RULE-TEST";
 	protected ContextBoService contextRepository;
 	protected KrmsTypeRepositoryService krmsTypeRepository;
 	private AgendaBoService agendaBoService;
