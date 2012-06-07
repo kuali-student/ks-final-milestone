@@ -2092,6 +2092,8 @@
 
  <!-- Searches -->
 
+ <bean id="courseInfo.searchCourseVersions" parent="freestanding.search.courseVersions" />
+
  <!-- courseFeeInfo.feeAmounts.CurrencyAmountInfo-->
  <bean id="courseFeeInfo.feeAmounts.CurrencyAmountInfo-parent"
        abstract="true" parent="objectStructureDefinition">
