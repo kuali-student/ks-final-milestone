@@ -272,7 +272,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:render="@{#isAddLine}" p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate, academicCalendarInfo.endDate">
+                <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:render="@{#isAddLine}" p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>

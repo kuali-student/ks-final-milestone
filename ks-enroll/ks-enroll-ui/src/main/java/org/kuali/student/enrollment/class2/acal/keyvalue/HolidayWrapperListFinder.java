@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -54,15 +55,13 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
         Date startDate = acalForm.getAcademicCalendarInfo().getStartDate(); 
         Date endDate = acalForm.getAcademicCalendarInfo().getEndDate();
         SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy");
-        List<HolidayCalendarInfo> holidayCalendarInfoList = new ArrayList<HolidayCalendarInfo>();
-        //when there's no user input on acalInfo startDate and endDate, set startDate equal to current date.
-        // Therefore, it uses the current year to pull out available official HC list
+        List<HolidayCalendarInfo> holidayCalendarInfoList = null;
+        //when there's no user input on acalInfo startDate and endDate, return an empty list of calendars
         if (startDate == null && endDate == null ) {
-            startDate = new Date();
+            holidayCalendarInfoList = Collections.emptyList();
         }
-
         //When the user inputs both startDate and endDate,
-        if (startDate != null && endDate != null)  {
+        else if (startDate != null && endDate != null)  {
             QueryByCriteria qbc = buildQueryByCriteria(startDate, endDate);
             try{
                 holidayCalendarInfoList = getAcalService().searchForHolidayCalendars(qbc, getContextInfo());
