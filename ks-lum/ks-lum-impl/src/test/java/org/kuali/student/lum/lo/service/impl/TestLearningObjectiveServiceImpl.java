@@ -441,7 +441,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		boolean found = false;
 		String  repoId = "kuali.loRepository.key.state";
 		for (LoRepositoryInfo loRInfo : repos) {
-			if (loRInfo.getId().equals(repoId)) {
+			if (loRInfo.getRootLoId().equals(repoId)) {
 				found = true;
 			}
 		}
