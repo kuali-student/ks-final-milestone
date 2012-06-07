@@ -375,7 +375,7 @@ public abstract class RiceTestCase extends BaseRiceTestCase {
 
     protected Config getTestHarnessConfig() throws Exception {
         Config config = new JAXBConfigImpl(getConfigLocations(), System.getProperties());
-        config.parseConfig();
+        //config.parseConfig();
         return config;
     }
 

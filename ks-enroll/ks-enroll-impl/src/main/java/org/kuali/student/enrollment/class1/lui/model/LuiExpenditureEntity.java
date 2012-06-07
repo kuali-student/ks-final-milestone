@@ -1,21 +1,23 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.clu.infc.Expenditure;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI_EXPENDITURE")
@@ -25,8 +27,8 @@ public class LuiExpenditureEntity extends MetaEntity implements AttributeOwner<L
     @JoinColumn(name = "LUI_ID")
     private LuiEntity lui;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LuiExpenditureAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LuiExpenditureAttributeEntity> attributes;
 
     public LuiExpenditureEntity() {}
 
@@ -35,7 +37,7 @@ public class LuiExpenditureEntity extends MetaEntity implements AttributeOwner<L
         this.setId(expenditure.getId());
 
         // Attributes
-        this.setAttributes(new ArrayList<LuiExpenditureAttributeEntity>());
+        this.setAttributes(new HashSet<LuiExpenditureAttributeEntity>());
         if (null != expenditure.getAttributes()) {
             for (Attribute att : expenditure.getAttributes()) {
                 LuiExpenditureAttributeEntity attEntity = new LuiExpenditureAttributeEntity(att);
@@ -71,12 +73,12 @@ public class LuiExpenditureEntity extends MetaEntity implements AttributeOwner<L
     }
 
     @Override
-    public void setAttributes(List<LuiExpenditureAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiExpenditureAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<LuiExpenditureAttributeEntity> getAttributes() {
+    public Set<LuiExpenditureAttributeEntity> getAttributes() {
         return attributes;
     }
 }

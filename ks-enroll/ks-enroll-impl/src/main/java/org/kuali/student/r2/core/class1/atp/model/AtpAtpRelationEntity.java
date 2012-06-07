@@ -1,8 +1,6 @@
 package org.kuali.student.r2.core.class1.atp.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
@@ -22,7 +21,7 @@ import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
 
 @Entity
 @Table(name = "KSEN_ATPATP_RELTN")
-public class AtpAtpRelationEntity extends MetaEntity {
+public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<AtpAtpRelationAttributeEntity> {
 
     @ManyToOne
     @JoinColumn(name = "ATP_ID", nullable = false)
@@ -41,7 +40,7 @@ public class AtpAtpRelationEntity extends MetaEntity {
     @Column(name = "ATP_STATE", nullable = false)
     private String atpState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<AtpAtpRelationAttributeEntity> attributes;
+    private Set<AtpAtpRelationAttributeEntity> attributes;
 
     public AtpAtpRelationEntity() {
     }
@@ -56,7 +55,7 @@ public class AtpAtpRelationEntity extends MetaEntity {
         this.setAtpState(atpAtpRelation.getStateKey());
         this.setEffectiveDate(atpAtpRelation.getEffectiveDate());
         this.setExpirationDate(atpAtpRelation.getExpirationDate());
-        this.setAttributes(new ArrayList<AtpAtpRelationAttributeEntity>());
+        this.setAttributes(new HashSet<AtpAtpRelationAttributeEntity>());
         for (Attribute att : atpAtpRelation.getAttributes()) {
             this.getAttributes().add(new AtpAtpRelationAttributeEntity(att));
         }
@@ -114,11 +113,11 @@ public class AtpAtpRelationEntity extends MetaEntity {
         this.atpState = atpState;
     }
 
-    public void setAttributes(List<AtpAtpRelationAttributeEntity> attributes) {
+    public void setAttributes(Set<AtpAtpRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
-    public List<AtpAtpRelationAttributeEntity> getAttributes() {
+    public Set<AtpAtpRelationAttributeEntity> getAttributes() {
         return attributes;
     }
 

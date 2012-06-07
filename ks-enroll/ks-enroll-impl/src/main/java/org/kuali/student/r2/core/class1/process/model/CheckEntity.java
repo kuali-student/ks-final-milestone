@@ -6,16 +6,26 @@ import org.kuali.student.r2.common.entity.AttributeOwnerNew;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.core.process.dto.CheckInfo;
+import org.kuali.student.r2.core.process.infc.Check;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.infc.Check;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_CHECK")
@@ -59,7 +69,6 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
     private String childProcessId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true)
-    private List<CheckAttributeEntity> attributes;
 
     //////////////////////////
     // CONSTRUCTORS ETC.
@@ -90,7 +99,6 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
         this.setRightAgendaId(check.getRightComparisonValue());
         this.setLeftAgendaId(check.getLeftComparisonAgendaId());
         this.setChildProcessId(check.getProcessKey());
-        this.setAttributes(new ArrayList<CheckAttributeEntity>());
         for (Attribute att : check.getAttributes()) {
             this.getAttributes().add(new CheckAttributeEntity(att, this));
         }
@@ -214,7 +222,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
     }
 
     @Override
-    public List<CheckAttributeEntity> getAttributes() {
+    public Set<CheckAttributeEntity> getAttributes() {
         return attributes;
     }
 

@@ -15,17 +15,6 @@
 
 package org.kuali.student.r2.core.class1.enumerationmanagement.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -34,6 +23,19 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.infc.Enumeration;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_ENUM_T")
@@ -56,8 +58,8 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
     @Column(name = "ENUM_STATE", nullable = false)
     private String enumerationState;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<EnumerationAttributeEntity> attributes = new ArrayList<EnumerationAttributeEntity>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<EnumerationAttributeEntity> attributes = new HashSet<EnumerationAttributeEntity>();
 
     public EnumerationEntity() {}
 
@@ -72,7 +74,7 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
         if (enumeration.getStateKey() != null) {
             this.setEnumerationState(enumeration.getStateKey());
         }
-        this.setAttributes(new ArrayList<EnumerationAttributeEntity>());
+        this.setAttributes(new HashSet<EnumerationAttributeEntity>());
         if (null != enumeration.getAttributes()) {
             for (Attribute att : enumeration.getAttributes()) {
                 this.getAttributes().add(new EnumerationAttributeEntity(att, this));
@@ -121,12 +123,12 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
     }
 
     @Override
-    public void setAttributes(List<EnumerationAttributeEntity> attributes) {
+    public void setAttributes(Set<EnumerationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<EnumerationAttributeEntity> getAttributes() {
+    public Set<EnumerationAttributeEntity> getAttributes() {
         return attributes;
     }
 

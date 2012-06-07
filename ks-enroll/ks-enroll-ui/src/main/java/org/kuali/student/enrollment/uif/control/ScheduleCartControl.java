@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.uif.control;
 
 import org.kuali.rice.krad.uif.control.ControlBase;
-import org.kuali.rice.krad.uif.field.HeaderField;
+import org.kuali.rice.krad.uif.element.Header;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,17 +11,17 @@ import org.kuali.rice.krad.uif.field.HeaderField;
  * To change this template use File | Settings | File Templates.
  */
 public class ScheduleCartControl extends ControlBase{
-    private HeaderField headerField;
+    private Header header;
     private String removeText;
     private String removeJsFunction;
     private String scheduleId;
 
-    public HeaderField getHeaderField() {
-        return headerField;
+    public Header getHeader() {
+        return header;
     }
 
-    public void setHeaderField(HeaderField headerField) {
-        this.headerField = headerField;
+    public void setHeader(Header header) {
+        this.header = header;
     }
 
     public String getScheduleId() {
@@ -46,15 +46,5 @@ public class ScheduleCartControl extends ControlBase{
 
     public void setRemoveJsFunction(String removeJsFunction) {
         this.removeJsFunction = removeJsFunction;
-    }
-
-    @Override
-    public void setId(String id) {
-        super.setId(id);
-    }
-
-    @Override
-    public void setFactoryId(String factoryId) {
-        super.setFactoryId(factoryId);
     }
 }

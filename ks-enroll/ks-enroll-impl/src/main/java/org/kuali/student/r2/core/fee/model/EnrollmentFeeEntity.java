@@ -18,15 +18,17 @@ package org.kuali.student.r2.core.fee.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.core.fee.dto.EnrollmentFeeAmountInfo;
 import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 import org.kuali.student.r2.core.fee.infc.EnrollmentFee;
-import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import org.kuali.student.r2.core.fee.dto.EnrollmentFeeAmountInfo;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class //TODO ...
@@ -35,7 +37,7 @@ import org.kuali.student.r2.core.fee.dto.EnrollmentFeeAmountInfo;
  */
 @Entity
 @Table(name = "KSEN_ENROLLMENT_FEE")
-public class EnrollmentFeeEntity extends MetaEntity {
+public class EnrollmentFeeEntity extends MetaEntity implements AttributeOwner<EnrollmentFeeAttributeEntity> {
 
     @Column(name = "CURRENCY_TYPE")
     private String currencyType;
@@ -68,7 +70,7 @@ public class EnrollmentFeeEntity extends MetaEntity {
     private String formatted;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<EnrollmentFeeAttributeEntity> attributes = new ArrayList<EnrollmentFeeAttributeEntity>();
+    private Set<EnrollmentFeeAttributeEntity> attributes = new HashSet<EnrollmentFeeAttributeEntity>();
 
     public EnrollmentFeeEntity() { // no-arg constructor expected in entity
     }
@@ -92,7 +94,7 @@ public class EnrollmentFeeEntity extends MetaEntity {
             this.setPlain(fee.getDescr().getPlain());
             this.setFormatted(fee.getDescr().getFormatted());
         }
-        this.setAttributes(new ArrayList<EnrollmentFeeAttributeEntity>());
+        this.setAttributes(new HashSet<EnrollmentFeeAttributeEntity>());
         for (Attribute att : fee.getAttributes()) {
             EnrollmentFeeAttributeEntity attEntity = new EnrollmentFeeAttributeEntity(att, this);
             this.getAttributes().add(attEntity);
@@ -105,6 +107,14 @@ public class EnrollmentFeeEntity extends MetaEntity {
         feeInfo.setId(getId());
         feeInfo.setStateKey(getEnrollFeeState());
         feeInfo.setTypeKey(getEnrollFeeType());
+
+        String plain = getPlain();
+        String formatted = getFormatted();
+
+        if((plain != null && !"".equals(plain)) || (formatted != null && !"".equals(formatted))  ){
+            RichTextInfo descr = new RichTextInfo(plain, formatted);
+            feeInfo.setDescr(descr);
+        }
         // Then, all the instance variables that are specific to EnrollmentFeeEntity
         if (getCurrencyType() != null) { // strange if it's null, but make the check anyway
             EnrollmentFeeAmountInfo amtInfo = new EnrollmentFeeAmountInfo();
@@ -197,11 +207,11 @@ public class EnrollmentFeeEntity extends MetaEntity {
         this.formatted = formatted;
     }
 
-    public List<EnrollmentFeeAttributeEntity> getAttributes() {
+    public Set<EnrollmentFeeAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<EnrollmentFeeAttributeEntity> attributes) {
+    public void setAttributes(Set<EnrollmentFeeAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 

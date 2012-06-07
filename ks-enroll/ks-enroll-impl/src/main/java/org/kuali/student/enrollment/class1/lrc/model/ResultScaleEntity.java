@@ -1,25 +1,27 @@
 package org.kuali.student.enrollment.class1.lrc.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LRC_RES_SCALE")
@@ -44,8 +46,8 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<ResultScaleAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<ResultScaleAttributeEntity> attributes;
 
     @Column(name = "MIN_VALUE")
     private String minValue;
@@ -78,7 +80,7 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
             this.setIncrement(dto.getResultValueRange().getIncrement());
         }
 
-        this.setAttributes(new ArrayList<ResultScaleAttributeEntity>());
+        this.setAttributes(new HashSet<ResultScaleAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 ResultScaleAttributeEntity attEntity = new ResultScaleAttributeEntity(att);
@@ -160,12 +162,12 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
     }
 
     @Override
-    public void setAttributes(List<ResultScaleAttributeEntity> attributes) {
+    public void setAttributes(Set<ResultScaleAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<ResultScaleAttributeEntity> getAttributes() {
+    public Set<ResultScaleAttributeEntity> getAttributes() {
         return attributes;
     }
 

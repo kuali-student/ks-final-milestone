@@ -30,6 +30,7 @@ public class FeeServiceConstants {
     /**
      * Reference Object URI's
      */
+    public static final String SERVICE_NAME_LOCAL_PART = "FeeService";
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "fee";
     public static final String REF_OBJECT_URI_FEE = NAMESPACE + "/" + EnrollmentFeeInfo.class.getSimpleName();
 

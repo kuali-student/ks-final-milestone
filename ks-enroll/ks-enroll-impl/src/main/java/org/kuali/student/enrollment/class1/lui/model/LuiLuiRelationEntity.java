@@ -1,30 +1,20 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.infc.LuiLuiRelation;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 
+import javax.persistence.*;
+import java.util.*;
+
 @Entity
 @Table(name = "KSEN_LUILUI_RELTN")
-public class LuiLuiRelationEntity extends MetaEntity {
+public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<LuiLuiRelationAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;
@@ -49,7 +39,7 @@ public class LuiLuiRelationEntity extends MetaEntity {
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LuiLuiRelationAttributeEntity> attributes;
+    private Set<LuiLuiRelationAttributeEntity> attributes = new HashSet<LuiLuiRelationAttributeEntity>();
 
     public LuiLuiRelationEntity() {
     }
@@ -64,6 +54,7 @@ public class LuiLuiRelationEntity extends MetaEntity {
         this.setEffectiveDate(luiLuiRelation.getEffectiveDate());
         this.setExpirationDate(luiLuiRelation.getExpirationDate());
         this.setLuiLuiRelationState(luiLuiRelation.getStateKey());
+        this.setName(luiLuiRelation.getName());
         if (luiLuiRelation.getDescr() == null) {
             this.setDescrFormatted(null);
             this.setDescrPlain(null);
@@ -71,7 +62,7 @@ public class LuiLuiRelationEntity extends MetaEntity {
             this.setDescrFormatted(luiLuiRelation.getDescr().getFormatted());
             this.setDescrPlain(luiLuiRelation.getDescr().getPlain());
         }
-        this.setAttributes(new ArrayList<LuiLuiRelationAttributeEntity>());
+        this.setAttributes(new HashSet<LuiLuiRelationAttributeEntity>());
         for (Attribute att : luiLuiRelation.getAttributes()) {
             this.getAttributes().add(new LuiLuiRelationAttributeEntity(att));
         }
@@ -173,12 +164,12 @@ public class LuiLuiRelationEntity extends MetaEntity {
         this.expirationDate = expirationDate;
     }
 
-    public void setAttributes(List<LuiLuiRelationAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiLuiRelationAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-    public List<LuiLuiRelationAttributeEntity> getAttributes() {
+    public Set<LuiLuiRelationAttributeEntity> getAttributes() {
         return attributes;
     }
 }

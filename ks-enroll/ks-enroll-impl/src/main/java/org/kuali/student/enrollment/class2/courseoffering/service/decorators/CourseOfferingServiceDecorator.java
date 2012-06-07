@@ -138,13 +138,13 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public List<SeatPoolDefinitionInfo> searchForSeatpoolDefintions(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForSeatpoolDefintions(criteria, context);
+    public List<SeatPoolDefinitionInfo> searchForSeatpoolDefinitions(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForSeatpoolDefinitions(criteria, context);
     }
 
     @Override
-    public List<String> searchForSeatpoolDefintionIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForSeatpoolDefintionIds(criteria, context);
+    public List<String> searchForSeatpoolDefinitionIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForSeatpoolDefinitionIds(criteria, context);
     }
 
     @Override

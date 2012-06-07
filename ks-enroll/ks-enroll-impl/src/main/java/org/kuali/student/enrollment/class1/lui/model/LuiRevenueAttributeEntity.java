@@ -13,7 +13,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 public class LuiRevenueAttributeEntity extends BaseAttributeEntity<LuiRevenueEntity> {
     
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private LuiRevenueEntity owner;
 
     public LuiRevenueAttributeEntity () {

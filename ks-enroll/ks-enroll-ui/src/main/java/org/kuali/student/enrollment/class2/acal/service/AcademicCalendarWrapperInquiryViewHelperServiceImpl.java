@@ -1,27 +1,24 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.TermWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+//Core slice class.
+@Deprecated
 public class AcademicCalendarWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
 //	 public final static String ACADEMIC_CALENDAR_KEY = "academicCalendarInfo.key";
      public final static String ACADEMIC_CALENDAR_WRAPPER_KEY = "id";

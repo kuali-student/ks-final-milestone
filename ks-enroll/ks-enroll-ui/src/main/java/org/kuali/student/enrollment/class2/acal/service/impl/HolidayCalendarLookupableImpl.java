@@ -7,13 +7,18 @@ import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConsta
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+//Core slice class.
+@Deprecated
 public class HolidayCalendarLookupableImpl  extends LookupableImpl {
 
     public final static String ACADEMIC_CALENDAR_YEAR_KEY = "year";

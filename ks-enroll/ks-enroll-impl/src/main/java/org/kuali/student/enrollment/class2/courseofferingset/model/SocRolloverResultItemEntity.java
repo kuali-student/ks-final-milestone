@@ -1,24 +1,21 @@
 package org.kuali.student.enrollment.class2.courseofferingset.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResultItem;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResultItem;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_SOC_ROR_ITEM")
-public class SocRolloverResultItemEntity extends MetaEntity {
+public class SocRolloverResultItemEntity extends MetaEntity implements AttributeOwner<SocRolloverResultItemAttributeEntity> {
 
     @Column(name = "ROR_ID")
     private String socRolloverResultId;
@@ -35,7 +32,7 @@ public class SocRolloverResultItemEntity extends MetaEntity {
     @Column(name = "MESG_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String mesgPlain;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<SocRolloverResultItemAttributeEntity> attributes = new ArrayList<SocRolloverResultItemAttributeEntity>();
+    private Set<SocRolloverResultItemAttributeEntity> attributes = new HashSet<SocRolloverResultItemAttributeEntity>();
 
     public SocRolloverResultItemEntity() {
     }
@@ -59,7 +56,7 @@ public class SocRolloverResultItemEntity extends MetaEntity {
             this.setMesgFormatted(null);
             this.setMesgPlain(null);
         }
-        this.setAttributes(new ArrayList<SocRolloverResultItemAttributeEntity>());
+        this.setAttributes(new HashSet<SocRolloverResultItemAttributeEntity>());
         for (Attribute att : item.getAttributes()) {
             this.getAttributes().add(new SocRolloverResultItemAttributeEntity(att, this));
         }
@@ -144,11 +141,11 @@ public class SocRolloverResultItemEntity extends MetaEntity {
         this.targetCourseOfferingId = targetCourseOfferingId;
     }
 
-    public List<SocRolloverResultItemAttributeEntity> getAttributes() {
+    public Set<SocRolloverResultItemAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<SocRolloverResultItemAttributeEntity> attributes) {
+    public void setAttributes(Set<SocRolloverResultItemAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 

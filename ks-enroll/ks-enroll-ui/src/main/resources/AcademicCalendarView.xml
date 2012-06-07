@@ -21,7 +21,7 @@ limitations under the License.
 
    <bean id="AcademicCalendarView" parent="KSFormView">
    	  <property name="id" value="AcademicCalendarView"/>
-      <property name="title" value="Academic Calendar" />
+      <property name="headerText" value="Academic Calendar" />
 	  <property name="entryPageId" value="page1"/>
       <property name="items">
           <list>
@@ -47,7 +47,7 @@ limitations under the License.
    
    <!-- 
    <bean id="AcademicCalendarView-testSection1" parent="Uif-Disclosure-VerticalBoxSection">
-      <property name="title" value="Test Section 1"/> 
+      <property name="headerText" value="Test Section 1"/> 
       <property name="items">
         <list>
           <ref bean="AcademicCalendarView-AcalInfo"/>
@@ -58,7 +58,7 @@ limitations under the License.
    -->
    <bean id="AcademicCalendarView-AcalInfo" parent="Uif-GridSection">
       <property name="disclosure.render" value="false"/>
-      <property name="title" value="Academic Calendar"/>
+      <property name="headerText" value="Academic Calendar"/>
       <property name="items">
         <list>
           <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:maxLength="10">
@@ -77,7 +77,7 @@ limitations under the License.
 
 <!-- 
    <bean id="AcademicCalendarView-Term" parent="Uif-GridSection">
-   		<property name="title" value="Term 1"/> 
+   		<property name="headerText" value="Term 1"/> 
    		<property name="layoutManager.numberOfColumns" value="2" /> 
    		<property name="items">
    			<list>

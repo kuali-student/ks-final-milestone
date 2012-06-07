@@ -22,12 +22,17 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,6 +45,8 @@ public class HolidayTypeKeyValues extends KeyValuesBase implements Serializable 
 
     private transient AcademicCalendarService acalService;
 
+    private static List<TypeInfo> holidayTypes;
+
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
@@ -49,11 +56,8 @@ public class HolidayTypeKeyValues extends KeyValuesBase implements Serializable 
         topKeyValue.setValue("Select holiday type");
         keyValues.add(topKeyValue);
 
-        //TODO:Build real context.
-        ContextInfo context = TestHelper.getContext1();
-
         try {
-             List<TypeInfo> types = getAcalService().getHolidayTypes(context);
+            List<TypeInfo> types = getHolidayTypes();
             for (TypeInfo type : types) {
                 ConcreteKeyValue keyValue = new ConcreteKeyValue();
                 keyValue.setKey(type.getKey());
@@ -72,5 +76,17 @@ public class HolidayTypeKeyValues extends KeyValuesBase implements Serializable 
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.acalService;
+    }
+
+    public List<TypeInfo> getHolidayTypes() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        if(holidayTypes == null) {
+
+            //TODO:Build real context.
+            ContextInfo context = TestHelper.getContext1();
+
+            holidayTypes = Collections.unmodifiableList(getAcalService().getHolidayTypes(context));
+        }
+
+        return holidayTypes;
     }
 }

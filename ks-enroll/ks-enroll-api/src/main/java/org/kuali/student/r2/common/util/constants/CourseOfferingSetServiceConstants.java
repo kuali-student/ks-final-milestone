@@ -33,7 +33,13 @@ public class CourseOfferingSetServiceConstants {
     public static final String SUBJECT_AREA_SOC_TYPE_KEY = "kuali.soc.type.subject.area";
     public static final String UNITS_CONTENT_OWNER_SOC_TYPE_KEY = "kuali.soc.type.units.content.owner";
     public static final String UNITS_DEPLOYMENT_OWNER_SOC_TYPE_KEY = "kuali.soc.type.units.deployment.owner";
-    public static final String ACTIVE_SOC_STATE_KEY = "kuali.soc.state.active";
+    // SOC states (see https://wiki.kuali.org/display/STUDENT/Course+Offering+Set+Types+and+States)
+    public static final String DRAFT_SOC_STATE_KEY = "kuali.soc.state.draft";
+    public static final String OPEN_SOC_STATE_KEY = "kuali.soc.state.open";
+    public static final String LOCKED_SOC_STATE_KEY = "kuali.soc.state.locked ";
+    public static final String FINALEDITS_SOC_STATE_KEY = "kuali.soc.state.finaledits";
+    public static final String PUBLISHED_SOC_STATE_KEY = "kuali.soc.state.published";
+    public static final String CLOSED_SOC_STATE_KEY = "kuali.soc.state.closed ";
     // rollover  types
     public static final String ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.result.rollover";
     public static final String REVERSE_ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.result.reverse";
@@ -62,7 +68,7 @@ public class CourseOfferingSetServiceConstants {
     public static final String IGNORE_CANCELLED_OPTION_KEY = "kuali.rollover.whatcourses.ignorecancelled";
     public static final String SKIP_IF_ALREADY_EXISTS_OPTION_KEY = "kuali.rollover.whatcourses.skipifalreadyexists";
     // what data
-    public static final String USE_CANNONICAL_OPTION_KEY = "kuali.rollover.whatdata.usecanonical";
+    public static final String USE_CANONICAL_OPTION_KEY = "kuali.rollover.whatdata.usecanonical";
     public static final String NO_SCHEDULE_OPTION_KEY = "kuali.rollover.whatdata.noschedule";
     public static final String NO_INSTRUCTORS_OPTION_KEY = "kuali.rollover.whatdata.noinstructors";
     // general processing
@@ -76,4 +82,6 @@ public class CourseOfferingSetServiceConstants {
     // canonical to course offering options
     public static final String CREDITS_MATCH_SCHEDULED_HOURS_OPTION_KEY = "kuali.canonical.course.to.course.offering.credits.match.scheduled.hours";
     public static final String NOT_COURSE_TITLE_OPTION_KEY = "kuali.canonical.course.to.course.offering.not.title";
+    // Course is R1.  Grading/credit options appear to have changed in R2, so not worth copying.
+    public static final String NOT_GRADING_CREDIT_OPTION_KEY = "kuali.canonical.course.to.course.offering.not.grading.credit.options";
 }

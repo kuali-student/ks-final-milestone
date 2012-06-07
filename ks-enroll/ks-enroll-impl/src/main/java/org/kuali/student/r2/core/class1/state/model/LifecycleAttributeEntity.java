@@ -1,20 +1,20 @@
 package org.kuali.student.r2.core.class1.state.model;
 
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
-import org.kuali.student.r2.common.infc.Attribute;
-
 @Entity
 @Table(name = "KSEN_STATE_LIFECYCLE_ATTR")
-public class LifecycleAttributeEntity extends BaseAttributeEntityNew<StateEntity> {
+public class LifecycleAttributeEntity extends BaseAttributeEntity<LifecycleEntity> {
     
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
-    private StateEntity owner;
+    private LifecycleEntity owner;
 
     public LifecycleAttributeEntity () {
     }
@@ -22,7 +22,7 @@ public class LifecycleAttributeEntity extends BaseAttributeEntityNew<StateEntity
     public LifecycleAttributeEntity(String key, String value) {
         super(key, value);
     }
-    public LifecycleAttributeEntity(Attribute att, StateEntity owner) {
+    public LifecycleAttributeEntity(Attribute att, LifecycleEntity owner) {
         super(att);
         this.owner = owner;
     }
@@ -31,11 +31,11 @@ public class LifecycleAttributeEntity extends BaseAttributeEntityNew<StateEntity
         super(att);
     }
 
-    public void setOwner(StateEntity owner) {
+    public void setOwner(LifecycleEntity owner) {
         this.owner = owner;
     }
 
-    public StateEntity getOwner() {
+    public LifecycleEntity getOwner() {
         return owner;
     }
 }

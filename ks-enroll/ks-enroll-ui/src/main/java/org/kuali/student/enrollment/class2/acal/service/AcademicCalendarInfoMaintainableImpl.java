@@ -1,22 +1,22 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.KRADConstants;
-
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
+import javax.xml.namespace.QName;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+
+//Core slice class.
+@Deprecated
 public class AcademicCalendarInfoMaintainableImpl extends MaintainableImpl {
 	private static final long serialVersionUID = 1L;	
 	

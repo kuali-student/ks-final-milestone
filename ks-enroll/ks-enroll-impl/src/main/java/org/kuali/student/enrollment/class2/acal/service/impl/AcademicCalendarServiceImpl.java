@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Period;
 import org.joda.time.Weeks;
@@ -1920,11 +1921,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         }
 
-        Period instructionalPeriodInterval = new Period(instructionalPeriodKeyDate.getStartDate().getTime(), instructionalPeriodKeyDate.getEndDate().getTime());
+        DateTime instructionalStart = new DateTime(instructionalPeriodKeyDate.getStartDate().getTime());
+        DateTime instructionalEnd = new DateTime(instructionalPeriodKeyDate.getEndDate().getTime());
 
-        Days totalDays = instructionalPeriodInterval.toStandardDays();
+        Days totalDays = Days.daysBetween(instructionalStart, instructionalEnd);
 
-        Weeks weeks = instructionalPeriodInterval.toStandardWeeks();
+        Weeks weeks = Weeks.weeksBetween(instructionalStart, instructionalEnd);
 
         int approxWeekends = weeks.getWeeks() * 2;
 

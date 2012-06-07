@@ -105,7 +105,7 @@ public class CalendarSearchController  extends UifControllerBase {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: invalid calendar type.");
         }
 
-       return getUIFModelAndView(searchForm);
+       return getUIFModelAndView(searchForm, null);
     }
 
      /**
@@ -266,7 +266,7 @@ public class CalendarSearchController  extends UifControllerBase {
     }
 
     private CalendarSearchViewHelperService getViewHelperService(CalendarSearchForm form){
-         if (form.getView().getViewHelperServiceClassName() != null){
+         if (form.getView().getViewHelperServiceClass() != null){
              return (CalendarSearchViewHelperService)form.getView().getViewHelperService();
          } else {
              return (CalendarSearchViewHelperService)form.getPostedView().getViewHelperService();

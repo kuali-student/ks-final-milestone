@@ -21,12 +21,12 @@ limitations under the License.
 
    <bean id="gradingView" parent="KSFormView" p:header.style="border-bottom: 2px solid #000000">
    	  <property name="id" value="GradingView"/>
-      <property name="title" value="@{title}" />
+      <property name="headerText" value="@{title}" />
 	  <property name="entryPageId" value="selectTermPage"/>
-      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.grading.service.impl.GradingViewHelperServiceImpl"/>
+      <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.grading.service.impl.GradingViewHelperServiceImpl"/>
 
       <property name="header">
-        <bean parent="Uif-HeaderField-Two"/>
+        <bean parent="Uif-HeaderTwo"/>
       </property>
 
       <!--<property name="propertyReplacers">
@@ -102,8 +102,8 @@ limitations under the License.
 
     <bean id="courseOfferingList" parent="Uif-StackedCollectionSection">
       <property name="instructionalText" value="@{selectedTerm}"/>
-      <property name="styleClasses" value="group-border"/>
-      <property name="instructionalMessageField.styleClasses" value="font-bold"/>
+      <property name="cssClasses" value="group-border"/>
+      <property name="instructionalMessage.cssClasses" value="font-bold"/>
       <property name="disclosure.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
       <property name="propertyName" value="courseOfferingInfoList"/>
@@ -113,29 +113,29 @@ limitations under the License.
       <property name="layoutManager.lineGroupPrototype.disclosure.render" value="false"/>
       <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
       <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
-      <property name="header.styleClasses" value="header-borderBottom"/>
-      <property name="header.group">
+      <property name="header.cssClasses" value="header-borderBottom"/>
+      <property name="header.lowerGroup">
          <bean parent="Uif-VerticalBoxGroup">
              <property name="layoutManager.orientation" value="VERTICAL"/>
              <property name="items">
                 <list>
-                   <bean parent="Uif-MessageField" p:messageText="My Courses" p:styleClasses="title-bold"/>
-                   <bean parent="Uif-MessageField" p:messageText="Click to view/edit roster or enter grades" p:styleClasses="font-light"/>
+                   <bean parent="Uif-Message" p:messageText="My Courses" p:cssClasses="title-bold"/>
+                   <bean parent="Uif-Message" p:messageText="Click to view/edit roster or enter grades" p:cssClasses="font-light"/>
                 </list>
              </property>
          </bean>
       </property>
       <property name="items">
          <list>
-            <bean parent="Uif-ActionLink" p:methodToCall="loadStudents" p:actionLabel="@{#line.courseTitle}" p:labelField.render="false" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
+            <bean parent="Uif-ActionLink" p:methodToCall="loadStudents" p:actionLabel="@{#line.courseTitle}" p:fieldLabel.render="false" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
          </list>
       </property>
       <property name="footer">
-          <bean parent="Uif-FooterBase" p:styleClasses="header-borderTop">
+          <bean parent="Uif-FooterBase" p:cssClasses="header-borderTop">
             <property name="items">
                 <list>
-                    <bean parent="Uif-MessageField" p:messageText="Grades are due:" p:styleClasses="font-light12"/>
-                    <bean parent="Uif-MessageField" p:messageText="@{gradeDueDate}" p:styleClasses="font-light"/>
+                    <bean parent="Uif-Message" p:messageText="Grades are due:" p:cssClasses="font-light12"/>
+                    <bean parent="Uif-Message" p:messageText="@{gradeDueDate}" p:cssClasses="font-light"/>
                 </list>
             </property>
           </bean>
@@ -158,8 +158,8 @@ limitations under the License.
       <property name="renderAddLine" value="false"/>
       <property name="layoutManager.sequencePropertyName" value="studentId"/>
       <property name="layoutManager.sequenceFieldPrototype.label" value="Student ID"/>
-      <property name="layoutManager.sequenceFieldPrototype.fieldInquiry.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
-      <property name="layoutManager.sequenceFieldPrototype.fieldInquiry.inquiryParameters">
+      <property name="layoutManager.sequenceFieldPrototype.inquiry.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+      <property name="layoutManager.sequenceFieldPrototype.inquiry.inquiryParameters">
         <map>
           <entry key="studentId" value="principalId"/>
         </map>
@@ -195,9 +195,9 @@ limitations under the License.
           </bean>
         </list>
       </property>
-        <property name="actionFields">
+        <property name="lineActions">
               <list>
-                  <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="unassignGrade" p:actionLabel="No Grade" p:title="No Grade"/>
+                  <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="unassignGrade" p:actionLabel="No Grade" p:headerText="No Grade"/>
               </list>
         </property>
    </bean>
@@ -213,7 +213,7 @@ limitations under the License.
    <bean id="Grading_Footer_gradeRosterPage" parent="Uif-FooterBase">
       <property name="items">
         <list>
-              <bean parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:clientSideValidate="true" p:render="@{readOnly eq false}"/>
+              <bean parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true" p:render="@{readOnly eq false}"/>
               <bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit" p:render="@{readOnly eq false}" p:methodToCall="submit"/>
               <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close"/>
               <bean parent="Uif-ActionLink" p:methodToCall="backToGrading" p:actionLabel="Back to Grading" p:style="text-align:center;"/>

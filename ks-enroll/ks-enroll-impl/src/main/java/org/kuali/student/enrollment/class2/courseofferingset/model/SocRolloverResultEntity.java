@@ -1,24 +1,23 @@
 package org.kuali.student.enrollment.class2.courseofferingset.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
+import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResult;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
-import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResult;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_SOC_ROR")
-public class SocRolloverResultEntity extends MetaEntity {
+public class SocRolloverResultEntity extends MetaEntity implements AttributeOwner<SocRolloverResultAttributeEntity> {
 
     @Column(name = "SOC_ROR_TYPE", nullable = false)
     private String socRorType;
@@ -41,7 +40,7 @@ public class SocRolloverResultEntity extends MetaEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "socRolloverResult")
     private List<SocRolloverResultOptionEntity> options = new ArrayList<SocRolloverResultOptionEntity>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<SocRolloverResultAttributeEntity> attributes = new ArrayList<SocRolloverResultAttributeEntity>();
+    private Set<SocRolloverResultAttributeEntity> attributes = new HashSet<SocRolloverResultAttributeEntity>();
 
     public SocRolloverResultEntity() {
     }
@@ -75,7 +74,7 @@ public class SocRolloverResultEntity extends MetaEntity {
                 this.getOptions().add(new SocRolloverResultOptionEntity(optionKey, this));
             }
         }
-        this.setAttributes(new ArrayList<SocRolloverResultAttributeEntity>());
+        this.setAttributes(new HashSet<SocRolloverResultAttributeEntity>());
         for (Attribute att : socRolloverResult.getAttributes()) {
             this.getAttributes().add(new SocRolloverResultAttributeEntity(att, this));
         }
@@ -118,11 +117,11 @@ public class SocRolloverResultEntity extends MetaEntity {
         return socRolloverResult;
     }
 
-    public List<SocRolloverResultAttributeEntity> getAttributes() {
+    public Set<SocRolloverResultAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<SocRolloverResultAttributeEntity> attributes) {
+    public void setAttributes(Set<SocRolloverResultAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 

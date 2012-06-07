@@ -77,7 +77,7 @@ import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
  */
 @WebService(name = "CourseOfferingService", serviceName = "CourseOfferingService", portName = "CourseOfferingService", targetNamespace = CourseOfferingServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CourseOfferingService {
+public interface CourseOfferingService extends CourseOfferingServiceBusinessLogic {
 
     /**
      * Retrieves a single CourseOfferingAdminDisplayInfo by a
@@ -466,6 +466,7 @@ public interface CourseOfferingService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
+    @Override
     public CourseOfferingInfo rolloverCourseOffering(@WebParam(name = "sourceCourseOfferingId") String sourceCourseOfferingId,  @WebParam(name = "targetTermId") String targetTermId, @WebParam(name = "optionKeys") List<String> optionKeys,  @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
             DoesNotExistException, DataValidationErrorException, 
             InvalidParameterException, MissingParameterException, 
@@ -508,6 +509,7 @@ public interface CourseOfferingService {
      * @throws PermissionDeniedException    authorization failure
      * @throws VersionMismatchException     The action was attempted on an out of date version.
      */
+    @Override
     public CourseOfferingInfo updateCourseOfferingFromCanonical(@WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "optionKeys") List<String> optionKeys, 
             @WebParam(name = "context") ContextInfo context) 
@@ -588,6 +590,7 @@ public interface CourseOfferingService {
      * @throws MissingParameterException if a parameter is missing
      * @throws OperationFailedException unable to complete request
      */
+    @Override
     public List<ValidationResultInfo> validateCourseOfferingFromCanonical(@WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo, 
             @WebParam(name = "optionKeys") List<String> optionKeys, 
             @WebParam(name = "context") ContextInfo context) 
@@ -1433,7 +1436,7 @@ public interface CourseOfferingService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<SeatPoolDefinitionInfo> searchForSeatpoolDefintions(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context)  throws InvalidParameterException, MissingParameterException, OperationFailedException,PermissionDeniedException;
+    public List<SeatPoolDefinitionInfo> searchForSeatpoolDefinitions(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context)  throws InvalidParameterException, MissingParameterException, OperationFailedException,PermissionDeniedException;
 
     /**
      * Searches for seat pool definition ids using a free form search criteria
@@ -1445,5 +1448,5 @@ public interface CourseOfferingService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<String> searchForSeatpoolDefintionIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForSeatpoolDefinitionIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

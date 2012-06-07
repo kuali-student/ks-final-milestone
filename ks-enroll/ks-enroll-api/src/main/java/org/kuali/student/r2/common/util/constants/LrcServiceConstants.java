@@ -839,7 +839,7 @@ public class LrcServiceConstants {
     public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_3_5_7_9 = "kuali.creditType.credit.1.3.5.7.9";
     public static final String RESULT_GROUP_KEY_GRADE_ADMIN_STANDARD = "kuali.result.group.grade.admin.standard";
     public static final String RESULT_GROUP_KEY_GRADE_ADMIN_IN_MINUSPROGRESS = "kuali.result.group.grade.admin.in-progress";
-    public static final String RESULT_GROUP_KEY_GRADE_SATISFACTORY = "kuali.resultComponent.grade.satisfactory ";
+    public static final String RESULT_GROUP_KEY_GRADE_SATISFACTORY = "kuali.resultComponent.grade.satisfactory";
     public static final String RESULT_GROUP_KEY_GRADE_COMPLETEDNOTATION = "kuali.resultComponent.grade.completedNotation";
     public static final String RESULT_GROUP_KEY_GRADE_AUDIT = "kuali.resultComponent.grade.audit";
     public static final String RESULT_GROUP_KEY_GRADE_DESIGNREVIEW = "kuali.resultComponent.grade.designReview";

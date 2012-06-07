@@ -194,7 +194,7 @@ public class AcademicCalendarForm extends UifFormBase {
     }
 
     public AcademicCalendarViewHelperService getViewHelperService(){
-        if (getView() != null && getView().getViewHelperServiceClassName() != null){
+        if (getView() != null && getView().getViewHelperServiceClass() != null){
             return (AcademicCalendarViewHelperService)getView().getViewHelperService();
         }else{
             return (AcademicCalendarViewHelperService)getPostedView().getViewHelperService();

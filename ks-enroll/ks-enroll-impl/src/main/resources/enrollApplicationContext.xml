@@ -50,7 +50,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="validator" ref="validator" />-->
   </bean>
 
-  <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+  <bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
     <property name="atpDao" ref="atpEnrDao" />
     <property name="atpRelDao" ref="atpAtpRelationDao" />
     <!-- <property name="atpRelTypeDao" ref="atpAtpRelationTypeDao"/> -->
@@ -70,9 +70,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     </bean>
 
+    <bean id="typeMockService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl">
+    </bean>
 
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
-    <property name="atpService" ref="atpService" />
+    <property name="atpService" ref="atpEnrService" />
     <property name="stateService" ref="stateService" />
     <property name="typeService" ref="typeService" />
     <property name="acalAssembler" ref="acalAssembler" />
@@ -84,7 +86,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
-    <property name="atpService" ref="atpService" />
+    <property name="atpService" ref="atpEnrService" />
   </bean>
 
   <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
@@ -136,7 +138,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
-    <property name="nextDecorator" ref="atpService" />
+    <property name="nextDecorator" ref="atpEnrService" />
     <property name="validator" ref="validator" />
   </bean>
 
@@ -146,7 +148,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="validator" ref="validator" />
   </bean>
  <bean id="acalServiceDecorator" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceDecorator">
-    <property name="atpService" ref="atpService" />
+    <property name="atpService" ref="atpEnrService" />
   </bean>
 
    <bean id="acalServiceCalculationDecorator" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
@@ -158,11 +160,16 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="enrollmentFeeDao" ref="enrollmentFeeDao"/>
     </bean>
 
+    <!-- TODO: this is a duplicate definition -->
+    <bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+    </bean>
 
     <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl">
         <property name="socDao" ref="socDao" />
         <property name="socRorDao" ref="socRolloverResultDao" />
         <property name="socRorItemDao" ref="socRolloverResultItemDao" />
+        <property name="criteriaLookupService" ref="criteriaLookupService"/>
     </bean>
 
 

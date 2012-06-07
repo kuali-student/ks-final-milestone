@@ -162,8 +162,15 @@
     <property name="stateService" ref="stateService" />
     <property name="lprService" ref="lprPersistenceService" />
     <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
+    <property name="businessLogic" ref="businessLogic" />
+    <property name="typeService" ref="typeService"/>
   </bean>
 
+  <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
+    <property name="courseService" ref="courseServiceImpl" />
+    <property name="acalService" ref="acalService" />
+    <property name="coService" ref="coService" />
+  </bean>
 
   <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
     <property name="luiService" ref="luiService" />

@@ -15,29 +15,32 @@
  */
 package org.kuali.student.enrollment.class1.lpr.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
+import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+import java.util.ArrayList;
 import org.kuali.student.common.entity.KSEntityConstants;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import java.util.HashSet;
+import java.util.List;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemRequestOptionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
-import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
+import java.util.Set;
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItemRequestOption;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.helper.EntityMergeHelper;
 import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeOptions;
 import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeResult;
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 
 @Entity
@@ -80,8 +83,8 @@ public class LprTransactionItemEntity extends MetaEntity {
 	@Column(name = "LPR_TRANS_ITEM_STATE")
 	private String lprTransactionItemState;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<LprTransactionItemAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LprTransItemAttributeEntity> attributes;
 	
 	@OneToMany (cascade = CascadeType.ALL, mappedBy = "lprTransactionItem")
 	private List<LprTransactionItemRequestOptionEntity>requestOptions;
@@ -401,11 +404,13 @@ public class LprTransactionItemEntity extends MetaEntity {
 		this.lprTransactionItemState = lprTransactionState;
 	}
 
-	public List<LprTransactionItemAttributeEntity> getAttributes() {
+    @Override
+    public Set<LprTransItemAttributeEntity> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<LprTransactionItemAttributeEntity> attributes) {
+    @Override
+    public void setAttributes(Set<LprTransItemAttributeEntity> attributes) {
 		this.attributes = attributes;
 	}
 

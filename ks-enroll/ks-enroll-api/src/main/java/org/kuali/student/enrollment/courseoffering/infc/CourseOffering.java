@@ -16,16 +16,11 @@
 
 package org.kuali.student.enrollment.courseoffering.infc;
 
-import java.util.List;
-
-import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
-import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
-import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
-import org.kuali.student.r2.lum.clu.infc.Fee;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Kamal
@@ -56,6 +51,13 @@ public interface CourseOffering extends IdNamelessEntity{
      *       the aptKey on the Lui
      */
     public String getTermId();
+
+    /**
+     * Custom Description for the course Offering.
+     *
+     * @name Course Offering Description
+     */
+    public RichText getDescr();
 
     /**
      * Identifies the number of a course as reflected in the course catalog.
@@ -196,6 +198,23 @@ public interface CourseOffering extends IdNamelessEntity{
     public String getCreditOptionDisplay();
 
     /**
+     * The options/scales that indicate the allowable grades that can be
+     * awarded. Typically the values here are constrained by the values on the
+     * canonical course. If the value is set here then the Clu must have a
+     * grading option set on the canonical activity. For example: an id might
+     * point to Pass/Fail or Letter Graded option.
+     *
+     * This is the same as gradingOptionIds, but the student registration specific
+     * ids are pulled out and placed in this collection.
+     *
+     * @name: Student Registration Option Ids
+     * @impl these are actually Ids to ResultValuesGroup. Lui.resultOptionIds
+     *       returns a list of resultOptions. Filter options with grading type
+     *       and those should give the resultValueGroupIds
+     */
+    public List<String> getStudentRegistrationOptionIds();
+
+    /**
      * Type of credit of course offering. This field is initially copied from
      * the canonical course but then, depending on configuration, it may be
      * updated. TODO: figure out which of the credit options will be copied down
@@ -286,7 +305,8 @@ public interface CourseOffering extends IdNamelessEntity{
     public String getWaitlistTypeKey();
 
     /**
-     *  Indicates the waitlist level, i.e., CourseOffering or ActivityOffering
+     *  Indicates the waitlist level, i.e., CourseOffering or ActivityOffering.
+     *  Values are in WaitListLevel enum.
      *
      * @name Waitlist Level Type Key
     */
@@ -316,53 +336,55 @@ public interface CourseOffering extends IdNamelessEntity{
     public Boolean getIsFinancialAidEligible();
 
     /**
+     * Is this Course Offering Financial aid eligible.  (why is this
+     * here?) use getIsFinancialAidEligible().
+     *
+     * @name Financial Aid Eligible Flag
+     */
+    @Deprecated
+    public Boolean getFinancialAidEligible();
+
+    /**
      * Places where this Course offering is offered.
      *
      * @name Campus Locations
      */
-    public List<String> getCampusLocations() ;
+    public List<String> getCampusLocations();
 
     /**
-     * Custom Descr for the course Offering
-     * @name Course Offering Description
-     */
-    public RichText getDescr();
-
-    /**
-     *  Is this a Honors Course offering
-     * @name   Honors Flag
+     * Is this a Honors Course offering
+     *
+     * @name Honors Flag
      */
     public Boolean getHonorsOffering();
 
     /**
-     * Is this Course Offering Financial aid eligible
-     * @name Financial Aid Eligible Flag
+     * Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
+     *
+     * @name Final Exam Type
      */
-    public Boolean getFinancialAidEligible();
+    public String getFinalExamType();
 
     /**
-     * Indicates whether a final exam is to be given  for this format Offering
-     * and if its true, the level at which it exists
-     *
-     * @name Has Final Exam
-     */
-    public Boolean getHasFinalExam();
-
-    /**
-     * Indicates whether the fee is at activity offering level or course offering
-     * level. If true its at Activity Offering level, if false its at CourseOffering level.
-     *
+     * Indicates whether the fee is at activity offering level or
+     * course offering level. If true its at Activity Offering level,
+     * if false its at CourseOffering level.
      *
      * @name Is Fee at Activity Offering
      */
     public Boolean getIsFeeAtActivityOffering();
 
     /**
-     * Indicates whether the course offering has an evaluation
-     *
+     * Indicates whether the course offering has an evaluation.
      *
      * @name Is Evaluated
      */
     public Boolean getIsEvaluated();
+    /**
+     * Gets the Course Offering URL.
+     *
+     * @name Course Offering URL
+     */
+    public String getCourseOfferingURL();
 }
 

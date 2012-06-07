@@ -2,6 +2,11 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+
+import java.util.List;
 
 public class FormatOfferingTransformer {
 
@@ -15,7 +20,20 @@ public class FormatOfferingTransformer {
         format.setDescr(lui.getDescr());
         format.setActivityOfferingTypeKeys(lui.getRelatedLuiTypes());
         format.setMeta(lui.getMeta());
-        format.setAttributes(lui.getAttributes());
+
+        //Dynamic attributes - Some fields in Format Offering need to be mapped to LUI dynamic attributes
+        List<AttributeInfo> attributes = format.getAttributes();
+        for (Attribute attr : lui.getAttributes()) {
+            if (CourseOfferingServiceConstants.GRADE_ROSTER_LEVEL_TYPE_KEY_ATTR.equals(attr.getKey())){
+                format.setGradeRosterLevelTypeKey(attr.getValue());
+            } else if (CourseOfferingServiceConstants.FINAL_EXAM_LEVEL_TYPE_KEY_ATTR.equals(attr.getKey())){
+                format.setFinalExamLevelTypeKey(attr.getValue());
+            } else {
+                // Format Offering dynamic attribute that was stored in LUI dyn attribute
+                attributes.add(new AttributeInfo(attr));
+            }
+        }
+        format.setAttributes(attributes);
     }
 
     public void format2Lui(FormatOfferingInfo format, LuiInfo lui) {
@@ -29,5 +47,24 @@ public class FormatOfferingTransformer {
         lui.setRelatedLuiTypes(format.getActivityOfferingTypeKeys());
         lui.setMeta(format.getMeta());
         lui.setAttributes(format.getAttributes());
+
+        //Dynamic Attributes in Format Offering
+        List<AttributeInfo> attributes = lui.getAttributes();
+        for (Attribute attr : format.getAttributes()) {
+            attributes.add(new AttributeInfo(attr));
+        }
+
+        //Dynamic attributes - Some fields in Format Offering need to be mapped to LUI dynamic attributes
+        AttributeInfo gradeRosterLevelTypeKey = new AttributeInfo();
+        gradeRosterLevelTypeKey.setKey(CourseOfferingServiceConstants.GRADE_ROSTER_LEVEL_TYPE_KEY_ATTR);
+        gradeRosterLevelTypeKey.setValue(format.getGradeRosterLevelTypeKey());
+        attributes.add(gradeRosterLevelTypeKey);
+
+        AttributeInfo finalExamLevelTypeKey = new AttributeInfo();
+        finalExamLevelTypeKey.setKey(CourseOfferingServiceConstants.FINAL_EXAM_LEVEL_TYPE_KEY_ATTR);
+        finalExamLevelTypeKey.setValue(format.getFinalExamLevelTypeKey());
+        attributes.add(finalExamLevelTypeKey);
+        
+        lui.setAttributes(attributes);
     }
 }

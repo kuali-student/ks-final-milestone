@@ -9,11 +9,11 @@
 
     <bean id="KS-AcademicCalendar-CopyPage" parent="Uif-Page"
           p:id="academicCalendarCopyPage"
-          p:title="Create New Academic Calendar"
+          p:headerText="Create New Academic Calendar"
           p:header.id="KS-AcademicCalendar-CopyView-header"
           p:disclosure.render="false">
         <property name="header">
-            <bean parent="Uif-HeaderField-Two"/>
+            <bean parent="Uif-HeaderTwo"/>
         </property>
         <property name="header.items">
             <list>
@@ -21,9 +21,9 @@
                       p:id="KS-AcademicCalendar-CopyView-header-items">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-MessageField"
+                            <bean parent="Uif-Message"
                                   p:messageText="When copying an Academic Calendar, all term and milestone names, as well as dates and times from the source calendar are copied."/>
-                            <bean parent="Uif-ActionLink" p:methodToCall="createBlankCalendar" p:actionLabel="Start a blank calendar instead?" p:style="text-align:center;"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="createBlankCalendar" p:actionLabel="Start a blank calendar instead?"/>
                         </list>
                     </property>
                 </bean>
@@ -60,10 +60,10 @@
     </bean>
 
     <bean id="KS-AcademicCalendar-CopyView-From" parent="Uif-VerticalBoxSubSection"
-          p:title="Copy From:"
+          p:headerText="Copy From:"
           p:id="KS-AcademicCalendar-CopyView-From">
         <property name="header">
-            <bean parent="Uif-HeaderField-Four"/>
+            <bean parent="Uif-HeaderFour"/>
         </property>
         <property name="items">
             <list>
@@ -99,7 +99,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField"
+                <bean parent="Uif-Message"
                       p:messageText="A recent academic calendar could not be found."
                       p:render="@{orgAcalInfo == null}"/>
                 <bean parent="Uif-VerticalBoxGroup"
@@ -117,11 +117,11 @@
     </bean>
 
     <bean id="KS-AcademicCalendar-CopyView-To" parent="Uif-VerticalBoxSubSection"
-          p:title="Copy To:"
+          p:headerText="Copy To:"
           p:render="@{orgAcalInfo != null}"
           p:id="KS-AcademicCalendar-CopyView-To">
         <property name="header">
-            <bean parent="Uif-HeaderField-Four"/>
+            <bean parent="Uif-HeaderFour"/>
         </property>
         <property name="items">
             <list>
@@ -135,7 +135,7 @@
                                   p:label="Name"
                                   p:required="true"
                                   p:propertyName="academicCalendarInfo.name"
-                                  p:labelField.width="15%">
+                                  p:fieldLabel.width="15%">
                                 <!--<property name="validCharactersConstraint">-->
                                     <!--<bean parent="AlphaNumericPatternConstraint"-->
                                           <!--p:allowWhitespace="true" />-->

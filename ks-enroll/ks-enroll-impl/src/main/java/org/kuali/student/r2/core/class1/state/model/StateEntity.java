@@ -1,24 +1,18 @@
 package org.kuali.student.r2.core.class1.state.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.infc.State;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_STATE")
@@ -26,7 +20,7 @@ import org.kuali.student.r2.core.state.infc.State;
 //@AttributeOverrides({
 //    @AttributeOverride(name = "id", column =
 //    @Column(name = "STATE_KEY"))})
-public class StateEntity extends MetaEntity {
+public class StateEntity extends MetaEntity implements AttributeOwner<StateAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;
@@ -44,7 +38,7 @@ public class StateEntity extends MetaEntity {
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<StateAttributeEntity> attributes;
+    private Set<StateAttributeEntity> attributes = new HashSet<StateAttributeEntity>();
 
     public String getName() {
         return name;
@@ -95,11 +89,11 @@ public class StateEntity extends MetaEntity {
         this.expirationDate = expirationDate;
     }
 
-    public List<StateAttributeEntity> getAttributes() {
+    public Set<StateAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<StateAttributeEntity> attributes) {
+    public void setAttributes(Set<StateAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
@@ -124,7 +118,7 @@ public class StateEntity extends MetaEntity {
         }
         this.effectiveDate = state.getEffectiveDate();
         this.expirationDate = state.getExpirationDate();
-        this.setAttributes(new ArrayList<StateAttributeEntity>());
+        this.setAttributes(new HashSet<StateAttributeEntity>());
         for (Attribute att : state.getAttributes()) {
             StateAttributeEntity attEntity = new StateAttributeEntity(att, this);
             this.getAttributes().add(attEntity);

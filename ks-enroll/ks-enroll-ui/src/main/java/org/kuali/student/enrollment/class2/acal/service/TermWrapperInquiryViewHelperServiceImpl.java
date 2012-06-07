@@ -18,6 +18,8 @@ import java.util.Map;
  * Created by IntelliJ IDEA.
  * User: huangb
  */
+//Core slice class.
+@Deprecated
 public class TermWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
      public final static String TERM_WRAPPER_KEY = "key";
 	 private transient AcademicCalendarService academicCalendarService;

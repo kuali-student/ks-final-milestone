@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +34,7 @@ import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -295,6 +297,10 @@ public class TestAcademicCalendarServiceImpl {
         TermInfo temp = acalService.getTerm(created.getId(), callContext);
         assertNotNull(temp);
         assertNotNull(temp.getId());
+
+        // check the generated code, based on formula in https://jira.kuali.org/browse/KSENROLL-1146
+        String expectedCode = DateUtil.formatDate(term.getStartDate(), "yyyy") + "4";
+        assertEquals(expectedCode, created.getCode());
 
         term.setId(null);
         created = acalService.createTerm(AtpServiceConstants.ATP_WINTER_TYPE_KEY, term, callContext);
@@ -699,6 +705,7 @@ public class TestAcademicCalendarServiceImpl {
 
         TermInfo existing = acalService.getTerm("termRelationTestingTerm3", callContext);
         String updatedName = "updated " + existing.getName();
+        String originalCode = existing.getCode();
 
         existing.setName(updatedName);
         existing.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
@@ -713,6 +720,10 @@ public class TestAcademicCalendarServiceImpl {
         assertNotNull(retrieved);
         assertEquals(retrieved.getName(), updatedName);
         assertEquals(retrieved.getStateKey(), AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+
+        // ensure new calculated code is the same as the pre-update code
+        assertEquals(originalCode, retrieved.getCode());
+
     }
 
     @Test

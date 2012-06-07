@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class ProcessAttributeEntity extends BaseAttributeEntityNew<ProcessEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private ProcessEntity owner;
 
     public ProcessAttributeEntity () {}

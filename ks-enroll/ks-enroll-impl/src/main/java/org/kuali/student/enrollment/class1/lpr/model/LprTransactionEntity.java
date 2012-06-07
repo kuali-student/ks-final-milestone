@@ -15,25 +15,27 @@
  */
 package org.kuali.student.enrollment.class1.lpr.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.infc.LprTransaction;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+import java.util.ArrayList;
 import org.kuali.student.common.entity.KSEntityConstants;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.infc.LprTransaction;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.helper.EntityMergeHelper;
 import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeResult;
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 
 @Entity
@@ -61,7 +63,7 @@ public class LprTransactionEntity extends MetaEntity {
     @Column(name = "LRP_TRANS_STATE", nullable=false)
     private String lprTransState;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private List<LprTransactionAttributeEntity> attributes;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy="owner")
@@ -267,11 +269,11 @@ public class LprTransactionEntity extends MetaEntity {
     
     
 
-    public List<LprTransactionItemEntity> getLprTransactionItems() {
+    public Set<LprTransactionItemEntity> getLprTransactionItems() {
         return lprTransactionItems;
     }
 
-    public void setLprTransactionItems(List<LprTransactionItemEntity> lprTransactionItems) {
+    public void setLprTransactionItems(Set<LprTransactionItemEntity> lprTransactionItems) {
         this.lprTransactionItems = lprTransactionItems;
     }
 

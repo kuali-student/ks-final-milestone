@@ -20,14 +20,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 -->
     
   <bean id="HoldInfo-MaintenanceView" parent="KSMaintenanceView">
-     <property name="title" value="HoldInfo Maintenance"/>
+     <property name="headerText" value="HoldInfo Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
-     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class1.hold.service.HoldInfoMaintainableImpl" />
+     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.hold.service.HoldInfoMaintainableImpl" />
      
      <property name="items">
        <list merge="true">
           <bean parent="Uif-MaintenanceGridSection">
-          	 <property name="title" value="Manage Holds for Person"/>
+          	 <property name="headerText" value="Manage Holds for Person"/>
              <property name="items">
                <list>
                 <bean parent="Uif-InputField" p:propertyName="personId"/>
@@ -37,7 +37,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
           </bean> 
           
           <bean parent="Uif-MaintenanceStackedCollectionSection">
-              <property name="title" value="Issues"/>  
+              <property name="headerText" value="Issues"/>  
               <property name="collectionObjectClass" value="org.kuali.student.enrollment.hold.dto.IssueInfo"/>
               <property name="propertyName" value="issueId"/>
               <property name="items">

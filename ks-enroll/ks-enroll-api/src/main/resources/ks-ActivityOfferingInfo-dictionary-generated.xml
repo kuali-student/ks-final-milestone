@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue May 01 14:33:17 EDT 2012
+		This dictionary file was automatically generated on Tue May 22 17:22:49 PDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -63,19 +63,27 @@ system, each with a meeting pattern.
 				<ref bean="ActivityOfferingInfo.stateKey"/>
 				<ref bean="ActivityOfferingInfo.name"/>
 				<ref bean="ActivityOfferingInfo.formatOfferingId"/>
+				<ref bean="ActivityOfferingInfo.formatOfferingName"/>
 				<ref bean="ActivityOfferingInfo.activityId"/>
 				<ref bean="ActivityOfferingInfo.termId"/>
+				<ref bean="ActivityOfferingInfo.termCode"/>
 				<ref bean="ActivityOfferingInfo.activityCode"/>
 				<ref bean="ActivityOfferingInfo.scheduleId"/>
 				<ref bean="ActivityOfferingInfo.isHonorsOffering"/>
 				<ref bean="ActivityOfferingInfo.weeklyInclassContactHours"/>
 				<ref bean="ActivityOfferingInfo.weeklyOutofclassContactHours"/>
 				<ref bean="ActivityOfferingInfo.weeklyTotalContactHours"/>
+				<ref bean="ActivityOfferingInfo.isEvaluated"/>
 				<ref bean="ActivityOfferingInfo.maximumEnrollment"/>
 				<ref bean="ActivityOfferingInfo.minimumEnrollment"/>
+				<ref bean="ActivityOfferingInfo.isMaxEnrollmentEstimate"/>
 				<ref bean="ActivityOfferingInfo.finalExamStartTime"/>
 				<ref bean="ActivityOfferingInfo.finalExamEndTime"/>
 				<ref bean="ActivityOfferingInfo.finalExamSpaceCode"/>
+				<ref bean="ActivityOfferingInfo.activityOfferingURL"/>
+				<ref bean="ActivityOfferingInfo.courseOfferingId"/>
+				<ref bean="ActivityOfferingInfo.courseOfferingTitle"/>
+				<ref bean="ActivityOfferingInfo.courseOfferingCode"/>
 			</list>
 		</property>
 
@@ -180,6 +188,23 @@ Format offering Id used to create this activity
 		<property name="required" value="true"/>
 	</bean>
 
+	<bean id="ActivityOfferingInfo.formatOfferingName-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="formatOfferingName"/>
+		<property name="shortLabel" value="Format Offering Name"/>
+		<property name="summary">
+			<value>
+Format offering Name used to create this activity
+			</value>
+		</property>
+		<property name="label" value="Format Offering Name"/>
+		<property name="description">
+			<value>
+Format offering Name used to create this activity
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
 	<bean id="ActivityOfferingInfo.activityId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="activityId"/>
 		<property name="shortLabel" value="Activity Id"/>
@@ -211,6 +236,28 @@ Academic term the activity is being offered in.
 		<property name="description">
 			<value>
 Academic term the activity is being offered in. 
+
+Same as course offering term or a nested term of course
+offering.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.termCode-generated" abstract="true" parent="BaseKuali.code">
+		<property name="name" value="termCode"/>
+		<property name="shortLabel" value="Term Code"/>
+		<property name="summary">
+			<value>
+Academic term code the activity is being offered in.
+
+
+			</value>
+		</property>
+		<property name="label" value="Term Code"/>
+		<property name="description">
+			<value>
+Academic term code the activity is being offered in.
 
 Same as course offering term or a nested term of course
 offering.
@@ -370,18 +417,18 @@ unit is hours.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.evaluationFlag-generated" abstract="true" parent="BaseKuali.boolean">
-		<property name="name" value="evaluationFlag"/>
-		<property name="shortLabel" value="Evaluation Flag"/>
+	<bean id="ActivityOfferingInfo.isEvaluated-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isEvaluated"/>
+		<property name="shortLabel" value="Is Evaluated"/>
 		<property name="summary">
 			<value>
-Is there an instructor evaluation for this activity offering
+Is there an instructor evaluation for this activity offering.
 			</value>
 		</property>
 		<property name="label" value="Instructor Evaluation Flag"/>
 		<property name="description">
 			<value>
-Is there an instructor evaluation for this activity offering
+Is there an instructor evaluation for this activity offering.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -420,6 +467,23 @@ offering not to be canceled.
 			<value>
 Total minimum number of seats that must be filled for the
 offering not to be canceled.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.isMaxEnrollmentEstimate-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isMaxEnrollmentEstimate"/>
+		<property name="shortLabel" value="Is Max Enrollment Estimate"/>
+		<property name="summary">
+			<value>
+Is maximum enrollment estimate flag
+			</value>
+		</property>
+		<property name="label" value="Is Maximum Enrollment Estimate Flag"/>
+		<property name="description">
+			<value>
+Is maximum enrollment estimate flag
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -474,6 +538,74 @@ Space code where final exam will be conducted
 			</value>
 		</property>
 		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.activityOfferingURL-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="activityOfferingURL"/>
+		<property name="shortLabel" value="Activity Offering URL"/>
+		<property name="summary">
+			<value>
+Gets the URL for this offering.
+			</value>
+		</property>
+		<property name="label" value="Activity Offering URL"/>
+		<property name="description">
+			<value>
+Gets the URL for this offering.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.courseOfferingId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseOfferingId"/>
+		<property name="shortLabel" value="Course Offering Id"/>
+		<property name="summary">
+			<value>
+Course Offering id the activity is being offered in.
+			</value>
+		</property>
+		<property name="label" value="Course Offering Id"/>
+		<property name="description">
+			<value>
+Course Offering id the activity is being offered in.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.courseOfferingTitle-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseOfferingTitle"/>
+		<property name="shortLabel" value="Course Offering Title"/>
+		<property name="summary">
+			<value>
+Course Offering title the activity is being offered in.
+			</value>
+		</property>
+		<property name="label" value="Course Offering Title"/>
+		<property name="description">
+			<value>
+Course Offering title the activity is being offered in.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.courseOfferingCode-generated" abstract="true" parent="BaseKuali.code">
+		<property name="name" value="courseOfferingCode"/>
+		<property name="shortLabel" value="Course Offering Code"/>
+		<property name="summary">
+			<value>
+Course Offering code the activity is being offered in.
+			</value>
+		</property>
+		<property name="label" value="Course Offering Code"/>
+		<property name="description">
+			<value>
+Course Offering code the activity is being offered in.
+			</value>
+		</property>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

@@ -7,6 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -62,13 +65,15 @@ public class AtpTestDataLoader {
         loadAtp("FALLTERM1990", "Fall Term 1990", "1990-08-01 00:00:00.0", "1990-12-31 00:00:00.0", "kuali.atp.type.Fall", "kuali.atp.state.Official", "Fall Term 1990");
         loadAtp("termRelationTestingAcal1", "testingAcal1", "2000-09-01 00:00:00.0", "2001-06-01 00:00:00.0", "kuali.atp.type.AcademicCalendar", "kuali.atp.state.Draft", "Desc term rich text 3");
         loadAtp("termRelationTestingAcal2", "testingAcal2", "2001-09-01 00:00:00.0", "2002-06-01 00:00:00.0", "kuali.atp.type.AcademicCalendar", "kuali.atp.state.Draft", "Desc term rich text 4");
-        loadAtp("termRelationTestingTerm1", "testingTerm1", "2000-09-01 00:00:00.0", "2000-12-31 00:00:00.0", "kuali.atp.type.Fall", "kuali.atp.state.Draft", "Desc term rich text 1");
-        loadAtp("termRelationTestingTerm2", "testingTerm2", "2001-01-01 00:00:00.0", "2001-05-31 00:00:00.0", "kuali.atp.type.Spring", "kuali.atp.state.Draft", "Desc term rich text 2");
-        loadAtp("termRelationTestingTerm3", "testingTerm3", "2000-09-01 00:00:00.0", "2000-12-31 00:00:00.0", "kuali.atp.type.Fall", "kuali.atp.state.Official", "Desc term rich text 7");
-        loadAtp("termRelationTestingTerm4", "testingTerm4", "2011-01-01 00:00:00.0", "2011-05-31 00:00:00.0", "kuali.atp.type.HalfFall1", "kuali.atp.state.Draft", "Desc term rich text 8");
-        loadAtp("termRelationTestingTerm5", "testingTerm3", "2000-09-01 00:00:00.0", "2000-12-31 00:00:00.0", "kuali.atp.type.Fall", "kuali.atp.state.Official", "Desc term rich text 10");
-        loadAtp("termRelationTestingTerm6", "testingTerm4", "2011-01-01 00:00:00.0", "2011-05-31 00:00:00.0", "kuali.atp.type.HalfFall2", "kuali.atp.state.Draft", "Desc term rich text 11");
-        loadAtp("termRelationTestingTermDelete", "testingTermDelete", "2031-01-01 00:00:00.0", "2031-05-31 00:00:00.0", "kuali.atp.type.HalfFall1", "kuali.atp.state.Draft", "Desc term rich text 9");
+
+        loadTerm("termRelationTestingTerm1", "testingTerm1", "2000-09-01 00:00:00.0", "2000-12-31 00:00:00.0", "kuali.atp.type.Fall", "kuali.atp.state.Draft", "Desc term rich text 1");
+        loadTerm("termRelationTestingTerm2", "testingTerm2", "2001-01-01 00:00:00.0", "2001-05-31 00:00:00.0", "kuali.atp.type.Spring", "kuali.atp.state.Draft", "Desc term rich text 2");
+        loadTerm("termRelationTestingTerm3", "testingTerm3", "2000-09-01 00:00:00.0", "2000-12-31 00:00:00.0", "kuali.atp.type.Fall", "kuali.atp.state.Official", "Desc term rich text 7");
+        loadTerm("termRelationTestingTerm4", "testingTerm4", "2011-01-01 00:00:00.0", "2011-05-31 00:00:00.0", "kuali.atp.type.HalfFall1", "kuali.atp.state.Draft", "Desc term rich text 8");
+        loadTerm("termRelationTestingTerm5", "testingTerm3", "2000-09-01 00:00:00.0", "2000-12-31 00:00:00.0", "kuali.atp.type.Fall", "kuali.atp.state.Official", "Desc term rich text 10");
+        loadTerm("termRelationTestingTerm6", "testingTerm4", "2011-01-01 00:00:00.0", "2011-05-31 00:00:00.0", "kuali.atp.type.HalfFall2", "kuali.atp.state.Draft", "Desc term rich text 11");
+        loadTerm("termRelationTestingTermDelete", "testingTermDelete", "2031-01-01 00:00:00.0", "2031-05-31 00:00:00.0", "kuali.atp.type.HalfFall1", "kuali.atp.state.Draft", "Desc term rich text 9");
+
         loadAtp("testEdgeAtpId1", "testEdgeAtpId1", "1980-06-01 00:00:00.0", "1980-06-30 00:00:00.0", "kuali.atp.type.AcademicCalendar", "kuali.atp.state.Official", "Desc 2001");
         loadAtp("testEdgeAtpId10", "testEdgeAtpId10", "1981-01-01 00:00:00.0", "1981-01-31 00:00:00.0", "kuali.atp.type.AcademicCalendar", "kuali.atp.state.Official", "Desc 2010");
         loadAtp("testEdgeAtpId2", "testEdgeAtpId2", "1979-12-01 00:00:00.0", "1981-01-31 00:00:00.0", "kuali.atp.type.AcademicCalendar", "kuali.atp.state.Official", "Desc 2002");
@@ -263,5 +268,58 @@ public class AtpTestDataLoader {
         } catch (ParseException ex) {
             throw new IllegalArgumentException("Bad date " + str + " in " + context);
         }
+    }
+
+    /**
+     * Load terms separately from other ATPs because of ATP code calculation
+     *
+     * @param id
+     * @param name
+     * @param startDate
+     * @param endDate
+     * @param type
+     * @param state
+     * @param descrPlain
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DataValidationErrorException
+     * @throws ReadOnlyException
+     * @throws AssemblyException
+     */
+    private void loadTerm(String id,
+                         String name,
+                         String startDate,
+                         String endDate,
+                         String type,
+                         String state,
+                         String descrPlain)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            DataValidationErrorException, ReadOnlyException {
+        AtpInfo atpInfo = new AtpInfo();
+        atpInfo.setId(id);
+        atpInfo.setName(name);
+        atpInfo.setTypeKey(type);
+        atpInfo.setStateKey(state);
+        atpInfo.setStartDate(str2Date(startDate, id));
+        atpInfo.setEndDate(str2Date(endDate, id));
+        atpInfo.setDescr(new RichTextHelper().fromPlain(descrPlain));
+        ContextInfo context = new ContextInfo();
+
+        try {
+        TermInfo term = new TermAssembler().assemble(atpInfo, context);
+        atpInfo.setCode(TermAssembler.buildAtpCodeForTerm(term));
+        }
+        catch (AssemblyException e) {
+            throw new OperationFailedException("Assembly of TermInfo failed", e);
+        }
+
+        context.setPrincipalId(principalId);
+        context.setCurrentDate(new Date());
+        CommonServiceConstants.setIsIdAllowedOnCreate(context, true);
+        atpService.createAtp(atpInfo.getTypeKey(), atpInfo, context);
     }
 }

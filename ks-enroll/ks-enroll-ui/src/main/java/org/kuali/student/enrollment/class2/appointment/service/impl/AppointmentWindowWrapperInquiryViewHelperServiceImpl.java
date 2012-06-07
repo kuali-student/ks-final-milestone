@@ -11,6 +11,7 @@ import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrap
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
@@ -34,6 +35,10 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
 
     public final static String WINDOW_WRAPPER_KEY = "id";
     private transient AppointmentService appointmentService;
+    private transient AcademicCalendarService academicCalendarService;
+    private transient TypeService typeService;
+    private transient PopulationService populationService;
+    private transient SearchService searchService;
 
     @Override
     public AppointmentWindowWrapper retrieveDataObject(Map<String, String> parameters) {
@@ -117,24 +122,40 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
     }
 
     public AcademicCalendarService getAcalService() {
-        return (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        if(academicCalendarService == null) {
+            academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.academicCalendarService;
     }
 
-    public TypeService getTypeService() {
-        return (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeService.class.getSimpleName()));
-    }
 
     public AppointmentService getAppointmentService() {
-        return (AppointmentService) GlobalResourceLoader.getService(new QName(AppointmentServiceConstants.NAMESPACE, AppointmentServiceConstants.SERVICE_NAME_LOCAL_PART));
+        if(appointmentService == null) {
+            appointmentService = (AppointmentService) GlobalResourceLoader.getService(new QName(AppointmentServiceConstants.NAMESPACE, AppointmentServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return appointmentService;
     }
 
-    protected PopulationService getPopulationService() {
-        //populationService is retrieved using global resource loader which is wired in ks-enroll-context.xml
-        return (PopulationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX+"population", "PopulationService"));
+
+    public TypeService getTypeService() {
+        if(typeService == null) {
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.typeService;
+    }
+
+    public PopulationService getPopulationService() {
+        if(populationService == null) {
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationService.class.getSimpleName()));
+        }
+        return populationService;
     }
 
     protected SearchService getSearchService() {
-        return (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX+"search", SearchService.class.getSimpleName()));
+        if(searchService == null) {
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX+"search", SearchService.class.getSimpleName()));
+        }
+        return searchService;
     }
 
     public ContextInfo getContextInfo() {

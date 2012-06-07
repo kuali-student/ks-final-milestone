@@ -1,8 +1,8 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -15,6 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+//Core slice class.
+@Deprecated
 public class TermInfoMaintainableImpl extends MaintainableImpl {
 	private static final long serialVersionUID = 1L;	
 	

@@ -225,7 +225,7 @@ public class RegistrationWindowsController extends UifControllerBase {
                 }
             }
         }
-        return updateComponent(uifForm, result, request, response);
+        return getUIFModelAndView(uifForm);
     }
 
     @RequestMapping(params = "methodToCall=breakAppointments")
@@ -249,7 +249,7 @@ public class RegistrationWindowsController extends UifControllerBase {
             }
         }
 
-        return updateComponent(uifForm, result, request, response);
+        return getUIFModelAndView(uifForm);
     }
 
     @Override
@@ -270,7 +270,7 @@ public class RegistrationWindowsController extends UifControllerBase {
                         //There was an error
                         GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
                                 AppointmentConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE, status.getMessage());
-                        return updateComponent(uifForm, result, request, response);
+                        return getUIFModelAndView(uifForm);
                     }
                 }else {
                     getAppointmentService().deleteAppointmentWindowCascading(window.getId(), new ContextInfo());
@@ -278,11 +278,11 @@ public class RegistrationWindowsController extends UifControllerBase {
                 }
             }else {
                 //TODO: log window == null message
-                return updateComponent(uifForm, result, request, response);
+                return getUIFModelAndView(uifForm);
             }
         }catch (Exception e){
             //TODO: log exception
-            return updateComponent(uifForm, result, request, response);
+            return getUIFModelAndView(uifForm);
 
         }
     }
@@ -376,7 +376,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
     public AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm){
         if (viewHelperService == null) {
-            if (appointmentForm.getView().getViewHelperServiceClassName() != null){
+            if (appointmentForm.getView().getViewHelperServiceClass() != null){
                 viewHelperService = (AppointmentViewHelperService)appointmentForm.getView().getViewHelperService();
             }else{
                 viewHelperService= (AppointmentViewHelperService)appointmentForm.getPostedView().getViewHelperService();

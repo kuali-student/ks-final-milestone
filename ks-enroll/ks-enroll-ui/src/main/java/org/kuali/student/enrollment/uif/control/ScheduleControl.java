@@ -2,7 +2,7 @@ package org.kuali.student.enrollment.uif.control;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.control.ControlBase;
-import org.kuali.rice.krad.uif.field.HeaderField;
+import org.kuali.rice.krad.uif.element.Header;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import java.util.Locale;
  * the License.
  */
 public class ScheduleControl extends ControlBase {
-    private HeaderField headerField;
+    private Header header;
     private List<String> days;
     private List<String> times;
     private boolean sundayFirst;
@@ -218,11 +218,11 @@ public class ScheduleControl extends ControlBase {
         this.militaryTime = militaryTime;
     }
 
-    public HeaderField getHeaderField() {
-        return headerField;
+    public Header getHeader() {
+        return header;
     }
 
-    public void setHeaderField(HeaderField headerField) {
-        this.headerField = headerField;
+    public void setHeader(Header header) {
+        this.header = header;
     }
 }
