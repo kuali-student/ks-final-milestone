@@ -89,4 +89,5 @@ public class CalendarConstants {
     public static final String MSG_ERROR_TIME_END_AMPM_REQUIRED = "error.enroll.time.end.ampm.required";
     public static final String MSG_ERROR_DUPLICATE_HCAL = "error.enroll.acal.duplicate.hcal";
     public static final String MSG_ERROR_KEY_DATE_TYPE_REQUIRED = "error.enroll.keydate.type.empty";
+    public static final String MSG_ERROR_KEY_DATE_GROUP_TYPE_REQUIRED = "error.enroll.keydategroup.type.empty";
 }

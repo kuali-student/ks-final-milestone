@@ -405,6 +405,13 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     }
                 }
             }
+            else if (addLine instanceof KeyDatesGroupWrapper) {
+                KeyDatesGroupWrapper keydateGroup = (KeyDatesGroupWrapper) addLine;
+                if(StringUtils.isEmpty(keydateGroup.getKeyDateGroupType())) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydatesgroup", CalendarConstants.MSG_ERROR_KEY_DATE_TYPE_REQUIRED);
+                    return false;
+                }
+            }
             else if (addLine instanceof KeyDateWrapper) {
                 KeyDateWrapper keydate = (KeyDateWrapper)addLine;
                 if(StringUtils.isEmpty(keydate.getKeyDateType())) {
@@ -973,12 +980,14 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             }
         }else if (addLine instanceof KeyDatesGroupWrapper){
             KeyDatesGroupWrapper group = (KeyDatesGroupWrapper)addLine;
-            try {
-                TypeInfo termType = getTypeService().getType(group.getKeyDateGroupType(),getContextInfo());
-                group.setKeyDateGroupNameUI(termType.getName());
-                group.setTypeInfo(termType);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            if(StringUtils.isNotEmpty(group.getKeyDateGroupType())) {
+                try {
+                    TypeInfo termType = getTypeService().getType(group.getKeyDateGroupType(),getContextInfo());
+                    group.setKeyDateGroupNameUI(termType.getName());
+                    group.setTypeInfo(termType);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         }else if (addLine instanceof HolidayCalendarInfo) {
             HolidayCalendarInfo inputLine = (HolidayCalendarInfo)addLine;
@@ -1032,7 +1041,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }else if (addLine instanceof KeyDateWrapper){
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
             try {
-                if(!StringUtils.isEmpty(keydate.getKeyDateType())) {
+                if(StringUtils.isNotEmpty(keydate.getKeyDateType())) {
                     TypeInfo type = getTypeService().getType(keydate.getKeyDateType(),getContextInfo());
                     keydate.setKeyDateNameUI(type.getName());
                     keydate.setTypeInfo(type);
