@@ -4,19 +4,17 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.r1.core.atp.service.AtpService;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.r2.lum.program.service.ProgramService;
-
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true, rollbackFor={Throwable.class})
@@ -27,27 +25,27 @@ public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
 	private StateChangeService stateChangeService;
 
     @Override
-    protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
+    protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
         LOG.info("Will set CLU state to '" + DtoConstants.STATE_DRAFT + "'");
         String programId = getProgramId(proposalInfo);
-        getStateChangeService().changeState(programId, DtoConstants.STATE_DRAFT, contextInfo);
+        getStateChangeService().changeState(programId, DtoConstants.STATE_DRAFT, ContextUtils.getContextInfo());
     }
 
     @Override
-    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent,  ActionTaken actionTaken, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
+    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent,  ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
     	//TODO Why is this method implemented in course post processor? it might be important for program as well
         return true;
     }
 
     @Override
-    protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
+    protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
         // update the program state based on the route status
     	// Mainly used to approve a proposal
         String programId = getProgramId(proposalInfo);
         String endEntryTerm = proposalInfo.getAttributes().get("prevEndProgramEntryTerm");
         String endEnrollTerm = proposalInfo.getAttributes().get("prevEndTerm");
         String endInstAdmitTerm = proposalInfo.getAttributes().get("prevEndInstAdmitTerm");
-        getStateChangeService().changeState(endEntryTerm, endEnrollTerm, endInstAdmitTerm, programId, getCluStateForRouteStatus("",statusChangeEvent.getNewRouteStatus()), contextInfo);
+        getStateChangeService().changeState(endEntryTerm, endEnrollTerm, endInstAdmitTerm, programId, getCluStateForRouteStatus("",statusChangeEvent.getNewRouteStatus()), ContextUtils.getContextInfo());
         return true;
     }
 

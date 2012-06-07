@@ -24,6 +24,7 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -52,7 +53,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      *    @param proposalInfo - The proposal object being withdrawn 
      */   
     @Override
-    protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
+    protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
         
         if (proposalInfo != null){
             String proposalDocType=proposalInfo.getType();      
@@ -65,10 +66,10 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
                         + DtoConstants.STATE_NOT_APPROVED + "'");
                 // Get Clu
                 CourseInfo courseInfo = getCourseService().getCourse(
-                        getCourseId(proposalInfo), contextInfo);
+                        getCourseId(proposalInfo), ContextUtils.getContextInfo());
                 // Update Clu
                 updateCourse(actionTakenEvent, DtoConstants.STATE_NOT_APPROVED,
-                        courseInfo, proposalInfo, contextInfo);
+                        courseInfo, proposalInfo);
             } 
             // Retire proposal is the only proposal type at this time which will not require a 
             // change to the clu if withdrawn.
@@ -82,11 +83,11 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     }
 
     @Override
-    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
+    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
         String cluId = getCourseId(proposalInfo);
-        CourseInfo courseInfo = getCourseService().getCourse(cluId, contextInfo);
+        CourseInfo courseInfo = getCourseService().getCourse(cluId, ContextUtils.getContextInfo());
         // submit, blanket approve action taken comes through here.        
-        updateCourse(actionTakenEvent, null, courseInfo, proposalInfo, contextInfo);
+        updateCourse(actionTakenEvent, null, courseInfo, proposalInfo);
         return true;
     }
 
@@ -96,13 +97,13 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      * to CourseStateChangeServiceImpl.java
      */
      @Override   
-     protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
+     protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
 
          String courseId = getCourseId(proposalInfo);        
          String prevEndTermAtpId = proposalInfo.getAttributes().get("prevEndTerm");
          
          // Get the current "existing" courseInfo
-         CourseInfo courseInfo = getCourseService().getCourse(courseId, contextInfo);
+         CourseInfo courseInfo = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
          
          // Get the new state the course should now change to        
          String newCourseState = getCluStateForRouteStatus(courseInfo.getStateKey(), statusChangeEvent.getNewRouteStatus(), proposalInfo.getType());
@@ -113,18 +114,18 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
                  
                  // Change the state using the effective date as the version start date
                  // update course and save it for retire if state = retire           
-                 getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, contextInfo);
+                 getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, ContextUtils.getContextInfo());
              } else
                  
                  // Retire By Proposal will come through here, extra data will need 
                  // to be copied from the proposalInfo to the courseInfo fields before 
                  // the save happens.            
                  if(DtoConstants.STATE_RETIRED.equals(newCourseState)){
-                     retireCourseByProposalCopyAndSave(newCourseState, courseInfo, proposalInfo, contextInfo);
-                     getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, contextInfo);
+                     retireCourseByProposalCopyAndSave(newCourseState, courseInfo, proposalInfo);
+                     getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, ContextUtils.getContextInfo());
              }
                else{ // newCourseState of null comes here, is this desired?
-                 updateCourse(statusChangeEvent, newCourseState, courseInfo, proposalInfo, contextInfo);
+                 updateCourse(statusChangeEvent, newCourseState, courseInfo, proposalInfo);
              }                  
          }
          return true;
@@ -152,7 +153,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      * @param proposalInfo - proposal object which has the on-screen fields we are copying from
      * @param contextInfo - ContextInfo
       */
-     protected void retireCourseByProposalCopyAndSave(String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
+     protected void retireCourseByProposalCopyAndSave(String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo) throws Exception {
          
          // Copy the data to the object - 
          // These Proposal Attribs need to go back to courseInfo Object 
@@ -187,7 +188,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
              }
          }
          // Save the Data to the DB
-         getCourseService().updateCourse(courseInfo.getId(), courseInfo, contextInfo);
+         getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.getContextInfo());
      }
 
     protected String getCourseId(ProposalInfo proposalInfo) throws OperationFailedException {
@@ -251,7 +252,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     }
 
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-    protected void updateCourse(IDocumentEvent iDocumentEvent, String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
+    protected void updateCourse(IDocumentEvent iDocumentEvent, String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo) throws Exception {
         // only change the state if the course is not currently set to that state
         boolean requiresSave = false;
         if (courseState != null) {
@@ -267,7 +268,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         requiresSave |= preProcessCourseSave(iDocumentEvent, courseInfo);
 
         if (requiresSave) {
-            getCourseService().updateCourse(courseInfo.getId(), courseInfo, contextInfo);
+            getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.getContextInfo());
             
             //For a newly approved course (w/no prior active versions), make the new course the current version.
             if (DtoConstants.STATE_ACTIVE.equals(courseState) && courseInfo.getVersionInfo().getCurrentVersionStart() == null){
@@ -275,17 +276,17 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
                 
             	// if current version's state is not active then we can set this course as the active course
             	//if (!DtoConstants.STATE_ACTIVE.equals(getCourseService().getCourse(getCourseService().getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseInfo.getVersionInfo().getVersionIndId()).getId()).getState())) { 
-            		getCourseService().setCurrentCourseVersion(courseInfo.getId(), null, contextInfo);
+            		getCourseService().setCurrentCourseVersion(courseInfo.getId(), null, ContextUtils.getContextInfo());
             	//}
             }
             
-            List<StatementTreeViewInfo> statementTreeViewInfos = courseService.getCourseStatements(courseInfo.getId(), null, null, contextInfo);
+            List<StatementTreeViewInfo> statementTreeViewInfos = courseService.getCourseStatements(courseInfo.getId(), null, null, ContextUtils.getContextInfo());
             if(statementTreeViewInfos!=null){
 	            statementTreeViewInfoStateSetter(courseInfo.getStateKey(), statementTreeViewInfos.iterator());
 	            
 	            for(Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();)
 
-	        		courseService.updateCourseStatement(courseInfo.getId(), courseState, it.next(), contextInfo);
+	        		courseService.updateCourseStatement(courseInfo.getId(), courseState, it.next(), ContextUtils.getContextInfo());
             }
         }
         
