@@ -272,7 +272,10 @@
         <property name="criteriaLookupService" ref="criteriaLookupService" />
         <property name="typeService" ref="typeService" />
         <property name="businessLogic" ref="coBusinessLogic" />
+        <property name="offeringCodeGenerator" ref="offeringCodeGenerator" />
   </bean>
+
+   <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
 
    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseServiceImpl" />

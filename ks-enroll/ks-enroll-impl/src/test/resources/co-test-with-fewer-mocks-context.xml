@@ -168,7 +168,10 @@
         <property name="businessLogic" ref="businessLogic" />
         <property name="atpService" ref="atpService"/>
         <property name="typeService" ref="typeService"/>
+        <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
     </bean>
+
+    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
 
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />

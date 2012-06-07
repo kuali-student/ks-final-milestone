@@ -8,6 +8,7 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
@@ -82,6 +83,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private StateService stateService;
     private LuiPersonRelationService lprService;
     private CourseOfferingServiceBusinessLogic businessLogic;
+
+    private CourseOfferingCodeGenerator offeringCodeGenerator;
+
     // TODO - remove when KSENROLL-247 is resolved
     private static final Integer TEMP_MAX_ENROLLMENT_DEFAULT = 50;
 
@@ -864,6 +868,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (!activityOfferingTypeKey.equals(aoInfo.getTypeKey())) {
             throw new InvalidParameterException(activityOfferingTypeKey + " does not match the corresponding value in the object " + aoInfo.getTypeKey());
         }
+
+
         // get the required objects checking they exist
         FormatOfferingInfo fo = this.getFormatOffering(formatOfferingId, context);
         CourseOfferingInfo co = this.getCourseOffering(fo.getCourseOfferingId(), context);
@@ -873,6 +879,23 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
         }
         aoInfo.setTermId(fo.getTermId());
+
+        //AO Code generation logic
+
+        //check that the passed in activity code does not already exist for that course offering
+        List<ActivityOfferingInfo> existingAoInfos = getActivityOfferingsByCourseOffering(co.getId(),context);
+
+        if( aoInfo.getActivityCode() == null ){
+            //If there is no activity code, create a new one
+            aoInfo.setActivityCode(offeringCodeGenerator.generateActivityOfferingCode(existingAoInfos));
+        }else{
+            for(ActivityOfferingInfo existingAoInfo:existingAoInfos){
+                if(aoInfo.getActivityCode().equals(existingAoInfo.getActivityCode())){
+                    throw new InvalidParameterException("Activity Offering Code '" + aoInfo.getActivityCode() + "' already exists for course code " + co.getCourseOfferingCode() + " term Id '" + co.getTermId() + "'");
+                }
+            }
+        }
+
         // copy to the lui
         LuiInfo lui = new LuiInfo();
         ActivityOfferingTransformer.activity2Lui(aoInfo, lui);
@@ -1446,4 +1469,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
     }
+
+    public void setOfferingCodeGenerator(CourseOfferingCodeGenerator offeringCodeGenerator) {
+        this.offeringCodeGenerator = offeringCodeGenerator;
+    }
+
 }
