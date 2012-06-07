@@ -88,7 +88,7 @@ public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Seri
     }
     public TypeService getTypeService() {
         if(typeService == null) {
-            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, "TypeService"));
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.typeService;
     }

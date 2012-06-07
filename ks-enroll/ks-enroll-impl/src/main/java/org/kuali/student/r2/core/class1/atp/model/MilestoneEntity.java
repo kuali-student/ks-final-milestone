@@ -1,19 +1,8 @@
 package org.kuali.student.r2.core.class1.atp.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
@@ -21,9 +10,14 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.infc.Milestone;
 import org.kuali.student.r2.core.class1.atp.service.impl.DateUtil;
 
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "KSEN_MSTONE")
-public class MilestoneEntity extends MetaEntity {
+public class MilestoneEntity extends MetaEntity implements AttributeOwner<MilestoneAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;
@@ -64,7 +58,7 @@ public class MilestoneEntity extends MetaEntity {
     private String relativeAnchorMilestoneId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<MilestoneAttributeEntity> attributes;
+    private Set<MilestoneAttributeEntity> attributes = new HashSet<MilestoneAttributeEntity>();
 
     public MilestoneEntity() {
     }
@@ -175,11 +169,11 @@ public class MilestoneEntity extends MetaEntity {
         this.relativeAnchorMilestoneId = relativeAnchorMilestoneId;
     }
 
-    public void setAttributes(List<MilestoneAttributeEntity> attributes) {
+    public void setAttributes(Set<MilestoneAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
-    public List<MilestoneAttributeEntity> getAttributes() {
+    public Set<MilestoneAttributeEntity> getAttributes() {
         return attributes;
     }
 
@@ -228,7 +222,7 @@ public class MilestoneEntity extends MetaEntity {
 //      For explanation See https://wiki.kuali.org/display/STUDENT/Storing+and+Querying+Milestone+Dates
         this.startDate = DateUtil.startOfDayfIsAllDay (allDay, milestone.getStartDate());
         this.endDate = DateUtil.endOfDayIfIsAllDay (allDay, DateUtil.nullIfNotDateRange(dateRange, milestone.getEndDate()));
-        this.attributes = new ArrayList<MilestoneAttributeEntity>();
+        this.attributes = new HashSet<MilestoneAttributeEntity>();
         if (null != milestone.getAttributes()) {
             for (Attribute att : milestone.getAttributes()) {
                 this.attributes.add(new MilestoneAttributeEntity(att, this));

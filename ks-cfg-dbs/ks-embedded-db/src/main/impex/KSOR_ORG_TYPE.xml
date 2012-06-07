@@ -58,11 +58,30 @@
         OBJ_ID="76F9F4423DD0425C99F074858EB725A3"
         TYPE_DESC="A Deliberative body" TYPE_KEY="kuali.org.Senate" VER_NBR="0"/>
     <KSOR_ORG_TYPE EFF_DT="20100701000000" NAME="Testing Service"
-        OBJ_ID="BF2683BD71733CF7E040C60AF05B3A4A"
+        OBJ_ID="C1D33FB5202356A9E040C60AF05B477E"
         TYPE_DESC="An organization creates and administers standardized tests"
         TYPE_KEY="kuali.org.TestingService" VER_NBR="0"/>
     <KSOR_ORG_TYPE EFF_DT="20000101000000" NAME="Work Group"
         OBJ_ID="32496B0862C4431BAFF166305E4AD84D"
         TYPE_DESC="A group organized for a particular purpose"
         TYPE_KEY="kuali.org.WorkGroup" VER_NBR="0"/>
+    <KSOR_ORG_TYPE EFF_DT="20120501000000" NAME="Campus"
+        OBJ_ID="4ccc0e40-94ad-11e1-b0c4-0800200c9a6"
+        TYPE_DESC="Academic organizational unit representing a campus"
+        TYPE_KEY="kuali.org.type.campus" VER_NBR="0"/>
+    <KSOR_ORG_TYPE EFF_DT="20120501000000" NAME="College"
+        OBJ_ID="4ccc0e41-94ad-11e1-b0c4-0800200c9a7"
+        TYPE_DESC="Academic organizational unit representing a school or college"
+        TYPE_KEY="kuali.org.type.college" VER_NBR="0"/>
+    <KSOR_ORG_TYPE EFF_DT="20120501000000" NAME="Academic Curriculum"
+        OBJ_ID="74ccc0e43-94ad-11e1-b0c4-0800200c910"
+        TYPE_DESC="Academic organizational unit representing a curriculum"
+        TYPE_KEY="kuali.org.type.curriculum" VER_NBR="0"/>
+    <KSOR_ORG_TYPE EFF_DT="20120501000000" NAME="Academic Department"
+        OBJ_ID="4ccc0e42-94ad-11e1-b0c4-0800200c9a9"
+        TYPE_DESC="Academic organizational unit representing a department"
+        TYPE_KEY="kuali.org.type.department" VER_NBR="0"/>
+    <KSOR_ORG_TYPE EFF_DT="20120501000000" NAME="University"
+        OBJ_ID="4ccc0e42-94ad-11e1-b0c4-0800200d9a9"
+        TYPE_DESC="University" TYPE_KEY="kuali.org.type.university" VER_NBR="0"/>
 </dataset>

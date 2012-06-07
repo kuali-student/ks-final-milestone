@@ -23,14 +23,10 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 
-
 /**
- * Created by IntelliJ IDEA.
- * User: huangb
- * Date: 9/20/11
- * Time: 6:15 PM
- * To change this template use File | Settings | File Templates.
+ * @deprecated This class is leftover from Core Slice. Delete when no longer needed or un deprecate if needed.
  */
+@Deprecated
 public class CourseOfferingRule extends MaintenanceDocumentRuleBase {
      private static final String COURSE_CODE_PROPERTY_PATH = "document.newMaintainableObject.dataObject.courseOfferingCode";
 

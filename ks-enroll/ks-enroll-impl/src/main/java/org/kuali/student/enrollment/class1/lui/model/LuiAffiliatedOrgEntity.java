@@ -1,23 +1,25 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.infc.AffiliatedOrg;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI_AFFILIATED_ORG")
@@ -48,9 +50,9 @@ public class LuiAffiliatedOrgEntity extends MetaEntity implements AttributeOwner
     
     @Column(name = "REVENUE_ID")
     private String revenueId;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LuiAffiliatedOrgAttributeEntity> attributes;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LuiAffiliatedOrgAttributeEntity> attributes;
     
     public LuiAffiliatedOrgEntity() {}
 
@@ -68,7 +70,7 @@ public class LuiAffiliatedOrgEntity extends MetaEntity implements AttributeOwner
         //this.setExpenditureId();
         //this.setRevenueId();
         
-        this.setAttributes(new ArrayList<LuiAffiliatedOrgAttributeEntity>());
+        this.setAttributes(new HashSet<LuiAffiliatedOrgAttributeEntity>());
         if (null != affiliatedOrg.getAttributes()) {
             for (Attribute att : affiliatedOrg.getAttributes()) {
                 LuiAffiliatedOrgAttributeEntity attEntity = new LuiAffiliatedOrgAttributeEntity(att);
@@ -170,12 +172,12 @@ public class LuiAffiliatedOrgEntity extends MetaEntity implements AttributeOwner
     }
 
     @Override
-    public void setAttributes(List<LuiAffiliatedOrgAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiAffiliatedOrgAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<LuiAffiliatedOrgAttributeEntity> getAttributes() {
+    public Set<LuiAffiliatedOrgAttributeEntity> getAttributes() {
         return attributes;
     }
 

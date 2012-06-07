@@ -1,27 +1,25 @@
 package org.kuali.student.enrollment.class1.lrc.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LRC_RES_VAL_GRP")
@@ -62,8 +60,8 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<ResultValuesGroupAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<ResultValuesGroupAttributeEntity> attributes;
 
     public ResultValuesGroupEntity() {}
 
@@ -86,7 +84,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
             this.setIncrement(dto.getResultValueRange().getIncrement());
         }
 
-        this.setAttributes(new ArrayList<ResultValuesGroupAttributeEntity>());
+        this.setAttributes(new HashSet<ResultValuesGroupAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 ResultValuesGroupAttributeEntity attEntity = new ResultValuesGroupAttributeEntity(att);
@@ -184,12 +182,12 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     }
 
     @Override
-    public void setAttributes(List<ResultValuesGroupAttributeEntity> attributes) {
+    public void setAttributes(Set<ResultValuesGroupAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<ResultValuesGroupAttributeEntity> getAttributes() {
+    public Set<ResultValuesGroupAttributeEntity> getAttributes() {
         return attributes;
     }
 

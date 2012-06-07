@@ -30,4 +30,11 @@ public class SocDao extends GenericEntityDao<SocEntity> {
                 .setParameter("unitsContentOwnerId", unitsContentOwnerId).getResultList();
     }
 
+    // Although this doesn't look at the SocEntity, it is related to the getCourseOfferingIdsBySoc which looks at the
+    // LuiEntity
+    public Long countLuisByTypeForTermId(String luiTypeId, String termId) {
+        String query = "SELECT COUNT(*) FROM LuiEntity lui " +
+                "WHERE lui.luiType = :luiTypeId AND lui.atpId = :termId";
+        return (Long) em.createQuery(query).setParameter("luiTypeId", luiTypeId).setParameter("termId", termId).getSingleResult();
+    }
 }

@@ -17,13 +17,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.jws.WebParam;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
@@ -33,6 +28,8 @@ public class TypeServiceMockImpl implements TypeService {
     private Map<String, TypeInfo> allTypes = new HashMap<String, TypeInfo>();
     private Map<String, Map<String, TypeTypeRelationInfo>> relationOwners = new HashMap<String, Map<String, TypeTypeRelationInfo>>();
     private Map<String, Map<String, TypeInfo>> allowedTypes = new HashMap<String, Map<String, TypeInfo>>();
+    private Map<String, Map<String, TypeInfo>> groupTypes = new HashMap<String, Map<String, TypeInfo>>();
+
 
     {
         init();
@@ -64,7 +61,12 @@ public class TypeServiceMockImpl implements TypeService {
 
     @Override
     public List<TypeInfo> getTypesForGroupType(@WebParam(name = "groupTypeKey") String groupTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+        List<TypeInfo> result = new ArrayList<TypeInfo>();
+        TypeInfo typeInfo = new TypeInfo();
+        typeInfo.setKey("kuali.lui.type.activity.offering.lecture");
+        result.add(typeInfo);
+        return result;
+
     }
 
     @Override

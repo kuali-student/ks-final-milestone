@@ -16,7 +16,7 @@
  */
 package org.kuali.student.r2.core.class1.appointment.model;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
@@ -31,7 +31,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "KSEN_APPT_SLOT_ATTR")
-public class AppointmentSlotAttributeEntity extends BaseAttributeEntityNew<AppointmentSlotEntity> {
+public class AppointmentSlotAttributeEntity extends BaseAttributeEntity<AppointmentSlotEntity> {
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
     private AppointmentSlotEntity owner;

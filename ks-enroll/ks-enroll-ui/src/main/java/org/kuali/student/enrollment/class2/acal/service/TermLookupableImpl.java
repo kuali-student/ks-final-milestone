@@ -3,13 +3,12 @@ package org.kuali.student.enrollment.class2.acal.service;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.krad.util.KRADConstants;
-
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.TermWrapper;
@@ -27,6 +26,8 @@ import java.util.Properties;
  * Created by IntelliJ IDEA.
  * User: huangb
  */
+//Core slice class.
+@Deprecated
 public class TermLookupableImpl extends LookupableImpl  {
     public final static String TERM_KEY = "key";
  	private transient AcademicCalendarService academicCalendarService;

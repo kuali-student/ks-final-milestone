@@ -10,7 +10,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 
 @MappedSuperclass
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"ATTR_KEY", "OWNER"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"ATTR_KEY", "OWNER_ID"})})
 public abstract class BaseAttributeEntity<T extends AttributeOwner<?>> extends BaseEntity {
 
     @Column(name = "ATTR_KEY")
@@ -61,6 +61,12 @@ public abstract class BaseAttributeEntity<T extends AttributeOwner<?>> extends B
         return attributeInfo;
     }
     
+    public void fromDto(Attribute info) {
+	
+    	setKey(info.getKey());
+    	setValue(info.getValue());
+	}
+
     @Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

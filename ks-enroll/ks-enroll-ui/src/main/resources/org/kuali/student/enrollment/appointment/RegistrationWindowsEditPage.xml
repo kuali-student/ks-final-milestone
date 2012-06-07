@@ -22,9 +22,9 @@
 
     <!-- Appointment Window Edit Page -->
     <bean id="KS-RegistrationWindowsManagement-EditPage" parent="Uif-Page" p:disclosure.render="false" p:id="registrationWindowsEditPage"
-          p:title="@{termInfo.name != null? termInfo.name : 'No Term'}">
+          p:headerText="@{termInfo.name != null? termInfo.name : 'No Term'}">
         <property name="header">
-            <bean parent="Uif-HeaderField-Two"/>
+            <bean parent="Uif-HeaderTwo"/>
         </property>
 
         <property name="items">
@@ -36,7 +36,7 @@
                             <!--<ref bean="KS-RegistrationAppointments-EditSection"/>-->
                         </list>
                     </property>
-                    <!--<property name="tabsWidget.componentOptionsJSString">-->
+                    <!--<property name="tabsWidget.templateOptionsJSString">-->
                     <!--<value> { selected: @{defaultSelectedTabIndex} } </value>-->
                     <!--</property>-->
                 </bean>
@@ -47,7 +47,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:clientSideValidate="true" />
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true" />
                     </list>
                 </property>
             </bean>
@@ -56,7 +56,7 @@
 
     <!-- Appointment Window Edit Section -->
     <bean id="KS-RegistrationWindows-EditSection" parent="Uif-Page" p:disclosure.render="false" p:style="min-width:70em;"
-            p:title="Registration Windows">
+            p:headerText="Registration Windows">
         <property name="items">
             <list>
                 <ref bean="KS-RegistrationWindows-PeriodSection"/>
@@ -66,15 +66,15 @@
     </bean>
 
     <!-- Appointment Window Period Selection Section. Used to select a period for a term. Windows are then attached to the period. -->
-    <bean id="KS-RegistrationWindows-PeriodSection" parent="Uif-VerticalBoxSection" p:title="" p:disclosure.render="false">
+    <bean id="KS-RegistrationWindows-PeriodSection" parent="Uif-VerticalBoxSection" p:headerText="" p:disclosure.render="false">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:label="Period"
-                                  p:labelPlacement="TOP" p:labelField.renderColon="false"
-                                  p:propertyName="periodId" p:labelField.style="display:block;">
+                                  p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                                  p:propertyName="periodId" p:fieldLabel.style="display:block;">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -83,7 +83,7 @@
                                 </property>
                             </bean>
                             <!-- This action will (1) set the period you are working with, and (2) load the persisted windows attached to the period-->
-                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="show" p:actionLabel="Show" p:clientSideValidate="true" />
+                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="show" p:actionLabel="Show" p:performClientSideValidation="true" />
                         </list>
                    </property>
                 </bean>
@@ -91,7 +91,7 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-MessageField" p:messageText="@{periodInfoDetails}" p:styleClasses="font-light12"/>
+                            <bean parent="Uif-Message" p:messageText="@{periodInfoDetails}" p:cssClasses="font-light12"/>
                         </list>
                     </property>
                 </bean>
@@ -102,23 +102,23 @@
     <!-- This is a collection of AppointmentWindows -->
     <bean id="KS-RegistrationWindows-AddWindowsSection" parent="Uif-Disclosure-TableCollectionSection"
           p:layoutManager.numberOfColumns="12" p:progressiveRender="showAddWindows"
-            p:title="Add Windows" p:collectionObjectClass="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
+            p:headerText="Add Windows" p:collectionObjectClass="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
             p:propertyName="appointmentWindows" p:layoutManager.renderSequenceField="false"
             p:layoutManager.generateAutoSequence="false"
             p:layoutManager.separateAddLine="false"
             p:layoutManager.richTable.disableTableSort="true"
-            p:addLineLabelField.labelText=""
+            p:addLineLabel.labelText=""
             p:layoutManager.richTable.render="false"
             p:layoutManager.applyAlternatingRowStyles="false">
 
-        <property name="styleClasses">
+        <property name="cssClasses">
             <list merge="true">
                 <!-- used for custom line separators -->
                 <value>ks-appointmentWindow-table</value>
             </list>
         </property>
         <!--<property name="layoutManager.sequencePropertyName" value="name" />-->
-        <!--<property name="collectionLookup.quickfinderActionField.render" value="false" />-->
+        <!--<property name="collectionLookup.quickfinderAction.render" value="false" />-->
         <property name="collectionLookup" >
             <null/>
         </property>
@@ -163,22 +163,22 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="16" />
                     </property>
-                    <!--<property name="fieldLookup.render" value="true"/>-->
-                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper" />
-                    <property name="fieldLookup.fieldConversions">
+                    <!--<property name="quickfinder.render" value="true"/>-->
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper" />
+                    <property name="quickfinder.fieldConversions">
                         <map>
                             <entry key="name" value="assignedPopulationName" />
                             <entry key="id" value="appointmentWindowInfo.assignedPopulationId" />
                         </map>
                     </property>
-                    <!--<property name="fieldSuggest.render" value="true" />-->
-                    <!--<property name="fieldSuggest.sourcePropertyName" value="name" />-->
-                    <!--<property name="fieldSuggest.suggestQuery.dataObjectClassName"-->
+                    <!--<property name="suggest.render" value="true" />-->
+                    <!--<property name="suggest.sourcePropertyName" value="name" />-->
+                    <!--<property name="suggest.suggestQuery.dataObjectClassName"-->
                               <!--value="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper" />-->
 
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;white-space:nowrap;" p:alternateDisplayPropertyName="startDateUI"
+                <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;white-space:nowrap;" p:readOnlyDisplayReplacementPropertyName="startDateUI"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
@@ -197,7 +197,7 @@
                 </bean>
 
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="startTime" p:label="Start Time" p:labelPlacement="LEFT"
-                      p:persistInSession="true" p:required="true" p:style="font-weight:normal;" p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  >
+                      p:forceSessionPersistence="true" p:required="true" p:style="font-weight:normal;" p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
                     </property>
@@ -206,7 +206,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:persistInSession="true" p:style="font-weight:normal;" p:required="true"
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:forceSessionPersistence="true" p:style="font-weight:normal;" p:required="true"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
@@ -267,7 +267,7 @@
                     <!--</property>-->
                 <!--</bean>-->
                 <bean parent="Uif-InputField"  p:label="Max #"  p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot"
-                      p:refreshWhenChanged="#lp.windowTypeKey"  p:required="@{#lp.windowTypeKey =='kuali.appointment.window.type.slotted.max'}"
+                      p:refreshWhenChangedPropertyNames="#lp.windowTypeKey"  p:required="@{#lp.windowTypeKey =='kuali.appointment.window.type.slotted.max'}"
                       p:readOnly = "@{#lp.windowTypeKey !='kuali.appointment.window.type.slotted.max' or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  p:style="font-weight:bold;">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5" />
@@ -275,7 +275,7 @@
                 </bean>
 
                 <!-- bean entry for dropdown Appt rule type-->
-                <bean parent="Uif-InputField" p:label="Appt. Rule Type/Interval" p:propertyName="slotRuleEnumType" p:style="font-weight:bold;"  p:refreshWhenChanged="#lp.windowTypeKey"
+                <bean parent="Uif-InputField" p:label="Appt. Rule Type/Interval" p:propertyName="slotRuleEnumType" p:style="font-weight:bold;"  p:refreshWhenChangedPropertyNames="#lp.windowTypeKey"
                       p:required="@{#lp.windowTypeKey !='kuali.appointment.window.type.one.slot' and #lp.windowTypeKey !='' }"
                       p:readOnly="@{#lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned' or #lp.windowTypeKey =='kuali.appointment.window.type.one.slot'}" >
                     <property name="control">
@@ -291,7 +291,7 @@
             </list>
         </property>
 
-        <property name="actionFields">
+        <property name="lineActions">
             <list>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="Add Me" p:render="@{#isAddLine}" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="assignStudents" p:actionLabel="Assign Students" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.draft'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
@@ -307,10 +307,10 @@
 
 
     <!--<bean id="KS-RegistrationAppointments-EditSection" parent="Uif-Page" p:disclosure.render="false" p:style="min-width:70em;" >-->
-        <!--<property name="title" value="Registration Appointments" />-->
+        <!--<property name="headerText" value="Registration Appointments" />-->
         <!--<property name="items">-->
             <!--<list>-->
-                <!--<bean parent="Uif-MessageField" p:messageText="This is the Registration Appointments tab" p:styleClasses="font-light12"/>-->
+                <!--<bean parent="Uif-Message" p:messageText="This is the Registration Appointments tab" p:cssClasses="font-light12"/>-->
             <!--</list>-->
         <!--</property>-->
     <!--</bean>-->

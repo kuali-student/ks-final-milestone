@@ -23,12 +23,15 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
+import org.kuali.student.enrollment.class1.lui.model.LuCodeEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.enrollment.lui.service.LuiService;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -73,6 +76,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public LuiInfo getLui(String luiId, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException, 
@@ -87,6 +91,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LuiInfo> getLuisByIds(List<String> luiIds, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException, 
@@ -105,6 +110,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getLuiIdsByType(String luiTypeKey, ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
@@ -122,6 +128,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getLuiIdsByClu(String cluId, ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
@@ -137,6 +144,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getLuiIdsByAtpAndType(String atpId, String typeKey, 
                                               ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -153,6 +161,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getLuiIdsByAtpAndClu(String cluId, String atpId,ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
@@ -168,6 +177,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LuiInfo> getLuisByAtpAndClu(String cluId, String atpId, 
                                             ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -183,6 +193,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForLuiIds(QueryByCriteria criteria, 
                                         ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -191,6 +202,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LuiInfo> searchForLuis(QueryByCriteria criteria, 
                                        ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -213,7 +225,7 @@ public class LuiServiceImpl
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public LuiInfo createLui(String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo context) 
         throws DataValidationErrorException, DoesNotExistException, 
                InvalidParameterException, MissingParameterException, 
@@ -237,13 +249,31 @@ public class LuiServiceImpl
         
         entity.setEntityCreated(context);
         
+        if(entity.getIdentifiers() != null){
+            for(LuiIdentifierEntity ident:entity.getIdentifiers()){
+                ident.setCreateId(context.getPrincipalId());
+                ident.setCreateTime(context.getCurrentDate());
+                ident.setUpdateId(context.getPrincipalId());
+                ident.setUpdateTime(context.getCurrentDate());
+            }
+        }
+        if(entity.getLuiCodes() != null){
+            for(LuCodeEntity code : entity.getLuiCodes()){
+                code.setCreateId(context.getPrincipalId());
+                code.setCreateTime(context.getCurrentDate());
+                code.setUpdateId(context.getPrincipalId());
+                code.setUpdateTime(context.getCurrentDate());
+            }
+        }
+
+
         luiDao.persist(entity);
 
         return entity.toDto();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context) 
         throws DataValidationErrorException, DoesNotExistException, 
                InvalidParameterException, MissingParameterException, 
@@ -259,17 +289,52 @@ public class LuiServiceImpl
             throw new DoesNotExistException(luiId);
         }
 
-        entity.fromDto(luiInfo);
+        //Transform the DTO to the entity
+        List<Object> orphans = entity.fromDto(luiInfo);
+
+        //Delete any orphaned children
+        for(Object orphan : orphans){
+            luiDao.getEm().remove(orphan);
+        }
+
+        //Update any Meta information
        
         entity.setEntityUpdated(context);
         
-        luiDao.merge(entity);
+
+        if(entity.getIdentifiers() != null){
+            for(LuiIdentifierEntity ident:entity.getIdentifiers()){
+                if(ident.getCreateId() == null){
+                    ident.setCreateId(context.getPrincipalId());
+                }
+                if(ident.getCreateTime() == null){
+                    ident.setCreateTime(context.getCurrentDate());
+                }
+                ident.setUpdateId(context.getPrincipalId());
+                ident.setUpdateTime(context.getCurrentDate());
+            }
+        }
+        if(entity.getLuiCodes() != null){
+            for(LuCodeEntity code : entity.getLuiCodes()){
+                if(code.getCreateId() == null){
+                    code.setCreateId(context.getPrincipalId());
+                }
+                if(code.getCreateTime() == null){
+                    code.setCreateTime(context.getCurrentDate());
+                }
+                code.setUpdateId(context.getPrincipalId());
+                code.setUpdateTime(context.getCurrentDate());
+            }
+        }
+
+        //Perform the merge
+        entity = luiDao.merge(entity);
 
         return entity.toDto();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteLui(String luiId, ContextInfo context) 
         throws DependentObjectsExistException, DoesNotExistException, 
                InvalidParameterException, MissingParameterException, 
@@ -290,6 +355,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId, 
                                                 ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -299,6 +365,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(List<String> luiLuiRelationIds, 
                                                             ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -308,6 +375,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getLuiLuiRelationIdsByType(String luiLuiRelationTypeKey, 
                                                    ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -317,6 +385,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId, 
                                                             ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -336,9 +405,10 @@ public class LuiServiceImpl
     }
 
     @Override
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLuis(String luiId, 
-                                                             String relatedLuiId, 
-                                                             ContextInfo context) 
+    @Transactional(readOnly = true)
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLuiAndRelatedLui(String luiId,
+                                                                         String relatedLuiId,
+                                                                         ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException { 
 
@@ -346,15 +416,17 @@ public class LuiServiceImpl
     }
     
     @Override
-    public List<LuiInfo> getLuiLuiRelationsByLuiAndLuiType(String luiId, 
-                                                           String relatedLuiTypeKey, 
-                                                           ContextInfo contextInfo) 
+    @Transactional(readOnly = true)
+    public List<LuiInfo> getLuiLuiRelationsByLuiAndRelatedLuiType(String luiId,
+                                                                  String relatedLuiTypeKey,
+                                                                  ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LuiInfo> getLuisByRelatedLuiAndRelationType(String relatedLuiId,
                                                             String luiLuiRelationTypeKey,
                                                             ContextInfo context)
@@ -374,9 +446,10 @@ public class LuiServiceImpl
     }
 
     @Override
-    public List<String> getLuiIdsByRelation(String relatedLuiId, 
-                                            String luiLuiRelationTypeKey, 
-                                            ContextInfo context) 
+    @Transactional(readOnly = true)
+    public List<String> getLuiIdsByRelatedLuiAndRelationType(String relatedLuiId,
+                                                             String luiLuiRelationTypeKey,
+                                                             ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
@@ -386,9 +459,10 @@ public class LuiServiceImpl
     }
 
     @Override
-    public List<String> getLuiIdsByRelatedLuiAndRelationType(String luiId,
-                                                             String luiLuiRelationTypeKey,
-                                                             ContextInfo context)
+    @Transactional(readOnly = true)
+    public List<String> getLuiIdsByLuiAndRelationType(String luiId,
+                                                      String luiLuiRelationTypeKey,
+                                                      ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
@@ -398,6 +472,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LuiInfo> getRelatedLuisByLuiAndRelationType(String luiId,
                                                             String luiLuiRelationTypeKey,
                                                             ContextInfo context)
@@ -414,6 +489,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForLuiLuiRelationIds(QueryByCriteria criteria, 
                                                    ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -424,6 +500,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LuiLuiRelationInfo> searchForLuiLuiRelations(QueryByCriteria criteria, 
                                                              ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -434,6 +511,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ValidationResultInfo> validateLuiLuiRelation(String validationTypeKey, 
                                                              String luiId,
                                                              String relatedLuiId,
@@ -461,7 +539,7 @@ public class LuiServiceImpl
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public LuiLuiRelationInfo createLuiLuiRelation(String luiId, 
                                                    String relatedLuiId, 
                                                    String luiLuiRelationTypeKey, 
@@ -494,7 +572,7 @@ public class LuiServiceImpl
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId, 
                                                    LuiLuiRelationInfo luiLuiRelationInfo, 
                                                    ContextInfo context) 
@@ -522,7 +600,7 @@ public class LuiServiceImpl
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, 
                                            ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
@@ -541,6 +619,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public LuiCapacityInfo getLuiCapacity(String luiCapacityId, 
                                           ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
@@ -551,6 +630,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LuiCapacityInfo> getLuiCapacitiesByIds(List<String> luiCapacityIds, 
                                                        ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
@@ -561,6 +641,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LuiCapacityInfo> getLuiCapacitiesByLui(String luiId, 
                                                        ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -570,6 +651,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getLuiCapacityIdsByType(String luiCapacityTypeKey, 
                                                 ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -579,6 +661,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForLuiCapacityIds(QueryByCriteria criteria, 
                                                 ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -588,6 +671,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LuiCapacityInfo> searchForLuiCapacities(QueryByCriteria criteria, 
                                                         ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
@@ -609,6 +693,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public LuiCapacityInfo createLuiCapacity(String luiCapacityTypeKey, 
                                              LuiCapacityInfo luiCapacityInfo, 
                                              ContextInfo context) 
@@ -621,6 +706,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public LuiCapacityInfo updateLuiCapacity(String luiCapacityId, 
                                              LuiCapacityInfo luiCapacityInfo, 
                                              ContextInfo context) 
@@ -633,6 +719,7 @@ public class LuiServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteLuiCapacity(String luiCapacityId, 
                                         ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 

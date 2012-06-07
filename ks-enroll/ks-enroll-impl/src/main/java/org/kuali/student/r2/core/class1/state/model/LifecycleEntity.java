@@ -1,21 +1,17 @@
 package org.kuali.student.r2.core.class1.state.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.state.infc.Lifecycle;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_STATE_LIFECYCLE")
@@ -23,7 +19,7 @@ import org.kuali.student.r2.core.state.infc.Lifecycle;
 //@AttributeOverrides({
 //    @AttributeOverride(name = "id", column =
 //    @Column(name = "LIFECYCLE_KEY"))})
-public class LifecycleEntity extends MetaEntity {
+public class LifecycleEntity extends MetaEntity implements AttributeOwner<LifecycleAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;
@@ -34,7 +30,7 @@ public class LifecycleEntity extends MetaEntity {
     @Column(name = "REF_OBJECT_URI", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
     private String refObjectUri;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LifecycleAttributeEntity> attributes;
+    private Set<LifecycleAttributeEntity> attributes = new HashSet<LifecycleAttributeEntity>();
 
     public String getName() {
         return name;
@@ -44,11 +40,11 @@ public class LifecycleEntity extends MetaEntity {
         this.name = name;
     }
 
-    public List<LifecycleAttributeEntity> getAttributes() {
+    public Set<LifecycleAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<LifecycleAttributeEntity> attributes) {
+    public void setAttributes(Set<LifecycleAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
@@ -95,7 +91,7 @@ public class LifecycleEntity extends MetaEntity {
             this.descrPlain = lifecycle.getDescr().getPlain();
             this.descrFormatted = lifecycle.getDescr().getFormatted();
         }
-        this.setAttributes(new ArrayList<LifecycleAttributeEntity>());
+        this.setAttributes(new HashSet<LifecycleAttributeEntity>());
         for (Attribute att : lifecycle.getAttributes()) {
             LifecycleAttributeEntity attEntity = new LifecycleAttributeEntity(att);
             this.getAttributes().add(attEntity);

@@ -76,13 +76,13 @@ public class HolidayCalendarController extends UifControllerBase {
                             boolean duplicated = isDuplicateHoliday(newHoliday, holiday);
                             if(duplicated){
                                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: The holiday being added is already in the collection.");
-                                return updateComponent(form, result, request, response);
+                                return getUIFModelAndView(form);
                             }
                         }
                     }
                 }
                 else {
-                    return updateComponent(form, result, request, response);
+                    return getUIFModelAndView(form);
                 }
             }
         }
@@ -259,6 +259,8 @@ public class HolidayCalendarController extends UifControllerBase {
         form.getHolidayCalendarInfo().setStartDate(form.getNewCalendarStartDate());
         form.getHolidayCalendarInfo().setEndDate(form.getNewCalendarEndDate());
         form.getHolidayCalendarInfo().setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        // after changing the state in the info back to the default, reset the isOfficialCalendar flag on the form
+        form.setOfficialCalendar(false);
         form.getHolidayCalendarInfo().setDescr(CommonUtils.buildDesc(form.getNewCalendarName()));
         form.setHolidays(newHolidays);
         form.setHcId(null);
@@ -317,6 +319,7 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setNewCalendarName(null);
         hcForm.setNewCalendarStartDate(null);
         hcForm.setNewCalendarEndDate(null);
+        hcForm.setNewCalendar(true);
         return copy(hcForm, result, request, response);
     }
 
@@ -380,7 +383,7 @@ public class HolidayCalendarController extends UifControllerBase {
             e.printStackTrace();
         }
 
-        return updateComponent(hcForm, result, request, response);
+        return getUIFModelAndView(hcForm);
     }
 
     private ModelAndView updateHolidayCalendarForm(HolidayCalendarForm hcForm, String updateMsg, String from) throws Exception {
@@ -446,61 +449,6 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setHolidays(holidays);
     }
 
-    /*private void updateHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
-        //update hc meta data
-        getHolidayCalendarFormHelper(hcForm).updateHolidayCalendar(hcForm);
-        hcForm.setHolidayCalendarInfo(getHolidayCalendarFormHelper(hcForm).getHolidayCalendar(hcId));
-
-        //update hc-holidays
-        List<HolidayWrapper> holidays = hcForm.getHolidays();
-//        processHolidays(hcForm, holidays, hcId);
-    }*/
-
-    private List<String> getHolidayIds(HolidayCalendarForm hcForm) throws Exception{
-        //List<HolidayWrapper> holidays = getHolidayCalendarFormHelper(hcForm).getHolidaysForHolidayCalendar(hcForm);
-        String hcId = hcForm.getHolidayCalendarInfo().getId();
-        List<HolidayWrapper> holidays = getHolidayCalendarFormHelper(hcForm).getHolidayWrappersForHolidayCalendar(hcId);
-        List<String> holidayIds = new ArrayList<String>();
-
-        if(holidays != null && !holidays.isEmpty()){
-            for(HolidayWrapper holiday : holidays){
-                holidayIds.add(holiday.getHolidayInfo().getId());
-            }
-        }
-
-        return holidayIds;
-    }
-
-//    private void processHolidays(HolidayCalendarForm hcForm, List<HolidayWrapper> holidays, String hcId)throws Exception{
-//        List<HolidayWrapper> updatedHolidays = new ArrayList<HolidayWrapper>();
-//        List<String> currentHolidays = getHolidayIds(hcForm);
-//
-//        if(holidays != null && !holidays.isEmpty()){
-//            for(HolidayWrapper holiday : holidays){
-//                if(currentHolidays.contains(holiday.getHolidayInfo().getId())){
-//                    //update holiday
-//                    getHolidayCalendarFormHelper(hcForm).updateHoliday(holiday.getHolidayInfo().getId(), holiday);
-//                    updatedHolidays.add(holiday);
-//                    currentHolidays.remove(holiday.getHolidayInfo().getId());
-//                }
-//                else {
-//                    //create Holiday
-//                    getHolidayCalendarFormHelper(hcForm).createHoliday(hcId, holiday.getTypeKey(), holiday);
-//                    updatedHolidays.add(holiday);
-//                }
-//            }
-//        }
-//
-//        hcForm.setHolidays(updatedHolidays);
-//
-//        if (currentHolidays != null && currentHolidays.size() > 0){
-//            for(String holidayId: currentHolidays){
-//                getHolidayCalendarFormHelper(hcForm).deleteHoliday(holidayId);
-//            }
-//        }
-//
-//	}
-
     private String getAdminOrgNameById(String id){
         //TODO: hard-coded for now, going to call OrgService
         String adminOrgName = null;
@@ -515,7 +463,7 @@ public class HolidayCalendarController extends UifControllerBase {
     }
 
     private AcademicCalendarViewHelperService getHolidayCalendarFormHelper(HolidayCalendarForm hcForm) {
-        if (hcForm.getView() != null && hcForm.getView().getViewHelperServiceClassName() != null){
+        if (hcForm.getView() != null && hcForm.getView().getViewHelperServiceClass() != null){
             return (AcademicCalendarViewHelperService)hcForm.getView().getViewHelperService();
         } else {
             return (AcademicCalendarViewHelperService)hcForm.getPostedView().getViewHelperService();

@@ -1,22 +1,24 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
 import org.kuali.student.r2.lum.clu.infc.Revenue;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI_REVENUE")
@@ -29,8 +31,8 @@ public class LuiRevenueEntity extends MetaEntity implements AttributeOwner<LuiRe
     @JoinColumn(name = "LUI_ID")
     private LuiEntity lui;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LuiRevenueAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LuiRevenueAttributeEntity> attributes;
 
     public LuiRevenueEntity() {}
 
@@ -40,7 +42,7 @@ public class LuiRevenueEntity extends MetaEntity implements AttributeOwner<LuiRe
         this.setFeeType(revenue.getFeeType());
 
         // Attributes
-        this.setAttributes(new ArrayList<LuiRevenueAttributeEntity>());
+        this.setAttributes(new HashSet<LuiRevenueAttributeEntity>());
         if (null != revenue.getAttributes()) {
             for (Attribute att : revenue.getAttributes()) {
                 LuiRevenueAttributeEntity attEntity = new LuiRevenueAttributeEntity(att);
@@ -85,12 +87,12 @@ public class LuiRevenueEntity extends MetaEntity implements AttributeOwner<LuiRe
     }
 
     @Override
-    public void setAttributes(List<LuiRevenueAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiRevenueAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<LuiRevenueAttributeEntity> getAttributes() {
+    public Set<LuiRevenueAttributeEntity> getAttributes() {
         return attributes;
     }
 

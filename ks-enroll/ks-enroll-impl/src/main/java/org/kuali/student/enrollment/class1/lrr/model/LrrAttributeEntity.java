@@ -24,7 +24,7 @@ import javax.persistence.Table;
 public class LrrAttributeEntity extends BaseAttributeEntity<LearningResultRecordEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private LearningResultRecordEntity owner;
 
     public LrrAttributeEntity() {}

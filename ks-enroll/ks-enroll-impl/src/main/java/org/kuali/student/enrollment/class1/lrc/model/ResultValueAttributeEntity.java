@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class ResultValueAttributeEntity  extends BaseAttributeEntity<ResultValueEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private ResultValueEntity owner;
 
     public ResultValueAttributeEntity() {}

@@ -16,7 +16,7 @@
  */
 package org.kuali.student.r2.common.entity;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * This class represents entities that contain attributes.
@@ -24,6 +24,6 @@ import java.util.List;
  * @author Mezba Mahtab
  */
 public interface AttributeOwnerNew<T extends BaseAttributeEntityNew<?>> {
-    public void setAttributes(List<T> attributes);
-    public List<T> getAttributes();
+    public void setAttributes(Set<T> attributes);
+    public Set<T> getAttributes();
 }

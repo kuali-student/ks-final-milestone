@@ -121,9 +121,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
   <!-- Lookup View 
   <bean id="CourseOfferingInfo-LookupView" parent="KSLookupView">
-    <property name="title" value="Course Offering Info Lookup" />
+    <property name="headerText" value="Course Offering Info Lookup" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo" />
-    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupViewHelperServiceImpl" /> 
+    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupViewHelperServiceImpl" /> 
   
     <property name="criteriaFields">
       <list>
@@ -141,9 +141,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>
  --> 
     <bean id="CourseOfferingInfo-MaintenanceView" parent="KSMaintenanceView">
-        <property name="title" value="Course Offering Maintenance"/>
+        <property name="headerText" value="Course Offering Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoMaintainableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoMaintainableImpl" />
         <property name="header">
              <ref bean="KSHeader_Empty" />
         </property>
@@ -152,12 +152,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <!-- remove merge="true" would not inherit Document Overview section -->
             <list>
                 <bean parent="Uif-MaintenanceGridSection">
-                    <property name="title" value="Create a New Course Offering"/>
+                    <property name="headerText" value="Create a New Course Offering"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="termId">
-                                <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-                                <property name="fieldLookup.fieldConversions">
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
+                                <property name="quickfinder.fieldConversions">
                                     <map>
                                         <entry key="code" value="id"/>
                                     </map>
@@ -170,8 +170,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                 </property>
                              </bean>
                             <bean parent="Uif-InputField" p:propertyName="courseOfferingCode">
-                                <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo"/>
-                                <property name="fieldLookup.fieldConversions">
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo"/>
+                                <property name="quickfinder.fieldConversions">
                                     <map>
                                         <entry key="code" value="courseOfferingCode"/>
                                     </map>
@@ -183,17 +183,17 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 </bean>
           
                 <bean parent="Uif-MaintenanceStackedCollectionSection">
-                    <property name="title" value="Instructors"/>  
+                    <property name="headerText" value="Instructors"/>  
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
                     <property name="propertyName" value="instructors"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="personId" p:label="Instructor ID">
-                                <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/> -->
-                                <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
-                                <property name="fieldLookup.fieldConversions">
+                                <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/> -->
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                                <property name="quickfinder.fieldConversions">
                                     <map>
-                                        <entry key="principalId" value="personId"/>
+                                        <entry key="principal   Id" value="personId"/>
                                     </map>
                                 </property> 
                             </bean>                             

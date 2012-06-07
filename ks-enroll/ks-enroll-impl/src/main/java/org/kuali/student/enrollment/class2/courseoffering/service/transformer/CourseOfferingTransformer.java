@@ -2,6 +2,8 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.ArrayUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
@@ -11,8 +13,11 @@ import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -26,7 +31,31 @@ public class CourseOfferingTransformer {
         co.setStateKey(lui.getStateKey());
         co.setDescr(lui.getDescr());
         co.setMeta(lui.getMeta());
-        co.setAttributes(lui.getAttributes());
+        co.setCourseOfferingURL(lui.getReferenceURL());
+
+        //Dynamic attributes
+        List<AttributeInfo> attributes = co.getAttributes();
+        for (Attribute attr : lui.getAttributes()) {
+            if (CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY_ATTR.equals(attr.getKey())){
+                co.setWaitlistLevelTypeKey(attr.getValue());
+            } else if  (CourseOfferingServiceConstants.WAIT_LIST_TYPE_KEY_ATTR.equals((attr.getKey()))){
+                co.setWaitlistTypeKey(attr.getValue());
+            } else if (CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR.equals((attr.getKey()))){
+                co.setHasWaitlist(Boolean.valueOf(attr.getValue()));
+            } else if (CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR.equals(attr.getKey())){
+                co.setFinalExamType(attr.getValue());
+            } else if(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
+                co.setEvaluated(Boolean.valueOf(attr.getValue()));
+            } else if (CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR.equals(attr.getKey())){
+                co.setFeeAtActivityOffering(Boolean.valueOf(attr.getValue()));
+            } else if (CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR.equals(attr.getKey())){
+                co.setFundingSource(attr.getValue());
+            } else {
+                attributes.add(new AttributeInfo(attr));
+            }
+        }
+        co.setAttributes(attributes);
+
         // specific fields
         co.setMaximumEnrollment(lui.getMaximumEnrollment());
         co.setMinimumEnrollment(lui.getMinimumEnrollment());
@@ -52,6 +81,7 @@ public class CourseOfferingTransformer {
             co.setCourseOfferingTitle(identifier.getLongName());
             co.setSubjectArea(identifier.getDivision());
         }
+
         // store honors in lu code
         LuCodeInfo luCode = this.findLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
         if (luCode == null) {
@@ -116,7 +146,51 @@ public class CourseOfferingTransformer {
         lui.setStateKey(co.getStateKey());
         lui.setDescr(co.getDescr());
         lui.setMeta(co.getMeta());
-        lui.setAttributes(co.getAttributes());
+        lui.setReferenceURL(co.getCourseOfferingURL());
+
+        //Dynamic Attributes
+        List<AttributeInfo> attributes = lui.getAttributes();
+        for (Attribute attr : co.getAttributes()) {
+            attributes.add(new AttributeInfo(attr));
+        }
+
+        AttributeInfo waitlistLevelTypeKey = new AttributeInfo();
+        waitlistLevelTypeKey.setKey(CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY_ATTR);
+        waitlistLevelTypeKey.setValue(String.valueOf(co.getWaitlistLevelTypeKey()));
+        attributes.add(waitlistLevelTypeKey);
+
+        AttributeInfo waitlistTypeKey = new AttributeInfo();
+        waitlistTypeKey.setKey(CourseOfferingServiceConstants.WAIT_LIST_TYPE_KEY_ATTR);
+        waitlistTypeKey.setValue(String.valueOf(co.getWaitlistTypeKey()));
+        attributes.add(waitlistTypeKey);
+
+        AttributeInfo waitlistIndicator = new AttributeInfo();
+        waitlistIndicator.setKey(CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR);
+        waitlistIndicator.setValue(String.valueOf(co.getHasWaitlist()));
+        attributes.add(waitlistIndicator);
+
+        AttributeInfo finalExamIndicator = new AttributeInfo();
+        finalExamIndicator.setKey(CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR);
+        finalExamIndicator.setValue(co.getFinalExamType());
+        attributes.add(finalExamIndicator);
+
+        AttributeInfo courseEvaluationIndicator = new AttributeInfo();
+        courseEvaluationIndicator.setKey(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR);
+        courseEvaluationIndicator.setValue(String.valueOf(co.getIsEvaluated()));
+        attributes.add(courseEvaluationIndicator);
+
+        AttributeInfo whereFeesAttachedFlag = new AttributeInfo();
+        whereFeesAttachedFlag.setKey(CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR);
+        whereFeesAttachedFlag.setValue(String.valueOf(co.getIsFeeAtActivityOffering()));
+        attributes.add(whereFeesAttachedFlag);
+
+        AttributeInfo fundingSource = new AttributeInfo();
+        fundingSource.setKey(CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR);
+        fundingSource.setValue(co.getFundingSource());
+        attributes.add(fundingSource);
+
+        lui.setAttributes(attributes);
+
 
         lui.setCluId(co.getCourseId());
         lui.setAtpId(co.getTermId());

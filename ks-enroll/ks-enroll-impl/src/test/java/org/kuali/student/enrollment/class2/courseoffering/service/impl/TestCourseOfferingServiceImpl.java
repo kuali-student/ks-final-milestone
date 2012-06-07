@@ -30,6 +30,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -40,10 +41,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 // TODO: delete this file this once all the tests have been moved over to the new mock framework
 @Ignore
@@ -187,7 +185,6 @@ public class TestCourseOfferingServiceImpl {
         assertEquals("CHEM123", created.getCourseOfferingCode());
         assertEquals("Chemistry 123", created.getCourseOfferingTitle());
         
-        // TODO Is this necessary?
         CourseOfferingInfo retrieved = courseOfferingService.getCourseOffering(created.getId(), callContext);
         assertNotNull(retrieved);
         assertEquals("CLU-1", retrieved.getCourseId());
@@ -480,5 +477,39 @@ public class TestCourseOfferingServiceImpl {
         } catch (DoesNotExistException e) {
             // Expected. Do nothing.
         }
+    }
+
+    @Test
+    public void testGetActivityOfferingType() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        TypeInfo validType = courseOfferingService.getActivityOfferingType(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, callContext);
+        assertNotNull(validType);
+        assertEquals(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, validType.getKey());
+
+        TypeInfo shouldBeNull = null;
+        try {
+            shouldBeNull = courseOfferingService.getActivityOfferingType("madeUpINAVLIDAoType", callContext);
+            fail("Expected DoesNotExistException");
+        }
+        catch (DoesNotExistException e) {
+            assertNull(shouldBeNull);
+        }
+    }
+
+    @Test
+    public void testGetActivityOfferingTypes() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<TypeInfo> validTypes = courseOfferingService.getActivityOfferingTypes(callContext);
+
+        assertNotNull(validTypes);
+        assertTrue("Expecting at least one activity offering type", !validTypes.isEmpty());
+
+        boolean found = false;
+        for(TypeInfo type : validTypes) {
+            found = type.getKey().equals(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
+            if(found) {
+                break;
+            }
+        }
+
+        assertTrue("Expecting to find at least " + LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY + " type.", found);
     }
 }

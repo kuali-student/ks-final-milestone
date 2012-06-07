@@ -17,10 +17,12 @@ package org.kuali.student.enrollment.class1.lpr.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,6 +32,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.infc.LprTransaction;
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.helper.EntityMergeHelper;
 import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeResult;
@@ -38,7 +41,7 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS")
-public class LprTransactionEntity extends MetaEntity {
+public class LprTransactionEntity extends MetaEntity implements AttributeOwner<LprTransactionAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;
@@ -61,12 +64,12 @@ public class LprTransactionEntity extends MetaEntity {
     @Column(name = "LRP_TRANS_STATE", nullable=false)
     private String lprTransState;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LprTransactionAttributeEntity> attributes;
+@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LprTransactionAttributeEntity> attributes;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="owner")
-    private List<LprTransactionItemEntity> lprTransactionItems;
-
+@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LprTransactionItemEntity> lprTransactionItems;
+   
 
     public LprTransactionEntity() {}
 
@@ -75,6 +78,7 @@ public class LprTransactionEntity extends MetaEntity {
         
         // TODO: determine if these are the static fields on the Entity.
         this.setId(lprTransaction.getId());
+
         this.setLprTransType(lprTransaction.getTypeKey());
         
        this.fromDto(lprTransaction);
@@ -267,19 +271,22 @@ public class LprTransactionEntity extends MetaEntity {
     
     
 
-    public List<LprTransactionItemEntity> getLprTransactionItems() {
+    public Set<LprTransactionItemEntity> getLprTransactionItems() {
         return lprTransactionItems;
     }
 
-    public void setLprTransactionItems(List<LprTransactionItemEntity> lprTransactionItems) {
+    public void setLprTransactionItems(Set<LprTransactionItemEntity> lprTransactionItems) {
         this.lprTransactionItems = lprTransactionItems;
     }
 
-    public void setAttributes(List<LprTransactionAttributeEntity> attributes) {
-       this.attributes = attributes;
+
+    @Override
+    public void setAttributes(Set<LprTransactionAttributeEntity> attributes) {
+        this.attributes = attributes;
     }
 
-    public List<LprTransactionAttributeEntity> getAttributes() {
+    @Override
+    public Set<LprTransactionAttributeEntity> getAttributes() {
         return this.attributes;
     }
 

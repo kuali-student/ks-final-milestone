@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS_ITEM_ATTR")
-public class LprTransactionItemAttributeEntity extends BaseAttributeEntityNew<LprTransactionItemEntity> {
+public class LprTransactionItemAttributeEntity extends BaseAttributeEntity<LprTransactionItemEntity> {
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
     private LprTransactionItemEntity owner;
@@ -46,5 +46,7 @@ public class LprTransactionItemAttributeEntity extends BaseAttributeEntityNew<Lp
         this.owner = owner;
 
     }
+
+	
 
 }

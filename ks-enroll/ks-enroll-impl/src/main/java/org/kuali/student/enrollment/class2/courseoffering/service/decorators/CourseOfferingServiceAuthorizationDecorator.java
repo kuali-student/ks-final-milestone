@@ -744,7 +744,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 	}
 
 	@Override
-	public List<SeatPoolDefinitionInfo> searchForSeatpoolDefintions(
+	public List<SeatPoolDefinitionInfo> searchForSeatpoolDefinitions(
 			QueryByCriteria criteria, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -753,7 +753,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForSeatpoolDefintions", null)) {
-	        return getNextDecorator().searchForSeatpoolDefintions(criteria, context);
+	        return getNextDecorator().searchForSeatpoolDefinitions(criteria, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -761,7 +761,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 	}
 
 	@Override
-	public List<String> searchForSeatpoolDefintionIds(QueryByCriteria criteria,
+	public List<String> searchForSeatpoolDefinitionIds(QueryByCriteria criteria,
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -770,7 +770,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForSeatpoolDefintionIds", null)) {
-	        return getNextDecorator().searchForSeatpoolDefintionIds(criteria, context);
+	        return getNextDecorator().searchForSeatpoolDefinitionIds(criteria, context);
         }
         else {
            throw new PermissionDeniedException();

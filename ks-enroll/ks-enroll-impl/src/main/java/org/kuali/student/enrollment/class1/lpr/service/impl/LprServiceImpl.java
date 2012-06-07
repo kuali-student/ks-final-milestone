@@ -8,23 +8,22 @@
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao;
 import org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao;
 import org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao;
+import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
 import org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity;
 import org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
-import org.kuali.student.enrollment.class1.roster.model.LprRichTextEntity;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
-import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -387,7 +386,7 @@ public class LprServiceImpl implements LprService {
         	lprTransactionEntity.setDescrPlain(descr.getPlain());
         }
 
-        List<LprTransactionItemEntity> lprTransItemEntities = new ArrayList<LprTransactionItemEntity>();
+        Set<LprTransactionItemEntity> lprTransItemEntities = new HashSet<LprTransactionItemEntity>();
 
         for (LprTransactionItemInfo lprTransItemInfo : lprTransactionInfo.getLprTransactionItems()) {
 
@@ -426,7 +425,7 @@ public class LprServiceImpl implements LprService {
             newLprTransactionEntity.setAttributes(existingLprTransactionEntity.getAttributes());
             newLprTransactionEntity.setDescrFormatted(existingLprTransactionEntity.getDescrFormatted());
             newLprTransactionEntity.setDescrPlain(existingLprTransactionEntity.getDescrPlain());
-            List<LprTransactionItemEntity> newItems = new ArrayList(existingLprTransactionEntity.getLprTransactionItems().size());
+            Set<LprTransactionItemEntity> newItems = new HashSet<LprTransactionItemEntity>(existingLprTransactionEntity.getLprTransactionItems().size());
             for (LprTransactionItemEntity existingItem : existingLprTransactionEntity.getLprTransactionItems()) {
                 LprTransactionItemEntity newItem = new LprTransactionItemEntity();
                 newItem.setId(UUIDHelper.genStringUUID());

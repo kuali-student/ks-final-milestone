@@ -31,7 +31,7 @@ import javax.persistence.Table;
 public class ResultValuesGroupAttributeEntity extends BaseAttributeEntity<ResultValuesGroupEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private ResultValuesGroupEntity owner;
 
     public ResultValuesGroupAttributeEntity() {}

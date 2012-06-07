@@ -1,28 +1,24 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.junit.Ignore;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
-import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-
-import javax.annotation.Resource;
-import org.springframework.test.context.ContextConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
+import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -30,31 +26,37 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-//@Ignore
+import static org.junit.Assert.*;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-with-mocks-context.xml"})
 public class TestCourseOfferingServiceImplWithMocks {
 
     @Resource(name = "coService")
-    private CourseOfferingService courseOfferingService;
+    protected CourseOfferingService courseOfferingService;
     public static String principalId = "123";
     public ContextInfo callContext = null;
     @Resource(name = "courseService")
-    private CourseService courseService;
+    protected CourseService courseService;
     @Resource(name = "luiService")
-    private LuiService luiService;
+    protected LuiService luiService;
     @Resource(name = "acalService")
-    private AcademicCalendarService acalService;
+    protected AcademicCalendarService acalService;
+    @Resource(name = "atpService")
+    protected AtpService atpService;
 
     @Before
     public void setUp() {
@@ -64,6 +66,7 @@ public class TestCourseOfferingServiceImplWithMocks {
             new CourseR1TestDataLoader(this.courseService).loadData();
             new LuiServiceDataLoader(this.luiService).loadData();
             new AcalTestDataLoader(this.acalService).loadData();
+            new AtpTestDataLoader(this.atpService).loadData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -98,6 +101,19 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         orig.setCourseOfferingTitle("my name");
+        orig.setWaitlistLevelTypeKey("waitlist key");
+        orig.setHasWaitlist(true);
+        orig.setFinalExamType(FinalExam.STANDARD.toString());
+        orig.setEvaluated(true);
+        orig.setFeeAtActivityOffering(false);
+        orig.setFundingSource("funding source");
+        orig.setCourseOfferingCode("CODE");
+        orig.setCourseOfferingTitle("Title");
+        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+        orig.getRegistrationGradingOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
+        orig.getRegistrationGradingOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE);
+
         CourseOfferingInfo info = courseOfferingService.createCourseOffering(orig.getCourseId(), orig.getTermId(), 
                 orig.getTypeKey(), orig, optionKeys, callContext);
         assertNotNull(info);
@@ -106,6 +122,11 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(orig.getTermId(), info.getTermId());
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getTypeKey(), info.getTypeKey());
+        assertEquals(orig.getWaitlistLevelTypeKey(), info.getWaitlistLevelTypeKey());
+        assertEquals(orig.getHasWaitlist(), info.getHasWaitlist());
+        assertEquals(orig.getFinalExamType(), info.getFinalExamType());
+        assertEquals(orig.getIsFeeAtActivityOffering(), info.getIsFeeAtActivityOffering());
+        assertEquals(orig.getFundingSource(), info.getFundingSource());
         assertEquals(course.getCode(), info.getCourseOfferingCode());
         assertEquals(course.getCourseNumberSuffix(), info.getCourseNumberSuffix());
         assertEquals(course.getSubjectArea(), info.getSubjectArea());
@@ -113,6 +134,14 @@ public class TestCourseOfferingServiceImplWithMocks {
             assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getPlain(), info.getDescr().getPlain());
             assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getFormatted(), info.getDescr().getFormatted());
         }
+//        assertEquals(2,info.getStudentRegistrationOptionIds().size());
+//        assertTrue(info.getStudentRegistrationOptionIds().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT));
+//        assertTrue(info.getStudentRegistrationOptionIds().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL));
+//
+//        assertEquals(2,info.getGradingOptionIds().size());
+//        assertTrue(info.getGradingOptionIds().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER));
+//        assertTrue(info.getGradingOptionIds().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE));
+
         // TODO: test for these things 
 //        assertEquals(course.getUnitsContentOwnerOrgIds(), info.getUnitsContentOwnerOrgIds());
 //        assertEquals(course.getUnitsDeploymentOrgIds(), info.getUnitsDeploymentOrgIds());
@@ -236,6 +265,15 @@ public class TestCourseOfferingServiceImplWithMocks {
 //        assertEquals(orig.getActivityOfferingTypeKeys().size(), info.getActivityOfferingTypeKeys().size());
 //        assertEquals(orig.getActivityOfferingTypeKeys().get(0), info.getActivityOfferingTypeKeys().get(0));
 
+        List<FormatOfferingInfo> formats = courseOfferingService.getFormatOfferingsByCourseOffering(co.getId(), callContext);
+        info = formats.get(0);
+        assertNotNull(info);
+        assertNotNull(info.getId());
+        assertEquals(orig.getCourseOfferingId(), info.getCourseOfferingId());
+        assertEquals(orig.getStateKey(), info.getStateKey());
+        assertEquals(orig.getTypeKey(), info.getTypeKey());
+        assertEquals(orig.getFormatId(), info.getFormatId());
+
         orig = info;
         info = courseOfferingService.getFormatOffering(orig.getId(), callContext);
         assertNotNull(info);
@@ -275,6 +313,9 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         orig.setMinimumEnrollment(100);
         orig.setMaximumEnrollment(150);
+        orig.setIsEvaluated(true);
+        orig.setIsMaxEnrollmentEstimate(false);
+        orig.setIsHonorsOffering(true);
         ActivityOfferingInfo info = courseOfferingService.createActivityOffering(orig.getFormatOfferingId(), orig.getActivityId(), orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -284,6 +325,9 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(orig.getActivityId(), info.getActivityId());
         assertEquals(orig.getMinimumEnrollment(), info.getMinimumEnrollment());
         assertEquals(orig.getMaximumEnrollment(), info.getMaximumEnrollment());
+        assertEquals(orig.getIsEvaluated(), info.getIsEvaluated());
+        assertEquals(orig.getIsMaxEnrollmentEstimate(), info.getIsMaxEnrollmentEstimate());
+        assertEquals(orig.getIsHonorsOffering(), info.getIsHonorsOffering());
 
         orig = info;
         info = courseOfferingService.getActivityOffering(orig.getId(), callContext);

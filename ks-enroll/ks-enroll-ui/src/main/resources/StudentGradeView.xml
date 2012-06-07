@@ -21,12 +21,12 @@ limitations under the License.
 
    <bean id="studentGradeView" parent="KSFormView" p:header.style="border-bottom: 2px solid #000000">
    	  <property name="id" value="StudentGradeView"/>
-      <property name="title" value="@{title}" />
+      <property name="headerText" value="@{title}" />
 	  <property name="entryPageId" value="selectTermPage"/>
-      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.grading.service.impl.GradingViewHelperServiceImpl"/>
+      <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.grading.service.impl.GradingViewHelperServiceImpl"/>
 
       <property name="header">
-        <bean parent="Uif-HeaderField-Two"/>
+        <bean parent="Uif-HeaderTwo"/>
       </property>
 
        <property name="additionalCssFiles">

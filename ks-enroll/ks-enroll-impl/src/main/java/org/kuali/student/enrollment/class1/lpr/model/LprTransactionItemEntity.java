@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.lpr.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,6 +34,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItemRequestOption;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.helper.EntityMergeHelper;
 import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeOptions;
@@ -42,7 +44,7 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS_ITEM")
-public class LprTransactionItemEntity extends MetaEntity {
+public class LprTransactionItemEntity extends MetaEntity implements AttributeOwner<LprTransactionItemAttributeEntity> {
 
 	@Column(name = "PERS_ID")
 	private String personId;
@@ -81,13 +83,13 @@ public class LprTransactionItemEntity extends MetaEntity {
 	private String lprTransactionItemState;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<LprTransactionItemAttributeEntity> attributes;
+	private Set<LprTransactionItemAttributeEntity> attributes;
 	
 	@OneToMany (cascade = CascadeType.ALL, mappedBy = "lprTransactionItem")
-	private List<LprTransactionItemRequestOptionEntity>requestOptions;
+	private Set<LprTransactionItemRequestOptionEntity>requestOptions;
 	
 	@OneToMany (cascade = CascadeType.ALL, mappedBy = "lprTransactionItem")
-	private List<LprTransactionItemResultValueGroupEntity>resultValueGroups;
+	private Set<LprTransactionItemResultValueGroupEntity>resultValueGroups;
 	
 	@ManyToOne
 	@JoinColumn(name="LPR_TRANS_ID")
@@ -137,7 +139,7 @@ public class LprTransactionItemEntity extends MetaEntity {
 		
 		EntityMergeHelper<LprTransactionItemAttributeEntity, Attribute>attributeMergeHelper = new EntityMergeHelper<LprTransactionItemAttributeEntity, Attribute>();
 		
-		EntityMergeResult<LprTransactionItemAttributeEntity> attributesMergeResult = attributeMergeHelper.merge(attributes, (List<Attribute>) lprTransactionItem.getAttributes(), new EntityMergeHelper.EntityMergeOptions<LprTransactionItemAttributeEntity, Attribute>() {
+		EntityMergeResult<LprTransactionItemAttributeEntity> attributesMergeResult = attributeMergeHelper.merge(attributes, (Set<Attribute>) lprTransactionItem.getAttributes(), new EntityMergeHelper.EntityMergeOptions<LprTransactionItemAttributeEntity, Attribute>() {
 
 			@Override
 			public String getEntityId(LprTransactionItemAttributeEntity entity) {
@@ -179,7 +181,7 @@ public class LprTransactionItemEntity extends MetaEntity {
 		
 		EntityMergeHelper<LprTransactionItemRequestOptionEntity, LprTransactionItemRequestOption>requestOptionMergeHelper = new EntityMergeHelper<LprTransactionItemRequestOptionEntity, LprTransactionItemRequestOption>();
 		
-		EntityMergeResult<LprTransactionItemRequestOptionEntity> requestOptionMergeResults = requestOptionMergeHelper.merge(this.requestOptions, (List<LprTransactionItemRequestOption>) lprTransactionItem.getRequestOptions(), new EntityMergeOptions<LprTransactionItemRequestOptionEntity, LprTransactionItemRequestOption>() {
+		EntityMergeResult<LprTransactionItemRequestOptionEntity> requestOptionMergeResults = requestOptionMergeHelper.merge(this.requestOptions, (Set<LprTransactionItemRequestOption>) lprTransactionItem.getRequestOptions(), new EntityMergeOptions<LprTransactionItemRequestOptionEntity, LprTransactionItemRequestOption>() {
 
 			@Override
 			public String getEntityId(
@@ -281,7 +283,7 @@ public class LprTransactionItemEntity extends MetaEntity {
 			lprTransItemInfo.setAttributes(atts);
 		}
 		
-		List<LprTransactionItemRequestOptionEntity> requestOptionsList = getRequestOptions();
+		Set<LprTransactionItemRequestOptionEntity> requestOptionsList = getRequestOptions();
 		
 		if (requestOptionsList != null) {
 			
@@ -298,7 +300,7 @@ public class LprTransactionItemEntity extends MetaEntity {
 			lprTransItemInfo.setRequestOptions(new ArrayList<LprTransactionItemRequestOptionInfo>());
 		}
 		
-		List<LprTransactionItemResultValueGroupEntity> resultValueGroupsList = getResultValueGroups();
+		Set<LprTransactionItemResultValueGroupEntity> resultValueGroupsList = getResultValueGroups();
 		
 		if (resultValueGroupsList != null) {
 			
@@ -328,7 +330,6 @@ public class LprTransactionItemEntity extends MetaEntity {
 	public void setDescrFormatted(String descrFormatted) {
 		this.descrFormatted = descrFormatted;
 	}
-
 	public String getDescrPlain() {
 		return descrPlain;
 	}
@@ -401,11 +402,11 @@ public class LprTransactionItemEntity extends MetaEntity {
 		this.lprTransactionItemState = lprTransactionState;
 	}
 
-	public List<LprTransactionItemAttributeEntity> getAttributes() {
+	public Set<LprTransactionItemAttributeEntity> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<LprTransactionItemAttributeEntity> attributes) {
+	public void setAttributes(Set<LprTransactionItemAttributeEntity> attributes) {
 		this.attributes = attributes;
 	}
 
@@ -433,21 +434,21 @@ public class LprTransactionItemEntity extends MetaEntity {
 		this.owner = owner;
 	}
 
-	public List<LprTransactionItemRequestOptionEntity> getRequestOptions() {
+	public Set<LprTransactionItemRequestOptionEntity> getRequestOptions() {
 		return requestOptions;
 	}
 
 	public void setRequestOptions(
-			List<LprTransactionItemRequestOptionEntity> requestOptions) {
+			Set<LprTransactionItemRequestOptionEntity> requestOptions) {
 		this.requestOptions = requestOptions;
 	}
 
-	public List<LprTransactionItemResultValueGroupEntity> getResultValueGroups() {
+	public Set<LprTransactionItemResultValueGroupEntity> getResultValueGroups() {
 		return resultValueGroups;
 	}
 
 	public void setResultValueGroups(
-			List<LprTransactionItemResultValueGroupEntity> resultValueGroups) {
+			Set<LprTransactionItemResultValueGroupEntity> resultValueGroups) {
 		this.resultValueGroups = resultValueGroups;
 	}
 

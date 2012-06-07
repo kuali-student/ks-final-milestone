@@ -116,9 +116,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </bean>
     -->
     <bean id="AcademicCalendarInfo-LookupView" parent="KSLookupView">
-        <property name="title" value="Academic Calendar Info Lookup (by Key)" />
+        <property name="headerText" value="Academic Calendar Info Lookup (by Key)" />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo" />
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoLookupableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoLookupableImpl" />
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
@@ -136,7 +136,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </bean>
   
     <bean id="AcademicCalendarInfo-LookupView2" parent="AcademicCalendarInfo-LookupView">
-        <property name="title" value="Academic Calendar Info Lookup (General) -- general search won't work unless you provide a valid value in the Key field." />
+        <property name="headerText" value="Academic Calendar Info Lookup (General) -- general search won't work unless you provide a valid value in the Key field." />
         <property name="viewName" value="AcademicCalendarInfo-LookupView2"/>
         <property name="criteriaFields">
             <list>
@@ -158,7 +158,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
 
     <bean id="AcademicCalendarInfo-LookupView3" parent="KSLookupView">
-        <property name="title" value="Academic Calendar Info Lookup 3" />
+        <property name="headerText" value="Academic Calendar Info Lookup 3" />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo" />    
         <property name="viewName" value="Acal-LookupView3"/> 
         <property name="criteriaFields">
@@ -178,14 +178,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </bean>
 
     <bean id="AcademicCalendarInfo-InquiryView" parent="KSInquiryView">
-        <property name="title" value="Academic Calendar Info Inquiry"/>
+        <property name="headerText" value="Academic Calendar Info Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoInquiryViewHelperServiceImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoInquiryViewHelperServiceImpl" />
         <property name="Items">
             <list>
                 <bean parent="Uif-Disclosure-GridSection">
                     <property name="layoutManager.numberOfColumns" value="2"/>
-                    <property name="title" value="Academic Calendar Info Inquiry"/>
+                    <property name="headerText" value="Academic Calendar Info Inquiry"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="id"/>
@@ -200,13 +200,13 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </bean>
 
     <bean id="AcademicCalendarInfo-MaintenanceView" parent="KSMaintenanceView">
-        <property name="title" value="Academic Calendar Info Maintenance"/>
+        <property name="headerText" value="Academic Calendar Info Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl" />
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-MaintenanceGridSection">
-                    <property name="title" value="Create a new Academic Calendar"/>
+                    <property name="headerText" value="Create a new Academic Calendar"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="name"/>

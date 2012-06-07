@@ -11,11 +11,13 @@ import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
@@ -23,6 +25,8 @@ public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements
     private static final long serialVersionUID = 1L;
 
     private transient AcademicCalendarService acalService;
+
+    private static List<TypeInfo> acalTermTypes;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -40,12 +44,10 @@ public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements
 
         keyValues.add(new ConcreteKeyValue("", "Select Term Type"));
 
-        //TODO:Build real context.
-        ContextInfo context = new ContextInfo();
         List<TypeInfo> types = null;
         try {
-            //FIXME: Should not call services for each collection row. Get all the available types once at the start.. not sure the init method to do that...
-            types = getAcalService().getTermTypesForAcademicCalendarType(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY,context);
+
+            types = getAcalTermTypes();
 
             for (TypeInfo type : types) {
                 if (!availableTermTypes.contains(type.getKey())){
@@ -60,6 +62,19 @@ public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements
         }
 
         return keyValues;
+    }
+
+    private List<TypeInfo> getAcalTermTypes() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        if(acalTermTypes == null) {
+
+            //TODO:Build real context.
+            ContextInfo context = new ContextInfo();
+
+            acalTermTypes = Collections.unmodifiableList(getAcalService().getTermTypesForAcademicCalendarType(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY, context));
+        }
+
+        return acalTermTypes;  //To change body of created methods use File | Settings | File Templates.
     }
 
     public AcademicCalendarService getAcalService() {

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<channel:portalChannelTop channelTitle="West Coast 1 Applications" />
+<channel:portalChannelTop channelTitle="Time Setup (WC 1)" />
 <div class="body">
     <strong>Calendar Search</strong>
     <ul class="chan">
@@ -31,8 +31,6 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Create Academic Calendar" url="${ConfigProperties.application.url}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&pageId=academicCalendarEditPage&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Copy Academic Calendar" url="${ConfigProperties.application.url}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&pageId=academicCalendarCopyPage&methodToCall=startNew" /></li>
-
     </ul>
-
 </div>
 <channel:portalChannelBottom />

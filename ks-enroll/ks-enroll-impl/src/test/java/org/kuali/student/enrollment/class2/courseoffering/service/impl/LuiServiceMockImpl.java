@@ -213,7 +213,7 @@ public class LuiServiceMockImpl
     }
 
     @Override
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLuis(String luiId, String relatedLuiId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLuiAndRelatedLui(String luiId, String relatedLuiId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiLuiRelationInfo> list = new ArrayList<LuiLuiRelationInfo>();
         for (LuiLuiRelationInfo info : this.luiLuiRelations.values()) {
             if (info.getLuiId().equals(luiId) && 
@@ -225,20 +225,20 @@ public class LuiServiceMockImpl
     }
 
     @Override
-    public List<LuiInfo> getLuiLuiRelationsByLuiAndLuiType(String luiId, String relatedLuiTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LuiInfo> getLuiLuiRelationsByLuiAndRelatedLuiType(String luiId, String relatedLuiTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO
         return null;
     }
 
 
     @Override
-    public List<String> getLuiIdsByRelation(String relatedLuiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) 
+    public List<String> getLuiIdsByRelatedLuiAndRelationType(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> list = new ArrayList<String>();
         for (LuiLuiRelationInfo info : this.luiLuiRelations.values()) {
-            if (info.getRelatedLuiId().equals(relatedLuiId)) {
+            if (info.getLuiId().equals(luiId)) {
                 if (info.getTypeKey().equals(luiLuiRelationTypeKey)) {
-                    list.add(info.getLuiId());
+                    list.add(info.getRelatedLuiId());
                 }
             }
         }
@@ -248,7 +248,7 @@ public class LuiServiceMockImpl
     @Override
     public List<LuiInfo> getLuisByRelatedLuiAndRelationType(String relatedLuiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
-            List<String> ids = this.getLuiIdsByRelation(relatedLuiId, luiLuiRelationTypeKey, contextInfo);
+            List<String> ids = this.getLuiIdsByLuiAndRelationType(relatedLuiId, luiLuiRelationTypeKey, contextInfo);
             return this.getLuisByIds(ids, contextInfo);
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("unexpected", ex);
@@ -257,12 +257,12 @@ public class LuiServiceMockImpl
 
 
     @Override
-    public List<String> getLuiIdsByRelatedLuiAndRelationType(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getLuiIdsByLuiAndRelationType(String relatedLuiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         Set<String> set = new HashSet<String>();
         for (LuiLuiRelationInfo info : this.luiLuiRelations.values()) {
-            if (info.getLuiId().equals(luiId)) {
+            if (info.getRelatedLuiId().equals(relatedLuiId)) {
                 if (info.getTypeKey().equals(luiLuiRelationTypeKey)) {
-                    set.add(info.getRelatedLuiId());
+                    set.add(info.getLuiId());
                 }
             }
         }

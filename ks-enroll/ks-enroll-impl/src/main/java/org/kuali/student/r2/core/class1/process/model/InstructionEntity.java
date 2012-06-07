@@ -1,22 +1,35 @@
 package org.kuali.student.r2.core.class1.process.model;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwnerNew;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.infc.Instruction;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 @Entity
 @Table(name = "KSEN_PROCESS_INSTRN")
-public class InstructionEntity extends MetaEntity implements AttributeOwnerNew<InstructionAttributeEntity> {
+public class InstructionEntity extends MetaEntity implements AttributeOwner<InstructionAttributeEntity> {
 
     ////////////////////
     // DATA FIELDS
@@ -68,8 +81,8 @@ public class InstructionEntity extends MetaEntity implements AttributeOwnerNew<I
     @Transient
     private List<String> appliedAtpTypes;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true)
-    private List<InstructionAttributeEntity> attributes = new ArrayList<InstructionAttributeEntity>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<InstructionAttributeEntity> attributes = new HashSet<InstructionAttributeEntity>();
 
     //////////////////////////
     // CONSTRUCTORS ETC.
@@ -106,7 +119,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwnerNew<I
         for (String atpType : instruction.getAppliedAtpTypeKeys()) {
             this.appliedAtpTypes.add(atpType);
         }
-        this.setAttributes(new ArrayList<InstructionAttributeEntity>());
+        this.setAttributes(new HashSet<InstructionAttributeEntity>());
         for (Attribute att : instruction.getAttributes()) {
             this.getAttributes().add(new InstructionAttributeEntity(att, this));
         }
@@ -266,12 +279,12 @@ public class InstructionEntity extends MetaEntity implements AttributeOwnerNew<I
     }
 
     @Override
-    public List<InstructionAttributeEntity> getAttributes() {
-        return attributes;
+    public void setAttributes(Set<InstructionAttributeEntity> attributes) {
+        this.attributes = attributes;
     }
 
     @Override
-    public void setAttributes(List<InstructionAttributeEntity> attributes) {
-        this.attributes = attributes;
+    public Set<InstructionAttributeEntity> getAttributes() {
+        return attributes;
     }
 }

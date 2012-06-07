@@ -15,9 +15,12 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
+import org.kuali.rice.krad.keyvalues.IndicatorPersonSearchTypeValuesFinder;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+
+import java.util.HashSet;
 
 /**
  * Lui Service Constants
@@ -39,6 +42,7 @@ public class LuiServiceConstants {
      public static final String FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.format.offering";
     public static final String REGISTRATION_GROUP_TYPE_KEY = "kuali.lui.type.registration.group";
 //    public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
+    public static final String ACTIVITY_OFFERING_GROUP_TYPE_KEY = "kuali.lui.type.grouping.activity";
 
     /**
      * Activity types
@@ -65,6 +69,7 @@ public class LuiServiceConstants {
     public static final String SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.selfpaced";
     public static final String COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.compbased";
     public static final String VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.videoconf";
+    public static final String ACTIVITY_OFFERING_TYPE_KEY_PREFIX = "kuali.lui.type.activity.offering.";
     public static final String[] ALL_ACTIVITY_TYPES = {
         LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
         LAB_ACTIVITY_OFFERING_TYPE_KEY,
@@ -89,6 +94,18 @@ public class LuiServiceConstants {
         COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY,
         VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY};
 
+    // TODO: May want to do this for other groupings
+    private static HashSet<String> ACTIVITY_TYPES_HASH_SET = null;
+    public static boolean isActivityType(String possibleActivityType) {
+        if (ACTIVITY_TYPES_HASH_SET == null) {
+            // One time initialization
+            ACTIVITY_TYPES_HASH_SET = new HashSet<String>();
+            for (String aType: ALL_ACTIVITY_TYPES) {
+                ACTIVITY_TYPES_HASH_SET.add(aType);
+            }
+        }
+        return ACTIVITY_TYPES_HASH_SET.contains(possibleActivityType);
+    }
     /**
      * States
      */
@@ -153,15 +170,20 @@ public class LuiServiceConstants {
     public static final String LUI_IDENTIFIER_ACTIVE_STATE_KEY = "kuali.lui.identifier.state.active";
     public static final String LUI_IDENTIFIER_INACTIVE_STATE_KEY = "kuali.lui.identifier.state.inactive";
     public static final String[] LUI_IDENTIFIER_PROCESS_KEYS = {LUI_IDENTIFIER_ACTIVE_STATE_KEY,
-        LUI_IDENTIFIER_INACTIVE_STATE_KEY};
+        LUI_IDENTIFIER_INACTIVE_STATE_KEY
+    };
     
     /**
      *  Waitlist types?
+     *  These are values for the dynamic attribute, WAIT_LIST_TYPE_KEY_ATTR = "kuali.attribute.wait.list.type.key",
+     *  defined in CourseOfferingServiceConstants
      */
     public static final String AUTOMATIC_WAITLIST_TYPE_KEY = "kuali.waitlist.type.automatic";
     public static final String SEMIAUTOMATIC_WAITLIST_TYPE_KEY = "kuali.waitlist.type.semiautomatic";  
     public static final String MANUAL_WAITLIST_TYPE_KEY = "kuali.waitlist.type.manual";
-    
+    public static final String[] ALL_WAITLIST_TYPES = { AUTOMATIC_WAITLIST_TYPE_KEY, SEMIAUTOMATIC_WAITLIST_TYPE_KEY,
+        MANUAL_WAITLIST_TYPE_KEY
+    };
     /**
      *  Registration ordering types?
      */
@@ -172,4 +194,5 @@ public class LuiServiceConstants {
      * known lu codes
      */
     public static final String HONORS_LU_CODE = "kuali.lu.code.honorsOffering";
+
 }

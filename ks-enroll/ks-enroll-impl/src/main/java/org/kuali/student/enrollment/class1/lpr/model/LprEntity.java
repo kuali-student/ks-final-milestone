@@ -2,10 +2,10 @@ package org.kuali.student.enrollment.class1.lpr.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +18,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.helper.EntityMergeHelper;
 import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeOptions;
@@ -30,7 +31,7 @@ import org.kuali.student.r2.common.infc.Attribute;
  */
 @Entity
 @Table(name = "KSEN_LPR")
-public class LprEntity extends MetaEntity {
+public class LprEntity extends MetaEntity implements AttributeOwner<LprAttributeEntity> {
 
 	@Column(name = "PERS_ID")
 	private String personId;
@@ -56,10 +57,10 @@ public class LprEntity extends MetaEntity {
 	private String personRelationStateId;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<LprAttributeEntity> attributes;
+	private Set<LprAttributeEntity> attributes;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lpr")
-	private List<LprResultValueGroupEntity> resultValueGroups;
+	private Set<LprResultValueGroupEntity> resultValueGroups;
 
 	public LprEntity() {
 	}
@@ -88,7 +89,7 @@ public class LprEntity extends MetaEntity {
 
 		EntityMergeResult<LprAttributeEntity> attributeMergeResult = attributeMergeHelper
 				.merge(this.attributes,
-						(List<Attribute>) dto.getAttributes(),
+						(Collection<Attribute>) dto.getAttributes(),
 						new EntityMergeOptions<LprAttributeEntity, Attribute>() {
 
 							@Override
@@ -209,11 +210,13 @@ public class LprEntity extends MetaEntity {
 		this.personRelationStateId = personRelationStateId;
 	}
 
-	public List<LprAttributeEntity> getAttributes() {
+	@Override
+	public Set<LprAttributeEntity> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<LprAttributeEntity> attributes) {
+	@Override
+	public void setAttributes(Set<LprAttributeEntity> attributes) {
 		this.attributes = attributes;
 	}
 
@@ -250,12 +253,12 @@ public class LprEntity extends MetaEntity {
 		return lprInfo;
 	}
 
-	public List<LprResultValueGroupEntity> getResultValueGroups() {
+	public Set<LprResultValueGroupEntity> getResultValueGroups() {
 		return resultValueGroups;
 	}
 
 	public void setResultValueGroups(
-			List<LprResultValueGroupEntity> resultValueGroups) {
+			Set<LprResultValueGroupEntity> resultValueGroups) {
 		this.resultValueGroups = resultValueGroups;
 	}
 

@@ -5,7 +5,7 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.CollectionGroupBuilder;
-import org.kuali.rice.krad.uif.field.ActionField;
+import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
 
@@ -13,23 +13,23 @@ import java.util.List;
 
 public class KSCollectionGroupBuilder extends CollectionGroupBuilder{
 
-    protected List<ActionField> getLineActions(View view, Object model, CollectionGroup collectionGroup,
+    protected List<Action> getLineActions(View view, Object model, CollectionGroup collectionGroup,
 			Object collectionLine, int lineIndex) {
 
         String lineSuffix = UifConstants.IdSuffixes.LINE + Integer.toString(lineIndex);
         if (StringUtils.isNotBlank(collectionGroup.getSubCollectionSuffix())) {
             lineSuffix = collectionGroup.getSubCollectionSuffix() + lineSuffix;
         }
-        List<ActionField> lineActions = ComponentUtils.copyFieldList(collectionGroup.getActionFields(), lineSuffix);
+        List<Action> lineActions = ComponentUtils.copyComponentList(collectionGroup.getLineActions(), lineSuffix);
 
-		for (ActionField actionField : lineActions) {
-			actionField.addActionParameter(UifParameters.SELLECTED_COLLECTION_PATH, collectionGroup.getBindingInfo()
+		for (Action action : lineActions) {
+			action.addActionParameter(UifParameters.SELLECTED_COLLECTION_PATH, collectionGroup.getBindingInfo()
 					.getBindingPath());
-			actionField.addActionParameter(UifParameters.SELECTED_LINE_INDEX, Integer.toString(lineIndex));
-			actionField.setJumpToIdAfterSubmit(collectionGroup.getId() + "_div");
+			action.addActionParameter(UifParameters.SELECTED_LINE_INDEX, Integer.toString(lineIndex));
+			action.setJumpToIdAfterSubmit(collectionGroup.getId() + "_div");
 
-            if (StringUtils.isBlank(actionField.getClientSideJs())){
-                actionField.setClientSideJs("performCollectionAction('"+collectionGroup.getId()+"');");
+            if (StringUtils.isBlank(action.getClientSideJs())){
+                action.setClientSideJs("performCollectionAction('"+collectionGroup.getId()+"');");
             }
 		}
 

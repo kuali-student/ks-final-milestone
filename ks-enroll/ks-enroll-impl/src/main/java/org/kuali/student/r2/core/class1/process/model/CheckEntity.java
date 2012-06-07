@@ -1,26 +1,29 @@
 package org.kuali.student.r2.core.class1.process.model;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwnerNew;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.infc.Check;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "KSEN_PROCESS_CHECK")
-public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAttributeEntity> {
+public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttributeEntity> {
 
     ////////////////////
     // DATA FIELDS
@@ -60,8 +63,8 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
     @Column(name = "CHILD_PROCESS_ID")
     private String childProcessId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true)
-    private List<CheckAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<CheckAttributeEntity> attributes;
 
     //////////////////////////
     // CONSTRUCTORS ETC.
@@ -92,7 +95,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
         this.setRightAgendaId(check.getRightComparisonValue());
         this.setLeftAgendaId(check.getLeftComparisonAgendaId());
         this.setChildProcessId(check.getProcessKey());
-        this.setAttributes(new ArrayList<CheckAttributeEntity>());
+        this.setAttributes(new HashSet<CheckAttributeEntity>());
         for (Attribute att : check.getAttributes()) {
             this.getAttributes().add(new CheckAttributeEntity(att, this));
         }
@@ -217,12 +220,11 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
     }
 
     @Override
-    public List<CheckAttributeEntity> getAttributes() {
+    public Set<CheckAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    @Override
-    public void setAttributes(List<CheckAttributeEntity> attributes) {
+    public void setAttributes(Set<CheckAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 

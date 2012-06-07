@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue May 01 14:33:17 EDT 2012
+		This dictionary file was automatically generated on Thu May 24 15:31:09 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -72,8 +72,12 @@ plus any of its dependencies -->
 				<ref bean="CourseOfferingInfo.waitlistLevelTypeKey"/>
 				<ref bean="CourseOfferingInfo.hasWaitlist"/>
 				<ref bean="CourseOfferingInfo.waitlistTypeKey"/>
+				<ref bean="CourseOfferingInfo.finalExamType"/>
+				<ref bean="CourseOfferingInfo.isEvaluated"/>
 				<ref bean="CourseOfferingInfo.fundingSource"/>
+				<ref bean="CourseOfferingInfo.isFeeAtActivityOffering"/>
 				<ref bean="CourseOfferingInfo.isFinancialAidEligible"/>
+				<ref bean="CourseOfferingInfo.courseOfferingURL"/>
 			</list>
 		</property>
 
@@ -108,13 +112,13 @@ plus any of its dependencies -->
 		<property name="shortLabel" value="Descr"/>
 		<property name="summary">
 			<value>
-Custom Descr for the course Offering
+Custom Description for the course Offering.
 			</value>
 		</property>
 		<property name="label" value="Course Offering Description"/>
 		<property name="description">
 			<value>
-Custom Descr for the course Offering
+Custom Description for the course Offering.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -125,7 +129,7 @@ Custom Descr for the course Offering
 				<property name="objectLabel" value="Course Offering Description"/>
 				<property name="objectDescription">
 					<value>
-Custom Descr for the course Offering
+Custom Description for the course Offering.
 					</value>
 				</property>
 
@@ -502,6 +506,33 @@ point to Pass/Fail or Letter Graded option.
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
+	<bean id="CourseOfferingInfo.studentRegistrationOptionIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="studentRegistrationOptionIds"/>
+		<property name="shortLabel" value="Student Registration Option Ids"/>
+		<property name="summary">
+			<value>
+The options/scales that indicate the allowable grades that can be
+awarded. 
+			</value>
+		</property>
+		<property name="label" value="Student Registration Option Ids"/>
+		<property name="elementLabel" value="Student Registration Option Id"/>
+		<property name="description">
+			<value>
+The options/scales that indicate the allowable grades that can be
+awarded. Typically the values here are constrained by the values on the
+canonical course. If the value is set here then the Clu must have a
+grading option set on the canonical activity. For example: an id might
+point to Pass/Fail or Letter Graded option.
+
+This is the same as gradingOptionIds, but the student registration specific
+ids are pulled out and placed in this collection.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
 	<bean id="CourseOfferingInfo.waitlistLevelTypeKey-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="waitlistLevelTypeKey"/>
 		<property name="shortLabel" value="Waitlist Level Type Key"/>
@@ -588,6 +619,40 @@ Places where this Course offering is offered.
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
+	<bean id="CourseOfferingInfo.finalExamType-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="finalExamType"/>
+		<property name="shortLabel" value="Final Exam Type"/>
+		<property name="summary">
+			<value>
+Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
+			</value>
+		</property>
+		<property name="label" value="Final Exam Type"/>
+		<property name="description">
+			<value>
+Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.isEvaluated-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isEvaluated"/>
+		<property name="shortLabel" value="Is Evaluated"/>
+		<property name="summary">
+			<value>
+Indicates whether the course offering has an evaluation.
+			</value>
+		</property>
+		<property name="label" value="Is Evaluated"/>
+		<property name="description">
+			<value>
+Indicates whether the course offering has an evaluation.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
 	<bean id="CourseOfferingInfo.fundingSource-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="fundingSource"/>
 		<property name="shortLabel" value="Funding Source"/>
@@ -605,25 +670,24 @@ The primary source of funding for the offering.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.feeIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="feeIds"/>
-		<property name="shortLabel" value="Fee Ids"/>
+	<bean id="CourseOfferingInfo.isFeeAtActivityOffering-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isFeeAtActivityOffering"/>
+		<property name="shortLabel" value="Is Fee At Activity Offering"/>
 		<property name="summary">
 			<value>
-Fees associated with the course offering. 
+Indicates whether the fee is at activity offering level or
+course offering level. 
 			</value>
 		</property>
-		<property name="label" value="Fees"/>
-		<property name="elementLabel" value="Fee Id"/>
+		<property name="label" value="Is Fee at Activity Offering"/>
 		<property name="description">
 			<value>
-Fees associated with the course offering. Initially copied from the
-course catalog but then, depending on the configuration it may be
-updatable.
+Indicates whether the fee is at activity offering level or
+course offering level. If true its at Activity Offering level,
+if false its at CourseOffering level.
 			</value>
 		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="java.lang.String"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="CourseOfferingInfo.isFinancialAidEligible-generated" abstract="true" parent="BaseKuali.boolean">
@@ -641,6 +705,23 @@ Flag indicating whether a course is eligible for Financial Aid. Derived
 from course catalog (canonical) TODO: find a place to store this on the
 canonical course because it does not currently exist there TODO: Decide
 if this is really a rule or a CluSet or what?
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.courseOfferingURL-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseOfferingURL"/>
+		<property name="shortLabel" value="Course Offering URL"/>
+		<property name="summary">
+			<value>
+Gets the Course Offering URL.
+			</value>
+		</property>
+		<property name="label" value="Course Offering URL"/>
+		<property name="description">
+			<value>
+Gets the Course Offering URL.
 			</value>
 		</property>
 		<property name="required" value="false"/>

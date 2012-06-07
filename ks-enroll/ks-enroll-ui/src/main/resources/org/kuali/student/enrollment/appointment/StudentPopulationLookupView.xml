@@ -24,9 +24,9 @@
 
     <!-- LookupView -->
     <bean id="KS-StudentPopulationWrapper-LookupView" parent="KSLookupView"
-        p:title="Student Population Lookup"
+        p:headerText="Student Population Lookup"
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper"
-        p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.appointment.service.impl.StudentGroupWrapperLookupableImpl">
+        p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.StudentGroupWrapperLookupableImpl">
 
         <property name="criteriaFields">
             <list>

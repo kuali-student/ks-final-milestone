@@ -16,9 +16,12 @@
 package org.kuali.student.r2.common.helper;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 
@@ -108,21 +111,21 @@ public final class EntityMergeHelper<E, INFO> {
 	 */
 	public static final class EntityMergeResult<E> {
 
-		private final List<E> mergedList;
+		private final Set<E> mergedList;
 
-		private final List<Object> orphanList;
+		private final Collection<Object> orphanList;
 
-		public EntityMergeResult(List<E> mergedList, List<Object> orphanList) {
+		public EntityMergeResult(Set<E> mergedList, Collection<Object> orphanList) {
 			super();
 			this.mergedList = mergedList;
 			this.orphanList = orphanList;
 		}
 
-		public List<E> getMergedList() {
+		public Set<E> getMergedList() {
 			return mergedList;
 		}
 
-		public List<Object> getOrphanList() {
+		public Collection<Object> getOrphanList() {
 			return orphanList;
 		}
 
@@ -140,8 +143,8 @@ public final class EntityMergeHelper<E, INFO> {
 	 * @param stringList the list of values
 	 * @return the merge results.
 	 */
-	public EntityMergeResult<E> mergeStringList(List<E> entityList,
-			List<String> stringList, StringMergeOptions<E> options) {
+	public EntityMergeResult<E> mergeStringList(Set<E> entityList,
+			Collection<String> stringList, StringMergeOptions<E> options) {
 
 		/*
 		 * Steps:
@@ -149,7 +152,7 @@ public final class EntityMergeHelper<E, INFO> {
 		 * 2. create new entries or remove existing from the map
 		 * 3. return new entity list and orphan list.
 		 */
-		List<E> mergedList = new ArrayList<E>();
+		Set<E> mergedList = new HashSet<E>();
 
 		List<Object> orphanDataList = new ArrayList<Object>();
 
@@ -198,7 +201,7 @@ public final class EntityMergeHelper<E, INFO> {
 	 * @param options the logic for extracting the keys and creating/merging the entities.
 	 * @return the results of the merge.
 	 */
-	public EntityMergeResult<E> merge(List<E> entityList, List<INFO> infoList,
+	public EntityMergeResult<E> merge(Set<E> entityList, Collection<INFO> infoList,
 			EntityMergeOptions<E, INFO> options) {
 
 		List<Object> orphanDataList = new ArrayList<Object>();
@@ -215,7 +218,7 @@ public final class EntityMergeHelper<E, INFO> {
 			}
 		}
 
-		List<E> mergedList = new ArrayList<E>();
+		Set<E> mergedList = new HashSet<E>();
 
 		for (INFO info : infoList) {
 

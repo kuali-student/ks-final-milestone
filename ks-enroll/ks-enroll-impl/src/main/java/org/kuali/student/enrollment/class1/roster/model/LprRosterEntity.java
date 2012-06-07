@@ -1,11 +1,14 @@
 package org.kuali.student.enrollment.class1.roster.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -20,7 +23,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_LPR_ROSTER")
-public class LprRosterEntity extends MetaEntity {
+public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRosterAttributeEntity>{
 
     @Column(name = "NAME")
     private String name;
@@ -51,8 +54,8 @@ public class LprRosterEntity extends MetaEntity {
     @Column(name = "TM_QUANTITY")
     private Integer timeQuantity;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LprRosterAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch=FetchType.EAGER)
+    private Set<LprRosterAttributeEntity> attributes;
 
     public LprRosterEntity() {
 
@@ -77,7 +80,8 @@ public class LprRosterEntity extends MetaEntity {
             this.setDescr(entityDesc);
         }
 
-        this.setAttributes(new ArrayList<LprRosterAttributeEntity>());
+        this.setAttributes(new HashSet<LprRosterAttributeEntity>());
+        
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 LprRosterAttributeEntity attEntity = new LprRosterAttributeEntity(att);
@@ -146,16 +150,17 @@ public class LprRosterEntity extends MetaEntity {
         this.timeQuantity = timeQuantity;
     }
 
-    public List<LprRosterAttributeEntity> getAttributes() {
+    @Override
+    public Set<LprRosterAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<LprRosterAttributeEntity> attributes) {
+    public void setAttributes(Set<LprRosterAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     public LprRichTextEntity getDescr() {
-        return descr;
+        return descr; 
     }
 
     public void setDescr(LprRichTextEntity descr) {

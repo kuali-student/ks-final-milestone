@@ -15,7 +15,9 @@
  */
 package org.kuali.student.enrollment.class2.acal.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.joda.time.MutableDateTime;
 import org.kuali.student.enrollment.class2.acal.dto.TimeSetWrapper;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 
@@ -80,26 +82,26 @@ public class CommonUtils {
         return rti;
     }
 
+    /* not currently used
     public static Date getStartDate(TimeSetWrapper timeSetWrapper) throws Exception {
         Date startDate = timeSetWrapper.getStartDate();
         String startTime =  timeSetWrapper.getStartTime();
         String amPm = timeSetWrapper.getStartTimeAmPm();
-        Date fullStartDate = getDate(startDate, startTime, amPm);
+        Date fullStartDate = getDateWithTime(startDate, startTime, amPm);
 
         return fullStartDate;
     }
-
     public static Date getEndDate(TimeSetWrapper timeSetWrapper) throws Exception {
         Date endate = timeSetWrapper.getEndDate();
         String endTime =  timeSetWrapper.getEndTime();
         String amPm = timeSetWrapper.getEndTimeAmPm();
-        Date fullEndDate = getDate(endate, endTime, amPm);
+        Date fullEndDate = getDateWithTime(endate, endTime, amPm);
 
         return fullEndDate;
-    }
+    } */
 
-
-    public static Date getDate(Date adate, String atime,  String ampm) throws Exception {
+    /* formatter.parse throws an Exception which forces try/catch on everything - ugh
+    public static Date getDateWithTime(Date adate, String atime,  String ampm) throws Exception {
         Date fullDate = null;
         if (ampm == null)
             ampm = "am";
@@ -115,9 +117,32 @@ public class CommonUtils {
                 fullDate = adate;
             }
         }
-
         return fullDate;
+    }*/
 
+    public static Date getDateWithTime(Date date, String hourMinute, String amPm) {
+        if (null == date) {
+            return null;
+        }
+
+        MutableDateTime dateTime = new MutableDateTime(date);
+
+        if (StringUtils.isNotBlank(hourMinute)) {
+            int hour = Integer.parseInt(StringUtils.substringBefore(hourMinute,":"));
+            if (StringUtils.equalsIgnoreCase(amPm,"PM")) {
+                // 24-hour clock; e.g. 12 PM = hour 12; 8 PM = hour 20
+                if (hour < 12) {
+                    hour += 12;
+                }
+            }
+            else // if amPm is blank/null, assume AM
+            if (hour == 12) {
+                hour = 0;  // 12 AM is stored in Calendar as hour 0
+            }
+            dateTime.setTime(hour, Integer.parseInt(StringUtils.substringAfter(hourMinute,":")), 0, 0);
+        }
+
+        return dateTime.toDate();
     }
 
 }

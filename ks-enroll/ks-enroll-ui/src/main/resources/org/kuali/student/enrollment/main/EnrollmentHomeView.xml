@@ -7,9 +7,9 @@
 
     <bean id="KS-EnrollmentHome-View" parent="KSFormView">
         <property name="id" value="enrollmentHomeView"/>
-        <property name="title" value="Enrollment"/>
+        <property name="headerText" value="Enrollment"/>
         <property name="header">
-            <bean parent="Uif-HeaderField-Two"/>
+            <bean parent="Uif-HeaderTwo"/>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
@@ -34,12 +34,12 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:linkLabel="Search for Calendar or Term" p:target="_self"
-                    p:hrefText="@{#ConfigProperties['application.url']}/kr-krad/calendarSearch?viewId=calendarSearchView&amp;methodToCall=start&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentHomeView&amp;"/>
-                <bean parent="Uif-Link" p:linkLabel="Create New Calendar (Academic Year) " p:target="_self"
-				    p:hrefText="@{#ConfigProperties['application.url']}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&amp;pageId=academicCalendarCopyPage&amp;methodToCall=startNew&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentHomeView&amp;"/>
-                <bean parent="Uif-Link" p:linkLabel="Create Holiday Calendar" p:target="_self"
-                    p:hrefText="@{#ConfigProperties['application.url']}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&amp;pageId=holidayCalendarCopyPage&amp;methodToCall=startNew&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentHomeView&amp;"/>
+                <bean parent="Uif-Link" p:linkText="Search for Calendar or Term" p:target="_self"
+                    p:href="@{#ConfigProperties['application.url']}/kr-krad/calendarSearch?viewId=calendarSearchView&amp;methodToCall=start&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentHomeView&amp;"/>
+                <bean parent="Uif-Link" p:linkText="Create New Calendar (Academic Year) " p:target="_self"
+				    p:href="@{#ConfigProperties['application.url']}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&amp;pageId=academicCalendarCopyPage&amp;methodToCall=startNew&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentHomeView&amp;"/>
+                <bean parent="Uif-Link" p:linkText="Create Holiday Calendar" p:target="_self"
+                    p:href="@{#ConfigProperties['application.url']}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&amp;pageId=holidayCalendarCopyPage&amp;methodToCall=startNew&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentHomeView&amp;"/>
             </list>
         </property>
     </bean>

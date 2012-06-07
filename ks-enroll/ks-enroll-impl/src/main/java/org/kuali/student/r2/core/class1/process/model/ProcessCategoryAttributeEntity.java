@@ -16,13 +16,13 @@
  */
 package org.kuali.student.r2.core.class1.process.model;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
-import org.kuali.student.r2.common.infc.Attribute;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
+import org.kuali.student.r2.common.infc.Attribute;
 
 /**
  * This class represents table KSEN_PROCESS_CATEGORY_ATTR
@@ -31,7 +31,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table (name = "KSEN_PROCESS_CATEGORY_ATTR")
-public class ProcessCategoryAttributeEntity extends BaseAttributeEntityNew<ProcessCategoryEntity> {
+public class ProcessCategoryAttributeEntity extends BaseAttributeEntity<ProcessCategoryEntity> {
 
     ////////////////////
     // DATA FIELDS

@@ -40,6 +40,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="SocRolloverResultInfo" parent="SocRolloverResultInfo-parent"/>
 	<bean id="SocRolloverResultInfo-parent" abstract="true" parent="SocRolloverResultInfo-generated">
 	<!-- insert any overrides to the generated object definitions here -->
+        <property name="titleAttribute" value="id"/>
 	</bean>
 
 	<bean id="SocRolloverResultInfo.id" parent="SocRolloverResultInfo.id-parent"/>

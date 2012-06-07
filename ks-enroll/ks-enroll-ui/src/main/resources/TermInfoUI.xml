@@ -98,9 +98,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </bean>
 
   <!--<bean id="TermInfo-LookupView" parent="KSLookupView">
-    <property name="title" value="Term Info Lookup (by ID)" />
+    <property name="headerText" value="Term Info Lookup (by ID)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
-    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupableImpl" />
+    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupableImpl" />
     
     <property name="criteriaFields">
       <list>
@@ -119,15 +119,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>-->
 
   <bean id="TermInfo-InquiryView" parent="KSInquiryView">
-     <property name="title" value="Term Info Inquiry"/>
+     <property name="headerText" value="Term Info Inquiry"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoInquiryViewHelperServiceImpl" />
+     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.TermInfoInquiryViewHelperServiceImpl" />
      
      <property name="Items">
          <list>
            <bean parent="Uif-Disclosure-GridSection">
              <property name="layoutManager.numberOfColumns" value="2"/>
-             <property name="title" value="Term Info Inquiry"/>
+             <property name="headerText" value="Term Info Inquiry"/>
              <property name="items">
                <list>
                 <bean parent="Uif-InputField" p:propertyName="id"/>
@@ -142,14 +142,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>
     
   <bean id="TermInfo-MaintenanceView" parent="KSMaintenanceView">
-     <property name="title" value="TermInfo Maintenance"/>
+     <property name="headerText" value="TermInfo Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoMaintainableImpl" />
+     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.TermInfoMaintainableImpl" />
      
      <property name="items">
        <list merge="true">
           <bean parent="Uif-MaintenanceGridSection">
-          	 <property name="title" value="Term"/>
+          	 <property name="headerText" value="Term"/>
              <property name="items">
                <list>
                 <bean parent="Uif-InputField" p:propertyName="typeKey">
@@ -167,7 +167,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
           </bean> 
           <!-- 
           <bean parent="Uif-MaintenanceStackedCollectionSection">
-              <property name="title" value="Academic Calendar Terms"/>  
+              <property name="headerText" value="Academic Calendar Terms"/>  
               <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
               <property name="propertyName" value="fiscalOfficer.accounts"/>
               <property name="items">
