@@ -152,6 +152,17 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
 
             // filter out by applicable Population
             boolean skipInstruction = true;
+            try {
+                if (populationService.isMember(processContext.getStudentId(), instruction.getAppliedPopulationKey(), context)) {
+                    skipInstruction = false;
+                    break;
+                }
+            } catch (OperationFailedException ex) {
+                throw ex;
+            } catch (Exception ex) {
+                throw new OperationFailedException("unexpected", ex);
+            }
+            /*
             for (String popKey : instruction.getAppliedPopulationKeys()) {
                 try {
                     if (populationService.isMember(processContext.getStudentId(), popKey, context)) {
@@ -164,6 +175,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
                     throw new OperationFailedException("unexpected", ex);
                 }
             }
+            */
 
             Date asOfDate = context.getCurrentDate();
             if (asOfDate == null) {

@@ -95,6 +95,7 @@ public class ProcessEntity extends MetaEntity implements AttributeOwnerNew<Proce
                 attributes.add(attInfo);
             }
         }
+        processInfo.setAttributes(attributes);
         return processInfo;
 	}
 

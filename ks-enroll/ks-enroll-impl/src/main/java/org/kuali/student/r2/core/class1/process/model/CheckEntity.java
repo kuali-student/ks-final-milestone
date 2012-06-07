@@ -12,13 +12,14 @@ import org.kuali.student.r2.core.process.infc.Check;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "KSEN_CHECK")
+@Table(name = "KSEN_PROCESS_CHECK")
 public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAttributeEntity> {
 
     ////////////////////
@@ -55,6 +56,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
     @Column(name = "LEFT_AGENDA_ID")
     private String leftAgendaId;
 
+    @ManyToOne (optional = true)
     @Column(name = "CHILD_PROCESS_ID")
     private String childProcessId;
 
@@ -97,7 +99,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
     }
 
     /**
-     * @return Process Information DTO
+     * @return Process Check DTO
      */
     public CheckInfo toDto() {
         CheckInfo checkInfo = new CheckInfo();
@@ -119,6 +121,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
                 attributes.add(attInfo);
             }
         }
+        checkInfo.setAttributes(attributes);
         return checkInfo;
     }
 

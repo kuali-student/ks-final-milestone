@@ -9,12 +9,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "KSEN_CHECK_ATTR")
+@Table(name = "KSEN_PROCESS_CHECK_ATTR")
 public class CheckAttributeEntity extends BaseAttributeEntityNew<CheckEntity> {
+
+    ////////////////////
+    // DATA FIELDS
+    ////////////////////
 
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
     private CheckEntity owner;
+
+    //////////////////////////
+    // CONSTRUCTORS ETC.
+    //////////////////////////
 
     public CheckAttributeEntity() {}
 
@@ -26,6 +34,10 @@ public class CheckAttributeEntity extends BaseAttributeEntityNew<CheckEntity> {
         super(att);
         setOwner(owner);
     }
+
+    ///////////////////////////
+    // GETTERS AND SETTERS
+    ///////////////////////////
 
     @Override
     public void setOwner(CheckEntity owner) {

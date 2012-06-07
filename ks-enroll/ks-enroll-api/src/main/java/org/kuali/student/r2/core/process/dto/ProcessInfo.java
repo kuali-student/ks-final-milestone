@@ -39,6 +39,10 @@ public class ProcessInfo
     extends KeyEntityInfo 
     implements Process, Serializable {
 
+    ////////////////////
+    // DATA FIELDS
+    ////////////////////
+
     private static final long serialVersionUID = 1L;
     
     @XmlElement 
@@ -46,7 +50,10 @@ public class ProcessInfo
 
     @XmlAnyElement
     private List<Element> _futureElements;
-    
+
+    //////////////////////////
+    // CONSTRUCTORS ETC.
+    //////////////////////////
 
     /**
      * Constructs a new ProcessInfo.
@@ -61,11 +68,14 @@ public class ProcessInfo
      */
     public ProcessInfo(Process process) {
         super(process);
-
         if (process != null) {
             this.ownerOrgId = process.getOwnerOrgId();
         }
     }
+
+    ///////////////////////////
+    // GETTERS AND SETTERS
+    ///////////////////////////
 
     @Override
     public String getOwnerOrgId() {

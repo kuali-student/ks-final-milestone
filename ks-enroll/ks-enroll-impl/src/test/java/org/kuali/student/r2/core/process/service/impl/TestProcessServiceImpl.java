@@ -1,21 +1,11 @@
 package org.kuali.student.r2.core.process.service.impl;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
@@ -27,16 +17,10 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:process-test-context.xml"})
@@ -171,17 +155,18 @@ public class TestProcessServiceImpl {
 
         assertNotNull(existingInstruction.getAppliedAtpTypeKeys());
         assertTrue(existingInstruction.getAppliedAtpTypeKeys().isEmpty()); // TODO
-        assertNotNull(existingInstruction.getAppliedPopulationKeys());
-        assertFalse(existingInstruction.getAppliedPopulationKeys().isEmpty());
-        assertEquals(1, existingInstruction.getAppliedPopulationKeys().size());
-        assertTrue(existingInstruction.getAppliedPopulationKeys().contains("kuali.population.everyone"));
+        assertNotNull(existingInstruction.getAppliedPopulationKey());
+        assertFalse(existingInstruction.getAppliedPopulationKey().isEmpty());
+        // assertEquals(1, existingInstruction.getAppliedPopulationKeys().size());
+        // assertTrue(existingInstruction.getAppliedPopulationKeys().contains("kuali.population.everyone"));
+        assertEquals(existingInstruction.getAppliedPopulationKey(), "kuali.population.everyone");
         assertNotNull(existingInstruction.getAttributes());
         assertNotNull(existingInstruction.getCheckKey());
         assertNotNull(existingInstruction.getContinueOnFail());
         assertNotNull(existingInstruction.getEffectiveDate());
         assertNull(existingInstruction.getExpirationDate());
         assertNotNull(existingInstruction.getId());
-        assertNotNull(existingInstruction.getIsExemptable());
+        assertNotNull(existingInstruction.getIsExemptible());
         assertNotNull(existingInstruction.getIsWarning());
         assertNotNull(existingInstruction.getMessage());
         assertNotNull(existingInstruction.getPosition());
@@ -193,13 +178,14 @@ public class TestProcessServiceImpl {
         // Create
         InstructionInfo instruction = new InstructionInfo();
         instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add("kuali.atp.type.Fall");}});
-        instruction.setAppliedPopulationKeys(new ArrayList<String>(){{add("Population-1");}});
+        instruction.setAppliedPopulationKey("Population-1");
+        // instruction.setAppliedPopulationKeys(new ArrayList<String>(){{add("Population-1");}});
 //        instruction.setAttributes();
         instruction.setCheckKey("kuali.check.has.not.paid.bill.from.prior.term");
         instruction.setContinueOnFail(Boolean.TRUE);
 //        instruction.setEffectiveDate();
 //        instruction.setExpirationDate();
-        instruction.setIsExemptable(Boolean.TRUE);
+        instruction.setIsExemptible(Boolean.TRUE);
         instruction.setIsWarning(Boolean.TRUE);
         instruction.setMessage(new RichTextInfo(){{setPlain("Message-1");setFormatted("<p>Message-1<p>");}});
 //        instruction.setMeta();
@@ -212,13 +198,13 @@ public class TestProcessServiceImpl {
         assertNotNull(instruction.getAppliedAtpTypeKeys());
         assertEquals(1, instruction.getAppliedAtpTypeKeys().size());
         assertTrue(instruction.getAppliedAtpTypeKeys().contains("kuali.atp.type.Fall"));
-        assertNotNull(instruction.getAppliedPopulationKeys());
+        assertNotNull(instruction.getAppliedPopulationKey());
 //        assertEquals(1, instruction.getAppliedPopulationKeys().size());
 //        assertTrue(instruction.getAppliedPopulationKeys().contains("Population-1"));
         assertEquals("kuali.check.has.not.paid.bill.from.prior.term", instruction.getCheckKey());
         assertTrue(instruction.getContinueOnFail());
         assertNotNull(instruction.getId());
-        assertTrue(instruction.getIsExemptable());
+        assertTrue(instruction.getIsExemptible());
         assertTrue(instruction.getIsWarning());
         assertEquals("Message-1", instruction.getMessage().getPlain());
         assertEquals(new Integer(5), instruction.getPosition());
@@ -228,13 +214,14 @@ public class TestProcessServiceImpl {
 
         // Update
         instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add("kuali.atp.type.Spring");}});
-        instruction.setAppliedPopulationKeys(new ArrayList<String>(){{add("Population-2");}});
+        instruction.setAppliedPopulationKey("Population-2");
+        // instruction.setAppliedPopulationKeys(new ArrayList<String>(){{add("Population-2");}});
 //        instruction.setAttributes();
         instruction.setCheckKey("kuali.check.has.overdue.library.book");
         instruction.setContinueOnFail(Boolean.FALSE);
 //        instruction.setEffectiveDate();
 //        instruction.setExpirationDate();
-        instruction.setIsExemptable(Boolean.FALSE);
+        instruction.setIsExemptible(Boolean.FALSE);
         instruction.setIsWarning(Boolean.FALSE);
         instruction.setMessage(new RichTextInfo(){{setPlain("Message-2");setFormatted("<p>Message-2<p>");}});
 //        instruction.setMeta();
@@ -247,13 +234,13 @@ public class TestProcessServiceImpl {
         assertNotNull(instruction.getAppliedAtpTypeKeys());
         assertEquals(1, instruction.getAppliedAtpTypeKeys().size());
 //        assertTrue(instruction.getAppliedAtpTypeKeys().contains("kuali.atp.type.Spring"));
-        assertNotNull(instruction.getAppliedPopulationKeys());
+        assertNotNull(instruction.getAppliedPopulationKey());
 //        assertEquals(1, instruction.getAppliedPopulationKeys().size());
 //        assertTrue(instruction.getAppliedPopulationKeys().contains("Population-1"));
         assertEquals("kuali.check.has.overdue.library.book", instruction.getCheckKey());
         assertFalse(instruction.getContinueOnFail());
         assertNotNull(instruction.getId());
-        assertFalse(instruction.getIsExemptable());
+        assertFalse(instruction.getIsExemptible());
         assertFalse(instruction.getIsWarning());
         assertEquals("Message-2", instruction.getMessage().getPlain());
         assertEquals(new Integer(6), instruction.getPosition());

@@ -4,22 +4,22 @@
  */
 package org.kuali.student.r2.core.process;
 
-import java.util.List;
-
-import org.kuali.student.r2.core.class1.process.ProcessPocProcessServiceDecorator;
-import org.kuali.student.r2.core.process.dto.InstructionInfo;
-import org.kuali.student.r2.core.process.dto.CheckInfo;
-import org.kuali.student.r2.core.process.dto.ProcessInfo;
-import org.kuali.student.r2.core.process.service.ProcessService;
-import org.kuali.student.r2.core.process.service.ProcessServiceMockImpl;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.class1.process.ProcessPocProcessServiceDecorator;
+import org.kuali.student.r2.core.process.dto.CheckInfo;
+import org.kuali.student.r2.core.process.dto.InstructionInfo;
+import org.kuali.student.r2.core.process.dto.ProcessInfo;
+import org.kuali.student.r2.core.process.service.ProcessService;
+import org.kuali.student.r2.core.process.service.ProcessServiceMockImpl;
+
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -75,7 +75,7 @@ public class ProcessPocProcessServiceDecoratorTest {
         assertEquals (ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, instruction.getProcessKey());
         assertEquals (new Integer (1), instruction.getPosition());
         assertEquals (Boolean.FALSE, instruction.getContinueOnFail());
-        assertEquals (Boolean.FALSE, instruction.getIsExemptable());
+        assertEquals (Boolean.FALSE, instruction.getIsExemptible());
         assertEquals (Boolean.FALSE, instruction.getIsWarning());
         assertEquals (ProcessServiceConstants.CHECK_KEY_IS_ALIVE, instruction.getCheckKey());
         

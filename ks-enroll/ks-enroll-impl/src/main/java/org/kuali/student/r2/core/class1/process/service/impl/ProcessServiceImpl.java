@@ -645,13 +645,13 @@ public class ProcessServiceImpl implements ProcessService {
         if (null == process) {
             throw new InvalidParameterException("processKey");
         }
-        instruction.setProcess(process);
+        instruction.setProcessId(process.getId());
 
         CheckEntity check = checkDao.find(checkId);
         if (null == check) {
             throw new InvalidParameterException("checkId");
         }
-        instruction.setCheck(check);
+        instruction.setCheckId(check.getId());
 
         instructionDao.persist(instruction);
         return instruction.toDto();
@@ -686,13 +686,13 @@ public class ProcessServiceImpl implements ProcessService {
         if (null == process) {
             throw new InvalidParameterException("Instruction processKey");
         }
-        toUpdate.setProcess(process);
+        toUpdate.setProcessId(process.getId());
 
         CheckEntity check = checkDao.find(instructionInfo.getCheckKey());
         if (null == check) {
             throw new InvalidParameterException("Instruction checkId");
         }
-        toUpdate.setCheck(check);
+        toUpdate.setCheckId(check.getId());
 
         instructionDao.merge(toUpdate);
 

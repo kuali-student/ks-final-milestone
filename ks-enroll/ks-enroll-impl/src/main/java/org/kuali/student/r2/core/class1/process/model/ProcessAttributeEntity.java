@@ -12,9 +12,17 @@ import javax.persistence.Table;
 @Table(name = "KSEN_PROCESS_ATTR")
 public class ProcessAttributeEntity extends BaseAttributeEntityNew<ProcessEntity> {
 
+    ////////////////////
+    // DATA FIELDS
+    ////////////////////
+
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private ProcessEntity owner;
+
+    //////////////////////////
+    // CONSTRUCTORS ETC.
+    //////////////////////////
 
     public ProcessAttributeEntity () {}
 
@@ -30,6 +38,10 @@ public class ProcessAttributeEntity extends BaseAttributeEntityNew<ProcessEntity
         super(att);
         setOwner(owner);
     }
+
+    ///////////////////////////
+    // GETTERS AND SETTERS
+    ///////////////////////////
 
     @Override
     public void setOwner(ProcessEntity owner) {

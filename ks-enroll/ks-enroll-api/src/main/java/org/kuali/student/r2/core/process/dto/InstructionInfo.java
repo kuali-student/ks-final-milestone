@@ -16,35 +16,37 @@
 
 package org.kuali.student.r2.core.process.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.core.process.infc.Instruction;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.core.process.infc.Instruction;
-
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InstructionInfo", propOrder = { "id", "typeKey", "stateKey", 
                 "effectiveDate", "expirationDate",
                 "processKey", "checkKey", 
-                "appliedPopulationKeys", "appliedAtpTypeKeys",
+                "appliedPopulationKey", "appliedAtpTypeKeys",
                 "message", "position", "isWarning", 
-                "continueOnFail", "isExemptable", 
+                "continueOnFail", "isExemptible",
                 "meta", "attributes",
 		"_futureElements" })
 
 public class InstructionInfo 
     extends RelationshipInfo 
     implements Instruction, Serializable {
+
+    ////////////////////
+    // DATA FIELDS
+    ////////////////////
 
     private static final long serialVersionUID = 1L;
     
@@ -55,7 +57,7 @@ public class InstructionInfo
     private String checkKey;
 
     @XmlElement 
-    private List<String> appliedPopulationKeys;
+    private String appliedPopulationKey;
 
     @XmlElement 
     private List<String> appliedAtpTypeKeys;
@@ -73,11 +75,14 @@ public class InstructionInfo
     private Boolean continueOnFail;
 
     @XmlElement 
-    private Boolean isExemptable;
+    private Boolean isExemptible;
 
     @XmlAnyElement
     private List<Element> _futureElements;
-    
+
+    //////////////////////////
+    // CONSTRUCTORS ETC.
+    //////////////////////////
 
     /**
      * Constructs a new InstructionInfo.
@@ -92,26 +97,24 @@ public class InstructionInfo
      */
     public InstructionInfo(Instruction instruction) {
         super(instruction);
-
         if (instruction != null) {
             this.processKey= instruction.getProcessKey();
             this.checkKey = instruction.getCheckKey();
-
-            if (instruction.getAppliedPopulationKeys() != null) {
-                this.appliedPopulationKeys = new ArrayList<String>(instruction.getAppliedPopulationKeys());
-            }
-
+            this.appliedPopulationKey = instruction.getAppliedPopulationKey();
             if (instruction.getAppliedAtpTypeKeys() != null) {
                 this.appliedAtpTypeKeys = new ArrayList<String>(instruction.getAppliedAtpTypeKeys());
             }
-
             this.message = new RichTextInfo(instruction.getMessage());
             this.position = instruction.getPosition();
             this.isWarning = instruction.getIsWarning();
             this.continueOnFail = instruction.getContinueOnFail();
-            this.isExemptable = instruction.getIsExemptable();
+            this.isExemptible = instruction.getIsExemptible();
         }
     }
+
+    ///////////////////////////
+    // GETTERS AND SETTERS
+    ///////////////////////////
 
     @Override
     public String getProcessKey() {
@@ -132,16 +135,12 @@ public class InstructionInfo
     }
 
     @Override
-    public List<String> getAppliedPopulationKeys() {
-        if (this.appliedPopulationKeys == null) {
-            this.appliedPopulationKeys = new ArrayList<String>();
-        }
-
-        return this.appliedPopulationKeys;
+    public String getAppliedPopulationKey() {
+        return this.appliedPopulationKey;
     }
 
-    public void setAppliedPopulationKeys(List<String> appliedPopulationKeys) {
-        this.appliedPopulationKeys = appliedPopulationKeys;
+    public void setAppliedPopulationKey(String appliedPopulationKey) {
+        this.appliedPopulationKey = appliedPopulationKey;
     }
 
     @Override
@@ -194,11 +193,11 @@ public class InstructionInfo
     }
 
     @Override
-    public Boolean getIsExemptable() {
-        return this.isExemptable;
+    public Boolean getIsExemptible() {
+        return this.isExemptible;
     }
 
-    public void setIsExemptable(Boolean isExemptable) {
-        this.isExemptable = isExemptable;
+    public void setIsExemptible(Boolean isExemptible) {
+        this.isExemptible = isExemptible;
     }
 }

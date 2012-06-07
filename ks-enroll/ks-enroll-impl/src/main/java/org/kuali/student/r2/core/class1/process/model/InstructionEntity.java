@@ -1,33 +1,32 @@
 package org.kuali.student.r2.core.class1.process.model;
 
+import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwnerNew;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.process.dto.InstructionInfo;
+import org.kuali.student.r2.core.process.infc.Instruction;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.population.model.PopulationEntity;
-import org.kuali.student.r2.core.process.dto.InstructionInfo;
-import org.kuali.student.r2.core.process.infc.Instruction;
-
 @Entity
-@Table(name = "KSEN_INSTR")
-public class InstructionEntity extends MetaEntity implements AttributeOwner<InstructionAttributeEntity> {
+@Table(name = "KSEN_PROCESS_INSTRN")
+public class InstructionEntity extends MetaEntity implements AttributeOwnerNew<InstructionAttributeEntity> {
+
+    ////////////////////
+    // DATA FIELDS
+    ////////////////////
+
+    @Column(name = "PROCESS_INSTRN_TYPE", nullable = false)
+    private String instructionType;
+
+    @Column(name = "PROCESS_INSTRN_STATE", nullable = false)
+    private String instructionState;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -37,39 +36,34 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
 
-    @Column(name = "INSTRUCTION_TYPE")
-    private String instructionType;
-
-    @Column(name = "INSTRUCTION_STATE")
-    private String instructionState;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "PROCESS_ID", nullable = false)
+    private String processId;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "PROCESS_ID")
-    private ProcessEntity process;
+    @JoinColumn(name = "CHECK_ID", nullable = false)
+    private String checkId;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "CHECK_ID")
-    private CheckEntity check;
+    @Column(name = "APPLD_POPULATION_ID")
+    private String appliedPopulationId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "MESSAGE")
-    private InstructionMessageEntity message;
+    @Column(name = "MESG_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String messagePlain;
+
+    @Column(name = "MESG_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String messageFormatted;
 
     @Column(name = "POSITION")
     private int position;
 
-    @Column(name = "IS_WARNING")
+    @Column(name = "WARNING_IND")
     private boolean warning;
 
-    @Column(name = "CONTINUE_ON_FAIL")
+    @Column(name = "CONT_ON_FAILED_IND")
     private boolean continueOnFail;
 
-    @Column(name = "IS_EXEMPTABLE")
-    private boolean exemptable;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSEN_INSTR_POPLTN_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "POPLTN_ID"))
-    private List<PopulationEntity> appliedPopulation;
+    @Column(name = "EXEMPTIBLE_IND")
+    private boolean exemptible;
 
     @Transient
     private List<String> appliedAtpTypes;
@@ -77,100 +71,102 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true)
     private List<InstructionAttributeEntity> attributes = new ArrayList<InstructionAttributeEntity>();
 
+    //////////////////////////
+    // CONSTRUCTORS ETC.
+    //////////////////////////
+
     public InstructionEntity() {}
 
-    public InstructionEntity(Instruction dto) {
-        super(dto);
-
-        setId(dto.getId());
-        setContinueOnFail(dto.getContinueOnFail());
-        setExemptable(dto.getIsExemptable());
-        setPosition(dto.getPosition());
-        setWarning(dto.getIsWarning());
-        this.setInstructionState(dto.getStateKey());
-        if (dto.getExpirationDate() != null) {
-            setExpirationDate(dto.getExpirationDate());
-        }
-
-        if (dto.getEffectiveDate() != null) {
-            setEffectiveDate(dto.getEffectiveDate());
-        }
-
-        if (dto.getMessage() != null) {
-            this.setMessage(new InstructionMessageEntity(dto.getMessage()));
-        }
-        this.setAttributes(new ArrayList<InstructionAttributeEntity>());
-        if (null != dto.getAttributes()) {
-            for (Attribute att : dto.getAttributes()) {
-                this.getAttributes().add(new InstructionAttributeEntity(att, this));
-            }
-        }
-
+    public InstructionEntity(Instruction instruction) {
+        super(instruction);
+        this.setId(instruction.getId());
+        this.processId = instruction.getProcessKey();
+        this.checkId = instruction.getCheckKey();
+        this.instructionType = instruction.getTypeKey();
+        this.fromDTO (instruction);
     }
 
+    public void fromDTO(Instruction instruction) {
+        this.instructionState = instruction.getStateKey();
+        this.effectiveDate = instruction.getEffectiveDate();
+        this.expirationDate = instruction.getExpirationDate();
+        this.appliedPopulationId = instruction.getAppliedPopulationKey();
+        if (instruction.getMessage() != null) {
+            this.messageFormatted = instruction.getMessage().getFormatted();
+            this.messagePlain = instruction.getMessage().getPlain();
+        } else {
+            this.messageFormatted = null;
+            this.messagePlain = null;
+        }
+        this.position = instruction.getPosition();
+        this.warning = instruction.getIsWarning();
+        this.continueOnFail = instruction.getContinueOnFail();
+        this.exemptible = instruction.getIsExemptible();
+        this.appliedAtpTypes = new ArrayList<String>();
+        for (String atpType : instruction.getAppliedAtpTypeKeys()) {
+            this.appliedAtpTypes.add(atpType);
+        }
+        this.setAttributes(new ArrayList<InstructionAttributeEntity>());
+        for (Attribute att : instruction.getAttributes()) {
+            this.getAttributes().add(new InstructionAttributeEntity(att, this));
+        }
+    }
+
+    /**
+     * @return Process Instruction DTO
+     */
     public InstructionInfo toDto() {
-
-        InstructionInfo dto = new InstructionInfo();
-
-        dto.setId(getId());
-        dto.setContinueOnFail(isContinueOnFail());
-        dto.setPosition(getPosition());
-        dto.setIsExemptable(isExemptable());
-        dto.setIsWarning(isWarning());
-
-        if (getEffectiveDate() != null) {
-            dto.setEffectiveDate(getEffectiveDate());
-        }
-
-        if (getExpirationDate() != null) {
-            dto.setExpirationDate(getExpirationDate());
-        }
-
-        if (getInstructionState() != null) {
-            dto.setStateKey(getInstructionState());
-        }
-
-        if (getProcess() != null) {
-            dto.setProcessKey(getProcess().getId());
-        }
-
-        if (getCheck() != null) {
-            dto.setCheckKey(getCheck().getId());
-        }
-
-        if (getInstructionType() != null) {
-            dto.setTypeKey(getInstructionType());
-        }
-
-        List<String> appliedPopulation = new ArrayList<String>();
-        if (getAppliedPopulation() != null) {
-            for (PopulationEntity population : getAppliedPopulation()) {
-                appliedPopulation.add(population.getId());
-            }
-        }
-        dto.setAppliedPopulationKeys(appliedPopulation);
-
+        InstructionInfo instructionInfo = new InstructionInfo();
+        instructionInfo.setMeta(super.toDTO());
+        instructionInfo.setId(getId());
+        instructionInfo.setProcessKey(processId);
+        instructionInfo.setCheckKey(checkId);
+        instructionInfo.setTypeKey(instructionType);
+        instructionInfo.setStateKey(instructionState);
+        instructionInfo.setEffectiveDate(effectiveDate);
+        instructionInfo.setExpirationDate(expirationDate);
+        instructionInfo.setAppliedPopulationKey(appliedPopulationId);
+        instructionInfo.setMessage(new RichTextHelper().toRichTextInfo(messagePlain, messageFormatted));
+        instructionInfo.setPosition(position);
+        instructionInfo.setIsWarning(warning);
+        instructionInfo.setContinueOnFail(continueOnFail);
+        instructionInfo.setIsExemptible(exemptible);
         List<String> appliedAtpTypeKeys = new ArrayList<String>();
         if (getAppliedAtpTypes() != null) {
             for (String atpType : getAppliedAtpTypes()) {
                 appliedAtpTypeKeys.add(atpType);
             }
         }
-        dto.setAppliedAtpTypeKeys(appliedAtpTypeKeys);
-
-        dto.setMeta(super.toDTO());
-        if (getMessage() != null) {
-            dto.setMessage(message.toDto());
+        instructionInfo.setAppliedAtpTypeKeys(appliedAtpTypeKeys);
+        List<AttributeInfo> attributes = instructionInfo.getAttributes();
+        if (getAttributes() != null) {
+            for (InstructionAttributeEntity att : getAttributes()) {
+                AttributeInfo attInfo = att.toDto();
+                attributes.add(attInfo);
+            }
         }
+        instructionInfo.setAttributes(attributes);
+        return instructionInfo;
+    }
 
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (InstructionAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
-        }
-        dto.setAttributes(atts);
+    ///////////////////////////
+    // GETTERS AND SETTERS
+    ///////////////////////////
 
-        return dto;
+    public String getInstructionType() {
+        return instructionType;
+    }
+
+    public void setInstructionType(String instructionType) {
+        this.instructionType = instructionType;
+    }
+
+    public String getInstructionState() {
+        return instructionState;
+    }
+
+    public void setInstructionState(String instructionState) {
+        this.instructionState = instructionState;
     }
 
     public Date getEffectiveDate() {
@@ -189,44 +185,44 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         this.expirationDate = expirationDate;
     }
 
-    public String getInstructionType() {
-        return instructionType;
+    public String getProcessId() {
+        return processId;
     }
 
-    public void setInstructionType(String instructionType) {
-        this.instructionType = instructionType;
+    public void setProcessId(String processId) {
+        this.processId = processId;
     }
 
-    public String getInstructionState() {
-        return instructionState;
+    public String getCheckId() {
+        return checkId;
     }
 
-    public void setInstructionState(String instructionState) {
-        this.instructionState = instructionState;
+    public void setCheckId(String checkId) {
+        this.checkId = checkId;
     }
 
-    public ProcessEntity getProcess() {
-        return process;
+    public String getAppliedPopulationId() {
+        return appliedPopulationId;
     }
 
-    public void setProcess(ProcessEntity process) {
-        this.process = process;
+    public void setAppliedPopulationId(String appliedPopulationId) {
+        this.appliedPopulationId = appliedPopulationId;
     }
 
-    public CheckEntity getCheck() {
-        return check;
+    public String getMessagePlain() {
+        return messagePlain;
     }
 
-    public void setCheck(CheckEntity check) {
-        this.check = check;
+    public void setMessagePlain(String messagePlain) {
+        this.messagePlain = messagePlain;
     }
 
-    public InstructionMessageEntity getMessage() {
-        return message;
+    public String getMessageFormatted() {
+        return messageFormatted;
     }
 
-    public void setMessage(InstructionMessageEntity message) {
-        this.message = message;
+    public void setMessageFormatted(String messageFormatted) {
+        this.messageFormatted = messageFormatted;
     }
 
     public int getPosition() {
@@ -253,20 +249,12 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         this.continueOnFail = continueOnFail;
     }
 
-    public boolean isExemptable() {
-        return exemptable;
+    public boolean isExemptible() {
+        return exemptible;
     }
 
-    public void setExemptable(boolean exemptable) {
-        this.exemptable = exemptable;
-    }
-
-    public List<PopulationEntity> getAppliedPopulation() {
-        return appliedPopulation;
-    }
-
-    public void setAppliedPopulation(List<PopulationEntity> appliedPopulation) {
-        this.appliedPopulation = appliedPopulation;
+    public void setExemptible(boolean exemptible) {
+        this.exemptible = exemptible;
     }
 
     public List<String> getAppliedAtpTypes() {
@@ -278,12 +266,12 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     }
 
     @Override
-    public void setAttributes(List<InstructionAttributeEntity> attributes) {
-        this.attributes = attributes;
+    public List<InstructionAttributeEntity> getAttributes() {
+        return attributes;
     }
 
     @Override
-    public List<InstructionAttributeEntity> getAttributes() {
-        return attributes;
+    public void setAttributes(List<InstructionAttributeEntity> attributes) {
+        this.attributes = attributes;
     }
 }

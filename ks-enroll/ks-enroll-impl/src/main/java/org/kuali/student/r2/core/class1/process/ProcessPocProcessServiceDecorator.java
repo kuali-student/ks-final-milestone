@@ -4,7 +4,6 @@
  */
 package org.kuali.student.r2.core.class1.process;
 
-import java.util.Arrays;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.RichTextHelper;
@@ -95,13 +94,14 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         InstructionInfo info = new InstructionInfo();
         info.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
         info.setProcessKey(processKey);
-        info.setAppliedPopulationKeys(Arrays.asList(populationKey));
+        // info.setAppliedPopulationKeys(Arrays.asList(populationKey));
+        info.setAppliedPopulationKey(populationKey);
         info.setCheckKey(checkKey);
         info.setMessage(new RichTextHelper().fromPlain(message));
         info.setPosition(position);
         info.setContinueOnFail(continueOnFail);
         info.setIsWarning(isWarning);
-        info.setIsExemptable(canBeExempted);
+        info.setIsExemptible(canBeExempted);
         try {
             info = this.createInstruction(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, info.getProcessKey(), info.getCheckKey(), info, context);
         } catch (Exception ex) {

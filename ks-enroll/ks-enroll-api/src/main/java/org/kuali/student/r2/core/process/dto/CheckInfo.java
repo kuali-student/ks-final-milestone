@@ -41,6 +41,10 @@ public class CheckInfo
     extends IdEntityInfo 
     implements Check, Serializable {
 
+    ////////////////////
+    // DATA FIELDS
+    ////////////////////
+
     private static final long serialVersionUID = 1L;
     
     @XmlElement 
@@ -67,6 +71,9 @@ public class CheckInfo
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    //////////////////////////
+    // CONSTRUCTORS ETC.
+    //////////////////////////
 
     /**
      * Constructs a new CheckInfo.
@@ -81,17 +88,20 @@ public class CheckInfo
      */
     public CheckInfo(Check check) {
         super(check);
-
         if (check != null) {
             this.issueId = check.getIssueId();
             this.milestoneTypeKey = check.getMilestoneTypeKey();
             this.agendaId = check.getAgendaId();
-            this.processKey = check.getProcessKey();
-            this.rightComparisonValue = check.getRightComparisonValue();
             this.leftComparisonAgendaId = check.getLeftComparisonAgendaId();
+            this.rightComparisonValue = check.getRightComparisonValue();
             this.rightComparisonAgendaId = check.getRightComparisonAgendaId();
+            this.processKey = check.getProcessKey();
         }
     }
+
+    ///////////////////////////
+    // GETTERS AND SETTERS
+    ///////////////////////////
 
     @Override
     public String getIssueId() {
