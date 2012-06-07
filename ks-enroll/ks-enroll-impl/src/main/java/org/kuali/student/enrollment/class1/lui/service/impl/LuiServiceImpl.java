@@ -349,24 +349,34 @@ public class LuiServiceImpl
             luiLuiRelationDao.remove(rel);
         }
         //Delete attributes
-        for(LuiAttributeEntity attr:entity.getAttributes()){
-            luiDao.getEm().remove(attr); //TODO why is the dao strongly typed to a single entity?
+        if(entity.getAttributes()!=null){
+            for(LuiAttributeEntity attr:entity.getAttributes()){
+                luiDao.getEm().remove(attr); //TODO why is the dao strongly typed to a single entity?
+            }
         }
         //Delete identifiers
-        for(LuiIdentifierEntity ident:entity.getIdentifiers()){
-            luiDao.getEm().remove(ident);
+        if(entity.getIdentifiers()!=null){
+            for(LuiIdentifierEntity ident:entity.getIdentifiers()){
+                luiDao.getEm().remove(ident);
+            }
         }
         //Delete content owners
-        for(LuiUnitsContentOwnerEntity contentOwner:entity.getLuiContentOwner()){
-            luiDao.getEm().remove(contentOwner);
+        if(entity.getLuiContentOwner()!=null){
+            for(LuiUnitsContentOwnerEntity contentOwner:entity.getLuiContentOwner()){
+                luiDao.getEm().remove(contentOwner);
+            }
         }
         //Delete units
-        for(LuiUnitsDeploymentEntity units:entity.getLuiUnitsDeployment()){
-            luiDao.getEm().remove(units);
+        if(entity.getLuiUnitsDeployment()!=null){
+            for(LuiUnitsDeploymentEntity units:entity.getLuiUnitsDeployment()){
+                luiDao.getEm().remove(units);
+            }
         }
         //Delete Codes
-        for(LuCodeEntity luiCode:entity.getLuiCodes()){
-            luiDao.getEm().remove(luiCode);
+        if(entity.getLuiCodes()!=null){
+            for(LuCodeEntity luiCode:entity.getLuiCodes()){
+                luiDao.getEm().remove(luiCode);
+            }
         }
 
         //Delete the actual Lui entity
