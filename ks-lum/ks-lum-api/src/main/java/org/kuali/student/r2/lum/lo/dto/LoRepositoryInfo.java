@@ -40,9 +40,6 @@ public class LoRepositoryInfo extends KeyEntityInfo implements LoRepository, Ser
     @XmlElement
     private Date expirationDate;
     
-    @Deprecated //for the convention until only have R2
-    private String id;
-
     public LoRepositoryInfo(){
 
     }
@@ -82,15 +79,4 @@ public class LoRepositoryInfo extends KeyEntityInfo implements LoRepository, Ser
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
-    
-    @Deprecated
-	public String getId() {
-		return id;
-	}
-   
-    @Deprecated
-	public void setId(String id) {
-		this.id = id;
-	}
-
 }
