@@ -42,6 +42,11 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
             aoCodes.add(aoInfo.getActivityCode());
         }
 
+        //Always start with A if it's not there
+        if(!aoCodes.contains("A")){
+            return "A";
+        }
+
         //Sort the list so we can fill in gaps
         Collections.sort(aoCodes,new Comparator<String>() {
             @Override
