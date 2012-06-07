@@ -18,6 +18,10 @@ public interface Load extends IdNamelessEntity {
 
     /**
      * Code indicating the load level, for example, Full Time, Half Time
+     *
+     * @name Load Level Type Key
+     * @readOnly
+     * @required
      */
-    public String getLoadLevelCode();
+    public String getLoadLevelTypeKey();
 }

@@ -20,25 +20,30 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentProgramRecordInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "programCode", "major", "minor", "admittedDate", "creditsEarned", "childPrograms", "completionStatusTypeKey",
+        "programId", "programTitle", "programTypeKey", "programCode", 
+        "admittedDate", "creditsEarned", "classStanding", "childPrograms", "statusKey",
         "meta", "attributes", "_futureElements"})
 public class StudentProgramRecordInfo extends IdEntityInfo implements StudentProgramRecord, Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
+    private String programId;
+    @XmlElement
+    private String programTitle;
+    @XmlElement
+    private String programTypeKey;
+    @XmlElement
     private String programCode;
-    @XmlElement
-    private String major;
-    @XmlElement
-    private String minor;
     @XmlElement
     private String admittedDate;
     @XmlElement
     private String creditsEarned;
     @XmlElement
+    private String classStanding;
+    @XmlElement
     private List<StudentProgramRecordInfo> childPrograms;
     @XmlElement
-    private String completionStatusTypeKey;
+    private String statusKey;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -49,17 +54,47 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
     public StudentProgramRecordInfo(StudentProgramRecord studentProgramRecord) {
         super(studentProgramRecord);
         if (null != studentProgramRecord) {
+
+            this.programId = studentProgramRecord.getProgramId();
+            this.programTitle = studentProgramRecord.getProgramTitle();
+            this.programTypeKey = studentProgramRecord.getProgramTypeKey();
             this.programCode = studentProgramRecord.getProgramCode();
-            this.major = studentProgramRecord.getMajor();
-            this.minor = studentProgramRecord.getMinor();
             this.admittedDate = studentProgramRecord.getAdmittedDate();
             this.creditsEarned = studentProgramRecord.getCreditsEarned();
+            this.classStanding = studentProgramRecord.getClassStanding();
             this.childPrograms = new ArrayList<StudentProgramRecordInfo>();
             for (StudentProgramRecord spr : studentProgramRecord.getChildPrograms()) {
                 this.childPrograms.add(new StudentProgramRecordInfo(spr));
             }
-            this.completionStatusTypeKey = studentProgramRecord.getCompletionStatusTypeKey();
+            this.statusKey = studentProgramRecord.getStatusKey();
         }
+    }
+
+    @Override
+    public String getProgramId() {
+        return programId;
+    }
+
+    public void setProgramId(String programId) {
+        this.programId = programId;
+    }
+
+    @Override
+    public String getProgramTitle() {
+        return programTitle;
+    }
+
+    public void setProgramTitle(String programTitle) {
+        this.programTitle = programTitle;
+    }
+
+    @Override
+    public String getProgramTypeKey() {
+        return programTypeKey;
+    }
+
+    public void setProgramTypeKey(String programTypeKey) {
+        this.programTypeKey = programTypeKey;
     }
 
     @Override
@@ -72,30 +107,21 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
     }
 
     @Override
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major;
-    }
-
-    @Override
-    public String getMinor() {
-        return minor;
-    }
-
-    public void setMinor(String minor) {
-        this.minor = minor;
-    }
-
-    @Override
     public String getAdmittedDate() {
         return admittedDate;
     }
 
     public void setAdmittedDate(String admittedDate) {
         this.admittedDate = admittedDate;
+    }
+
+    @Override
+    public String getClassStanding() {
+        return classStanding;
+    }
+
+    public void setClassStanding(String classStanding) {
+        this.classStanding = classStanding;
     }
 
     @Override
@@ -117,11 +143,11 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
     }
 
     @Override
-    public String getCompletionStatusTypeKey() {
-        return completionStatusTypeKey;
+    public String getStatusKey() {
+        return statusKey;
     }
 
-    public void setCompletionStatusTypeKey(String completionStatusTypeKey) {
-        this.completionStatusTypeKey = completionStatusTypeKey;
+    public void setStatusKey(String statusKey) {
+        this.statusKey = statusKey;
     }
 }

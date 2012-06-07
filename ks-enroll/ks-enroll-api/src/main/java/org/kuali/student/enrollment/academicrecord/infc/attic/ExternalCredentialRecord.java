@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.academicrecord.infc;
+package org.kuali.student.enrollment.academicrecord.infc.attic;
 
 import org.kuali.student.r2.common.infc.IdEntity;
 

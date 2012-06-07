@@ -13,21 +13,20 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * TODO: There's another LoadInfo in Grading service - which seems half-based, check during review
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LoadInfo", propOrder = {
         "id", "meta", "attributes",
-        "totalCredits", "loadLevelCode",
+        "totalCredits", "loadLevelTypeKey",
         "typeKey", "stateKey", "_futureElements"})
 public class LoadInfo extends IdNamelessEntityInfo implements Load, Serializable {
     private static final long serialVersionUID = 1L;
     @XmlElement
     private String totalCredits;
     @XmlElement
-    private String loadLevelCode;
+    private String loadLevelTypeKey;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -39,7 +38,7 @@ public class LoadInfo extends IdNamelessEntityInfo implements Load, Serializable
         super(load);
         if (null != load) {
             this.totalCredits = load.getTotalCredits();
-            this.loadLevelCode = load.getLoadLevelCode();
+            this.loadLevelTypeKey = load.getLoadLevelTypeKey();
         }
     }
 
@@ -53,11 +52,11 @@ public class LoadInfo extends IdNamelessEntityInfo implements Load, Serializable
     }
 
     @Override
-    public String getLoadLevelCode() {
-        return loadLevelCode;
+    public String getLoadLevelTypeKey() {
+        return loadLevelTypeKey;
     }
 
-    public void setLoadLevelCode(String loadLevelCode) {
-        this.loadLevelCode = loadLevelCode;
+    public void setLoadLevelTypeKey(String loadLevelTypeKey) {
+        this.loadLevelTypeKey = loadLevelTypeKey;
     }
 }

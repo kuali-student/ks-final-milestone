@@ -36,7 +36,6 @@ public interface StudentCourseRecord
      * Id of the course that was taken by the student
      * @name Course Offering Id
      * @readOnly
-     * @required
      */
     public String getCourseOfferingId();
 

@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public interface StudentCredentialRecord extends IdEntity {
     /**
-     * Id of the program that was enrolled in by the student
+     * Id of the program that was enrolled in by the student.
      *
      * @name Program Id
      * @readOnly
@@ -22,11 +22,11 @@ public interface StudentCredentialRecord extends IdEntity {
      * Title of the program that was in effect at the time the student took the
      * course
      *
-     * @name Program Name
+     * @name Program Title
      * @readOnly
      * @required
      */
-    public String getProgramName();
+    public String getProgramTitle();
 
     /**
      * Program Code
@@ -50,7 +50,6 @@ public interface StudentCredentialRecord extends IdEntity {
      * 
      * @name Date Awarded
      * @readOnly
-     * @required
      */
     public Date getDateAwarded();
 

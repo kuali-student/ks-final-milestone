@@ -1,5 +1,7 @@
-package org.kuali.student.enrollment.academicrecord.infc;
+package org.kuali.student.enrollment.academicrecord.infc.attic;
 
+import org.kuali.student.enrollment.academicrecord.infc.StudentCourseRecord;
+import org.kuali.student.enrollment.academicrecord.infc.StudentTestScoreRecord;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 import java.util.Date;

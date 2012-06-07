@@ -10,6 +10,15 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 public interface StudentTestScoreRecord extends IdEntity {
+
+    /**
+     * Test title
+     *
+     * @name Test Title
+     * @readOnly
+     */
+    public String getTestTitle();
+
     /**
      * Code used to refer to this type or component
      * 

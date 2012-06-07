@@ -1,8 +1,10 @@
-package org.kuali.student.enrollment.academicrecord.dto;
+package org.kuali.student.enrollment.academicrecord.dto.attic;
 
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.infc.StudentCourseRecord;
 import org.kuali.student.enrollment.academicrecord.infc.StudentTestScoreRecord;
-import org.kuali.student.enrollment.academicrecord.infc.StudentTransferCreditRecord;
+import org.kuali.student.enrollment.academicrecord.infc.attic.StudentTransferCreditRecord;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 
 import javax.xml.bind.Element;

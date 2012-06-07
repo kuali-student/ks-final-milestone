@@ -1,6 +1,6 @@
-package org.kuali.student.enrollment.academicrecord.dto;
+package org.kuali.student.enrollment.academicrecord.dto.attic;
 
-import org.kuali.student.enrollment.academicrecord.infc.Honors;
+import org.kuali.student.enrollment.academicrecord.infc.attic.Honors;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import javax.xml.bind.Element;

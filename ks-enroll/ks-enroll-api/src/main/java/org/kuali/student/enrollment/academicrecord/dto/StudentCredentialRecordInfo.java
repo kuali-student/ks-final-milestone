@@ -20,14 +20,14 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentCredentialRecordInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "programId", "programName", "programCode", "dateAdmitted", "dateAwarded", "awardingInstitution",
+        "programId", "programTitle", "programCode", "dateAdmitted", "dateAwarded", "awardingInstitution",
         "meta", "attributes", "_futureElements"})
 public class StudentCredentialRecordInfo extends IdEntityInfo implements StudentCredentialRecord, Serializable {
     private static final long serialVersionUID = 1L;
     @XmlElement
     private String programId;
     @XmlElement
-    private String programName;
+    private String programTitle;
     @XmlElement
     private String programCode;
     @XmlElement
@@ -47,7 +47,7 @@ public class StudentCredentialRecordInfo extends IdEntityInfo implements Student
         super(studentCredentialRecord);
         if (null != studentCredentialRecord) {
             this.programId = studentCredentialRecord.getProgramId();
-            this.programName = studentCredentialRecord.getProgramName();
+            this.programTitle = studentCredentialRecord.getProgramTitle();
             this.programCode = studentCredentialRecord.getProgramCode();
             this.dateAdmitted = (null != studentCredentialRecord.getDateAdmitted()) ?
                     new Date(studentCredentialRecord.getDateAdmitted().getTime()) : null;
@@ -67,12 +67,12 @@ public class StudentCredentialRecordInfo extends IdEntityInfo implements Student
     }
 
     @Override
-    public String getProgramName() {
-        return programName;
+    public String getProgramTitle() {
+        return programTitle;
     }
 
-    public void setProgramName(String programName) {
-        this.programName = programName;
+    public void setProgramTitle(String programTitle) {
+        this.programTitle = programTitle;
     }
 
     @Override

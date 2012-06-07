@@ -21,22 +21,21 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentTestScoreRecordInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "testCode", "testTypeKey", "dateTaken", "scoreValue", "scorePercent", "subComponents",
+        "testTitle", "testCode", "testTypeKey", "dateTaken", "scoreValue", "scorePercent", "subComponents",
         "meta", "attributes", "_futureElements"})
 public class StudentTestScoreRecordInfo extends IdEntityInfo implements StudentTestScoreRecord, Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
+    public String testTitle;
+    @XmlElement
     public String testCode;
     @XmlElement
     public String testTypeKey;
-
     @XmlElement
     public Date dateTaken;
-
     @XmlElement
     public String scoreValue;
-
     @XmlElement
     public String scorePercent;
     @XmlElement
@@ -61,6 +60,15 @@ public class StudentTestScoreRecordInfo extends IdEntityInfo implements StudentT
                 this.subComponents.add(new StudentTestScoreRecordInfo(stsr));
             }
         }
+    }
+
+    @Override
+    public String getTestTitle() {
+        return testTitle;
+    }
+
+    public void setTestTitle(String testTitle) {
+        this.testTitle = testTitle;
     }
 
     @Override
