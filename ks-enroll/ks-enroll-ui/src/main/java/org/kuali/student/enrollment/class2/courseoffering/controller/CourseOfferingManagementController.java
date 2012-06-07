@@ -11,6 +11,8 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -128,6 +130,25 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         theForm.setInputCode(subjectCode);
         getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
         return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+    }
+
+    /**
+     * Method used to copy activityOffering
+     */
+    @RequestMapping(params = "methodToCall=copyAO")
+    public ModelAndView copyAO( @ModelAttribute("KualiForm") CourseOfferingManagementForm form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+        ActivityOfferingInfo selectedAO = (ActivityOfferingInfo)_getSelectedObject(form, "copy");
+        try{
+            CourseOfferingResourceLoader.loadCourseOfferingService().copyActivityOffering(selectedAO.getId(), ContextBuilder.loadContextInfo());
+
+            //reload AOs including the new one just created
+            getViewHelperService(form).loadActivityOfferingsByCourseOffering(form.getTheCourseOffering(), form);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+        return getUIFModelAndView(form);
     }
 
     /**

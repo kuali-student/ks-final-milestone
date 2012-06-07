@@ -961,7 +961,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ActivityOfferingInfo copyActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new OperationFailedException("not implemented");
+        ActivityOfferingInfo sourceAO = getActivityOffering(activityOfferingId, context);
+        ActivityOfferingInfo targetAO = new ActivityOfferingInfo(sourceAO);
+        targetAO.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+        targetAO.setId(null);
+
+        targetAO = createActivityOffering(sourceAO.getFormatOfferingId(), sourceAO.getActivityId(), sourceAO.getTypeKey(), targetAO, context);
+
+        return targetAO;
     }
 
     @Override

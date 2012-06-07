@@ -104,7 +104,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-SubmitActionLink" p:methodToCall="copyToCreateANewAO" p:actionLabel="Copy" />
+                <bean parent="Uif-ActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                 <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete this activity offering?')" p:methodToCall="delete" p:actionLabel="Delete" />
