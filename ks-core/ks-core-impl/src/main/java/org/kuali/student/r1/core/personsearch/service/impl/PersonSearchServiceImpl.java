@@ -55,10 +55,10 @@ public class PersonSearchServiceImpl implements SearchService {
     static final public Map<String, SearchOperation> searchOperations = new HashMap<String, SearchOperation>();
     
     static {
-        PERSON_CRITERIA.put("entityTypes.active", "Y");
+        PERSON_CRITERIA.put("entityTypeContactInfos.active", "Y");
         PERSON_CRITERIA.put("principals.active", "Y");
         PERSON_CRITERIA.put("active", "Y");
-        PERSON_CRITERIA.put("entityTypes.entityTypeCode", "PERSON|SYSTEM");
+        PERSON_CRITERIA.put("entityTypeContactInfos.entityTypeCode", "PERSON|SYSTEM");
         searchOperations.put(QuickViewByGivenName.SEARCH_TYPE, new QuickViewByGivenName());
     }
 
