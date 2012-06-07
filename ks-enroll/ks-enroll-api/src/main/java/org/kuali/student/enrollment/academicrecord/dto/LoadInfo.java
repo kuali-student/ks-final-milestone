@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * TODO: There's another LoadInfo in Grading service - which seems half-based, check during review
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
