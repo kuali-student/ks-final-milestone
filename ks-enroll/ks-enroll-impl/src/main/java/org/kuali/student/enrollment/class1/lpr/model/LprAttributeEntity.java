@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.student.r2.common.entity.BaseAttributeEntity;
-import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
 import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
