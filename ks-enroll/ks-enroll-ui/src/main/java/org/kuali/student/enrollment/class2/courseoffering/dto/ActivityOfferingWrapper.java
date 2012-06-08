@@ -7,14 +7,14 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
 
-public class ActivityOfferingFormObject implements Serializable{
+public class ActivityOfferingWrapper implements Serializable{
 
     private ActivityOfferingInfo aoInfo;
     private FormatOfferingInfo formatOffering;
     private TermInfo term;
     private boolean readOnlyView;
 
-    public ActivityOfferingFormObject(){
+    public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         aoInfo.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
@@ -23,7 +23,7 @@ public class ActivityOfferingFormObject implements Serializable{
         this.setReadOnlyView(false);
     }
 
-    public ActivityOfferingFormObject(ActivityOfferingInfo info){
+    public ActivityOfferingWrapper(ActivityOfferingInfo info){
         super();
         aoInfo = info;
     }
