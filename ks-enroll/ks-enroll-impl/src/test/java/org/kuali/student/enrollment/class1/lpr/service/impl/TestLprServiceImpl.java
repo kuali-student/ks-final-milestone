@@ -159,7 +159,8 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
         lpr.setPersonId("person-4");
         lpr.setCommitmentPercent("20.0");
         lpr.setStateKey("kuali.courseoffering.");
-        LprInfo newLprInfo = lprService.createLpr( "lui-4","person-4","kuali.lpr.type.courseoffering.instructor.main",lpr,  callContext);
+        lpr.setTypeKey("kuali.lpr.type.courseoffering.instructor.main");
+        LprInfo newLprInfo = lprService.createLpr( "person-4","lui-4", "kuali.lpr.type.courseoffering.instructor.main",lpr,  callContext);
         assertNotNull(newLprInfo.getId());
         assertEquals(lpr.getId(), newLprInfo.getId());
 

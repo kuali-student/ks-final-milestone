@@ -268,7 +268,7 @@ public class TestLprServiceMockImpl {
 
         LprInfo expected2 = new LprInfo();
         expected2.setPersonId("person2");
-        expected2.setLuiId("lui2");
+        expected2.setLuiId("lui1");
         expected2.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
         expected2.setStateKey(LprServiceConstants.CONFIRMED_STATE_KEY);
         expected2.setEffectiveDate(new Date(new Date().getTime() + 1000));

@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -139,7 +140,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 		
 		EntityMergeHelper<LprTransactionItemAttributeEntity, Attribute>attributeMergeHelper = new EntityMergeHelper<LprTransactionItemAttributeEntity, Attribute>();
 		
-		EntityMergeResult<LprTransactionItemAttributeEntity> attributesMergeResult = attributeMergeHelper.merge(attributes, (Set<Attribute>) lprTransactionItem.getAttributes(), new EntityMergeHelper.EntityMergeOptions<LprTransactionItemAttributeEntity, Attribute>() {
+		EntityMergeResult<LprTransactionItemAttributeEntity> attributesMergeResult = attributeMergeHelper.merge(attributes,  (Collection<Attribute>) lprTransactionItem.getAttributes(), new EntityMergeHelper.EntityMergeOptions<LprTransactionItemAttributeEntity, Attribute>() {
 
 			@Override
 			public String getEntityId(LprTransactionItemAttributeEntity entity) {
@@ -181,7 +182,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 		
 		EntityMergeHelper<LprTransactionItemRequestOptionEntity, LprTransactionItemRequestOption>requestOptionMergeHelper = new EntityMergeHelper<LprTransactionItemRequestOptionEntity, LprTransactionItemRequestOption>();
 		
-		EntityMergeResult<LprTransactionItemRequestOptionEntity> requestOptionMergeResults = requestOptionMergeHelper.merge(this.requestOptions, (Set<LprTransactionItemRequestOption>) lprTransactionItem.getRequestOptions(), new EntityMergeOptions<LprTransactionItemRequestOptionEntity, LprTransactionItemRequestOption>() {
+		EntityMergeResult<LprTransactionItemRequestOptionEntity> requestOptionMergeResults = requestOptionMergeHelper.merge(this.requestOptions, (Collection<LprTransactionItemRequestOption>) lprTransactionItem.getRequestOptions(), new EntityMergeOptions<LprTransactionItemRequestOptionEntity, LprTransactionItemRequestOption>() {
 
 			@Override
 			public String getEntityId(

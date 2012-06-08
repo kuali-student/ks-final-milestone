@@ -108,7 +108,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
          
          EntityMergeHelper<LprTransactionAttributeEntity, Attribute>attributeMergeHelper = new EntityMergeHelper<LprTransactionAttributeEntity, Attribute>();
          
-         EntityMergeResult<LprTransactionAttributeEntity> attributeMergeResults = attributeMergeHelper.merge(this.attributes, (List<Attribute>) lprTransaction.getAttributes(), new EntityMergeHelper.EntityMergeOptions<LprTransactionAttributeEntity, Attribute>() {
+         EntityMergeResult<LprTransactionAttributeEntity> attributeMergeResults = attributeMergeHelper.merge(this.attributes, (Collection<Attribute>) lprTransaction.getAttributes(), new EntityMergeHelper.EntityMergeOptions<LprTransactionAttributeEntity, Attribute>() {
 
 			@Override
 			public String getEntityId(LprTransactionAttributeEntity entity) {
@@ -150,7 +150,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
          
          EntityMergeHelper<LprTransactionItemEntity, LprTransactionItem>transactionItemMergeHelper = new EntityMergeHelper<LprTransactionItemEntity, LprTransactionItem>();
          
-         EntityMergeResult<LprTransactionItemEntity> transactionItemMergeResult = transactionItemMergeHelper.merge(this.lprTransactionItems, (List<LprTransactionItem>) lprTransaction.getLprTransactionItems(), new EntityMergeHelper.EntityMergeOptions<LprTransactionItemEntity, LprTransactionItem>() {
+         EntityMergeResult<LprTransactionItemEntity> transactionItemMergeResult = transactionItemMergeHelper.merge(this.lprTransactionItems, (Collection<LprTransactionItem>) lprTransaction.getLprTransactionItems(), new EntityMergeHelper.EntityMergeOptions<LprTransactionItemEntity, LprTransactionItem>() {
 
 			@Override
 			public String getEntityId(LprTransactionItemEntity entity) {
