@@ -15,10 +15,10 @@
 
 
     <!-- LookupView -->
-    <bean id="KS-EnrollmentFee-LookupView" parent="KSLookupView">
+    <bean id="KS-EnrollmentFeeInfo-LookupView" parent="KSLookupView">
         <property name="headerText" value="Enrollment Fee Lookup (Search: To be implemented soon) " />
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo" />
-        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeLookupableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeInfoLookupableImpl" />
 
         <property name="criteriaFields">
             <list>
@@ -45,10 +45,10 @@
     </bean>
 
     <!-- InquiryView -->
-    <bean id="KS-EnrollmentFee-InquiryView" parent="KSInquiryView"
+    <bean id="KS-EnrollmentFeeInfo-InquiryView" parent="KSInquiryView"
           p:headerText="EnrollmentFee Inquiry"
           p:dataObjectClassName="org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo"
-          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeInquirableImpl">
+          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeInfoInquirableImpl">
         <property name="items">
             <list>
                 <bean parent="Uif-GridSection">
