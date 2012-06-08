@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
