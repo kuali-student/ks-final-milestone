@@ -143,7 +143,6 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         sourceAo1A.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
         sourceAo1A.setActivityCode("A");
         sourceAo1A.setDescr(new RichTextHelper().fromPlain("test activity"));
-        sourceAo1A.setGradingOptionKeys(Arrays.asList("LetterGraded"));
         sourceAo1A.setIsHonorsOffering(Boolean.TRUE);
         sourceAo1A.setMaximumEnrollment(100);
         sourceAo1A.setMinimumEnrollment(90);
@@ -158,7 +157,6 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         sourceAo1B.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
         sourceAo1B.setActivityCode("B");
         sourceAo1B.setDescr(new RichTextHelper().fromPlain("test activity B"));
-        sourceAo1B.setGradingOptionKeys(Arrays.asList("LetterGraded"));
         sourceAo1B.setIsHonorsOffering(Boolean.TRUE);
         sourceAo1B.setMaximumEnrollment(100);
         sourceAo1B.setMinimumEnrollment(90);
@@ -201,7 +199,6 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         sourceAo2A.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
         sourceAo2A.setActivityCode("A");
         sourceAo2A.setDescr(new RichTextHelper().fromPlain("test activity"));
-        sourceAo2A.setGradingOptionKeys(Arrays.asList("LetterGraded"));
         sourceAo2A.setIsHonorsOffering(Boolean.TRUE);
         sourceAo2A.setMaximumEnrollment(100);
         sourceAo2A.setMinimumEnrollment(90);
@@ -216,7 +213,6 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         sourceAo2B.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
         sourceAo2B.setActivityCode("B");
         sourceAo2B.setDescr(new RichTextHelper().fromPlain("test activity B"));
-        sourceAo2B.setGradingOptionKeys(Arrays.asList("LetterGraded"));
         sourceAo2B.setIsHonorsOffering(Boolean.TRUE);
         sourceAo2B.setMaximumEnrollment(100);
         sourceAo2B.setMinimumEnrollment(90);

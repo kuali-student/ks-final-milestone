@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
                 "id", "typeKey", "stateKey", "name", "descr", 
                 "formatOfferingId", "formatOfferingName",
                 "activityId", "termId", "termCode", "activityCode", "scheduleId",
-                "isHonorsOffering", "gradingOptionKeys", "instructors",
+                "isHonorsOffering", "instructors",
                 "weeklyInclassContactHours", "weeklyOutofclassContactHours", 
                 "weeklyTotalContactHours",  "isEvaluated",
                 "maximumEnrollment", "minimumEnrollment","isMaxEnrollmentEstimate",
@@ -76,10 +76,7 @@ public class ActivityOfferingInfo
 
     @XmlElement
     private Boolean isHonorsOffering;
-    
-    @XmlElement
-    private List<String> gradingOptionKeys;
-       
+
     @XmlElement
     private List<OfferingInstructorInfo> instructors;
 
@@ -156,10 +153,6 @@ public class ActivityOfferingInfo
 
         this.isHonorsOffering = offering.getIsHonorsOffering();
         this.instructors = new ArrayList<OfferingInstructorInfo>();
-
-        if (offering.getGradingOptionKeys() != null) {
-            this.gradingOptionKeys = new ArrayList<String>(offering.getGradingOptionKeys());
-        }
 
         for (OfferingInstructor instructor : offering.getInstructors()) {
             this.instructors.add(new OfferingInstructorInfo(instructor));
@@ -258,19 +251,6 @@ public class ActivityOfferingInfo
 
     public void setIsHonorsOffering(Boolean isHonorsOffering) {
         this.isHonorsOffering = isHonorsOffering;
-    }
-
-    @Override
-    public List<String> getGradingOptionKeys() {
-        if (gradingOptionKeys == null) {
-            gradingOptionKeys = new ArrayList<String>();
-        }
-
-        return gradingOptionKeys;
-    }
-
-    public void setGradingOptionKeys(List<String> gradingOptionKeys) {
-        this.gradingOptionKeys = gradingOptionKeys;
     }
 
     @Override

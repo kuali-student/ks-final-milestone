@@ -125,7 +125,6 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
         sourceAo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);   
         sourceAo.setActivityCode("A");
         sourceAo.setDescr(new RichTextHelper ().fromPlain("test activity"));
-        sourceAo.setGradingOptionKeys(Arrays.asList("LetterGraded"));
         sourceAo.setIsHonorsOffering(Boolean.TRUE);
         sourceAo.setMaximumEnrollment(100);
         sourceAo.setMinimumEnrollment(90);

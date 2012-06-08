@@ -107,16 +107,6 @@ public interface ActivityOffering extends IdEntity {
     public Boolean getIsHonorsOffering();
 
     /**
-     * The options/scales that indicate the allowable grades that can
-     * be awarded.  If the value is set here then the canonical course
-     * must have a grading option set on the canonical activity.
-     * 
-     * @name Grading Option Keys
-     * @impl maps to Lui.gradingOptions
-     */
-    public List<String> getGradingOptionKeys();
-
-    /**
      * Instructors for the activity. This list should be constrained
      * by the instructors listed on the course offering.
      *
