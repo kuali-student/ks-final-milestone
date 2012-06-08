@@ -53,7 +53,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByIds(
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByKeys(
             @WebParam(name = "resultValuesGroupIds") List<String> resultValuesGroupIds,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -74,7 +74,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    public List<String> getResultValuesGroupIdsByType(
+    public List<String> getResultValuesGroupKeysByType(
             @WebParam(name = "resultValuesGroupTypeKey") String resultValuesGroupTypeKey,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -265,4 +265,62 @@ public class LRCServiceImpl implements LRCService {
         this.stateService = stateService;
     }
 
+    @Override
+    public ResultValuesGroupInfo getCreateFixedCreditResultValuesGroup(String creditValue,
+            String scaleId,
+            ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ResultValuesGroupInfo getCreateMultipleCreditResultValuesGroup(List<String> creditValues,
+            String scaleId,
+            ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ResultValuesGroupInfo getCreateRangeCreditResultValuesGroup(String creditValueMin,
+            String creditValueMax,
+            String creditValueIncrement,
+            String scaleId,
+            ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ResultValuesGroupInfo getCreateResultValueWithinRange(String resultValue,
+            String resultValuesGroupKey,
+            ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ResultValueInfo> getResultValuesForResultValuesGroups(List<String> resultValuesGroupKeys,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    
 }

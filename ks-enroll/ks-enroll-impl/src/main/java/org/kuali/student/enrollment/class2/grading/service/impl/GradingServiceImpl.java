@@ -644,7 +644,7 @@ public class GradingServiceImpl implements GradingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        List<ResultValuesGroupInfo> resultValuesGroupInfos = lrcService.getResultValuesGroupsByIds(gradeGroupKeyList, context);
+        List<ResultValuesGroupInfo> resultValuesGroupInfos = lrcService.getResultValuesGroupsByKeys(gradeGroupKeyList, context);
         List<GradeValuesGroupInfo> gradeValuesGroupInfos = new ArrayList<GradeValuesGroupInfo>();
 
         for(ResultValuesGroupInfo resultValuesGroupInfo : resultValuesGroupInfos){
