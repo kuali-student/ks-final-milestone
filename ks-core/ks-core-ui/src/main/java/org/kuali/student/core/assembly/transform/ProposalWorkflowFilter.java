@@ -270,21 +270,21 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         //Save
         try {
             DocumentActionResult stdResp;
-            if ( (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocument().getStatus())) ||
-            	 (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocument().getStatus())) ) {
+            if ( (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocument().getStatus().getCode())) ||
+            	 (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocument().getStatus().getCode())) ) {
             	//if the route status is initial, then save initial
                 stdResp = workflowDocumentActionsService.save(docActionParams);
             } else {
             	//Otherwise just update the doc content
             	stdResp = workflowDocumentActionsService.saveDocumentData(docActionParams);
             }
+            if (stdResp==null){
+                throw new RuntimeException("Error found updating document");
+            }
+            
         } catch (RuntimeException e) {
             //Check if there were errors saving
-            if(e.getMessage() == null){
-                throw new RuntimeException("Error found updating document");
-            } else {
-                throw new RuntimeException("Error found updating document: " + e.getMessage().trim());
-            }
+            throw new RuntimeException("Error found updating document: " + e.getMessage().trim());
         }
         return proposalInfo;
     }
