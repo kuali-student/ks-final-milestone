@@ -64,10 +64,7 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
 
     public void fromDto(ScheduleRequest scheduleRequest) {
         this.setSchedReqState(scheduleRequest.getStateKey());
-        this.setScheduleRequestComponentEntities(new ArrayList<ScheduleRequestComponentEntity>());
-        for (ScheduleRequestComponent component : scheduleRequest.getScheduleRequestComponents()) {
-            this.getScheduleRequestComponentEntities().add(new ScheduleRequestComponentEntity(component));
-        }
+
         this.setAttributes(new HashSet<ScheduleRequestAttributeEntity>());
         if (null != scheduleRequest.getAttributes()) {
             for (Attribute att : scheduleRequest.getAttributes()) {
@@ -80,11 +77,7 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
         ScheduleRequestInfo scheduleRequestInfo = new ScheduleRequestInfo();
         scheduleRequestInfo.setRefObjectId(this.getRefObjectId());
         scheduleRequestInfo.setRefObjectTypeKey(this.getRefObjectTypeKey());
-        if (null != this.scheduleRequestComponentEntities) {
-            for (ScheduleRequestComponentEntity entity : this.scheduleRequestComponentEntities) {
-                scheduleRequestInfo.getScheduleRequestComponents().add(entity.toDto());
-            }
-        }
+
         // -------------------------------------------------
         // Stuff that is updated for nearly all entities
         scheduleRequestInfo.setId(this.getId()); // id is assumed not null

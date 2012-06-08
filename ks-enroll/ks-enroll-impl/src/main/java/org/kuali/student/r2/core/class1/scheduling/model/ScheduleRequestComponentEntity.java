@@ -41,35 +41,6 @@ public class ScheduleRequestComponentEntity {
     public ScheduleRequestComponentEntity() {
     }
 
-    public ScheduleRequestComponentEntity(ScheduleRequestComponent scheduleRequestComponent) {
-        this.setId(scheduleRequestComponent.getId());
-        this.fromDto(scheduleRequestComponent);
-    }
-
-    public void fromDto(ScheduleRequestComponent scheduleRequestComponent) {
-        // TODO: All the following need to change to using entities, leaving as ids per @Sambit
-        this.setBuildingIds(scheduleRequestComponent.getBuildingIds());
-        this.setCampusIds(scheduleRequestComponent.getCampusIds());
-        this.setOrgIds(scheduleRequestComponent.getOrgIds());
-        this.setResourceTypeKeys(scheduleRequestComponent.getResourceTypeKeys());
-        this.setRoomIds(scheduleRequestComponent.getRoomIds());
-        this.setTimeSlotIds(scheduleRequestComponent.getTimeSlotIds());
-    }
-
-    public ScheduleRequestComponentInfo toDto() {
-        ScheduleRequestComponentInfo scheduleRequestComponentInfo  = new ScheduleRequestComponentInfo();
-        scheduleRequestComponentInfo.setId(this.getId());
-        // TODO: All the following need to change to using entities, leaving as ids per @Sambit
-        scheduleRequestComponentInfo.setBuildingIds(this.getBuildingIds());
-        scheduleRequestComponentInfo.setCampusIds(this.getCampusIds());
-        scheduleRequestComponentInfo.setOrgIds(this.getOrgIds());
-        scheduleRequestComponentInfo.setResourceTypeKeys(this.getResourceTypeKeys());
-        scheduleRequestComponentInfo.setRoomIds(this.getRoomIds());
-        scheduleRequestComponentInfo.setTimeSlotIds(this.getTimeSlotIds());
-
-        return scheduleRequestComponentInfo;
-    }
-
     public String getId() {
         return id;
     }
