@@ -14,15 +14,15 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
-import org.kuali.student.enrollment.academicrecord.dto.CreditsGradeInfo;
-import org.kuali.student.enrollment.academicrecord.dto.ExternalCredentialRecordInfo;
+import org.kuali.student.enrollment.academicrecord.dto.attic.CreditsGradeInfo;
+import org.kuali.student.enrollment.academicrecord.dto.attic.ExternalCredentialRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
-import org.kuali.student.enrollment.academicrecord.dto.HonorsInfo;
+import org.kuali.student.enrollment.academicrecord.dto.attic.HonorsInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.dto.StudentRankInfo;
+import org.kuali.student.enrollment.academicrecord.dto.attic.StudentRankInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
-import org.kuali.student.enrollment.academicrecord.dto.StudentTransferCreditRecordInfo;
+import org.kuali.student.enrollment.academicrecord.dto.attic.StudentTransferCreditRecordInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 /**
