@@ -246,18 +246,28 @@ public class LprServiceImpl implements LprService {
 
     @Override
     @Transactional
-    public LprInfo createLpr(String personId, String luiId, String lprType, LprInfo luiPersonRelationInfo, ContextInfo context)
+    public LprInfo createLpr(String personId, String luiId, String lprTypeKey, LprInfo lprInfo, ContextInfo context)
             throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException {
 
+    	  if (!personId.equals(lprInfo.getPersonId())) {
+              throw new InvalidParameterException(personId + " does not match the personId in the info object " + lprInfo.getPersonId());
+          }
+          if (!luiId.equals(lprInfo.getLuiId())) {
+              throw new InvalidParameterException(luiId + " does not match the luiId in the info object " + lprInfo.getLuiId());
+          }
+          if (!lprTypeKey.equals(lprInfo.getTypeKey())) {
+              throw new InvalidParameterException(lprTypeKey + " does not match the lprType in the info object " + lprInfo.getTypeKey());
+          }
+
         // make sure params are consistent with lprInfo:
-        luiPersonRelationInfo.setPersonId(personId);
-        luiPersonRelationInfo.setLuiId(luiId);
-        luiPersonRelationInfo.setTypeKey(lprType);
+        lprInfo.setPersonId(personId);
+        lprInfo.setLuiId(luiId);
+        lprInfo.setTypeKey(lprTypeKey);
         
-        LprEntity lpr = new LprEntity(luiPersonRelationInfo);
+        LprEntity lpr = new LprEntity(lprInfo);
         
         lpr.setEntityCreated(context);
         
@@ -271,6 +281,12 @@ public class LprServiceImpl implements LprService {
     public LprInfo updateLpr(String lprId, LprInfo lprInfo, ContextInfo contextInfo) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, ReadOnlyException,
             OperationFailedException, PermissionDeniedException {
+    	
+    	  if (!lprId.equals(lprInfo.getId())) {
+              throw new InvalidParameterException(lprId + " does not match the id in the info object " + lprInfo.getId());
+          }
+         
+          
         LprEntity lprEntity = lprDao.find(lprId);
 
         if (lprEntity != null) {
@@ -366,6 +382,10 @@ public class LprServiceImpl implements LprService {
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
+    	 if (!lprTransactionType.equals(lprTransactionInfo.getTypeKey())) {
+             throw new InvalidParameterException(lprTransactionType + " does not match the typeKey in the info object " + lprTransactionInfo.getTypeKey());
+         }
+    	 
         LprTransactionEntity lprTransactionEntity = new LprTransactionEntity(lprTransactionInfo);
         
         
