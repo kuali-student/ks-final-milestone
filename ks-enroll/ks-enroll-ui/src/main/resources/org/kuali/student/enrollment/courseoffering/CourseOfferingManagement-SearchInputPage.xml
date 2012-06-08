@@ -51,7 +51,7 @@
                                                 <bean parent="Uif-VerticalRadioControl">
                                                     <property name="options">
                                                         <list>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="courseOfferingCode" p:value="Course ID"/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="courseOfferingCode" p:value="Course Offering Code"/>
                                                             <bean parent="Uif-KeyLabelPair" p:key="subjectCode" p:value="Subject Code"/>
                                                         </list>
                                                     </property>

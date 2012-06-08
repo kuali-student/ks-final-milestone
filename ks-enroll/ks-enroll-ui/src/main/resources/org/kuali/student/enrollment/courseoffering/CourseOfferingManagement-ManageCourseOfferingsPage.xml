@@ -19,6 +19,10 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
+    <bean id="CourseOfferingInfo" parent="CourseOfferingInfo-parent">
+        <property name="titleAttribute" value="id"/>
+    </bean>
+
     <bean id="KS-CourseOfferingManagement-ManageCourseOfferingsPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="manageCourseOfferingsPage"
           p:headerText="">
@@ -60,7 +64,7 @@
                                                 <bean parent="Uif-VerticalRadioControl">
                                                     <property name="options">
                                                         <list>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="courseOfferingCode" p:value="Course ID"/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="courseOfferingCode" p:value="Course Offering Code"/>
                                                             <bean parent="Uif-KeyLabelPair" p:key="subjectCode" p:value="Subject Code"/>
                                                         </list>
                                                     </property>
