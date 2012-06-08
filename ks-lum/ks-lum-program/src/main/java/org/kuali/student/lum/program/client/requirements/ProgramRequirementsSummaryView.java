@@ -464,7 +464,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
                 if (dialogMetadata == null) {
                     KSBlockingProgressIndicator.addTask(gettingMetadataTask);
-                    metadataServiceAsync.getMetadataList("org.kuali.student.lum.program.dto.ProgramRequirementInfo", "Active", new KSAsyncCallback<Metadata>() {
+                    metadataServiceAsync.getMetadataList("org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo", "Active", new KSAsyncCallback<Metadata>() {
                         public void handleFailure(Throwable caught) {
                             KSBlockingProgressIndicator.removeTask(gettingMetadataTask);
                             Window.alert(caught.getMessage());
