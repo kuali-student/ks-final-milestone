@@ -109,6 +109,7 @@ public class CourseServiceUtils {
 							cluSet.getCluIds().clear();
 							cluSet.getCluSetIds().clear();
 						}
+						cluSet = cluService.createCluSet(cluSet.getTypeKey(), cluSet, contextInfo);
 						field.setValue(cluSet.getId());
 					} catch (Exception e) {
 						throw new OperationFailedException("Error copying clusets.", e);
