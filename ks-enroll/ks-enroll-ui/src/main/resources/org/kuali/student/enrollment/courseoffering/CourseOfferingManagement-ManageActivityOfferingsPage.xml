@@ -89,8 +89,8 @@
                       p:label="STATUS"
                       p:propertyName="stateKey" />
                 <bean parent="Uif-DataField"
-                      p:label="ID"
-                      p:propertyName="id"/>
+                      p:label="CODE"
+                      p:propertyName="activityCode"/>
                 <bean parent="Uif-DataField"
                       p:label="TYPE"
                       p:propertyName="typeKey"/>
