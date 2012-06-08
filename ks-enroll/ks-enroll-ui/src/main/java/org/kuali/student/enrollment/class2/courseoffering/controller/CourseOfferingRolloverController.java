@@ -274,7 +274,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                  }
             //SocInfo service to get Source Term Id
             SocInfo socInfo = _getSocService().getSoc(socRolloverResultInfo.getSourceSocId(),new ContextInfo());
-            if(socInfo!=null){
+
+            if(socInfo!=null){//TODO delete this code block, there is weird semantic id logic happening
                String pattern = "([0-9]+)([a-zA-Z]+)";
                String term = socInfo.getTermId().replaceAll(pattern,"$2 $1");
                form.setRolloverSourceTerm(term);

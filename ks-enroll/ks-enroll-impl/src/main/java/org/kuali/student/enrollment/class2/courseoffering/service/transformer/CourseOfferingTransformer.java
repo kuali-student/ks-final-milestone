@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseOfferingTransformer {
+
+    final Logger LOG = Logger.getLogger(CourseOfferingTransformer.class);
 
     public void lui2CourseOffering(LuiInfo lui, CourseOfferingInfo co, ContextInfo context) {
         co.setId(lui.getId());
@@ -63,13 +66,16 @@ public class CourseOfferingTransformer {
         co.setUnitsContentOwner(lui.getUnitsContentOwner());
 
         //Split up the result keys for student registration options into a separate field.
+        co.getStudentRegistrationOptionIds().clear();
+        co.setGradingOptionId(null);
         for(String resultValueGroupKey : lui.getResultValuesGroupKeys()){
-            co.getStudentRegistrationOptionIds().clear();
-            co.getGradingOptionIds().clear();
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 co.getStudentRegistrationOptionIds().add(resultValueGroupKey);
-            }else{
-                co.getGradingOptionIds().add(resultValueGroupKey);
+            }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
+                if(co.getGradingOptionId()!=null){
+                    throw new RuntimeException("This course offering has multiple grading options in the data. It should only have at most one.");
+                }
+                co.setGradingOptionId(resultValueGroupKey);
             }
         }
 
@@ -97,12 +103,6 @@ public class CourseOfferingTransformer {
 
 
         //below undecided
-        //co.setHasWaitlist(lui.getHasWaitlist());
-        //co.setWaitlistTypeKey(lui.getWaitlistTypeKey());
-        //co.setWaitlistMaximum(lui.getWaitlistMaximum());
-        //co.setIsWaitlistCheckinRequired(lui.getIsWaitlistCheckinRequired());
-        //co.setWaitlistCheckinFrequency(lui.getWaitlistCheckinFrequency());
-
         //lui.getAlternateIdentifiers() -- where to map?
         //lui.getName() -- where to map?
         //lui.getReferenceURL() -- where to map?
@@ -203,7 +203,7 @@ public class CourseOfferingTransformer {
         lui.setUnitsDeployment(co.getUnitsDeploymentOrgIds());
         lui.setMaximumEnrollment(co.getMaximumEnrollment());
         lui.setMinimumEnrollment(co.getMinimumEnrollment());
-        lui.getResultValuesGroupKeys().addAll(co.getGradingOptionIds());
+        lui.getResultValuesGroupKeys().add(co.getGradingOptionId());
         lui.getResultValuesGroupKeys().addAll(co.getStudentRegistrationOptionIds());
 
         LuiIdentifierInfo oi = lui.getOfficialIdentifier();
@@ -220,13 +220,6 @@ public class CourseOfferingTransformer {
 
         LuCodeInfo luCode = this.findAddLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
         luCode.setValue(boolean2String(co.getIsHonorsOffering()));
-
-        //below undecided
-        //lui.setHasWaitlist(co.getHasWaitlist());
-        //lui.setIsWaitlistCheckinRequired(co.getIsWaitlistCheckinRequired());
-        //lui.setWaitlistCheckinFrequency(co.getWaitlistCheckinFrequency());
-        //lui.setWaitlistMaximum(co.getWaitlistMaximum());
-        //lui.setWaitlistTypeKey(co.getWaitlistTypeKey());
 
         //TODO: the following mapping undecided on wiki
         //gradeRosterLevelTypeKey
@@ -248,30 +241,32 @@ public class CourseOfferingTransformer {
         courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
 
         //Split up the result keys for student registration options into a separate field.
+        courseOfferingInfo.getStudentRegistrationOptionIds().clear();
+        courseOfferingInfo.setGradingOptionId(null);
         for(String resultValueGroupKey : courseInfo.getGradingOptions()){
-            courseOfferingInfo.getStudentRegistrationOptionIds().clear();
-            courseOfferingInfo.getGradingOptionIds().clear();
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 courseOfferingInfo.getStudentRegistrationOptionIds().add(resultValueGroupKey);
-            }else{
-                courseOfferingInfo.getGradingOptionIds().add(resultValueGroupKey);
+            }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
+                if(courseOfferingInfo.getGradingOptionId()!=null){
+                    //Log warning
+                    LOG.warn("When Copying from Course CLU, multiple grading options were found");
+                }
+                courseOfferingInfo.setGradingOptionId(resultValueGroupKey);
             }
         }
 
-        if (courseInfo.getCreditOptions() == null) {
-            courseOfferingInfo.setCreditOptionIds(null);
-        } else if (courseInfo.getCreditOptions().isEmpty()) {
-            courseOfferingInfo.setCreditOptionIds(null);
-        } else {
-            List<String> creditOptionIds =  new ArrayList<String>();
-            for( ResultComponentInfo creditOption: courseInfo.getCreditOptions()){
-                creditOptionIds.add(creditOption.getId());
-
-             }
-
-            courseOfferingInfo.setCreditOptionIds(creditOptionIds);
-
+        //Set the credit options as the first option from the clu
+        if (courseInfo.getCreditOptions() != null && !courseInfo.getCreditOptions().isEmpty()) {
+            courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getId());
+        }else{
+            courseOfferingInfo.setCreditOptionId(null);
         }
+
+        //Log warning if the Clu has multiple credit options
+        if(courseInfo.getCreditOptions().size() > 1){
+            LOG.warn("When Copying from Course CLU, multiple credit options were found");
+        }
+
         courseOfferingInfo.setDescr(new R1ToR2CopyHelper().copyRichText(courseInfo.getDescr()));
         courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
     }

@@ -101,7 +101,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteCourseOfferingCascaded( String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        CourseOfferingInfo co = getCourseOffering(courseOfferingId, context);
+
+        //Cascade delete to the formats
+        List<FormatOfferingInfo> fos = getFormatOfferingsByCourseOffering(courseOfferingId, context);
+        for(FormatOfferingInfo fo:fos){
+            deleteFormatOfferingCascaded(fo.getId(),context);
+        }
+        //Delete all attached things (LPRs, EnrollmentFees, org relations, etc.)
+        //TODO
+
+        //Delete the CO
+        deleteCourseOffering(courseOfferingId, context);
+
+        return new StatusInfo();
     }
 
     @Override
@@ -283,13 +296,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termId, String subjectArea, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
+
+        //TODO Use the real search, dont filter
         List<String> luiIds = luiService.getLuiIdsByAtpAndType(termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
         List<String> results = new ArrayList<String>();
 
         for (String luiId : luiIds) {
             CourseOfferingInfo co = getCourseOffering(luiId, context);
             // Make the comparison more robust by ignoring spaces and case
-            if (StringUtils.equalsIgnoreCase(co.getSubjectArea().trim(), subjectArea.trim())) {
+            if (co.getSubjectArea()!=null && StringUtils.equalsIgnoreCase(co.getSubjectArea().trim(), subjectArea.trim())) {
                 results.add(luiId);
             }
         }
@@ -994,8 +1009,23 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // get it
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
         // TODO: check that the lui being updated is an activity not another kind of lui
+
+        //Check that the lu code is unique. If it is a duplicate, do not change it
+        List<ActivityOfferingInfo> existingAoInfos = getActivityOfferingsByCourseOffering(activityOfferingInfo.getCourseOfferingId(),context);
+        boolean duplicateAoCode = false;
+        for(ActivityOfferingInfo existingAoInfo:existingAoInfos){
+            if(activityOfferingInfo.getActivityCode().equals(existingAoInfo.getActivityCode())){
+                duplicateAoCode = true;
+                break;
+            }
+        }
+        if(!duplicateAoCode){
+            activityOfferingInfo.setActivityCode(lui.getOfficialIdentifier().getCode());
+        }
+
         // copy to lui
         ActivityOfferingTransformer.activity2Lui(activityOfferingInfo, lui);
+
         // update lui
         lui = luiService.updateLui(activityOfferingId, lui, context);
 

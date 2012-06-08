@@ -111,8 +111,8 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setCourseOfferingTitle("Title");
         orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
         orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
-        orig.getGradingOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
-        orig.getGradingOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE);
+        orig.setGradingOptionId(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
+
 
         CourseOfferingInfo info = courseOfferingService.createCourseOffering(orig.getCourseId(), orig.getTermId(), 
                 orig.getTypeKey(), orig, optionKeys, callContext);
@@ -195,12 +195,6 @@ public class TestCourseOfferingServiceImplWithMocks {
 //        assertEquals(origInst1.getStateKey(), infoInst1.getStateKey());
         return info;
     }
-
-
-
-
-
-
 
     private void testDeletes(CourseOfferingInfo co, FormatOfferingInfo fo, ActivityOfferingInfo ao)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException {

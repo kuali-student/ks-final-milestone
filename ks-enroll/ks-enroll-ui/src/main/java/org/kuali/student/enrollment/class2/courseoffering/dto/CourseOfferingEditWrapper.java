@@ -48,12 +48,7 @@ public class CourseOfferingEditWrapper implements Serializable {
     public CourseOfferingEditWrapper(CourseOfferingInfo info){
         super();
         coInfo = info;
-        // TODO: gradingOptionId should eventually come from CourseOfferingInfo, so no need for all this logic
-        List<String> gradingOptionIds = coInfo.getGradingOptionIds();
-        if (gradingOptionIds.size() > 0) {
-            gradingOptionId = gradingOptionIds.get(0);
-        }
-        // end gradingOptionId
+        gradingOptionId = coInfo.getGradingOptionId();
     }
 
     public CourseOfferingInfo getCoInfo() {

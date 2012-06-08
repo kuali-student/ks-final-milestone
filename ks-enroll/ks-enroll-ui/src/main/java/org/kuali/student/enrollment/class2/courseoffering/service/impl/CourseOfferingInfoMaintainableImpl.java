@@ -107,10 +107,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         }
 
         //If grading options not present in course, set a default one in CO
-        if (coi.getGradingOptionIds() == null || coi.getGradingOptionIds().isEmpty()){
-            List<String> gradingOptions = new ArrayList();
-            gradingOptions.add(LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE);
-            coi.setGradingOptionIds(gradingOptions);
+        if (coi.getGradingOptionId() == null || coi.getGradingOptionId().isEmpty()){
+            coi.setGradingOptionId(LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER);
         }
 
         //create a list of instructors

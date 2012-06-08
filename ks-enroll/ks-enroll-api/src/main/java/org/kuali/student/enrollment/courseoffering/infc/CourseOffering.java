@@ -165,18 +165,18 @@ public interface CourseOffering extends IdNamelessEntity{
 
     /******** Assessment Information ***************/
     /**
-     * The options/scales that indicate the allowable grades that can be
-     * awarded. Typically the values here are constrained by the values on the
+     * The options/scale that indicates the allowable grades that can be
+     * awarded. Typically the value here are constrained by the values on the
      * canonical course. If the value is set here then the Clu must have a
      * grading option set on the canonical activity. For example: an id might
      * point to Pass/Fail or Letter Graded option.
      * 
-     * @name: Grading Option Ids
+     * @name: Grading Option Id
      * @impl these are actually Ids to ResultValuesGroup. Lui.resultOptionIds
      *       returns a list of resultOptions. Filter options with grading type
      *       and those should give the resultValueGroupIds
      */
-    public List<String> getGradingOptionIds();
+    public String getGradingOptionId();
 
     /**
      * The options/scales that indicate the allowable grades that can be
@@ -196,18 +196,22 @@ public interface CourseOffering extends IdNamelessEntity{
     public List<String> getStudentRegistrationOptionIds();
 
     /**
-     * Type of credit of course offering. This field is initially copied from
-     * the canonical course but then, depending on configuration, it may be
-     * updated. TODO: figure out which of the credit options will be copied down
-     * because the canonical has more than one! Often it is just a fixed single
+     * Type of credit of course offering. This field is initially copied and constrained
+     * from the canonical course but then, depending on configuration, it may be
+     * updated. Often it is just a fixed single
      * value but a ResultValuesGroup could contain a range (with increments) or
      * even a discrete list of possible credit values.
+     * These are the constraint/mapping rules:
+     * - A fixed option on clu maps to a fixed option on lui.
+     * - A variable option on clu can map to a fixed, variable or multiple option on lui constrained by the min and max
+     * - A multiple option on clu can map to a fixed or multiple option on lui constrained by the clu options
+     * It is possible that the canonical has more than one!
      * 
-     * @name Credit Options
+     * @name Credit Option
      * @impl Lui.resultOptionIds returns a list of resultOptions. Filter option
      *       with credit type and that should give the resultValueGroup
      */
-    public List<String> getCreditOptionIds();
+    public String getCreditOptionId();
 
 
 
