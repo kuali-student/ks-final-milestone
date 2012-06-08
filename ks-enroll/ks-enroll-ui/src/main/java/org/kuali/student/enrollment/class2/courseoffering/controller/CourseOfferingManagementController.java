@@ -153,6 +153,28 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     /**
+     * Method used to delete a activityOffering
+     **/
+    @RequestMapping(params = "methodToCall=delete")
+    public ModelAndView delete(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+
+        ActivityOfferingInfo selectedObject = (ActivityOfferingInfo)_getSelectedObject(theForm, "delete");
+
+        try{
+            CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOffering(selectedObject.getId(), ContextBuilder.loadContextInfo());
+
+            //reload existing AOs
+            getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return getUIFModelAndView(theForm);
+    }
+
+    /**
      * Method used to view a CO or an AO
 
     @RequestMapping(params = "methodToCall=view")
