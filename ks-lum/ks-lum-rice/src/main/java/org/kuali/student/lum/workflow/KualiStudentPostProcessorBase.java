@@ -68,16 +68,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 
 	@Override
 	public ProcessDocReport doActionTaken(ActionTakenEvent actionTakenEvent) throws Exception {
-/*		ActionTakenValue actionTaken = KEWServiceLocator.getActionTakenService().findByActionTakenId(actionTakenEvent.getActionTaken().getActionTakenId());
-		if (actionTaken == null) {
-		    if (LOG.isInfoEnabled()) {
-		        LOG.info("Could not find valid ActionTakenValue for doc id '" + actionTakenEvent.getDocumentId() + "'" +
-		                ((actionTakenEvent.getActionTaken() == null) ? "" : " for action: " + actionTakenEvent.getActionTaken().getActionTakenLabel()));
-		    }
-		    actionTaken = actionTakenEvent.getActionTaken();
-		}
-*/
-		boolean success = true;
+	    boolean success = true;
         ActionTaken actionTaken = actionTakenEvent.getActionTaken();
         String actionTakeCode = actionTakenEvent.getActionTaken().getActionTaken().getCode();
 		// on a save action we may not have access to the proposal object because the transaction may not have committed
@@ -134,27 +125,11 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         // do nothing but allow for child classes to override
     }
 
-    //TODO KSCM-392 we added the logic suplied in ks1.3 still neeeds to be tested. 
     @Override
-    public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) throws Exception {
-	    boolean success = true;
-	    // if document is transitioning from INITIATED to SAVED then transaction prevents us from retrieving the proposal
-	    if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD, documentRouteStatusChange.getOldRouteStatus()) && 
-	            StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, documentRouteStatusChange.getNewRouteStatus())) {
-	        // assume the proposal status is already correct
-            success = processCustomRouteStatusSavedStatusChange(documentRouteStatusChange);
-	    } else {
-            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteStatusChange.getDocumentId());
-            
-            // update the proposal state if the proposalState value is not null (allows for clearing of the state)
-            String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), documentRouteStatusChange.getNewRouteStatus());
-            updateProposal(documentRouteStatusChange, proposalState, proposalInfo);
-            success = processCustomRouteStatusChange(documentRouteStatusChange, proposalInfo);
-	    }
-        return new ProcessDocReport(success);
-	}
+    public ProcessDocReport doDeleteRouteHeader(DeleteEvent arg0) throws Exception {
+        return new ProcessDocReport(true);
+    }
 
-    //TODO KSCM-392 we added the logic suplied in ks1.3 still neeeds to be tested.
     @Override
     public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
         ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId());
@@ -178,17 +153,35 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         boolean success = processCustomRouteLevelChange(documentRouteLevelChange, proposalInfo);
         return new ProcessDocReport(success);
 	}
-
+    
+	protected boolean processCustomRouteLevelChange(
+			DocumentRouteLevelChange documentRouteLevelChange,
+			ProposalInfo proposalInfo) throws Exception {
+		//Update the proposal with the new node name
+		proposalInfo.getAttributes().put("workflowNode", documentRouteLevelChange.getNewNodeName());
+		getProposalService().updateProposal(proposalInfo.getId(), proposalInfo);
+        return true;
+    }
+    
     @Override
-    public ProcessDocReport doDeleteRouteHeader(DeleteEvent arg0) throws Exception {
-        return new ProcessDocReport(true);
-	}
-
-    protected boolean processCustomRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange, ProposalInfo proposalInfo) throws Exception {
-	    // do nothing but allow override
-	    return true;
-	}
-
+    public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) throws Exception {
+        boolean success = true;
+        // if document is transitioning from INITIATED to SAVED then transaction prevents us from retrieving the proposal
+        if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD, documentRouteStatusChange.getOldRouteStatus()) && 
+                StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, documentRouteStatusChange.getNewRouteStatus())) {
+            // assume the proposal status is already correct
+            success = processCustomRouteStatusSavedStatusChange(documentRouteStatusChange);
+        } else {
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteStatusChange.getDocumentId());
+            
+            // update the proposal state if the proposalState value is not null (allows for clearing of the state)
+            String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), documentRouteStatusChange.getNewRouteStatus());
+            updateProposal(documentRouteStatusChange, proposalState, proposalInfo);
+            success = processCustomRouteStatusChange(documentRouteStatusChange, proposalInfo);
+        }
+        return new ProcessDocReport(success);
+    } 
+   
 	protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
 	    // do nothing but allow override
 	    return true;
@@ -308,5 +301,4 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     protected WorkflowDocumentService getWorkflowDocumentService() {
 		return KewApiServiceLocator.getWorkflowDocumentService();
 	}
-
 }
