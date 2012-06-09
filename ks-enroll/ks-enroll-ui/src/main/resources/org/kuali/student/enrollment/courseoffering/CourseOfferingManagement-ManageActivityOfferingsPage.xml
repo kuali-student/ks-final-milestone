@@ -72,7 +72,7 @@
     <bean id="KS-CourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
           p:layoutManager.numberOfColumns="3"  p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" />
-        <property name="propertyName" value="activityOfferingList" />
+        <property name="propertyName" value="activityWrapperList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
