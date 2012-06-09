@@ -110,7 +110,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
     public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo,CourseOfferingManagementForm form) throws Exception{
         String courseOfferingId = theCourseOfferingInfo.getId();
         List<ActivityOfferingInfo> activityOfferingList =_getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, getContextInfo());
-        form.setActivityOfferingList(activityOfferingList);
+        form.setActivityWrapperList(activityOfferingList);
      }
 
 
