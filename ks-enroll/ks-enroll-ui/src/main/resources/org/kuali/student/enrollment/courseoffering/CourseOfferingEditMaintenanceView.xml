@@ -62,7 +62,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl"/>
                                 </property>
