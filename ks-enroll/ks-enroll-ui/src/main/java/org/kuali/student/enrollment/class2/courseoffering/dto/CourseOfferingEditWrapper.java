@@ -37,8 +37,6 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     private CourseOfferingInfo coInfo;
     private List<FormatOfferingInfo> formatOfferings;
-    // TODO: gradingOptionId should eventually come from CourseOfferingInfo - Service Team is working on making it singleton (it's a List currently)
-    private String gradingOptionId = "kuali.resultComponent.grade.letter";
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
@@ -48,7 +46,6 @@ public class CourseOfferingEditWrapper implements Serializable {
     public CourseOfferingEditWrapper(CourseOfferingInfo info){
         super();
         coInfo = info;
-        gradingOptionId = coInfo.getGradingOptionId();
     }
 
     public CourseOfferingInfo getCoInfo() {
@@ -70,13 +67,4 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.formatOfferings = formatOfferings;
     }
 
-    // TODO: Will have to be removed when gradingOptionId will be coming from Course Offering Info
-    public String getGradingOptionId() {
-        return gradingOptionId;
-    }
-
-    public void setGradingOptionId(String gradingOptionId) {
-        this.gradingOptionId = gradingOptionId;
-    }
-    // gradingOptionId
 }
