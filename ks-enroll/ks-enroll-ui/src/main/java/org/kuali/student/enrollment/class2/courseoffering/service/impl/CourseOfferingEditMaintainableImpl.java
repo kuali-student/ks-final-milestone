@@ -47,6 +47,7 @@ import javax.xml.namespace.QName;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * This class //TODO ...
