@@ -17,7 +17,18 @@ package org.kuali.student.lum.lo.service.impl;
 
 
 import org.kuali.student.lum.lo.dao.LoDao;
-import org.kuali.student.lum.lo.entity.*;
+import org.kuali.student.lum.lo.entity.Lo;
+import org.kuali.student.lum.lo.entity.LoAttribute;
+import org.kuali.student.lum.lo.entity.LoCategory;
+import org.kuali.student.lum.lo.entity.LoCategoryAttribute;
+import org.kuali.student.lum.lo.entity.LoCategoryType;
+import org.kuali.student.lum.lo.entity.LoCategoryTypeAttribute;
+import org.kuali.student.lum.lo.entity.LoLoRelation;
+import org.kuali.student.lum.lo.entity.LoLoRelationAttribute;
+import org.kuali.student.lum.lo.entity.LoLoRelationType;
+import org.kuali.student.lum.lo.entity.LoRepository;
+import org.kuali.student.lum.lo.entity.LoRichText;
+import org.kuali.student.lum.lo.entity.LoType;
 import org.kuali.student.r1.common.dao.CrudDao;
 import org.kuali.student.r1.common.service.impl.BaseAssembler;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
@@ -85,7 +96,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         LoInfo dto = new LoInfo();
 
         BeanUtils.copyProperties(entity, dto,
-                new String[] { "descr", "attributes", "loType", "meta" });
+                new String[] { "descr", "attributes", "loType", "meta", "type", "state"  });
         dto.setDescr(toRichTextInfo(entity.getDescr()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setAttributes(AssemblerHelper.toAttributeList(entity.getAttributes()));
