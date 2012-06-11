@@ -270,8 +270,8 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         assertEquals (sourceSoc.getId(), result.getSourceSocId());
         assertEquals(new Integer(2), result.getItemsExpected());
         assertEquals(new Integer(2), result.getItemsProcessed());
-        assertEquals (new Integer (2), result.getItemsCreated());
-        assertEquals (new Integer (0), result.getItemsSkipped());
+        assertEquals (new Integer (2), result.getCourseOfferingsCreated());
+        assertEquals (new Integer (0), result.getCourseOfferingsSkipped());
         assertEquals (targetTerm.getId(), result.getTargetTermId());
         assertEquals (targetSoc.getId(), result.getTargetSocId());
         assertNull(result.getMessage());

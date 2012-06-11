@@ -168,6 +168,10 @@
                                 <inputFile>ks-FormatOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegistrationGroupInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-SeatPoolDefinitionInfo-dictionary.xml</inputFile>
+                                <!-- Course Offering Set -->
+                                <inputFile>ks-SocRolloverResultInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-SocRolloverResultItemInfo-dictionary.xml</inputFile>
+
                                 <!-- Course Registration  -->
                                 <inputFile>ks-CourseRegistrationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ActivityRegistrationInfo-dictionary.xml</inputFile>
@@ -273,7 +277,7 @@
                                 <className>MeetingScheduleInfo</className>
                                 <className>LuiLuiRelationInfo</className>
                                 <className>LuiCapacityInfo</className>
-<!--                                Course Offering      -->
+                                <!-- Course Offering      -->
                                 <className>CourseOfferingInfo</className>
                                 <className>CourseWaitlistEntryInfo</className>
                                 <className>OfferingInstructorInfo</className>
@@ -281,6 +285,9 @@
                                 <className>ActivityOfferingInfo</className>
                                 <className>RegistrationGroupInfo</className>
                                 <className>SeatPoolDefinitionInfo</className>
+                                <!-- Course Offering Set -->
+                                <className>SocRolloverResultInfo</className>
+                                <className>SocRolloverResultItemInfo</className>
                                 <!-- Course registration -->
                                 <className>CourseRegistrationInfo</className>
                                 <className>ActivityRegistrationInfo</className>

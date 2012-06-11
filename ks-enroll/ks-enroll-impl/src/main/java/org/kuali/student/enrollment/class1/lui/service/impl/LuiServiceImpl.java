@@ -360,12 +360,6 @@ public class LuiServiceImpl
                 luiDao.getEm().remove(ident);
             }
         }
-        //Delete content owners
-        if(entity.getLuiContentOwner()!=null){
-            for(LuiUnitsContentOwnerEntity contentOwner:entity.getLuiContentOwner()){
-                luiDao.getEm().remove(contentOwner);
-            }
-        }
         //Delete units
         if(entity.getLuiUnitsDeployment()!=null){
             for(LuiUnitsDeploymentEntity units:entity.getLuiUnitsDeployment()){

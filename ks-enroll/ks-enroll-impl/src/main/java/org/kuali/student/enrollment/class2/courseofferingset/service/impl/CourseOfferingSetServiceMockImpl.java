@@ -44,7 +44,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             result.setStateKey(CourseOfferingSetServiceConstants.SUBMITTED_RESULT_STATE_KEY);
             result.setItemsExpected(5);
             result.setItemsProcessed(2);
-            result.setItemsSkipped(3);
+            result.setCourseOfferingsSkipped(3);
             result.setSourceSocId("sourceSocId"+i);
             result.setTargetSocId("targetSocId"+i);
             result.setSourceTermId("Fall " + year);
@@ -356,8 +356,8 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
                         failure++;
                     }
                 }
-                info.setItemsCreated(success);
-                info.setItemsSkipped(failure);
+                info.setCourseOfferingsCreated(success);
+                info.setCourseOfferingsSkipped(failure);
             }
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);

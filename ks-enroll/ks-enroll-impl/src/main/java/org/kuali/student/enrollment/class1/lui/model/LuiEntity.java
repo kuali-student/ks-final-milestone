@@ -60,8 +60,10 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuiIdentifierEntity> identifiers;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
-    private List<LuiUnitsContentOwnerEntity> luiContentOwner;
+    @ElementCollection
+    @CollectionTable(name ="KSEN_LUI_UNITS_CONT_OWNER",joinColumns = @JoinColumn(name = "LUI_ID"))
+    @Column(name="ORG_ID")
+    private List<String> luiContentOwner;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuiUnitsDeploymentEntity> luiUnitsDeployment;
@@ -183,30 +185,11 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         //lui-org relations
 
         //Map the exisiting orgrelations by their id
-        Map<String,LuiUnitsContentOwnerEntity> existinguUnitsContentOwnerEntities = new HashMap<String,LuiUnitsContentOwnerEntity>();
-        if(luiContentOwner != null){
-            for(LuiUnitsContentOwnerEntity unitEntity : luiContentOwner){
-                existinguUnitsContentOwnerEntities.put(unitEntity.getOrgId(), unitEntity);
-            }
-        }
-
-        //Clear out the current list
-        luiContentOwner = new ArrayList<LuiUnitsContentOwnerEntity>();
-
         if(lui.getUnitsContentOwner()!=null){
-            for(String unitContentOrgId : lui.getUnitsContentOwner() ){
-                LuiUnitsContentOwnerEntity luiUnitContentOwner;
-                if(existinguUnitsContentOwnerEntities.containsKey(unitContentOrgId)){
-                    luiUnitContentOwner = existinguUnitsContentOwnerEntities.remove(unitContentOrgId);
-                }else{
-                    luiUnitContentOwner = new LuiUnitsContentOwnerEntity(this, unitContentOrgId);
-                }
-                luiContentOwner.add(luiUnitContentOwner);
-            }
+           luiContentOwner = new ArrayList<String>(lui.getUnitsContentOwner());
+        }else{
+           luiContentOwner = null;
         }
-
-        //Now we need to delete the leftovers (orphaned entities)
-        orphansToDelete.addAll(existinguUnitsContentOwnerEntities.values());
 
         //Map the existing org relations by their id
         Map<String,LuiUnitsDeploymentEntity> existinguLuiUnitsDeploymentEntities = new HashMap<String,LuiUnitsDeploymentEntity>();
@@ -293,17 +276,9 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         }
         info.setUnitsContentOwner(unitsDeploymentOrgIds);
 
-        List<String> unitsContentOrgIds = new ArrayList<String>();
+        info.getUnitsContentOwner().clear();
+        info.getUnitsContentOwner().addAll(luiContentOwner);
 
-        if(this.luiContentOwner!=null){
-            for(LuiUnitsContentOwnerEntity unitsContent : this.luiContentOwner){
-
-                unitsContentOrgIds.add(unitsContent.getOrgId());
-            }
-        }
-
-
-        info.setUnitsContentOwner(unitsContentOrgIds);
         return info;
     }
 
@@ -470,11 +445,11 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.luiCodes = luiCodes;
     }
 
-    public List<LuiUnitsContentOwnerEntity> getLuiContentOwner() {
+    public List<String> getLuiContentOwner() {
         return luiContentOwner;
     }
 
-    public void setLuiContentOwner(List<LuiUnitsContentOwnerEntity> luiContentOwner) {
+    public void setLuiContentOwner(List<String> luiContentOwner) {
         this.luiContentOwner = luiContentOwner;
     }
 

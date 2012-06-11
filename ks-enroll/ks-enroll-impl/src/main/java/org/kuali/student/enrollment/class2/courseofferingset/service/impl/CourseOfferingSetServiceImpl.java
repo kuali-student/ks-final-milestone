@@ -364,8 +364,8 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
                         failure++;
                     }
                 }
-                info.setItemsCreated(success);
-                info.setItemsSkipped(failure);
+                info.setCourseOfferingsCreated(success);
+                info.setCourseOfferingsSkipped(failure);
             }
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);

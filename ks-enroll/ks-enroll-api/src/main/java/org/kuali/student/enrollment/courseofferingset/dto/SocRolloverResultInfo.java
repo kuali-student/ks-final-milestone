@@ -31,21 +31,23 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SocRolloverResultInfo", propOrder = {"id",
-    "typeKey",
-    "stateKey",
-    "sourceSocId",
-    "targetSocId",
-    "targetTermId",
-    "optionKeys",
-    "itemsProcessed",
-    "itemsExpected",
-    "itemsCreated",
-    "itemsSkipped",
-    "sourceTermId",
-    "message",
-    "meta",
-    "attributes",
-    "_futureElements"})
+        "typeKey",
+        "stateKey",
+        "sourceSocId",
+        "targetSocId",
+        "targetTermId",
+        "optionKeys",
+        "itemsProcessed",
+        "itemsExpected",
+        "courseOfferingsCreated",
+        "courseOfferingsSkipped",
+        "activityOfferingsCreated",
+        "activityOfferingsSkipped",
+        "sourceTermId",
+        "message",
+        "meta",
+        "attributes",
+        "_futureElements"})
 public class SocRolloverResultInfo
         extends IdNamelessEntityInfo
         implements SocRolloverResult {
@@ -64,9 +66,13 @@ public class SocRolloverResultInfo
     @XmlElement
     private Integer itemsExpected;
     @XmlElement
-    private Integer itemsCreated;
+    private Integer courseOfferingsCreated;
     @XmlElement
-    private Integer itemsSkipped;
+    private Integer courseOfferingsSkipped;
+    @XmlElement
+    private Integer activityOfferingsCreated;
+    @XmlElement
+    private Integer activityOfferingsSkipped;
     @XmlElement
     private String sourceTermId;
     @XmlElement
@@ -80,7 +86,7 @@ public class SocRolloverResultInfo
     /**
      * Copies Soc rollover results
      *
-     * @param 
+     * @param
      */
     public SocRolloverResultInfo(SocRolloverResult orig) {
 
@@ -96,8 +102,10 @@ public class SocRolloverResultInfo
         this.optionKeys = new ArrayList<String>(orig.getOptionKeys());
         this.itemsProcessed = orig.getItemsProcessed();
         this.itemsExpected = orig.getItemsExpected();
-        this.itemsCreated = orig.getItemsCreated();
-        this.itemsSkipped = orig.getItemsSkipped();
+        this.courseOfferingsCreated = orig.getCourseOfferingsCreated();
+        this.courseOfferingsSkipped = orig.getCourseOfferingsSkipped();
+        this.activityOfferingsCreated = orig.getActivityOfferingsCreated();
+        this.activityOfferingsSkipped = orig.getActivityOfferingsSkipped();
         this.sourceTermId = orig.getSourceTermId();
         if (orig.getMessage() != null) {
             this.message = new RichTextInfo (orig.getMessage());
@@ -171,21 +179,39 @@ public class SocRolloverResultInfo
     }
 
     @Override
-    public Integer getItemsCreated() {
-        return itemsCreated;
+    public Integer getActivityOfferingsCreated() {
+        return activityOfferingsCreated;
     }
 
-    public void setItemsCreated(Integer itemsCreated) {
-        this.itemsCreated = itemsCreated;
+    public void setActivityOfferingsCreated(Integer activityOfferingsCreated) {
+        this.activityOfferingsCreated = activityOfferingsCreated;
     }
 
     @Override
-    public Integer getItemsSkipped() {
-        return itemsSkipped;
+    public Integer getActivityOfferingsSkipped() {
+        return activityOfferingsSkipped;
     }
 
-    public void setItemsSkipped(Integer itemsSkipped) {
-        this.itemsSkipped = itemsSkipped;
+    public void setActivityOfferingsSkipped(Integer activityOfferingsSkipped) {
+        this.activityOfferingsSkipped = activityOfferingsSkipped;
+    }
+
+    @Override
+    public Integer getCourseOfferingsCreated() {
+        return courseOfferingsCreated;
+    }
+
+    public void setCourseOfferingsCreated(Integer courseOfferingsCreated) {
+        this.courseOfferingsCreated = courseOfferingsCreated;
+    }
+
+    @Override
+    public Integer getCourseOfferingsSkipped() {
+        return courseOfferingsSkipped;
+    }
+
+    public void setCourseOfferingsSkipped(Integer courseOfferingsSkipped) {
+        this.courseOfferingsSkipped = courseOfferingsSkipped;
     }
 
     @Override
@@ -197,5 +223,5 @@ public class SocRolloverResultInfo
         this.sourceTermId = sourceTermId;
     }
 
-    
+
 }

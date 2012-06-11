@@ -21,7 +21,7 @@ import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * Read only object that holds the results of a rollover process
- * 
+ *
  * @author nwright
  */
 public interface SocRolloverResult
@@ -29,7 +29,7 @@ public interface SocRolloverResult
 
     /**
      * The id of the source soc
-     * 
+     *
      * @name Source Soc Id
      * @readOnly
      * @required
@@ -37,9 +37,9 @@ public interface SocRolloverResult
      */
     public String getSourceSocId();
 
-      /**
+    /**
      * Academic target term of the courses that were rolled over
-     * 
+     *
      * @name Target Term Id
      * @readOnly
      * @required
@@ -49,7 +49,7 @@ public interface SocRolloverResult
 
     /**
      * Option Keys specified to control the rollover process
-     *     
+     *
      * @name Option Keys
      * @readOnly
      * @required
@@ -59,10 +59,10 @@ public interface SocRolloverResult
 
     /**
      * The id of the target Soc
-     * 
+     *
      * Note: this Soc could have already existed or it may have been created 
      * based on the source soc but for the new term.
-     * 
+     *
      * @name Target Soc Id
      * @readOnly
      * @required
@@ -70,10 +70,9 @@ public interface SocRolloverResult
      */
     public String getTargetSocId();
 
-  
     /**
      * Number of items processed
-     *     
+     *
      * @name Items Processed
      * @impl set during the #rolloverSoc operation
      */
@@ -81,7 +80,7 @@ public interface SocRolloverResult
 
     /**
      * Number of items expected to be processed
-     *     
+     *
      * @name Items Expected
      * @impl set during the #rolloverSoc operation
      */
@@ -89,38 +88,56 @@ public interface SocRolloverResult
 
     /**
      * Messages describing details of the status.
-     * 
+     *
      * Often left null if the status is that it is complete.
-     * 
+     *
      * @name Message
      * @impl set during the #rolloverSoc operation
      */
     public RichText getMessage();
 
     /**
-     * Number of items created 
-     *     
-     * @name Items Expected
-     * @readOnly 
-     * @impl calculation based on items with status of success
+     * Number of course offerings created 
+     *
+     * @name Course Offerings Created
+     * @readOnly
+     * @impl set during the #rolloverSoc operation
      */
-    public Integer getItemsCreated();
+    public Integer getCourseOfferingsCreated();
 
     /**
-     * Number of items skipped (not rolled over)
-     *     
-     * @name Items Expected
-     * @readOnly 
-     * @impl calculation based on items with status of success
+     * Number of course offerings skipped (not rolled over)
+     *
+     * @name Course Offerings Skipped
+     * @readOnly
+     * @impl set during the #rolloverSoc operation
      */
-    public Integer getItemsSkipped();
-    
+    public Integer getCourseOfferingsSkipped();
+
+    /**
+     * Number of activity offerings created 
+     *
+     * @name Activity Offerings Created
+     * @readOnly
+     * @impl set during the #rolloverSoc operation
+     */
+    public Integer getActivityOfferingsCreated();
+
+    /**
+     * Number of activity offerings skipped (not rolled over)
+     *
+     * @name Activity Offerings Skipped
+     * @readOnly
+     * @impl set during the #rolloverSoc operation
+     */
+    public Integer getActivityOfferingsSkipped();
+
     /**
      * Get the target term Id
-     *     
+     *
      * @name Source Term Id
-     * @readOnly 
-     * @impl calculation based on the source SOC
+     * @readOnly
+     * @impl set during the #rolloverSoc operation
      */
     public String getSourceTermId();
 }
