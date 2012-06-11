@@ -173,8 +173,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         // now make sure we can't orphan "included" LO's
     	LoLoRelationInfo llrInfo = new LoLoRelationInfo();
     	llrInfo.setLoId ("7bcd7c0e-3e6b-4527-ac55-254c58cecc22");
-     llrInfo.setRelatedLoId ("91a91860-d796-4a17-976b-a6165b1a0b05");
-     llrInfo.setTypeKey ("kuali.lo.relation.type.includes");
+    	llrInfo.setRelatedLoId ("91a91860-d796-4a17-976b-a6165b1a0b05");
+    	llrInfo.setTypeKey ("kuali.lo.relation.type.includes");
 		llrInfo = client.createLoLoRelation(llrInfo.getTypeKey(), llrInfo, contextInfo);
     	assertNotNull(llrInfo);
     	llrInfo = client.getLoLoRelation(llrInfo.getId(), contextInfo);
@@ -441,7 +441,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		boolean found = false;
 		String  repoId = "kuali.loRepository.key.state";
 		for (LoRepositoryInfo loRInfo : repos) {
-			if (loRInfo.getRootLoId().equals(repoId)) {
+			if (loRInfo.getKey().equals(repoId)) {
 				found = true;
 			}
 		}

@@ -75,6 +75,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         
         lo.setAttributes(AssemblerHelper.toGenericAttributes(LoAttribute.class, dto.getAttributes(), lo, dao));
         lo.setDescr(toRichText(LoRichText.class, dto.getDescr()));
+        lo.setState(dto.getStateKey());
 
         LoRepository repository = dao.fetch(LoRepository.class, dto.getLoRepositoryKey());
         if(null == repository) {
@@ -100,6 +101,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setAttributes(AssemblerHelper.toAttributeList(entity.getAttributes()));
         dto.setTypeKey(entity.getLoType().getId());
+        dto.setStateKey(entity.getState());
         dto.setLoRepositoryKey(entity.getLoRepository() == null? null: entity.getLoRepository().getId());
         return dto;
     }
@@ -140,6 +142,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "descr", "attributes", "rootLo" });
+        dto.setKey(entity.getId());
         dto.setDescr(toRichTextInfo(entity.getDescr()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setAttributes(AssemblerHelper.toAttributeList(entity.getAttributes()));
@@ -258,7 +261,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
 		LoLoRelationInfo dto = new LoLoRelationInfo();
 		
         BeanUtils.copyProperties(entity, dto,
-                new String[] { "lo", "relatedLo", "type", "attributes" });
+                new String[] { "lo", "relatedLo", "typeKey", "attributes", "meta" });
         dto.setLoId(entity.getLo().getId());
         dto.setRelatedLoId(entity.getRelatedLo().getId());
         dto.setTypeKey(entity.getLoLoRelationType().getId());
