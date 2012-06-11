@@ -36,18 +36,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-// TODO ELMIEN change date to the return type
 public class CompletedCourseTermResolver implements TermResolver<StudentCourseRecordInfo> {	
 
 	private AcademicRecordService acadRecordService;
-	
-//	static {
-//        Set<String> temp = new HashSet<String>(2);
-//        temp.add(RulesExecutionConstants.MILESTONE_ATP_KEY_TERM_PROPERTY);
-//        temp.add(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY);
-//
-//        requiredParameterNames = Collections.unmodifiableSet(temp);
-//    }
 	
     @Override
     public Set<String> getPrerequisites() {

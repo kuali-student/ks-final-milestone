@@ -100,5 +100,12 @@
 				<scope>test</scope>
 			</dependency>
 			
+		<!-- KSENROLL-1246 Create Term Resolvers for KS KRMS CM -->	
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-krms-impl</artifactId>
+			<version>${kuali.rice.version}</version>
+		</dependency>
+			
     </dependencies>
 </project>
