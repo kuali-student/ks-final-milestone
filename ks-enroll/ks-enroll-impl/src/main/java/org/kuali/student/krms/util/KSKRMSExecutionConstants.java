@@ -44,4 +44,5 @@ public class KSKRMSExecutionConstants {
     public static final String STUDENT_ELIGIBILITY_DOCTYPE = "Student.Eligibility";
     public static final String SUBPROCESS_EVALUATION_EXCEPTION = "subprocessEvaluationException";
     public static final String SUBPROCESS_EVALUATION_RESULTS = "subprocessEvaluationResults";
+	public static final Object PERSON_ID_TERM_PROPERTY = "personIdProperty";
 }
