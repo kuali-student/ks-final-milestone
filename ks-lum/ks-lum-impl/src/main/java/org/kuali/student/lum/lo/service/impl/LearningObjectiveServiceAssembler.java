@@ -16,22 +16,8 @@
 package org.kuali.student.lum.lo.service.impl;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.student.lum.lo.dao.LoDao;
-import org.kuali.student.lum.lo.entity.Lo;
-import org.kuali.student.lum.lo.entity.LoAttribute;
-import org.kuali.student.lum.lo.entity.LoCategory;
-import org.kuali.student.lum.lo.entity.LoCategoryAttribute;
-import org.kuali.student.lum.lo.entity.LoCategoryType;
-import org.kuali.student.lum.lo.entity.LoCategoryTypeAttribute;
-import org.kuali.student.lum.lo.entity.LoLoRelation;
-import org.kuali.student.lum.lo.entity.LoLoRelationAttribute;
-import org.kuali.student.lum.lo.entity.LoLoRelationType;
-import org.kuali.student.lum.lo.entity.LoRepository;
-import org.kuali.student.lum.lo.entity.LoRichText;
-import org.kuali.student.lum.lo.entity.LoType;
+import org.kuali.student.lum.lo.entity.*;
 import org.kuali.student.r1.common.dao.CrudDao;
 import org.kuali.student.r1.common.service.impl.BaseAssembler;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
@@ -46,6 +32,9 @@ import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo;
 import org.springframework.beans.BeanUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LearningObjectiveServiceAssembler extends BaseAssembler {
 
@@ -261,7 +250,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
 		LoLoRelationInfo dto = new LoLoRelationInfo();
 		
         BeanUtils.copyProperties(entity, dto,
-                new String[] { "lo", "relatedLo", "typeKey", "attributes", "meta" });
+                new String[] {"meta", "lo", "relatedLo", "type", "attributes", "state" });
         dto.setLoId(entity.getLo().getId());
         dto.setRelatedLoId(entity.getRelatedLo().getId());
         dto.setTypeKey(entity.getLoLoRelationType().getId());
