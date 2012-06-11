@@ -88,6 +88,12 @@
   </property>
  </bean>
  
+
+ <bean id="retireCourseProposalInfo.proposedEndTerm" parent="uilookupconfig-parent">
+  <property name="path" value="retireCourseProposalInfo.proposedEndTerm" />
+  <property name="initialLookup" ref="kuali.lu.lookup.course.prevEndTerm.suggest" />
+ </bean>
+ 
  <bean id="retireCourseProposalInfo.proposedLastTermOffered" parent="uilookupconfig-parent">
   <property name="path" value="retireCourseProposalInfo.proposedLastTermOffered" />
   <property name="initialLookup" ref="kuali.lu.lookup.course.prevEndTerm.suggest" />
