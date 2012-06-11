@@ -17,18 +17,38 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.krms.util.KSKRMSExecutionUtil;
+import org.kuali.student.krms.util.KSKRMSExecutionConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 // TODO ELMIEN change date to the return type
-public class CompletedCourseTermResolver implements TermResolver<Date> {	
+public class CompletedCourseTermResolver implements TermResolver<StudentCourseRecordInfo> {	
 
 	private AcademicRecordService acadRecordService;
+	
+//	static {
+//        Set<String> temp = new HashSet<String>(2);
+//        temp.add(RulesExecutionConstants.MILESTONE_ATP_KEY_TERM_PROPERTY);
+//        temp.add(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY);
+//
+//        requiredParameterNames = Collections.unmodifiableSet(temp);
+//    }
+	
     @Override
     public Set<String> getPrerequisites() {
         return Collections.emptySet();
@@ -36,12 +56,16 @@ public class CompletedCourseTermResolver implements TermResolver<Date> {
 
     @Override
     public String getOutput() {
-        return "CompletedCourseTermResolver.getOutput()";
+        return this.getClass().getSimpleName();
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.emptySet();
+    	Set<String> temp = new HashSet<String>(2);
+        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        temp.add(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
+
+        return Collections.unmodifiableSet(temp);
     }
 
     @Override
@@ -50,9 +74,36 @@ public class CompletedCourseTermResolver implements TermResolver<Date> {
         return 0;
     }
 
-    // TODO ELMIEN change date (return value) to the return type
-    @Override
-    public Date resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        return null;
-    }
+
+
+	public AcademicRecordService getAcadRecordService() {
+		return acadRecordService;
+	}
+
+	public void setAcadRecordService(AcademicRecordService acadRecordService) {
+		this.acadRecordService = acadRecordService;
+	}
+
+	@Override
+	public StudentCourseRecordInfo resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters)
+			throws TermResolutionException {
+		// Get the parameters for the Term
+        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        String courseCode = parameters.get(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+		//
+		try {
+			List<StudentCourseRecordInfo> completedCourseRecords = getAcadRecordService().getCompletedCourseRecords(personId, context);
+			for (StudentCourseRecordInfo studentCourseRecordInfo : completedCourseRecords) {
+				if (studentCourseRecordInfo.getCourseCode().equals(courseCode)) {
+					return studentCourseRecordInfo;
+				}
+			}
+			
+		} catch (Exception e) {
+			KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+		}
+		return null;
+	}
+
 }

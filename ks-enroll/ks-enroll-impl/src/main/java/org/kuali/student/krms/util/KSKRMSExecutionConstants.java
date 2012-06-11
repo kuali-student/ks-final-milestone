@@ -9,7 +9,7 @@ public class KSKRMSExecutionConstants {
     public static final String CURRENT_DATE_TERM_NAME = "currentDate";
     public static final String STUDENT_ID_TERM_NAME = "studentId";
     public static final String COURSE_ID_TO_ENROLL_TERM_NAME = "courseIdToEnroll";
-    public static final String CONTEXT_INFO_TERM_NAME = "contextInfo";
+
     public static final String COURSE_SET_TERM_NAME = "courseSet";
     public static final String GPA_FOR_COURSE_TERM_NAME = "gpaForCourse";
     public static final String GRADES_FOR_COURSE_SET_TERM_NAME = "gradesForCourseSet";
@@ -44,5 +44,10 @@ public class KSKRMSExecutionConstants {
     public static final String STUDENT_ELIGIBILITY_DOCTYPE = "Student.Eligibility";
     public static final String SUBPROCESS_EVALUATION_EXCEPTION = "subprocessEvaluationException";
     public static final String SUBPROCESS_EVALUATION_RESULTS = "subprocessEvaluationResults";
-	public static final Object PERSON_ID_TERM_PROPERTY = "personIdProperty";
+    
+    //
+	public static final String PERSON_ID_TERM_PROPERTY = "personIdProperty";
+	public static final String COURSE_CODE_TERM_PROPERTY = "courseCodeProperty";
+	//		
+	public static final String CONTEXT_INFO_TERM_NAME = "contextInfo";
 }
