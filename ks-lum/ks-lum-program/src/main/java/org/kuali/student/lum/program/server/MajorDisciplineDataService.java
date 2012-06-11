@@ -6,11 +6,9 @@ import java.util.Map;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
@@ -23,7 +21,6 @@ public class MajorDisciplineDataService extends AbstractDataService {
     private static final long serialVersionUID = 1L;
     
     private ProgramService programService;
-    private CluService cluService;
 
     @Override
     protected String getDefaultWorkflowDocumentType() {
@@ -43,7 +40,6 @@ public class MajorDisciplineDataService extends AbstractDataService {
             returnDTO = new MajorDisciplineInfo();
             returnDTO.setTypeKey(ProgramClientConstants.MAJOR_PROGRAM);
             returnDTO.setStateKey(DtoConstants.STATE_DRAFT);
-            returnDTO.setCredentialProgramId(getCredentialId());
         } else {
             returnDTO = programService.getMajorDiscipline(id, ContextUtils.getContextInfo());
         }
@@ -81,24 +77,8 @@ public class MajorDisciplineDataService extends AbstractDataService {
         return MajorDisciplineInfo.class;
     }
 
-    private String getCredentialId() throws Exception {
-            List<String> credIds = cluService.getCluIdsByLuType(ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM, DtoConstants.STATE_ACTIVE, ContextUtils.getContextInfo());
-            if (null == credIds || credIds.size() != 1) {
-                throw new OperationFailedException("A single credential program of type " + ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM + " is required; database contains " +
-                                                    (null == credIds ? "0" : credIds.size() +
-                                                    "."));
-            }
-            return credIds.get(0);
-    }
-    
-    
-
     public void setProgramService(ProgramService programService) {
         this.programService = programService;
-    }
-
-    public void setCluService(CluService cluService) {
-        this.cluService = cluService;
     }
 
 }
