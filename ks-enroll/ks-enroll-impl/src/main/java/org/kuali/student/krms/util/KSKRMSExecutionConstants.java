@@ -3,7 +3,7 @@ package org.kuali.student.krms.util;
 import org.kuali.rice.krms.api.engine.Term;
 
 
-public class RulesExecutionConstants {
+public class KSKRMSExecutionConstants {
 
     public static final String STUDENT_DECEASED_TERM_NAME = "studentDeceased";
     public static final String CURRENT_DATE_TERM_NAME = "currentDate";
