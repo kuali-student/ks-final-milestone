@@ -191,33 +191,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     /**
-     * Method used to view a CO or an AO
-
-    @RequestMapping(params = "methodToCall=view")
-    public ModelAndView view(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        Object selectedObject = _getSelectedObject(theForm, "view");
-        Properties urlParameters;
-        String controllerPath;
-        if(selectedObject instanceof CourseOfferingInfo){
-            //urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"start",true,getContextInfo());
-            //controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
-            urlParameters = new Properties();
-            controllerPath ="";
-        } else if(selectedObject instanceof ActivityOfferingInfo) {
-            urlParameters = new Properties();
-//            urlParameters = _buildAOURLParameters((ActivityOfferingInfo)selectedObject,"start",true,getContextInfo());
-            controllerPath ="";
-        } else {
-            throw new RuntimeException("Invalid type. Does not support for now");
-        }
-
-        return super.performRedirect(theForm,controllerPath, urlParameters);
-    }
-    */
-
-    /**
      * Method used to edit a selected CO or AO
      */
     @RequestMapping(params = "methodToCall=edit")
@@ -268,17 +241,18 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     /**
-     * Method used to invoke the Edit CO screen from Manage Course Offering screen while search input is Course Offering Code
+     * Method used to invoke the Edit CO screen from Manage Course Offering screen while search input is Course Offering
+     * Code (04a screen)
      */
-//    @RequestMapping(params = "methodToCall=editTheCO")
-//    public ModelAndView editTheCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-//                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-//
-//        CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();
-//        Properties urlParameters = _buildCOURLParameters(theCourseOfferingInfo,"maintenanceEdit",false,getContextInfo());
-//        String controllerPath = "maintenance";
-//        return super.performRedirect(theForm,controllerPath, urlParameters);
-//    }
+    @RequestMapping(params = "methodToCall=editTheCO")
+    public ModelAndView editTheCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();
+        Properties urlParameters = _buildCOURLParameters(theCourseOfferingInfo,"maintenanceEdit",false,getContextInfo());
+        String controllerPath = "maintenance";
+        return super.performRedirect(theForm,controllerPath, urlParameters);
+    }
 
     private Properties _buildCOURLParameters(CourseOfferingInfo courseOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
         Properties props = new Properties();
