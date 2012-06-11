@@ -1789,7 +1789,6 @@
         </index>
     </table>
     <table name="KSEN_LUI_UNITS_CONT_OWNER">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="LUI_ID" required="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUI_UNITS_CONT_OWNER_FK1">
