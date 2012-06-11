@@ -60,7 +60,7 @@ public class KSKRMSConstants {
 	public static final String TERM_ENROLLED_COURSE = "Enrolled course by term";
 	
 	public static final String KS_AGENDA_TYPE = "KSAgendaType";
-	public static final String KS_TERM_RESOLVER_TYPE = "KSTermResolverType";
+	public static final String KS_TERM_RESOLVER_TYPE = "KSKRMSTermResolverTypeService";
 	
 	public static final String CONTEXT_ANTI_REQUISITE = "Antirequisite";
 	public static final String CONTEXT_CORE_REQUISITE = "Corerequisite";
@@ -81,7 +81,10 @@ public class KSKRMSConstants {
 	public static final String AGENDA10 = "Free form text";
 	public static final String AGENDA11 = "Must have earned a cumulative GPA of <GPA>";
 	
-	
+	public static final String PERSON_ID_TERM_PROPERTY = "personIdProperty";
+	public static final String COURSE_CODE_TERM_PROPERTY = "courseCodeProperty";
+	//		
+	public static final String CONTEXT_INFO_TERM_NAME = "contextInfo";
 	
 	
 	
