@@ -276,8 +276,11 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         }
         info.setUnitsContentOwner(unitsDeploymentOrgIds);
 
+
         info.getUnitsContentOwner().clear();
-        info.getUnitsContentOwner().addAll(luiContentOwner);
+        if(luiContentOwner!=null){
+            info.getUnitsContentOwner().addAll(luiContentOwner);
+        }
 
         return info;
     }
