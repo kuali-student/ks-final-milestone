@@ -42,61 +42,77 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     /**
      * Method used to search and set a valid termInfo based on termCode
      */
-    @RequestMapping(params = "methodToCall=searchForTerm")
-    public ModelAndView searchForTerm(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String termCode = theForm.getTermCode();
-        CourseOfferingManagementViewHelperService helper = getViewHelperService(theForm);
-        List<TermInfo> termList = helper.findTermByTermCode(termCode);
-        if (termList != null && termList.size() == 1) {
-            // Get THE term
-            theForm.setTermInfo(termList.get(0));
-            if(!theForm.isHaveValidTerm()){
-                theForm.setHaveValidTerm(true);
-            }
-        } else {
-            theForm.setHaveValidTerm(false);
-            //TODO: if termList is null or termList.size()>1, log error??
-        }
-        return getUIFModelAndView(theForm);
-    }
+//    @RequestMapping(params = "methodToCall=searchForTerm")
+//    public ModelAndView searchForTerm(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+//                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        String termCode = theForm.getTermCode();
+//        CourseOfferingManagementViewHelperService helper = getViewHelperService(theForm);
+//        List<TermInfo> termList = helper.findTermByTermCode(termCode);
+//        if (termList != null && termList.size() == 1) {
+//            // Get THE term
+//            theForm.setTermInfo(termList.get(0));
+//            if(!theForm.isHaveValidTerm()){
+//                theForm.setHaveValidTerm(true);
+//            }
+//        } else {
+//            theForm.setHaveValidTerm(false);
+//            //TODO: if termList is null or termList.size()>1, log error??
+//        }
+//        return getUIFModelAndView(theForm);
+//    }
 
     /**
      * Method used to
-     *  1)if the input is subject code, load all course offerings based on termId and subjectCode
-     *  2)if the input is course offering code,
-     *      a)find THE course offering based on termId and courseOfferingCode
+     *  1) search to get TermInfo based on termCode. Only accept one valid TermInfo. If find more than one TermInfo or
+     *  don't find any termInfo, log and report an error message.
+     *  2) If the input is subject code, load all course offerings based on termId and subjectCode
+     *  3) If the input is course offering code,
+     *      a)find THE course offering based on termId and courseOfferingCode. If find more than one CO or don't find
+     *        any CO, log and report an error message.
      *      b)load all activity offerings based on the courseOfferingId
      */
     @RequestMapping(params = "methodToCall=show")
-    public ModelAndView show(@ModelAttribute("KualiForm") CourseOfferingManagementForm form, BindingResult result,
+    public ModelAndView show(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String termId=form.getTermInfo().getId();
-        String termCode = form.getTermInfo().getCode();
-        String radioSelection = form.getRadioSelection();
+        //First, find TermInfo based on termCode
+        String termCode = theForm.getTermCode();
+        List<TermInfo> termList = getViewHelperService(theForm).findTermByTermCode(termCode);
+        if (termList != null && termList.size() == 1) {
+            // Get THE term
+            theForm.setTermInfo(termList.get(0));
+        } else if (termList.size()>1) {
+            throw new RuntimeException("Error: Found more than one Term for term code: "+termCode);
+        }
+        else{
+            throw new RuntimeException("Error: No valid Term for term code: "+termCode);
+        }
+        
+        //Second, handle subjectCode vs courseOFferingCode
+        String termId=theForm.getTermInfo().getId();
+        String radioSelection = theForm.getRadioSelection();
         if (radioSelection.equals("subjectCode")){
             //load all courseofferings based on subject Code
-            String subjectCode = form.getInputCode();
-            form.setSubjectCode(subjectCode);
-            getViewHelperService(form).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode,form);
-            return getUIFModelAndView(form, "manageCourseOfferingsPage");
+            String subjectCode = theForm.getInputCode();
+            theForm.setSubjectCode(subjectCode);
+            getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode,theForm);
+            return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
         }
         else {
             //load courseOffering based on courseOfferingCode and load all associated activity offerings 
-            String courseOfferingCode = form.getInputCode();
-            form.setCourseOfferingCode(courseOfferingCode);
-            List<CourseOfferingInfo> courseOfferingList = getViewHelperService(form).
-                                       findCourseOfferingsByTermAndCourseOfferingCode(termCode, courseOfferingCode, form);
+            String courseOfferingCode = theForm.getInputCode();
+            theForm.setCourseOfferingCode(courseOfferingCode);
+            List<CourseOfferingInfo> courseOfferingList = getViewHelperService(theForm).
+                                       findCourseOfferingsByTermAndCourseOfferingCode(termCode, courseOfferingCode, theForm);
             if (!courseOfferingList.isEmpty() && courseOfferingList.size() == 1 )  {
-                form.setCourseOfferingList(courseOfferingList);
+                theForm.setCourseOfferingList(courseOfferingList);
                 CourseOfferingInfo theCourseOffering = courseOfferingList.get(0);
-                form.setTheCourseOffering(theCourseOffering);
-                getViewHelperService(form).loadActivityOfferingsByCourseOffering(theCourseOffering, form);
-                return getUIFModelAndView(form, "manageActivityOfferingsPage");
+                theForm.setTheCourseOffering(theCourseOffering);
+                getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+                return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
             } else if (courseOfferingList.size()>1) {
-                throw new RuntimeException("Error: Found more than one CO for Course ID = "+courseOfferingCode);
+                throw new RuntimeException("Error: Found more than one Course Offering for the specified term: "+termCode+" and Course Offering Code: "+courseOfferingCode);
             } else {
-                throw new RuntimeException("Error: No valid Course Offering for Term = "+termId+" and Course ID = "+courseOfferingCode);
+                throw new RuntimeException("Error: No valid Course Offering for Term: "+termCode+" and Course Offering Code = "+courseOfferingCode);
             }
         }        
     }
@@ -202,7 +218,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     */
 
     /**
-     * Method used to edit the atp
+     * Method used to edit a selected CO or AO
      */
     @RequestMapping(params = "methodToCall=edit")
     public ModelAndView edit(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
@@ -227,7 +243,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     /**
-     * Method used to search and set a valid termInfo based on termCode
+     * Method used to view a CO or an AO
      */
     @RequestMapping(params = "methodToCall=view")
     public ModelAndView view(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
@@ -251,27 +267,34 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return super.performRedirect(theForm,controllerPath, urlParameters);
     }
 
-    private Properties _buildCOURLParameters(CourseOfferingInfo courseOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
+    /**
+     * Method used to invoke the Edit CO screen from Manage Course Offering screen while search input is Course Offering Code
+     */
+//    @RequestMapping(params = "methodToCall=editTheCO")
+//    public ModelAndView editTheCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+//                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+//
+//        CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();
+//        Properties urlParameters = _buildCOURLParameters(theCourseOfferingInfo,"maintenanceEdit",false,getContextInfo());
+//        String controllerPath = "maintenance";
+//        return super.performRedirect(theForm,controllerPath, urlParameters);
+//    }
 
+    private Properties _buildCOURLParameters(CourseOfferingInfo courseOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("coInfo.id", courseOfferingInfo.getId());
         props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper");
-
         return props;
-
     }
 
     private Properties _buildAOURLParameters(ActivityOfferingInfo activityOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
-
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("aoInfo.id", activityOfferingInfo.getId());
         props.put("readOnlyView", readOnlyView);
         props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper");
-
         return props;
-
     }
 
     private Object _getSelectedObject(CourseOfferingManagementForm theForm, String actionLink){

@@ -44,21 +44,21 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HorizontalFieldGroup">
-                                <property name="items">
-                                    <list>
+                            <!--<bean parent="Uif-HorizontalFieldGroup">-->
+                                <!--<property name="items">-->
+                                    <!--<list>-->
                                         <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2009" p:minLength="7" p:maxLength="7"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Set" p:methodToCall="searchForTerm"/>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-HorizontalFieldGroup">
-                                <property name="items">
-                                    <list>
+                                        <!--<bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Set" p:methodToCall="searchForTerm"/>-->
+                                    <!--</list>-->
+                                <!--</property>-->
+                            <!--</bean>-->
+                            <!--<bean parent="Uif-HorizontalFieldGroup">-->
+                                <!--<property name="items">-->
+                                    <!--<list>-->
                                         <bean parent="Uif-InputField" p:propertyName="radioSelection" p:label="" p:width="auto" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-VerticalRadioControl">
@@ -77,9 +77,9 @@
                                             </property>
                                         </bean>
                                         <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Show" p:methodToCall="show"/>
-                                    </list>
-                                </property>
-                            </bean>
+                                    <!--</list>-->
+                                <!--</property>-->
+                            <!--</bean>-->
                         </list>
                     </property>
                 </bean>
