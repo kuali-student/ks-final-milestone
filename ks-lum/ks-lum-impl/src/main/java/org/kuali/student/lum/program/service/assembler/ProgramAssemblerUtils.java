@@ -108,6 +108,9 @@ public class ProgramAssemblerUtils {
         clu.setStateKey(program.getStateKey());
         clu.setMeta(program.getMeta());
         clu.setAttributes(program.getAttributes());
+        if (clu.getIsEnrollable() == null) {
+            clu.setIsEnrollable(false);
+        }
         return clu;
 
     }

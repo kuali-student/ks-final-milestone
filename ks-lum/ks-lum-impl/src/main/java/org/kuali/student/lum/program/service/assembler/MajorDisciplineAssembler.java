@@ -191,9 +191,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         clu.setAccreditations(businessDTO.getAccreditingAgencies());
         clu.setNextReviewPeriod(businessDTO.getNextReviewPeriod());
         clu.setStateKey(businessDTO.getStateKey());
-        if (clu.getIsEnrollable() == null) {
-            clu.setIsEnrollable(false);
-        }
+        
         // Add the Clu to the result
         result.setNodeData(clu);
         result.setOperation(operation);

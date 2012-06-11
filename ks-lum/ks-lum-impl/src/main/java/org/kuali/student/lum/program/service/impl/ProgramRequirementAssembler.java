@@ -158,6 +158,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         clu.setStateKey(progReq.getStateKey());
         clu.setMeta(progReq.getMeta());
         clu.setAttributes(progReq.getAttributes());
+        clu.setIsEnrollable(false);
 
 		//disassembling minCredits & maxCredits
         disassembleCredits(clu, progReq,contextInfo);
