@@ -80,13 +80,8 @@ public class LuiTestDataLoader {
         luiEntity.setReferenceURL(refUrl);
         luiEntity.setPlain(descrPlain);
         luiEntity.setCreateId(principalId);
-        Date time;
-		luiEntity.setCreateTime(time = new Date());
-        
-        luiEntity.setUpdateId(principalId);
-        luiEntity.setUpdateTime(time);
-        
-        luiEntity.setEffectiveDate(time);
+        luiEntity.setCreateTime(new Date());
+        luiEntity.setEffectiveDate(new Date());
 
         LuiIdentifierEntity luiIdent = new LuiIdentifierEntity();
         luiIdent.setLui(luiEntity);
@@ -198,11 +193,8 @@ public class LuiTestDataLoader {
         entity.setDescrPlain(descrFormatted);
 
         entity.setCreateId(principalId);
-        Date time;
-		entity.setCreateTime(time = new Date());
+        entity.setCreateTime(new Date());
 
-		entity.setUpdateId(principalId);
-		entity.setUpdateTime(time);
 
         luiLuiRelationDao.persist(entity);
 

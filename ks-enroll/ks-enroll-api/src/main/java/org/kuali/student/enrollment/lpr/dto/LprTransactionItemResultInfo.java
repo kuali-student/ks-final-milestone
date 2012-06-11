@@ -30,12 +30,13 @@ import org.w3c.dom.Element;
 
 
 /**
+ * This is a description of what this class does - sambitpatnaik don't forget to fill this in. 
  * 
  * @author Kuali Student Team (sambitpatnaik)
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprTransactionItemResultInfo", propOrder = {"resultingLprId", "message", "status", "_futureElements"})
+@XmlType(name = "LuiPersonRelationTransactionItemResultInfo", propOrder = {"resultingLprId", "messages", "status", "_futureElements"})
 public class LprTransactionItemResultInfo implements LprTransactionItemResult, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,16 +45,20 @@ public class LprTransactionItemResultInfo implements LprTransactionItemResult, S
     private String resultingLprId;
 
     @XmlElement
-    private String message;
+    private List<String> messages;
     
     @XmlElement    
-    private Boolean status;
+    private String status;
     
     @XmlAnyElement
     private List<Element> _futureElements;
 
 
     public LprTransactionItemResultInfo() {
+        this.resultingLprId = null;
+        this.messages = new ArrayList<String>();
+        this.status = null;
+        this._futureElements = null;
     }
     
     
@@ -63,14 +68,19 @@ public class LprTransactionItemResultInfo implements LprTransactionItemResult, S
         
         this.resultingLprId = result.getResultingLprId();
         this.status = result.getStatus();
-        this.message = result.getMessage();
+        this.messages = (null != result.getMessages()) ? new ArrayList<String>(result.getMessages()) : new ArrayList<String>();
+        this._futureElements = null;        
     }
     
     public void setResultingLprId(String resultingLprId) {
         this.resultingLprId = resultingLprId;
     }
-    
-    public void setStatus(Boolean status) {
+
+    public void setMessages(List<String> messages) {
+        this.messages = messages;
+    }
+
+    public void setStatus(String status) {
         this.status = status;
     }
     
@@ -79,37 +89,14 @@ public class LprTransactionItemResultInfo implements LprTransactionItemResult, S
         return resultingLprId;
     }
 
-
     @Override
-    public Boolean getStatus() {
-        return status;
+    public List<String> getMessages() {
+        return messages;
     }
 
-
     @Override
-	public String getMessage() {
-		return message;
-	}
-
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("LprTransactionItemResultInfo [resultingLprId=");
-		builder.append(resultingLprId);
-		builder.append(", message=");
-		builder.append(message);
-		builder.append(", status=");
-		builder.append(status);
-		builder.append("]");
-		return builder.toString();
-	}
-	
-	
+    public String getStatus() {
+        return status;
+    }
 
 }

@@ -1,9 +1,8 @@
 /**
- * Copyright 2011 The Kuali Foundation 
- *
- * Licensed under the Educational Community License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Copyright 2011 The Kuali Foundation Licensed under the Educational
+ * Community License, Version 2.0 (the "License"); you may not use
+ * this file except in compliance with the License. You may obtain a
+ * copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
@@ -26,14 +25,14 @@ import org.kuali.student.r2.common.infc.KeyEntity;
  * @since Thu Nov 21 14:22:34 EDT 2011
  */ 
 
-public interface Process 
-    extends KeyEntity {
+public interface Process extends KeyEntity {
 
     /**
      * The process owner. This is an informational field to identify
      * processes by organization.
      *
      * @name Owner Org Id
+     * @required
      */
     public String getOwnerOrgId();
 }

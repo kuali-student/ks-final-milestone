@@ -28,7 +28,7 @@ import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 
 /**
- * This class holds the constants used by the Appointment service
+ * This class holds the constants used by the Scheduling service
  *
  * @Version 1.0
  * @Author Sri komandur@uw.edu
@@ -55,5 +55,4 @@ public class SchedulingServiceConstants {
     public static final String TIME_SLOT_STATE_NON_STANDARD_KEY = "kuali.scheduling.time.slot.state.non.standard";
     public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY = "kuali.scheduling.time.slot.type.activityoffering";
     public static final String TIME_SLOT_TYPE_FINAL_EXAM_KEY = "kuali.scheduling.time.slot.type.finalexam";
-
 }

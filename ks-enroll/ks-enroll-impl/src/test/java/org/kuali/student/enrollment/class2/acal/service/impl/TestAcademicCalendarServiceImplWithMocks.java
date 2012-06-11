@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import org.kuali.student.enrollment.test.util.AttributeTester;
 import edu.emory.mathcs.backport.java.util.Collections;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
@@ -77,8 +76,8 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig.setAdminOrgId("testOrgId1");
         orig.getCampusKeys().add("NorthCampus");
         orig.getCampusKeys().add("SouthCampus");
-        orig.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
         HolidayCalendarInfo info = acalService.createHolidayCalendar(orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -92,7 +91,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getEndDate(), info.getEndDate());
         assertEquals(orig.getAdminOrgId(), info.getAdminOrgId());
         compareStringList(orig.getCampusKeys(), info.getCampusKeys());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -112,7 +111,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getEndDate(), info.getEndDate());
         assertEquals(orig.getAdminOrgId(), info.getAdminOrgId());
         compareStringList(orig.getCampusKeys(), info.getCampusKeys());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -127,7 +126,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig.setAdminOrgId("testOrgId1Updated");
         orig.getCampusKeys().remove(0);
         orig.getCampusKeys().add("WestCampus");
-        new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
+        new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
         info = this.acalService.updateHolidayCalendar(orig.getId(), orig, callContext);
         assertNotNull(info);
         assertEquals(orig.getId(), info.getId());
@@ -141,7 +140,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getEndDate(), info.getEndDate());
         assertEquals(orig.getAdminOrgId(), info.getAdminOrgId());
         compareStringList(orig.getCampusKeys(), info.getCampusKeys());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -163,7 +162,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getEndDate(), info.getEndDate());
         assertEquals(orig.getAdminOrgId(), info.getAdminOrgId());
         this.compareStringList(orig.getCampusKeys(), info.getCampusKeys());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -198,8 +197,8 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig.setIsAllDay(Boolean.TRUE);
         orig.setIsDateRange(Boolean.TRUE);
         orig.setIsInstructionalDay(Boolean.TRUE);
-        orig.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
         HolidayInfo info = acalService.createHoliday(holidayCalendarId, orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -214,7 +213,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
         assertEquals(orig.getIsInstructionalDay(), info.getIsInstructionalDay());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -235,7 +234,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
         assertEquals(orig.getIsInstructionalDay(), info.getIsInstructionalDay());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -250,7 +249,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig.setIsAllDay(Boolean.FALSE);
         orig.setIsDateRange(Boolean.FALSE);
         orig.setIsInstructionalDay(Boolean.FALSE);
-        new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
+        new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
         info = this.acalService.updateHoliday(orig.getId(), orig, callContext);
         assertNotNull(info);
         assertEquals(orig.getId(), info.getId());
@@ -265,7 +264,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
         assertEquals(orig.getIsInstructionalDay(), info.getIsInstructionalDay());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -288,7 +287,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
         assertEquals(orig.getIsInstructionalDay(), info.getIsInstructionalDay());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -361,8 +360,8 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig.setAdminOrgId("testOrgId1");
         orig.getHolidayCalendarIds().add(hcal1.getId());
         orig.getHolidayCalendarIds().add(hcal2.getId());
-        orig.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
         AcademicCalendarInfo info = acalService.createAcademicCalendar(orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -376,7 +375,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getEndDate(), info.getEndDate());
         assertEquals(orig.getAdminOrgId(), info.getAdminOrgId());
         compareStringList(orig.getHolidayCalendarIds(), info.getHolidayCalendarIds());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -396,7 +395,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getEndDate(), info.getEndDate());
         assertEquals(orig.getAdminOrgId(), info.getAdminOrgId());
         compareStringList(orig.getHolidayCalendarIds(), info.getHolidayCalendarIds());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -411,7 +410,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig.setAdminOrgId("testOrgId1Updated");
         orig.getHolidayCalendarIds().remove(0);
         orig.getHolidayCalendarIds().add(hcal3.getId());
-        new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
+        new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
         info = this.acalService.updateAcademicCalendar(orig.getId(), orig, callContext);
         assertNotNull(info);
         assertEquals(orig.getId(), info.getId());
@@ -425,7 +424,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getEndDate(), info.getEndDate());
         assertEquals(orig.getAdminOrgId(), info.getAdminOrgId());
         compareStringList(orig.getHolidayCalendarIds(), info.getHolidayCalendarIds());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -447,7 +446,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getEndDate(), info.getEndDate());
         assertEquals(orig.getAdminOrgId(), info.getAdminOrgId());
         compareStringList(orig.getHolidayCalendarIds(), info.getHolidayCalendarIds());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -485,8 +484,8 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig.setEndDate(new Date(new Date().getTime() + 100000));
         orig.setIsAllDay(Boolean.TRUE);
         orig.setIsDateRange(Boolean.TRUE);
-        orig.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
         AcalEventInfo info = acalService.createAcalEvent(academicCalendarId, orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -500,7 +499,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(DateUtil.endOfDay(orig.getEndDate()), info.getEndDate());
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -520,7 +519,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getEndDate(), info.getEndDate());
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -534,7 +533,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig.setEndDate(new Date(orig.getEndDate().getTime() + 10000));
         orig.setIsAllDay(Boolean.FALSE);
         orig.setIsDateRange(Boolean.FALSE);
-        new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
+        new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
         info = this.acalService.updateAcalEvent(orig.getId(), orig, callContext);
         assertNotNull(info);
         assertEquals(orig.getId(), info.getId());
@@ -548,7 +547,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(null, info.getEndDate());
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -570,7 +569,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getEndDate(), info.getEndDate());
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -619,8 +618,8 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         orig.setStartDate(new Date());
         orig.setEndDate(new Date(new Date().getTime() + 100000));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
         TermInfo info = acalService.createTerm(orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -632,7 +631,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getStartDate(), info.getStartDate());
         assertEquals(orig.getEndDate(), info.getEndDate());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -644,7 +643,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         orig.setStartDate(new Date(orig.getStartDate().getTime() - 10000));
         orig.setEndDate(new Date(orig.getEndDate().getTime() + 10000));
-        new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
+        new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
         info = this.acalService.updateTerm(orig.getId(), orig, callContext);
         assertNotNull(info);
         assertEquals(orig.getId(), info.getId());
@@ -656,7 +655,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getStartDate(), info.getStartDate());
         assertEquals(orig.getEndDate(), info.getEndDate());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -676,7 +675,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getStartDate(), info.getStartDate());
         assertEquals(orig.getEndDate(), info.getEndDate());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -703,7 +702,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getStartDate(), info.getStartDate());
         assertEquals(orig.getEndDate(), info.getEndDate());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -724,8 +723,8 @@ public class TestAcademicCalendarServiceImplWithMocks {
         subTerm.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         subTerm.setStartDate(new Date());
         subTerm.setEndDate(new Date(new Date().getTime() + 100000));
-        subTerm.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
-        subTerm.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+        subTerm.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
+        subTerm.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
         subTerm = acalService.createTerm(orig.getTypeKey(), orig, callContext);
 
         orig = info;
@@ -777,8 +776,8 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig.setEndDate(new Date(new Date().getTime() + 100000));
         orig.setIsAllDay(Boolean.TRUE);
         orig.setIsDateRange(Boolean.TRUE);
-        orig.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
         KeyDateInfo info = acalService.createKeyDate(termId, orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -792,7 +791,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(DateUtil.endOfDay(orig.getEndDate()), info.getEndDate());
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -812,7 +811,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getEndDate(), info.getEndDate());
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -826,7 +825,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig.setEndDate(new Date(orig.getEndDate().getTime() + 10000));
         orig.setIsAllDay(Boolean.FALSE);
         orig.setIsDateRange(Boolean.FALSE);
-        new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
+        new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
         info = this.acalService.updateKeyDate(orig.getId(), orig, callContext);
         assertNotNull(info);
         assertEquals(orig.getId(), info.getId());
@@ -840,7 +839,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(null, info.getEndDate());
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -862,7 +861,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getEndDate(), info.getEndDate());
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());

@@ -8,11 +8,12 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.springframework.stereotype.Controller;
@@ -23,8 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/courseOfferingManagement")
@@ -131,6 +134,47 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     /**
+     * Method used to copy activityOffering
+     */
+    @RequestMapping(params = "methodToCall=copyAO")
+    public ModelAndView copyAO( @ModelAttribute("KualiForm") CourseOfferingManagementForm form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+        ActivityOfferingInfo selectedAO = (ActivityOfferingInfo)_getSelectedObject(form, "copy");
+        try{
+            CourseOfferingResourceLoader.loadCourseOfferingService().copyActivityOffering(selectedAO.getId(), ContextBuilder.loadContextInfo());
+
+            //reload AOs including the new one just created
+            getViewHelperService(form).loadActivityOfferingsByCourseOffering(form.getTheCourseOffering(), form);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+        return getUIFModelAndView(form);
+    }
+
+    /**
+     * Method used to delete a activityOffering
+     **/
+    @RequestMapping(params = "methodToCall=delete")
+    public ModelAndView delete(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+
+        ActivityOfferingInfo selectedObject = (ActivityOfferingInfo)_getSelectedObject(theForm, "delete");
+
+        try{
+            CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOffering(selectedObject.getId(), ContextBuilder.loadContextInfo());
+
+            //reload existing AOs
+            getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return getUIFModelAndView(theForm);
+    }
+
+    /**
      * Method used to view a CO or an AO
 
     @RequestMapping(params = "methodToCall=view")
@@ -224,7 +268,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("aoInfo.id", activityOfferingInfo.getId());
         props.put("readOnlyView", readOnlyView);
-        props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject");
+        props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper");
 
         return props;
 

@@ -248,7 +248,7 @@ public class TestKRMSAgendasExecution extends KRMSTestCase {
 //            contextKey = ((ProtocolDocument)rulesContext).getProtocol().getProtocolNumber()+"-"+((ProtocolDocument)rulesContext).getProtocol().getSequenceNumber();
 //        }
 //        agendaQualifiers.put("name", getAgendaName(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT));  // specify a single agenda by name
-        populateAgendaQualifiers(agendaQualifiers);
+//        populateAgendaQualifiers(agendaQualifiers);
        
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers, agendaQualifiers);
 

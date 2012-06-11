@@ -17,12 +17,18 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.uif.control.CheckboxGroupControl;
+import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.field.DataField;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject;
+import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.keyvalue.StudentRegistrationOptionsKeyValues;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingEditMaintainable;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -41,6 +47,7 @@ import javax.xml.namespace.QName;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * This class //TODO ...
@@ -62,17 +69,17 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl impleme
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
             try {
-                ActivityOfferingFormObject activityOfferingFormObject = (ActivityOfferingFormObject) getDataObject();
-                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().createActivityOffering(activityOfferingFormObject.getAoInfo().getFormatOfferingId(),activityOfferingFormObject.getAoInfo().getActivityId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,activityOfferingFormObject.getAoInfo(),getContextInfo());
-                setDataObject(new ActivityOfferingFormObject(activityOfferingInfo));
+                ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
+                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().createActivityOffering(activityOfferingWrapper.getAoInfo().getFormatOfferingId(), activityOfferingWrapper.getAoInfo().getActivityId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, activityOfferingWrapper.getAoInfo(),getContextInfo());
+                setDataObject(new ActivityOfferingWrapper(activityOfferingInfo));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
         else {   //should be edit action
-            ActivityOfferingFormObject activityOfferingFormObject = (ActivityOfferingFormObject) getDataObject();
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
             try {
-                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingFormObject.getAoInfo().getId(), activityOfferingFormObject.getAoInfo(), getContextInfo());
+                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -96,13 +103,39 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl impleme
         }
     }
 
+    public void populateStudentRegOptionsKeyValues (InputField field, MaintenanceForm mForm) {
+
+        StudentRegistrationOptionsKeyValues studentRegistrationOptions = new StudentRegistrationOptionsKeyValues();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
+        keyValues = studentRegistrationOptions.getKeyValues(mForm);
+        if (keyValues.isEmpty()) {
+            field.setRender(false);
+            return;
+        }
+
+        ((CheckboxGroupControl) field.getControl()).setOptions(keyValues);
+    }
+
+    public void populateStudentRegOptionsNone (DataField field, MaintenanceForm mForm) {
+
+        StudentRegistrationOptionsKeyValues studentRegistrationOptions = new StudentRegistrationOptionsKeyValues();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
+        keyValues = studentRegistrationOptions.getKeyValues(mForm);
+        if (!keyValues.isEmpty()) {
+            field.setRender(false);
+            return;
+        }
+    }
+
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        ActivityOfferingFormObject formObject = (ActivityOfferingFormObject)document.getNewMaintainableObject().getDataObject();
+        ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)document.getNewMaintainableObject().getDataObject();
         document.getDocumentHeader().setDocumentDescription("Activity Offering");
         try {
-//            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
-//            formObject.setStateName(state.getName());
+//            StateInfo state = getStateService().getState(wrapper.getDto().getStateKey(), getContextInfo());
+//            wrapper.setStateName(state.getName());
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

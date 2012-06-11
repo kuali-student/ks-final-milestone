@@ -33,31 +33,31 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public ResultValuesGroupInfo getResultValuesGroup(String resultValuesGroupId, ContextInfo context)
+    public ResultValuesGroupInfo getResultValuesGroup(String resultValuesGroupKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesGroup(resultValuesGroupId, context);
+        return getNextDecorator().getResultValuesGroup(resultValuesGroupKey, context);
     }
 
     @Override
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByIds(List<String> resultValuesGroupIds, ContextInfo context)
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByKeys(List<String> resultValuesGroupKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesGroupsByIds(resultValuesGroupIds, context);
+        return getNextDecorator().getResultValuesGroupsByKeys(resultValuesGroupKeys, context);
     }
 
     @Override
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultValue(String resultValueId, ContextInfo context)
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultValue(String resultValueKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesGroupsByResultValue(resultValueId, context);
+        return getNextDecorator().getResultValuesGroupsByResultValue(resultValueKey, context);
     }
 
     @Override
-    public List<String> getResultValuesGroupIdsByType(String resultValuesGroupTypeKey, ContextInfo context)
+    public List<String> getResultValuesGroupKeysByType(String resultValuesGroupTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesGroupIdsByType(resultValuesGroupTypeKey, context);
+        return getNextDecorator().getResultValuesGroupKeysByType(resultValuesGroupTypeKey, context);
     }
 
     @Override
@@ -80,31 +80,31 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public StatusInfo deleteResultValuesGroup(String resultValuesGroupId, ContextInfo context)
+    public StatusInfo deleteResultValuesGroup(String resultValuesGroupKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteResultValuesGroup(resultValuesGroupId, context);
+        return getNextDecorator().deleteResultValuesGroup(resultValuesGroupKey, context);
     }
 
     @Override
-    public ResultValueInfo getResultValue(String resultValueId, ContextInfo context)
+    public ResultValueInfo getResultValue(String resultValueKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValue(resultValueId, context);
+        return getNextDecorator().getResultValue(resultValueKey, context);
     }
 
     @Override
-    public List<ResultValueInfo> getResultValuesByIds(List<String> resultValueIds, ContextInfo context)
+    public List<ResultValueInfo> getResultValuesByIds(List<String> resultValueKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesByIds(resultValueIds, context);
+        return getNextDecorator().getResultValuesByIds(resultValueKeys, context);
     }
 
     @Override
-    public List<ResultValueInfo> getResultValuesForResultValuesGroup(String resultValuesGroupId, ContextInfo context)
+    public List<ResultValueInfo> getResultValuesForResultValuesGroup(String resultValuesGroupKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesForResultValuesGroup(resultValuesGroupId, context);
+        return getNextDecorator().getResultValuesForResultValuesGroup(resultValuesGroupKey, context);
     }
 
     @Override
@@ -117,19 +117,19 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public ResultValueInfo updateResultValue(String resultValueId, ResultValueInfo resultValueInfo, ContextInfo context)
+    public ResultValueInfo updateResultValue(String resultValueKey, ResultValueInfo resultValueInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException,
             VersionMismatchException {
-        return getNextDecorator().updateResultValue(resultValueId, resultValueInfo, context);
+        return getNextDecorator().updateResultValue(resultValueKey, resultValueInfo, context);
     }
 
     @Override
-    public StatusInfo deleteResultValue(String resultValueId, ContextInfo context) throws DoesNotExistException,
+    public StatusInfo deleteResultValue(String resultValueKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().deleteResultValue(resultValueId, context);
+        return getNextDecorator().deleteResultValue(resultValueKey, context);
     }
 
     @Override
@@ -159,4 +159,31 @@ public abstract class LRCServiceDecorator implements LRCService {
 		   OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getResultValuesForScale(resultScaleKey, context);
     }
+
+    @Override
+    public List<ResultValueInfo> getResultValuesForResultValuesGroups(List<String> resultValuesGroupKeys, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultValuesForResultValuesGroups(resultValuesGroupKeys, context);
+    }
+
+    @Override
+    public ResultValuesGroupInfo getCreateResultValueWithinRange(String resultValue, String resultValuesGroupKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getCreateResultValueWithinRange(resultValue, resultValuesGroupKey, context);
+    }
+
+    @Override
+    public ResultValuesGroupInfo getCreateRangeCreditResultValuesGroup(String creditValueMin, String creditValueMax, String creditValueIncrement, String scaleId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getCreateRangeCreditResultValuesGroup(creditValueMin, creditValueMax, creditValueIncrement, scaleId, context);
+    }
+
+    @Override
+    public ResultValuesGroupInfo getCreateMultipleCreditResultValuesGroup(List<String> creditValues, String scaleId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getCreateMultipleCreditResultValuesGroup(creditValues, scaleId, context);
+    }
+
+    @Override
+    public ResultValuesGroupInfo getCreateFixedCreditResultValuesGroup(String creditValue, String scaleId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getCreateFixedCreditResultValuesGroup(creditValue, scaleId, context);
+    }
+    
+    
 }

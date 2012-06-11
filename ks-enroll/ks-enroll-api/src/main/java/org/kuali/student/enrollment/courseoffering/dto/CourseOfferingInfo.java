@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
         "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", "isHonorsOffering",
         "instructors", "subjectArea", "unitsDeploymentOrgIds", "unitsContentOwnerOrgIds",  "maximumEnrollment",
-        "minimumEnrollment", "jointOfferingIds", "creditOptionIds", "gradingOptionIds",
+        "minimumEnrollment", "jointOfferingIds", "creditOptionId", "gradingOptionId",
         "studentRegistrationOptionIds", "waitlistLevelTypeKey", "hasWaitlist", "waitlistTypeKey",
         "campusLocations", "finalExamType", "isEvaluated", "fundingSource", "isFeeAtActivityOffering",
         "isFinancialAidEligible", "courseOfferingURL", "meta", "attributes", "_futureElements"})
@@ -84,10 +84,10 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     private List<String> unitsContentOwnerOrgIds;
 
     @XmlElement
-    private List<String> creditOptionIds;
+    private String creditOptionId;
 
     @XmlElement
-    private List<String> gradingOptionIds;
+    private String gradingOptionId;
 
     @XmlElement
     private List<String> studentRegistrationOptionIds;
@@ -172,11 +172,10 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
         this.unitsDeploymentOrgIds = offering.getUnitsDeploymentOrgIds();
         this.unitsContentOwnerOrgIds = offering.getUnitsContentOwnerOrgIds();
-        this.creditOptionIds =offering.getCreditOptionIds();
-        this.gradingOptionIds = (null != offering.getGradingOptionIds()) ? new ArrayList<String>(
-                offering.getGradingOptionIds()) : null;
-        this.studentRegistrationOptionIds = (null != offering.getGradingOptionIds()) ? new ArrayList<String>(
-                offering.getGradingOptionIds()) : null;
+        this.creditOptionId = offering.getCreditOptionId();
+        this.gradingOptionId = offering.getGradingOptionId();
+        this.studentRegistrationOptionIds = (null != offering.getStudentRegistrationOptionIds()) ? new ArrayList<String>(
+                offering.getStudentRegistrationOptionIds()) : null;
 
 
         this.campusLocations = (null != offering.getCampusLocations()) ? new ArrayList<String>(offering.getCampusLocations()) : null;
@@ -311,15 +310,12 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     }
 
     @Override
-    public List<String> getGradingOptionIds() {
-        if(gradingOptionIds == null){
-            gradingOptionIds = new ArrayList<String>();
-        }
-        return this.gradingOptionIds;
+    public String getGradingOptionId() {
+        return this.gradingOptionId;
     }
 
-    public void setGradingOptionIds(List<String> gradingOptionIds) {
-        this.gradingOptionIds = gradingOptionIds;
+    public void setGradingOptionId(String gradingOptionId) {
+        this.gradingOptionId = gradingOptionId;
     }
 
 
@@ -335,15 +331,12 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     }
 
     @Override
-    public List<String> getCreditOptionIds() {
-        if(creditOptionIds == null){
-            creditOptionIds = new ArrayList<String>();
-        }
-        return creditOptionIds;
+    public String getCreditOptionId() {
+        return creditOptionId;
     }
 
-    public void setCreditOptionIds(List<String> creditOptionIds) {
-        this.creditOptionIds = creditOptionIds;
+    public void setCreditOptionId(String creditOptionId) {
+        this.creditOptionId = creditOptionId;
     }
 
     @Override

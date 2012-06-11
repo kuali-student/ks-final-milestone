@@ -62,6 +62,7 @@ public class ProcessPocKrmsIntegrationTest {
     public void setUp() {
         context = new ContextInfo();
         context.setPrincipalId("testPrincipal1");
+
         service.setProcessEvaluator(evaluator);
     }
 

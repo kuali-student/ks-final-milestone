@@ -37,6 +37,7 @@ public interface ResultValuesGroup extends KeyEntity, HasEffectiveDates {
      * a Result Values Group belong to a single Result Scale.
      *
      * @name Result Scale Key
+     * @required
      */
     public String getResultScaleKey();
 
@@ -47,7 +48,7 @@ public interface ResultValuesGroup extends KeyEntity, HasEffectiveDates {
     public List<String> getResultValueKeys();
 
     /**
-     * The range contained within this result value group. This is
+     * The  range contained within this result value group. This is
      * optional and might not be present for some Result Components
      * 
      * @name Result Value Range

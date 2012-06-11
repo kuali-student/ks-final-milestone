@@ -6,161 +6,134 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.infc.Process;
-import org.kuali.student.common.entity.KSEntityConstants;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwnerNew;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.core.process.dto.ProcessInfo;
-import org.kuali.student.r2.core.process.infc.Process;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.List;
 
 @Entity
 @Table(name = "KSEN_PROCESS")
-public class ProcessEntity extends MetaEntity implements AttributeOwnerNew<ProcessAttributeEntity> {
-
-    ////////////////////
-    // DATA FIELDS
-    ////////////////////
-
-    @Column(name = "PROCESS_TYPE", nullable = false)
-    private String processType;
-
-    @Column(name = "PROCESS_STATE", nullable = false)
-    private String processState;
+public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessAttributeEntity>{
 
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
-    private String descrPlain;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "RT_DESCR_ID")
+    private ProcessRichTextEntity descr;
 
-    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
-    private String descrFormatted;
+	@Column(name = "PROCESS_STATE")
+	private String processState;
 
-    @Column(name = "OWNER_ORG_ID")
+	@Column(name = "PROCESS_TYPE")
+	private String processType;
+
+	@Column(name = "OWNER_ORG_ID")
 	private String ownerOrgID;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ProcessAttributeEntity> attributes;
 
-    //////////////////////////
-    // CONSTRUCTORS ETC.
-    //////////////////////////
+    public ProcessEntity(){
 
-    public ProcessEntity() {}
+    }
 
 	public ProcessEntity(Process process){
 	    super(process);
-        this.setId(process.getKey());
-        this.setProcessType(process.getTypeKey());
-        fromDTO(process);
-	}
 
-    public void fromDTO(Process process) {
-        this.setProcessState(process.getStateKey());
+        this.setId(process.getKey());
         this.setName(process.getName());
-        if (process.getDescr() != null) {
-            this.setDescrFormatted(process.getDescr().getFormatted());
-            this.setDescrPlain(process.getDescr().getPlain());
-        } else {
-            this.setDescrFormatted(null);
-            this.setDescrPlain(null);
+
+        if(process.getDescr() != null) {
+            this.setDescr(new ProcessRichTextEntity(process.getDescr()));
         }
+        this.setProcessType (process.getTypeKey());
+        this.setProcessState(process.getStateKey());
         this.setOwnerOrgID(process.getOwnerOrgId());
+
         this.setAttributes(new HashSet<ProcessAttributeEntity>());
-        for (Attribute att : process.getAttributes()) {
-            this.getAttributes().add(new ProcessAttributeEntity(att, this));
+        if (null != process.getAttributes()) {
+            for (Attribute att : process.getAttributes()) {
+                ProcessAttributeEntity attEntity = new ProcessAttributeEntity(att);
+                this.getAttributes().add(attEntity);
+            }
         }
-    }
+
+	}
 
     /**
      * @return Process Information DTO
      */
     public ProcessInfo toDto(){
-	    ProcessInfo processInfo = new ProcessInfo();
-        processInfo.setMeta(super.toDTO());
-        processInfo.setKey(getId());
-        processInfo.setTypeKey(processType);
-        processInfo.setStateKey(processState);
-        processInfo.setName(name);
-        processInfo.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
-        processInfo.setOwnerOrgId(getOwnerOrgID());
-        List<AttributeInfo> attributes = processInfo.getAttributes();
-        if (getAttributes() != null) {
-            for (ProcessAttributeEntity att : getAttributes()) {
-                AttributeInfo attInfo = att.toDto();
-                attributes.add(attInfo);
-            }
+
+	    ProcessInfo obj = new ProcessInfo();
+
+        obj.setKey(getId());
+    	obj.setName(name);
+        obj.setOwnerOrgId(getOwnerOrgID());
+
+        if (processType != null){
+            obj.setTypeKey(processType);
         }
-        return processInfo;
+
+        if (processState != null){
+            obj.setStateKey(processState);
+        }
+
+        obj.setMeta(super.toDTO());
+
+        if (descr != null){
+            obj.setDescr(descr.toDto());
+        }
+
+        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+        for (ProcessAttributeEntity att : getAttributes()) {
+            AttributeInfo attInfo = att.toDto();
+            atts.add(attInfo);
+        }
+        obj.setAttributes(atts);
+
+        return obj;
 	}
 
-    ///////////////////////////
-    // GETTERS AND SETTERS
-    ///////////////////////////
+	// NAME
+	public String getName() { return name; }
+	public void setName(String name) { this.name = name; }
 
-    public String getProcessType() {
-        return processType;
-    }
+	// RT_DESCR_ID
+	public ProcessRichTextEntity getDescr() { return descr; }
+	public void setDescr(ProcessRichTextEntity descr) { this.descr = descr; }
 
-    public void setProcessType(String processType) {
-        this.processType = processType;
-    }
-
-    public String getProcessState() {
+	//PROCESS_STATE_ID
+	public String getProcessState() {
         return processState;
     }
-
-    public void setProcessState(String processState) {
+	public void setProcessState(String processState) {
         this.processState = processState;
     }
 
-    public String getName() {
-        return name;
+	//PROCESS_TYPE_ID
+	public String getProcessType() {
+        return processType;
+    }
+	public void setProcessType(String processType) {
+        this.processType = processType;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	//OWNER_ORG_ID
+	public String getOwnerOrgID() { return ownerOrgID; }
+	public void setOwnerOrgID(String ownerOrgID) { this.ownerOrgID = ownerOrgID; }
 
-    public String getDescrPlain() {
-        return descrPlain;
-    }
-
-    public void setDescrPlain(String descrPlain) {
-        this.descrPlain = descrPlain;
-    }
-
-    public String getDescrFormatted() {
-        return descrFormatted;
-    }
-
-    public void setDescrFormatted(String descrFormatted) {
-        this.descrFormatted = descrFormatted;
-    }
-
-    public String getOwnerOrgID() {
-        return ownerOrgID;
-    }
-
-    public void setOwnerOrgID(String ownerOrgID) {
-        this.ownerOrgID = ownerOrgID;
-    }
-
-    @Override
+	@Override
 	public Set<ProcessAttributeEntity> getAttributes() {
 		 return attributes;
 	}

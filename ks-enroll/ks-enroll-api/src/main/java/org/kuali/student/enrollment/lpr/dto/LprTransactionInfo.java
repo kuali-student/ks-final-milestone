@@ -62,9 +62,6 @@ public class LprTransactionInfo extends IdEntityInfo implements LprTransaction, 
 
     @Override
     public List<LprTransactionItemInfo> getLprTransactionItems() {
-        if (this.lprTransactionItems == null) {
-            this.lprTransactionItems = new ArrayList<LprTransactionItemInfo>();
-        }
         return lprTransactionItems;
     }
 
@@ -89,23 +86,4 @@ public class LprTransactionInfo extends IdEntityInfo implements LprTransaction, 
     public void setAtpId(String atpId) {
         this.atpId = atpId;
     }
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("LprTransactionInfo [id()=");
-		builder.append(getId());
-		builder.append(", type()=");
-		builder.append(getTypeKey());
-		builder.append(", state()=");
-		builder.append(getStateKey());
-		builder.append(", requestingPersonId=");
-		builder.append(requestingPersonId);
-		builder.append(", atpId=");
-		builder.append(atpId);
-		builder.append("]");
-		return builder.toString();
-	}
-    
-    
 }

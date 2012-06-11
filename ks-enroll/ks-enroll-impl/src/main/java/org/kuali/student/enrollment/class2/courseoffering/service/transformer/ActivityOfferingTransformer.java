@@ -2,7 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.lpr.dto.LprInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -116,11 +116,7 @@ public class ActivityOfferingTransformer {
         for(LuiPersonRelationInfo lpr : lprs) {
             OfferingInstructorInfo instructor = new OfferingInstructorInfo();
             instructor.setPersonId(lpr.getPersonId());
-        if (lpr.getCommitmentPercent() != null) {
-            instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
-        } else {
-            instructor.setPercentageEffort(null);
-        }
+            instructor.setPercentageEffort(lpr.getCommitmentPercent());
             instructor.setId(lpr.getId());
             instructor.setTypeKey(lpr.getTypeKey());
             instructor.setStateKey(lpr.getStateKey());

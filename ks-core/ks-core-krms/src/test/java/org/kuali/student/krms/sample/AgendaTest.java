@@ -37,6 +37,7 @@ import org.kuali.rice.krms.api.engine.SelectionCriteria;
 import org.kuali.rice.krms.api.engine.Term;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.framework.engine.Action;
 import org.kuali.rice.krms.framework.engine.Agenda;
 import org.kuali.rice.krms.framework.engine.AgendaTreeEntry;
@@ -54,6 +55,10 @@ import org.kuali.rice.krms.framework.engine.ProviderBasedEngine;
 import org.kuali.rice.krms.framework.engine.ResultLogger;
 import org.kuali.rice.krms.framework.engine.Rule;
 import org.kuali.rice.krms.framework.engine.expression.ComparisonOperatorServiceImpl;
+import org.kuali.rice.krms.impl.repository.AgendaBoService;
+import org.kuali.rice.krms.impl.repository.ContextBoService;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.student.krms.KSKRMSConstants;
 
 public class AgendaTest {
 	private static final ResultLogger LOG = ResultLogger.getInstance();
@@ -62,9 +67,15 @@ public class AgendaTest {
     private ComparisonOperator operatorGreaterThan;
 	private Proposition trueProp;
 	private Proposition falseProp;
-
+//
+	private AgendaBoService agendaBoService;
+	protected ContextBoService contextRepository;
+	
 	@Before
 	public void setUp() {
+		agendaBoService = KrmsRepositoryServiceLocator.getAgendaBoService();
+		contextRepository = KrmsRepositoryServiceLocator.getContextBoService();
+		//
         operatorGreaterThan = ComparisonOperator.GREATER_THAN;
         operatorGreaterThan.setComparisonOperatorService(ComparisonOperatorServiceImpl.getInstance());
         trueProp = new ComparableTermBasedProposition(operatorGreaterThan, totalCostTerm, Integer.valueOf(1));
@@ -74,7 +85,32 @@ public class AgendaTest {
 	}
 
 
-	@Test
+	// @Test
+	public void testAllRulesKSAgenda() {
+
+//		Rule rule1 = new BasicRule("r1", trueProp, Collections.<Action>singletonList(new ActionMock("a1")));
+//		Rule rule2 = new BasicRule("r2", falseProp, Collections.<Action>singletonList(new ActionMock("a2")));
+//		Rule rule3 = new BasicRule("r3", trueProp, Collections.<Action>singletonList(new ActionMock("a3")));
+		
+//		AgendaTreeEntry entry1 = new BasicAgendaTreeEntry(rule1);
+//		AgendaTreeEntry entry2 = new BasicAgendaTreeEntry(rule2);
+//		AgendaTreeEntry entry3 = new BasicAgendaTreeEntry(rule3);
+//		BasicAgendaTree agendaTree = new BasicAgendaTree(entry1, entry2, entry3);
+		
+		ContextDefinition contextDef = getKRMSContext(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY);
+		AgendaDefinition adgendaDef = getKRMSAgenda(KSKRMSConstants.AGENDA1, contextDef);
+		assertNotNull(contextDef);
+		assertNotNull(adgendaDef);
+//		Agenda agenda = new BasicAgenda(Collections.singletonMap(AgendaDefinition.Constants.EVENT, "test"), agendaTree);
+		
+//		execute(agenda);
+
+//		assertTrue(ActionMock.actionFired("a1"));
+//		assertFalse(ActionMock.actionFired("a2"));
+//		assertTrue(ActionMock.actionFired("a3"));
+	}
+	
+	// @Test
 	public void testAllRulesAgenda() {
 
 		Rule rule1 = new BasicRule("r1", trueProp, Collections.<Action>singletonList(new ActionMock("a1")));
@@ -94,7 +130,7 @@ public class AgendaTest {
 		assertTrue(ActionMock.actionFired("a3"));
 	}
 	
-	@Test
+	//@Test
 	public void testIfTrueSubAgenda() {
 
 		Rule rule1 = new BasicRule("r1", trueProp, Collections.<Action>singletonList(new ActionMock("a1")));
@@ -123,7 +159,7 @@ public class AgendaTest {
 		assertFalse(ActionMock.actionFired("a3"));
 	}
 
-	@Test
+	//@Test
 	public void testIfFalseSubAgenda() {
 
 		Rule rule1 = new BasicRule("r1", trueProp, Collections.<Action>singletonList(new ActionMock("a1")));
@@ -240,4 +276,16 @@ public class AgendaTest {
 	private static final Term totalCostTerm = new Term("totalCost");
 	
 	private static final TermResolver<Integer> testResolver = new TermResolverMock<Integer>(totalCostTerm.getName(), 10);
+
+	private AgendaDefinition getKRMSAgenda(String agendaName, ContextDefinition contextDef) {
+		AgendaDefinition agendaDef = agendaBoService
+				.getAgendaByNameAndContextId(agendaName,
+						contextDef.getId());
+		return agendaDef;
+	}
+
+	private ContextDefinition getKRMSContext(String context) {
+		return contextRepository.getContextByNameAndNamespace(
+				context, KSKRMSConstants.KSNAMESPACE);
+	}
 }

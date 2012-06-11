@@ -1,11 +1,9 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
@@ -14,24 +12,15 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.constants.StateServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.service.TypeService;
 
-import javax.xml.namespace.QName;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
@@ -49,8 +38,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
             try {
-                ActivityOfferingFormObject activityOfferingFormObject = (ActivityOfferingFormObject) getDataObject();
-                ActivityOfferingInfo toSave = activityOfferingFormObject.getAoInfo();
+                ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
+                ActivityOfferingInfo toSave = activityOfferingWrapper.getAoInfo();
 
                 // **** BEGIN HARD-CODED DEFAULTS FOR TESTING ****
                 // TODO REMOVE THESE
@@ -88,16 +77,16 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 // **** END HARD-CODED DEFAULTS FOR TESTING ****
                 // TODO REMOVE THESE
 
-                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().createActivityOffering(activityOfferingFormObject.getAoInfo().getFormatOfferingId(),activityOfferingFormObject.getAoInfo().getActivityId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,activityOfferingFormObject.getAoInfo(),getContextInfo());
-                setDataObject(new ActivityOfferingFormObject(activityOfferingInfo));
+                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().createActivityOffering(activityOfferingWrapper.getAoInfo().getFormatOfferingId(), activityOfferingWrapper.getAoInfo().getActivityId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, activityOfferingWrapper.getAoInfo(),getContextInfo());
+                setDataObject(new ActivityOfferingWrapper(activityOfferingInfo));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
         else {   //should be edit action
-            ActivityOfferingFormObject activityOfferingFormObject = (ActivityOfferingFormObject) getDataObject();
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
             try {
-                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingFormObject.getAoInfo().getId(), activityOfferingFormObject.getAoInfo(), getContextInfo());
+                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -109,17 +98,17 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         try {
             ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(dataObjectKeys.get("aoInfo.id"),getContextInfo());
             ViewHelperUtil.getInstructorNames(info.getInstructors());
-            ActivityOfferingFormObject formObject = new ActivityOfferingFormObject(info);
+            ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info);
 
             boolean readOnlyView = Boolean.parseBoolean(dataObjectKeys.get("readOnlyView"));
-            formObject.setReadOnlyView(readOnlyView);
+            wrapper.setReadOnlyView(readOnlyView);
 
-            document.getNewMaintainableObject().setDataObject(formObject);
-            document.getOldMaintainableObject().setDataObject(formObject);
+            document.getNewMaintainableObject().setDataObject(wrapper);
+            document.getOldMaintainableObject().setDataObject(wrapper);
             document.getDocumentHeader().setDocumentDescription("Edit AO - " + info.getActivityCode());
-//            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
-//            formObject.setStateName(state.getName());
-            return formObject;
+//            StateInfo state = getStateService().getState(wrapper.getDto().getStateKey(), getContextInfo());
+//            wrapper.setStateName(state.getName());
+            return wrapper;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -127,11 +116,11 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        ActivityOfferingFormObject formObject = (ActivityOfferingFormObject)document.getNewMaintainableObject().getDataObject();
+        ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)document.getNewMaintainableObject().getDataObject();
         document.getDocumentHeader().setDocumentDescription("Activity Offering");
         try {
-//            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
-//            formObject.setStateName(state.getName());
+//            StateInfo state = getStateService().getState(wrapper.getDto().getStateKey(), getContextInfo());
+//            wrapper.setStateName(state.getName());
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

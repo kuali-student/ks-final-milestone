@@ -168,7 +168,10 @@
         <property name="businessLogic" ref="businessLogic" />
         <property name="atpService" ref="atpService"/>
         <property name="typeService" ref="typeService"/>
+        <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
     </bean>
+
+    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
 
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
@@ -214,7 +217,7 @@
 
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
-    <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
+    <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
         <property name="lprDao" ref="lprDao" />
         <property name="lprRosterDao" ref="lprRosterDao" />
         <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />

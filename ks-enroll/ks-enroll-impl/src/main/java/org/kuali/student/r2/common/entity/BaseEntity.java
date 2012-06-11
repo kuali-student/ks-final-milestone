@@ -56,17 +56,4 @@ public class BaseEntity {
     public void setId(String id) {
         this.id = id;
     }
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("BaseEntity [id=");
-		builder.append(id);
-		builder.append(", objectId=");
-		builder.append(objectId);
-		builder.append("]");
-		return builder.toString();
-	}
-    
-    
 }

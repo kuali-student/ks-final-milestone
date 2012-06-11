@@ -20,7 +20,6 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -45,7 +44,6 @@ public class ProcessServiceMockImpl implements ProcessService {
     private Map<String, InstructionInfo> instructions = new HashMap<String, InstructionInfo>();
 //    private Map<String, ProcessCategoryInfo> categories = new HashMap<String,ProcessCategoryInfo> ();
 //    private Map<String, String> processCategoryMap = new HashMap<String,String> ();    
-
 
     private MetaInfo newMeta(ContextInfo context) {
         MetaInfo meta = new MetaInfo();
@@ -77,48 +75,45 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public CheckInfo createCheck(String checkTypeKey, CheckInfo checkInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-
+    public CheckInfo createCheck(String checkKey, CheckInfo checkInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if (checks.containsKey(checkInfo.getKey())) {
+            throw new AlreadyExistsException(checkInfo.getKey());
+        }
         CheckInfo copy = new CheckInfo(checkInfo);
-        copy.setId(checks.size() + "");
-        copy.setTypeKey(checkTypeKey);
         copy.setMeta(newMeta(contextInfo));
-        checks.put(copy.getId(), copy);
+        checks.put(copy.getKey(), copy);
         return new CheckInfo(copy);
     }
 
     @Override
-    public InstructionInfo createInstruction(String processKey, String checkId, String instructionTypeKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public InstructionInfo createInstruction(String processKey, String checkKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         InstructionInfo copy = new InstructionInfo(instructionInfo);
         copy.setId(instructions.size() + "");
-        copy.setTypeKey(instructionTypeKey);
         copy.setMeta(newMeta(contextInfo));
         instructions.put(copy.getId(), copy);
         return new InstructionInfo(copy);
     }
 
     @Override
-    public ProcessInfo createProcess(String processKey, String processTypeKey, ProcessInfo processInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public ProcessInfo createProcess(String processKey, ProcessInfo processInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (processes.containsKey(processInfo.getKey())) {
             throw new AlreadyExistsException(processInfo.getKey());
         }
         ProcessInfo copy = new ProcessInfo(processInfo);
-        copy.setKey(processKey);
-        copy.setTypeKey(processTypeKey);
         copy.setMeta(newMeta(contextInfo));
         processes.put(copy.getKey(), copy);
         return new ProcessInfo(copy);
     }
 
     @Override
-    public ProcessCategoryInfo createProcessCategory(String processCategoryTypeKey, ProcessCategoryInfo processInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public ProcessCategoryInfo createProcessCategory(ProcessCategoryInfo processInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public StatusInfo deleteCheck(String checkId, ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (this.checks.remove(checkId) == null) {
-            throw new DoesNotExistException(checkId);
+    public StatusInfo deleteCheck(String checkKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (this.checks.remove(checkKey) == null) {
+            throw new DoesNotExistException(checkKey);
         }
         return newStatus();
     }
@@ -132,7 +127,7 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public StatusInfo deleteProcess(String processKey, ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteProcess(String processKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (this.processes.remove(processKey) == null) {
             throw new DoesNotExistException(processKey);
         }
@@ -145,10 +140,10 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public CheckInfo getCheck(String checkId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        CheckInfo info = this.checks.get(checkId);
+    public CheckInfo getCheck(String checkKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        CheckInfo info = this.checks.get(checkKey);
         if (info == null) {
-            throw new DoesNotExistException(checkId);
+            throw new DoesNotExistException(checkKey);
         }
         return new CheckInfo(info);
     }
@@ -159,7 +154,7 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public List<CheckInfo> getChecksByIds(List<String> checkIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<CheckInfo> getChecksByIds(List<String> checkKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -184,10 +179,10 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public List<InstructionInfo> getInstructionsByCheck(String checkId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<InstructionInfo> getInstructionsByCheck(String checkKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<InstructionInfo> list = new ArrayList<InstructionInfo>();
         for (InstructionInfo info : this.instructions.values()) {
-            if (info.getCheckKey().equals(checkId)) {
+            if (info.getCheckKey().equals(checkKey)) {
                 list.add(info);
             }
         }
@@ -216,9 +211,9 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public List<InstructionInfo> getInstructionsByProcessAndCheck(String checkId, String processKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<InstructionInfo> getInstructionsByProcessAndCheck(String checkKey, String processKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<InstructionInfo> list = new ArrayList<InstructionInfo>();
-        for (InstructionInfo info : this.getInstructionsByCheck(checkId, contextInfo)) {
+        for (InstructionInfo info : this.getInstructionsByCheck(checkKey, contextInfo)) {
             if (info.getProcessKey().equals(processKey)) {
                 list.add(info);
             }
@@ -313,7 +308,7 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public StatusInfo removeProcessFromProcessCategory(String processKey, String processCategoryId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo removeProcessFromProcessCategory(String processKey, String processCategoryId, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -358,14 +353,14 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public CheckInfo updateCheck(String checkId, CheckInfo checkInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public CheckInfo updateCheck(String checkKey, CheckInfo checkInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         CheckInfo copy = new CheckInfo(checkInfo);
-        CheckInfo old = this.getCheck(checkId, contextInfo);
+        CheckInfo old = this.getCheck(checkKey, contextInfo);
         if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
         copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
-        this.checks.put(checkInfo.getId(), copy);
+        this.checks.put(checkInfo.getKey(), copy);
         return new CheckInfo(copy);
     }
 
@@ -399,22 +394,24 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateCheck(String validationTypeKey, String checkTypeKey, CheckInfo checkInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateCheck(String validationTypeKey, CheckInfo checkInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<ValidationResultInfo> validateInstruction(String validationTypeKey, String processKey, String checkId, String instructionTypeKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateInstruction(String validationTypeKey, String processKey, String checkKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<ValidationResultInfo> validateProcess(String validationTypeKey, String processTypeKey, ProcessInfo processInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateProcess(String validationTypeKey, ProcessInfo processInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<ValidationResultInfo> validateProcessCategory(String validationTypeKey, String processCategoryTypeKey, ProcessCategoryInfo processCategoryInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateProcessCategory(String validationTypeKey, ProcessCategoryInfo processCategoryInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+ 
 }

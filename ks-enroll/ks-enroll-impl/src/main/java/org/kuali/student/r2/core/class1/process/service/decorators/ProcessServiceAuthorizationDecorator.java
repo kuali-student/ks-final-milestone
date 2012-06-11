@@ -4,7 +4,6 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -38,11 +37,11 @@ public class ProcessServiceAuthorizationDecorator extends ProcessServiceDecorato
     }
 
     @Override
-    public ProcessCategoryInfo createProcessCategory(String processCategoryTypeKey, ProcessCategoryInfo processCategoryInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public ProcessCategoryInfo createProcessCategory(ProcessCategoryInfo processInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (!permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createProcessCategory", null)) {
             throw new PermissionDeniedException();
         }
-        return getNextDecorator().createProcessCategory(processCategoryTypeKey, processCategoryInfo, contextInfo);
+        return getNextDecorator().createProcessCategory(processInfo, contextInfo);
     }
 
     @Override
@@ -62,27 +61,27 @@ public class ProcessServiceAuthorizationDecorator extends ProcessServiceDecorato
     }
 
     @Override
-    public ProcessInfo createProcess(String processKey, String processTypeKey, ProcessInfo processInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public ProcessInfo createProcess(String processKey, ProcessInfo processInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (!permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createProcess", null)) {
             throw new PermissionDeniedException();
         }
-        return getNextDecorator().createProcess(processKey, processTypeKey, processInfo, contextInfo);
+        return getNextDecorator().createProcess(processKey, processInfo, contextInfo);
     }
 
     @Override
-    public CheckInfo createCheck(String checkTypeKey, CheckInfo checkInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public CheckInfo createCheck(String checkKey, CheckInfo checkInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (!permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createCheck", null)) {
             throw new PermissionDeniedException();
         }
-        return getNextDecorator().createCheck(checkTypeKey, checkInfo, contextInfo);
+        return getNextDecorator().createCheck(checkKey, checkInfo, contextInfo);
     }
 
     @Override
-    public StatusInfo deleteCheck(String checkId, ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteCheck(String checkKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (!permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteCheck", null)) {
             throw new PermissionDeniedException();
         }
-        return getNextDecorator().deleteCheck(checkId, contextInfo);
+        return getNextDecorator().deleteCheck(checkKey, contextInfo);
     }
 
     @Override
@@ -94,11 +93,11 @@ public class ProcessServiceAuthorizationDecorator extends ProcessServiceDecorato
     }
 
     @Override
-    public InstructionInfo createInstruction(String processKey, String checkId, String instructionTypeKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public InstructionInfo createInstruction(String processKey, String checkKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (!permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createInstruction", null)) {
             throw new PermissionDeniedException();
         }
-        return getNextDecorator().createInstruction(processKey, checkId, instructionTypeKey, instructionInfo, contextInfo);
+        return getNextDecorator().createInstruction(processKey, checkKey, instructionInfo, contextInfo);
     }
 
     @Override

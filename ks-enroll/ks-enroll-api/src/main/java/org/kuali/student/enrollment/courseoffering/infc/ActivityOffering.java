@@ -13,7 +13,6 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.enrollment.courseoffering.infc;
 
 import java.util.Date;
@@ -106,16 +105,6 @@ public interface ActivityOffering extends IdEntity {
      * @required
      */
     public Boolean getIsHonorsOffering();
-
-    /**
-     * The options/scales that indicate the allowable grades that can
-     * be awarded.  If the value is set here then the canonical course
-     * must have a grading option set on the canonical activity.
-     * 
-     * @name Grading Option Keys
-     * @impl maps to Lui.gradingOptions
-     */
-    public List<String> getGradingOptionKeys();
 
     /**
      * Instructors for the activity. This list should be constrained

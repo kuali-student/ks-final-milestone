@@ -39,10 +39,8 @@ import org.w3c.dom.Element;
     "optionKeys",
     "itemsProcessed",
     "itemsExpected",
-    "courseOfferingsCreated",
-    "courseOfferingsSkipped",
-    "activityOfferingsCreated",
-    "activityOfferingsSkipped",
+    "itemsCreated",
+    "itemsSkipped",
     "sourceTermId",
     "message",
     "meta",
@@ -66,13 +64,9 @@ public class SocRolloverResultInfo
     @XmlElement
     private Integer itemsExpected;
     @XmlElement
-    private Integer courseOfferingsCreated;
+    private Integer itemsCreated;
     @XmlElement
-    private Integer courseOfferingsSkipped;
-    @XmlElement
-    private Integer activityOfferingsCreated;
-    @XmlElement
-    private Integer activityOfferingsSkipped;
+    private Integer itemsSkipped;
     @XmlElement
     private String sourceTermId;
     @XmlElement
@@ -102,10 +96,8 @@ public class SocRolloverResultInfo
         this.optionKeys = new ArrayList<String>(orig.getOptionKeys());
         this.itemsProcessed = orig.getItemsProcessed();
         this.itemsExpected = orig.getItemsExpected();
-        this.courseOfferingsCreated = orig.getCourseOfferingsCreated();
-        this.courseOfferingsSkipped = orig.getCourseOfferingsSkipped();
-        this.activityOfferingsCreated = orig.getActivityOfferingsCreated();
-        this.activityOfferingsSkipped = orig.getActivityOfferingsSkipped();
+        this.itemsCreated = orig.getItemsCreated();
+        this.itemsSkipped = orig.getItemsSkipped();
         this.sourceTermId = orig.getSourceTermId();
         if (orig.getMessage() != null) {
             this.message = new RichTextInfo (orig.getMessage());
@@ -179,39 +171,21 @@ public class SocRolloverResultInfo
     }
 
     @Override
-    public Integer getActivityOfferingsCreated() {
-        return activityOfferingsCreated;
+    public Integer getItemsCreated() {
+        return itemsCreated;
     }
 
-    public void setActivityOfferingsCreated(Integer activityOfferingsCreated) {
-        this.activityOfferingsCreated = activityOfferingsCreated;
-    }
-
-    @Override
-    public Integer getActivityOfferingsSkipped() {
-        return activityOfferingsSkipped;
-    }
-
-    public void setActivityOfferingsSkipped(Integer activityOfferingsSkipped) {
-        this.activityOfferingsSkipped = activityOfferingsSkipped;
+    public void setItemsCreated(Integer itemsCreated) {
+        this.itemsCreated = itemsCreated;
     }
 
     @Override
-    public Integer getCourseOfferingsCreated() {
-        return courseOfferingsCreated;
+    public Integer getItemsSkipped() {
+        return itemsSkipped;
     }
 
-    public void setCourseOfferingsCreated(Integer courseOfferingsCreated) {
-        this.courseOfferingsCreated = courseOfferingsCreated;
-    }
-
-    @Override
-    public Integer getCourseOfferingsSkipped() {
-        return courseOfferingsSkipped;
-    }
-
-    public void setCourseOfferingsSkipped(Integer courseOfferingsSkipped) {
-        this.courseOfferingsSkipped = courseOfferingsSkipped;
+    public void setItemsSkipped(Integer itemsSkipped) {
+        this.itemsSkipped = itemsSkipped;
     }
 
     @Override
