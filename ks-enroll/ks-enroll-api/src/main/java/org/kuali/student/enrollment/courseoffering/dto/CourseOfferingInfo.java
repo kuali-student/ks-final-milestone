@@ -36,12 +36,14 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
-        "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", "isHonorsOffering",
-        "instructors", "subjectArea", "unitsDeploymentOrgIds", "unitsContentOwnerOrgIds",  "maximumEnrollment",
-        "minimumEnrollment", "jointOfferingIds", "creditOptionId", "gradingOptionId",
-        "studentRegistrationOptionIds", "waitlistLevelTypeKey", "hasWaitlist", "waitlistTypeKey",
-        "campusLocations", "finalExamType", "isEvaluated", "fundingSource", "isFeeAtActivityOffering",
-        "isFinancialAidEligible", "courseOfferingURL", "meta", "attributes", "_futureElements"})
+                "termId", "courseCode", "courseOfferingCode", 
+                "courseNumberSuffix", "courseOfferingTitle", "isHonorsOffering",
+                "instructors", "subjectArea", "unitsDeploymentOrgIds", 
+                "unitsContentOwnerOrgIds",  "maximumEnrollment",
+                "minimumEnrollment", "jointOfferingIds", "creditOptionId", "gradingOptionId",
+                "studentRegistrationOptionIds", "waitlistLevelTypeKey", "hasWaitlist", "waitlistTypeKey",
+                "campusLocations", "finalExamType", "isEvaluated", "fundingSource", "isFeeAtActivityOffering",
+                "isFinancialAidEligible", "courseOfferingURL", "meta", "attributes", "_futureElements"})
 
 public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseOffering {
 
@@ -58,6 +60,9 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     @XmlElement
     private RichTextInfo descr;
+
+    @XmlElement
+    private String courseCode;
 
     @XmlElement
     private String courseOfferingCode;
@@ -160,6 +165,7 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         
 
         this.courseOfferingTitle = offering.getCourseOfferingTitle();
+        this.courseCode = offering.getCourseCode();
         this.courseOfferingCode = offering.getCourseOfferingCode();
         this.courseNumberSuffix = offering.getCourseNumberSuffix();
         this.subjectArea = offering.getSubjectArea();
@@ -230,6 +236,15 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     public void setDescr(RichTextInfo descr) {
         this.descr = descr;
+    }
+
+    @Override
+    public String getCourseCode() {
+        return this.courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
     }
 
     @Override

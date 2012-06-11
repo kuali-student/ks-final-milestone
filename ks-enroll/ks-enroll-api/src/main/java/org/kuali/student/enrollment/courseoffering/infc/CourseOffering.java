@@ -71,6 +71,29 @@ public interface CourseOffering extends IdNamelessEntity{
      * it is not not directly updatable but rather is calculated from it's two
      * constituent parts, the subject area and the course number suffix. For
      * example: Subject Area = "ENG" and Suffix = "101" then code = "ENG101"
+     *
+     * This field is differentiated from the Couurse Offering Code in
+     * that the Course Offering Code can updated while the Course Code
+     * always indicates the official canonical code.
+     * 
+     * @name Course Code
+     * @readOnly
+     * @impl this is a read only copy of the official canonical course code
+     */
+    public String getCourseCode();
+
+    /**
+     * Identifies the number of a course as reflected in the course catalog.
+     * This typically must be unique across all courses offered during that
+     * term. If the user wants to create two separate offerings for the same
+     * course they must modify this code to make it unique. For example: An
+     * on-line offering of the course might have an "O" appended to it to
+     * distinguish it from the face to face offering, i.e. ENG101 and ENG101O
+     * Initially copied from the course catalog but then, depending on the
+     * configuration it may be updatable. Often this field is configured so that
+     * it is not not directly updatable but rather is calculated from it's two
+     * constituent parts, the subject area and the course number suffix. For
+     * example: Subject Area = "ENG" and Suffix = "101" then code = "ENG101"
      * 
      * @name Course Offering Code
      * @impl initialially this is copied from the course catalog code but then
