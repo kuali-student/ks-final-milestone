@@ -460,7 +460,6 @@
         <property name="transformationManager" ref="majorDisciplineTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
-        <property name="cluService" ref="cluClient"/>
     </bean>
 
     <bean id="majorDisciplineProposalDataService" class="org.kuali.student.lum.program.server.MajorDisciplineProposalDataService">
