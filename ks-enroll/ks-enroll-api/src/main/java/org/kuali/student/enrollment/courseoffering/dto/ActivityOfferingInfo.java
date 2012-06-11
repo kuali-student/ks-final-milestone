@@ -37,7 +37,8 @@ import org.w3c.dom.Element;
 @XmlType(name = "ActivityOfferingInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
                 "formatOfferingId", "formatOfferingName",
-                "activityId", "termId", "termCode", "activityCode", "scheduleId",
+                "activityId", "termId", "termCode", "activityCode", 
+                "activityNumberSuffix", "scheduleId",
                 "isHonorsOffering", "instructors",
                 "weeklyInclassContactHours", "weeklyOutofclassContactHours", 
                 "weeklyTotalContactHours",  "isEvaluated",
@@ -70,6 +71,9 @@ public class ActivityOfferingInfo
 
     @XmlElement
     private String activityCode;   
+
+    @XmlElement
+    private String activityNumberSuffix;   
     
     @XmlElement
     private String scheduleId;
@@ -150,6 +154,7 @@ public class ActivityOfferingInfo
         this.termId = offering.getTermId();
         this.scheduleId = offering.getScheduleId();
         this.activityCode = offering.getActivityCode();
+        this.activityNumberSuffix = offering.getActivityNumberSuffix();
 
         this.isHonorsOffering = offering.getIsHonorsOffering();
         this.instructors = new ArrayList<OfferingInstructorInfo>();
@@ -225,7 +230,6 @@ public class ActivityOfferingInfo
         this.termCode = termCode;
     }
 
-
     @Override
     public String getActivityCode() {
         return activityCode;
@@ -233,6 +237,15 @@ public class ActivityOfferingInfo
 
     public void setActivityCode(String activityCode) {
         this.activityCode = activityCode;
+    }
+
+    @Override
+    public String getActivityNumberSuffix() {
+        return activityNumberSuffix;
+    }
+
+    public void setActivityNumberSuffix(String activityNumberSuffix) {
+        this.activityNumberSuffix = activityNumberSuffix;
     }
 
     @Override

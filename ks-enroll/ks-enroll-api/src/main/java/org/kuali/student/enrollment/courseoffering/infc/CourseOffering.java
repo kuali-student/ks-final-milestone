@@ -368,7 +368,8 @@ public interface CourseOffering extends IdNamelessEntity{
     public Boolean getHonorsOffering();
 
     /**
-     * Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
+     * Indicates the type of final exam ('STANDARD', 'ALTERNATE',
+     * 'NONE') to be given for this format Offering, if any.
      *
      * @name Final Exam Type
      */

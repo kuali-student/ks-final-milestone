@@ -112,7 +112,6 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     @XmlElement
     private Integer minimumEnrollment;
 
-
     @XmlElement
     private String finalExamType;
 
@@ -124,7 +123,6 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     @XmlElement
     private Boolean isFinancialAidEligible;
-
 
     @XmlElement
     private Boolean isEvaluated;
