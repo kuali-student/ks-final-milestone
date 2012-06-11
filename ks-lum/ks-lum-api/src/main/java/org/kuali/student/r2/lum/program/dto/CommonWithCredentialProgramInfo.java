@@ -233,6 +233,9 @@ public abstract class CommonWithCredentialProgramInfo extends IdNamelessEntityIn
 
     @Override
     public List<String> getProgramRequirements() {
+        if (programRequirements == null) {
+            programRequirements = new ArrayList<String>(0);
+        }
         return programRequirements;
     }
 
