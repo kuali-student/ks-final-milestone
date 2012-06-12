@@ -109,7 +109,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 
     @Override
     public Map<String,String> translateInputAttributes(Map<String,String> qualification) {
-        return KimQualificationHelper.translateInputAttributeSet(super.translateInputAttributes(translateInputAttributes(qualification)), ContextUtils.getContextInfo());
+        return KimQualificationHelper.translateInputAttributeSet(qualification, ContextUtils.getContextInfo());
     }
 
 	protected String getDocumentNumber(Map<String,String> qualification) throws WorkflowException {
