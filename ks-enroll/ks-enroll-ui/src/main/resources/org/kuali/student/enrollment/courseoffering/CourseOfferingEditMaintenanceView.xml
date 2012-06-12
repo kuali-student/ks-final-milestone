@@ -70,12 +70,15 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" p:addBlankOption="false" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="coInfo.studentRegistrationOptionIds" p:label="Student Registration Options" p:labelPlacement="TOP" p:finalizeMethodToCall="populateStudentRegOptionsKeyValues">
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.studentRegistrationOptionIds" p:label="Student Registration Options" p:labelPlacement="TOP" p:render="@{!#dp.studentRegOptions.empty}">
                                  <property name="control">
                                     <bean parent="Uif-VerticalCheckboxesControl"/>
                                 </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.StudentRegistrationOptionsKeyValues" p:addBlankOption="false" />
+                                </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="coInfo.studentRegistrationOptionIds" p:label="Student Registration Options" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:defaultValue="None available" p:finalizeMethodToCall="populateStudentRegOptionsNone" />
+                            <bean parent="Uif-MessageField" p:label="Student Registration Options" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}"/>
                         </list>
                     </property>
                 </bean>
