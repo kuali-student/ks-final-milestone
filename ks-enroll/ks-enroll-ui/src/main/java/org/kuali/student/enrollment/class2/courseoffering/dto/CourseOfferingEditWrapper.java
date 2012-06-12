@@ -37,10 +37,12 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     private CourseOfferingInfo coInfo;
     private List<FormatOfferingInfo> formatOfferings;
+    private List<String> studentRegOptions;
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
         formatOfferings = new ArrayList<FormatOfferingInfo>();
+        studentRegOptions = new ArrayList<String>();
     }
 
     public CourseOfferingEditWrapper(CourseOfferingInfo info){
@@ -65,6 +67,17 @@ public class CourseOfferingEditWrapper implements Serializable {
             formatOfferings = new ArrayList<FormatOfferingInfo>();
         }
         this.formatOfferings = formatOfferings;
+    }
+
+    public List<String> getStudentRegOptions() {
+        return studentRegOptions;
+    }
+
+    public void setStudentRegOptions(List<String> studentRegOptions) {
+        if (studentRegOptions == null) {
+            studentRegOptions = new ArrayList<String>();
+        }
+        this.studentRegOptions = studentRegOptions;
     }
 
 }
