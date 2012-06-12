@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.r1.common.dto.DtoConstants.DtoState;
+import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.r1.core.comment.dto.CommentInfo;

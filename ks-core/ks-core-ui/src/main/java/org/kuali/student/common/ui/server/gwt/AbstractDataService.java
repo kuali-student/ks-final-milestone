@@ -24,7 +24,7 @@ import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
 import org.kuali.student.r1.common.assembly.transform.TransformFilter;
 import org.kuali.student.r1.common.assembly.transform.TransformFilter.TransformFilterAction;
 import org.kuali.student.r1.common.assembly.transform.TransformationManager;
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r2.common.dto.ContextInfo;

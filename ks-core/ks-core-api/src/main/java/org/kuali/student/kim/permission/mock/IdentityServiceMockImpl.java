@@ -27,6 +27,7 @@ import org.kuali.rice.kim.api.identity.personal.EntityEthnicity;
 import org.kuali.rice.kim.api.identity.phone.EntityPhone;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.identity.principal.PrincipalQueryResults;
 import org.kuali.rice.kim.api.identity.privacy.EntityPrivacyPreferences;
 import org.kuali.rice.kim.api.identity.residency.EntityResidency;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
@@ -34,6 +35,7 @@ import org.kuali.rice.kim.api.identity.visa.EntityVisa;
 
 import javax.jws.WebParam;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -421,6 +423,66 @@ public class IdentityServiceMockImpl implements IdentityService {
     public EntityVisa updateVisa(EntityVisa ev) throws RiceIllegalArgumentException, RiceIllegalStateException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    //@Override
+    //public List<CodedAttribute> findAllAddressTypes() {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public List<EntityAffiliationType> findAllAffiliationTypes() {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public List<CodedAttribute> findAllCitizenshipStatuses() {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public List<CodedAttribute> findAllEmailTypes() {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public List<CodedAttribute> findAllEmploymentStatuses() {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public List<CodedAttribute> findAllEmploymentTypes() {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public List<CodedAttribute> findAllEntityTypes() {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public List<EntityExternalIdentifierType> findAllExternalIdendtifierTypes() {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public List<CodedAttribute> findAllNameTypes() {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public List<CodedAttribute> findAllPhoneTypes() {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public PrincipalQueryResults findPrincipals(QueryByCriteria arg0) throws RiceIllegalArgumentException {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public List<Principal> getPrincipals(List<String> arg0) {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
     
     
 }

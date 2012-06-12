@@ -621,5 +621,20 @@ public class RoleServiceMockImpl implements RoleService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    //@Override
+    //public DelegateMember createDelegateMember(DelegateMember arg0) throws RiceIllegalArgumentException, RiceIllegalStateException {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public void removeDelegateMembers(List<DelegateMember> arg0) throws RiceIllegalArgumentException, RiceIllegalStateException {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
+    //@Override
+    //public DelegateMember updateDelegateMember(DelegateMember arg0) throws RiceIllegalArgumentException, RiceIllegalStateException {
+    //    throw new UnsupportedOperationException("Not supported yet.");
+    //}
+
 }
 

@@ -37,7 +37,7 @@ import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r1.common.dto.DtoConstants.DtoState;
+import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;

@@ -36,7 +36,7 @@ import org.kuali.student.r1.common.assembly.transform.IdTranslatorFilter;
 import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
 import org.kuali.student.r1.common.assembly.transform.TransformFilter;
 import org.kuali.student.r1.common.assembly.util.IdTranslator;
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.w3c.dom.DOMImplementation;
