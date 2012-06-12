@@ -46,10 +46,11 @@ public class EnrollmentFeeInfoMaintainableImpl extends MaintainableImpl {
             try {
 
                 EnrollmentFeeInfo efi = (EnrollmentFeeInfo) getDataObject();
-
+                efi.setTypeKey(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY);
+                efi.setStateKey(FeeServiceConstants.FEE_ACTIVE_STATE_KEY);
                 EnrollmentFeeInfo  feeInfo  = getFeeService().createFee(efi.getTypeKey(), efi,getContextInfo() );
 
-                setDataObject(feeInfo);
+                setDataObject(new EnrollmentFeeInfo(feeInfo));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
