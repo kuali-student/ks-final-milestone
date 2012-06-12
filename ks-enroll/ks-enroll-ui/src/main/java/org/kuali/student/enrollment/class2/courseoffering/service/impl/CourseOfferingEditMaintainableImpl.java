@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -26,6 +27,7 @@ import org.kuali.rice.krad.uif.field.DataField;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.student.common.exceptions.*;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.keyvalue.StudentRegistrationOptionsKeyValues;
@@ -34,6 +36,9 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -44,10 +49,7 @@ import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * This class //TODO ...
@@ -60,7 +62,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl impleme
     private ContextInfo contextInfo;
     private transient TypeService typeService;
     private transient StateService stateService;
-
+    private transient CourseService courseService;
 
     //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012).
 
@@ -93,6 +95,21 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl impleme
             CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(info);
             List<FormatOfferingInfo> formats = getCourseOfferingService().getFormatOfferingsByCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
             formObject.setFormatOfferings(formats);
+            // checking if there are any student registration options from CLU for screen display
+            List<String> studentRegOptions = new ArrayList<String>();
+            String courseId = info.getCourseId();
+            if (courseId != null) {
+                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId);
+                List<String> gradingOptions = courseInfo.getGradingOptions();
+                Set<String> regOpts = new HashSet<String>(Arrays.asList(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS));
+                for(String regOpt: regOpts) {
+                    if (gradingOptions.contains(regOpt)) {
+                        studentRegOptions.add(regOpt);
+                    }
+                }
+            }
+            formObject.setStudentRegOptions(studentRegOptions);
+
             document.getNewMaintainableObject().setDataObject(formObject);
             document.getOldMaintainableObject().setDataObject(formObject);
 //            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
@@ -100,32 +117,6 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl impleme
             return formObject;
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    public void populateStudentRegOptionsKeyValues (InputField field, MaintenanceForm mForm) {
-
-        StudentRegistrationOptionsKeyValues studentRegistrationOptions = new StudentRegistrationOptionsKeyValues();
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-
-        keyValues = studentRegistrationOptions.getKeyValues(mForm);
-        if (keyValues.isEmpty()) {
-            field.setRender(false);
-            return;
-        }
-
-        ((CheckboxGroupControl) field.getControl()).setOptions(keyValues);
-    }
-
-    public void populateStudentRegOptionsNone (DataField field, MaintenanceForm mForm) {
-
-        StudentRegistrationOptionsKeyValues studentRegistrationOptions = new StudentRegistrationOptionsKeyValues();
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-
-        keyValues = studentRegistrationOptions.getKeyValues(mForm);
-        if (!keyValues.isEmpty()) {
-            field.setRender(false);
-            return;
         }
     }
 
@@ -173,5 +164,12 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl impleme
             courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, "CourseOfferingService"));
         }
         return courseOfferingService;
+    }
+
+    protected CourseService getCourseService() {
+        if(courseService == null) {
+            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, "CourseService"));
+        }
+        return this.courseService;
     }
 }
