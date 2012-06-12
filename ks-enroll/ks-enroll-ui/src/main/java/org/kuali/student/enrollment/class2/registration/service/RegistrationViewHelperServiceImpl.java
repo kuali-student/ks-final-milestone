@@ -18,6 +18,8 @@ import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConsta
 
 import java.util.List;
 
+//Needs to clean up the core slice codes
+@Deprecated
 public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
 
     public void checkRegElements(CollectionGroup collGroup, RegistrationForm form){

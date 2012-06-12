@@ -33,6 +33,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//Needs to clean up the core slice codes
+@Deprecated
 public class RegistrationForm extends UifFormBase {
 
     private static final long serialVersionUID = 2554632701931313545L;

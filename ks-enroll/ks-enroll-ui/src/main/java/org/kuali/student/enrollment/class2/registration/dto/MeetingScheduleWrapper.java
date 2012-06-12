@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.text.DateFormatSymbols;
 import java.util.*;
 
+//Needs to clean up the core slice codes
+@Deprecated
 public class MeetingScheduleWrapper implements Serializable {
     private static final long serialVersionUID = 1L;
 

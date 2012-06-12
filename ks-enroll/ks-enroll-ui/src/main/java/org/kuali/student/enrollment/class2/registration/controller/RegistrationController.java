@@ -69,6 +69,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/registration")
+//Needs to clean up the core slice codes
+@Deprecated
 public class RegistrationController extends UifControllerBase {
 
     private transient CourseOfferingService courseOfferingService;
