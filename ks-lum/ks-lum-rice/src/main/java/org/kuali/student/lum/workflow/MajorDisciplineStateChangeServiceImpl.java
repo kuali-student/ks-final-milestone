@@ -2,7 +2,7 @@ package org.kuali.student.lum.workflow;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 

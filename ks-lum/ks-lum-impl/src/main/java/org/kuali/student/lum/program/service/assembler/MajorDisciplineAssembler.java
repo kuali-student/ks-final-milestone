@@ -16,7 +16,7 @@ import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r2.common.dto.AmountInfo;
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;

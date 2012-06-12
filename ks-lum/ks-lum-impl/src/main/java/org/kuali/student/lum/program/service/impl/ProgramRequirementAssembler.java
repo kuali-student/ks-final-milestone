@@ -19,7 +19,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;

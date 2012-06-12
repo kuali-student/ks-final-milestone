@@ -24,7 +24,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalCon
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRetireByProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseRetireProposalRpcService;
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.lum.lu.LUConstants;
 

@@ -3,7 +3,7 @@ package org.kuali.student.lum.program.server;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;

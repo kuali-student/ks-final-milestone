@@ -19,7 +19,7 @@ import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.r1.common.dictionary.dto.DataType;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;

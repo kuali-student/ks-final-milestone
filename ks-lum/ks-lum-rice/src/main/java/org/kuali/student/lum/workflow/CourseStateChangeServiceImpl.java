@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;

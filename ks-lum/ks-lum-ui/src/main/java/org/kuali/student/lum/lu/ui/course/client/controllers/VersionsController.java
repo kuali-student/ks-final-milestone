@@ -32,7 +32,7 @@ import org.kuali.student.lum.lu.ui.course.client.views.ShowVersionView;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 
 import com.google.gwt.core.client.GWT;

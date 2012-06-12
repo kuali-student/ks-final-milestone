@@ -17,7 +17,7 @@ import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.lum.lu.LUConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r1.common.dto.DtoConstants.DtoState;
+import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 
 
 /**

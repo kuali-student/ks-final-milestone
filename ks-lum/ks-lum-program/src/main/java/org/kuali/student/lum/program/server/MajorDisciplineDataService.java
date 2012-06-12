@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.r2.common.util.ContextUtils;

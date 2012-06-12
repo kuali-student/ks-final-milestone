@@ -19,7 +19,7 @@ import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminRetireController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
