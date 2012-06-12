@@ -241,22 +241,195 @@
     
     <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
         <property name="lprDao" ref="lprDao"/>
-   <property name="lprRosterDao" ref="lprRosterDao"/>
-    <property name="lprTransDao" ref="lprTransDao"/>
-    <property name="lprTransItemDao" ref="lprTransItemDao"/>
-    <property name="lprRosterEntryDao" ref="lprRosterEntryDao"/>
+   		<property name="lprRosterDao" ref="lprRosterDao"/>
+    	<property name="lprTransDao" ref="lprTransDao"/>
+    	<property name="lprTransItemDao" ref="lprTransItemDao"/>
+    	<property name="lprRosterEntryDao" ref="lprRosterEntryDao"/>
+    </bean>
+    
+     <bean id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
+    </bean>
+    
+     <bean id="gradeRosterEntryAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler">
+    </bean>
+    
+     <bean id="gradeValuesGroupAssembler" class="org.kuali.student.enrollment.class2.grading.assembler.GradeValuesGroupAssembler">
     </bean>
     
     <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl">
         <property name="courseRegistrationService" ref="courseRegService"/>
         <property name="lprService" ref="lprService"/>
-    <property name="courseOfferingService" ref="--------------"/>
-    <property name="lrcService" ref="lrcService"/>
-   <property name="lrrService" ref="--------------"/>
-    <property name="luiService" ref="--------------"/>
-    <property name="gradeRosterAssembler" ref="--------------"/>
-    <property name="gradeRosterEntryAssembler" ref="--------------"/>
-    <property name="gradeValuesGroupAssembler" ref="--------------"/>
+    	<property name="courseOfferingService" ref="courseOfferingService"/>
+    	<property name="lrcService" ref="lrcService"/>
+   		<property name="lrrService" ref="lrrService"/>
+    	<property name="luiService" ref="luiService"/>
+    	<property name="gradeRosterAssembler" ref="gradeRosterAssembler"/>
+    	<property name="gradeRosterEntryAssembler" ref="gradeRosterEntryAssembler"/>
+    	<property name="gradeValuesGroupAssembler" ref="gradeValuesGroupAssembler"/>
+    </bean>
+    
+    <bean id="luDao" class="org.kuali.student.lum.lu.dao.impl.LuDaoImpl">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="luSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
+		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+	</bean>
+    
+     <bean id="lumCrossServiceSearchManager" class="org.kuali.student.common.search.service.impl.CrossSearchManager">
+		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+	</bean>
+
+	<bean id="lumSearchDispatcher" class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
+		<property name="services">
+			<list>
+				<ref bean="loServiceImpl"/>
+				<ref bean="luServiceImpl"/>
+				<ref bean="lrcServiceImpl"/>
+				<ref bean="orgServiceImpl"/>
+				<ref bean="emServiceImpl"/>
+			</list>
+		</property>
+	</bean>
+    
+    <bean id="loServiceImpl"
+		class="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl">
+		<property name="loDao" ref="loDao" />
+        <property name="searchManager" ref="loSearchManager" />
+		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+		<property name="validatorFactory" ref="validatorFactory"/>        
+	</bean>
+    
+    <bean id="luServiceImpl"
+		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
+		<property name="luDao" ref="luDao" />
+        <property name="searchManager" ref="luSearchManager" />
+        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+		<property name="validatorFactory" ref="validatorFactory"/>
+	</bean>
+	
+	<bean id="lrcServiceImpl"
+		class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+		<property name="lrcDao" ref="lrcDao" />
+        <property name="searchManager" ref="lrcSearchManager" />
+        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>        
+        <property name="validatorFactory" ref="validatorFactory"/>
+	</bean>
+    
+    <bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+       	
+    </bean>
+    
+    <bean id="courseServiceImpl" class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
+		<property name="luService" ref="luServiceImpl"/>
+		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+		<property name="courseAssembler" ref="courseAssembler"/>
+		<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
+		<property name="validatorFactory" ref="validatorFactory"/>
+		<property name="statementService" ref="statementServiceImpl"/>
+	</bean>
+
+	<bean id="courseServiceMethodInvoker" class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
+		<property name="luService" ref="luServiceImpl"/>
+		<property name="loService" ref="loServiceImpl"/>
+		<property name="statementService" ref="statementServiceImpl"/>
+		<property name="atpService" ref="atpServiceImpl"/>
+		<property name="orgService" ref="orgServiceImpl"/>
+		<property name="lrcService" ref="lrcServiceImpl"/>
+	</bean>
+
+	<bean id="courseAssembler" class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
+		<property name="formatAssembler" ref="formatAssembler"/>
+		<property name="courseJointAssembler" ref="courseJointAssembler"/>
+		<property name="luService" ref="luServiceImpl"/>
+		<property name="loService" ref="loServiceImpl"/>
+		<property name="lrcService" ref="lrcServiceImpl"/>
+		<property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="loAssembler" ref="loAssembler"/>
+	</bean>
+
+	<bean id="loAssembler" class="org.kuali.student.lum.course.service.assembler.LoAssembler">
+		<property name="loService" ref="loServiceImpl"/>
+	</bean>
+
+	<bean id="formatAssembler" class="org.kuali.student.lum.course.service.assembler.FormatAssembler">
+		<property name="activityAssembler" ref="activityAssembler"/>
+		<property name="luService" ref="luServiceImpl"/>
+	</bean>
+
+	<bean id="activityAssembler" class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
+		<property name="luService" ref="luServiceImpl"/>
+	</bean>
+
+	<bean id="courseJointAssembler" class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
+		<property name="luService" ref="luServiceImpl"/>
+	</bean>
+
+    <bean id="cluAssemblerUtils"
+          class="org.kuali.student.lum.service.assembler.CluAssemblerUtils">
+        <property name="luService" ref="luServiceImpl"/>
+        <property name="loService" ref="loServiceImpl"/>
+        <property name="loAssembler" ref="loAssembler"/>
+    </bean>
+
+ 	<bean id="businessServiceValidator" class="org.kuali.student.r2.common.service.impl.MockDefaultValidatorImpl"/>
+    
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+  </bean>
+  
+  <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
+    <property name="luiService" ref="luiService" />
+    <property name="regGroupTransformer" ref="regGroupTransformer"/>
+  </bean>
+  
+  <bean id="regGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer" />
+    
+   <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
+    <property name="courseService" ref="courseServiceImpl" />
+    <property name="acalService" ref="acalService" />
+    <property name="coService" ref="courseOfferingService" />
+  </bean>
+  
+  <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+    
+    <bean id="courseOfferingService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
+        <property name="luiService" ref="luiService"/>
+    <property name="typeService" ref="typeService"/>
+    <property name="courseService" ref="courseServiceImpl"/>
+    <property name="acalService" ref="acalService"/>
+    <property name="atpService" ref="atpService"/>
+    <property name="registrationGroupAssembler" ref="rgAssembler"/>
+    <property name="stateService" ref="stateService"/>
+    <property name="lprService" ref="lprService"/>
+    <property name="businessLogic" ref="businessLogic"/>
+    <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
+    </bean>
+
+	<bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+     <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+	
+	<bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
+        <property name="luiDao" ref="luiDao"/>
+    <property name="luiLuiRelationDao" ref="luiLuiRelationDao"/>
+    </bean>
+
+    <bean id="resultSourceDao" class="org.kuali.student.enrollment.class1.lrr.dao.ResultSourceDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="lrrDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="lrrService" class="org.kuali.student.enrollment.class1.lrr.service.impl.LearningResultRecordServiceImpl">
+        <property name="lrrDao" ref="lrrDao"/>
+    	<property name="resultSourceDao" ref="resultSourceDao"/>
     </bean>
     
     <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
