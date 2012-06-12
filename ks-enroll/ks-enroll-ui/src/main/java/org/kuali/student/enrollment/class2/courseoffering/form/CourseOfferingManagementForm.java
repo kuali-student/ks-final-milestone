@@ -2,8 +2,8 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private List<CourseOfferingInfo> courseOfferingList;
     private CourseOfferingInfo theCourseOffering;
 
-    private List<ActivityOfferingInfo> activityWrapperList;
+    private List<ActivityOfferingWrapper> activityWrapperList;
 
     //For Adding Activity
     private String formatIdForNewAO;
@@ -29,7 +29,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public CourseOfferingManagementForm (){
         courseOfferingList = new ArrayList<CourseOfferingInfo>();
-        activityWrapperList = new ArrayList<ActivityOfferingInfo>();
+        activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
 //        haveValidTerm = false;
     }
 
@@ -113,11 +113,11 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.noOfActivityOfferings = noOfActivityOfferings;
     }
 
-    public List<ActivityOfferingInfo> getActivityWrapperList() {
+    public List<ActivityOfferingWrapper> getActivityWrapperList() {
         return activityWrapperList;
     }
 
-    public void setActivityWrapperList(List<ActivityOfferingInfo> activityWrapperList) {
+    public void setActivityWrapperList(List<ActivityOfferingWrapper> activityWrapperList) {
         this.activityWrapperList = activityWrapperList;
     }
 

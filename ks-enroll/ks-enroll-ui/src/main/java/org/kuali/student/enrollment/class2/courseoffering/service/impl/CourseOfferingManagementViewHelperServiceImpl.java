@@ -13,6 +13,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -91,7 +92,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                         throw new RuntimeException("Alert: find more than one term for specified termCode: "+termCode);
                     }
                 } else {
-                    new Exception("Error: Does not find a valid term with the termCode equal to "+ termCode);
+                    new Exception("Error: Does not find a valid term with Term = "+ termCode);
                 }
             }
 
@@ -198,8 +199,21 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 
     public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo,CourseOfferingManagementForm form) throws Exception{
         String courseOfferingId = theCourseOfferingInfo.getId();
-        List<ActivityOfferingInfo> activityOfferingList =_getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, getContextInfo());
-        form.setActivityWrapperList(activityOfferingList);
+        List<ActivityOfferingInfo> activityOfferingInfoList;
+        List<ActivityOfferingWrapper> activityOfferingWrapperList = new ArrayList();
+
+        try{
+            activityOfferingInfoList =_getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, getContextInfo());
+            int i = 0;
+            for (ActivityOfferingInfo info : activityOfferingInfoList) {
+                activityOfferingWrapperList.add(new ActivityOfferingWrapper());
+                activityOfferingWrapperList.get(i).setAoInfo(info);
+                i++;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error: Does not find a valid term with the Course Id = "+ courseOfferingId+ ". Exception "+e);
+        }
+        form.setActivityWrapperList(activityOfferingWrapperList);
      }
 
 

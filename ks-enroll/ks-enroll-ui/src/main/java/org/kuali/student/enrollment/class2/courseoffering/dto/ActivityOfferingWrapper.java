@@ -13,6 +13,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private FormatOfferingInfo formatOffering;
     private TermInfo term;
     private boolean readOnlyView;
+    private boolean isChecked;
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
@@ -21,6 +22,7 @@ public class ActivityOfferingWrapper implements Serializable{
         formatOffering = new FormatOfferingInfo();
         term = new TermInfo();
         this.setReadOnlyView(false);
+        this.setIsChecked(false);
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
@@ -60,5 +62,12 @@ public class ActivityOfferingWrapper implements Serializable{
         this.readOnlyView = readOnlyView;
     }
 
+    public boolean getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(boolean checked) {
+        this.isChecked = checked;
+    }
 
 }

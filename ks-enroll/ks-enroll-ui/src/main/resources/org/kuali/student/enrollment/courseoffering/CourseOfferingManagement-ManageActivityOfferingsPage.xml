@@ -71,11 +71,11 @@
     </bean>
     <bean id="KS-CourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
           p:layoutManager.numberOfColumns="3"  p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
@@ -85,18 +85,23 @@
         </property>
         <property name="items">
             <list>
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField"
                       p:label="STATUS"
-                      p:propertyName="stateKey" />
+                      p:propertyName="aoInfo.stateKey" />
                 <bean parent="Uif-DataField"
                       p:label="CODE"
-                      p:propertyName="activityCode"/>
+                      p:propertyName="aoInfo.activityCode"/>
                 <bean parent="Uif-DataField"
                       p:label="TYPE"
-                      p:propertyName="typeKey"/>
+                      p:propertyName="aoInfo.typeKey"/>
                 <bean parent="Uif-DataField"
                       p:label="FORMAT"
-                      p:propertyName="formatOfferingName"/>
+                      p:propertyName="aoInfo.formatOfferingName"/>
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">
