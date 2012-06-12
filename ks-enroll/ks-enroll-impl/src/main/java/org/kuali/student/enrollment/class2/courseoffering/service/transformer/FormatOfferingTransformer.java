@@ -40,7 +40,11 @@ public class FormatOfferingTransformer {
         lui.setId(format.getId());
         lui.setTypeKey(format.getTypeKey());
         lui.setStateKey(format.getStateKey());
-        lui.setName(format.getName());
+        if (format.getName() == null) {
+            lui.setName("FO"); // Makes it easier to track in DB
+        } else {
+            lui.setName(format.getName());
+        }
         lui.setCluId(format.getFormatId());
         lui.setAtpId(format.getTermId());
         lui.setDescr(format.getDescr());

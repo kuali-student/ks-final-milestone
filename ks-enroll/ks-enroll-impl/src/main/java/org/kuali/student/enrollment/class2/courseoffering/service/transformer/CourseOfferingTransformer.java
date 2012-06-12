@@ -153,6 +153,13 @@ public class CourseOfferingTransformer {
         lui.setMeta(co.getMeta());
         lui.setReferenceURL(co.getCourseOfferingURL());
 
+        // Just to make it easier to track in DB
+        String coCode = co.getCourseOfferingCode();
+        if (coCode == null) {
+            coCode = "NOCODE";
+        }
+        lui.setName(coCode + " CO");
+
         //Dynamic Attributes
         List<AttributeInfo> attributes = lui.getAttributes();
         for (Attribute attr : co.getAttributes()) {

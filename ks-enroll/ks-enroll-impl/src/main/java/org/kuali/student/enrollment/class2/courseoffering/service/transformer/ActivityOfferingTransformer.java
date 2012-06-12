@@ -70,7 +70,15 @@ public class ActivityOfferingTransformer {
         lui.setId(ao.getId());
         lui.setTypeKey(ao.getTypeKey());
         lui.setStateKey(ao.getStateKey());
-        lui.setName(ao.getName());
+        if (ao.getName() == null) {
+            String coCode = ao.getCourseOfferingCode();
+            if (coCode == null) {
+                coCode = "NOCODE";
+            }
+            lui.setName(coCode + " AO"); // Makes it easier to track in DB
+        } else {
+            lui.setName(ao.getName());
+        }
         lui.setDescr(ao.getDescr());
         lui.setMeta(ao.getMeta());
         lui.setCluId(ao.getActivityId());
