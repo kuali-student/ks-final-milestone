@@ -148,14 +148,12 @@
                         </list>
                     </property>
                 </bean>
-
             </list>
         </property>
         <property name="footer.items">
             <list/>
         </property>
     </bean>
-
 
     <bean id="CourseOfferingEditMaintenanceDocument" parent="CourseOfferingEditMaintenanceDocument-parentBean"/>
 
@@ -176,5 +174,4 @@
         <bean parent="Uif-KeyLabelPair" p:key="kuali.lpr.type.instructor.main" p:value="Instructor"/>
         <bean parent="Uif-KeyLabelPair" p:key="kuali.lpr.type.instructor.assistant" p:value="Teaching Assistant"/>
     </util:list>
-
 </beans>
