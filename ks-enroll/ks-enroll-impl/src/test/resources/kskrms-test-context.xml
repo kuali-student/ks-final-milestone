@@ -214,9 +214,7 @@
 
     <bean id="currentDateResolver" class="org.kuali.student.r2.core.class1.process.krms.termresolver.CurrentDateResolver"/>
     
-    
-    <bean id="ksKRMSTermResolverTypeService" class="org.kuali.student.r2.core.class1.process.krms.termresolver.StudentDeceasedTermResolver">
-        
+    <bean id="ksKRMSTermResolverTypeService" class="org.kuali.rice.krms.api.engine.TermResolver.KSTermResolverTypeService">
     </bean>
     
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
