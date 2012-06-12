@@ -22,8 +22,9 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private List<ActivityOfferingInfo> activityWrapperList;
 
     //For Adding Activity
-    private String addFormatType;
-    private String addActivityType;
+    private String formatIdForNewAO;
+
+    private String activityIdForNewAO;
     private int noOfActivityOfferings;
 
     public CourseOfferingManagementForm (){
@@ -104,22 +105,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.theCourseOffering = theCourseOffering;
     }
 
-    public String getAddFormatType() {
-        return addFormatType;
-    }
-
-    public void setAddFormatType(String addFormatType) {
-        this.addFormatType = addFormatType;
-    }
-
-    public String getAddActivityType() {
-        return addActivityType;
-    }
-
-    public void setAddActivityType(String addActivityType) {
-        this.addActivityType = addActivityType;
-    }
-
     public int getNoOfActivityOfferings() {
         return noOfActivityOfferings;
     }
@@ -135,5 +120,17 @@ public class CourseOfferingManagementForm extends UifFormBase {
     public void setActivityWrapperList(List<ActivityOfferingInfo> activityWrapperList) {
         this.activityWrapperList = activityWrapperList;
     }
-    
+
+    public String getFormatIdForNewAO() {
+        return formatIdForNewAO;
+    }
+
+    public void setFormatIdForNewAO(String formatIdForNewAO) {
+        this.formatIdForNewAO = formatIdForNewAO;
+    }
+
+    public String getActivityIdForNewAO() {
+        return activityIdForNewAO;
+    }
+
 }

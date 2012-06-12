@@ -96,52 +96,22 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="addFormatType"
-                                  p:label="Format"
-                                  p:labelPlacement="TOP"
-                                  p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="formatIdForNewAO" p:label="Format" p:labelPlacement="TOP" p:required="true" p:finalizeMethodToCall="populateFormatTypes" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
-                                <!--
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues" p:addBlankOption="false"/>
-                                </property>
-                                -->
                             </bean>
-
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="addActivityType"
-                                  p:label="Activity Type"
-                                  p:labelPlacement="TOP"
-                                  p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:finalizeMethodToCall="populateActivityTypes" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
-                                <!--
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues" p:addBlankOption="false"/>
-                                </property>
-                                -->
                             </bean>
-
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="noOfActivityOfferings"
-                                  p:label="Quantity"
-                                  p:labelPlacement="TOP"
-                                  p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="noOfActivityOfferings" p:label="Quantity" p:labelPlacement="TOP" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3"/>
                                 </property>
                             </bean>
-
-                            <bean parent="Uif-SecondaryActionButton"
-                                  p:performClientSideValidation="true"
-                                  p:actionLabel="Add"
-                                  p:methodToCall="addActivityOfferings"/>
-
+                            <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addActivityOfferings"/>
                         </list>
                     </property>
                 </bean>

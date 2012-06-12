@@ -240,6 +240,20 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return super.performRedirect(theForm,controllerPath, urlParameters);
     }
 
+    @RequestMapping(params = "methodToCall=addActivityOfferings")
+    public ModelAndView addActivityOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        String activityId = theForm.getActivityIdForNewAO();
+        String formatOfferingId = theForm.getFormatIdForNewAO();
+        int aoCount = theForm.getNoOfActivityOfferings();
+
+        ActivityOfferingInfo aoInfo = getViewHelperService(theForm).createActivityOfferings(formatOfferingId,activityId,aoCount,theForm.getTheCourseOffering());
+
+        return getUIFModelAndView(theForm);
+
+    }
+
     /**
      * Method used to invoke the Edit CO screen from Manage Course Offering screen while search input is Course Offering
      * Code (04a screen)
