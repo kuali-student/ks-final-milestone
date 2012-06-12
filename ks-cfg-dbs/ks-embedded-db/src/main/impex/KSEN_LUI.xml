@@ -21,7 +21,7 @@
         EXPIR_DT="20111231000000" ID="Lui-3"
         LUI_STATE="kuali.lui.state.offered"
         LUI_TYPE="kuali.lui.type.course.offering" NAME="Lui three" VER_NBR="0"/>
-    <KSEN_LUI CLU_ID="cluId4" CREATEID="admin"
+    <KSEN_LUI ATP_ID="2009FALL" CLU_ID="cluId4" CREATEID="admin"
         CREATETIME="19700101000000" DESCR_FORMATTED="Lui-4-Desc"
         DESCR_PLAIN="Lui-4-Desc" EFF_DT="20110101000000"
         EXPIR_DT="20111231000000" ID="Lui-4"
