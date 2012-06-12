@@ -14,8 +14,4 @@ import org.kuali.rice.krad.web.form.MaintenanceForm;
  */
 public interface CourseOfferingEditMaintainable extends Maintainable {
 
-    public void populateStudentRegOptionsKeyValues (InputField field, MaintenanceForm mForm);
-
-    public void populateStudentRegOptionsNone (DataField field, MaintenanceForm mForm);
-
 }
