@@ -19,9 +19,9 @@
  limitations under the License.
 -->
 
-      <bean id="ActivityOfferingFormObject" parent="ActivityOfferingFormObject-parentBean"/>
+      <bean id="ActivityOfferingWrapper" parent="ActivityOfferingWrapper-parentBean"/>
 
-      <bean id="ActivityOfferingFormObject-parentBean" abstract="true" parent="DataObjectEntry">
+      <bean id="ActivityOfferingWrapper-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="titleAttribute" value="aoInfo.id"/>
         <property name="attributes">
