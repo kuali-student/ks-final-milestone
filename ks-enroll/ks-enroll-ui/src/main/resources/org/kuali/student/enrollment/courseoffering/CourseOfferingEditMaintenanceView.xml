@@ -103,6 +103,45 @@
                     </property>
                 </bean>
 
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Waitlists">
+                    <property name="items">
+                        <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.hasWaitlist" p:label="Waitlists" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalCheckboxesControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="true" p:value="This course offering has a waitlist"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="Waitlist Type" p:propertyName="coInfo.waitlistTypeKey" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" />
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="headerText" value="Personnel"/>
                     <property name="items">
@@ -144,6 +183,55 @@
                                     </list>
                                 </property>
 
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="KS-CourseOfferingEdit-OrganizationSection" parent="Uif-TableCollectionSection"
+                      p:layoutManager.numberOfColumns="1"
+                      p:headerText="ADMINISTERING ORGANIZATIONS" p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper"
+                      p:propertyName="organizationNames" p:layoutManager.renderSequenceField="false"
+                      p:layoutManager.generateAutoSequence="false"
+                      p:layoutManager.separateAddLine="false"
+                      p:layoutManager.richTable.disableTableSort="true"
+                      p:addLineLabel.labelText=""
+                      p:layoutManager.richTable.render="false"
+                      p:layoutManager.applyAlternatingRowStyles="false">
+
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField"  p:label="Organization Name"  p:propertyName="organizationName" p:required="true"
+                                  p:style="font-weight:bold;white-space:nowrap;">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="16" />
+                                </property>
+                                <!--<property name="quickfinder.render" value="true"/>-->
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
+                                <property name="quickfinder.fieldConversions">
+                                    <map>
+                                        <entry key="shortName" value="organizationName" />
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText=""/>
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalCheckboxesControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="true" p:value="This is an Honors Course"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
                             </bean>
                         </list>
                     </property>
