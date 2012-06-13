@@ -103,6 +103,13 @@
                             <entry key="code" value="catalogCourseCode"/>
                         </map>
                     </property>
+                    <property name="quickfinder.quickfinderAction">
+                        <bean parent="Uif-ActionLink" p:actionLabel="Search" p:style="display:block" p:methodToCall="performLookup">
+                        <property name="lightBoxLookup">
+                          <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                        </property>
+                        </bean>
+                    </property>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
                               p:performClientSideValidation="true" p:style="margin-top:15px;"/>
