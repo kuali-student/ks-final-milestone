@@ -12,8 +12,18 @@ public class CourseOfferingCreateWrapper implements Serializable{
     private String courseCodeSuffix;
     private boolean createFromCatalog;
 
+    private String creditCount;
+
+    private boolean showTermOfferingLink;
+    private boolean showCatalogLink;
+
     private CourseInfo course;
     private CourseOfferingInfo coInfo;
+
+    public CourseOfferingCreateWrapper(){
+        showCatalogLink = true;
+        showTermOfferingLink = true;
+    }
 
     public String getTargetTermCode() {
         return targetTermCode;
@@ -63,4 +73,27 @@ public class CourseOfferingCreateWrapper implements Serializable{
         this.coInfo = coInfo;
     }
 
+    public String getCreditCount() {
+        return creditCount;
+    }
+
+    public void setCreditCount(String creditCount) {
+        this.creditCount = creditCount;
+    }
+
+    public boolean isShowTermOfferingLink() {
+        return showTermOfferingLink;
+    }
+
+    public void setShowTermOfferingLink(boolean showTermOfferingLink) {
+        this.showTermOfferingLink = showTermOfferingLink;
+    }
+
+    public boolean isShowCatalogLink() {
+        return showCatalogLink;
+    }
+
+    public void setShowCatalogLink(boolean showCatalogLink) {
+        this.showCatalogLink = showCatalogLink;
+    }
 }

@@ -38,22 +38,50 @@
 
     <!-- Maintenace View-->
     <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KSMaintenanceView">
-        <property name="headerText" value="Course Offering Maintenance"/>
+        <property name="headerText" value="Create Course Offering"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
         <!--<property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />-->
         <property name="items">
             <list>
-                <ref bean="KS-CourseOffering-MetaSubSection"/>
+                <ref bean="KS-CourseOffering-MetaSection"/>
+                <ref bean="KS-CourseOffering-LinkSection"/>
             </list>
         </property>
-        <property name="footer.items">
-            <list/>
+        <property name="page.footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Create Offering" p:performClientSideValidation="true"
+                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+            <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
+                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+        <property name="header.cssClasses">
+          <list merge="true">
+            <value>ks-borderBottom2</value>
+          </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-enroll/css/acal.css</value>
+            </list>
         </property>
     </bean>
 
+    <bean id="KS-CourseOffering-LinkSection" parent="Uif-HorizontalBoxSection" >
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-ActionLink" p:methodToCall="createFromCatalog" p:style="font-weight:bold;" p:actionLabel="Create from Catalog" p:render="@{document.newMaintainableObject.dataObject.showCatalogLink}"/>
+                <bean parent="Uif-MessageField" p:messageText="Create from Catalog" p:style="font-weight:bold;" p:render="@{!document.newMaintainableObject.dataObject.showCatalogLink}"/>
+                <bean parent="Uif-MessageField" p:messageText="  |  " p:style="font-weight:bold;"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="createFromTermOffering" p:style="font-weight:bold;" p:actionLabel="Create from Term Offering" p:render="@{document.newMaintainableObject.dataObject.showTermOfferingLink}"/>
+                <bean parent="Uif-MessageField" p:messageText="Create from Term Offering" p:style="font-weight:bold;" p:render="@{!document.newMaintainableObject.dataObject.showTermOfferingLink}"/>
+            </list>
+        </property>
+    </bean>
 
-    <bean id="KS-CourseOffering-MetaSubSection" parent="Uif-HorizontalBoxSubSection">
+    <bean id="KS-CourseOffering-MetaSection" parent="Uif-HorizontalBoxSection" >
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
@@ -69,8 +97,31 @@
                         <bean parent="Uif-TextControl" p:size="30" />
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
                               p:performClientSideValidation="true"/>
+
+                <bean parent="Uif-VerticalFieldGroup" p:style="margin-left:100px;">
+                  <property name="group.instructionalText" value="Course Details"/>
+                  <property name="items">
+                    <list>
+                      <bean parent="Uif-InputField" p:propertyName="course.code" p:label="Catalog Course Code" p:readOnly="true">
+                        <property name="control">
+                          <bean parent="Uif-TextControl" p:size="5"/>
+                        </property>
+                      </bean>
+                      <bean parent="Uif-InputField" p:propertyName="course.courseTitle" p:label="Course Title" p:readOnly="true">
+                        <property name="control">
+                          <bean parent="Uif-TextControl" p:size="21"/>
+                        </property>
+                      </bean>
+                      <bean parent="Uif-InputField" p:propertyName="creditCount" p:label="Credits" p:readOnly="true">
+                        <property name="control">
+                          <bean parent="Uif-TextControl" p:size="5"/>
+                        </property>
+                      </bean>
+                    </list>
+                  </property>
+                </bean>
             </list>
         </property>
     </bean>
