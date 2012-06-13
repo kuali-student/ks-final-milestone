@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <!--
+
     <bean id="CourseInfo" parent="CourseInfo-parentBean"/>
     <bean id="CourseInfo-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="objectLabel" value="Course"/>
@@ -120,7 +120,7 @@
             <bean parent="Uif-TextControl" p:size="200"/>
         </property>
     </bean>
-    -->
+
     <bean id="CourseInfo-LookupView" parent="KSLookupView">
         <property name="headerText" value="Course Lookup" />
         <property name="dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo" />
