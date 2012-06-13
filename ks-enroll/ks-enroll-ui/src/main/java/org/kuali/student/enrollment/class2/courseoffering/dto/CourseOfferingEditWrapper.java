@@ -38,6 +38,8 @@ public class CourseOfferingEditWrapper implements Serializable {
     private CourseOfferingInfo coInfo;
     private List<FormatOfferingInfo> formatOfferings;
     private List<String> studentRegOptions;
+    private List<OrganizationInfoWrapper> organizationNames;
+    private String organizationName;
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
@@ -80,4 +82,19 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.studentRegOptions = studentRegOptions;
     }
 
+    public List<OrganizationInfoWrapper> getOrganizationNames() {
+        return organizationNames;
+    }
+
+    public void setOrganizationNames(List<OrganizationInfoWrapper> organizationNames) {
+        this.organizationNames = organizationNames;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
 }
