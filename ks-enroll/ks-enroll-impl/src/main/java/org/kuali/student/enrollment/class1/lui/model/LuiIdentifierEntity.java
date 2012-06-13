@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class1.lui.model;
 
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
+import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -10,6 +11,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -48,7 +50,9 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
         fromDto(luiIdentifier);
     }
 
-    public void fromDto(LuiIdentifier luiIdentifier) {
+    public List<Object> fromDto(LuiIdentifier luiIdentifier) {
+        List<Object> orphansToDelete = new ArrayList<Object>();
+
         this.setState(luiIdentifier.getStateKey());
         this.setCode(luiIdentifier.getCode());
         this.setDivision(luiIdentifier.getDivision());
@@ -56,12 +60,11 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
         this.setShortName(luiIdentifier.getShortName());
         this.setSuffixCode(luiIdentifier.getSuffixCode());
         this.setVariation(luiIdentifier.getVariation());
-        this.setAttributes(new HashSet<LuiIdentifierAttributeEntity>());
-        //TODO This will cause all sorts of leftovers and duplicate data
-        for (Attribute att : luiIdentifier.getAttributes()) {
-            LuiIdentifierAttributeEntity attEntity = new LuiIdentifierAttributeEntity(att);
-            this.getAttributes().add(attEntity);
-        }
+
+        //Attributes
+        orphansToDelete.addAll(TransformUtility.mergeToEntityAttributes(LuiIdentifierAttributeEntity.class, luiIdentifier, this));
+
+        return orphansToDelete;
     }
 
     public LuiIdentifierInfo toDto() {
@@ -77,12 +80,9 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
         info.setVariation(variation);
         info.setMeta(super.toDTO());
 
-        if(attributes != null){
-            for (LuiIdentifierAttributeEntity att : getAttributes()) {
-                AttributeInfo attInfo = att.toDto();
-                info.getAttributes().add(attInfo);
-            }
-        }
+        //Attributes
+        info.setAttributes(TransformUtility.toAttributeInfoList(this));
+
         return info;
     }
 

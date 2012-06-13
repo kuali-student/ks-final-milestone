@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
+import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -37,13 +38,7 @@ public class LuiExpenditureEntity extends MetaEntity implements AttributeOwner<L
         this.setId(expenditure.getId());
 
         // Attributes
-        this.setAttributes(new HashSet<LuiExpenditureAttributeEntity>());
-        if (null != expenditure.getAttributes()) {
-            for (Attribute att : expenditure.getAttributes()) {
-                LuiExpenditureAttributeEntity attEntity = new LuiExpenditureAttributeEntity(att);
-                this.getAttributes().add(attEntity);
-            }
-        }
+        TransformUtility.mergeToEntityAttributes(LuiExpenditureAttributeEntity.class, expenditure, this);
     }
 
     public ExpenditureInfo toDto() {
@@ -51,12 +46,7 @@ public class LuiExpenditureEntity extends MetaEntity implements AttributeOwner<L
         obj.setId(this.getId());
 
         // Attributes
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (LuiExpenditureAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
-        }
-        obj.setAttributes(atts);
+        obj.setAttributes(TransformUtility.toAttributeInfoList(this));
         
         obj.setMeta(super.toDTO());
 

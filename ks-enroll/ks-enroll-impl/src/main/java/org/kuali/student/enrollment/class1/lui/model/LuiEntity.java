@@ -72,7 +72,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     private List<LuCodeEntity> luiCodes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LuiAttributeEntity> attributes;
+    private Set<LuiAttributeEntity> attributes = new HashSet<LuiAttributeEntity>();
 
     public LuiEntity() {
     }
@@ -122,7 +122,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
             LuCodeEntity luCodeEntity;
             if(existingluiCodes.containsKey(luCode.getId())){
                 luCodeEntity = existingluiCodes.remove(luCode.getId());
-                luCodeEntity.fromDto(luCode);
+                orphansToDelete.addAll(luCodeEntity.fromDto(luCode));
             }else{
                 luCodeEntity = new LuCodeEntity(luCode);
                 luCodeEntity.setLui(this);
@@ -152,7 +152,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
             if(existingIdents.containsKey(lui.getOfficialIdentifier().getId())){
                 //Pull the existing one out of the map
                 identEntity = existingIdents.remove(lui.getOfficialIdentifier().getId());
-                identEntity.fromDto(lui.getOfficialIdentifier()); //Make sure this copies all fields
+                orphansToDelete.addAll(identEntity.fromDto(lui.getOfficialIdentifier())); //Make sure this copies all fields
             }else{
                 //This is new so create a new identifier
                 identEntity = new LuiIdentifierEntity(lui.getOfficialIdentifier());
@@ -169,7 +169,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
             if(existingIdents.containsKey(identifier.getId())){
                 //Pull the existing one out of the map
                 identEntity = existingIdents.remove(identifier.getId());
-                identEntity.fromDto(identifier); //Make sure this copies all fields
+                orphansToDelete.addAll(identEntity.fromDto(identifier)); //Make sure this copies all fields
             }else{
                 //This is new so create a new identifier
                 identEntity = new LuiIdentifierEntity(identifier);
@@ -217,12 +217,8 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         //Now we need to delete the leftovers (orphaned entities)
         orphansToDelete.addAll(existinguLuiUnitsDeploymentEntities.values());
 
-        // the list of attributes returned by toEntityAttributes includes modified existing attributes
-        // and also newly created attributes.
-        // So we need to clear the existing list of attributes and add the returned set to the entity
-        Set<LuiAttributeEntity> modifiedAttributes = TransformUtility.toEntityAttributes(LuiAttributeEntity.class, lui, this, orphansToDelete);
-        attributes.clear();
-        attributes.addAll(modifiedAttributes);
+        // Merge attributes into entity and add leftovers to be deleted
+        orphansToDelete.addAll(TransformUtility.mergeToEntityAttributes(LuiAttributeEntity.class, lui, this));
 
         return orphansToDelete;
     }
@@ -262,20 +258,15 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         }
 
         // Attributes
-        if (getAttributes() != null) {
-            for (LuiAttributeEntity att : getAttributes()) {
-                info.getAttributes().add(att.toDto());
-            }
-        }
+        info.setAttributes(TransformUtility.toAttributeInfoList(this));
+
         List<String> unitsDeploymentOrgIds = new ArrayList<String>();
         if( this.luiUnitsDeployment!= null)   {
             for(LuiUnitsDeploymentEntity unitsDep : this.luiUnitsDeployment){
-
               unitsDeploymentOrgIds.add(unitsDep.getOrgId());
             }
         }
-        info.setUnitsContentOwner(unitsDeploymentOrgIds);
-
+        info.setUnitsDeployment(unitsDeploymentOrgIds);
 
         info.getUnitsContentOwner().clear();
         if(luiContentOwner!=null){

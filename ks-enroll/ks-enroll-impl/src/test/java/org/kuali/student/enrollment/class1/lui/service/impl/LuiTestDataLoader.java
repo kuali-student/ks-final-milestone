@@ -1,27 +1,18 @@
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
+import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
+import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
+import org.kuali.student.enrollment.class1.lui.model.*;
+import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
-import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
-import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
-import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 public class LuiTestDataLoader {
 
@@ -40,7 +31,7 @@ public class LuiTestDataLoader {
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, VersionMismatchException,
             AlreadyExistsException, CircularRelationshipException {
-        loadLui("Lui-1", "Lui one", "cluId1", "atpId1", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "<p>Lui Desc 101</p>", "Lui Desc 101", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url","LUI-IDENT-2", "lui_one_official", "Chem 123");
+        loadLui("Lui-1", "Lui one", "cluId1", "atpId1", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "<p>Lui Desc 101</p>", "Lui Desc 101", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url","LUI-IDENT-2", "lui_one_official", "Chem 123", "attr1", "attr2");
         loadLui("Lui-2", "Lui rwo", "cluId2", "atpId2", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "<p>Lui Desc 201</p>", "Lui Desc 201", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url","LUI-IDENT-3", "lui_two_official", "Phy 123");
         loadLui("Lui-3", "Lui three", "cluId3", "atpId3", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "<p>Lui Desc 301</p>", "Lui Desc 301 for deletion", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url", "lui_three_additional",  "lui_three_official", "Bio 123");
         loadLui("Lui-4", "Lui four", "cluId4", "atpId4", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "<p>Lui Desc 401</p>", "Lui Desc 401 for deletion", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url", "lui_four_additional", "lui_four_official", "Phil 123");
@@ -64,7 +55,7 @@ public class LuiTestDataLoader {
                                  String expirationDate,
                                  Integer maxSeats,
                                  Integer minSeats,
-                                 String refUrl, String additionIden, String officialIdentifier, String officialIdentName)
+                                 String refUrl, String additionIden, String officialIdentifier, String officialIdentName, String ... luiAttributes)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
@@ -95,8 +86,23 @@ public class LuiTestDataLoader {
         List<LuiIdentifierEntity> luiIdents = new ArrayList<LuiIdentifierEntity>();
 
         luiIdents.add(luiIdent);
-        luiIdents.add(luiOfficialIdent)    ;
+        luiIdents.add(luiOfficialIdent);
         luiEntity.setIdentifiers(luiIdents);
+
+        LuCodeEntity luCode = new LuCodeEntity();
+        luCode.setId("Lu-Code-" + id);
+        ArrayList<LuCodeEntity> luCodes = new ArrayList<LuCodeEntity>();
+        luCodes.add(luCode);
+        luiEntity.setLuiCodes(luCodes);
+
+
+        //Attributes
+        if (luiAttributes != null && luiAttributes.length > 0){
+            for (String attr:luiAttributes){
+                LuiAttributeEntity luiAttr = new LuiAttributeEntity(attr, attr);
+                luiEntity.getAttributes().add(luiAttr);
+            }
+        }
 
         luiDao.persist(luiEntity);
     }

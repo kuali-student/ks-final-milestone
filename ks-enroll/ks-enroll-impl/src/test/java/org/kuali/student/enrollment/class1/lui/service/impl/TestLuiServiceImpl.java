@@ -1,27 +1,19 @@
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import javax.annotation.Resource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
-
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.FeeInfo;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
@@ -30,10 +22,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lui-test-context.xml"})
@@ -121,14 +116,22 @@ public class TestLuiServiceImpl {
 
         assertEquals("cluId1", obj.getCluId());
         assertEquals("atpId1", obj.getAtpId());
-//        assertEquals(1, obj.getLuiCodes().size());
-//        assertEquals("LUI-lu-cd-1", obj.getLuiCodes().get(0).getId());
+        assertEquals(1, obj.getLuiCodes().size());
+        assertEquals("Lu-Code-Lui-1", obj.getLuiCodes().get(0).getId());
 
         assertNotNull(obj.getMaximumEnrollment());
         assertEquals(200, obj.getMaximumEnrollment().intValue());
         assertNotNull(obj.getMinimumEnrollment());
         assertEquals(50, obj.getMinimumEnrollment().intValue());
         assertEquals("ref.url", obj.getReferenceURL());
+
+        //Attributes
+        HashMap<String, String> attributes = new HashMap<String, String>();
+        for (AttributeInfo attributeInfo:obj.getAttributes()){
+            attributes.put(attributeInfo.getKey(), attributeInfo.getValue());
+        }
+        assertTrue(attributes.containsKey("attr1"));
+        assertTrue(attributes.containsKey("attr2"));
 
 //        assertNotNull(obj.getCluCluRelationIds());
 //        assertEquals(2, obj.getCluCluRelationIds().size());
@@ -211,39 +214,26 @@ public class TestLuiServiceImpl {
 
 //        List<String> cluCluRelationIds = new ArrayList<String>();
 //        cluCluRelationIds.add("CluClu-2");
-//        info.setCluCluRelationIds(cluCluRelationIds);
-//
-//        List<String> unitsContentOwner = new ArrayList<String>();
-//        unitsContentOwner.add("Org-2");
-//        info.setUnitsContentOwner(unitsContentOwner);
-//
-//        List<String> unitsDeployment = new ArrayList<String>();
-//        unitsDeployment.add("Org-1");
-//        info.setUnitsDeployment(unitsDeployment);
-//
+//        orig.setCluCluRelationIds(cluCluRelationIds);
+
+        List<String> unitsContentOwner = new ArrayList<String>();
+        unitsContentOwner.add("Org-2");
+        orig.setUnitsContentOwner(unitsContentOwner);
+
+        List<String> unitsDeployment = new ArrayList<String>();
+        unitsDeployment.add("Org-1");
+        orig.setUnitsDeployment(unitsDeployment);
+
 //        List<String> resultValueGroupKeys = new ArrayList<String>();
 //        resultValueGroupKeys.add("Val-Group-3");
-//        info.setResultValuesGroupKeys(resultValueGroupKeys);
-//
-//        LuCodeInfo luCode = new LuCodeInfo();
-//        RichTextInfo rt = new RichTextInfo();
-//        rt.setPlain("fee.plain");
-//        rt.setFormatted("fee.formatted");
-//        luCode.setDescr(rt);
-//        info.getLuiCodes().add(luCode);
-//
-//        FeeInfo fee = new FeeInfo();
-//        RichTextInfo rtf = new RichTextInfo();
-//        rtf.setPlain("fee.plain");
-//        rtf.setFormatted("fee.formatted");
-//        fee.setDescr(rtf);
-//        info.getFeeIds().add(fee);
-//
-//        RevenueInfo revenue = new RevenueInfo();
-//        info.getRevenues().add(revenue);
-//
-//        ExpenditureInfo expenditure = new ExpenditureInfo();
-//        info.setExpenditure(expenditure);
+//        orig.setResultValuesGroupKeys(resultValueGroupKeys);
+
+        LuCodeInfo luCode = new LuCodeInfo();
+        RichTextInfo rt = new RichTextInfo();
+        rt.setPlain("fee.plain");
+        rt.setFormatted("fee.formatted");
+        luCode.setDescr(rt);
+        orig.getLuiCodes().add(luCode);
 
         LuiInfo info = luiService.createLui(orig.getCluId(), orig.getAtpId(), orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
@@ -265,15 +255,12 @@ public class TestLuiServiceImpl {
         assertEquals(orig.getReferenceURL(), info.getReferenceURL());
 
 //        assertTrue(info.getCluCluRelationIds().contains("CluClu-2"));
-//        assertTrue(info.getUnitsContentOwnerOrgIds().contains("Org-2"));
-//        assertTrue(info.getUnitsDeploymentOrgIds().contains("Org-1"));
+        assertTrue(info.getUnitsContentOwner().contains("Org-2"));
+        assertTrue(info.getUnitsDeployment().contains("Org-1"));
 //        assertTrue(info.getResultValuesGroupKeys().contains("Val-Group-3"));
-//
-//        assertEquals(1, info.getLuiCodes().size());
-//        assertEquals(1, info.getFeeIds().size());
-//        assertEquals(1, info.getRevenues().size());
-//        assertNotNull(info.getExpenditure().getId());
-        // test fetch after the create
+
+        assertEquals(1, info.getLuiCodes().size());
+
         info = luiService.getLui(info.getId(), callContext);
         assertNotNull(info);
         assertEquals(orig.getName(), info.getName());
@@ -316,6 +303,7 @@ public class TestLuiServiceImpl {
         assertEquals("Lui one", info.getName());
 
         LuiInfo modified = new LuiInfo(info);
+        modified.setName("Lui one modified");
         modified.setStateKey(LuiServiceConstants.LUI_APROVED_STATE_KEY);
         modified.setMaximumEnrollment(25);
         modified.setMinimumEnrollment(10);
@@ -341,29 +329,41 @@ public class TestLuiServiceImpl {
         modified.getResultValuesGroupKeys().remove("Val-Group-3");
         modified.getResultValuesGroupKeys().add("Val-Group-33");
 
+        //Attributes
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+        for (AttributeInfo attrInfo:modified.getAttributes()){
+            if (attrInfo.getKey().equals("attr2")){
+                attributes.add(attrInfo);
+            }
+        }
+        AttributeInfo modAttr1 = new AttributeInfo();
+        modAttr1.setKey("modattr1");
+        modAttr1.setValue("modattr1");
+        attributes.add(modAttr1);
+
+        AttributeInfo modAttr2 = new AttributeInfo();
+        modAttr2.setKey("modattr2");
+        modAttr2.setValue("modattr2");
+        attributes.add(modAttr2);
+        modified.setAttributes(attributes);
+
         LuCodeInfo luCode = new LuCodeInfo();
         RichTextInfo rt = new RichTextInfo();
         rt.setPlain("fee.plain");
         rt.setFormatted("fee.formatted");
         luCode.setDescr(rt);
+        luCode.setId("Modified Lu Code");
+        modified.getLuiCodes().clear();
         modified.getLuiCodes().add(luCode);
 
-        FeeInfo fee = new FeeInfo();
-        RichTextInfo rtf = new RichTextInfo();
-        rtf.setPlain("fee.plain");
-        rtf.setFormatted("fee.formatted");
-        fee.setDescr(rtf);
-        //        modified.getFeeIds().add(fee);
+        modified.getUnitsContentOwner().add("Org-22");
 
-        //        RevenueInfo revenue = new RevenueInfo();
-        //        modified.getRevenues().add(revenue);
-
-        //        ExpenditureInfo expenditure = new ExpenditureInfo();
-        // modified.setExpenditure(expenditure);
+        modified.getUnitsDeployment().add("Org-11");
 
         LuiInfo updated = luiService.updateLui("Lui-1", modified, callContext);
 
         assertNotNull(updated);
+        assertEquals("Lui one modified", updated.getName());
         assertEquals(LuiServiceConstants.LUI_APROVED_STATE_KEY, updated.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, updated.getTypeKey());
         assertEquals(Integer.valueOf(25), updated.getMaximumEnrollment());
@@ -375,22 +375,32 @@ public class TestLuiServiceImpl {
         assertEquals("identifier.shortname", updated.getOfficialIdentifier().getShortName());
         assertEquals(1, updated.getAlternateIdentifiers().size());
         assertEquals("alternate.identifier.shortname", updated.getAlternateIdentifiers().get(0).getShortName());
-//
+
+        //Attributes
+        HashMap<String, String> updatedAttributes = new HashMap<String, String>();
+        for (AttributeInfo attributeInfo:updated.getAttributes()){
+            updatedAttributes.put(attributeInfo.getKey(), attributeInfo.getValue());
+        }
+        assertFalse(updatedAttributes.containsKey("attr1"));
+        assertTrue(updatedAttributes.containsKey("attr2"));
+        assertTrue(updatedAttributes.containsKey("modattr1"));
+        assertTrue(updatedAttributes.containsKey("modattr2"));
+
 //        assertTrue(updated.getCluCluRelationIds().contains("CluClu-1"));
 //        assertTrue(updated.getCluCluRelationIds().contains("CluClu-22"));
-//        assertEquals(2, updated.getResultValuesGroupKeys().size());
-//        assertTrue(updated.getUnitsContentOwnerOrgIds().contains("Org-22"));
-//        assertEquals(2, updated.getResultValuesGroupKeys().size());
-//        assertTrue(updated.getUnitsDeploymentOrgIds().contains("Org-11"));
+
+        assertTrue(updated.getUnitsContentOwner().contains("Org-22"));
+        assertTrue(updated.getUnitsDeployment().contains("Org-11"));
+
 //        assertEquals(2, updated.getResultValuesGroupKeys().size());
 //        assertTrue(updated.getResultValuesGroupKeys().contains("Val-Group-33"));
 //        assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-2"));
 //        assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-3"));
 
-//        assertEquals(2, updated.getLuiCodes().size());
-        //        assertEquals(4, updated.getFeeIds().size());
-        //        assertEquals(3, updated.getRevenues().size());
-        //        assertTrue(!"LUI-Expen-1".equals(updated.getExpenditure().getId()));
+        assertEquals(1, info.getLuiCodes().size());
+        assertEquals("Lu-Code-Lui-1", info.getLuiCodes().get(0).getId());
+        assertEquals(1, updated.getLuiCodes().size());
+        assertEquals("Modified Lu Code", updated.getLuiCodes().get(0).getId());
 
     }
 

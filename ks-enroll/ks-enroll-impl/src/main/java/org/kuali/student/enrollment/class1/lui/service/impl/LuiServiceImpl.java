@@ -607,6 +607,7 @@ public class LuiServiceImpl
                OperationFailedException, PermissionDeniedException, 
                ReadOnlyException, VersionMismatchException {
 
+
         if (!luiLuiRelationId.equals(luiLuiRelationInfo.getId())) {
             throw new InvalidParameterException(luiLuiRelationId + " does not match the id on the object " + luiLuiRelationInfo.getId());
         }
@@ -616,10 +617,18 @@ public class LuiServiceImpl
             throw new DoesNotExistException(luiLuiRelationId);
         }
 
-        entity.fromDto(luiLuiRelationInfo);
+
+        //Transform the DTO to the entity
+        List<Object> orphans = entity.fromDto(luiLuiRelationInfo);
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
+
         luiLuiRelationDao.merge(entity);
+
+        //Delete any orphaned children
+        for(Object orphan : orphans){
+            luiLuiRelationDao.getEm().remove(orphan);
+        }
 
         return entity.toDto();
     }

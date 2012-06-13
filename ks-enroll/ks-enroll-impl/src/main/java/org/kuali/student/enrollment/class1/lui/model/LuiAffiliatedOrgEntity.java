@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
+import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -57,8 +58,10 @@ public class LuiAffiliatedOrgEntity extends MetaEntity implements AttributeOwner
     public LuiAffiliatedOrgEntity() {}
 
     public LuiAffiliatedOrgEntity(AffiliatedOrg affiliatedOrg) {
-        
         super(affiliatedOrg);
+
+        List<Object> orphansToDelete = new ArrayList<Object>();
+
         this.setId(affiliatedOrg.getId());
         this.setType(affiliatedOrg.getTypeKey());
         this.setState(affiliatedOrg.getStateKey());
@@ -69,14 +72,9 @@ public class LuiAffiliatedOrgEntity extends MetaEntity implements AttributeOwner
         this.setPercentage(affiliatedOrg.getPercentage());
         //this.setExpenditureId();
         //this.setRevenueId();
-        
-        this.setAttributes(new HashSet<LuiAffiliatedOrgAttributeEntity>());
-        if (null != affiliatedOrg.getAttributes()) {
-            for (Attribute att : affiliatedOrg.getAttributes()) {
-                LuiAffiliatedOrgAttributeEntity attEntity = new LuiAffiliatedOrgAttributeEntity(att);
-                this.getAttributes().add(attEntity);
-            }
-        }
+
+        // Merge attributes into entity
+        TransformUtility.mergeToEntityAttributes(LuiAffiliatedOrgAttributeEntity.class, affiliatedOrg, this);
     }
     
     public AffiliatedOrgInfo toDto() {
@@ -93,13 +91,7 @@ public class LuiAffiliatedOrgEntity extends MetaEntity implements AttributeOwner
         //obj.setExpenditureId
         //obj.setRevenueId
 
-        // Attributes
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (LuiAffiliatedOrgAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
-        }
-        obj.setAttributes(atts);
+        obj.setAttributes(TransformUtility.toAttributeInfoList(this));
         
         obj.setMeta(super.toDTO());
 
