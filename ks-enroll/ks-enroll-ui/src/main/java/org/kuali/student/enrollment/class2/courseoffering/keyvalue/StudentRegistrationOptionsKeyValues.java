@@ -32,6 +32,7 @@ import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 //import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
@@ -83,9 +84,9 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
                     // TODO: need to retrieve the value based on key gradingOption, however there is no table yet
                     // (need enroll alternative of KSLR_RESCOMP that we can call with LRCService)
                     // So for time-being putting "manual" logic
-                    if (gradingOption.equals("kuali.resultComponent.grade.audit")) {
+                    if (gradingOption.equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
                         keyValues.add(new ConcreteKeyValue(gradingOption, "Audit"));
-                    } else if (gradingOption.equals("kuali.resultComponent.grade.passFail")) {
+                    } else if (gradingOption.equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
                         keyValues.add(new ConcreteKeyValue(gradingOption, "Pass / Fail"));
                     } else {
                         keyValues.add(new ConcreteKeyValue(gradingOption, gradingOption));
@@ -94,9 +95,6 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
             }
         }
 
-        // TODO: just for testing
-//        keyValues.add(new ConcreteKeyValue("kuali.resultComponent.grade.audit", "Audit"));
-//        keyValues.add(new ConcreteKeyValue("kuali.resultComponent.grade.passFail", "Pass / Fail"));
         return keyValues;
     }
 
