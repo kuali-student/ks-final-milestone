@@ -97,6 +97,12 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" />
                     </property>
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo"/>
+                    <property name="quickfinder.fieldConversions">
+                        <map>
+                            <entry key="code" value="catalogCourseCode"/>
+                        </map>
+                    </property>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
                               p:performClientSideValidation="true" p:style="margin-top:15px;"/>
