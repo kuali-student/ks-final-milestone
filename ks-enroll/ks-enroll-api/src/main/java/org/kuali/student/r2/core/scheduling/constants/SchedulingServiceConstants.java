@@ -51,8 +51,27 @@ public class SchedulingServiceConstants {
     public static final String REF_OBJECT_URI_SCHEDULE_RESP = NAMESPACE + "/" + ScheduleRespInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SCHEDULE_RESP_ITEM = NAMESPACE + "/" + ScheduleRespItemInfo.class.getSimpleName();
 
+    // Schedule request types
+    public static final String SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE = "kuali.scheduling.schedule.request.type.request";
+
+    // Schedule request states
+    public static final String SCHEDULE_REQUEST_STATE_LIFECYCLE_KEY = "kuali.scheduling.schedule.request.lifecycle";
+    public static final String SCHEDULE_REQUEST_REQUESTED_STATE = "kuali.scheduling.schedule.state.requested";
+    public static final String SCHEDULE_REQUEST_WITHDRAWN_STATE = "kuali.scheduling.schedule.state.withdrawn";
+    public static final String SCHEDULE_REQUEST_PROCESSED_STATE = "kuali.scheduling.schedule.state.processed";
+
+    // Time slot types
     public static final String TIME_SLOT_STATE_STANDARD_KEY = "kuali.scheduling.time.slot.state.standard";
     public static final String TIME_SLOT_STATE_NON_STANDARD_KEY = "kuali.scheduling.time.slot.state.non.standard";
     public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY = "kuali.scheduling.time.slot.type.activityoffering";
     public static final String TIME_SLOT_TYPE_FINAL_EXAM_KEY = "kuali.scheduling.time.slot.type.finalexam";
+
+    public static final String MONDAY_TIMESLOT_DAY_CODE = "M";
+    public static final String TUESDAY_TIMESLOT_DAY_CODE = "Tu";
+    public static final String WEDNESDAY_TIMESLOT_DAY_CODE = "W";
+    public static final String THURSDAY_TIMESLOT_DAY_CODE = "Th";
+    public static final String FRIDAY_TIMESLOT_DAY_CODE = "F";
+    public static final String SATURDAY_TIMESLOT_DAY_CODE = "Sa";
+    public static final String SUNDAY_TIMESLOT_DAY_CODE = "Su";
+
 }
