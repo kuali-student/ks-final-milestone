@@ -8,6 +8,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -155,9 +156,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=copyAO")
     public ModelAndView copyAO( @ModelAttribute("KualiForm") CourseOfferingManagementForm form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        ActivityOfferingInfo selectedAO = (ActivityOfferingInfo)_getSelectedObject(form, "copy");
+        ActivityOfferingWrapper selectedAO = (ActivityOfferingWrapper)_getSelectedObject(form, "copy");
         try{
-            CourseOfferingResourceLoader.loadCourseOfferingService().copyActivityOffering(selectedAO.getId(), ContextBuilder.loadContextInfo());
+            CourseOfferingResourceLoader.loadCourseOfferingService().copyActivityOffering(selectedAO.getAoInfo().getId(), ContextBuilder.loadContextInfo());
 
             //reload AOs including the new one just created
             getViewHelperService(form).loadActivityOfferingsByCourseOffering(form.getTheCourseOffering(), form);
@@ -175,10 +176,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView delete(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
 
-        ActivityOfferingInfo selectedObject = (ActivityOfferingInfo)_getSelectedObject(theForm, "delete");
+        ActivityOfferingWrapper selectedObject = (ActivityOfferingWrapper)_getSelectedObject(theForm, "delete");
 
         try{
-            CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOffering(selectedObject.getId(), ContextBuilder.loadContextInfo());
+            CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOffering(selectedObject.getAoInfo().getId(), ContextBuilder.loadContextInfo());
 
             //reload existing AOs
             getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
@@ -204,8 +205,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"maintenanceEdit",false,getContextInfo());
             controllerPath = "maintenance";
         }
-        else if(selectedObject instanceof ActivityOfferingInfo) {
-            urlParameters = _buildAOURLParameters((ActivityOfferingInfo)selectedObject,"maintenanceEdit",false,getContextInfo());
+        else if(selectedObject instanceof ActivityOfferingWrapper) {
+            urlParameters = _buildAOURLParameters(((ActivityOfferingWrapper) selectedObject).getAoInfo(),"maintenanceEdit",false,getContextInfo());
             controllerPath ="maintenance";
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
@@ -230,8 +231,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"maintenanceEdit",true,getContextInfo());
             controllerPath = "maintenance";
         }
-        else if(selectedObject instanceof ActivityOfferingInfo) {
-            urlParameters = _buildAOURLParameters((ActivityOfferingInfo)selectedObject,"maintenanceEdit",true,getContextInfo());
+        else if(selectedObject instanceof ActivityOfferingWrapper) {
+            urlParameters = _buildAOURLParameters(((ActivityOfferingWrapper) selectedObject).getAoInfo(),"maintenanceEdit",false,getContextInfo());
             controllerPath ="maintenance";
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
