@@ -1,0 +1,94 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+
+    <!-- DTO DEFINITION FOR the Wrapper -->
+    <bean id="CourseOfferingCreateWrapper" parent="CourseOfferingCreateWrapper-parentBean"/>
+
+      <bean id="CourseOfferingCreateWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
+        <property name="titleAttribute" value="coInfo.id"/>
+        <property name="attributes">
+          <list>
+          </list>
+        </property>
+        <property name="objectLabel" value="Course Offering"/>
+        <property name="primaryKeys">
+          <list>
+            <value>coInfo.id</value>
+          </list>
+        </property>
+    </bean>
+
+    <!-- Maintenace View-->
+    <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KSMaintenanceView">
+        <property name="headerText" value="Course Offering Maintenance"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
+        <!--<property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />-->
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOffering-MetaSubSection"/>
+            </list>
+        </property>
+        <property name="footer.items">
+            <list/>
+        </property>
+    </bean>
+
+
+    <bean id="KS-CourseOffering-MetaSubSection" parent="Uif-HorizontalBoxSubSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="targetTermCode"
+                      p:label="Target Term" p:labelPlacement="TOP" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="catalogCourseCode"
+                      p:label="Catalog Course Code" p:labelPlacement="TOP" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" />
+                    </property>
+                </bean>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
+                              p:performClientSideValidation="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- MAINTENACE DOCUMENT DEFINITION -->
+
+    <bean id="CourseOfferingCreateMaintenanceDocument" parent="CourseOfferingCreateMaintenanceDocument-parentBean"/>
+
+    <bean id="CourseOfferingCreateMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
+        <!--<property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl"/>-->
+        <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.CourseOfferingEditRule" />
+        <property name="documentTypeName" value="CourseOfferingCreateMaintenanceDocument"/>
+        <property name="lockingKeys">
+            <list>
+                <value>coInfo.id</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>
