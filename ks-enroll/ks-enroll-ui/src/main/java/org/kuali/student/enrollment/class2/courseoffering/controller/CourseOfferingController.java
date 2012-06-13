@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.springframework.stereotype.Controller;
@@ -59,10 +58,4 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    private CourseService getCourseService() {
-        if(courseService == null) {
-            courseService = CourseOfferingResourceLoader.loadCourseService();
-        }
-        return courseService;
-    }
 }

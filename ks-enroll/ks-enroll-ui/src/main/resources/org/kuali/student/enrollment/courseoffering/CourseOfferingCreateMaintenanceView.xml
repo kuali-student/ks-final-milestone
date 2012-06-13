@@ -46,6 +46,7 @@
             <list>
                 <ref bean="KS-CourseOffering-MetaSection"/>
                 <ref bean="KS-CourseOffering-LinkSection"/>
+                <ref bean="KS-CreateFromCatalog"/>
             </list>
         </property>
         <property name="page.footer.items">
@@ -86,7 +87,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="targetTermCode"
-                      p:label="Target Term" p:labelPlacement="TOP" p:required="true">
+                      p:label="Target Term" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" />
                     </property>
@@ -124,6 +125,66 @@
                 </bean>
             </list>
         </property>
+    </bean>
+
+    <bean id="KS-CreateFromCatalog" parent="Uif-VerticalBoxSection" p:render="@{!document.newMaintainableObject.dataObject.showCatalogLink}">
+         <property name="items">
+            <list>
+                 <ref bean="KS-CourseOfferingCodeSubSection"/>
+                 <ref bean="KS-FormatOfferingSubSection"/>
+            </list>
+         </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingCodeSubSection" parent="Uif-HorizontalBoxSubSection" >
+        <property name="disclosure.render" value="false"/>
+        <property name="headerText" value="Update Course Offering Code"/>
+        <property name="items">
+            <list>
+                 <bean parent="Uif-InputField" p:propertyName="catalogCourseCode"
+                      p:label="Root ID" p:labelPlacement="TOP" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="addCourseOfferingSuffix"
+                      p:label="Add Suffix" p:labelPlacement="TOP">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-FormatOfferingSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false">
+		<property name="headerText" value="Add Delivery Formats" />
+		<property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
+		<property name="propertyName" value="formatOfferingList" />
+		<property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+		<property name="items">
+           <list>
+               <bean parent="Uif-InputField" p:propertyName="typeKey"
+                      p:label="Root ID" p:labelPlacement="TOP">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+               <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"
+                      p:label="Root ID" p:labelPlacement="TOP">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+               <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"
+                      p:label="Root ID" p:labelPlacement="TOP">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+           </list>
+         </property>
     </bean>
 
     <!-- MAINTENACE DOCUMENT DEFINITION -->

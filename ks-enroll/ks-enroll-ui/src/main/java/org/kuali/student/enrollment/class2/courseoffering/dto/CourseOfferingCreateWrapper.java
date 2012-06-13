@@ -1,9 +1,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class CourseOfferingCreateWrapper implements Serializable{
 
@@ -17,11 +19,15 @@ public class CourseOfferingCreateWrapper implements Serializable{
     private boolean showTermOfferingLink;
     private boolean showCatalogLink;
 
+    private String addCourseOfferingSuffix;
+
     private CourseInfo course;
     private CourseOfferingInfo coInfo;
 
+    private List<FormatOfferingInfo> formatOfferingList;
+
     public CourseOfferingCreateWrapper(){
-        showCatalogLink = true;
+        showCatalogLink = false;
         showTermOfferingLink = true;
     }
 
@@ -95,5 +101,21 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     public void setShowCatalogLink(boolean showCatalogLink) {
         this.showCatalogLink = showCatalogLink;
+    }
+
+    public String getAddCourseOfferingSuffix() {
+        return addCourseOfferingSuffix;
+    }
+
+    public void setAddCourseOfferingSuffix(String addCourseOfferingSuffix) {
+        this.addCourseOfferingSuffix = addCourseOfferingSuffix;
+    }
+
+    public List<FormatOfferingInfo> getFormatOfferingList() {
+        return formatOfferingList;
+    }
+
+    public void setFormatOfferingList(List<FormatOfferingInfo> formatOfferingList) {
+        this.formatOfferingList = formatOfferingList;
     }
 }
