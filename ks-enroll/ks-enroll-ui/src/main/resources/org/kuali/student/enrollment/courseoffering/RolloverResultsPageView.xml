@@ -51,7 +51,7 @@
                                                        <list>
                                                          <bean parent="Uif-InputField" p:propertyName="rolloverTargetTerm" p:label="Term" p:required="true">
                                                             <property name="control">
-                                                               <bean parent="Uif-TextControl" p:size="5" p:watermarkText="FAL2009" p:minLength="5" p:maxLength="5"/>
+                                                               <bean parent="Uif-TextControl" p:size="5" p:watermarkText="20132" p:minLength="5" p:maxLength="5"/>
                                                             </property>
 
                                                          </bean>
