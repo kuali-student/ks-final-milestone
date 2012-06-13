@@ -303,7 +303,12 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                         if (CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY.equalsIgnoreCase(socRolloverResultItemInfo.getStateKey())) {
                             socRolloverResultItemInfos.remove(socRolloverResultItemInfo);
                         } else {
-                            CourseOfferingInfo courseOfferingInfo = _getCourseOfferingService().getCourseOffering(socRolloverResultItemInfo.getTargetCourseOfferingId(), new ContextInfo());
+                            String courseOfferingId = socRolloverResultItemInfo.getTargetCourseOfferingId();
+                            if(courseOfferingId == null || "".equals(courseOfferingId)){
+                                courseOfferingId = socRolloverResultItemInfo.getSourceCourseOfferingId();
+                            }
+
+                            CourseOfferingInfo courseOfferingInfo = _getCourseOfferingService().getCourseOffering(courseOfferingId, new ContextInfo());
                             SocRolloverResultItemWrapper socRolloverResultItemWrapper = new SocRolloverResultItemWrapper();
                             socRolloverResultItemWrapper.setCourse(courseOfferingInfo.getCourseOfferingCode());
                             if (socRolloverResultItemInfo.getMessage() != null) {
