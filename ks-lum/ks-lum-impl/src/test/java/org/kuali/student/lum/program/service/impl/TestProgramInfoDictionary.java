@@ -11,8 +11,15 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.infc.Locale;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
@@ -77,12 +84,35 @@ public class TestProgramInfoDictionary {
         val.setValidatorFactory(new ValidatorFactory());
         ProgramManagingBodiesValidator programManagingBodiesValidator = new ProgramManagingBodiesValidator();
         MessageServiceMock messageServiceMock = new MessageServiceMock();
-        //Message message = new Message();
-        //message.setGroupName("validation");
-        //message.setLocale("en");
+        MessageInfo message = new MessageInfo();
+        message.setGroupName("validation");
+        LocaleInfo l = new LocaleInfo();
+        l.setLocaleLanguage("en");
+        l.setLocaleRegion("en");
+        l.setLocaleScript("en");
+        l.setLocaleVariant("en");
+        
+        message.setLocale(l);
+        message.setKey("validation.programManagingBodiesMatch");
         //message.setId("validation.programManagingBodiesMatch");
+        message.setValue("validation.programManagingBodiesMatch");
         //message.setValue("validation.programManagingBodiesMatch");
-        //messageServiceMock.addMessage(message);
+        
+        try {
+			messageServiceMock.addMessage(l,"validation.programManagingBodiesMatch", message, new ContextInfo());
+		} catch (DoesNotExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PermissionDeniedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         programManagingBodiesValidator.setMessageService(messageServiceMock);
         programManagingBodiesValidator.setSearchDispatcher(new MockSearchDispatcher());
         List<Validator> validatorList = new ArrayList<Validator>();
@@ -116,6 +146,6 @@ public class TestProgramInfoDictionary {
         for (ValidationResultInfo vr : validationResults) {
             System.out.println(vr.getElement() + " " + vr.getMessage());
         }
-        //assertEquals(4, validationResults.size());
+        assertEquals(4, validationResults.size());
     }
 }
