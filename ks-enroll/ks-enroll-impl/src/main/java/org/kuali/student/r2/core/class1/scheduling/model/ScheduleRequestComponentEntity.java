@@ -1,12 +1,14 @@
 package org.kuali.student.r2.core.class1.scheduling.model;
 
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Version 2.0
@@ -14,10 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "KSEN_SCHED_RQST_CMP")
-public class ScheduleRequestComponentEntity {
-
-    @Column(name = "SCHED_RQST_ID")
-    private String id;
+public class ScheduleRequestComponentEntity extends MetaEntity {
 
     // TODO: Left as @Column per Sambit, TBD: Change the following to join relations
     @Column
@@ -38,15 +37,22 @@ public class ScheduleRequestComponentEntity {
     @Column
     private List<String> timeSlotIds;
 
+    @ManyToOne
+    @JoinColumn(name = "SCHED_RQST_ID")
+    private ScheduleRequestEntity scheduleRequest;
+
     public ScheduleRequestComponentEntity() {
     }
 
-    public String getId() {
-        return id;
+    public ScheduleRequestComponentEntity(ScheduleRequestComponent scheduleRequestComponent) {
+        super();
+        this.setId(scheduleRequestComponent.getId());
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public ScheduleRequestComponentInfo toDto() {
+        ScheduleRequestComponentInfo scheduleRequestComponentInfo = new ScheduleRequestComponentInfo();
+        scheduleRequestComponentInfo.setId(this.getId());
+        return scheduleRequestComponentInfo;
     }
 
     public List<String> getBuildingIds() {
@@ -95,5 +101,13 @@ public class ScheduleRequestComponentEntity {
 
     public void setTimeSlotIds(List<String> timeSlotIds) {
         this.timeSlotIds = timeSlotIds;
+    }
+
+    public ScheduleRequestEntity getScheduleRequest() {
+        return scheduleRequest;
+    }
+
+    public void setScheduleRequest(ScheduleRequestEntity scheduleRequest) {
+        this.scheduleRequest = scheduleRequest;
     }
 }
