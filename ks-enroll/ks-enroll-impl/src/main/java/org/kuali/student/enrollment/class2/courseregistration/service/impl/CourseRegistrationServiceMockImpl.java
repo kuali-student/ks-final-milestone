@@ -779,21 +779,15 @@ public class CourseRegistrationServiceMockImpl
     }
 
     @Override
-    public List<CreditLoadInfo> calculateCreditLoadForRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
+    public CreditLoadInfo calculateCreditLoadForStudentRegistrationRequest(String registrationRequestId, String studentId, ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         RegistrationRequest rr = getRegistrationRequest(registrationRequestId, contextInfo);
-        Map<String, CreditLoadInfo> map = new HashMap<String, CreditLoadInfo>();
+        CreditLoadInfo load = new CreditLoadInfo();
+        load.setStudentId(studentId);
+        load.setCreditLimit(CREDIT_LIMIT);
 
         for (RegistrationRequestItem item : rr.getRegistrationRequestItems()) {
-            CreditLoadInfo load = map.get(item.getStudentId());
-            if (load == null) {
-                load = new CreditLoadInfo();
-                load.setStudentId(item.getStudentId());
-                load.setCreditLimit(CREDIT_LIMIT);
-                map.put(item.getStudentId(), load);
-            }
-
             if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
                 load.setAdditionalCredits((new BigDecimal(item.getCredits())).add(new BigDecimal(load.getAdditionalCredits())).toString());
             } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
@@ -801,7 +795,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return Collections.unmodifiableList(new ArrayList<CreditLoadInfo>(map.values()));
+        return load;
     }
 
 

@@ -19,8 +19,8 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 /**
  * Individual activity offerings correspond to events in a scheduling
@@ -240,4 +240,47 @@ public interface ActivityOffering extends IdEntity {
      * @name Activity Offering URL
      */
     public String getActivityOfferingURL();
+    
+    /**
+     * Indicates whether a RegistrationGroup has a waitlist.
+     *
+     * @name Has Waitlist
+     * @required
+     * @impl maps to Lui.hasWaitlist
+     */
+    public Boolean getHasWaitlist();
+
+    /**
+     * Indicates the type of waitlist as it relates to processing
+     * students on and off.
+     *
+     * @name Waitlist Type
+     * @impl maps to Lui.waitlistTypeKey
+     */
+    public String getWaitlistTypeKey();
+
+    /**
+     * Maximum number of students to be allowed on the wait list.
+     *
+     * @name Waitlist Maximum
+     * @impl maps to Lui.waitlistMaximum
+     */
+    public Integer getWaitlistMaximum();    
+
+    /**
+     * Indicates if the waitlist requires checkin.
+     *
+     * @name Is Waitlist Checkin Required
+     * @required
+     * @impl maps to Lui.isWaitlistCheckinRequired
+     */
+    public Boolean getIsWaitlistCheckinRequired();
+    
+    /**
+     * Frequency for the waitlist checkin.
+     *
+     * @name Waitlist Checkin Frequency 
+     * @impl maps to Lui.waitlistCheckinFrequency
+     */
+    public TimeAmount getWaitlistCheckinFrequency();
 }

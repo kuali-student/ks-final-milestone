@@ -32,12 +32,29 @@ public interface RegistrationResponse {
     public String getRegistrationRequestId();
 
     /**
-     * The item operation status info for the registration response.
-     * 
-     * @name Operation Status
+     * The registration submission error status. 
+     *
+     * If false, the registration was successful resulting in a
+     * CourseRegistration or a Waitlist entry. 
+     *
+     * If the registration submission failed, and no
+     * CourseRegistrations or Waitlist entries resulted from the
+     * transaction.
+     *
+     * @name Has Failed Status
      */
-    public OperationStatus getOperationStatus();
-    
+    public Boolean getHasFailed();
+
+    /**
+     * The registration submission messages. 
+     *
+     * Returns a list of status messages, typically in failure, from a
+     * registration submission.
+     *
+     * @name Registration Messages
+     */
+    public List<String> getMessages();
+
     /**
      * The individual registration response items.
      * 

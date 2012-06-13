@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
                 "id", "name", "descr", "typeKey", "stateKey",
                 "registrationRequestId", "studentId", 
                 "newRegistrationGroupId", "existingRegistrationGroupId", 
-                "credits", "gradingOptionId", "okToWaitlist", "okToHoldList", 
+                "credits", "gradingOptionId", "okToWaitlist", "okToHoldUntilList", 
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationRequestItemInfo 
@@ -65,7 +65,7 @@ public class RegistrationRequestItemInfo
     private Boolean okToWaitlist;
 
     @XmlElement
-    private Boolean okToHoldList;
+    private Boolean okToHoldUntilList;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -94,7 +94,7 @@ public class RegistrationRequestItemInfo
             this.credits = registrationRequestItem.getCredits();
             this.gradingOptionId = registrationRequestItem.getGradingOptionId();
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
-            this.okToHoldList = registrationRequestItem.getOkToHoldList();
+            this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
         }
     }
 
@@ -162,11 +162,11 @@ public class RegistrationRequestItemInfo
     }
 
     @Override
-    public Boolean getOkToHoldList() {
-        return okToHoldList;
+    public Boolean getOkToHoldUntilList() {
+        return okToHoldUntilList;
     }
 
-    public void setOkToHoldList(Boolean okToHoldList) {
-        this.okToHoldList = okToHoldList;
+    public void setOkToHoldUntilList(Boolean okToHoldUntilList) {
+        this.okToHoldUntilList = okToHoldUntilList;
     }
 }

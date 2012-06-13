@@ -106,7 +106,6 @@ public interface RegistrationRequestItem
      */
     public String getGradingOptionId();
 
-    // revisit these flags
     /**
      * If the course is full and there is a waitlist, is it okay to be
      * placed in the waitlist for the course.
@@ -116,11 +115,12 @@ public interface RegistrationRequestItem
     public Boolean getOkToWaitlist();
 
     /**
-     * If the student does not meet one of the requirements for the course but
-     * there is a list for such students because the requirement ends at a
-     * future date, is it okay to be placed in such a list.
+     * If the student does not meet one of the requirements for the
+     * course but there is a list for such students because the
+     * requirement ends at a future date, is it okay to be placed in
+     * such a list.
      * 
-     * @name Ok To Holdlist
+     * @name Ok To HoldUntillist
      */
-    public Boolean getOkToHoldList();
+    public Boolean getOkToHoldUntilList();
 }

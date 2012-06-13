@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseWaitlistEntryInfo", propOrder = {"id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
-        "studentId", "regGroupId", "position", "lastCheckedIn", "courseOfferingId", "meta", "attributes",
+        "studentId", "registrationGroupId", "position", "lastCheckedIn", "courseOfferingId", "meta", "attributes",
         "_futureElements"})
 public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseWaitlistEntry, Serializable {
 
@@ -26,7 +26,7 @@ public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseW
     private String studentId;
 
     @XmlElement
-    private String regGroupId;
+    private String registrationGroupId;
 
     @XmlElement
     private Integer position;
@@ -48,7 +48,7 @@ public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseW
         super(courseWaitlistEntry);
         if (null != courseWaitlistEntry) {
             this.studentId = courseWaitlistEntry.getStudentId();
-            this.regGroupId = courseWaitlistEntry.getRegGroupId();
+            this.registrationGroupId = courseWaitlistEntry.getRegistrationGroupId();
             this.position = courseWaitlistEntry.getPosition();
             this.lastCheckedIn = courseWaitlistEntry.getLastCheckedIn();
             this.courseOfferingId = courseWaitlistEntry.getCourseOfferingId();
@@ -63,17 +63,13 @@ public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseW
         this.studentId = studentId;
     }
 
-    public void setPosition(Integer position) {
-        this.position = position;
-    }
-
     @Override
-    public String getRegGroupId() {
-        return regGroupId;
+    public String getRegistrationGroupId() {
+        return registrationGroupId;
     }
 
-    public void setRegGroupId(String regGroupId) {
-        this.regGroupId = regGroupId;
+    public void setRegistrationGroupId(String registrationGroupId) {
+        this.registrationGroupId = registrationGroupId;
     }
 
     @Override
@@ -84,6 +80,10 @@ public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseW
     @Override
     public Integer getPosition() {
         return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
     @Override
@@ -99,5 +99,4 @@ public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseW
     public void setCourseOfferingId(String courseOfferingId) {
         this.courseOfferingId = courseOfferingId;
     }
-
 }

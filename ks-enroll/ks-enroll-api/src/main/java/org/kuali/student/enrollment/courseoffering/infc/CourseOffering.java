@@ -312,9 +312,17 @@ public interface CourseOffering extends IdNamelessEntity{
      *  Values are in WaitListLevel enum.
      *
      * @name Waitlist Level Type Key
-    */
-
+     */
     public String  getWaitlistLevelTypeKey();
+
+    /**
+     * Maximum number of students to be allowed on the wait list.
+     *
+     * @name Waitlist Maximum
+     * @impl maps to Lui.waitlistMaximum
+     */
+    public Integer getWaitlistMaximum();    
+
 
   /************* Finances ***************************/
 

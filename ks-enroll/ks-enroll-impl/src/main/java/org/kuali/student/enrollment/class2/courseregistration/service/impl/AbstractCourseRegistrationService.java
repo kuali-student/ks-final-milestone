@@ -343,7 +343,7 @@ public abstract class AbstractCourseRegistrationService
     }
 
     @Override
-    public List<CreditLoadInfo> calculateCreditLoadForRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
+    public CreditLoadInfo calculateCreditLoadForStudentRegistrationRequest(String registrationRequestId, String studentId, ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");

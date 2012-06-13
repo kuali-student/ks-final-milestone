@@ -68,7 +68,7 @@ import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConst
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CourseRegistrationService  {
 
-    // CourseRegitsration methods
+    // CourseRegistration methods
 
     /**
      * Retrieves a single CourseRegistration by an CourseRegistration Id.
@@ -938,8 +938,8 @@ public interface CourseRegistrationService  {
                PermissionDeniedException;
 
     /**
-     * Gets the RegistrationRequestItems result in or impacting the
-     * given CourseRegistration.
+     * Gets the RegistrationRequestItems that resulted in or impacted
+     * the given CourseRegistration.
      * 
      * @param courseRegistrationId an identifier for a CourseRegistration
      * @param contextInfo information containing the principalId and
@@ -1001,6 +1001,7 @@ public interface CourseRegistrationService  {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
+                                                                                                   /// yes, no, messages
     public List<ValidationResultInfo> checkStudentEligibility(@WebParam(name = "studentId") String studentId, 
                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException,
@@ -1117,24 +1118,26 @@ public interface CourseRegistrationService  {
                PermissionDeniedException;
 
     /**
-     * Calculate the credit load for each student in a given
+     * Calculate the credit load for a given student in a given
      * RegistrationRequest.
      * 
      * @param registrationRequestId an identifier of a RegistrationRequest
+     * @param studentId an identifier of a Student
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
      *        operation
      * @return the credit load
      * @throws DoesNotExistException registrationRequestId is not
-     *         found
+     *         found or studentId not in RegistrationRequest
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException registrationRequestId, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<CreditLoadInfo> calculateCreditLoadForRegistrationRequest(@WebParam(name = "registrationRequestId") String registrationRequestId, 
-                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public CreditLoadInfo calculateCreditLoadForStudentRegistrationRequest(@WebParam(name = "registrationRequestId") String registrationRequestId, 
+                                                                           @WebParam(name = "studentId") String studentId, 
+                                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws DoesNotExistException,
                InvalidParameterException,
                MissingParameterException, 

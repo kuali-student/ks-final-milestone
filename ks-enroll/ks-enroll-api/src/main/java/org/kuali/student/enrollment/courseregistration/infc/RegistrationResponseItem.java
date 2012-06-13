@@ -39,12 +39,19 @@ public interface RegistrationResponseItem {
      */
     public String getRegistrationRequestItemId();
 
+    /// ??????
     /**
      * Get the operation status info for the registration item.
      * 
      * @name Operation Status
      */
     public OperationStatus getOperationStatus();
+
+
+    // separate field for waitlists status
+
+    // separate field for aync posting/??
+
 
     /**
      * Gets the course registration (if any) that resulted from this
@@ -61,4 +68,12 @@ public interface RegistrationResponseItem {
      * @name Course Waitlist Entry Id
      */
     public String getCourseWaitlistEntryId();
+
+    /**
+     * Gets the hold until list entry (if any) that resulted from this
+     * registration transaction.
+     * 
+     * @name Hold Until List Entry Id
+     */
+    public String getHoldUntilListEntryId();
 }

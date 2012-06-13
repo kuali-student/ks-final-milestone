@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationResponseInfo", propOrder = {
-                "registrationRequestId", "operationStatus",
+                "registrationRequestId", "hasFailed", "messages",
                 "registrationResponseItems", "_futureElements"})
 
 public class RegistrationResponseInfo 
@@ -45,7 +45,10 @@ public class RegistrationResponseInfo
     private String registrationRequestId;
 
     @XmlElement
-    private OperationStatusInfo operationStatus;
+    private Boolean hasFailed;
+
+    @XmlElement
+    private List<String> messages;
 
     @XmlElement
     private List<RegistrationResponseItemInfo> registrationResponseItems;
@@ -67,17 +70,21 @@ public class RegistrationResponseInfo
      */
     public RegistrationResponseInfo(RegistrationResponse registrationResponse) {
         
-        if (registrationResponse != null) {
-            this.registrationRequestId = registrationResponse.getRegistrationRequestId();
-            if (registrationResponse.getOperationStatus() != null) {
-                this.operationStatus = new OperationStatusInfo(registrationResponse.getOperationStatus());
-            }
+        if (registrationResponse == null) {
+            return;
+        }
 
-            this.registrationResponseItems = new ArrayList<RegistrationResponseItemInfo>();
-            
-            for (RegistrationResponseItem registrationResponseItem : registrationResponse.getRegistrationResponseItems()) {
-                this.registrationResponseItems.add(new RegistrationResponseItemInfo(registrationResponseItem));
-            }
+        this.registrationRequestId = registrationResponse.getRegistrationRequestId();
+        this.hasFailed = registrationResponse.getHasFailed();
+        
+        if (registrationResponse.getMessages() != null) {
+            this.messages = new ArrayList(registrationResponse.getMessages());
+        }
+
+        this.registrationResponseItems = new ArrayList<RegistrationResponseItemInfo>();
+        
+        for (RegistrationResponseItem registrationResponseItem : registrationResponse.getRegistrationResponseItems()) {
+            this.registrationResponseItems.add(new RegistrationResponseItemInfo(registrationResponseItem));
         }
     }
 
@@ -91,12 +98,25 @@ public class RegistrationResponseInfo
     }
 
     @Override
-    public OperationStatusInfo getOperationStatus() {
-        return operationStatus;
+    public Boolean getHasFailed() {
+        return hasFailed;
     }
 
-    public void setOperationStatus(OperationStatusInfo operationStatus) {
-        this.operationStatus = operationStatus;
+    public void setHasFailed(Boolean hasFailed) {
+        this.hasFailed = hasFailed;
+    }
+
+    @Override
+    public List<String> getMessages() {
+        if (messages == null) {
+            messages = new ArrayList<String>();
+        }
+
+        return messages;
+    }
+
+    public void setMessagess(List<String> messages) {
+        this.messages = messages;
     }
 
     @Override

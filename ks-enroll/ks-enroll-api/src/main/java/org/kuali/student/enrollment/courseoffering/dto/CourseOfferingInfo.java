@@ -42,8 +42,8 @@ import org.w3c.dom.Element;
         "unitsContentOwnerOrgIds",  "maximumEnrollment",
         "minimumEnrollment", "jointOfferingIds", "gradingOptionId", 
         "registrationGradingOptionIds", "creditOptionDisplay", "creditOptionId", 
-        "waitlistLevelTypeKey", "hasWaitlist", "waitlistTypeKey","campusLocations", 
-        "hasFinalExam", "isEvaluated", "fundingSource", "isFeeAtActivityOffering", 
+        "waitlistLevelTypeKey", "waitlistMaximum", "hasWaitlist", "waitlistTypeKey","campusLocations", 
+        "isEvaluated", "fundingSource", "isFeeAtActivityOffering", 
         "isFinancialAidEligible", "courseOfferingURL",
         "meta", "attributes", "_futureElements"})
 
@@ -108,6 +108,9 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     @XmlElement
     private String waitlistLevelTypeKey;
     
+    @XmlElement
+    private Integer waitlistMaximum;
+
     @XmlElement
     private Integer maximumEnrollment;
 
@@ -186,6 +189,7 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         this.campusLocations = (null != offering.getCampusLocations()) ? new ArrayList<String>(offering.getCampusLocations()) : null;
 
         this.waitlistTypeKey = offering.getWaitlistTypeKey();
+        this.waitlistMaximum = offering.getWaitlistMaximum();
         this.maximumEnrollment = offering.getMaximumEnrollment();
         this.minimumEnrollment = offering.getMinimumEnrollment();
 
@@ -415,6 +419,15 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     public void setWaitlistLevelTypeKey(String waitlistLevelTypeKey) {
         this.waitlistLevelTypeKey = waitlistLevelTypeKey;
+    }
+
+    @Override
+    public Integer getWaitlistMaximum() {
+        return waitlistMaximum;
+    }
+
+    public void setWaitlistMaximum(Integer waitlistMaximum) {
+        this.waitlistMaximum = waitlistMaximum;
     }
 
     @Override

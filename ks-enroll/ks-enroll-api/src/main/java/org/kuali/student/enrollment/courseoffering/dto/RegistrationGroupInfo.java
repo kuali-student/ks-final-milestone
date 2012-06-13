@@ -27,19 +27,19 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.w3c.dom.Element;
 
 /**
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegistrationGroupInfo", propOrder = {"activityOfferingIds", 
-    "courseOfferingId", "registrationCode", "termId", "formatOfferingId",
-    "isHonorsOffering", "maximumEnrollment", 
-    "minimumEnrollment", "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", 
-    "isWaitlistCheckinRequired", "waitlistCheckinFrequency", "id", 
-    "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RegistrationGroupInfo", propOrder = {
+                "id", "typeKey", "stateKey", "name", "descr", 
+                "activityOfferingIds", 
+                "courseOfferingId", "registrationCode", "termId", "formatOfferingId",
+                "isHonorsOffering", "maximumEnrollment", 
+                "meta", "attributes", "_futureElements"})
+
 public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationGroup {
 
     private static final long serialVersionUID = 1L;
@@ -54,9 +54,6 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     private Integer maximumEnrollment;
 
     @XmlElement
-    private Integer minimumEnrollment;
-
-    @XmlElement
     private String formatOfferingId;
 
     @XmlElement
@@ -68,59 +65,27 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     @XmlElement
     private Boolean isHonorsOffering;
 
-    @XmlElement
-    private Boolean hasWaitlist;
-
-    @XmlElement
-    private String waitlistTypeKey;
-
-    @XmlElement
-    private Integer waitlistMaximum;
-
-    @XmlElement
-    private Boolean isWaitlistCheckinRequired;
-
-    @XmlElement
-    private TimeAmountInfo waitlistCheckinFrequency;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    
     public RegistrationGroupInfo() {
-        this.activityOfferingIds = new ArrayList<String>();
-        this.courseOfferingId = null;
-        this.formatOfferingId = null;
-        this.hasWaitlist = new Boolean(false);
-        this.isHonorsOffering = new Boolean(false);
-        this.isWaitlistCheckinRequired = new Boolean(false);
-        this.maximumEnrollment = null;
-        this.minimumEnrollment = null;
-        this.registrationCode = null;
-        this.termId = null;
-        this.waitlistCheckinFrequency = null;
-        this.waitlistMaximum = null;
-        this.waitlistTypeKey = null;
-        this._futureElements = null;
     }
 
     public RegistrationGroupInfo(RegistrationGroup registrationGroup) {
         super(registrationGroup); 
         
-        if(null == registrationGroup) return;      
+        if (registrationGroup == null) {
+            return;      
+        }
         
         this.activityOfferingIds = (null != registrationGroup.getActivityOfferingIds()) ? new ArrayList<String>(registrationGroup.getActivityOfferingIds()) : null;
         this.courseOfferingId = registrationGroup.getCourseOfferingId();
         this.formatOfferingId = registrationGroup.getFormatOfferingId();
-        this.hasWaitlist = registrationGroup.getHasWaitlist();
         this.isHonorsOffering = (null != registrationGroup.getIsHonorsOffering()) ? new Boolean(registrationGroup.getIsHonorsOffering()) : null;
-        this.isWaitlistCheckinRequired = (null != registrationGroup.getIsWaitlistCheckinRequired()) ? new Boolean(registrationGroup.getIsWaitlistCheckinRequired()) : null;
         this.maximumEnrollment = registrationGroup.getMaximumEnrollment();
-        this.minimumEnrollment = registrationGroup.getMinimumEnrollment();
         this.registrationCode = registrationGroup.getRegistrationCode();
-                this.termId = registrationGroup.getTermId();
-        this.waitlistCheckinFrequency = new TimeAmountInfo(registrationGroup.getWaitlistCheckinFrequency());
-        this.waitlistMaximum = registrationGroup.getWaitlistMaximum();
-        this.waitlistTypeKey = registrationGroup.getWaitlistTypeKey();
+        this.termId = registrationGroup.getTermId();
     }
 
     @Override
@@ -136,11 +101,6 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     @Override
     public Integer getMaximumEnrollment() {
         return maximumEnrollment;
-    }
-
-    @Override
-    public Integer getMinimumEnrollment() {
-        return minimumEnrollment;
     }
 
     @Override
@@ -163,31 +123,6 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         return isHonorsOffering;
     }
 
-    @Override
-    public Boolean getHasWaitlist() {
-        return hasWaitlist;
-    }
-
-    @Override
-    public String getWaitlistTypeKey() {
-        return waitlistTypeKey;
-    }
-
-    @Override
-    public Integer getWaitlistMaximum() {
-        return waitlistMaximum;
-    }
-
-    @Override
-    public Boolean getIsWaitlistCheckinRequired() {
-        return isWaitlistCheckinRequired;
-    }
-
-    @Override
-    public TimeAmountInfo getWaitlistCheckinFrequency() {
-        return waitlistCheckinFrequency;
-    }
-
     public void setActivityOfferingIds(List<String> activityOfferingIds) {
         this.activityOfferingIds = activityOfferingIds;
     }
@@ -198,10 +133,6 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
 
     public void setMaximumEnrollment(Integer maximumEnrollment) {
         this.maximumEnrollment = maximumEnrollment;
-    }
-
-    public void setMinimumEnrollment(Integer minimumEnrollment) {
-        this.minimumEnrollment = minimumEnrollment;
     }
 
     public void setFormatOfferingId(String formatOfferingId) {
@@ -218,25 +149,5 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
 
     public void setIsHonorsOffering(Boolean isHonorsOffering) {
         this.isHonorsOffering = isHonorsOffering;
-    }
-
-    public void setHasWaitlist(Boolean hasWaitlist) {
-        this.hasWaitlist = hasWaitlist;
-    }
-
-    public void setWaitlistTypeKey(String waitlistTypeKey) {
-        this.waitlistTypeKey = waitlistTypeKey;
-    }
-
-    public void setWaitlistMaximum(Integer waitlistMaximum) {
-        this.waitlistMaximum = waitlistMaximum;
-    }
-
-    public void setIsWaitlistCheckinRequired(Boolean isWaitlistCheckinRequired) {
-        this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
-    }
-
-    public void setWaitlistCheckinFrequency(TimeAmountInfo waitlistCheckinFrequency) {
-        this.waitlistCheckinFrequency = waitlistCheckinFrequency;
     }
 }

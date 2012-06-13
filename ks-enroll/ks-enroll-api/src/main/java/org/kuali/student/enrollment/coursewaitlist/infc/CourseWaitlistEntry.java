@@ -31,42 +31,45 @@ import org.kuali.student.r2.common.infc.Relationship;
 
 public interface CourseWaitlistEntry extends Relationship {
 
-	/**
-	 * Returns the student id in waitlist entry waitlisted.
+    /**
+     * Returns the student id in waitlist entry waitlisted.
      * @readOnly on updates
-	 */
-	public String getStudentId();
-
-	/**
-	 * Returns the position of this entry in the waitlist for a particular
-	 * waitlist option.
+     */
+    public String getStudentId();
+    
+    /**
+     * Returns the position of this entry in the waitlist for a particular
+     * waitlist option.
      * 
      * This is not directly updatable on the data object, use service operations
      * to change the student's position in the list
      * 
      * @readOnly
-	 */
-	public Integer getPosition();
+     */
+    public Integer getPosition();
+    
+    /**
+     * Returns true if the student has checked in to the waitlist. Used to track
+     * if the student is still interested in being in the wailist.
+     * 
+     */
+    public Date getLastCheckedIn();
+    
+    /**
+     * Returns the reg group id for this waitlist entry. A waitlist entry should
+     * always be on tied to a single reg group. 
+     * 
+     */
+    public String getRegistrationGroupId();
+    
+    /**
+     * 
+     * Course offering id that contains the 
+     * 
+     * @readOnly on updates
+     */
+    public String getCourseOfferingId();
+    
 
-	/**
-	 * Returns true if the student has checked in to the waitlist. Used to track
-	 * if the student is still interested in being in the wailist.
-	 * 
-	 */
-	public Date getLastCheckedIn();
-
-	/**
-	 * Returns the reg group id for this waitlist entry. A waitlist entry should
-	 * always be on tied to a single reg group. 
-	 * 
-	 */
-	public String getRegGroupId();
-
-	/**
-	 * 
-	 * Course offering id that contains the 
-	 * 
-	 * @readOnly on updates
-	 */
-	public String getCourseOfferingId();
+    //  activity offering blocked Id
 }

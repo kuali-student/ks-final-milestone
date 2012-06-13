@@ -19,7 +19,6 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.TimeAmount;
 
 /**
  * Registration group are the physical entities that students will try
@@ -56,6 +55,15 @@ public interface RegistrationGroup
     public String getTermId();
 
     /**
+     * Canonical format to which this registration group belong to.  
+     *
+     * @name Format Id
+     * @impl This maps the the version dependent id of the format
+     *       clu. Stored as cluId in Lui.
+     */
+    public String getFormatOfferingId();
+
+    /**
      * Activity Offerings for the registration group. This list should
      * be constrained by the canonical format and the activity
      * offerings listed in the course offering.
@@ -67,15 +75,6 @@ public interface RegistrationGroup
      *       registration group.
      */
     public List<String> getActivityOfferingIds();
-        
-    /**
-     * Canonical format to which this registration group belong to.  
-     *
-     * @name Format Id
-     * @impl This maps the the version dependent id of the format
-     *       clu. Stored as cluId in Lui.
-     */
-    public String getFormatOfferingId();
             
     /**
      * Uniquely identifies an instance of the course for the purposes
@@ -90,70 +89,17 @@ public interface RegistrationGroup
      * Indicates that the entire course offering is an Honors Course.
      *
      * @name Is Honors Offering
-     * @required
+     * @readOnly
      */
     public Boolean getIsHonorsOffering();
-    
+
     /**
      * Total maximum number of "seats" or enrollment slots that can be
-     * filled for the offering. Constrained by smallest activity
-     * enrollment.
+     * filled for the offering. Constrained by smallest activity.
      *
      * @name Maximum Enrollment
+     * @readOnly
      * @impl maps to Lui.maximumEnrollment
      */
     public Integer getMaximumEnrollment();
-
-    /** 
-     * Total minimum number of seats that must be filled for the
-     * offering not to be canceled. Constrained by smallest activity
-     * enrollment.
-     *
-     * @name Minimum  Enrollment
-     * @impl maps to Lui.minimumEnrollment
-     */
-    public Integer getMinimumEnrollment();
-    
-    /**
-     * Indicates whether a RegistrationGroup has a waitlist.
-     *
-     * @name Has Waitlist
-     * @required
-     * @impl maps to Lui.hasWaitlist
-     */
-    public Boolean getHasWaitlist();
-
-    /**
-     * Indicates the type of waitlist as it relates to processing
-     * students on and off.
-     *
-     * @name Waitlist Type
-     * @impl maps to Lui.waitlistTypeKey
-     */
-    public String getWaitlistTypeKey();
-
-    /**
-     * Maximum number of students to be allowed on the wait list.
-     *
-     * @name Waitlist Maximum
-     * @impl maps to Lui.waitlistMaximum
-     */
-    public Integer getWaitlistMaximum();    
-
-    /**
-     * Indicates if the waitlist requires checkin.
-     *
-     * @name Is Waitlist Checkin Required
-     * @required
-     * @impl maps to Lui.isWaitlistCheckinRequired
-     */
-    public Boolean getIsWaitlistCheckinRequired();
-    
-    /**
-     * Frequency for the waitlist checkin.
-     *
-     * @name Waitlist Checkin Frequency 
-     * @impl maps to Lui.waitlistCheckinFrequency
-     */
-    public TimeAmount getWaitlistCheckinFrequency();
 }

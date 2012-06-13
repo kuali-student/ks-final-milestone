@@ -348,9 +348,9 @@ public class CourseRegistrationServiceDecorator
     }
 
     @Override
-    public List<CreditLoadInfo> calculateCreditLoadForRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
+    public CreditLoadInfo calculateCreditLoadForStudentRegistrationRequest(String registrationRequestId, String studentId, ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException,  OperationFailedException, PermissionDeniedException {
         
-        return getNextDecorator().calculateCreditLoadForRegistrationRequest(registrationRequestId, contextInfo);
+        return getNextDecorator().calculateCreditLoadForStudentRegistrationRequest(registrationRequestId, studentId, contextInfo);
     }
 }

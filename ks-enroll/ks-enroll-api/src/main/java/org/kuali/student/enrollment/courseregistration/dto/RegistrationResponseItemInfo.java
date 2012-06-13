@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationResponseItemInfo", propOrder = {
                 "registrationRequestItemId", "operationStatus",
-                "courseRegistrationId", "courseWaitlistEntryId", 
+                "courseRegistrationId", "courseWaitlistEntryId", "holdUntilListEntryId", 
                 "_futureElements"})
 
 public class RegistrationResponseItemInfo 
@@ -51,6 +51,9 @@ public class RegistrationResponseItemInfo
 
     @XmlElement
     private String courseWaitlistEntryId;
+
+    @XmlElement
+    private String holdUntilListEntryId;
     
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -78,6 +81,7 @@ public class RegistrationResponseItemInfo
 
             this.courseRegistrationId = registrationResponseItem.getCourseRegistrationId();
             this.courseWaitlistEntryId = registrationResponseItem.getCourseWaitlistEntryId();
+            this.holdUntilListEntryId = registrationResponseItem.getHoldUntilListEntryId();
         }
     }
 
@@ -115,5 +119,14 @@ public class RegistrationResponseItemInfo
 
     public void setCourseWaitlistEntryId(String courseWaitlistEntryId) {
         this.courseWaitlistEntryId = courseWaitlistEntryId;
+    }
+
+    @Override
+    public String getHoldUntilListEntryId() {
+        return holdUntilListEntryId;
+    }
+
+    public void setHoldUntilListEntryId(String holdUntilListEntryId) {
+        this.holdUntilListEntryId = holdUntilListEntryId;
     }
 }
