@@ -48,6 +48,7 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
     private static final long serialVersionUID = 1L;
 
     private EnumerationManagementService enumerationManagementService;
+    private FinalExamComparator finalExamComparator = new FinalExamComparator();
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -62,6 +63,8 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
 
         try {
             List<EnumeratedValueInfo> enumerationInfos = (List<EnumeratedValueInfo> ) getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null);
+            Collections.sort(enumerationInfos, finalExamComparator);
+
             for(EnumeratedValueInfo enumerationInfo : enumerationInfos) {
                 if (enumerationInfo.getCode().equals("STD")) {
                     keyValues.add(new ConcreteKeyValue("STANDARD", enumerationInfo.getValue()));
@@ -91,4 +94,18 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
         return this.enumerationManagementService;
     }
 
+    private class FinalExamComparator implements Comparator {
+
+        @Override
+        public int compare(Object o1, Object o2) {
+            if (!(o1 instanceof EnumeratedValueInfo) || !(o2 instanceof EnumeratedValueInfo)) {
+                throw new ClassCastException("Object not of type EnumeratedValueInfo.");
+            }
+            EnumeratedValueInfo enumeratedValue1 = (EnumeratedValueInfo) o1;
+            EnumeratedValueInfo enumeratedValue2 = (EnumeratedValueInfo) o2;
+
+            int result = enumeratedValue1.getSortKey().compareToIgnoreCase(enumeratedValue2.getSortKey());
+            return result;
+        }
+    }
 }
