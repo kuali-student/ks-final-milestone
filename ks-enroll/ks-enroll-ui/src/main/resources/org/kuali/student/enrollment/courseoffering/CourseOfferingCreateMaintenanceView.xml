@@ -88,17 +88,17 @@
                 <bean parent="Uif-InputField" p:propertyName="targetTermCode"
                       p:label="Target Term" p:labelPlacement="TOP" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" />
+                        <bean parent="Uif-TextControl" p:size="10" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="catalogCourseCode"
                       p:label="Catalog Course Code" p:labelPlacement="TOP" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" />
+                        <bean parent="Uif-TextControl" p:size="10" />
                     </property>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
-                              p:performClientSideValidation="true"/>
+                              p:performClientSideValidation="true" p:style="margin-top:15px;"/>
 
                 <bean parent="Uif-VerticalFieldGroup" p:style="margin-left:100px;">
                   <property name="group.instructionalText" value="Course Details"/>
