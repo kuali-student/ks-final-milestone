@@ -152,7 +152,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
         targetCo = this._getCoService().createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(),
                 targetCo, optionKeys, context);
-        for (FormatOfferingInfo sourceFo : this._getCoService().getFormatOfferingsByCourseOffering(sourceCo.getId(), context)) {
+        List<FormatOfferingInfo> foInfos = this._getCoService().getFormatOfferingsByCourseOffering(sourceCo.getId(), context);
+        for (FormatOfferingInfo sourceFo : foInfos) {
             FormatOfferingInfo targetFo = new FormatOfferingInfo(sourceFo);
             targetFo.setId(null);
             // clear out the ids on the internal sub-objects

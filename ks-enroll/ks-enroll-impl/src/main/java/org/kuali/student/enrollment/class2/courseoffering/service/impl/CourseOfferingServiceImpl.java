@@ -624,12 +624,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         List<FormatOfferingInfo> formatOfferings = new ArrayList<FormatOfferingInfo>();
 
-        //Find all related luis to the course Offering
-        List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(courseOfferingId,LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY,context);
-        for(LuiInfo lui:luis){
-
-            //Filter out only course offerings (the relation type seems to vague to only hold format offerings)
-            if(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY.equals(lui.getTypeKey())){
+        // Find all related luis to the course Offering
+        List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, context);
+        for (LuiInfo lui: luis) {
+            // Filter out only course offerings (the relation type seems to vague to only hold format offerings)
+            if (LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY.equals(lui.getTypeKey().trim())) {
                 FormatOfferingInfo formatOffering = new FormatOfferingInfo();
                 new FormatOfferingTransformer().lui2Format(lui,formatOffering);
                 formatOffering.setCourseOfferingId(courseOfferingId);
