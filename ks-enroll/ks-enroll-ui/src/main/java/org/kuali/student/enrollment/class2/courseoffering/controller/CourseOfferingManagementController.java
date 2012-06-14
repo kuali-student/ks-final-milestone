@@ -15,6 +15,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.springframework.stereotype.Controller;
@@ -33,34 +34,14 @@ import java.util.Properties;
 @Controller
 @RequestMapping(value = "/courseOfferingManagement")
 public class CourseOfferingManagementController extends UifControllerBase  {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementController.class);
+
     private CourseOfferingManagementViewHelperService viewHelperService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new CourseOfferingManagementForm();
     }
-
-    /**
-     * Method used to search and set a valid termInfo based on termCode
-     */
-//    @RequestMapping(params = "methodToCall=searchForTerm")
-//    public ModelAndView searchForTerm(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-//                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        String termCode = theForm.getTermCode();
-//        CourseOfferingManagementViewHelperService helper = getViewHelperService(theForm);
-//        List<TermInfo> termList = helper.findTermByTermCode(termCode);
-//        if (termList != null && termList.size() == 1) {
-//            // Get THE term
-//            theForm.setTermInfo(termList.get(0));
-//            if(!theForm.isHaveValidTerm()){
-//                theForm.setHaveValidTerm(true);
-//            }
-//        } else {
-//            theForm.setHaveValidTerm(false);
-//            //TODO: if termList is null or termList.size()>1, log error??
-//        }
-//        return getUIFModelAndView(theForm);
-//    }
 
     /**
      * Method used to
@@ -82,10 +63,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             // Get THE term
             theForm.setTermInfo(termList.get(0));
         } else if (termList.size()>1) {
-            throw new RuntimeException("Error: Found more than one Term for term code: "+termCode);
-        }
+            LOG.error("Error: Found more than one Term for term code: "+termCode);
+            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
+            return getUIFModelAndView(theForm);
+         }
         else{
-            throw new RuntimeException("Error: No valid Term for term code: "+termCode);
+            LOG.error("Error: Can't find any Term for term code: "+termCode);
+            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
+            return getUIFModelAndView(theForm);
         }
         
         //Second, handle subjectCode vs courseOFferingCode
@@ -111,9 +96,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
                 return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
             } else if (courseOfferingList.size()>1) {
-                throw new RuntimeException("Error: Found more than one Course Offering for the specified term: "+termCode+" and Course Offering Code: "+courseOfferingCode);
+                LOG.error("Error: Found more than one Course Offering for a Course Offering Code: "+courseOfferingCode+" in term: "+termCode);
+                GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_COURSE_OFFERING, courseOfferingCode, termCode);
+                return getUIFModelAndView(theForm);
             } else {
-                throw new RuntimeException("Error: No valid Course Offering for Term: "+termCode+" and Course Offering Code = "+courseOfferingCode);
+                LOG.error("Error: Can't find any Course Offering for a Course Offering Code: "+courseOfferingCode+" in term: "+termCode);
+                GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, courseOfferingCode, termCode);
+                return getUIFModelAndView(theForm);
             }
         }        
     }
