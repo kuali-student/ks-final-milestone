@@ -19,9 +19,10 @@
 
     <context:annotation-config/>
 
-    <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
+    <!-- <import resource="classpath:META-INF/default-property-config-context-test.xml"/> -->
     <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
+	<import resource="classpath:KRMSLocalSpringBeans.xml"/>
 	
 	    <!--  Preloaded data -->
 <!--     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener"> -->
@@ -36,7 +37,18 @@
         </property> -->
 <!--     </bean> -->
 
-    <bean id="systemPropertyConfigurer"
+    	<bean id="propertyConfigurer"
+		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:META-INF/kskrmstest.properties</value>
+			</list>
+		</property>
+		<property name="customConfigSystemProperty" value="ks.config.location"/>
+		<property name="order" value="0" />
+	</bean>
+
+ 	<bean id="systemPropertyConfigurer"
         class="org.kuali.student.common.util.SystemPropertyConfigurer">
         <property name="properties" value="${propertiesPrefix.systemProperties}"/>
     </bean>
@@ -88,7 +100,7 @@
     
    <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
         <property name="persistenceUnitName" value="persistentUnit"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml" />
+        <property name="persistenceXmlLocation" value="classpath:META-INF/kskrms_persistence.xml" />
         <property name="dataSource" ref="dataSource" />
    </bean>
     
