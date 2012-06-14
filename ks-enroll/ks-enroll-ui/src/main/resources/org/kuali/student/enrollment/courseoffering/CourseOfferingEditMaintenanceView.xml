@@ -42,7 +42,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
+                <!-- bean parent="Uif-HorizontalBoxSection">
                     <property name="headerText" value="Edit Course Offering"/>
                     <property name="items">
                         <list>
@@ -52,11 +52,23 @@
                             <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode" />
                         </list>
                     </property>
-                </bean>
+                </bean-->
 
                 <bean parent="Uif-VerticalBoxSection" p:headerText="Course Offering Information">
                     <property name="items">
                         <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode" p:label="Course Offering Code" p:fieldLabel.renderColon="false" p:labelPlacement="TOP" />
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.courseNumberSuffix" p:label="Change Suffix" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="5" />
+                                </property>
+                            </bean>
+                        </list>
                     </property>
                 </bean>
                 <bean parent="Uif-HorizontalBoxSection">
