@@ -120,7 +120,4 @@
     <!-- Organization Hierarchy Role Type -->
     <bean id="ksOrganizationHierarchyRoleTypeService" class="org.kuali.student.lum.kim.role.type.OrganizationHierarchyRoleTypeService"/>
 
-    <!-- Use our own custom xml parser which also parses passwords -->
-   	<bean id="enUserXmlService" class="org.kuali.rice.student.kew.xml.KSUserXmlServiceImpl" />
-
 </beans>

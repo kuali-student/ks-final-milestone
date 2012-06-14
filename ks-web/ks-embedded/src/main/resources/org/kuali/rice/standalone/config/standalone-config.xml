@@ -114,7 +114,7 @@
     <param name="rice.kr.additionalSpringFiles">classpath:ks-spring-security-saml.xml,classpath:ks-spring-security-sts.xml</param>
     <!-- param name="rice.kew.additionalSpringFiles"></param-->
     <!-- param name="rice.ksb.additionalSpringFiles"></param-->
-    <param name="rice.kim.additionalSpringFiles">${ks.authentication.context},classpath:ks-kim-context.xml</param>
+    <param name="rice.kim.additionalSpringFiles">${ks.authentication.context},classpath:ks-kim-context.xml,classpath:ks-kew-context.xml</param>
 
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">${application.url}</param>

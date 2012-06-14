@@ -53,21 +53,5 @@
 			</list>
 		</property>
 	</bean>
-    <bean id="enKSWorkflowDocumentService" class="org.kuali.rice.kew.impl.document.WorkflowDocumentServiceImpl" lazy-init="true" />
-
-    <bean id="ks.exp.workflowDocumentService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-                <property name="jaxWsService" value="false" />
-                <property name="service" ref="enKSWorkflowDocumentService" />
-                <property name="serviceInterface" value="org.kuali.rice.kew.api.document.WorkflowDocumentService" />
-                <property name="localServiceName" value="WorkflowDocumentService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/kew" />
-                <property name="busSecurity" value="true" />
-            </bean>
-        </property>
-    </bean>
-
-	
 
 </beans>
