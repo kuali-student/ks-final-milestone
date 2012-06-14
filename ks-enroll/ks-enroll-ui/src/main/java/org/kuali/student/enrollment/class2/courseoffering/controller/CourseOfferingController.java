@@ -25,6 +25,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+
+import org.kuali.student.common.search.dto.*;
+//import org.kuali.student.lum.course.dto.CourseInfo;
+//import org.kuali.student.lum.course.service.CourseService;
+//import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
+//
+//import javax.xml.namespace.QName;
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.Map;
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
@@ -38,6 +52,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 @RequestMapping(value = "/courseOffering")
 public class CourseOfferingController extends MaintenanceDocumentController {
 
+    private LuService luService;
     private CourseService courseService;
     private AcademicCalendarService academicCalendarService;
     private CourseOfferingService courseOfferingService;
@@ -54,7 +69,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         TermInfo term = getTerm(termCode);
         coWrapper.setTerm(term);
 
-        CourseInfo course = getCourseService().getCourse("db3e3c39-1ad8-48a4-a9ba-4004c8d86a4a");
+        CourseInfo course = getSearchResults(courseCode);
         coWrapper.setCourse(course);
         coWrapper.setCreditCount(course.getCreditOptions().get(0).getResultValues().get(0));
         if (course != null && term != null){
@@ -162,5 +177,55 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return courseOfferingService;
     }
 
+    private LuService getLuService() {
+        if(luService == null) {
+            luService = CourseOfferingResourceLoader.loadLuService();
+        }
+        return luService;
+    }
+
+    private CourseInfo getSearchResults(String courseName) {
+        CourseInfo        returnCourseInfo = null;
+        String            courseId         = null;
+        List<SearchParam> searchParams     = new ArrayList<SearchParam>();
+
+        SearchParam qpv1 = new SearchParam();
+        qpv1.setKey("lu.queryParam.luOptionalType");
+        qpv1.setValue("kuali.lu.type.CreditCourse");
+        searchParams.add(qpv1);
+
+        SearchParam qpv2 = new SearchParam();
+        qpv2.setKey("lu.queryParam.luOptionalCode");
+        qpv2.setValue(courseName);
+        searchParams.add(qpv2);
+
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setParams(searchParams);
+        searchRequest.setSearchKey("lu.search.mostCurrent.union");
+
+        try {
+            SearchResult searchResult = getLuService().search(searchRequest);
+            if (searchResult.getRows().size() > 0) {
+                for(SearchResultRow row : searchResult.getRows()){
+                    List<SearchResultCell> srCells = row.getCells();
+                    if(srCells != null && srCells.size() > 0){
+                        for(SearchResultCell cell : srCells){
+                            if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                                courseId = cell.getValue();
+                                returnCourseInfo = getCourseService().getCourse(courseId);
+                                break;
+                            }
+                        }
+                    }
+                    if (returnCourseInfo != null) {
+                        break;
+                    }
+                }
+            }
+            return returnCourseInfo;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
