@@ -22,7 +22,7 @@
     <!-- <import resource="classpath:META-INF/default-property-config-context-test.xml"/> -->
     <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
-	<import resource="classpath:KRMSLocalSpringBeans.xml"/>
+<!-- NINA	<import resource="classpath:KRMSLocalSpringBeans.xml"/> -->
 	
 	    <!--  Preloaded data -->
 <!--     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener"> -->
