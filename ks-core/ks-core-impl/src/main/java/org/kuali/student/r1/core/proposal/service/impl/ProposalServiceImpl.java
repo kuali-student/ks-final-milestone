@@ -89,9 +89,7 @@ public class ProposalServiceImpl implements ProposalService {
         // Validate
         List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo);
         if (null != validationResults && validationResults.size() > 0) {        	
-        	// TODO DANIE
-//            throw new DataValidationErrorException("Validation error!", validationResults);
-        	throw new DataValidationErrorException();
+        	throw new DataValidationErrorException("Validation error!", validationResults);
         }
         
         
@@ -265,9 +263,7 @@ public class ProposalServiceImpl implements ProposalService {
         // Validate
         List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo);
         if (null != validationResults && validationResults.size() > 0) {
-        	// TODO DANIE
-        	throw new DataValidationErrorException();
-//            throw new DataValidationErrorException("Validation error!", validationResults);
+        	throw new DataValidationErrorException("Validation error!", validationResults);
         }
         
         
