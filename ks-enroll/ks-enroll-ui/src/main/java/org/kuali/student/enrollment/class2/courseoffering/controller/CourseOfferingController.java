@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.springframework.stereotype.Controller;
@@ -24,14 +25,13 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     public ModelAndView loadCourseCatalog(@ModelAttribute("KualiForm") MaintenanceForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String courseCode = ((CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject()).getCatalogCourseCode();
+        CourseOfferingCreateWrapper coWrapper = ((CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject());
+        String courseCode = coWrapper.getCatalogCourseCode();
 
-//        CourseInfo course = getCourseService().getCourse(courseCode);
-        CourseInfo course = new CourseInfo();
-        course.setCourseTitle("Test");
-        course.setCode(courseCode);
-        ((CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject()).setCourse(course);
-        ((CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject()).setCreditCount("2");
+        CourseInfo course = getCourseService().getCourse("db3e3c39-1ad8-48a4-a9ba-4004c8d86a4a");
+        coWrapper.setCourse(course);
+        coWrapper.setCreditCount(course.getCreditOptions().get(0).getResultValues().get(0));
+        coWrapper.setShowAllSections(true);
 
         return getUIFModelAndView(form);
     }
@@ -57,5 +57,13 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         return getUIFModelAndView(form);
     }
+
+    private CourseService getCourseService() {
+        if(courseService == null) {
+            courseService = CourseOfferingResourceLoader.loadCourseService();
+        }
+        return courseService;
+    }
+
 
 }

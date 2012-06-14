@@ -18,6 +18,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     private boolean showTermOfferingLink;
     private boolean showCatalogLink;
+    private boolean showAllSections;
 
     private String addCourseOfferingSuffix;
 
@@ -29,6 +30,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
     public CourseOfferingCreateWrapper(){
         showCatalogLink = false;
         showTermOfferingLink = true;
+        showAllSections = false;
     }
 
     public String getTargetTermCode() {
@@ -117,5 +119,13 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     public void setFormatOfferingList(List<FormatOfferingInfo> formatOfferingList) {
         this.formatOfferingList = formatOfferingList;
+    }
+
+    public boolean isShowAllSections() {
+        return showAllSections;
+    }
+
+    public void setShowAllSections(boolean showAllSections) {
+        this.showAllSections = showAllSections;
     }
 }
