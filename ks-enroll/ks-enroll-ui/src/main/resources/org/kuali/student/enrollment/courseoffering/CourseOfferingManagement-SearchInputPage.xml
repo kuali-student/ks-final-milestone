@@ -48,10 +48,10 @@
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="5" p:watermarkText="20094" p:minLength="5" p:maxLength="5"/>
+                                    <bean parent="Uif-TextControl" p:size="5" p:watermarkText="20132" p:minLength="5" p:maxLength="5"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="radioSelection" p:label="" p:width="auto" p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="radioSelection" p:label="" p:width="auto" p:required="true" p:defaultValue="courseOfferingCode">
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl">
                                         <property name="options">
