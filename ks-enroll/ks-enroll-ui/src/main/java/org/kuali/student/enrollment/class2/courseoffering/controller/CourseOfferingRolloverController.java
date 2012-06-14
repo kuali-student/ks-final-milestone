@@ -139,11 +139,15 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         TermInfo sourceTerm = helper.findTermByTermCode(sourceTermCd).get(0);
         boolean likeTerms = sourceTerm.getTypeKey().equals(targetTerm.getTypeKey());
         boolean sourcePrecedesTarget = sourceTerm.getStartDate().before(targetTerm.getStartDate());
+        boolean sourceTermHasSoc = helper.termHasSoc(sourceTerm.getId(), form);
         if (!likeTerms) {
             GlobalVariables.getMessageMap().putError("sourceTermCode", "error.likeTerms.validation");
             return getUIFModelAndView(form);
         } else if (!sourcePrecedesTarget) {
             GlobalVariables.getMessageMap().putError("sourceTermCode", "error.years.validation");
+            return getUIFModelAndView(form);
+        } else if (!sourceTermHasSoc) {
+            GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.sourceTerm.noSoc");
             return getUIFModelAndView(form);
         }
 

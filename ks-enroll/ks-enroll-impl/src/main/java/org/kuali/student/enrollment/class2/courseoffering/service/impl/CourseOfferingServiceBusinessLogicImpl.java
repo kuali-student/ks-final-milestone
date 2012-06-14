@@ -36,6 +36,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
 
@@ -150,6 +151,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
             coTransformer.copyFromCanonical(targetCourse, targetCo, optionKeys);
         }
+        // Rolled over CO should be in planned state
+        targetCo.setStateKey(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY);
         targetCo = this._getCoService().createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(),
                 targetCo, optionKeys, context);
         List<FormatOfferingInfo> foInfos = this._getCoService().getFormatOfferingsByCourseOffering(sourceCo.getId(), context);
@@ -164,6 +167,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             targetFo.setTermId(targetTermId);
             targetFo.setMeta(null);
             CourseOfferingService locoService = this.getCoService();
+            // Rolled over FO should be in planned state
+            targetFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
             targetFo = locoService.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
                     targetFo.getTypeKey(), targetFo, context);
             for (ActivityOfferingInfo sourceAo : locoService.getActivityOfferingsByFormatOffering(sourceFo.getId(), context)) {
@@ -186,6 +191,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
                     targetAo.getInstructors().clear();
                 }
+                // Rolled over AO should be in draft state
+                targetAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                 targetAo = this._getCoService().createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
                         targetAo.getTypeKey(), targetAo, context);
             }

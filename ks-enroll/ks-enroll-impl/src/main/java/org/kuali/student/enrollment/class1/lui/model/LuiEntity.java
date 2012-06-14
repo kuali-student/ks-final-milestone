@@ -129,7 +129,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         orphansToDelete.addAll(existingluiCodes.values());
 
 
-        //Map the exisiting result group keys by their id
+        //Map the existing result group keys by their id
         if(lui.getResultValuesGroupKeys()!=null){
             resultValuesGroupKeys = new ArrayList<String>(lui.getResultValuesGroupKeys());
         }else{
@@ -139,7 +139,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
         // Lui Identifiers
 
-        //Map the exisiting idents by their id
+        //Map the existing idents by their id
         Map<String,LuiIdentifierEntity> existingIdents = new HashMap<String,LuiIdentifierEntity>();
         if(identifiers != null){
             for(LuiIdentifierEntity ident : identifiers){

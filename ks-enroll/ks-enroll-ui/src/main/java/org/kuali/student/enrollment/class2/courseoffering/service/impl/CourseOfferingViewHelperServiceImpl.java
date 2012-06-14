@@ -262,6 +262,42 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         }
     }
 
+    private int _mainSocCount(List<String> socIds) {
+        int mainSocCount = 0;
+        try {
+            for (String socId: socIds) {
+                SocInfo socInfo = socService.getSoc(socId, new ContextInfo());
+                if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                    mainSocCount++;
+                }
+            }
+        } catch (Exception e) {
+            return -1;
+        }
+        return mainSocCount;
+    }
+
+    @Override
+    public boolean termHasSoc(String termId, CourseOfferingRolloverManagementForm form) {
+        CourseOfferingSetService socService = _getSocService();
+        try {
+            List<String> socIds = socService.getSocIdsByTerm(termId, new ContextInfo());
+            if (socIds == null || socIds.isEmpty()) {
+                form.setStatusField("No SOCS in source term");
+                return false;
+            } else {
+                int mainSocCount = _mainSocCount(socIds);
+                if (mainSocCount != 1) {
+                    form.setStatusField("Wrong number of SOCS in source term: " + socIds.size());
+                    return false;
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     @Override
     public SocRolloverResultInfo performReverseRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
         CourseOfferingSetService socService = _getSocService();
