@@ -557,22 +557,15 @@ public class RepositoryCreateAndExecuteIntegrationTest extends AbstractBoTest {
 
 
     private TermDefinition createTermDefinition2(ContextDefinition contextDefinition, String nameSpace) {
-
-        Map<String, String> queryArgs = new HashMap<String, String>();
-        queryArgs.put("specification.namespace", contextDefinition.getNamespace());
-        queryArgs.put("specification.name", "outputTermSpec");
-        TermBo result = getBoService().findByPrimaryKey(TermBo.class, queryArgs);
-        if (result != null) return TermBo.to(result);
-
         // output TermSpec
         TermSpecificationDefinition outputTermSpec =
-            TermSpecificationDefinition.Builder.create(null, "outputTermSpec", contextDefinition.getNamespace(),
+            TermSpecificationDefinition.Builder.create(null, "outputTermSpec", contextDefinition.getId(),
                     "java.lang.String").build();
         outputTermSpec = termBoService.createTermSpecification(outputTermSpec);
 
         // prereq TermSpec
         TermSpecificationDefinition prereqTermSpec =
-            TermSpecificationDefinition.Builder.create(null, PREREQ_TERM_NAME, contextDefinition.getNamespace(),
+            TermSpecificationDefinition.Builder.create(null, "prereqTermSpec", contextDefinition.getId(),
                     "java.lang.String").build();
         prereqTermSpec = termBoService.createTermSpecification(prereqTermSpec);
 
@@ -587,13 +580,13 @@ public class RepositoryCreateAndExecuteIntegrationTest extends AbstractBoTest {
 
 		// KrmsType for TermResolver
 		KrmsTypeDefinition.Builder krmsTermResolverTypeDefnBuilder = KrmsTypeDefinition.Builder.create("KrmsTestResolverType", nameSpace);
-		krmsTermResolverTypeDefnBuilder.setServiceName("testTermResolverTypeService");
+		krmsTermResolverTypeDefnBuilder.setServiceName("testResolverTypeService1");
 
 		KrmsTypeDefinition krmsTermResolverTypeDefinition = krmsTypeRepository.createKrmsType(krmsTermResolverTypeDefnBuilder.build());
 
         // TermResolver
 		TermResolverDefinition termResolverDef =
-			TermResolverDefinition.Builder.create(null, contextDefinition.getNamespace(), "testResolver1", krmsTermResolverTypeDefinition.getId(),
+			TermResolverDefinition.Builder.create(null, nameSpace, "testResolver1", krmsTermResolverTypeDefinition.getId(),
 					TermSpecificationDefinition.Builder.create(outputTermSpec),
 					Collections.singleton(TermSpecificationDefinition.Builder.create(prereqTermSpec)),
 					null,
@@ -602,6 +595,7 @@ public class RepositoryCreateAndExecuteIntegrationTest extends AbstractBoTest {
 
         return termDefinition2;
     }
+
 
     private static class PropositionParametersBuilder {
         
