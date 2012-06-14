@@ -37,7 +37,7 @@
         </property> -->
 <!--     </bean> -->
 
-    	<bean id="propertyConfigurer"
+	<bean id="propertyConfigurer"
 		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
@@ -48,7 +48,7 @@
 		<property name="order" value="0" />
 	</bean>
 
- 	<bean id="systemPropertyConfigurer"
+    <bean id="systemPropertyConfigurer"
         class="org.kuali.student.common.util.SystemPropertyConfigurer">
         <property name="properties" value="${propertiesPrefix.systemProperties}"/>
     </bean>
