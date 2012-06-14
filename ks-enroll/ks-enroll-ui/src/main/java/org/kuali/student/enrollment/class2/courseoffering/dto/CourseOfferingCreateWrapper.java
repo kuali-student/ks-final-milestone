@@ -5,6 +5,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseOfferingCreateWrapper implements Serializable{
@@ -26,11 +27,14 @@ public class CourseOfferingCreateWrapper implements Serializable{
     private CourseOfferingInfo coInfo;
 
     private List<FormatOfferingInfo> formatOfferingList;
+    private List<ExistingCourseOffering> existingCourseOfferings;
 
     public CourseOfferingCreateWrapper(){
         showCatalogLink = false;
         showTermOfferingLink = true;
         showAllSections = false;
+        formatOfferingList = new ArrayList<FormatOfferingInfo>();
+        existingCourseOfferings = new ArrayList<ExistingCourseOffering>();
     }
 
     public String getTargetTermCode() {
@@ -127,5 +131,13 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     public void setShowAllSections(boolean showAllSections) {
         this.showAllSections = showAllSections;
+    }
+
+    public List<ExistingCourseOffering> getExistingCourseOfferings() {
+        return existingCourseOfferings;
+    }
+
+    public void setExistingCourseOfferings(List<ExistingCourseOffering> existingCourseOfferings) {
+        this.existingCourseOfferings = existingCourseOfferings;
     }
 }

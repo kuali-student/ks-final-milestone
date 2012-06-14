@@ -87,13 +87,13 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="targetTermCode"
-                      p:label="Target Term" p:labelPlacement="TOP">
+                      p:label="Target Term" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="catalogCourseCode"
-                      p:label="Catalog Course Code" p:labelPlacement="TOP" p:required="true">
+                      p:label="Catalog Course Code" p:labelPlacement="TOP" p:required="true" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" />
                     </property>
@@ -145,6 +145,7 @@
             <list>
                  <ref bean="KS-CourseOfferingCodeSubSection"/>
                  <ref bean="KS-FormatOfferingSubSection"/>
+                 <ref bean="KS-ExistingOfferingsSubSection"/>
             </list>
          </property>
     </bean>
@@ -155,13 +156,13 @@
         <property name="items">
             <list>
                  <bean parent="Uif-InputField" p:propertyName="catalogCourseCode"
-                      p:label="Catalog Course Code" p:labelPlacement="TOP" p:readOnly="true">
+                      p:label="Catalog Course Code" p:labelPlacement="TOP" p:readOnly="true" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="addCourseOfferingSuffix"
-                      p:label="Add Suffix" p:labelPlacement="TOP">
+                      p:label="Add Suffix" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" />
                     </property>
@@ -197,6 +198,43 @@
                       p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+           </list>
+         </property>
+    </bean>
+
+    <bean id="KS-ExistingOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true">
+		<property name="headerText" value="Existing Offerings" />
+		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering" />
+		<property name="propertyName" value="existingCourseOfferings" />
+		<property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+		<property name="items">
+           <list>
+               <bean parent="Uif-InputField" p:propertyName="termCode" p:label="SOURCE TERM" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+               <bean parent="Uif-InputField" p:propertyName="courseOfferingCode" p:label="COURSE OFFERING CODE" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+               <bean parent="Uif-InputField" p:propertyName="courseTitle" p:label="COURSE TITLE" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="credits" p:label="CREDITS" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="grading" p:label="GRADING" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
            </list>
