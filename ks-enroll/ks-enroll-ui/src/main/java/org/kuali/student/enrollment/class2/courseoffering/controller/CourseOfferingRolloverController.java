@@ -125,28 +125,28 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=goSourceTerm")
     public ModelAndView goSourceTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //validation to check for valid term.
+        // validation to check for valid term.
         if (form.getDisplayedTargetTermCode() == null || form.getDisplayedTargetTermCode().length() == 0) {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.submit.sourceTerm");
             return getUIFModelAndView(form);
         }
-        //validation to check for like terms and target term year comes before source term year.
+        CourseOfferingViewHelperService helper = getViewHelperService(form);
+        
+        // validation to check for like terms and target term year comes before source term year.
         String targetTermCd = form.getTargetTermCode();
         String sourceTermCd = form.getSourceTermCode();
-        String targetTerm = targetTermCd.substring(0, 2);
-        String sourceTerm = sourceTermCd.substring(0, 2);
-        boolean c1 = targetTerm.equalsIgnoreCase(sourceTerm);
-        String targetTermYear = targetTermCd.substring(3);
-        String sourceTermYear = sourceTermCd.substring(3);
-        boolean c2 = Integer.parseInt(targetTermYear) > Integer.parseInt(sourceTermYear);
-        if (!c1) {
+        TermInfo targetTerm = helper.findTermByTermCode(targetTermCd).get(0);
+        TermInfo sourceTerm = helper.findTermByTermCode(sourceTermCd).get(0);
+        boolean likeTerms = sourceTerm.getTypeKey().equals(targetTerm.getTypeKey());
+        boolean sourcePrecedesTarget = sourceTerm.getStartDate().before(targetTerm.getStartDate());
+        if (!likeTerms) {
             GlobalVariables.getMessageMap().putError("sourceTermCode", "error.likeTerms.validation");
             return getUIFModelAndView(form);
-        } else if (!c2) {
+        } else if (!sourcePrecedesTarget) {
             GlobalVariables.getMessageMap().putError("sourceTermCode", "error.years.validation");
             return getUIFModelAndView(form);
         }
-        CourseOfferingViewHelperService helper = getViewHelperService(form);
+
         List<TermInfo> termList = helper.findTermByTermCode(form.getSourceTermCode());
         if (termList != null && termList.size() == 1) {
             // Get first term
