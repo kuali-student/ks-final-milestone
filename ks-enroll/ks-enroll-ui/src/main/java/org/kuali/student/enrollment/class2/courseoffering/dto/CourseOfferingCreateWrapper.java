@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -25,6 +26,8 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     private CourseInfo course;
     private CourseOfferingInfo coInfo;
+
+    private TermInfo term;
 
     private List<FormatOfferingInfo> formatOfferingList;
     private List<ExistingCourseOffering> existingCourseOfferings;
@@ -139,5 +142,13 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     public void setExistingCourseOfferings(List<ExistingCourseOffering> existingCourseOfferings) {
         this.existingCourseOfferings = existingCourseOfferings;
+    }
+
+    public TermInfo getTerm() {
+        return term;
+    }
+
+    public void setTerm(TermInfo term) {
+        this.term = term;
     }
 }

@@ -52,6 +52,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         String termCode = coWrapper.getTargetTermCode();
 
         TermInfo term = getTerm(termCode);
+        coWrapper.setTerm(term);
+
         CourseInfo course = getCourseService().getCourse("db3e3c39-1ad8-48a4-a9ba-4004c8d86a4a");
         coWrapper.setCourse(course);
         coWrapper.setCreditCount(course.getCreditOptions().get(0).getResultValues().get(0));

@@ -47,6 +47,7 @@
                 <ref bean="KS-CourseOffering-MetaSection"/>
                 <ref bean="KS-CourseOffering-LinkSection"/>
                 <ref bean="KS-CreateFromCatalog"/>
+                <ref bean="KS-CreateFromTermOffering"/>
             </list>
         </property>
         <property name="page.footer.items">
@@ -140,6 +141,14 @@
         </property>
     </bean>
 
+    <bean id="KS-CreateFromTermOffering" parent="Uif-VerticalBoxSection" p:render="@{!document.newMaintainableObject.dataObject.showTermOfferingLink and document.newMaintainableObject.dataObject.showAllSections}">
+         <property name="items">
+            <list>
+                 <bean parent="Uif-MessageField" p:messageText="Not in M3 scope" p:style="font-weight:bold;color:red"/>
+            </list>
+         </property>
+    </bean>
+
     <bean id="KS-CreateFromCatalog" parent="Uif-VerticalBoxSection" p:render="@{!document.newMaintainableObject.dataObject.showCatalogLink and document.newMaintainableObject.dataObject.showAllSections}">
          <property name="items">
             <list>
@@ -205,7 +214,7 @@
     </bean>
 
     <bean id="KS-ExistingOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true">
-		<property name="headerText" value="Existing Offerings" />
+		<property name="headerText" value="Existing Offerings for @{document.newMaintainableObject.dataObject?.targetTermCode} (@{document.newMaintainableObject.dataObject.term?.name})" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering" />
 		<property name="propertyName" value="existingCourseOfferings" />
 		<property name="layoutManager.renderSequenceField" value="false" />
