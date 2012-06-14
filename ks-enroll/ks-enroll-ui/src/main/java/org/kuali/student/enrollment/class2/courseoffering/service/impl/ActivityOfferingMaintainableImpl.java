@@ -43,7 +43,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
                 // **** BEGIN HARD-CODED DEFAULTS FOR TESTING ****
                 // TODO REMOVE THESE
-                toSave.setFormatOfferingId("LuiFO-1-106");
+                toSave.setFormatOfferingId("447823da-7d70-406e-9736-a1087e27be20");
 
                 FormatOfferingInfo foInfo = getCourseOfferingService().getFormatOffering(toSave.getFormatOfferingId(), getContextInfo());
 
