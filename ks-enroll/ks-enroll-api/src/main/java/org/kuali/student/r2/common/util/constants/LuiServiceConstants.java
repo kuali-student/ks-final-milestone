@@ -135,9 +135,10 @@ public class LuiServiceConstants {
         return false;
     }
     /**
-     * Course Offering States based on:
+     * Format Offering States based on:
      * https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Activity%2CCourseandRegGroupOffering
      * Implemented: 6/14/2012  by cclin
+     * The process is identical to the course offering.
      */
     public static final String LUI_FO_STATE_PLANNED_KEY = "kuali.lui.format.offering.state.planned";
     public static final String LUI_FO_STATE_OFFERED_KEY = "kuali.lui.format.offering.state.offered";
