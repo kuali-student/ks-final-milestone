@@ -135,6 +135,32 @@ public class LuiServiceConstants {
         return false;
     }
     /**
+     * Course Offering States based on:
+     * https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Activity%2CCourseandRegGroupOffering
+     * Implemented: 6/14/2012  by cclin
+     */
+    public static final String LUI_FO_STATE_PLANNED_KEY = "kuali.lui.format.offering.state.planned";
+    public static final String LUI_FO_STATE_OFFERED_KEY = "kuali.lui.format.offering.state.offered";
+    public static final String LUI_FO_STATE_CANCELED_KEY = "kuali.lui.format.offering.state.canceled";
+
+    public static final String[] FORMAT_OFFERING_PROCESS_STATE_KEYS = {
+            LUI_FO_STATE_PLANNED_KEY,
+            LUI_FO_STATE_OFFERED_KEY,
+            LUI_FO_STATE_CANCELED_KEY
+    };
+
+    public static boolean isValidFormatOfferingState(String possibleState) {
+        if (possibleState == null) {
+            return false;
+        }
+        for (String state: FORMAT_OFFERING_PROCESS_STATE_KEYS) {
+            if (state.equals(possibleState)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
      * Activity Offering States based on:
      * https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Activity%2CCourseandRegGroupOffering
      * Implemented: 6/14/2012  by cclin
@@ -183,13 +209,6 @@ public class LuiServiceConstants {
      */
     @Deprecated
     public static final String LUI_DRAFT_STATE_KEY = "kuali.lui.state.draft";
-
-
-    /**
-     * Dummy FO state (6/14/2012).  Only here until there is an approved FO state
-     */
-    @Deprecated
-    public static final String LUI_FO_STATE_DUMMY_KEY = "kuali.lui.course.format.offering.state.dummy";
 
     /**
      *  LUI LUI Relation types

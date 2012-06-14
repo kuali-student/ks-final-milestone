@@ -108,7 +108,7 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
         FormatInfo format = course.getFormats().get(0);
         FormatOfferingInfo sourceFo = new FormatOfferingInfo ();
         sourceFo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-        sourceFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DUMMY_KEY);
+        sourceFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY);
         sourceFo.setCourseOfferingId(sourceCo.getId());
         sourceFo.setDescr(new RichTextHelper ().fromPlain ("test format offering"));
         sourceFo.setFormatId(format.getId());
