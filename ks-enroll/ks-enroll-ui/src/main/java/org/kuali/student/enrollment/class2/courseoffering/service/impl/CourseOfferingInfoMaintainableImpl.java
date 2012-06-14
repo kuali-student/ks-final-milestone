@@ -117,7 +117,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         //set the list of instructors to the CourseOfferingInfo coi
         if (coi != null) {
             coi.setInstructors(instructors);
-            coi.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+            coi.setStateKey(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
             coi.setMaximumEnrollment(courseOfferingInfo.getMaximumEnrollment());
 
             //update the CourseOfferingInfo coi in DB with instructors info
@@ -166,7 +166,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     //(see https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Types)
                     //only take the first one.
                     activityOfferingInfo.setTypeKey(activityOfferingTypes.get(0).getKey());
-                    activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+                    activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
                     //TODO remove this fake generation when we are getting real times from the form
                     // TODO: fix this to set the schedule id from the schedule service
                     String scheduleId = null;
@@ -189,7 +189,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     registrationGroupInfo.setCourseOfferingId(coi.getId());
                     registrationGroupInfo.setMaximumEnrollment(courseOfferingInfo.getMaximumEnrollment());
                     registrationGroupInfo.setActivityOfferingIds(activityOfferingIds);
-                    registrationGroupInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+                    registrationGroupInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
                     registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
                     // TODO Change this formatOffering to actual one when implementing
                     String formatOfferingId = null;
@@ -240,7 +240,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             //set state and type value for the courseOfferingInfo
             CourseOfferingInfo newCourseOffering = (CourseOfferingInfo) getDataObject();
             newCourseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-            newCourseOffering.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+            newCourseOffering.setStateKey(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
 
             //for each instructor, set personId to Id field, state, and type
             List<OfferingInstructorInfo> instructors =  newCourseOffering.getInstructors();

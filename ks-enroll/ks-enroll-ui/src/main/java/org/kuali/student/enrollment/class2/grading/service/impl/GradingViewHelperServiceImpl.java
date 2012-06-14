@@ -267,7 +267,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
             form.setCourseOfferingInfoList(new ArrayList<CourseOfferingInfo>());
             if (!cos.isEmpty()){
                 for (CourseOfferingInfo co : cos) {
-                    if (StringUtils.equals(co.getStateKey(), LuiServiceConstants.LUI_OFFERED_STATE_KEY) &&
+                    if (StringUtils.equals(co.getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY) &&
                         StringUtils.equals(co.getTypeKey(),LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)){
                         form.getCourseOfferingInfoList().add(co);
                     }
