@@ -101,14 +101,14 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
         sourceCo.setCourseId(course.getId());
         sourceCo.setTermId(sourceTerm.getId());
         sourceCo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-        sourceCo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        sourceCo.setStateKey(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
         sourceCo = coService.createCourseOffering(sourceCo.getCourseId(), sourceCo.getTermId(),
                 sourceCo.getTypeKey(), sourceCo, optionKeys, callContext);
         
         FormatInfo format = course.getFormats().get(0);
         FormatOfferingInfo sourceFo = new FormatOfferingInfo ();
         sourceFo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-        sourceFo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);        
+        sourceFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DUMMY_KEY);
         sourceFo.setCourseOfferingId(sourceCo.getId());
         sourceFo.setDescr(new RichTextHelper ().fromPlain ("test format offering"));
         sourceFo.setFormatId(format.getId());
@@ -122,7 +122,7 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
         sourceAo.setFormatOfferingId(sourceFo.getId());
         sourceAo.setActivityId(activity.getId());
         sourceAo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-        sourceAo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);   
+        sourceAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
         sourceAo.setActivityCode("A");
         sourceAo.setDescr(new RichTextHelper ().fromPlain("test activity"));
         sourceAo.setIsHonorsOffering(Boolean.TRUE);

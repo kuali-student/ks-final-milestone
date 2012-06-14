@@ -304,7 +304,7 @@ public class TestLuiServiceImpl {
 
         LuiInfo modified = new LuiInfo(info);
         modified.setName("Lui one modified");
-        modified.setStateKey(LuiServiceConstants.LUI_APROVED_STATE_KEY);
+        modified.setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
         modified.setMaximumEnrollment(25);
         modified.setMinimumEnrollment(10);
         assertNotNull(modified.getOfficialIdentifier());
@@ -364,7 +364,7 @@ public class TestLuiServiceImpl {
 
         assertNotNull(updated);
         assertEquals("Lui one modified", updated.getName());
-        assertEquals(LuiServiceConstants.LUI_APROVED_STATE_KEY, updated.getStateKey());
+        assertEquals(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, updated.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, updated.getTypeKey());
         assertEquals(Integer.valueOf(25), updated.getMaximumEnrollment());
         assertEquals(Integer.valueOf(10), updated.getMinimumEnrollment());
