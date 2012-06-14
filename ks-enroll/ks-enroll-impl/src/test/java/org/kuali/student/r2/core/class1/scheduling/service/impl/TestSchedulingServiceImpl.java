@@ -20,20 +20,17 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.scheduling.SchedulingServiceDataLoader;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -44,11 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -322,5 +315,343 @@ public class TestSchedulingServiceImpl {
         assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_1_00_PM);
         assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_2_10_PM);
 
+    }
+
+    @Test
+    public void testcreateScheduleRequest () throws Exception {
+        String scheduleRequestInfoId = "57a05c2c-2b15-4a9a-b34d-b0f8551cb188";
+        String scheduleRequestInfoRefObjectId = "290C813A-90C8-4782-A3F2-307ACDB89B62";
+        String scheduleRequestComponentInfoId = "33547e55-f106-4eaa-96cb-eb99df6e1fd6";
+        String scheduleRequestInfoName = "testCreateScheduleRequest";
+        ScheduleRequestInfo scheduleRequestInfo = setupScheduleRequestInfo(scheduleRequestInfoId,
+                scheduleRequestInfoRefObjectId, scheduleRequestComponentInfoId, scheduleRequestInfoName);
+
+        ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(
+                                                SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE,
+                                                scheduleRequestInfo,  contextInfo);
+
+
+        // returnInfo should not be null
+        assertNotNull(returnInfo);
+        assertTrue(returnInfo.getRefObjectId().equals(scheduleRequestInfoRefObjectId));
+        assertTrue(returnInfo.getId().equals(scheduleRequestInfoId));
+        assertTrue(returnInfo.getRefObjectTypeKey().equals(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING));
+        assertTrue(returnInfo.getName().equals(scheduleRequestInfoName));
+
+        List<ScheduleRequestComponentInfo> componentInfoList = returnInfo.getScheduleRequestComponents();
+        assertNotNull(componentInfoList);
+        assertFalse(componentInfoList.isEmpty());
+        ScheduleRequestComponentInfo componentInfo = componentInfoList.get(0);
+        assertNotNull(componentInfo);
+        assertTrue(componentInfo.getId().equals(scheduleRequestComponentInfoId));
+
+    }
+
+    @Test
+    public void testupdateScheduleRequest () throws Exception {
+
+        // create a ScheduleRequestInfo
+        String scheduleRequestInfoId = "f27848f3-0b07-4bd6-8755-2cdf2e6e4e93";
+        String scheduleRequestInfoRefObjectId = "311b0c72-7bfc-4781-859b-8e9fd9738d0d";
+        String scheduleRequestComponentInfoId = "e4b9e244-4c68-401f-be60-5c791e668729";
+        String scheduleRequestInfoName = "testCreateScheduleRequest";
+        ScheduleRequestInfo scheduleRequestInfo = setupScheduleRequestInfo(scheduleRequestInfoId,
+                scheduleRequestInfoRefObjectId, scheduleRequestComponentInfoId, scheduleRequestInfoName);
+
+        ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(
+                SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE,
+                scheduleRequestInfo,  contextInfo);
+
+        // creation success
+        assertNotNull(returnInfo);
+        String newRequestName = "updatedScheduleRequest";
+        returnInfo.setName(newRequestName);
+
+        ScheduleRequestInfo updatedReturnInfo = schedulingService.updateScheduleRequest("scheduleRequestId",
+                returnInfo, contextInfo);
+        assertNotNull(updatedReturnInfo);
+        assertTrue(updatedReturnInfo.getName().equals(newRequestName));
+        assertTrue(updatedReturnInfo.getRefObjectId().equals(scheduleRequestInfoRefObjectId));
+        assertTrue(updatedReturnInfo.getId().equals(scheduleRequestInfoId));
+        assertTrue(updatedReturnInfo.getRefObjectTypeKey().equals(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING));
+
+        List<ScheduleRequestComponentInfo> componentInfoList = updatedReturnInfo.getScheduleRequestComponents();
+        assertNotNull(componentInfoList);
+        assertFalse(componentInfoList.isEmpty());
+        ScheduleRequestComponentInfo componentInfo = componentInfoList.get(0);
+        assertNotNull(componentInfo);
+        assertTrue(componentInfo.getId().equals(scheduleRequestComponentInfoId));
+
+    }
+
+
+    @Test
+    public void testdeleteScheduleRequest () throws Exception {
+
+        // create a ScheduleRequestInfo
+        String scheduleRequestInfoId = "59617e1d-e716-4abd-9dda-386c595c56ad";
+        String scheduleRequestInfoRefObjectId = "c80780dc-0c3c-4707-8a14-f5b68d3760c1";
+        String scheduleRequestComponentInfoId = "21f8675e-0159-4875-9e24-3e3013bae7dd";
+        String scheduleRequestInfoName = "testDeleteScheduleRequest";
+        ScheduleRequestInfo scheduleRequestInfo = setupScheduleRequestInfo(scheduleRequestInfoId,
+                scheduleRequestInfoRefObjectId, scheduleRequestComponentInfoId, scheduleRequestInfoName);
+
+        ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(
+                SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE,
+                scheduleRequestInfo,  contextInfo);
+
+        // creation success
+        assertNotNull(returnInfo);
+
+        StatusInfo deleteStatus = schedulingService.deleteScheduleRequest( scheduleRequestInfoId,  contextInfo);
+
+        assertTrue(deleteStatus.getIsSuccess());
+
+    }
+
+    @Test
+    public void testgetScheduleRequest () throws Exception {
+        // create a ScheduleRequestInfo
+        String scheduleRequestInfoId = "d2e9946b-2f5b-430b-943b-99c52de7a49c";
+        String scheduleRequestInfoRefObjectId = "08903125-8b3c-40f5-886b-79d6aa5b4bc0";
+        String scheduleRequestComponentInfoId = "6d76d8fa-8ac0-4bc6-9d44-6dacef95b21b";
+        String scheduleRequestInfoName = "testGetScheduleRequest";
+        ScheduleRequestInfo scheduleRequestInfo = setupScheduleRequestInfo(scheduleRequestInfoId,
+                scheduleRequestInfoRefObjectId, scheduleRequestComponentInfoId, scheduleRequestInfoName);
+
+        ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(
+                SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE,
+                scheduleRequestInfo,  contextInfo);
+
+        // creation success
+        assertNotNull(returnInfo);
+
+        ScheduleRequestInfo requestInfo = schedulingService.getScheduleRequest(scheduleRequestInfoId, contextInfo);
+
+        // requestInfo should not be null
+        assertNotNull(requestInfo);
+        assertTrue(requestInfo.getRefObjectId().equals(scheduleRequestInfoRefObjectId));
+        assertTrue(requestInfo.getId().equals(scheduleRequestInfoId));
+        assertTrue(requestInfo.getName().equals(scheduleRequestInfoName));
+        assertTrue(requestInfo.getRefObjectTypeKey().equals(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING));
+
+        List<ScheduleRequestComponentInfo> componentInfoList = requestInfo.getScheduleRequestComponents();
+        assertNotNull(componentInfoList);
+        assertFalse(componentInfoList.isEmpty());
+        ScheduleRequestComponentInfo componentInfo = componentInfoList.get(0);
+        assertNotNull(componentInfo);
+        assertTrue(componentInfo.getId().equals(scheduleRequestComponentInfoId));
+
+    }
+
+    @Test
+    public void testgetScheduleRequestsByIds () throws Exception {
+        // create a ScheduleRequestInfo
+        String scheduleRequestInfoId = "d2e9946b-2f5b-430b-943b-99c52de7a49c";
+        String scheduleRequestInfoRefObjectId = "08903125-8b3c-40f5-886b-79d6aa5b4bc0";
+        String scheduleRequestComponentInfoId = "6d76d8fa-8ac0-4bc6-9d44-6dacef95b21b";
+        String scheduleRequestInfoName = "testGetScheduleRequestsByIds";
+        ScheduleRequestInfo scheduleRequestInfo = setupScheduleRequestInfo(scheduleRequestInfoId,
+                scheduleRequestInfoRefObjectId, scheduleRequestComponentInfoId, scheduleRequestInfoName);
+
+        ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(
+                SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE,
+                scheduleRequestInfo,  contextInfo);
+
+        // creation success
+        assertNotNull(returnInfo);
+
+        // create the second ScheduleRequestInfo
+        String scheduleRequestInfoId2 = "59617e1d-e716-4abd-9dda-386c595c56ad";
+        String scheduleRequestInfoRefObjectId2 = "c80780dc-0c3c-4707-8a14-f5b68d3760c1";
+        String scheduleRequestComponentInfoId2 = "21f8675e-0159-4875-9e24-3e3013bae7dd";
+        String scheduleRequestInfoName2 = "testGetScheduleRequestsByIds2";
+        ScheduleRequestInfo scheduleRequestInfo2 = setupScheduleRequestInfo(scheduleRequestInfoId2,
+                scheduleRequestInfoRefObjectId2, scheduleRequestComponentInfoId2, scheduleRequestInfoName2);
+
+        returnInfo  = schedulingService.createScheduleRequest(
+                SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE,
+                scheduleRequestInfo2,  contextInfo);
+
+        // creation success
+        assertNotNull(returnInfo);
+
+
+        List<String> scheduleRequestIds = new ArrayList<String>();
+        scheduleRequestIds.add(scheduleRequestInfoId);
+        scheduleRequestIds.add(scheduleRequestInfoId2);
+
+        List<ScheduleRequestInfo> requestInfos = schedulingService.getScheduleRequestsByIds(scheduleRequestIds, contextInfo);
+
+        // requestInfo should  be null
+        assertNotNull(requestInfos);
+        assertTrue(!requestInfos.isEmpty());
+        assertEquals(requestInfos.size(), 2);
+        ScheduleRequestInfo requestInfo1 = requestInfos.get(0);
+        ScheduleRequestInfo requestInfo2 = requestInfos.get(1);
+        assertNotNull(requestInfo1);
+        assertNotNull(requestInfo2);
+
+        // verify first request
+        assertTrue(requestInfo1.getRefObjectId().equals(scheduleRequestInfoRefObjectId));
+        assertTrue(requestInfo1.getId().equals(scheduleRequestInfoId));
+        assertTrue(requestInfo1.getName().equals(scheduleRequestInfoName));
+        assertTrue(requestInfo1.getRefObjectTypeKey().equals(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING));
+
+        List<ScheduleRequestComponentInfo> componentInfoList = requestInfo1.getScheduleRequestComponents();
+        assertNotNull(componentInfoList);
+        assertFalse(componentInfoList.isEmpty());
+        ScheduleRequestComponentInfo componentInfo = componentInfoList.get(0);
+        assertNotNull(componentInfo);
+        assertTrue(componentInfo.getId().equals(scheduleRequestComponentInfoId));
+
+        // verify second request
+        assertTrue(requestInfo2.getRefObjectId().equals(scheduleRequestInfoRefObjectId2));
+        assertTrue(requestInfo2.getId().equals(scheduleRequestInfoId2));
+        assertTrue(requestInfo2.getName().equals(scheduleRequestInfoName2));
+        assertTrue(requestInfo2.getRefObjectTypeKey().equals(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING));
+
+        List<ScheduleRequestComponentInfo> componentInfoList2 = requestInfo2.getScheduleRequestComponents();
+        assertNotNull(componentInfoList2);
+        assertFalse(componentInfoList2.isEmpty());
+        ScheduleRequestComponentInfo componentInfo2 = componentInfoList.get(0);
+        assertNotNull(componentInfo2);
+        assertTrue(componentInfo2.getId().equals(scheduleRequestComponentInfoId2));
+    }
+
+    @Test
+    public void testgetScheduleRequestIdsByType() throws Exception {
+        String requestType =  SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE;
+
+        // create a ScheduleRequestInfo
+        String scheduleRequestInfoId = "d2e9946b-2f5b-430b-943b-99c52de7a49c";
+        String scheduleRequestInfoRefObjectId = "08903125-8b3c-40f5-886b-79d6aa5b4bc0";
+        String scheduleRequestComponentInfoId = "6d76d8fa-8ac0-4bc6-9d44-6dacef95b21b";
+        String scheduleRequestInfoName = "testGetScheduleRequestsByIds";
+        ScheduleRequestInfo scheduleRequestInfo = setupScheduleRequestInfo(scheduleRequestInfoId,
+                scheduleRequestInfoRefObjectId, scheduleRequestComponentInfoId, scheduleRequestInfoName);
+
+
+        ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest( requestType,
+                                            scheduleRequestInfo,  contextInfo);
+
+        // creation success
+        assertNotNull(returnInfo);
+
+        // create the second ScheduleRequestInfo
+        String scheduleRequestInfoId2 = "59617e1d-e716-4abd-9dda-386c595c56ad";
+        String scheduleRequestInfoRefObjectId2 = "c80780dc-0c3c-4707-8a14-f5b68d3760c1";
+        String scheduleRequestComponentInfoId2 = "21f8675e-0159-4875-9e24-3e3013bae7dd";
+        String scheduleRequestInfoName2 = "testGetScheduleRequestsByIds2";
+        ScheduleRequestInfo scheduleRequestInfo2 = setupScheduleRequestInfo(scheduleRequestInfoId2,
+                scheduleRequestInfoRefObjectId2, scheduleRequestComponentInfoId2, scheduleRequestInfoName2);
+
+        returnInfo  = schedulingService.createScheduleRequest(requestType,
+                                scheduleRequestInfo2,  contextInfo);
+
+        // creation success
+        assertNotNull(returnInfo);
+
+        List<String> requestIds = schedulingService.getScheduleRequestIdsByType(
+                SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, contextInfo);
+
+        assertNotNull(requestIds);
+        assertTrue(!requestIds.isEmpty());
+        assertEquals(requestIds.size(), 2);
+        String requestId1 = requestIds.get(0);
+        String requestId2 = requestIds.get(1);
+        assertNotNull(requestId1);
+        assertNotNull(requestId2);
+        assertTrue(requestId1.equals(scheduleRequestInfoId));
+        assertTrue(requestId2.equals(scheduleRequestInfoId2));
+
+    }
+
+    @Test
+    public void testgetScheduleRequestsByRefObject () throws Exception {
+        String requestType =  SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE;
+
+        // create a ScheduleRequestInfo
+        String scheduleRequestInfoId = "7aeda5df-a4af-4bfc-b8f9-d0d9db995e6f";
+        String scheduleRequestInfoRefObjectId = "ce15c886-d3f6-4225-b6eb-6b5e0bff18cc";
+        String scheduleRequestComponentInfoId = "5a13e938-8334-4fa5-8c57-7638ef69d456";
+        String scheduleRequestInfoName = "testGetScheduleRequestByRefObject";
+        ScheduleRequestInfo scheduleRequestInfo = setupScheduleRequestInfo(scheduleRequestInfoId,
+                scheduleRequestInfoRefObjectId, scheduleRequestComponentInfoId, scheduleRequestInfoName);
+
+        ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(requestType,
+                                                scheduleRequestInfo,  contextInfo);
+
+        // creation success
+        assertNotNull(returnInfo);
+
+        // create the second ScheduleRequestInfo
+        String scheduleRequestInfoId2 = "9c6f365c-c747-448c-afb6-1267a3e417fd";
+        String scheduleRequestComponentInfoId2 = "1dbd9fcf-0251-42cc-8666-5254c4416e94";
+        String scheduleRequestInfoName2 = "testGetScheduleRequestsByIds2";
+        ScheduleRequestInfo scheduleRequestInfo2 = setupScheduleRequestInfo(scheduleRequestInfoId2,
+                scheduleRequestInfoRefObjectId, scheduleRequestComponentInfoId2, scheduleRequestInfoName2);
+
+        returnInfo  = schedulingService.createScheduleRequest(requestType,
+                                scheduleRequestInfo2,  contextInfo);
+
+        // creation success
+        assertNotNull(returnInfo);
+
+        List<String> scheduleRequestIds = schedulingService.getScheduleRequestsByRefObject(
+                                            requestType, scheduleRequestInfoRefObjectId, contextInfo);
+
+        assertNotNull(scheduleRequestIds);
+        assertTrue(!scheduleRequestIds.isEmpty());
+        assertEquals(scheduleRequestIds.size(), 2);
+        String requestId1 = scheduleRequestIds.get(0);
+        String requestId2 = scheduleRequestIds.get(1);
+        assertNotNull(requestId1);
+        assertNotNull(requestId2);
+        assertTrue(requestId1.equals(scheduleRequestInfoId));
+        assertTrue(requestId2.equals(scheduleRequestInfoId2));
+
+    }
+
+
+    private ScheduleRequestInfo setupScheduleRequestInfo(String scheduleRequestInfoId, String scheduleRequestInfoRefObjectId,
+                                                         String ScheduleRequestComponentInfoId, String scheduleRequestInfoName) {
+        ScheduleRequestInfo scheduleRequestInfo = new ScheduleRequestInfo();
+        scheduleRequestInfo.setId(scheduleRequestInfoId);
+        scheduleRequestInfo.setRefObjectId(scheduleRequestInfoRefObjectId);
+        scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+        scheduleRequestInfo.setName(scheduleRequestInfoName);
+
+        List<ScheduleRequestComponentInfo> componentInfoList = new ArrayList<ScheduleRequestComponentInfo>();
+        ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
+        componentInfo.setId(ScheduleRequestComponentInfoId);
+        List<String> buildingIds = new ArrayList<String>();
+        buildingIds.add("UW1");
+        buildingIds.add("UW2");
+        componentInfo.setBuildingIds(buildingIds);
+        List<String> campusIds = new ArrayList<String>();
+        campusIds.add("UW-Seattle");
+        componentInfo.setCampusIds(campusIds);
+        List<String> orgIds = new ArrayList<String>();
+        orgIds.add("UW-IT");
+        orgIds.add("UW-Comp");
+        componentInfo.setOrgIds(orgIds);
+        List<String> roomIds = new ArrayList<String>();
+        roomIds.add("Chem-101");
+        roomIds.add("Law-201");
+        componentInfo.setRoomIds(roomIds);
+        List<String> timeSlotIds = new ArrayList<String>();
+        timeSlotIds.add("1");
+        timeSlotIds.add("2");
+        componentInfo.setTimeSlotIds(timeSlotIds);
+        List<String> resourceTypeKeys = new ArrayList<String>();
+        resourceTypeKeys.add(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+        componentInfo.setResourceTypeKeys(resourceTypeKeys);
+
+        componentInfoList.add(componentInfo);
+
+        scheduleRequestInfo.setScheduleRequestComponents(componentInfoList);
+
+        return scheduleRequestInfo;
     }
 }
