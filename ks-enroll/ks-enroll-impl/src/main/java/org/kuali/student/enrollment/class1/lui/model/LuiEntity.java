@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
-import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
@@ -48,14 +47,10 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
 
-    @ManyToMany
-    @JoinTable(name="KSEN_LUI_RESULT_VAL_GRP",
-            joinColumns=
-            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
-            inverseJoinColumns=
-            @JoinColumn(name="RESULT_VAL_GRP_ID", referencedColumnName="ID")
-    )
-    private List<ResultValuesGroupEntity> resultValuesGroups;
+    @ElementCollection
+    @CollectionTable(name ="KSEN_LUI_RESULT_VAL_GRP",joinColumns = @JoinColumn(name = "LUI_ID"))
+    @Column(name="RESULT_VAL_GRP_ID")
+    private List<String> resultValuesGroupKeys;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuiIdentifierEntity> identifiers;
@@ -132,6 +127,15 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
         //Delete the orphans (add to list of objects to delete)
         orphansToDelete.addAll(existingluiCodes.values());
+
+
+        //Map the exisiting result group keys by their id
+        if(lui.getResultValuesGroupKeys()!=null){
+            resultValuesGroupKeys = new ArrayList<String>(lui.getResultValuesGroupKeys());
+        }else{
+            resultValuesGroupKeys = null;
+        }
+
 
         // Lui Identifiers
 
@@ -246,6 +250,13 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
             }
         }
 
+        // Result Value Group Keys
+        info.getResultValuesGroupKeys().clear();
+        if(resultValuesGroupKeys!=null){
+            info.getResultValuesGroupKeys().addAll(resultValuesGroupKeys);
+        }
+
+
         // Identifiers
         if (identifiers != null) {
             for (LuiIdentifierEntity identifier : identifiers) {
@@ -259,6 +270,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
         // Attributes
         info.setAttributes(TransformUtility.toAttributeInfoList(this));
+
 
         List<String> unitsDeploymentOrgIds = new ArrayList<String>();
         if( this.luiUnitsDeployment!= null)   {
@@ -372,29 +384,6 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.referenceURL = referenceURL;
     }
 
-    // public boolean isHasWaitlist() {
-    // return hasWaitlist;
-    // }
-    //
-    // public void setHasWaitlist(boolean hasWaitlist) {
-    // this.hasWaitlist = hasWaitlist;
-    // }
-    //
-    // public boolean isWaitlistCheckinRequired() {
-    // return isWaitlistCheckinRequired;
-    // }
-    //
-    // public void setWaitlistCheckinRequired(boolean isWaitlistCheckinRequired) {
-    // this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
-    // }
-    //
-    // public Integer getWaitlistMaximum() {
-    // return waitlistMaximum;
-    // }
-    //
-    // public void setWaitlistMaximum(Integer waitlistMaximum) {
-    // this.waitlistMaximum = waitlistMaximum;
-    // }
     public void setAttributes(Set<LuiAttributeEntity> attributes) {
         this.attributes = attributes;
     }
@@ -427,10 +416,6 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.plain = plain;
     }
 
-    /*
-     * public List<LuiCluRelationEntity> getCluCluRelationIds() { return cluCluRelationIds; } public void
-     * setCluCluRelationIds(List<LuiCluRelationEntity> cluCluRelationIds) { this.cluCluRelationIds = cluCluRelationIds; }
-     */
     public List<LuCodeEntity> getLuiCodes() {
         return luiCodes;
     }
@@ -453,5 +438,13 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
     public void setLuiUnitsDeployment(List<LuiUnitsDeploymentEntity> luiUnitsDeployment) {
         this.luiUnitsDeployment = luiUnitsDeployment;
+    }
+
+    public List<String> getResultValuesGroupKeys() {
+        return resultValuesGroupKeys;
+    }
+
+    public void setResultValuesGroupKeys(List<String> resultValuesGroupKeys) {
+        this.resultValuesGroupKeys = resultValuesGroupKeys;
     }
 }

@@ -107,6 +107,8 @@ public class TestLuiServiceImpl {
 
         assertEquals("Lui Desc 101", obj.getDescr().getPlain());
 
+        assertTrue(obj.getResultValuesGroupKeys().contains("Lu-Rvgr-Lui-1"));
+
         assertNotNull(obj.getOfficialIdentifier());
         assertEquals("Chem 123", obj.getOfficialIdentifier().getShortName());
         assertNotNull(obj.getAlternateIdentifiers());
@@ -196,6 +198,8 @@ public class TestLuiServiceImpl {
         orig.setMaximumEnrollment(25);
         orig.setMinimumEnrollment(10);
         orig.setReferenceURL("ref.create.url");
+
+        orig.getResultValuesGroupKeys().add("Rvgr-2");
 
         LuiIdentifierInfo identifier = new LuiIdentifierInfo();
         identifier.setShortName("identifier.shortname");
@@ -323,11 +327,7 @@ public class TestLuiServiceImpl {
         modified.setCluId("updateCluId");
         modified.setAtpId("updateAtpId1");
 
-        modified.getCluCluRelationIds().remove("CluClu-2");
-        modified.getCluCluRelationIds().add("CluClu-22");
-        modified.getResultValuesGroupKeys().remove("Val-Group-2");
-        modified.getResultValuesGroupKeys().remove("Val-Group-3");
-        modified.getResultValuesGroupKeys().add("Val-Group-33");
+        modified.getResultValuesGroupKeys().add("Val-Group-11");
 
         //Attributes
         List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
@@ -371,6 +371,9 @@ public class TestLuiServiceImpl {
         assertEquals("ref.update.url", updated.getReferenceURL());
         assertNotNull(updated.getEffectiveDate());
 
+        assertEquals(2, updated.getResultValuesGroupKeys().size());
+        assertTrue(updated.getResultValuesGroupKeys().contains("Val-Group-11"));
+
         assertNotNull(updated.getOfficialIdentifier());
         assertEquals("identifier.shortname", updated.getOfficialIdentifier().getShortName());
         assertEquals(1, updated.getAlternateIdentifiers().size());
@@ -386,22 +389,13 @@ public class TestLuiServiceImpl {
         assertTrue(updatedAttributes.containsKey("modattr1"));
         assertTrue(updatedAttributes.containsKey("modattr2"));
 
-//        assertTrue(updated.getCluCluRelationIds().contains("CluClu-1"));
-//        assertTrue(updated.getCluCluRelationIds().contains("CluClu-22"));
-
         assertTrue(updated.getUnitsContentOwner().contains("Org-22"));
         assertTrue(updated.getUnitsDeployment().contains("Org-11"));
-
-//        assertEquals(2, updated.getResultValuesGroupKeys().size());
-//        assertTrue(updated.getResultValuesGroupKeys().contains("Val-Group-33"));
-//        assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-2"));
-//        assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-3"));
 
         assertEquals(1, info.getLuiCodes().size());
         assertEquals("Lu-Code-Lui-1", info.getLuiCodes().get(0).getId());
         assertEquals(1, updated.getLuiCodes().size());
         assertEquals("Modified Lu Code", updated.getLuiCodes().get(0).getId());
-
     }
 
     @Test

@@ -89,12 +89,17 @@ public class LuiTestDataLoader {
         luiIdents.add(luiOfficialIdent);
         luiEntity.setIdentifiers(luiIdents);
 
+        //Lu Code
         LuCodeEntity luCode = new LuCodeEntity();
         luCode.setId("Lu-Code-" + id);
         ArrayList<LuCodeEntity> luCodes = new ArrayList<LuCodeEntity>();
         luCodes.add(luCode);
         luiEntity.setLuiCodes(luCodes);
 
+        //Result Value Group Key
+        ArrayList<String> resultValueGroupKeys = new ArrayList<String>();
+        resultValueGroupKeys.add("Lu-Rvgr-" + id);
+        luiEntity.setResultValuesGroupKeys(resultValueGroupKeys);
 
         //Attributes
         if (luiAttributes != null && luiAttributes.length > 0){
