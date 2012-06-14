@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.lifecycle.Lifecycle;
+import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
@@ -28,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityExistsException;
+import javax.xml.namespace.QName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +47,8 @@ public class TestKSKRMSTermResolvers {
 //	@Resource(name = "termBoService")
 //	private TermBoService termBoService;
 	
-//	@Resource(name = "contextBoService")
-//	public ContextBoService contextRepository;
+	@Resource(name = "contextBoService")
+	public ContextBoService contextRepository;
     public ContextInfo callContext = null;
     
     @Resource(name = "ksKRMSTermResolverTypeService")
@@ -111,8 +114,20 @@ public class TestKSKRMSTermResolvers {
 //	}
 
 
-//	private ContextDefinition getKRMSContext(String context) {
-//		return contextRepository.getContextByNameAndNamespace(
-//				context, "KR-RULE-TEST");
+	private ContextDefinition getKRMSContext(String context) {
+		return contextRepository.getContextByNameAndNamespace(
+				context, "KR-RULE-TEST");
+	}
+	//
+	// KRMS
+	//
+//	private Lifecycle getLoadApplicationLifecycle() {
+//	    if (krmsTestResourceLoader == null) {
+//	        krmsTestResourceLoader = new SpringResourceLoader(new QName("KRMSTestHarnessApplicationResourceLoader"), "classpath:KRMSTestHarnessSpringBeans.xml", null);
+//	        krmsTestResourceLoader.setParentSpringResourceLoader(getTestHarnessSpringResourceLoader());
+//	        getTestHarnessSpringResourceLoader().addResourceLoader(krmsTestResourceLoader);
+//	    }
+//    	return krmsTestResourceLoader;
 //	}
 }
+
