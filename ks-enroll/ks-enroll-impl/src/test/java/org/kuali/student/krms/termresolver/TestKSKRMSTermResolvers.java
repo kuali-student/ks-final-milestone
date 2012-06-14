@@ -37,15 +37,15 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:ks-krms-test-context.xml"})
-@Ignore
-public class TestKSKRMSTermResolvers extends KRMSTestCase {
+// @Ignore
+public class TestKSKRMSTermResolvers {
 	private KrmsTypeResolver typeResolver;
 	
-	@Resource(name = "termBoService")
-	private TermBoService termBoService;
+//	@Resource(name = "termBoService")
+//	private TermBoService termBoService;
 	
-	@Resource(name = "contextBoService")
-	public ContextBoService contextRepository;
+//	@Resource(name = "contextBoService")
+//	public ContextBoService contextRepository;
     public ContextInfo callContext = null;
     
     @Resource(name = "ksKRMSTermResolverTypeService")
@@ -55,8 +55,8 @@ public class TestKSKRMSTermResolvers extends KRMSTestCase {
     public void setUp() {
 //    	this.setClearTables(false);
         callContext = new ContextInfo();
-        termBoService = KrmsRepositoryServiceLocator.getTermBoService();
-        contextRepository = KrmsRepositoryServiceLocator.getContextBoService();
+//        termBoService = KrmsRepositoryServiceLocator.getTermBoService();
+//        contextRepository = KrmsRepositoryServiceLocator.getContextBoService();
 
     }
     
@@ -64,33 +64,33 @@ public class TestKSKRMSTermResolvers extends KRMSTestCase {
     @Test
     public void testKSKRMSTermResolverTypeServiceNotNull() {
         assertNotNull(ksKRMSTermResolverTypeService);
-        assertNotNull(contextRepository);
-        assertNotNull(termBoService);
+//        assertNotNull(contextRepository);
+//        assertNotNull(termBoService);
     }
 
     @Test
     public void testHello() {
         System.out.println("Test Hello");
         assertNotNull(ksKRMSTermResolverTypeService);
-        TermResolverDefinition termResolverDefinition = null;
-		this.ksKRMSTermResolverTypeService.loadTermResolver(termResolverDefinition);
+//        TermResolverDefinition termResolverDefinition = null;
+//		this.ksKRMSTermResolverTypeService.loadTermResolver(termResolverDefinition);
     }
     
-    private void getAllTermResolverDefinitions(TermResolverDefinition contextDefinition) {
-		
-		List<TermResolverDefinition> termResolverDefs = 
-				termBoService.getTermResolversByNamespace(contextDefinition.getNamespace());
-			
-			List<TermResolver<?>> termResolvers = new ArrayList<TermResolver<?>>();
-
-			if (!CollectionUtils.isEmpty(termResolverDefs)) for (TermResolverDefinition termResolverDef : termResolverDefs) {
-				if (termResolverDef != null) {
-					TermResolver<?> termResolver = translateTermResolver(termResolverDef);
-					if (termResolver != null) termResolvers.add(termResolver);
-				}
-			}
-
-	}
+//    private void getAllTermResolverDefinitions(TermResolverDefinition contextDefinition) {
+//		
+//		List<TermResolverDefinition> termResolverDefs = 
+//				termBoService.getTermResolversByNamespace(contextDefinition.getNamespace());
+//			
+//			List<TermResolver<?>> termResolvers = new ArrayList<TermResolver<?>>();
+//
+//			if (!CollectionUtils.isEmpty(termResolverDefs)) for (TermResolverDefinition termResolverDef : termResolverDefs) {
+//				if (termResolverDef != null) {
+//					TermResolver<?> termResolver = translateTermResolver(termResolverDef);
+//					if (termResolver != null) termResolvers.add(termResolver);
+//				}
+//			}
+//
+//	}
     
 	/**
 	 * This method translates a {@link TermResolverDefinition} into a {@link TermResolver}
@@ -98,21 +98,21 @@ public class TestKSKRMSTermResolvers extends KRMSTestCase {
 	 * @param termResolverDef
 	 * @return
 	 */
-	private TermResolver<?> translateTermResolver(TermResolverDefinition termResolverDef) {
-		if (termResolverDef == null) {
-			throw new IllegalArgumentException("termResolverDef must not be null");
-		}
-		TermResolverTypeService termResolverTypeService = 
-			typeResolver.getTermResolverTypeService(termResolverDef);
-		
-		TermResolver<?> termResolver = termResolverTypeService.loadTermResolver(termResolverDef);
-		// TODO: log warning when termResolver comes back null? or throw exception?
-		return termResolver;
-	}
+//	private TermResolver<?> translateTermResolver(TermResolverDefinition termResolverDef) {
+//		if (termResolverDef == null) {
+//			throw new IllegalArgumentException("termResolverDef must not be null");
+//		}
+//		TermResolverTypeService termResolverTypeService = 
+//			typeResolver.getTermResolverTypeService(termResolverDef);
+//		
+//		TermResolver<?> termResolver = termResolverTypeService.loadTermResolver(termResolverDef);
+//		// TODO: log warning when termResolver comes back null? or throw exception?
+//		return termResolver;
+//	}
 
 
-	private ContextDefinition getKRMSContext(String context) {
-		return contextRepository.getContextByNameAndNamespace(
-				context, "KR-RULE-TEST");
-	}
+//	private ContextDefinition getKRMSContext(String context) {
+//		return contextRepository.getContextByNameAndNamespace(
+//				context, "KR-RULE-TEST");
+//	}
 }
