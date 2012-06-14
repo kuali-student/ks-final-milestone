@@ -1,6 +1,6 @@
 
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','2c3dfd32-d4a4-4a36-a905-a7d0e434b96e','admin',TO_DATE( '20120611160744', 'YYYYMMDDHH24MISS' ),'0103027f-1efc-4e2d-b71f-57ee843f7c27','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','d5d80cf0-37e1-49f5-87b9-def93dd8fb36','admin',TO_DATE( '20120611160744', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','2c3dfd32-d4a4-4a36-a905-a7d0e434b96e','admin',TO_DATE( '20120611160744', 'YYYYMMDDHH24MISS' ),'0103027f-1efc-4e2d-b71f-57ee843f7c27','kuali.lui.state.offered','kuali.lui.type.course.format.offering','d5d80cf0-37e1-49f5-87b9-def93dd8fb36','admin',TO_DATE( '20120611160744', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,DESCR_FORMATTED,DESCR_PLAIN,ID,LUI_STATE,LUI_TYPE,MAX_SEATS,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','641257ad-3a39-4118-8bae-8db7c8a87d31','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),'Introduces students to four core principles that undergird the study and practice of communication - communication literacy, research inquiry, theories and concepts, and community engagement. Principles discussed and developed in the context of social interaction, rhetoric and critical studies, and communication and culture.','Introduces students to four core principles that undergird the study and practice of communication - communication literacy, research inquiry, theories and concepts, and community engagement. Principles discussed and developed in the context of social interaction, rhetoric and critical studies, and communication and culture.','01238891-b697-4e29-9ef4-3f0e3faa57ba','kuali.lui.state.offered','kuali.lui.type.course.offering',428,'417e2694-cbf0-40bd-92e9-550fff103058','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),0)
@@ -63,7 +63,7 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','1079576d-af1a-4f8f-a519-c380c4180dde','admin',TO_DATE( '20120611160852', 'YYYYMMDDHH24MISS' ),'26c7979d-8c35-4765-8380-76cd5e87bb46','kuali.lui.state.offered','kuali.lui.type.activity.offering.quiz','d80039f5-6add-4b0d-b80b-f1df594a5f46','admin',TO_DATE( '20120611160852', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','a36205d6-9db5-4828-b382-e0589d799522','admin',TO_DATE( '20120611160753', 'YYYYMMDDHH24MISS' ),'26eac98a-fe0b-44ee-bd21-84f8456ee1ab','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','66cb4276-cc6c-4b86-9112-76c8985ac82a','admin',TO_DATE( '20120611160753', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','a36205d6-9db5-4828-b382-e0589d799522','admin',TO_DATE( '20120611160753', 'YYYYMMDDHH24MISS' ),'26eac98a-fe0b-44ee-bd21-84f8456ee1ab','kuali.lui.state.offered','kuali.lui.type.course.format.offering','66cb4276-cc6c-4b86-9112-76c8985ac82a','admin',TO_DATE( '20120611160753', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','d53042b9-66e0-4d6e-8ca1-d36552940879','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),'2c33982b-73b9-4a1d-b2f0-ce7e1af60164','kuali.lui.state.offered','kuali.lui.type.activity.offering.quiz','0ee9a99c-a753-4fe1-a053-9539387da163','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),0)
@@ -102,7 +102,7 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','d53042b9-66e0-4d6e-8ca1-d36552940879','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),'38017eca-8b17-4932-9a88-fa1a6a585f5b','kuali.lui.state.offered','kuali.lui.type.activity.offering.quiz','28b57bd2-668d-48f0-a2cc-65572ed01196','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','10f433ba-50e4-4037-a727-4ea7747c3e6b','admin',TO_DATE( '20120611160805', 'YYYYMMDDHH24MISS' ),'386e42bf-1387-4c58-8a2b-8edbcf8b4a7f','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','01ca8f98-e8b9-4bf8-b405-5a519015ae3f','admin',TO_DATE( '20120611160805', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','10f433ba-50e4-4037-a727-4ea7747c3e6b','admin',TO_DATE( '20120611160805', 'YYYYMMDDHH24MISS' ),'386e42bf-1387-4c58-8a2b-8edbcf8b4a7f','kuali.lui.state.offered','kuali.lui.type.course.format.offering','01ca8f98-e8b9-4bf8-b405-5a519015ae3f','admin',TO_DATE( '20120611160805', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','75e2b823-15b6-4878-9591-661a9e30f479','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),'39394cfd-d3f3-4d59-a4e2-bb9cd1d0e4d6','kuali.lui.state.offered','kuali.lui.type.activity.offering.lab','e4b37eba-bec9-4656-8800-46b9feef688f','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),0)
@@ -120,10 +120,10 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','75e2b823-15b6-4878-9591-661a9e30f479','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),'44226217-78b4-4e6c-8f21-e8527394c3ea','kuali.lui.state.offered','kuali.lui.type.activity.offering.lab','e82a96e9-417d-41fa-800a-3237003e31ce','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','585da805-5691-4a7c-8051-435e831122a9','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),'447823da-7d70-406e-9736-a1087e27be20','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','ffbc99d9-c51d-4e19-ba3e-da71830a2f5c','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','585da805-5691-4a7c-8051-435e831122a9','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),'447823da-7d70-406e-9736-a1087e27be20','kuali.lui.state.offered','kuali.lui.type.course.format.offering','ffbc99d9-c51d-4e19-ba3e-da71830a2f5c','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','e5a47f2d-0630-4091-ab3d-2e33acd4de0a','admin',TO_DATE( '20120611160902', 'YYYYMMDDHH24MISS' ),'44d242cd-acec-4a51-9ccf-a7056416da1b','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','ca9ff29b-8b79-4e56-b6d9-bb4b03b4a83f','admin',TO_DATE( '20120611160902', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','e5a47f2d-0630-4091-ab3d-2e33acd4de0a','admin',TO_DATE( '20120611160902', 'YYYYMMDDHH24MISS' ),'44d242cd-acec-4a51-9ccf-a7056416da1b','kuali.lui.state.offered','kuali.lui.type.course.format.offering','ca9ff29b-8b79-4e56-b6d9-bb4b03b4a83f','admin',TO_DATE( '20120611160902', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','27011682-a12c-4270-af41-4e230ac3bf3c','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),'45cc068a-706d-4d11-a541-76327b3deeb9','kuali.lui.state.offered','kuali.lui.type.activity.offering.seminar','44dfbee2-a020-4d86-98b2-1e711b50bd15','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),0)
@@ -138,7 +138,7 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','75e2b823-15b6-4878-9591-661a9e30f479','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),'4af93358-39d5-472a-9d0f-6db650284474','kuali.lui.state.offered','kuali.lui.type.activity.offering.lab','dcadaf06-99ea-4d7e-ac88-e5c926ea90f5','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','42963df2-4865-4ec5-9fb9-0fde37c70c6c','admin',TO_DATE( '20120611160902', 'YYYYMMDDHH24MISS' ),'4b0b72f6-5131-47db-a1ee-476ded9faabe','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','d20255ed-3f76-4c1b-a4cf-66abc8e0c108','admin',TO_DATE( '20120611160902', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','42963df2-4865-4ec5-9fb9-0fde37c70c6c','admin',TO_DATE( '20120611160902', 'YYYYMMDDHH24MISS' ),'4b0b72f6-5131-47db-a1ee-476ded9faabe','kuali.lui.state.offered','kuali.lui.type.course.format.offering','d20255ed-3f76-4c1b-a4cf-66abc8e0c108','admin',TO_DATE( '20120611160902', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','e2b1d207-817f-4159-967f-18e6c12fce30','admin',TO_DATE( '20120611160805', 'YYYYMMDDHH24MISS' ),'4b70d1b8-60c8-4d62-952f-93d0182c3bc4','kuali.lui.state.offered','kuali.lui.type.activity.offering.lab','053df985-7890-4015-8f60-35ef3f1a144b','admin',TO_DATE( '20120611160805', 'YYYYMMDDHH24MISS' ),0)
@@ -153,10 +153,10 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','27011682-a12c-4270-af41-4e230ac3bf3c','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),'4d7b54a9-66e9-49e1-9cd0-a8f2bbb2cb47','kuali.lui.state.offered','kuali.lui.type.activity.offering.seminar','d3c1d592-8b9f-4bf1-8d33-19d5202f0232','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','0dbbb086-f04d-4313-969e-76eaa1284e1e','admin',TO_DATE( '20120611160728', 'YYYYMMDDHH24MISS' ),'4dd44ea1-0f12-41b5-9c10-870937c1a31d','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','948688da-b256-4476-b924-96b8e55a5f0e','admin',TO_DATE( '20120611160728', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','0dbbb086-f04d-4313-969e-76eaa1284e1e','admin',TO_DATE( '20120611160728', 'YYYYMMDDHH24MISS' ),'4dd44ea1-0f12-41b5-9c10-870937c1a31d','kuali.lui.state.offered','kuali.lui.type.course.format.offering','948688da-b256-4476-b924-96b8e55a5f0e','admin',TO_DATE( '20120611160728', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','d2093e51-4880-4f5b-b263-61574f335be2','admin',TO_DATE( '20120611160828', 'YYYYMMDDHH24MISS' ),'4f1afcc0-bb02-4d31-8b1a-3fb78755d521','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','ba50c33a-c501-4048-b41a-b81582ee4b1f','admin',TO_DATE( '20120611160828', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','d2093e51-4880-4f5b-b263-61574f335be2','admin',TO_DATE( '20120611160828', 'YYYYMMDDHH24MISS' ),'4f1afcc0-bb02-4d31-8b1a-3fb78755d521','kuali.lui.state.offered','kuali.lui.type.course.format.offering','ba50c33a-c501-4048-b41a-b81582ee4b1f','admin',TO_DATE( '20120611160828', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','a115c426-ef1b-45a7-8213-50b2dd0449a5','admin',TO_DATE( '20120611160852', 'YYYYMMDDHH24MISS' ),'504ca9a3-675c-4e04-8536-f4582b0247d7','kuali.lui.state.offered','kuali.lui.type.activity.offering.lecture','4e4269ca-9bfb-4b43-8101-007e435ac5f1','admin',TO_DATE( '20120611160852', 'YYYYMMDDHH24MISS' ),0)
@@ -192,7 +192,7 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','75e2b823-15b6-4878-9591-661a9e30f479','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),'62868b45-8647-4b53-9592-7623b4bdd8ee','kuali.lui.state.offered','kuali.lui.type.activity.offering.lab','c476a042-39fb-4367-9811-a3653880ffbe','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','d7137705-a29e-4a0b-9b63-be15aea21505','admin',TO_DATE( '20120611160750', 'YYYYMMDDHH24MISS' ),'62d0ddcc-15d6-41cc-8ea8-e17f3eb75393','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','1ec5b105-c737-46a5-911a-4d191d2b83c5','admin',TO_DATE( '20120611160750', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','d7137705-a29e-4a0b-9b63-be15aea21505','admin',TO_DATE( '20120611160750', 'YYYYMMDDHH24MISS' ),'62d0ddcc-15d6-41cc-8ea8-e17f3eb75393','kuali.lui.state.offered','kuali.lui.type.course.format.offering','1ec5b105-c737-46a5-911a-4d191d2b83c5','admin',TO_DATE( '20120611160750', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','442f5a3b-5eae-4fd4-abae-b3dd6a400ef0','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),'656dcef1-c2ed-47aa-989a-30cee341bacb','kuali.lui.state.offered','kuali.lui.type.activity.offering.lecture','5678235b-d025-4265-bc7d-07823ca40ecd','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),0)
@@ -210,13 +210,13 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','bbd6e6cf-1536-426b-bbbb-657d70e3ab61','admin',TO_DATE( '20120611160728', 'YYYYMMDDHH24MISS' ),'71c2eba2-d3e7-4c81-86cd-a21fed393570','kuali.lui.state.offered','kuali.lui.type.activity.offering.independ','762db022-e70f-48b9-a44d-2cc03ccfe22b','admin',TO_DATE( '20120611160728', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','5282b041-3d6f-43d5-82d8-8eda55ecb316','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),'7ac823e0-c8ec-42cc-8fa9-b3ba9b7688ef','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','f31016de-9ee8-4d83-a893-bed000149611','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','5282b041-3d6f-43d5-82d8-8eda55ecb316','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),'7ac823e0-c8ec-42cc-8fa9-b3ba9b7688ef','kuali.lui.state.offered','kuali.lui.type.course.format.offering','f31016de-9ee8-4d83-a893-bed000149611','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','bbd6e6cf-1536-426b-bbbb-657d70e3ab61','admin',TO_DATE( '20120611160728', 'YYYYMMDDHH24MISS' ),'7ace137a-a99a-4fbf-88c4-e2deac3f1d28','kuali.lui.state.offered','kuali.lui.type.activity.offering.independ','7258e7cf-a028-4a8a-aa49-6a28c0c1f1f7','admin',TO_DATE( '20120611160728', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','46a666a3-eec0-455a-99cc-ae301542bfd0','admin',TO_DATE( '20120611160852', 'YYYYMMDDHH24MISS' ),'7b7e32f8-d82b-438b-a111-4ee34ca92a1c','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','148f9e3c-e079-42be-9b18-1bddfa0981e4','admin',TO_DATE( '20120611160852', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','46a666a3-eec0-455a-99cc-ae301542bfd0','admin',TO_DATE( '20120611160852', 'YYYYMMDDHH24MISS' ),'7b7e32f8-d82b-438b-a111-4ee34ca92a1c','kuali.lui.state.offered','kuali.lui.type.course.format.offering','148f9e3c-e079-42be-9b18-1bddfa0981e4','admin',TO_DATE( '20120611160852', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','75e2b823-15b6-4878-9591-661a9e30f479','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),'7ff37f7c-eb98-4dc1-bc92-1917ea205648','kuali.lui.state.offered','kuali.lui.type.activity.offering.lab','5d1de424-021b-470f-8065-bc554eeb16d5','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),0)
@@ -231,7 +231,7 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','c3c113c7-6299-434a-b670-d636f468c680','admin',TO_DATE( '20120611160744', 'YYYYMMDDHH24MISS' ),'86682057-2fd2-4f7b-ac2f-b4331f0ccc57','kuali.lui.state.offered','kuali.lui.type.activity.offering.seminar','f837fb4f-e106-47d0-b6ae-d54617734d72','admin',TO_DATE( '20120611160744', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','1a1df01a-6dd9-4a3d-aa5a-0e0ca13e06f4','admin',TO_DATE( '20120611160853', 'YYYYMMDDHH24MISS' ),'8807b63b-83bc-4950-9353-6d896eeab81d','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','e58a61b6-d450-4f04-a52a-438572468d2b','admin',TO_DATE( '20120611160853', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','1a1df01a-6dd9-4a3d-aa5a-0e0ca13e06f4','admin',TO_DATE( '20120611160853', 'YYYYMMDDHH24MISS' ),'8807b63b-83bc-4950-9353-6d896eeab81d','kuali.lui.state.offered','kuali.lui.type.course.format.offering','e58a61b6-d450-4f04-a52a-438572468d2b','admin',TO_DATE( '20120611160853', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','e2b1d207-817f-4159-967f-18e6c12fce30','admin',TO_DATE( '20120611160805', 'YYYYMMDDHH24MISS' ),'88ca477d-851c-4421-9c5c-232bfd2f8f56','kuali.lui.state.offered','kuali.lui.type.activity.offering.lab','808536c5-a9c9-4acd-83f9-956f7a1ade41','admin',TO_DATE( '20120611160805', 'YYYYMMDDHH24MISS' ),0)
@@ -240,7 +240,7 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','75e2b823-15b6-4878-9591-661a9e30f479','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),'88db294d-b4aa-48a2-832b-3d7d5195ffa9','kuali.lui.state.offered','kuali.lui.type.activity.offering.lab','16fe395b-e49e-4410-bc3a-85f67cd40ca7','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','2df22f4c-c1b8-4e87-9a87-0f7c8552d801','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),'891a1568-2c78-403f-a13b-96c63e7afba4','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','597f5cd1-0f42-495d-bb75-446400c341d3','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','2df22f4c-c1b8-4e87-9a87-0f7c8552d801','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),'891a1568-2c78-403f-a13b-96c63e7afba4','kuali.lui.state.offered','kuali.lui.type.course.format.offering','597f5cd1-0f42-495d-bb75-446400c341d3','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','75e2b823-15b6-4878-9591-661a9e30f479','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),'8a1efa91-9204-4cb0-bd26-9bca301ca996','kuali.lui.state.offered','kuali.lui.type.activity.offering.lab','de38500f-7e72-4a40-9d09-26376ba29311','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),0)
@@ -261,7 +261,7 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','75e2b823-15b6-4878-9591-661a9e30f479','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),'8f59fdec-98b4-460c-a0d8-2cc4c9343513','kuali.lui.state.offered','kuali.lui.type.activity.offering.lab','6b85eed5-9f2a-4726-a0ca-6c0947dc85e7','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','da18c43d-85f0-4043-95c8-2fa0a1611f3a','admin',TO_DATE( '20120611160852', 'YYYYMMDDHH24MISS' ),'8fb63a27-8b50-4e9f-9674-aa80a9b32734','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','8339c4c3-df88-4531-8252-b29c29fa4e17','admin',TO_DATE( '20120611160852', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','da18c43d-85f0-4043-95c8-2fa0a1611f3a','admin',TO_DATE( '20120611160852', 'YYYYMMDDHH24MISS' ),'8fb63a27-8b50-4e9f-9674-aa80a9b32734','kuali.lui.state.offered','kuali.lui.type.course.format.offering','8339c4c3-df88-4531-8252-b29c29fa4e17','admin',TO_DATE( '20120611160852', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','75e2b823-15b6-4878-9591-661a9e30f479','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),'90941195-92fd-4f70-bb0f-a69309a72122','kuali.lui.state.offered','kuali.lui.type.activity.offering.lab','1a3a3b48-8190-4ede-af45-62eba759b2d0','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),0)
@@ -279,7 +279,7 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','d53042b9-66e0-4d6e-8ca1-d36552940879','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),'9928fc72-ecf8-48e4-881c-bd9a9b587356','kuali.lui.state.offered','kuali.lui.type.activity.offering.quiz','3301c8b3-8d7e-4f8b-8325-c3c3702e9555','admin',TO_DATE( '20120611160844', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','4ae37e9f-1d29-4993-8908-682bf45e3029','admin',TO_DATE( '20120611160717', 'YYYYMMDDHH24MISS' ),'99e49d37-598e-432f-a701-31766a7c1f90','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','f15d9f5d-129b-4275-86bd-558599d56ff2','admin',TO_DATE( '20120611160717', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','4ae37e9f-1d29-4993-8908-682bf45e3029','admin',TO_DATE( '20120611160717', 'YYYYMMDDHH24MISS' ),'99e49d37-598e-432f-a701-31766a7c1f90','kuali.lui.state.offered','kuali.lui.type.course.format.offering','f15d9f5d-129b-4275-86bd-558599d56ff2','admin',TO_DATE( '20120611160717', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','bbd6e6cf-1536-426b-bbbb-657d70e3ab61','admin',TO_DATE( '20120611160729', 'YYYYMMDDHH24MISS' ),'9b8c4c39-fea6-4768-aa16-6115171766ab','kuali.lui.state.offered','kuali.lui.type.activity.offering.independ','9e5caadd-5a7d-4456-b16b-6631eef1ae24','admin',TO_DATE( '20120611160729', 'YYYYMMDDHH24MISS' ),0)
@@ -291,7 +291,7 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','ba22cc80-05cd-4a31-afbf-7085e0e1ec8a','admin',TO_DATE( '20120611160750', 'YYYYMMDDHH24MISS' ),'a0d87212-4bfa-432b-834e-9d28cd4228a7','kuali.lui.state.offered','kuali.lui.type.activity.offering.quiz','9b647a8a-9531-49eb-be68-1ac3cbc20c38','admin',TO_DATE( '20120611160750', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','bda9a94c-232a-473f-afff-eb1479ac1888','admin',TO_DATE( '20120611160855', 'YYYYMMDDHH24MISS' ),'a7543a74-aab9-4bc4-a07d-7c30bd6f1860','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','cc66c757-66ac-4e47-aa64-6c7792187627','admin',TO_DATE( '20120611160855', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','bda9a94c-232a-473f-afff-eb1479ac1888','admin',TO_DATE( '20120611160855', 'YYYYMMDDHH24MISS' ),'a7543a74-aab9-4bc4-a07d-7c30bd6f1860','kuali.lui.state.offered','kuali.lui.type.course.format.offering','cc66c757-66ac-4e47-aa64-6c7792187627','admin',TO_DATE( '20120611160855', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','ef9343e7-7dcf-49b5-a421-cc3c0203ebf9','admin',TO_DATE( '20120611160731', 'YYYYMMDDHH24MISS' ),'a97942cc-5594-4a0e-89a8-4d7b04771c40','kuali.lui.state.offered','kuali.lui.type.activity.offering.lecture','587ae2f4-cff4-4b0c-ad55-b1930abc43de','admin',TO_DATE( '20120611160731', 'YYYYMMDDHH24MISS' ),0)
@@ -336,7 +336,7 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,DESCR_FORMATTED,DESCR_PL
   VALUES ('2012SPRING','393b2074-1791-4662-a744-0f80da8267f0','admin',TO_DATE( '20120611160715', 'YYYYMMDDHH24MISS' ),'Examines pre-trial rights of persons suspected or accused of crime, primarily those rights covered by the Fourth, Fifth, Sixth, and Fourteenth Amendments of the U.S. Constitution.','Examines pre-trial rights of persons suspected or accused of crime, primarily those rights covered by the Fourth, Fifth, Sixth, and Fourteenth Amendments of the U.S. Constitution.','c844a556-812d-43c7-a25b-75cfc2beda07','kuali.lui.state.offered','kuali.lui.type.course.offering',30,'53182518-b768-46c4-971d-9fab43f8e2a2','admin',TO_DATE( '20120611160715', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','90e79901-c726-4c9a-b797-c319fb11a21e','admin',TO_DATE( '20120611160753', 'YYYYMMDDHH24MISS' ),'c98701e7-ef82-48cf-9e3a-23181272a371','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','d6742a3f-2ab8-49ae-9f8e-8b4f147a083b','admin',TO_DATE( '20120611160753', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','90e79901-c726-4c9a-b797-c319fb11a21e','admin',TO_DATE( '20120611160753', 'YYYYMMDDHH24MISS' ),'c98701e7-ef82-48cf-9e3a-23181272a371','kuali.lui.state.offered','kuali.lui.type.course.format.offering','d6742a3f-2ab8-49ae-9f8e-8b4f147a083b','admin',TO_DATE( '20120611160753', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','27011682-a12c-4270-af41-4e230ac3bf3c','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),'ca3b2845-82fd-47fa-8b9a-4d2b7fa1e690','kuali.lui.state.offered','kuali.lui.type.activity.offering.seminar','93e0319f-1951-46a4-bc63-b14d62466816','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),0)
@@ -345,7 +345,7 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,DESCR_FORMATTED,DESCR_PL
   VALUES ('2012SPRING','db3e3c39-1ad8-48a4-a9ba-4004c8d86a4a','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),'Preparations and qualitative organic analysis. Designed to be taken with 239. No more than the number of credits indicated can be counted toward graduation from the following course group: CHEM 242, CHEM 347 (3 credits). Prerequisite: either 1.7 in CHEM 224 or CHEM 239 which may be taken concurrently or CHEM 337 which may be taken concurrently; either 1.7 in CHEM 241 or 1.7 in CHEM 346. Offered: ASpS.','Preparations and qualitative organic analysis. Designed to be taken with 239. No more than the number of credits indicated can be counted toward graduation from the following course group: CHEM 242, CHEM 347 (3 credits). Prerequisite: either 1.7 in CHEM 224 or CHEM 239 which may be taken concurrently or CHEM 337 which may be taken concurrently; either 1.7 in CHEM 241 or 1.7 in CHEM 346. Offered: ASpS.','cb29218d-e91e-48d9-9d4f-e1b97f4a8ed1','kuali.lui.state.offered','kuali.lui.type.course.offering',240,'9da91e95-5f52-4e5d-940b-4ced20a5b84e','admin',TO_DATE( '20120611160825', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','ce8bfde9-6481-4139-81cc-201b6e506847','admin',TO_DATE( '20120611160731', 'YYYYMMDDHH24MISS' ),'cb78953d-05cf-4539-9d88-612902328d4b','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','597943f0-fde4-4ff4-a1c2-aa8cf5b833db','admin',TO_DATE( '20120611160731', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','ce8bfde9-6481-4139-81cc-201b6e506847','admin',TO_DATE( '20120611160731', 'YYYYMMDDHH24MISS' ),'cb78953d-05cf-4539-9d88-612902328d4b','kuali.lui.state.offered','kuali.lui.type.course.format.offering','597943f0-fde4-4ff4-a1c2-aa8cf5b833db','admin',TO_DATE( '20120611160731', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','27011682-a12c-4270-af41-4e230ac3bf3c','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),'cbaf2584-d703-465f-a75d-7813ffecd720','kuali.lui.state.offered','kuali.lui.type.activity.offering.seminar','38246cbc-50a8-4f8f-a3b3-c7e5fe456e26','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),0)
@@ -393,7 +393,7 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','442f5a3b-5eae-4fd4-abae-b3dd6a400ef0','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),'e5aeecab-6511-4901-bd6a-d9799e46b2b7','kuali.lui.state.offered','kuali.lui.type.activity.offering.lecture','6ac08245-96f8-4dc4-8600-08487d98fc45','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','f139e229-4b81-481a-adb7-65db908629c4','admin',TO_DATE( '20120611160853', 'YYYYMMDDHH24MISS' ),'e6b7c625-d18c-44d2-a494-28b1db18de29','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','dbd974b7-c4bd-4568-b3f8-9906926d0969','admin',TO_DATE( '20120611160853', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','f139e229-4b81-481a-adb7-65db908629c4','admin',TO_DATE( '20120611160853', 'YYYYMMDDHH24MISS' ),'e6b7c625-d18c-44d2-a494-28b1db18de29','kuali.lui.state.offered','kuali.lui.type.course.format.offering','dbd974b7-c4bd-4568-b3f8-9906926d0969','admin',TO_DATE( '20120611160853', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','75e2b823-15b6-4878-9591-661a9e30f479','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),'e9e4df6a-8d4c-42ce-8986-c44b92faed3a','kuali.lui.state.offered','kuali.lui.type.activity.offering.lab','b40c27af-f00c-4808-ba1f-bbea046327f3','admin',TO_DATE( '20120611160826', 'YYYYMMDDHH24MISS' ),0)
@@ -414,13 +414,13 @@ INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OB
   VALUES ('2012SPRING','cf65eda7-c9bd-4efc-bef0-063b0fc2d38d','admin',TO_DATE( '20120611160753', 'YYYYMMDDHH24MISS' ),'f280379d-7f87-4a87-827a-141d8abeab08','kuali.lui.state.offered','kuali.lui.type.activity.offering.seminar','535be6b2-f1f0-4ca1-b62d-08e463693e1b','admin',TO_DATE( '20120611160753', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','50d066c3-5440-403c-9bf5-4c2e931a19e6','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),'f49d2bf7-9806-485c-8632-f33f1623b534','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','196d02c9-5e06-4afe-bdff-2e21e295430f','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','50d066c3-5440-403c-9bf5-4c2e931a19e6','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),'f49d2bf7-9806-485c-8632-f33f1623b534','kuali.lui.state.offered','kuali.lui.type.course.format.offering','196d02c9-5e06-4afe-bdff-2e21e295430f','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,DESCR_FORMATTED,DESCR_PLAIN,ID,LUI_STATE,LUI_TYPE,MAX_SEATS,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','11b56cf4-3df0-4586-876f-4a0df100d15e','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),'Expository writing based on material presented in a specified social science lecture course. Assignments include drafts of papers to be submitted in the specified course, and other pieces of analytic prose. Concurrent registration in specified course required.','Expository writing based on material presented in a specified social science lecture course. Assignments include drafts of papers to be submitted in the specified course, and other pieces of analytic prose. Concurrent registration in specified course required.','f4a47cd4-8d4c-4acd-88c5-8b579a93c8c7','kuali.lui.state.offered','kuali.lui.type.course.offering',20,'6132847d-a651-4db3-80a5-b0c100828de8','admin',TO_DATE( '20120611160742', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES ('2012SPRING','72e2a93c-d737-456d-b9e7-672904b09a99','admin',TO_DATE( '20120611160828', 'YYYYMMDDHH24MISS' ),'f5e58913-24d9-4460-b35c-6fd3871c544d','kuali.lui.state.offered','kuali.lui.type.course.format.offering ','c204f00b-0683-46b1-b545-08f9d8cef24b','admin',TO_DATE( '20120611160828', 'YYYYMMDDHH24MISS' ),0)
+  VALUES ('2012SPRING','72e2a93c-d737-456d-b9e7-672904b09a99','admin',TO_DATE( '20120611160828', 'YYYYMMDDHH24MISS' ),'f5e58913-24d9-4460-b35c-6fd3871c544d','kuali.lui.state.offered','kuali.lui.type.course.format.offering','c204f00b-0683-46b1-b545-08f9d8cef24b','admin',TO_DATE( '20120611160828', 'YYYYMMDDHH24MISS' ),0)
 /
 INSERT INTO KSEN_LUI (ATP_ID,CLU_ID,CREATEID,CREATETIME,ID,LUI_STATE,LUI_TYPE,OBJ_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('2012SPRING','47a9a217-ff0d-434b-8c9c-05ec3b4d41e2','admin',TO_DATE( '20120611160902', 'YYYYMMDDHH24MISS' ),'f64070ea-1dbb-409a-8d75-302db4ab4730','kuali.lui.state.offered','kuali.lui.type.activity.offering.lecture','de4df1cd-57f8-4ee6-ba1c-5fbe6ba3eef9','admin',TO_DATE( '20120611160902', 'YYYYMMDDHH24MISS' ),0)
