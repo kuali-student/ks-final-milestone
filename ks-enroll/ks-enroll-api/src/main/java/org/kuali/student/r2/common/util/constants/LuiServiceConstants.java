@@ -45,6 +45,12 @@ public class LuiServiceConstants {
 //    public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
     public static final String ACTIVITY_OFFERING_GROUP_TYPE_KEY = "kuali.lui.type.grouping.activity";
 
+    public static final boolean isFormatOfferingTypeKey(String possibleType) {
+        if (possibleType == null) {
+            return false;
+        }
+        return FORMAT_OFFERING_TYPE_KEY.equals(possibleType.trim());
+    }
     /**
      * Activity types
      */

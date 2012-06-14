@@ -609,7 +609,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throw new OperationFailedException("unexpected", ex);
         }
         for (LuiInfo lui : rels) {
-            if (lui.getTypeKey().equals(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY)) {
+            if (LuiServiceConstants.isFormatOfferingTypeKey(lui.getTypeKey())) {
                 return lui;
             }
         }
@@ -628,7 +628,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, context);
         for (LuiInfo lui: luis) {
             // Filter out only course offerings (the relation type seems to vague to only hold format offerings)
-            if (LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY.equals(lui.getTypeKey().trim())) {
+            if (LuiServiceConstants.isFormatOfferingTypeKey(lui.getTypeKey())) {
                 FormatOfferingInfo formatOffering = new FormatOfferingInfo();
                 new FormatOfferingTransformer().lui2Format(lui,formatOffering);
                 formatOffering.setCourseOfferingId(courseOfferingId);
@@ -977,7 +977,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public ActivityOfferingInfo copyActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         ActivityOfferingInfo sourceAO = getActivityOffering(activityOfferingId, context);
         ActivityOfferingInfo targetAO = new ActivityOfferingInfo(sourceAO);
-        targetAO.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+        targetAO.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         targetAO.setId(null);
         targetAO.setActivityCode(null);
         targetAO = createActivityOffering(sourceAO.getFormatOfferingId(), sourceAO.getActivityId(), sourceAO.getTypeKey(), targetAO, context);
