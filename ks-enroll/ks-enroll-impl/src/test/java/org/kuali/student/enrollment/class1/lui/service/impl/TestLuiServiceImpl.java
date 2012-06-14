@@ -216,10 +216,6 @@ public class TestLuiServiceImpl {
         orig.setCluId("testCluId");
         orig.setAtpId("testAtpId1");
 
-//        List<String> cluCluRelationIds = new ArrayList<String>();
-//        cluCluRelationIds.add("CluClu-2");
-//        orig.setCluCluRelationIds(cluCluRelationIds);
-
         List<String> unitsContentOwner = new ArrayList<String>();
         unitsContentOwner.add("Org-2");
         orig.setUnitsContentOwner(unitsContentOwner);
@@ -228,9 +224,9 @@ public class TestLuiServiceImpl {
         unitsDeployment.add("Org-1");
         orig.setUnitsDeployment(unitsDeployment);
 
-//        List<String> resultValueGroupKeys = new ArrayList<String>();
-//        resultValueGroupKeys.add("Val-Group-3");
-//        orig.setResultValuesGroupKeys(resultValueGroupKeys);
+        List<String> resultValueGroupKeys = new ArrayList<String>();
+        resultValueGroupKeys.add("Val-Group-3");
+        orig.setResultValuesGroupKeys(resultValueGroupKeys);
 
         LuCodeInfo luCode = new LuCodeInfo();
         RichTextInfo rt = new RichTextInfo();
@@ -258,10 +254,9 @@ public class TestLuiServiceImpl {
         assertEquals(orig.getAtpId(), info.getAtpId());
         assertEquals(orig.getReferenceURL(), info.getReferenceURL());
 
-//        assertTrue(info.getCluCluRelationIds().contains("CluClu-2"));
         assertTrue(info.getUnitsContentOwner().contains("Org-2"));
         assertTrue(info.getUnitsDeployment().contains("Org-1"));
-//        assertTrue(info.getResultValuesGroupKeys().contains("Val-Group-3"));
+        assertTrue(info.getResultValuesGroupKeys().contains("Val-Group-3"));
 
         assertEquals(1, info.getLuiCodes().size());
 
