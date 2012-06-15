@@ -11,11 +11,11 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.springframework.stereotype.Controller;
@@ -236,12 +236,26 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         String activityId = theForm.getActivityIdForNewAO();
         String formatOfferingId = theForm.getFormatIdForNewAO();
-        int aoCount = theForm.getNoOfActivityOfferings();
+        int aoCount = Integer.parseInt(theForm.getNoOfActivityOfferings());
 
         ActivityOfferingInfo aoInfo = getViewHelperService(theForm).createActivityOfferings(formatOfferingId,activityId,aoCount,theForm.getTheCourseOffering());
 
         return getUIFModelAndView(theForm);
 
+    }
+
+    @RequestMapping(params = "methodToCall=createCourseOffering")
+    public ModelAndView createCourseOffering(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        String termCode = theForm.getTermCode();
+
+        Properties props = new Properties();
+        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+        props.put("targetTermCode",termCode);
+        props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper");
+
+         return super.performRedirect(theForm,"courseOffering", props);
     }
 
     /**

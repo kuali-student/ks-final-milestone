@@ -2,8 +2,8 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String formatIdForNewAO;
 
     private String activityIdForNewAO;
-    private int noOfActivityOfferings;
+    private String noOfActivityOfferings;
 
     public CourseOfferingManagementForm (){
         courseOfferingList = new ArrayList<CourseOfferingInfo>();
@@ -96,11 +96,11 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.theCourseOffering = theCourseOffering;
     }
 
-    public int getNoOfActivityOfferings() {
+    public String getNoOfActivityOfferings() {
         return noOfActivityOfferings;
     }
 
-    public void setNoOfActivityOfferings(int noOfActivityOfferings) {
+    public void setNoOfActivityOfferings(String noOfActivityOfferings) {
         this.noOfActivityOfferings = noOfActivityOfferings;
     }
 

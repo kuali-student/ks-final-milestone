@@ -23,7 +23,6 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -120,19 +119,23 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         keyValues.add(new ConcreteKeyValue("", "Select Format Type"));
         CourseOfferingInfo selectedCourseOffering = coForm.getTheCourseOffering();
 
-        List<FormatInfo> formatInfos;
-        try {
-            formatInfos = getCourseService().getCourseFormats(selectedCourseOffering.getCourseId());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            for (FormatInfo formatInfo : formatInfos) {
-                keyValues.add(new ConcreteKeyValue(formatInfo.getType(),formatInfo.getId()));
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        keyValues.add(new ConcreteKeyValue("Lecture-only", "Lecture-only"));
+        keyValues.add(new ConcreteKeyValue("Lecture-Lab", "Lecture-Lab"));
+        keyValues.add(new ConcreteKeyValue("Lecture-Lab/Discussion", "Lecture-Lab/Discussion"));
+
+//        List<FormatInfo> formatInfos;
+//        try {
+//            formatInfos = getCourseService().getCourseFormats(selectedCourseOffering.getCourseId());
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        try {
+//            for (FormatInfo formatInfo : formatInfos) {
+//                keyValues.add(new ConcreteKeyValue(formatInfo.getType(),formatInfo.getId()));
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
 
         ((SelectControl) field.getControl()).setOptions(keyValues);
 
@@ -144,14 +147,17 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         keyValues.add(new ConcreteKeyValue("", "Select Activity Type"));
         String formatId = coForm.getFormatIdForNewAO();
 
-        try {
-            List<ActivityInfo> activityInfos = getCourseService().getCourseActivities(formatId);
-            for (ActivityInfo activityInfo : activityInfos) {
-               keyValues.add(new ConcreteKeyValue(activityInfo.getActivityType(),activityInfo.getId()));
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        keyValues.add(new ConcreteKeyValue("Lecture", "Lecture"));
+        keyValues.add(new ConcreteKeyValue("Lab", "Lab"));
+
+//        try {
+//            List<ActivityInfo> activityInfos = getCourseService().getCourseActivities(formatId);
+//            for (ActivityInfo activityInfo : activityInfos) {
+//               keyValues.add(new ConcreteKeyValue(activityInfo.getActivityType(),activityInfo.getId()));
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
 
         ((SelectControl) field.getControl()).setOptions(keyValues);
 

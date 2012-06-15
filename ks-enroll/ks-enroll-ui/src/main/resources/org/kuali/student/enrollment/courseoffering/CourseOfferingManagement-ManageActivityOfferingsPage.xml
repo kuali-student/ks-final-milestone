@@ -40,7 +40,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingLinks"/>
-                <!--<ref bean="KS-CourseOfferingManagement-AddActivityOfferingSection"/>-->
+                <ref bean="KS-CourseOfferingManagement-AddActivityOfferingSection"/>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingListSection"/>
             </list>
         </property>
