@@ -50,21 +50,26 @@
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:label="Edit" p:propertyName="aoInfo.courseOfferingCode" p:readOnly="true" p:defaultValue="ENGL293C"/>
-                                        <bean parent="Uif-DataField" p:label="-" p:propertyName="aoInfo.courseOfferingTitle" p:fieldLabel.renderColon="false" p:readOnly="true" p:defaultValue="Intro to English Literature in the Victorian Era (LEC)"/>
-                                     </list>
+                                        <bean parent="Uif-DataField" p:label="Edit" p:propertyName="aoInfo.courseOfferingCode" p:fieldLabel.renderColon="false" p:readOnly="true"/>
+                                        <bean parent="Uif-DataField" p:label="-" p:propertyName="aoInfo.courseOfferingTitle" p:fieldLabel.renderColon="false" p:readOnly="true"/>
+                                        <!--<bean parent="Uif-DataField" p:label="Edit" p:propertyName="aoInfo.courseOfferingCode" p:readOnly="true" p:defaultValue="ENGL293C"/>
+                                        <bean parent="Uif-DataField" p:label="-" p:propertyName="aoInfo.courseOfferingTitle" p:fieldLabel.renderColon="false" p:readOnly="true" p:defaultValue="Intro to English Literature in the Victorian Era (LEC)"/>-->
+
+                                    </list>
                                 </property>
                             </bean>
 
-                            <bean parent="Uif-DataField" p:label="Status" p:propertyName="aoInfo.stateKey"/>
-                            <bean parent="Uif-DataField" p:label="Term" p:propertyName="aoInfo.termCode" p:readOnly="true" />
+                            <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName"/>
+                            <bean parent="Uif-DataField" p:label="Term" p:propertyName="aoInfo.termId" p:readOnly="true" />
 
 
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="aoInfo.typeKey" p:readOnly="true"/>
-                                        <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true" p:defaultValue="Lecture"/>
+                                        <!-- <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="aoInfo.typeKey" p:readOnly="true"/> -->
+                                        <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="typeName" p:readOnly="true"/>
+                                        <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
+                                        <!-- <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true" p:defaultValue="Lecture"/> -->
                                     </list>
                                 </property>
                             </bean>
@@ -86,7 +91,7 @@
                     <property name="headerText" value="Activity Offering Information"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment" p:defaultValue="100">
+                            <bean parent="Uif-InputField" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment">
                             <property name="control">
                                 <bean parent="Uif-TextControl" p:size="3"/>
                             </property>
