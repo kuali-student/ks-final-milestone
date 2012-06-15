@@ -24,6 +24,8 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     private String addCourseOfferingSuffix;
 
+    private int noOfTermOfferings;
+
     private CourseInfo course;
     private CourseOfferingInfo coInfo;
 
@@ -160,6 +162,14 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     public void setExistingTermOfferings(List<ExistingCourseOffering> existingTermOfferings) {
         this.existingTermOfferings = existingTermOfferings;
+    }
+
+    public int getNoOfTermOfferings() {
+        return noOfTermOfferings;
+    }
+
+    public void setNoOfTermOfferings(int noOfTermOfferings) {
+        this.noOfTermOfferings = noOfTermOfferings;
     }
 
 }

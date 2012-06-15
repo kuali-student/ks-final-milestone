@@ -23,6 +23,7 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,6 +48,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     private AcademicCalendarService academicCalendarService;
     private CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
+    private TypeService typeService;
 
     @RequestMapping(params = "methodToCall=loadCourseCatalog")
     public ModelAndView loadCourseCatalog(@ModelAttribute("KualiForm") MaintenanceForm form, BindingResult result,
@@ -63,14 +65,19 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         coWrapper.setCourse(course);
 
         if (course != null && term != null) {
+
             coWrapper.setCourse(course);
             coWrapper.setCreditCount(course.getCreditOptions().get(0).getResultValues().get(0));
             coWrapper.setShowAllSections(true);
             coWrapper.setShowCatalogLink(false);
             coWrapper.setShowTermOfferingLink(true);
 
+            //Get all the course offerings in a term
             List<String> courseOfferingIds = getCourseOfferingService().getCourseOfferingIdsByTerm(term.getId(),false,getContextInfo());
             List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,getContextInfo());
+
+            coWrapper.getExistingTermOfferings().clear();
+            coWrapper.getExistingCourseOfferings().clear();
 
             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
                 ExistingCourseOffering co = new ExistingCourseOffering();
@@ -82,12 +89,30 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 coWrapper.getExistingCourseOfferings().add(co);
             }
 
+            courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourse(coWrapper.getCourse().getId(),getContextInfo());
+            coWrapper.setNoOfTermOfferings(courseOfferingInfos.size());
+
+            for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
+                ExistingCourseOffering co = new ExistingCourseOffering();
+                TermInfo termInfo = getAcademicCalendarService().getTerm(courseOfferingInfo.getTermId(),getContextInfo());
+                if (StringUtils.isNotBlank(courseOfferingInfo.getGradingOptionId())){
+
+                }
+                co.setTermCode(termInfo.getName());
+                co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
+                co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
+                co.setCredits(courseOfferingInfo.getCreditOptionId());
+                co.setGrading(courseOfferingInfo.getGradingOptionId());
+                coWrapper.getExistingTermOfferings().add(co);
+            }
+
         } else {
             coWrapper.setCourse(null);
             coWrapper.setShowAllSections(false);
             coWrapper.setCreditCount("");
             coWrapper.getExistingTermOfferings().clear();
             coWrapper.getExistingCourseOfferings().clear();
+            coWrapper.setNoOfTermOfferings(0);
         }
 
         return getUIFModelAndView(form);
@@ -112,20 +137,6 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         wrapper.setShowCatalogLink(true);
         wrapper.setShowTermOfferingLink(false);
-
-        if (wrapper.getExistingTermOfferings().isEmpty()){
-            List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourse(wrapper.getCourse().getId(),getContextInfo());
-            for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
-                ExistingCourseOffering co = new ExistingCourseOffering();
-                TermInfo term = getAcademicCalendarService().getTerm(courseOfferingInfo.getTermId(),getContextInfo());
-                co.setTermCode(term.getName());
-                co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
-                co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
-                co.setCredits(courseOfferingInfo.getCreditOptionId());
-                co.setGrading(courseOfferingInfo.getGradingOptionId());
-                wrapper.getExistingTermOfferings().add(co);
-            }
-        }
 
         return getUIFModelAndView(form);
     }
@@ -247,7 +258,14 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
     }
 
-     private LuService getLuService() {
+    private TypeService getTypeService(){
+        if (typeService == null){
+            typeService = CourseOfferingResourceLoader.loadTypeService();
+        }
+        return typeService;
+    }
+
+    private LuService getLuService() {
         if(luService == null) {
             luService = CourseOfferingResourceLoader.loadLuService();
         }

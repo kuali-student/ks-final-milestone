@@ -83,8 +83,8 @@
                 <bean parent="Uif-ActionLink" p:methodToCall="createFromCatalog" p:style="font-weight:bold;" p:actionLabel="Create from Catalog" p:render="@{document.newMaintainableObject.dataObject.showCatalogLink}"/>
                 <bean parent="Uif-MessageField" p:messageText="Create from Catalog" p:style="font-weight:bold;" p:render="@{!document.newMaintainableObject.dataObject.showCatalogLink}"/>
                 <bean parent="Uif-MessageField" p:messageText="  |  " p:style="font-weight:bold;"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="createFromTermOffering" p:style="font-weight:bold;" p:actionLabel="Create from Term Offering" p:render="@{document.newMaintainableObject.dataObject.showTermOfferingLink}"/>
-                <bean parent="Uif-MessageField" p:messageText="Create from Term Offering" p:style="font-weight:bold;" p:render="@{!document.newMaintainableObject.dataObject.showTermOfferingLink}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="createFromTermOffering" p:style="font-weight:bold;" p:actionLabel="Create from Term Offering (@{document.newMaintainableObject.dataObject.noOfTermOfferings})" p:render="@{document.newMaintainableObject.dataObject.showTermOfferingLink}"/>
+                <bean parent="Uif-MessageField" p:messageText="Create from Term Offering (@{document.newMaintainableObject.dataObject.noOfTermOfferings})" p:style="font-weight:bold;" p:render="@{!document.newMaintainableObject.dataObject.showTermOfferingLink}"/>
             </list>
         </property>
     </bean>
