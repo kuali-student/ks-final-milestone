@@ -25,7 +25,10 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -166,4 +169,44 @@ public class SchedulingServiceDataLoader {
         return toRet;
     }
 
+    public static ScheduleRequestInfo setupScheduleRequestInfo(String scheduleRequestInfoId, String scheduleRequestInfoRefObjectId,
+                                                         String ScheduleRequestComponentInfoId, String scheduleRequestInfoName) {
+        ScheduleRequestInfo scheduleRequestInfo = new ScheduleRequestInfo();
+        scheduleRequestInfo.setId(scheduleRequestInfoId);
+        scheduleRequestInfo.setRefObjectId(scheduleRequestInfoRefObjectId);
+        scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+        scheduleRequestInfo.setName(scheduleRequestInfoName);
+
+        List<ScheduleRequestComponentInfo> componentInfoList = new ArrayList<ScheduleRequestComponentInfo>();
+        ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
+        componentInfo.setId(ScheduleRequestComponentInfoId);
+        List<String> buildingIds = new ArrayList<String>();
+        buildingIds.add("TestBuilding1");
+        buildingIds.add("TestBuilding2");
+        componentInfo.setBuildingIds(buildingIds);
+        List<String> campusIds = new ArrayList<String>();
+        campusIds.add("Test-Central");
+        componentInfo.setCampusIds(campusIds);
+        List<String> orgIds = new ArrayList<String>();
+        orgIds.add("Test-IT");
+        orgIds.add("Test-Comp");
+        componentInfo.setOrgIds(orgIds);
+        List<String> roomIds = new ArrayList<String>();
+        roomIds.add("Chem-101");
+        roomIds.add("Law-201");
+        componentInfo.setRoomIds(roomIds);
+        List<String> timeSlotIds = new ArrayList<String>();
+        timeSlotIds.add("1");
+        timeSlotIds.add("2");
+        componentInfo.setTimeSlotIds(timeSlotIds);
+        List<String> resourceTypeKeys = new ArrayList<String>();
+        resourceTypeKeys.add(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+        componentInfo.setResourceTypeKeys(resourceTypeKeys);
+
+        componentInfoList.add(componentInfo);
+
+        scheduleRequestInfo.setScheduleRequestComponents(componentInfoList);
+
+        return scheduleRequestInfo;
+    }
 }
