@@ -183,7 +183,21 @@
     </property>
   </bean>
 
- <bean id="feeService" class="org.kuali.student.r2.core.fee.service.impl.FeeServiceImpl">
+<!-- Added by Tanveer 06/14/2012 -->
+    <bean id="ks.exp.stateService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="stateService" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.state.service.StateService" />
+                <property name="localServiceName" value="StateService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/state" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="feeService" class="org.kuali.student.r2.core.fee.service.impl.FeeServiceImpl">
     <property name="enrollmentFeeDao" ref="enrollmentFeeDao" />
   </bean>
 
