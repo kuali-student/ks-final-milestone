@@ -15,19 +15,20 @@
 
 package org.kuali.student.r2.core.exemption.infc;
 
-import java.util.Date;
 import org.kuali.student.r2.common.infc.IdEntity;
+import java.util.Date;
 
 
 /**
- * Information about an Exemption. 
- * 
- * Extra data qualifies the exemption to a particular scope, such as for a
+ * Information about an Exemption. The qualifier, if it exists,
+ * qualifies the restriction exemption to a scope, such as for a
  * particular Course or Program.
  *
  * There can only be one override structure per exemption. The
- * override structure available in this Exemption is constrained by
+ * override structure available in this Exmeption is constrained by
  * the Exemption Type.
+ *
+ * org?
  *
  * @author tom
  * @since Tue Jun 14 14:22:34 EDT 2011
@@ -38,21 +39,17 @@ public interface Exemption extends IdEntity {
      * The Id of the Exemption Request.
      *
      * @name Exemption Request Id
-     * @required
-     * @readOnly
      */
     public String getExemptionRequestId();
 
      /**
-     * The id of a Process that is being exempted in the
+     * The key of a Process that indicates to what Process in the
      * the exemption is applied.
-     * 
-     * Together with the check this identifies which instruction(s) to skip or 
-     * or data to be overridden when the process is being evaluated.
-     * 
-     * @name Process Id
+     *
+     * @name Process Key
+     * @required
      */
-    public String getProcessId();
+    public String getProcessKey();
 
     /**
      * The Id of a Check that indicates to what Check in the Process
@@ -65,24 +62,15 @@ public interface Exemption extends IdEntity {
     
     /**
      * The Id of the Person who was exempted.
-     * 
-     * This is the same as the person id on the request.
      *
      * @name Person Id
-     * @required
-     * @readOnly
-     * @impl on creates this should be copied from the request and stored on the exemption 
-     * @impl on updates this field should not be updated
      */
     public String getPersonId();
 
     /**
      * The date this exemption becomes effective.
      *
-     * If not supplied it should default to today's date.
-     * 
      * @name Effective Date
-     * @requred
      */
     public Date getEffectiveDate();
 
@@ -95,9 +83,7 @@ public interface Exemption extends IdEntity {
 
     /**
      * The number of times this Exemption may be used.
-     * 
-     * Should be a positive integer or left null to indicate there is no limit.
-     * 
+     *
      * @name Use Limit
      */
     public Integer getUseLimit();
@@ -105,9 +91,6 @@ public interface Exemption extends IdEntity {
     /**
      * The number of times this Exemption was marked as used.
      *
-     * Null means that it has not been used or is not being tracked because there is 
-     * no corresponding limit.
-     * 
      * @name Use Count
      */
     public Integer getUseCount();

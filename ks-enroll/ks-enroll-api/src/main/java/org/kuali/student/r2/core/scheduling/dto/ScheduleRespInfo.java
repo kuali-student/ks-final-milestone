@@ -52,7 +52,6 @@ public class ScheduleRespInfo extends IdNamelessEntityInfo implements ScheduleRe
     }
 
     public ScheduleRespInfo(ScheduleResp scheduleResp) {
-        super (scheduleResp);
         if (null != scheduleResp) {
             this.batchRespId = scheduleResp.getBatchRespId();
             this.scheduleRequestId = scheduleResp.getScheduleRequestId();

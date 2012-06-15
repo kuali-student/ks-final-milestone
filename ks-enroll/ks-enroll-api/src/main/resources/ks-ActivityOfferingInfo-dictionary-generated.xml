@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue May 22 17:22:49 PDT 2012
+		This dictionary file was automatically generated on Fri Jun 08 11:56:34 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -317,28 +317,6 @@ Indicates that the course is an Honors Course.
 			</value>
 		</property>
 		<property name="required" value="true"/>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.gradingOptionKeys-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="gradingOptionKeys"/>
-		<property name="shortLabel" value="Grading Option Keys"/>
-		<property name="summary">
-			<value>
-The options/scales that indicate the allowable grades that can
-be awarded.  
-			</value>
-		</property>
-		<property name="label" value="Grading Option Keys"/>
-		<property name="elementLabel" value="Grading Option Key"/>
-		<property name="description">
-			<value>
-The options/scales that indicate the allowable grades that can
-be awarded.  If the value is set here then the canonical course
-must have a grading option set on the canonical activity.
-			</value>
-		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.instructors-generated" abstract="true" parent="CollectionDefinition">

@@ -37,23 +37,19 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     private CourseOfferingInfo coInfo;
     private List<FormatOfferingInfo> formatOfferings;
-    // TODO: gradingOptionId should eventually come from CourseOfferingInfo - Service Team is working on making it singleton (it's a List currently)
-    private String gradingOptionId = "kuali.resultComponent.grade.letter";
+    private List<String> studentRegOptions;
+    private List<OrganizationInfoWrapper> organizationNames;
+    private String organizationName;
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
         formatOfferings = new ArrayList<FormatOfferingInfo>();
+        studentRegOptions = new ArrayList<String>();
     }
 
     public CourseOfferingEditWrapper(CourseOfferingInfo info){
         super();
         coInfo = info;
-        // TODO: gradingOptionId should eventually come from CourseOfferingInfo, so no need for all this logic
-        List<String> gradingOptionIds = coInfo.getGradingOptionIds();
-        if (gradingOptionIds.size() > 0) {
-            gradingOptionId = gradingOptionIds.get(0);
-        }
-        // end gradingOptionId
     }
 
     public CourseOfferingInfo getCoInfo() {
@@ -75,13 +71,30 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.formatOfferings = formatOfferings;
     }
 
-    // TODO: Will have to be removed when gradingOptionId will be coming from Course Offering Info
-    public String getGradingOptionId() {
-        return gradingOptionId;
+    public List<String> getStudentRegOptions() {
+        return studentRegOptions;
     }
 
-    public void setGradingOptionId(String gradingOptionId) {
-        this.gradingOptionId = gradingOptionId;
+    public void setStudentRegOptions(List<String> studentRegOptions) {
+        if (studentRegOptions == null) {
+            studentRegOptions = new ArrayList<String>();
+        }
+        this.studentRegOptions = studentRegOptions;
     }
-    // gradingOptionId
+
+    public List<OrganizationInfoWrapper> getOrganizationNames() {
+        return organizationNames;
+    }
+
+    public void setOrganizationNames(List<OrganizationInfoWrapper> organizationNames) {
+        this.organizationNames = organizationNames;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
 }

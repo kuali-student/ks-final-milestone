@@ -1,15 +1,10 @@
 package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 
-import org.kuali.student.enrollment.academicrecord.dto.ExternalCredentialRecordInfo;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
-import org.kuali.student.enrollment.academicrecord.dto.HonorsInfo;
-import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.dto.StudentCredentialRecordInfo;
-import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
-import org.kuali.student.enrollment.academicrecord.dto.StudentRankInfo;
-import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
-import org.kuali.student.enrollment.academicrecord.dto.StudentTransferCreditRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
@@ -17,6 +12,7 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -25,9 +21,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class AcademicRecordServiceImpl implements AcademicRecordService{
@@ -91,7 +84,7 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 			MissingParameterException, OperationFailedException {
 		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
 		try {
-			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudentAndTerm(personId, termId, context);
+			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsForStudentByTerm(personId, termId, context);
 			if(regs != null && !regs.isEmpty()){
 				for (CourseRegistrationInfo reg : regs ){
 					StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, context);
@@ -99,6 +92,8 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 				}
 			}
 		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException();
+		} catch (DisabledIdentifierException e) {
 			throw new OperationFailedException();
 		} catch (AssemblyException e) {
             throw new OperationFailedException("AssemblyException : " + e.getMessage());
@@ -114,9 +109,11 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 			OperationFailedException {
 		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
 		try {
-			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(personId, context);
+			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsForStudent(personId, context);
 			getCompletedCourseRecords(courseRecords, regs, context);
 		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException();
+		} catch (DisabledIdentifierException e) {
 			throw new OperationFailedException();
 		}
 
@@ -130,9 +127,11 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 			MissingParameterException, OperationFailedException {
 		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
 		try {
-			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudentAndTerm(personId, termId, context);
+			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsForStudentByTerm(personId, termId, context);
 			getCompletedCourseRecords(courseRecords, regs, context);
 		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException();
+		} catch (DisabledIdentifierException e) {
 			throw new OperationFailedException();
 		}
 
@@ -208,93 +207,4 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
-    @Override
-    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForProgram(String personId,  String programId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public GPAInfo getGPAForLevel(String personId, String calculationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public GPAInfo getCumulativeGPAForProgram(String personId, String programId, String calculationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public GPAInfo getCumulativeGPAForTermAndProgram(String personId, String programId, String termKey, String calculationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public LoadInfo getLoadForTerm(String personId, String termId, String calculationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public List<StudentProgramRecordInfo> getAllPrograms(String personId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public List<StudentCredentialRecordInfo> getAwardedCredentials(String personId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public List<ExternalCredentialRecordInfo> getExternalCredentials(String personId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public List<StudentTestScoreRecordInfo> getTestScore(String personId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public List<StudentTestScoreRecordInfo> getTestScoreByType(String personId, String testTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public List<StudentTransferCreditRecordInfo> getTransferCredits(String personId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public List<StudentTransferCreditRecordInfo> getTransferCreditForAwardedCourse(String personId, String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public StudentRankInfo getCumulativeRank(String personId, String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public StudentRankInfo getCumulativeRankForProgram(String personId, String programId, String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public HonorsInfo getHonorsByProgram(String personId, String programId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public String getEarnedCumulativeCreditsForProgram(String personId, String programId, String calculationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
-
-    @Override
-    public String getEarnedCumulativeCreditsForProgramAndTerm(String personId, String programId, String termId, String calculationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
-    }
 }

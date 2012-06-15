@@ -12,6 +12,7 @@ public interface Load extends TypeStateEntity {
     public Float getTotalCredits();
 
     /**
+     * 
      * Information on if its a full-time, part-time enrollment
      * 
      * @return

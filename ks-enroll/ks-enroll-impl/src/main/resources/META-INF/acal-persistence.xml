@@ -8,8 +8,8 @@
   <!-- JPA test "unit" -->
     <persistence-unit name="Acal" transaction-type="JTA">
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationAttributeEntity</class>
 
         <class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
@@ -70,7 +70,6 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>  
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsContentOwnerEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
 <!--  
     <class>org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity</class>

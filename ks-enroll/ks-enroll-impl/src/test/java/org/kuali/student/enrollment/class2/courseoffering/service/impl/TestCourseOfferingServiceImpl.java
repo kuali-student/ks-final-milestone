@@ -28,7 +28,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.springframework.test.context.ContextConfiguration;
@@ -126,13 +126,13 @@ public class TestCourseOfferingServiceImpl {
         
         try {
         try {
-        coServiceAuthDecorator.getCourseOfferingsByIds(idsList, contextInfo);
+        coServiceAuthDecorator.getCourseOfferingsByIds(idsList, callContext);
         fail("idsList should have thrown DoesNotExistException");
         } catch (DoesNotExistException enee) {
         // expected
         }
         
-        List<CourseOfferingInfo> co = coServiceAuthDecorator.getCourseOfferingsByIds(idsList, contextInfo);
+        List<CourseOfferingInfo> co = coServiceAuthDecorator.getCourseOfferingsByIds(idsList, callContext);
         
         assertNotNull(co);
         for (CourseOfferingInfo coItem : co) {
@@ -212,8 +212,8 @@ public class TestCourseOfferingServiceImpl {
             OfferingInstructorInfo instructor = new OfferingInstructorInfo();
             instructor.setPersonId("Pers-1");
             instructor.setPercentageEffort(Float.valueOf("60"));
-            instructor.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-            instructor.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
+            instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+            instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
             instructors.add(instructor);
             coi.setInstructors(instructors);
             CourseOfferingInfo updated =
@@ -234,14 +234,14 @@ public class TestCourseOfferingServiceImpl {
             OfferingInstructorInfo instructor1 = new OfferingInstructorInfo();
             instructor1.setPersonId("Pers-2");
             instructor1.setPercentageEffort(Float.valueOf("60"));
-            instructor1.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-            instructor1.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
+            instructor1.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+            instructor1.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
             instructors1.add(instructor1);
             OfferingInstructorInfo instructor2 = new OfferingInstructorInfo();
             instructor2.setPersonId("Pers-1");
             instructor2.setPercentageEffort(Float.valueOf("30"));
-            instructor2.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-            instructor2.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
+            instructor2.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+            instructor2.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
             instructors1.add(instructor2);
             retrieved.setInstructors(instructors1);
             CourseOfferingInfo updated1 =
@@ -360,8 +360,8 @@ public class TestCourseOfferingServiceImpl {
         OfferingInstructorInfo instructor = new OfferingInstructorInfo();
         instructor.setPersonId("Pers-1");
         instructor.setPercentageEffort(Float.valueOf("60"));
-        instructor.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-        instructor.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
+        instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+        instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
         instructors.add(instructor);
         ao.setInstructors(instructors);
 

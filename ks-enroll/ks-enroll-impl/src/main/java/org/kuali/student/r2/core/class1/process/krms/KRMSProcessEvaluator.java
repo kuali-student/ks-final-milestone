@@ -71,7 +71,6 @@ import org.kuali.student.r2.core.process.service.ProcessService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -165,19 +164,10 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
                 }
             }
 
-            Date asOfDate = context.getCurrentDate();
-            if (asOfDate == null) {
-                asOfDate = new Date ();
-            }
             // check for any direct exemptions the student may have for this check
             List<ExemptionInfo> exemptions;
             try {
-                exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY, 
-                        processContext.getProcessKey(),
-                        instruction.getCheckKey(), 
-                        processContext.getStudentId(), 
-                        asOfDate, 
-                        context);
+                exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY, processContext.getProcessKey(), instruction.getCheckKey(), processContext.getStudentId(), context);
             } catch (OperationFailedException ex) {
                 throw ex;
             } catch (Exception ex) {
@@ -220,18 +210,10 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
 
             if (check.getTypeKey().equals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY)) {
                 propositions.put(new RegistrationHoldProposition(check.getIssueId()), instruction);
-
-                
-                /*
-                  need to handle these differently
-                  
-                  } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_ALIVE)) {
-                  propositions.put(new PersonLivingProposition(), instruction);
-                  } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_NOT_SUMMER_TERM)) {
-                  propositions.put(new SummerTermProposition(term), instruction); 
-
-                */
-
+            } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_ALIVE)) {
+                propositions.put(new PersonLivingProposition(), instruction);
+            } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_NOT_SUMMER_TERM)) {
+                propositions.put(new SummerTermProposition(term), instruction);
             } else if (check.getTypeKey().equals(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY)) {
                 propositions.put(buildMilestoneCheckProposition(check, DateComparisonType.AFTER, processContext, context), instruction);
             } else if (check.getTypeKey().equals(ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY)) {
@@ -270,17 +252,8 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
     private MilestoneDateComparisonProposition buildMilestoneCheckProposition(CheckInfo check, DateComparisonType comparisonType, CourseRegistrationProcessContextInfo processContext, ContextInfo context)
             throws OperationFailedException {
         List<ExemptionInfo> exemptions;
-        Date asOfDate = context.getCurrentDate();
-            if (asOfDate == null) {
-                asOfDate = new Date ();
-            }
         try {
-            exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY, 
-                    processContext.getProcessKey(), 
-                    check.getId(), 
-                    processContext.getStudentId(),
-                    asOfDate,
-                    context);
+            exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY, processContext.getProcessKey(), check.getKey(), processContext.getStudentId(), context);
         } catch (OperationFailedException ex) {
             throw ex;
         } catch (Exception ex) {

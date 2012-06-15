@@ -17,11 +17,11 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -106,21 +106,18 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
           throw new RuntimeException (ex);
         }
 
-        /*
         //If grading options not present in course, set a default one in CO
-        if (coi.getGradingOptionIds() == null || coi.getGradingOptionIds().isEmpty()){
-            List<String> gradingOptions = new ArrayList();
-            gradingOptions.add(LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE);
-            coi.setGradingOptionIds(gradingOptions);
+        if (coi.getGradingOptionId() == null || coi.getGradingOptionId().isEmpty()){
+            coi.setGradingOptionId(LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER);
         }
-        */
+
         //create a list of instructors
         List<OfferingInstructorInfo> instructors = courseOfferingInfo.getInstructors();
 
         //set the list of instructors to the CourseOfferingInfo coi
         if (coi != null) {
             coi.setInstructors(instructors);
-            coi.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+            coi.setStateKey(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
             coi.setMaximumEnrollment(courseOfferingInfo.getMaximumEnrollment());
 
             //update the CourseOfferingInfo coi in DB with instructors info
@@ -169,7 +166,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     //(see https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Types)
                     //only take the first one.
                     activityOfferingInfo.setTypeKey(activityOfferingTypes.get(0).getKey());
-                    activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+                    activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
                     //TODO remove this fake generation when we are getting real times from the form
                     // TODO: fix this to set the schedule id from the schedule service
                     String scheduleId = null;
@@ -192,7 +189,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     registrationGroupInfo.setCourseOfferingId(coi.getId());
                     registrationGroupInfo.setMaximumEnrollment(courseOfferingInfo.getMaximumEnrollment());
                     registrationGroupInfo.setActivityOfferingIds(activityOfferingIds);
-                    registrationGroupInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+                    registrationGroupInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
                     registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
                     // TODO Change this formatOffering to actual one when implementing
                     String formatOfferingId = null;
@@ -243,14 +240,14 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             //set state and type value for the courseOfferingInfo
             CourseOfferingInfo newCourseOffering = (CourseOfferingInfo) getDataObject();
             newCourseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-            newCourseOffering.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+            newCourseOffering.setStateKey(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
 
             //for each instructor, set personId to Id field, state, and type
             List<OfferingInstructorInfo> instructors =  newCourseOffering.getInstructors();
             for(OfferingInstructorInfo instructor: instructors){
                 instructor.setId(instructor.getPersonId());
-                instructor.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
-                instructor.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+                instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
+                instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
             }
         }
         super.prepareForSave();

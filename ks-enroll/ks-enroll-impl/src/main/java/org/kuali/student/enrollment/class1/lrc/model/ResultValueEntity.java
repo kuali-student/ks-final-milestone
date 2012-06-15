@@ -180,7 +180,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         info.setName(getName());
         info.setNumericValue(getNumericValue());
         info.setValue(getValue());
-        info.setScaleKey(getResultScaleId());
+        info.setResultScaleKey(getResultScaleId());
 
         if (getState() != null) {
             info.setStateKey(getState());

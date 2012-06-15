@@ -16,8 +16,6 @@ import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constant
 import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constants.LUI_ID1;
 import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constants.PERSON_ID1;
 import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constants.TEST_VALUE_1;
-import org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
 
 /**
  * @author Igor
@@ -28,12 +26,12 @@ public class DataLoader {
 
     @Transactional
     public void load() {
-        LprEntity luiPersonRelation = createLuiPersonRelation();
+        LuiPersonRelationEntity luiPersonRelation = createLuiPersonRelation();
         em.persist(luiPersonRelation);
     }
 
-    private LprEntity createLuiPersonRelation() {
-        LprEntity personRelation = new LprEntity();
+    private LuiPersonRelationEntity createLuiPersonRelation() {
+        LuiPersonRelationEntity personRelation = new LuiPersonRelationEntity();
         personRelation.setLuiId(LUI_ID1);
         personRelation.setPersonId(PERSON_ID1);
         personRelation.setEffectiveDate(Calendar.getInstance().getTime());
@@ -46,8 +44,8 @@ public class DataLoader {
 
     private Set<LuiPersonRelationAttributeEntity> createAttributes() {
         Set<LuiPersonRelationAttributeEntity> attributes = new HashSet<LuiPersonRelationAttributeEntity>();
-        attributes.add(new LprAttributeEntity(DA_KEY_1, DA_VALUE_1));
-        attributes.add(new LprAttributeEntity(DA_KEY_2, DA_VALUE_2));
+        attributes.add(new LuiPersonRelationAttributeEntity(DA_KEY_1, DA_VALUE_1));
+        attributes.add(new LuiPersonRelationAttributeEntity(DA_KEY_2, DA_VALUE_2));
         return attributes;
     }
 

@@ -4,26 +4,37 @@ public class KSKRMSConstants {
 
 	public static final String KSNAMESPACE = "KR-RULE-TEST";
 	public static final String TERM_SPEC_CREDITS = "Credits";
+	public static final String TERM_SPEC_RESOLVER_CREDITS = "creditsTermResolver";
 	public static final String CREDITS_DESCR = "Credits Term Specification";
 	public static final String TERM_SPEC_ORG_NUMBER = "Org Number";
+	public static final String TERM_SPEC_RESOLVER_ORG_NUMBER = "orgNumberTermResolver";
 	public static final String ORG_NUMBER_DESCR = "Org Number Term Specification";
 	public static final String TERM_SPEC_COURSE = "Course";
+	public static final String TERM_SPEC_RESOLVER_COURSE = "courseTermResolver";
 	public static final String COURSE_DESCR = "Course Term Specification";
 	public static final String TERM_SPEC_COURSE_NUMBER = "Course Number";
+	public static final String TERM_SPEC_RESOLVER_COURSE_NUMBER = "courseNumberTermResolver";
 	public static final String COURSE_NUMBER_DESCR = "Course Number Specification";
 	public static final String TERM_SPEC_DATE = "Date";
+	public static final String TERM_SPEC_RESOLVER_DATE = "dateTermResolver";
 	public static final String DATE_DESCR = "Date Term Specification";
 	public static final String TERM_SPEC_GPA = "GPA";
+	public static final String TERM_SPEC_RESOLVER_GPA = "GPATermResolver";
 	public static final String GPA_DESCR = "GPA Term Specification";
 	public static final String TERM_SPEC_GRADE = "Grade";
+	public static final String TERM_SPEC_RESOLVER_GRADE = "gradeTermResolver";
 	public static final String GRADE_DESCR = "Grade Term Specification";
 	public static final String TERM_SPEC_GRADE_TYPE = "GradeType";
+	public static final String TERM_SPEC_RESOLVER_GRADE_TYPE = "gradeTypeTermResolver";
 	public static final String GRADE_TYPE_DESCR = "Grade Type Term Specification";
 	public static final String TERM_SPEC_LEARNING_OBJECTIVES = "Learning Objectives";
+	public static final String TERM_SPEC_RESOLVER_LEARNING_OBJECTIVES = "learningObjectivesTermResolver";
 	public static final String LEARNING_OBJECTIVES_DESCR = "Learning Objective Term Specification";
 	public static final String TERM_SPEC_SUBJECT_CODE = "Subject Code";
+	public static final String TERM_SPEC_RESOLVER_SUBJECT_CODE = "subjectCodeTermResolver";
 	public static final String SUBJECT_CODE_DESCR = "Subject Code Term Specification";
 	public static final String TERM_SPEC_TEXT = "Text";
+	public static final String TERM_SPEC_RESOLVER_TEXT = "textTermResolver";
 	public static final String TEXT_DESCR = "Text Term Specification";
 
 	
@@ -48,7 +59,8 @@ public class KSKRMSConstants {
 	public static final String TERM_COMPLETED_COURSE = "Completed courses";
 	public static final String TERM_ENROLLED_COURSE = "Enrolled course by term";
 	
-	public static final String CONTEXT_TYPE_COURSE = "KSLumContextType-Course";
+	public static final String KS_AGENDA_TYPE = "KSAgendaType";
+	public static final String KS_TERM_RESOLVER_TYPE = "KSKRMSTermResolverTypeService";
 	
 	public static final String CONTEXT_ANTI_REQUISITE = "Antirequisite";
 	public static final String CONTEXT_CORE_REQUISITE = "Corerequisite";
@@ -69,6 +81,10 @@ public class KSKRMSConstants {
 	public static final String AGENDA10 = "Free form text";
 	public static final String AGENDA11 = "Must have earned a cumulative GPA of <GPA>";
 	
+	public static final String PERSON_ID_TERM_PROPERTY = "personIdProperty";
+	public static final String COURSE_CODE_TERM_PROPERTY = "courseCodeProperty";
+	//		
+	public static final String CONTEXT_INFO_TERM_NAME = "contextInfo";
 	
 	
 	

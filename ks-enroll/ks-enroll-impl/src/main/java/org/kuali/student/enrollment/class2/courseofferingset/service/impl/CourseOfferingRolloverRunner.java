@@ -188,7 +188,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
             }
             i++;
         }
-        reportProgress(items, i);
+        reportProgress(items, i-errors);      // Items Processed = Items - Errors
         // mark finished
         result = socService.getSocRolloverResult(result.getId(), context);
         result.setStateKey(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY);

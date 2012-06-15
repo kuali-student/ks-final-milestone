@@ -14,38 +14,18 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
-import org.kuali.student.enrollment.academicrecord.dto.CreditsGradeInfo;
-import org.kuali.student.enrollment.academicrecord.dto.ExternalCredentialRecordInfo;
-import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
-import org.kuali.student.enrollment.academicrecord.dto.HonorsInfo;
-import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
-import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.dto.StudentRankInfo;
-import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
-import org.kuali.student.enrollment.academicrecord.dto.StudentTransferCreditRecordInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 /**
  * This class holds the constants used by the Academic Record service
  *
  * @author tom
- *
- * @Version 2.0
- * @Author Sri komandur@uw.edu
  */
 public class AcademicRecordServiceConstants {
+
     /**
      * Reference Object URI's
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "academicrecord";
-    public static final String SERVICE_NAME_LOCAL_PART = "AcademicRecordService";
-    public static final String REF_OBJECT_URI_CREDITS_GRADE = NAMESPACE + "/" + CreditsGradeInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_EXTERNAL_CREDENTIAL_RECORD = NAMESPACE + "/" + ExternalCredentialRecordInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_GPA = NAMESPACE + "/" + GPAInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_HONORS = NAMESPACE + "/" + HonorsInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_LOAD = NAMESPACE + "/" + LoadInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_STUDENT_COURSE_RECORD = NAMESPACE + "/" + StudentCourseRecordInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_STUDENT_RANK = NAMESPACE + "/" + StudentRankInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_STUDENT_TEST_SCORE_RECORD = NAMESPACE + "/" + StudentTestScoreRecordInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_STUDENT_TRANSFER_CREDIT_RECORD = NAMESPACE + "/" + StudentTransferCreditRecordInfo.class.getSimpleName();
+    public static final String SERVICE_NAME = "AcademicRecordService";
 }

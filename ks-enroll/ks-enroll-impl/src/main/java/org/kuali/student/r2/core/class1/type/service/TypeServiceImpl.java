@@ -132,9 +132,10 @@ public class TypeServiceImpl implements TypeService {
         }
         entity = new TypeEntity(typeInfo);
         entity.setId(typeKey);
-       
-        entity.setEntityCreated(contextInfo);
-        
+        entity.setCreateId(contextInfo.getPrincipalId());
+        entity.setCreateTime(contextInfo.getCurrentDate());
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
         typeDao.persist(entity);
         return entity.toDto();
     }
@@ -148,9 +149,8 @@ public class TypeServiceImpl implements TypeService {
             throw new DoesNotExistException(typeKey);
         }
         entity.fromDto(typeInfo);
-
-        entity.setEntityUpdated(contextInfo);
-        
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
         typeDao.merge(entity);
         return entity.toDto();
     }
@@ -235,9 +235,10 @@ public class TypeServiceImpl implements TypeService {
         entity.setType(typeTypeRelationTypeKey);
         entity.setOwnerTypeId(ownerTypeKey);
         entity.setRelatedTypeId(relatedTypeKey);
-      
-        entity.setEntityCreated(contextInfo);
-        
+        entity.setCreateId(contextInfo.getPrincipalId());
+        entity.setCreateTime(contextInfo.getCurrentDate());
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
         typeTypeRelationDao.persist(entity);
         return entity.toDto();
     }
@@ -252,9 +253,8 @@ public class TypeServiceImpl implements TypeService {
             throw new DoesNotExistException(typeTypeRelationKey);
         }
         entity.fromDto(typeTypeRelationInfo);
-
-        entity.setEntityUpdated(contextInfo);
-        
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
         typeTypeRelationDao.merge(entity);
         return entity.toDto();
 

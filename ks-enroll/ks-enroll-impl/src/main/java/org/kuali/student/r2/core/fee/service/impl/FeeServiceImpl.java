@@ -101,9 +101,10 @@ public class FeeServiceImpl implements FeeService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public EnrollmentFeeInfo createFee(String feeTypeKey, EnrollmentFeeInfo feeInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         EnrollmentFeeEntity feeEntity = new EnrollmentFeeEntity(feeInfo);
-       
-        feeEntity.setEntityCreated(contextInfo);
-        
+        feeEntity.setCreateId(contextInfo.getPrincipalId());
+        feeEntity.setCreateTime(contextInfo.getCurrentDate());
+        feeEntity.setUpdateId(contextInfo.getPrincipalId());
+        feeEntity.setUpdateTime(contextInfo.getCurrentDate());
         enrollmentFeeDao.persist(feeEntity);
         return feeEntity.toDto();
     }
@@ -117,9 +118,8 @@ public class FeeServiceImpl implements FeeService {
         EnrollmentFeeEntity feeEntity = enrollmentFeeDao.find(feeId);
         if (null != feeEntity) {
             feeEntity.fromDto(feeInfo);
-            
-            feeEntity.setEntityUpdated(contextInfo);
-            
+            feeEntity.setUpdateId(contextInfo.getPrincipalId());
+            feeEntity.setUpdateTime(contextInfo.getCurrentDate());
             enrollmentFeeDao.merge(feeEntity);
             return feeEntity.toDto();
         } else {

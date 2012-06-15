@@ -17,17 +17,13 @@ import java.util.Map;
 
 import static org.apache.commons.lang.StringUtils.isEmpty;
 
-/**
- * @deprecated This class is leftover from Core Slice. Delete when no longer needed or un deprecate if needed.
- */
-@Deprecated
 public class CourseInfoLookupableImpl extends LookupableImpl {
 	private static final long serialVersionUID = 1L;	
 	
     private transient LuService luService;
     private transient CourseService courseService;
 
-    private enum QueryParamEnum {
+    public enum QueryParamEnum {
         ID("lu.queryParam.luOptionalId","id"),
         SUBJECT("lu.queryParam.luOptionalStudySubjectArea", "subjectArea"),
         CODE("lu.queryParam.luOptionalCode", "code"),

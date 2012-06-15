@@ -5350,7 +5350,6 @@
         </foreign-key>
     </table>
     <table name="KSEN_LUI_RESULT_VAL_GRP">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="LUI_ID" required="true" size="255" type="VARCHAR"/>
         <column name="RESULT_VAL_GRP_ID" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUI_RESULT_VAL_GRP_FK1">
@@ -5365,7 +5364,6 @@
         </index>
     </table>
     <table name="KSEN_LUI_UNITS_CONT_OWNER">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="LUI_ID" required="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUI_UNITS_CONT_OWNER_FK1">
@@ -8733,7 +8731,7 @@
     <sequence name="KREW_ACTN_RQST_S" nextval="2369"/>
     <sequence name="KREW_ACTN_TKN_S" nextval="2332"/>
     <sequence name="KREW_ATTR_DEFN_S" nextval="10000"/>
-    <sequence name="KREW_DOC_HDR_S" nextval="3025"/>
+    <sequence name="KREW_DOC_HDR_S" nextval="3027"/>
     <sequence name="KREW_DOC_LNK_S" nextval="2000"/>
     <sequence name="KREW_DOC_NTE_S" nextval="2020"/>
     <sequence name="KREW_DOC_TYP_ATTR_S" nextval="2010"/>
@@ -8745,8 +8743,8 @@
     <sequence name="KREW_PPL_FLW_MBR_S" nextval="10000"/>
     <sequence name="KREW_PPL_FLW_S" nextval="10000"/>
     <sequence name="KREW_RSP_S" nextval="2065"/>
-    <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2641"/>
-    <sequence name="KREW_RTE_NODE_S" nextval="2968"/>
+    <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2646"/>
+    <sequence name="KREW_RTE_NODE_S" nextval="2969"/>
     <sequence name="KREW_RTE_TMPL_S" nextval="1645"/>
     <sequence name="KREW_RULE_EXPR_S" nextval="2002"/>
     <sequence name="KREW_RULE_TMPL_OPTN_S" nextval="2020"/>

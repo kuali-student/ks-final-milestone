@@ -575,12 +575,12 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 	// methods used
 	private KrmsTypeDefinition getKSKRMSType(String nameSpace) {
 		KrmsTypeDefinition krmsContextTypeDefinition = krmsTypeRepository
-				.getTypeByName(nameSpace, KSKRMSConstants.CONTEXT_TYPE_COURSE);
+				.getTypeByName(nameSpace, KSKRMSConstants.KS_AGENDA_TYPE);
 
 		if (krmsContextTypeDefinition == null) {
 
 			KrmsTypeDefinition.Builder krmsContextTypeDefnBuilder = KrmsTypeDefinition.Builder
-					.create(KSKRMSConstants.CONTEXT_TYPE_COURSE, nameSpace);
+					.create(KSKRMSConstants.KS_AGENDA_TYPE, nameSpace);
 			krmsContextTypeDefnBuilder.setServiceName("myKSService");
 
 			// TODO KSKRMS not sure where the Attributes fit in and how they

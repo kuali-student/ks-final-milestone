@@ -25,7 +25,7 @@
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm">
     <property name="header">
-        <bean parent="Uif-HeaderTwo"/>
+        <bean parent="Uif-HeaderOne"/>
     </property>
 
     <property name="footer">
@@ -58,10 +58,10 @@
                                                               p:label="Target Term" p:labelPlacement="TOP"
                                                               p:required="true">
                                                             <property name="control">
-                                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2009" p:minLength="7" p:maxLength="7"/>
+                                                                <bean parent="Uif-TextControl" p:size="5" p:watermarkText="20132" p:minLength="5" p:maxLength="5"/>
                                                             </property>
                                                         </bean>
-                                                        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm" p:valign="bottom"/>
+                                                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm" p:valign="bottom"/>
                                                     </list>
                                                 </property>
                                             </bean>
@@ -72,7 +72,6 @@
                                                         <bean parent="Uif-DataField" p:propertyName="displayedTargetTermCode" p:label="Term Code"/>
                                                         <bean parent="Uif-DataField" p:propertyName="targetTermStartDate" p:label="Term Start Date"/>
                                                         <bean parent="Uif-DataField" p:propertyName="targetTermEndDate" p:label="Term End Date"/>
-                                                        <bean parent="Uif-DataField" p:propertyName="targetLastRolloverDate" p:label="Last Rollover Date"/>
                                                     </list>
                                                 </property>
                                             </bean>
@@ -93,11 +92,11 @@
                                                     <list>
                                                         <bean parent="Uif-InputField" p:propertyName="sourceTermCode" p:label="Source Term" p:labelPlacement="TOP" p:required="true">
                                                             <property name="control">
-                                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2008" p:minLength="7" p:maxLength="7"/>
+                                                                <bean parent="Uif-TextControl" p:size="5" p:watermarkText="20122" p:minLength="5" p:maxLength="5"/>
                                                             </property>
                                                         </bean>
 
-                                                        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goSourceTerm"/>
+                                                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goSourceTerm" p:valign="middle"/>
                                                     </list>
                                                 </property>
                                             </bean>
@@ -124,10 +123,7 @@
                 <bean parent="Uif-FooterBase">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Rollover" p:methodToCall="performRollover"/>
-                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set up Source Term" p:methodToCall="setUpSourceTerm"/>
-                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Reverse Rollover" p:methodToCall="performReverseRollover"/>
-                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Clean Target" p:methodToCall="cleanTargetTerm"/>
+                            <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Rollover Course Offerings" p:methodToCall="performRollover"/>
                             <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
                         </list>
                     </property>

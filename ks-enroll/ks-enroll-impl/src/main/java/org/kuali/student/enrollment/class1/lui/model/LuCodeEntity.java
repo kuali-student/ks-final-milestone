@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
@@ -51,20 +52,20 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
         fromDto(luCode);
     }
 
-    public void fromDto(LuCode luCode) {
+    public List<Object> fromDto(LuCode luCode) {
+        List<Object> orphansToDelete = new ArrayList<Object>();
+
         this.setValue(luCode.getValue());
         if (luCode.getDescr() != null) {
             RichText rt = luCode.getDescr();
             this.setDescrFormatted(rt.getFormatted());
             this.setDescrPlain(rt.getPlain());
         }
-        this.setAttributes(new HashSet<LuCodeAttributeEntity>());
-        if (null != luCode.getAttributes()) {
-            for (Attribute att : luCode.getAttributes()) {
-                LuCodeAttributeEntity attEntity = new LuCodeAttributeEntity(att);
-                this.getAttributes().add(attEntity);
-            }
-        }
+
+        //Attributes
+        orphansToDelete.addAll(TransformUtility.mergeToEntityAttributes(LuCodeAttributeEntity.class, luCode, this));
+
+        return orphansToDelete;
     }
 
     public LuCodeInfo toDto() {
@@ -79,12 +80,9 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
             obj.setDescr(rti);
         }
         obj.setMeta(super.toDTO());
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (LuCodeAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
-        }
-        obj.setAttributes(atts);
+
+        // Attributes
+        obj.setAttributes(TransformUtility.toAttributeInfoList(this));
 
         return obj;
     }

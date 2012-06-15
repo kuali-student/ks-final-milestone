@@ -158,41 +158,52 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		termSpec = createKRMSTermSpecification(nameSpace,
 				KSKRMSConstants.TERM_SPEC_CREDITS,
 				KSKRMSConstants.CREDITS_DESCR, String.class.getCanonicalName());
+		// NOTE the term resolver must be defined as a spring bean under the name given here.
+		createKRMSTermResolver(KSKRMSConstants.TERM_SPEC_RESOLVER_CREDITS, termSpec);
 		termSpec = createKRMSTermSpecification(nameSpace,
 				KSKRMSConstants.TERM_SPEC_ORG_NUMBER,
 				KSKRMSConstants.ORG_NUMBER_DESCR,
 				String.class.getCanonicalName());
+		createKRMSTermResolver(KSKRMSConstants.TERM_SPEC_RESOLVER_ORG_NUMBER, termSpec);
 		termSpec = createKRMSTermSpecification(nameSpace,
 				KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.COURSE_DESCR,
 				String.class.getCanonicalName());
+		createKRMSTermResolver(KSKRMSConstants.TERM_SPEC_RESOLVER_COURSE, termSpec);
 		termSpec = createKRMSTermSpecification(nameSpace,
 				KSKRMSConstants.TERM_SPEC_COURSE_NUMBER,
 				KSKRMSConstants.COURSE_NUMBER_DESCR, "int");
+		createKRMSTermResolver(KSKRMSConstants.TERM_SPEC_RESOLVER_COURSE_NUMBER, termSpec);
 		termSpec = createKRMSTermSpecification(nameSpace,
 				KSKRMSConstants.TERM_SPEC_DATE, KSKRMSConstants.DATE_DESCR,
 				"Java.util.Date");
+		createKRMSTermResolver(KSKRMSConstants.TERM_SPEC_RESOLVER_DATE, termSpec);
 		termSpec = createKRMSTermSpecification(nameSpace,
 				KSKRMSConstants.TERM_SPEC_GPA, KSKRMSConstants.GPA_DESCR,
 				String.class.getCanonicalName());
+		createKRMSTermResolver(KSKRMSConstants.TERM_SPEC_RESOLVER_GPA, termSpec);
 		termSpec = createKRMSTermSpecification(nameSpace,
 				KSKRMSConstants.TERM_SPEC_GRADE, KSKRMSConstants.GRADE_DESCR,
 				String.class.getCanonicalName());
+		createKRMSTermResolver(KSKRMSConstants.TERM_SPEC_RESOLVER_GRADE, termSpec);
 		termSpec = createKRMSTermSpecification(nameSpace,
 				KSKRMSConstants.TERM_SPEC_GRADE_TYPE,
 				KSKRMSConstants.GRADE_TYPE_DESCR,
 				String.class.getCanonicalName());
+		createKRMSTermResolver(KSKRMSConstants.TERM_SPEC_RESOLVER_GRADE_TYPE, termSpec);
 		termSpec = createKRMSTermSpecification(nameSpace,
 				KSKRMSConstants.TERM_SPEC_LEARNING_OBJECTIVES,
 				KSKRMSConstants.LEARNING_OBJECTIVES_DESCR,
 				String.class.getCanonicalName());
+		createKRMSTermResolver(KSKRMSConstants.TERM_SPEC_RESOLVER_LEARNING_OBJECTIVES, termSpec);
 		termSpec = createKRMSTermSpecification(nameSpace,
 				KSKRMSConstants.TERM_SPEC_SUBJECT_CODE,
 				KSKRMSConstants.SUBJECT_CODE_DESCR,
 				String.class.getCanonicalName());
+		createKRMSTermResolver(KSKRMSConstants.TERM_SPEC_RESOLVER_SUBJECT_CODE, termSpec);
 		termSpec = createKRMSTermSpecification(nameSpace,
 				KSKRMSConstants.TERM_SPEC_TEXT, KSKRMSConstants.TEXT_DESCR,
 				String.class.getCanonicalName());
-
+		createKRMSTermResolver(KSKRMSConstants.TERM_SPEC_RESOLVER_TEXT, termSpec);
 	}
 
 	private TermSpecificationDefinition createKRMSTermSpecification(
@@ -229,59 +240,72 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		String nameSpace = KSNAMESPACE;
 		// Create all the terms...
 		// createNumberOfCreditsTermDefinition(nameSpace);
+		//
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_APPROVED_COURSE);
+				KSKRMSConstants.TERM_APPROVED_COURSE, null);
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_APPROVED_COURSES);
+				KSKRMSConstants.TERM_APPROVED_COURSES, null);
 		createKRMSTermDefinition(nameSpace,
 				KSKRMSConstants.TERM_SPEC_COURSE_NUMBER,
-				KSKRMSConstants.TERM_COURSE_NUMBER_RANGE);
+				KSKRMSConstants.TERM_COURSE_NUMBER_RANGE, null);
 		createKRMSTermDefinition(nameSpace,
 				KSKRMSConstants.TERM_SPEC_SUBJECT_CODE,
-				KSKRMSConstants.TERM_SUBJECT_CODE);
+				KSKRMSConstants.TERM_SUBJECT_CODE, null);
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_TEXT,
-				KSKRMSConstants.TERM_COURSE_SET);
+				KSKRMSConstants.TERM_COURSE_SET, null);
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_DATE,
-				KSKRMSConstants.TERM_DATE_EFFECTIVE_FROM);
+				KSKRMSConstants.TERM_DATE_EFFECTIVE_FROM, null);
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_DATE,
-				KSKRMSConstants.TERM_DATE_EFFECTIVE_TO);
+				KSKRMSConstants.TERM_DATE_EFFECTIVE_TO, null);
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_GPA,
-				KSKRMSConstants.TERM_GPA);
+				KSKRMSConstants.TERM_GPA, null);
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE,
-				KSKRMSConstants.TERM_GRADE);
+				KSKRMSConstants.TERM_GRADE, null);
 		createKRMSTermDefinition(nameSpace,
 				KSKRMSConstants.TERM_SPEC_GRADE_TYPE,
-				KSKRMSConstants.TERM_GRADE_TYPE);
+				KSKRMSConstants.TERM_GRADE_TYPE, null);
 		createKRMSTermDefinition(nameSpace,
 				KSKRMSConstants.TERM_SPEC_LEARNING_OBJECTIVES,
-				KSKRMSConstants.TERM_LEARNING_OBJ_DESCRIPTION);
+				KSKRMSConstants.TERM_LEARNING_OBJ_DESCRIPTION, null);
 		createKRMSTermDefinition(nameSpace,
 				KSKRMSConstants.TERM_SPEC_COURSE_NUMBER,
-				KSKRMSConstants.TERM_NUMBER_OF_COURSES);
+				KSKRMSConstants.TERM_NUMBER_OF_COURSES, null);
 		createKRMSTermDefinition(nameSpace,
 				KSKRMSConstants.TERM_SPEC_COURSE_NUMBER,
-				KSKRMSConstants.TERM_NUMBER_OF_CREDITS);
+				KSKRMSConstants.TERM_NUMBER_OF_CREDITS, null);
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS,
-				KSKRMSConstants.TERM_PROPOSED_COURSE);
+				KSKRMSConstants.TERM_PROPOSED_COURSE, null);
 		createKRMSTermDefinition(nameSpace,
 				KSKRMSConstants.TERM_SPEC_COURSE_NUMBER,
-				KSKRMSConstants.TERM_PROPOSED_COURSES);
+				KSKRMSConstants.TERM_PROPOSED_COURSES, null);
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS,
-				KSKRMSConstants.TERM_SCORE);
+				KSKRMSConstants.TERM_SCORE, null);
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_TEST);
+				KSKRMSConstants.TERM_TEST, null);
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_TEXT,
-				KSKRMSConstants.TERM_FREE_TEXT);
+				KSKRMSConstants.TERM_FREE_TEXT, null);
+        // Term Param
+		List<TermParameterDefinition.Builder> termParameters = new ArrayList<TermParameterDefinition.Builder>();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+        setupTermParameters(termParameters, KSKRMSConstants.COURSE_CODE_TERM_PROPERTY, "???termParameterValue");
+        //
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_COMPLETED_COURSE);
+				KSKRMSConstants.TERM_COMPLETED_COURSE, termParameters);
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_ENROLLED_COURSE);
+				KSKRMSConstants.TERM_ENROLLED_COURSE, null);
 		// createProposedCourseTermDefinition(nameSpace);
 		// createApprovedCourseTermDefinition(nameSpace);
 	}
 
+	private void setupTermParameters(
+			List<TermParameterDefinition.Builder> termParameters, String termParamName, String termParamValue) {
+		TermParameterDefinition.Builder termParamBuilder2 =
+            TermParameterDefinition.Builder.create(null, null, termParamName, termParamValue);
+        termParameters.add(termParamBuilder2);
+	}
+
 	private void createKRMSTermDefinition(String nameSpace,
-			String termSpecName, String termName) {
+			String termSpecName, String termName, List<TermParameterDefinition.Builder> termParameters) {
 
 		Map<String, String> queryArgs = new HashMap<String, String>();
 		queryArgs.put("namespace", nameSpace);
@@ -296,8 +320,15 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 
 		Builder termSpecDefBuilder = TermSpecificationDefinition.Builder
 				.create(termSpec);
+//        // Term Param
+//		List<TermParameterDefinition.Builder> termParameters = new ArrayList<TermParameterDefinition.Builder>();
+//        TermParameterDefinition.Builder termParamBuilder2 =
+//            TermParameterDefinition.Builder.create(null, null, "testParamName", "testParamValue");
+//        termParameters.add(termParamBuilder2);
+
 		TermDefinition.Builder termDefBuilder = TermDefinition.Builder.create(
-				null, termSpecDefBuilder, null);
+				null, termSpecDefBuilder, termParameters);
+		
 		termDefBuilder.setDescription(termName);
 
 		TermDefinition termDefinition = termDefBuilder.build();
@@ -306,11 +337,11 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 
 	}
 
-	@Test
+	// @Test
 	public void createAllContexts() {
 		String nameSpace = KSNAMESPACE;
 		// Create all the contexts...
-		krmsTypeDefinition = getKSKRMSType(nameSpace);
+		krmsTypeDefinition = getKSKRMSType(nameSpace, KSKRMSConstants.KS_AGENDA_TYPE, "testAgendaTypeService");
 		createContext(nameSpace, KSKRMSConstants.CONTEXT_ANTI_REQUISITE,
 				krmsTypeDefinition);
 		createContext(nameSpace, KSKRMSConstants.CONTEXT_CORE_REQUISITE,
@@ -327,15 +358,15 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 
 	}
 
-	private KrmsTypeDefinition getKSKRMSType(String nameSpace) {
-		KrmsTypeDefinition krmsContextTypeDefinition = krmsTypeRepository
-				.getTypeByName(nameSpace, KSKRMSConstants.CONTEXT_TYPE_COURSE);
+	private KrmsTypeDefinition getKSKRMSType(String nameSpace, String typeName, String typeServiceName) {
+		KrmsTypeDefinition krmsAgendaType = krmsTypeRepository
+				.getTypeByName(nameSpace, typeName);
 
-		if (krmsContextTypeDefinition == null) {
+		if (krmsAgendaType == null) {
 
-			KrmsTypeDefinition.Builder krmsContextTypeDefnBuilder = KrmsTypeDefinition.Builder
-					.create(KSKRMSConstants.CONTEXT_TYPE_COURSE, nameSpace);
-			krmsContextTypeDefnBuilder.setServiceName("myKSService");
+			KrmsTypeDefinition.Builder krmsAgendaTypeDefinition = KrmsTypeDefinition.Builder
+					.create(typeName, nameSpace);
+			krmsAgendaTypeDefinition.setServiceName(typeServiceName);
 
 			// TODO KSKRMS not sure where the Attributes fit in and how they
 			// link up
@@ -352,17 +383,17 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 			// }
 			// krmsContextTypeDefnBuilder.setAttributes(contextAttributeBuilders);
 			
-			krmsContextTypeDefinition = krmsTypeRepository
-					.createKrmsType(krmsContextTypeDefnBuilder.build());
-			return krmsContextTypeDefinition;
+			krmsAgendaType = krmsTypeRepository
+					.createKrmsType(krmsAgendaTypeDefinition.build());
+			return krmsAgendaType;
 		}
 		
-		return krmsContextTypeDefinition;
+		return krmsAgendaType;
 	}
 	
-	@Test
+	// @Test
 	public void TestCreateType() {
-		getKSKRMSType(KSNAMESPACE);
+		getKSKRMSType(KSNAMESPACE, KSKRMSConstants.KS_AGENDA_TYPE, "testAgendaTypeService");
 	}
 
 	public ContextDefinition createContext(String nameSpace, String name,
@@ -399,11 +430,25 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		return null;
 	}
 	
-	@Test
+	// @Test
 	public void testTermLookup() {
 		
 		TermDefinition term = krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSE);
 		assertNotNull(term);
+	}
+	
+	public void createKRMSTermResolver(String termResolverName, TermSpecificationDefinition termSpecDefinition) {
+		// KrmsType for TermResolver
+		KrmsTypeDefinition krmsTermResolverTypeDefinition = getKSKRMSType(KSKRMSConstants.KSNAMESPACE, KSKRMSConstants.KS_TERM_RESOLVER_TYPE, "ksKRMSTermResolverTypeService");
+
+        // TermResolver
+		TermResolverDefinition termResolverDef =
+			TermResolverDefinition.Builder.create(null, KSKRMSConstants.KSNAMESPACE, termResolverName, krmsTermResolverTypeDefinition.getId(),
+					TermSpecificationDefinition.Builder.create(termSpecDefinition),
+					null,
+					null,
+					null).build();
+		termResolverDef = termBoService.createTermResolver(termResolverDef);
 	}
 	
 }

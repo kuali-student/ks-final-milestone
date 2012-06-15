@@ -24,7 +24,7 @@
     </bean>
     <bean id="luiService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.LuiServiceMockImpl">
     </bean>
-    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.mock.LprServiceMockImpl">
+    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.mock.LuiPersonRelationServiceMockImpl">
     </bean>
     <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl">
     </bean>
@@ -47,7 +47,10 @@
 <!--    <property name="criteriaLookupService" ref="coCriteriaLookupService"/>-->
         <property name="businessLogic" ref="businessLogic" />
         <property name="atpService" ref="atpService"/>
+        <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
     </bean>
+
+    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
 
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />

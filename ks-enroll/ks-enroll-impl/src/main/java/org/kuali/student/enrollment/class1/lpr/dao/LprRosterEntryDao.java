@@ -1,6 +1,6 @@
 package org.kuali.student.enrollment.class1.lpr.dao;
 
-import org.kuali.student.enrollment.class1.roster.model.LprRosterEntryEntity;
+import org.kuali.student.enrollment.class1.lpr.model.LprRosterEntryEntity;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 
 import java.util.List;

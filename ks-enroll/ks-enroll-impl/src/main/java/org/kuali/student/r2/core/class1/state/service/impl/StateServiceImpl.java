@@ -162,9 +162,10 @@ public class StateServiceImpl implements StateService {
 
         entity = new LifecycleEntity(lifecycleInfo);
         entity.setId(lifecycleKey);
-        
-        entity.setEntityCreated(contextInfo);
-        
+        entity.setCreateId(contextInfo.getPrincipalId());
+        entity.setCreateTime(contextInfo.getCurrentDate());
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
         lifecycleDao.persist(entity);
         return entity.toDto();
     }
@@ -178,9 +179,8 @@ public class StateServiceImpl implements StateService {
             throw new DoesNotExistException(lifecycleKey);
         }
         entity.fromDto(lifecycleInfo);
-        
-        entity.setEntityUpdated(contextInfo);
-        
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
         lifecycleDao.merge(entity);
         return entity.toDto();
     }
@@ -276,9 +276,10 @@ public class StateServiceImpl implements StateService {
         entity = new StateEntity(stateInfo);
         entity.setId(stateKey);
         entity.setLifecycleKey(lifecycleKey);
-       
-        entity.setEntityCreated(contextInfo);
-        
+        entity.setCreateId(contextInfo.getPrincipalId());
+        entity.setCreateTime(contextInfo.getCurrentDate());
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
         stateDao.persist(entity);
         return entity.toDto();
     }
@@ -294,9 +295,8 @@ public class StateServiceImpl implements StateService {
             throw new DoesNotExistException(stateKey);
         }
         entity.fromDto(stateInfo);
-
-        entity.setEntityUpdated(contextInfo);
-        
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
         stateDao.merge(entity);
         return entity.toDto();
     }

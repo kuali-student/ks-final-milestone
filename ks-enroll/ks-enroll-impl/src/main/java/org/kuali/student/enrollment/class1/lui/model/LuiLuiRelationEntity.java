@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class1.lui.model;
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.infc.LuiLuiRelation;
+import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -50,7 +51,9 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
         fromDto(luiLuiRelation);
     }
 
-    public void fromDto(LuiLuiRelation luiLuiRelation) {
+    public List<Object> fromDto(LuiLuiRelation luiLuiRelation) {
+        List<Object> orphansToDelete = new ArrayList<Object>();
+
         this.setEffectiveDate(luiLuiRelation.getEffectiveDate());
         this.setExpirationDate(luiLuiRelation.getExpirationDate());
         this.setLuiLuiRelationState(luiLuiRelation.getStateKey());
@@ -62,11 +65,12 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
             this.setDescrFormatted(luiLuiRelation.getDescr().getFormatted());
             this.setDescrPlain(luiLuiRelation.getDescr().getPlain());
         }
-        this.setAttributes(new HashSet<LuiLuiRelationAttributeEntity>());
-        for (Attribute att : luiLuiRelation.getAttributes()) {
-            this.getAttributes().add(new LuiLuiRelationAttributeEntity(att));
-        }
-    }
+
+        //Attributes
+        orphansToDelete.addAll(TransformUtility.mergeToEntityAttributes(LuiLuiRelationAttributeEntity.class, luiLuiRelation, this));
+
+        return orphansToDelete;
+     }
 
     public LuiLuiRelationInfo toDto() {
         LuiLuiRelationInfo info = new LuiLuiRelationInfo();
@@ -83,12 +87,10 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
         info.setTypeKey(luiLuiRelationType);
         info.setMeta(super.toDTO());
         info.setDescr(new RichTextHelper().toRichTextInfo(plain, formatted));
-        if (getAttributes() != null) {
-            for (LuiLuiRelationAttributeEntity att : getAttributes()) {
-                AttributeInfo attInfo = att.toDto();
-                info.getAttributes().add(attInfo);
-            }
-        }
+
+        //Attributes
+        info.setAttributes(TransformUtility.toAttributeInfoList(this));
+
         return info;
     }
 

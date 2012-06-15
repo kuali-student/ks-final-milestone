@@ -1,11 +1,13 @@
 package org.kuali.student.enrollment.class2.grading.service.assembler;
 
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
+import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
+import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
+import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import java.util.List;
-import org.kuali.student.enrollment.roster.dto.LprRosterEntryInfo;
 
 public class GradeRosterEntryAssembler implements DTOAssembler<GradeRosterEntryInfo, LprRosterEntryInfo> {
 

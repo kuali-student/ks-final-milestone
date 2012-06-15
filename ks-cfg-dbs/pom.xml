@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.3.0-services-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-cfg-dbs</artifactId>
@@ -45,7 +45,7 @@
     <ks.impex.date.format>yyyyMMddHHmmss</ks.impex.date.format>
 
     <!-- Oracle specific properties -->
-    <ks.impex.masterdb.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.impex.masterdb.url>
+    <ks.impex.masterdb.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</ks.impex.masterdb.url>
     <ks.impex.masterdb.schema>KSMASTER</ks.impex.masterdb.schema>
     <ks.impex.masterdb.username>KSMASTER</ks.impex.masterdb.username>
     <ks.impex.masterdb.password>KSMASTER</ks.impex.masterdb.password>
@@ -57,7 +57,7 @@
     <ks.impex.oracle.quota>UNLIMITED</ks.impex.oracle.quota>
     <ks.impex.oracle.error.sqlcode.userDoesNotExist>-01918</ks.impex.oracle.error.sqlcode.userDoesNotExist>
     <ks.impex.oracle.error.sqlcode.userAlreadyExists>-01920</ks.impex.oracle.error.sqlcode.userAlreadyExists>
-    <ks.impex.oracle.dba.username>SYS AS SYSDBA</ks.impex.oracle.dba.username>
+    <ks.impex.oracle.dba.username>master</ks.impex.oracle.dba.username>
     <ks.impex.oracle.dba.password>change_on_install</ks.impex.oracle.dba.password>
 
     <!-- Simple select query for validating connection properties -->
@@ -91,31 +91,16 @@
 
     <!-- Grant permissions needed for KS -->
     <ks.impex.oracle.sql.grants>
-      GRANT CREATE PROCEDURE
-      , CREATE SEQUENCE
-      , CREATE SESSION
-      , CREATE SYNONYM
-      , CREATE TABLE
-      ,
-      CREATE TRIGGER
-      , CREATE TYPE
-      , CREATE VIEW
-      TO ${ks.impex.username}
-      /
-
-      GRANT SELECT ON pending_trans$ to
-      ${ks.impex.username}
-      /
-
-      GRANT SELECT ON dba_2pc_pending to ${ks.impex.username}
-      /
-
-      GRANT SELECT ON
-      dba_pending_transactions to ${ks.impex.username}
-      /
-
-      GRANT EXECUTE ON dbms_system to ${ks.impex.username}
-      /
+    GRANT CREATE PROCEDURE
+    , CREATE SEQUENCE
+    , CREATE SESSION
+    , CREATE SYNONYM
+    , CREATE TABLE
+    , CREATE TRIGGER
+    , CREATE TYPE
+    , CREATE VIEW
+    TO ${ks.impex.username}
+    /
     </ks.impex.oracle.sql.grants>
     <!-- This is executed just before generating XML from the master db -->
     <ks.impex.oracle.sql.pre.export>

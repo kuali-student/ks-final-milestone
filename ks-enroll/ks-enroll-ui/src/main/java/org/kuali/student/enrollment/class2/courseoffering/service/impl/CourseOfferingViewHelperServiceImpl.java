@@ -94,7 +94,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         coTrans.copyFromCanonical(courseInfo, coInfo, copyOptions);
         coInfo.setCourseOfferingTitle("Intro to Finite Math");
         coInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-        coInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        coInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
         coInfo.setMinimumEnrollment(5);
         coInfo.setMaximumEnrollment(40);
 //        // info.setCourseId("REFERENCECOURSEMATH140");
@@ -128,7 +128,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         foInfo.setCourseOfferingId(coInfo.getId());
         foInfo.setFormatId("10f433ba-50e4-4037-a727-4ea7747c3e6b"); // Format for CHEM241
         foInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-        foInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        foInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY);
         try {
             FormatOfferingInfo result =
                     coService.createFormatOffering(coInfo.getId(), foInfo.getFormatId(), foInfo.getTypeKey(), foInfo, new ContextInfo());
@@ -144,7 +144,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         aoInfo.setActivityId("f0072e90-3aed-4d9b-8a5a-e7efe317a686"); // Lecture for CHEM241
         aoInfo.setName("DEVTEST_activity");
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-        aoInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
         aoInfo.setActivityCode("A");
         aoInfo.setCourseOfferingCode(coInfo.getCourseOfferingCode());
         aoInfo.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
@@ -259,6 +259,42 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         } catch (Exception e) {
             e.printStackTrace();
             return e.getMessage();
+        }
+    }
+
+    private int _mainSocCount(List<String> socIds) {
+        int mainSocCount = 0;
+        try {
+            for (String socId: socIds) {
+                SocInfo socInfo = socService.getSoc(socId, new ContextInfo());
+                if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                    mainSocCount++;
+                }
+            }
+        } catch (Exception e) {
+            return -1;
+        }
+        return mainSocCount;
+    }
+
+    @Override
+    public boolean termHasSoc(String termId, CourseOfferingRolloverManagementForm form) {
+        CourseOfferingSetService socService = _getSocService();
+        try {
+            List<String> socIds = socService.getSocIdsByTerm(termId, new ContextInfo());
+            if (socIds == null || socIds.isEmpty()) {
+                form.setStatusField("No SOCS in source term");
+                return false;
+            } else {
+                int mainSocCount = _mainSocCount(socIds);
+                if (mainSocCount != 1) {
+                    form.setStatusField("Wrong number of SOCS in source term: " + socIds.size());
+                    return false;
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 

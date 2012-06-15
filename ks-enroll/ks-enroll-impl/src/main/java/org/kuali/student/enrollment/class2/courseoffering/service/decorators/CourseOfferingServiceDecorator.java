@@ -24,34 +24,6 @@ import javax.jws.WebParam;
 
 
 public class CourseOfferingServiceDecorator implements CourseOfferingService {
-    private CourseOfferingService nextDecorator;
-
-    public CourseOfferingService getNextDecorator() throws OperationFailedException {
-        if (null == nextDecorator) {
-            throw new OperationFailedException("Misconfigured application: nextDecorator is null");
-        }
-        return nextDecorator;
-    }
-
-    public void setNextDecorator(CourseOfferingService nextDecorator) {
-        this.nextDecorator = nextDecorator;
-    }
-
-    @Override
-    public TypeInfo getCourseOfferingType(String courseOfferingTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseOfferingType(courseOfferingTypeKey, context);
-    }        
-
-    @Override
-    public List<TypeInfo> getCourseOfferingTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseOfferingTypes(context);
-    }
-
-    @Override
-    public List<TypeInfo> getInstructorTypesForCourseOfferingType(String courseOfferingTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getInstructorTypesForCourseOfferingType(courseOfferingTypeKey, context);
-    }
-
     @Override
     public StatusInfo deleteCourseOfferingCascaded(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteCourseOfferingCascaded(courseOfferingId,  context);
@@ -65,6 +37,19 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     @Override
     public RegistrationGroupInfo createRegistrationGroup( String formatOfferingId, String registrationGroupType,  RegistrationGroupInfo registrationGroupInfo,  ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createRegistrationGroup(formatOfferingId,registrationGroupType, registrationGroupInfo,  context);
+    }
+
+    private CourseOfferingService nextDecorator;
+
+    public CourseOfferingService getNextDecorator() throws OperationFailedException {
+        if (null == nextDecorator) {
+            throw new OperationFailedException("Misconfigured application: nextDecorator is null");
+        }
+        return nextDecorator;
+    }
+
+    public void setNextDecorator(CourseOfferingService nextDecorator) {
+        this.nextDecorator = nextDecorator;
     }
 
     @Override
@@ -336,11 +321,6 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     @Override
     public TypeInfo getActivityOfferingType(String activityOfferingTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getActivityOfferingType(activityOfferingTypeKey, context);
-    }
-
-    @Override
-    public List<TypeInfo> getInstructorTypesForActivityOfferingType(String activityOfferingTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getInstructorTypesForActivityOfferingType(activityOfferingTypeKey, context);
     }
 
     @Override
