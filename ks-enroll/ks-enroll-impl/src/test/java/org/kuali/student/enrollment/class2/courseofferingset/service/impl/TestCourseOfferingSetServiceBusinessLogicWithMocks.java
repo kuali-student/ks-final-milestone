@@ -290,7 +290,8 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         assertNotNull(targetCo1);
         assertEquals(sourceCo1.getCourseId(), targetCo1.getCourseId());
         assertEquals(targetTerm.getId(), targetCo1.getTermId());
-        assertEquals(sourceCo1.getStateKey(), targetCo1.getStateKey());
+// This test no longer valid since states can change from source to target
+//        assertEquals(sourceCo1.getStateKey(), targetCo1.getStateKey());
         assertEquals(sourceCo1.getTypeKey(), targetCo1.getTypeKey());
         assertEquals(sourceCo1.getCourseOfferingTitle(), targetCo1.getCourseOfferingTitle());
 
@@ -299,7 +300,8 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         FormatOfferingInfo targetFo1 = targetFo1s.get(0);
         assertEquals(sourceFo1.getFormatId(), targetFo1.getFormatId());
         assertEquals(targetTerm.getId(), targetFo1.getTermId());
-        assertEquals(sourceFo1.getStateKey(), targetFo1.getStateKey());
+// This test no longer valid since states can change from source to target
+//        assertEquals(sourceFo1.getStateKey(), targetFo1.getStateKey());
         assertEquals(sourceFo1.getTypeKey(), targetFo1.getTypeKey());
         assertEquals(sourceFo1.getName(), targetFo1.getName());
 
@@ -309,7 +311,8 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         assertNotNull(targetAo1A);
         assertEquals(sourceAo1A.getActivityId(), targetAo1A.getActivityId());
         assertEquals(targetTerm.getId(), targetAo1A.getTermId());
-        assertEquals(sourceAo1A.getStateKey(), targetAo1A.getStateKey());
+// This test no longer valid since states can change from source to target
+//        assertEquals(sourceAo1A.getStateKey(), targetAo1A.getStateKey());
         assertEquals(sourceAo1A.getTypeKey(), targetAo1A.getTypeKey());
         assertEquals(sourceAo1A.getName(), targetAo1A.getName());
         assertEquals(sourceAo1A.getActivityCode(), targetAo1A.getActivityCode());
@@ -318,7 +321,8 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         assertNotNull(targetAo1B);
         assertEquals(sourceAo1B.getActivityId(), targetAo1B.getActivityId());
         assertEquals(targetTerm.getId(), targetAo1B.getTermId());
-        assertEquals(sourceAo1B.getStateKey(), targetAo1B.getStateKey());
+// This test no longer valid since states can change from source to target
+//        assertEquals(sourceAo1B.getStateKey(), targetAo1B.getStateKey());
         assertEquals(sourceAo1B.getTypeKey(), targetAo1B.getTypeKey());
         assertEquals(sourceAo1B.getName(), targetAo1B.getName());
         assertEquals(sourceAo1B.getActivityCode(), targetAo1B.getActivityCode());
@@ -335,7 +339,8 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         assertNotNull(targetCo2);
         assertEquals(sourceCo2.getCourseId(), targetCo2.getCourseId());
         assertEquals(targetTerm.getId(), targetCo2.getTermId());
-        assertEquals(sourceCo2.getStateKey(), targetCo2.getStateKey());
+// This test no longer valid since states can change from source to target
+//        assertEquals(sourceCo2.getStateKey(), targetCo2.getStateKey());
         assertEquals(sourceCo2.getTypeKey(), targetCo2.getTypeKey());
         assertEquals(sourceCo2.getCourseOfferingTitle(), targetCo2.getCourseOfferingTitle());
 
@@ -344,7 +349,8 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         FormatOfferingInfo targetFo2 = targetFo2s.get(0);
         assertEquals(sourceFo2.getFormatId(), targetFo2.getFormatId());
         assertEquals(targetTerm.getId(), targetFo2.getTermId());
-        assertEquals(sourceFo2.getStateKey(), targetFo2.getStateKey());
+// This test no longer valid since states can change from source to target
+//        assertEquals(sourceFo2.getStateKey(), targetFo2.getStateKey());
         assertEquals(sourceFo2.getTypeKey(), targetFo2.getTypeKey());
         assertEquals(sourceFo2.getName(), targetFo2.getName());
 
@@ -354,7 +360,8 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         assertNotNull(targetAo2A);
         assertEquals(sourceAo2A.getActivityId(), targetAo2A.getActivityId());
         assertEquals(targetTerm.getId(), targetAo2A.getTermId());
-        assertEquals(sourceAo2A.getStateKey(), targetAo2A.getStateKey());
+// This test no longer valid since states can change from source to target
+//        assertEquals(sourceAo2A.getStateKey(), targetAo2A.getStateKey());
         assertEquals(sourceAo2A.getTypeKey(), targetAo2A.getTypeKey());
         assertEquals(sourceAo2A.getName(), targetAo2A.getName());
         assertEquals(sourceAo2A.getActivityCode(), targetAo2A.getActivityCode());
@@ -363,7 +370,8 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         assertNotNull(targetAo2B);
         assertEquals(sourceAo2B.getActivityId(), targetAo2B.getActivityId());
         assertEquals(targetTerm.getId(), targetAo2B.getTermId());
-        assertEquals(sourceAo2B.getStateKey(), targetAo2B.getStateKey());
+// This test no longer valid since states can change from source to target
+//        assertEquals(sourceAo2B.getStateKey(), targetAo2B.getStateKey());
         assertEquals(sourceAo2B.getTypeKey(), targetAo2B.getTypeKey());
         assertEquals(sourceAo2B.getName(), targetAo2B.getName());
         assertEquals(sourceAo2B.getActivityCode(), targetAo2B.getActivityCode());
