@@ -115,12 +115,33 @@ public interface LRCService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+ /**
+     * Retrieves a list of existing result values groups that a result scale is tied to.
+     * 
+     * @param resultScaleKey identifier for result scale
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return details of the results for these keys
+     * @throws DoesNotExistException resultValue not found
+     * @throws InvalidParameterException invalid resultValueKey
+     * @throws MissingParameterException invalid resultValueKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScale(@WebParam(name = "resultScaleKey") String resultScaleKey,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of result group identifiers for a specified
      * result values group type.
      * 
-     * @param resultValueGroupTypeKey identifier for the result group type
+     * @param resultValuesGroupTypeKey identifier for the result group type
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
@@ -142,7 +163,7 @@ public interface LRCService {
     /**
      * Creates a new result Values Group.
      * 
-     * @param gradeValuesGroupInfo information about the result values group 
+     * @param resultValuesGroupInfo information about the result values group 
      *        being created
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -156,7 +177,7 @@ public interface LRCService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ResultValuesGroupInfo createResultValuesGroup(@WebParam(name = "resultGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo,
+    public ResultValuesGroupInfo createResultValuesGroup(@WebParam(name = "resultGroupInfo") ResultValuesGroupInfo resultValuesGroupInfo,
             @WebParam(name = "context") ContextInfo context)
             throws AlreadyExistsException,
             DataValidationErrorException,
@@ -562,6 +583,161 @@ public interface LRCService {
             OperationFailedException,
             PermissionDeniedException;
 
+    
+  /**
+     * Retrieves result scales by a list of identifiers.
+     * 
+     * @param resultScaleKeys  identifiers for result scale
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return result scale list
+     * @throws DoesNotExistException resultScale not found
+     * @throws InvalidParameterException invalid resultScaleKeys
+     * @throws MissingParameterException invalid resultScaleKeys
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ResultScaleInfo> getResultScalesByKeys(@WebParam(name = "resultScaleKeys") List<String> resultScaleKeys,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+    /**
+     * Retrieves a list of result group identifiers for a specified
+     * result scale type.
+     * 
+     * @param resultScaleTypeKey identifier for the result group type
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return list of result group identifiers
+     * @throws DoesNotExistException resultScaleTypeKey not found
+     * @throws InvalidParameterException invalid resultScaleTypeKey
+     * @throws MissingParameterException missing resultScaleTypeKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure     
+     */
+    public List<String> getResultScaleKeysByType(@WebParam(name = "resultScaleTypeKey") String resultScaleTypeKey,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a new result scale.
+     * 
+     * @param resultScaleInfo information about the result scale 
+     *        being created
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return create result scale information
+     * @throws AlreadyExistsException result scale already exists
+     * @throws DataValidationErrorException one or more values invalid for 
+     *         this operation
+     * @throws InvalidParameterException invalid resultScaleInfo
+     * @throws MissingParameterException missing resultScaleInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public ResultScaleInfo createResultScale(@WebParam(name = "resultGroupInfo") ResultScaleInfo resultScaleInfo,
+            @WebParam(name = "context") ContextInfo context)
+            throws AlreadyExistsException,
+            DataValidationErrorException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Updates an existing result scale.
+     * 
+     * @param resultScaleKey identifier of the result scale to update
+     * @param resultGroupInfo updated information about the result scale
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return updated result scale information
+     * @throws DataValidationErrorException one or more values invalid for 
+     *                                      this operation
+     * @throws DoesNotExistException resultScaleKey not found
+     * @throws InvalidParameterExceptioninvalid resultScaleKey or 
+     *                                          resultScaleInfo
+     * @throws MissingParameterException missing resultScaleKey or
+     *                                   resultScaleInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException action was attempted on an out of 
+     *                                  date version
+     */
+    public ResultScaleInfo updateResultScale(@WebParam(name = "resultScaleKey") String resultScaleKey,
+            @WebParam(name = "resultScaleInfo") ResultScaleInfo resultScaleInfo,
+            @WebParam(name = "context") ContextInfo context)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            VersionMismatchException;
+
+    /**
+     * Deletes an existing result scale.
+     * 
+     * @param resultScaleKey identifier of the result scale to update
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return status of the operation
+     * @throws DoesNotExistException resultScaleKey not found
+     * @throws InvalidParameterException invalid resultScaleKey
+     * @throws MissingParameterException missing resultScaleKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteResultScale(@WebParam(name = "resultScaleKey") String resultScaleKey,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Validates a result scale. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained sub-objects
+     * or expanded to perform all tests related to this object. 
+     * 
+     * @param validationType Identifier of the extent of validation
+     * @param gradeScaleInfo Result scale to be validated
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return
+     * @throws DoesNotExistException resultScaleInfo does not exist
+     * @throws InvalidParameterException validationType or 
+     *                                   resultScaleInfo does not exist
+     * @throws MissingParameterException missing validationType, resultScaleInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateResultScale(@WebParam(name = "validationType") String validationType,
+            @WebParam(name = "gradeScaleInfo") ResultScaleInfo gradeScaleInfo,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException;    
+    
+
+
     /**
      * Retrieves result values by result scale key.
      * 
@@ -605,4 +781,29 @@ public interface LRCService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+    
+    
+    /**
+     * Retrieves a list of existing result values groups that have a scale
+     * of the specified type.
+     * 
+     * @param resultScaleTypeKey identifier for result scale type key
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return details of the results for these keys
+     * @throws DoesNotExistException resultValue not found
+     * @throws InvalidParameterException invalid resultValueKey
+     * @throws MissingParameterException invalid resultValueKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScaleType(@WebParam(name = "resultScaleTypeKey") String resultScaleTypeKey,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
 }

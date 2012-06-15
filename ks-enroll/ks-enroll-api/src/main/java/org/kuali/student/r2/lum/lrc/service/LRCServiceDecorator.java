@@ -20,14 +20,15 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 public abstract class LRCServiceDecorator implements LRCService {
 
     private LRCService nextDecorator;
-    
+
     public LRCService getNextDecorator()
-			throws OperationFailedException {
-		if (null == nextDecorator) {
-			throw new OperationFailedException("Misconfigured application: nextDecorator is null");
-		}
+            throws OperationFailedException {
+        if (null == nextDecorator) {
+            throw new OperationFailedException("Misconfigured application: nextDecorator is null");
+        }
         return nextDecorator;
     }
+
     public void setNextDecorator(LRCService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
@@ -51,6 +52,10 @@ public abstract class LRCServiceDecorator implements LRCService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getResultValuesGroupsByResultValue(resultValueKey, context);
+    }
+
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScale(String resultScaleKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultValuesGroupsByResultScale(resultScaleKey, context);
     }
 
     @Override
@@ -156,7 +161,7 @@ public abstract class LRCServiceDecorator implements LRCService {
     @Override
     public List<ResultValueInfo> getResultValuesForScale(String resultScaleKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-		   OperationFailedException, PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getResultValuesForScale(resultScaleKey, context);
     }
 
@@ -184,6 +189,39 @@ public abstract class LRCServiceDecorator implements LRCService {
     public ResultValuesGroupInfo getCreateFixedCreditResultValuesGroup(String creditValue, String scaleId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getCreateFixedCreditResultValuesGroup(creditValue, scaleId, context);
     }
-    
-    
+
+    @Override
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScaleType(String resultScaleTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultValuesGroupsByResultScaleType(resultScaleTypeKey, context);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateResultScale(String validationType, ResultScaleInfo gradeScaleInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().validateResultScale(validationType, gradeScaleInfo, context);
+    }
+
+    @Override
+    public ResultScaleInfo updateResultScale(String resultScaleKey, ResultScaleInfo resultScaleInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        return getNextDecorator().updateResultScale(resultScaleKey, resultScaleInfo, context);
+    }
+
+    @Override
+    public List<ResultScaleInfo> getResultScalesByKeys(List<String> resultScaleKeys, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultScalesByKeys(resultScaleKeys, context);
+    }
+
+    @Override
+    public List<String> getResultScaleKeysByType(String resultScaleTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultScaleKeysByType(resultScaleTypeKey, context);
+    }
+
+    @Override
+    public StatusInfo deleteResultScale(String resultScaleKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteResultScale(resultScaleKey, context);
+    }
+
+    @Override
+    public ResultScaleInfo createResultScale(ResultScaleInfo resultScaleInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().createResultScale(resultScaleInfo, context);
+    }
 }
