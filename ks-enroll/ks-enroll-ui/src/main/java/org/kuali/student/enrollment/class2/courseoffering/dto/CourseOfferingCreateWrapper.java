@@ -31,6 +31,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     private List<FormatOfferingInfo> formatOfferingList;
     private List<ExistingCourseOffering> existingCourseOfferings;
+    private List<ExistingCourseOffering> existingTermOfferings;
 
     public CourseOfferingCreateWrapper(){
         showCatalogLink = false;
@@ -38,6 +39,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
         showAllSections = false;
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
         existingCourseOfferings = new ArrayList<ExistingCourseOffering>();
+        existingTermOfferings = new ArrayList<ExistingCourseOffering>();
     }
 
     public String getTargetTermCode() {
@@ -151,4 +153,13 @@ public class CourseOfferingCreateWrapper implements Serializable{
     public void setTerm(TermInfo term) {
         this.term = term;
     }
+
+    public List<ExistingCourseOffering> getExistingTermOfferings() {
+        return existingTermOfferings;
+    }
+
+    public void setExistingTermOfferings(List<ExistingCourseOffering> existingTermOfferings) {
+        this.existingTermOfferings = existingTermOfferings;
+    }
+
 }

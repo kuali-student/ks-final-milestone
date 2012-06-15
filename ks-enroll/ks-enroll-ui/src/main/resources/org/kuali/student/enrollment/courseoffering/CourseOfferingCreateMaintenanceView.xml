@@ -41,7 +41,7 @@
         <property name="headerText" value="Create Course Offering"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
-        <!--<property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />-->
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingMaintainableImpl" />
         <property name="items">
             <list>
                 <ref bean="KS-CourseOffering-MetaSection"/>
@@ -50,6 +50,7 @@
                 <ref bean="KS-CreateFromTermOffering"/>
             </list>
         </property>
+        <property name="page.header.lowerGroup.render" value="false"/>
         <property name="page.footer.items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Create Offering" p:performClientSideValidation="true"
@@ -72,6 +73,11 @@
 
     <bean id="KS-CourseOffering-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{document.newMaintainableObject.dataObject.showAllSections}">
         <property name="disclosure.render" value="false"/>
+        <property name="cssClasses">
+          <list merge="true">
+            <value>ks-borderBottom</value>
+          </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink" p:methodToCall="createFromCatalog" p:style="font-weight:bold;" p:actionLabel="Create from Catalog" p:render="@{document.newMaintainableObject.dataObject.showCatalogLink}"/>
@@ -113,10 +119,16 @@
                     </property>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
-                              p:performClientSideValidation="true" p:style="margin-top:15px;"/>
+                              p:performClientSideValidation="true" p:style="margin-top:15px;" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
 
                 <bean parent="Uif-VerticalFieldGroup" p:style="margin-left:100px;">
                   <property name="group.instructionalText" value="Course Catalog Details"/>
+                  <property name="group.instructionalMessage.style" value="font-weight:bold;font-size:15px;"/>
+                  <property name="group.instructionalMessage.cssClasses">
+                      <list merge="true">
+                        <value>ks-borderBottom</value>
+                      </list>
+                  </property>
                   <property name="items">
                     <list>
                       <bean parent="Uif-InputField" p:propertyName="course.code" p:label="Catalog Course Code" p:readOnly="true">
@@ -144,7 +156,7 @@
     <bean id="KS-CreateFromTermOffering" parent="Uif-VerticalBoxSection" p:render="@{!document.newMaintainableObject.dataObject.showTermOfferingLink and document.newMaintainableObject.dataObject.showAllSections}">
          <property name="items">
             <list>
-                 <bean parent="Uif-MessageField" p:messageText="Not in M3 scope" p:style="font-weight:bold;color:red"/>
+                 <ref bean="KS-ExistingTermOfferingsSubSection"/>
             </list>
          </property>
     </bean>
@@ -200,13 +212,13 @@
                <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"
                       p:label="GRADE ROSTER LEVEL" p:labelPlacement="TOP">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="Uif-DropdownControl" p:options-ref="gradeRosterLevel-options"/>
                     </property>
                 </bean>
                <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"
                       p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="Uif-DropdownControl" p:options-ref="finalExamDriverActivity-options"/>
                     </property>
                 </bean>
            </list>
@@ -214,7 +226,7 @@
     </bean>
 
     <bean id="KS-ExistingOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true">
-		<property name="headerText" value="Existing Offerings for @{document.newMaintainableObject.dataObject?.targetTermCode} (@{document.newMaintainableObject.dataObject.term?.name})" />
+		<property name="headerText" value="Existing Offerings for @{document.newMaintainableObject.dataObject.term?.name}" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering" />
 		<property name="propertyName" value="existingCourseOfferings" />
 		<property name="layoutManager.renderSequenceField" value="false" />
@@ -250,13 +262,61 @@
          </property>
     </bean>
 
+    <bean id="KS-ExistingTermOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true">
+		<property name="headerText" value="Previous Term Offerings" />
+		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering" />
+		<property name="propertyName" value="existingTermOfferings" />
+		<property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+		<property name="items">
+           <list>
+               <bean parent="Uif-InputField" p:propertyName="termCode" p:label="SOURCE TERM" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+               <bean parent="Uif-InputField" p:propertyName="courseOfferingCode" p:label="COURSE OFFERING CODE" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+               <bean parent="Uif-InputField" p:propertyName="courseTitle" p:label="COURSE TITLE" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="credits" p:label="CREDITS" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="grading" p:label="GRADING" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+           </list>
+         </property>
+    </bean>
+
+    <util:list id="gradeRosterLevel-options">
+        <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
+        <bean parent="Uif-KeyLabelPair" p:key="Coruse" p:value="Course"/>
+        <bean parent="Uif-KeyLabelPair" p:key="Lecture" p:value="Lecture"/>
+    </util:list>
+
+    <util:list id="finalExamDriverActivity-options">
+        <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
+        <bean parent="Uif-KeyLabelPair" p:key="Lecture" p:value="Lecture"/>
+    </util:list>
+
     <!-- MAINTENACE DOCUMENT DEFINITION -->
 
     <bean id="CourseOfferingCreateMaintenanceDocument" parent="CourseOfferingCreateMaintenanceDocument-parentBean"/>
 
     <bean id="CourseOfferingCreateMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
-        <!--<property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl"/>-->
+        <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingMaintainableImpl"/>
         <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.CourseOfferingEditRule" />
         <property name="documentTypeName" value="CourseOfferingCreateMaintenanceDocument"/>
         <property name="lockingKeys">

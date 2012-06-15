@@ -39,7 +39,7 @@
     <bean id="CourseOfferingEdit-MaintenanceView" parent="KSMaintenanceView">
         <property name="headerText" value="Course Offering Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
-        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingMaintainableImpl" />
         <property name="items">
             <list>
                 <!-- bean parent="Uif-HorizontalBoxSection">
@@ -259,7 +259,7 @@
 
     <bean id="CourseOfferingEditMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
-        <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl"/>
+        <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingMaintainableImpl"/>
         <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.CourseOfferingEditRule" />
         <property name="documentTypeName" value="CourseOfferingEditMaintenanceDocument"/>
         <property name="lockingKeys">
