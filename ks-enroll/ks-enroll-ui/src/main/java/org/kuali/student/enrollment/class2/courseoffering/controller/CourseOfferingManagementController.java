@@ -217,12 +217,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         Object selectedObject = _getSelectedObject(theForm, "view");
 
         if(selectedObject instanceof CourseOfferingInfo){
-            urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"maintenanceEdit",true,getContextInfo());
-            controllerPath = "maintenance";
+            urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"start",true,getContextInfo());
+            controllerPath = "inquiry";
         }
-        else if(selectedObject instanceof ActivityOfferingWrapper) {
-            urlParameters = _buildAOURLParameters(((ActivityOfferingWrapper) selectedObject).getAoInfo(),"maintenanceEdit",false,getContextInfo());
-            controllerPath ="maintenance";
+        else if(selectedObject instanceof ActivityOfferingInfo) {
+            urlParameters = _buildAOURLParameters((ActivityOfferingInfo)selectedObject,"start",true,getContextInfo());
+            controllerPath ="inquiry";
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
@@ -269,9 +269,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     private Properties _buildAOURLParameters(ActivityOfferingInfo activityOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put("aoInfo.id", activityOfferingInfo.getId());
-        props.put("readOnlyView", readOnlyView);
+        props.put("id", activityOfferingInfo.getId());
+        //props.put("readOnlyView", readOnlyView);
         props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper");
+        props.put("viewId", "KS-ActivityOffering-InquiryView2");
         return props;
     }
 
