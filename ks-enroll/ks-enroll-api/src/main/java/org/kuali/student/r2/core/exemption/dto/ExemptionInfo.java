@@ -27,7 +27,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExemptionInfo", propOrder = {"id", "typeKey", "stateKey", 
-                "name", "descr", "exemptionRequestId", "processId", "checkKey",
+                "name", "descr", "exemptionRequestId", "processKey", "checkId",
                 "personId", "effectiveDate", "expirationDate", 
                 "useLimit", "useCount", "dateOverride", 
                 "milestoneOverride", "learningResultOverride", 
@@ -43,10 +43,10 @@ public class ExemptionInfo
     private String exemptionRequestId;
     
     @XmlElement
-    private String processId;
+    private String processKey;
     
     @XmlElement
-    private String checkKey;
+    private String checkId;
     @XmlElement
     private String personId;
 
@@ -89,8 +89,8 @@ public class ExemptionInfo
 
         if (null != exemption) {
             this.exemptionRequestId = exemption.getExemptionRequestId();
-            this.processId = exemption.getProcessId();
-            this.checkKey = exemption.getCheckKey();
+            this.processKey = exemption.getProcessKey();
+            this.checkId = exemption.getCheckId();
             this.personId = exemption.getPersonId();
             this.effectiveDate = exemption.getEffectiveDate();
             this.expirationDate = exemption.getExpirationDate();
@@ -124,21 +124,21 @@ public class ExemptionInfo
 
     
     @Override
-    public String getProcessId() {
-        return processId;
+    public String getProcessKey() {
+        return processKey;
     }
 
-    public void setProcessId(String processId) {
-        this.processId = processId;
+    public void setProcessKey(String processKey) {
+        this.processKey = processKey;
     }
 
     @Override
-    public String getCheckKey() {
-        return checkKey;
+    public String getCheckId() {
+        return checkId;
     }
 
-    public void setCheckKey(String checkKey) {
-        this.checkKey = checkKey;
+    public void setCheckId(String checkId) {
+        this.checkId = checkId;
     }
     
     

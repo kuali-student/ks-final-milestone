@@ -69,6 +69,72 @@ public interface ExemptionService {
     //// CRUD Request
     //// 
     /**
+     * Retrieves the details of a single ExemptionRequest by a exemption Id.
+     *
+     * @param exemptionRequestId Unique Id of the ExemptionRequest to be
+     * retrieved
+     * @param contextInfo Context information containing the principalId and locale
+     * information about the caller of service operation
+     * @return the details of the ExemptionRequest requested
+     * @throws DoesNotExistException exemptionRequestId not found
+     * @throws InvalidParameterException invalid exemptionRequestId
+     * @throws MissingParameterException missing exemptionRequestId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public ExemptionRequestInfo getExemptionRequest(@WebParam(name = "exemptionRequestId") String exemptionRequestId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list ExemptionRequests corresponding to a list of exemption
+     * request Ids.
+     *
+     * @param exemptionRequestIds list of unique Ids of the ExemptionRequests to
+     * be retrieved
+     * @param contextInfo Context information containing the principalId and locale
+     * information about the caller of service operation
+     * @return a list of ExemptionRequests
+     * @throws DoesNotExistException an exemptionRequestId in list not found
+     * @throws InvalidParameterException invalid exemptionRequestId in list
+     * @throws MissingParameterException missing exemptionRequestIds
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ExemptionRequestInfo> getExemptionRequestsByIds(@WebParam(name = "exemptionRequestIds") List<String> exemptionRequestIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list Exemption Request Ids by Type.
+     *
+     * @param exemptionRequestTypeKey a unique key for an exemption requestType
+     * @param contextInfo Context information containing the principalId and locale
+     * information about the caller of service operation
+     * @return a list of Exemptions
+     * @throws DoesNotExistException an exemptionId in list not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> getExemptionRequestIdsByType(@WebParam(name = "exemptionRequestTypeKey") String exemptionRequestTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Validates an ExemptionRequest. Depending on the value of validationType,
      * this validation could be limited to tests on just the current object and
      * its directly contained subobjects or expanded to perform all tests
@@ -85,7 +151,7 @@ public interface ExemptionService {
      * @param validationTypeKey Identifier of the extent of validation
      * @param exemptionRequestInfo the exemption request information to be
      * tested.
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return the results from performing the validation
      * @throws DoesNotExistException validationTypeKey not found
@@ -97,8 +163,11 @@ public interface ExemptionService {
      */
     public List<ValidationResultInfo> validateExemptionRequest(@WebParam(name = "validationTypeKey") String validationTypeKey,
             @WebParam(name = "exemptionRequestInfo") ExemptionRequestInfo exemptionRequestInfo,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException;
 
     /**
      * Creates a new Exemption Request.
@@ -107,7 +176,7 @@ public interface ExemptionService {
      * @param exemptionRequestTypeKey type of request
      * @param exemptionRequestInfo Details of the Exemption Request to be
      * created
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return the details of the Exemption Requst just created
      * @throws AlreadyExistsException the Exemption Request being created
@@ -122,8 +191,13 @@ public interface ExemptionService {
     public ExemptionRequestInfo createExemptionRequest(@WebParam(name = "personId") String personId,
             @WebParam(name = "exemptionRequestTypeKey") String exemptionRequestTypeKey,
             @WebParam(name = "exemptionRequestInfo") ExemptionRequestInfo exemptionRequestInfo,
-            @WebParam(name = "context") ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException,
+            DataValidationErrorException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Updates an existing Exemption Request.
@@ -131,7 +205,7 @@ public interface ExemptionService {
      * @param exemptionRequestId Id of Exemption Request to be updated
      * @param exemptionRequestInfo Details of updates to the Exemption Request
      * being updated
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return the details of Exemption Request just updated
      * @throws DataValidationErrorException One or more values invalid for this
@@ -146,14 +220,20 @@ public interface ExemptionService {
      */
     public ExemptionRequestInfo updateExemptionRequest(@WebParam(name = "exemptionRequestId") String exemptionRequestId,
             @WebParam(name = "exemptionRequestInfo") ExemptionRequestInfo exemptionRequestInfo,
-            @WebParam(name = "context") ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            VersionMismatchException;
 
     /**
      * Deletes an existing Exemption Request record.
      *
      * @param exemptionRequestId the Id of the Exemption Request to be deleted
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return status of the operation (success, failed)
      * @throws DoesNotExistException the Exemption Request does not exist
@@ -163,51 +243,81 @@ public interface ExemptionService {
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteExemptionRequest(@WebParam(name = "exemptionRequestId") String exemptionRequestId,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
+    ////
+    //// request getters
+    ////
     /**
-     * Retrieves the details of a single ExemptionRequest by a exemption Id.
+     * Gets a list of all exemption requests for a person.
      *
-     * @param exemptionRequestId Unique Id of the ExemptionRequest to be
-     * retrieved
-     * @param context Context information containing the principalId and locale
+     * @param personId a unique Id of the Person
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
-     * @return the details of the ExemptionRequest requested
-     * @throws DoesNotExistException exemptionRequestId not found
-     * @throws InvalidParameterException invalid exemptionRequestId
-     * @throws MissingParameterException missing exemptionRequestId
+     * @return a list of Exemption requests
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ExemptionRequestInfo getExemptionRequest(@WebParam(name = "exemptionRequestId") String exemptionRequestId,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ExemptionRequestInfo> getRequestsByPerson(@WebParam(name = "personId") String personId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list ExemptionRequests corresponding to a list of exemption
-     * request Ids.
+     * Gets a list of all exemption requests by the requester.
      *
-     * @param exemptionRequestIds list of unique Ids of the ExemptionRequests to
-     * be retrieved
-     * @param context Context information containing the principalId and locale
+     * @param requesterId a unique Id of the Person
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
-     * @return a list of ExemptionRequests
-     * @throws DoesNotExistException an exemptionRequestId in list not found
-     * @throws InvalidParameterException invalid exemptionRequestId in list
-     * @throws MissingParameterException missing exemptionRequestIds
+     * @return a list of Exemption requests
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ExemptionRequestInfo> getExemptionRequestsByIds(@WebParam(name = "exemptionRequestIds") List<String> exemptionRequestIds,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ExemptionRequestInfo> getRequestsByRequester(
+            @WebParam(name = "requesterId") String requesterId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    ////
+    ////  standard crud methods for exemption
+    //// 
+    /**
+     * Retrieves the details of a single Exemption by a exemption Id.
+     *
+     * @param exemptionId Unique Id of the Exemption to be retrieved
+     * @param contextInfo Context information containing the principalId and locale
+     * information about the caller of service operation
+     * @return the details of the Exemption requested
+     * @throws DoesNotExistException exemptionId not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public ExemptionInfo getExemption(@WebParam(name = "exemptionId") String exemptionId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
-     * Retrieves a list Exemption Request Ids by Type.
+     * Retrieves a list Exemptions corresponding to a list of exemption Ids.
      *
-     * @param exemptionRequestTypeKey a unique key for an exemption requestType
-     * @param context Context information containing the principalId and locale
+     * @param exemptionIds list of unique Ids of the Exemption to be retrieved
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return a list of Exemptions
      * @throws DoesNotExistException an exemptionId in list not found
@@ -216,68 +326,35 @@ public interface ExemptionService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getExemptionRequestIdsByType(@WebParam(name = "exemptionRequestTypeKey") String exemptionRequestTypeKey,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ExemptionInfo> getExemptionsByIds(@WebParam(name = "exemptionIds") List<String> exemptionIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
-    ////
-    //// request getters
-    ////
     /**
-     * Gets a list of all exemption requests for a Person.
+     * Retrieves a list Exemption Ids by Type.
      *
-     * @param personId a unique Id of the Person
-     * @param context Context information containing the principalId and locale
+     * @param exemptionTypeKey a unique key for an exemption Type
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return a list of Exemptions
+     * @throws DoesNotExistException an exemptionId in list not found
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ExemptionRequestInfo> getRequestsForPerson(@WebParam(name = "personId") String personId,
-            @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getExemptionIdsByType(@WebParam(name = "exemptionTypeKey") String exemptionTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
-    /**
-     * Gets a list of all exemption requests by Type for a Person.
-     *
-     * @param typeKey an exemption Type
-     * @param personId a unique Id of the Person
-     * @param context Context information containing the principalId and locale
-     * information about the caller of service operation
-     * @return a list of Exemptions
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<ExemptionRequestInfo> getRequestsByTypeForPerson(@WebParam(name = "typeKey") String typeKey,
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieves a list Exemption Request Ids by Check Key.
-     *
-     * @param checkKey a unique key for a Check
-     * @param context Context information containing the principalId and locale
-     * information about the caller of service operation
-     * @return a list of Exemptions
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<String> getExemptionRequestIdsByCheck(@WebParam(name = "checkKey") String checkKey,
-            @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-  
-
-    ////
-    ////  standard crud methods for exemption
-    //// 
     /**
      * Validates an Exemption. Depending on the value of validationType, this
      * validation could be limited to tests on just the current object and its
@@ -294,7 +371,7 @@ public interface ExemptionService {
      *
      * @param validationTypeKey Identifier of the extent of validation
      * @param exemptionInfo the exemption information to be tested.
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return the results from performing the validation
      * @throws DoesNotExistException validationTypeKey not found
@@ -306,8 +383,11 @@ public interface ExemptionService {
      */
     public List<ValidationResultInfo> validateExemption(@WebParam(name = "validationTypeKey") String validationTypeKey,
             @WebParam(name = "exemptionInfo") ExemptionInfo exemptionInfo,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException;
 
     /**
      * Creates a new Exemption. Exemptions can only be created off of an
@@ -316,7 +396,7 @@ public interface ExemptionService {
      * @param exemptionRequestId an Id for an exemption request
      * @param exemptionTypeKey type key identifying the type of the exemption
      * @param exemptionInfo Details of the Exemption to be created
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return the details of the Exemption just created
      * @throws AlreadyExistsException the Exemption being created already exists
@@ -330,15 +410,20 @@ public interface ExemptionService {
     public ExemptionInfo createExemption(@WebParam(name = "exemptionRequestId") String exemptionRequestId,
             @WebParam(name = "exemptionTypeKey") String exemptionTypeKey,
             @WebParam(name = "exemptionInfo") ExemptionInfo exemptionInfo,
-            @WebParam(name = "context") ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException,
+            DataValidationErrorException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Updates an existing Exemption.
      *
      * @param exemptionId Id of Exemption to be updated
      * @param exemptionInfo Details of updates to the Exemption being updated
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return the details of Exemption just updated
      * @throws DataValidationErrorException One or more values invalid for this
@@ -353,15 +438,21 @@ public interface ExemptionService {
      */
     public ExemptionInfo updateExemption(@WebParam(name = "exemptionId") String exemptionId,
             @WebParam(name = "exemptionInfo") ExemptionInfo exemptionInfo,
-            @WebParam(name = "context") ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            VersionMismatchException;
 
     /**
      * Indicate that the given Exemption has been used successfully in a
      * transaction. This method increments the Exemption use count.
      *
      * @param exemptionId the Id for the Exemption
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return the status
      * @throws DoesNotExistException no valid exemption exists
@@ -371,14 +462,18 @@ public interface ExemptionService {
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo addUseToExemption(@WebParam(name = "exeptionId") String exemptionId,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Deletes an existing Exemption record.
      *
      * @param exemptionId the Id of the Exemption to be deleted
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return status of the operation (success, failed)
      * @throws DoesNotExistException the Exemption does not exist
@@ -388,68 +483,21 @@ public interface ExemptionService {
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteExemption(@WebParam(name = "exemptionId") String exemptionId,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
-    /**
-     * Retrieves the details of a single Exemption by a exemption Id.
-     *
-     * @param exemptionId Unique Id of the Exemption to be retrieved
-     * @param context Context information containing the principalId and locale
-     * information about the caller of service operation
-     * @return the details of the Exemption requested
-     * @throws DoesNotExistException exemptionId not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public ExemptionInfo getExemption(@WebParam(name = "exemptionId") String exemptionId,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieves a list Exemptions corresponding to a list of exemption Ids.
-     *
-     * @param exemptionIds list of unique Ids of the Exemption to be retrieved
-     * @param context Context information containing the principalId and locale
-     * information about the caller of service operation
-     * @return a list of Exemptions
-     * @throws DoesNotExistException an exemptionId in list not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<ExemptionInfo> getExemptionsByIds(@WebParam(name = "exemptionIds") List<String> exemptionIds,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieves a list Exemption Ids by Type.
-     *
-     * @param exemptionTypeKey a unique key for an exemption Type
-     * @param context Context information containing the principalId and locale
-     * information about the caller of service operation
-     * @return a list of Exemptions
-     * @throws DoesNotExistException an exemptionId in list not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<String> getExemptionIdsByType(@WebParam(name = "exemptionTypeKey") String exemptionTypeKey,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-    
-      ////
+    ////
     //// exemption get By methods 
     ////
     /**
      * Gets a list of all exemptions for a Person.
      *
      * @param personId a unique Id of the Person
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return a list of Exemptions
      * @throws InvalidParameterException invalid parameter
@@ -458,14 +506,17 @@ public interface ExemptionService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<ExemptionInfo> getExemptionsForPerson(@WebParam(name = "personId") String personId,
-            @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a list of all exemptions tied to the exemption request.
      *
      * @param requestId a unique Id of an exemption request
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return a list of Exemptions
      * @throws InvalidParameterException invalid parameter
@@ -474,8 +525,11 @@ public interface ExemptionService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<ExemptionInfo> getExemptionsForRequest(@WebParam(name = "requestId") String requestId,
-            @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a list of all active effective exemptions for a Person.
@@ -485,7 +539,7 @@ public interface ExemptionService {
      *
      * @param personId a unique Id of the Person
      * @param asOfDate the date for to check if the exemption is valid
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return a list of Exemptions
      * @throws InvalidParameterException invalid parameter
@@ -495,15 +549,18 @@ public interface ExemptionService {
      */
     public List<ExemptionInfo> getActiveExemptionsForPerson(@WebParam(name = "personId") String personId,
             @WebParam(name = "asOfDate") Date asOfDate,
-            @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a list of all exemptions by Type for a Person.
      *
      * @param typeKey an exemption Type
      * @param personId a unique Id of the Person
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return a list of Exemptions
      * @throws InvalidParameterException invalid parameter
@@ -513,8 +570,11 @@ public interface ExemptionService {
      */
     public List<ExemptionInfo> getExemptionsByTypeForPerson(@WebParam(name = "typeKey") String typeKey,
             @WebParam(name = "personId") String personId,
-            @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a list of all effective exemptions by Type for a Person. An
@@ -525,7 +585,7 @@ public interface ExemptionService {
      * @param typeKey an exemption Type
      * @param personId a unique Id of the Person
      * @param asOfDate the date for to check if the exemption is valid
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return a list of Exemptions
      * @throws InvalidParameterException invalid parameter
@@ -536,8 +596,11 @@ public interface ExemptionService {
     public List<ExemptionInfo> getActiveExemptionsByTypeForPerson(@WebParam(name = "typeKey") String typeKey,
             @WebParam(name = "personId") String personId,
             @WebParam(name = "asOfDate") Date asOfDate,
-            @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a list of all effective exemptions by Type, Process and check for a
@@ -546,11 +609,11 @@ public interface ExemptionService {
      * than the use limit.
      *
      * @param typeKey an exemption Type
-     * @param processId the id of process 
-     * @param checkKey the key of a check 
+     * @param processKey the id of process 
+     * @param checkId the key of a check 
      * @param personId a unique Id of the Person
      * @param asOfDate the date for to check if the exemption is valid
-     * @param context Context information containing the principalId and locale
+     * @param contextInfo Context information containing the principalId and locale
      * information about the caller of service operation
      * @return a list of Exemptions
      * @throws InvalidParameterException invalid parameter
@@ -559,10 +622,13 @@ public interface ExemptionService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<ExemptionInfo> getActiveExemptionsByTypeProcessAndCheckForPerson(@WebParam(name = "typeKey") String typeKey,
-            @WebParam(name = "processId") String processId,
-            @WebParam(name = "checkKey") String checkKey,
+            @WebParam(name = "processKey") String processKey,
+            @WebParam(name = "checkId") String checkId,
             @WebParam(name = "personId") String personId,
             @WebParam(name = "asOfDate") Date asOfDate,
-            ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 }

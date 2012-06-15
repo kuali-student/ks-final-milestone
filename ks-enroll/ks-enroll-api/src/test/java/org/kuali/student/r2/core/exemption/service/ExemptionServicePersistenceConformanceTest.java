@@ -44,9 +44,9 @@ public class ExemptionServicePersistenceConformanceTest {
     private static final String TEST_PRINCIPAL_ID2 = "testPrincipalId2";
 
     private ContextInfo getContext() {
-        ContextInfo context = new ContextInfo();
-        context.setPrincipalId("testPrincipalId1");
-        return context;
+        ContextInfo contextInfo = new ContextInfo();
+        contextInfo.setPrincipalId("testPrincipalId1");
+        return contextInfo;
     }
     private ExemptionService instance = new ExemptionServiceMockImpl();
 
@@ -56,7 +56,7 @@ public class ExemptionServicePersistenceConformanceTest {
     @Test
     public void testExemptionCrud() throws Exception {
         System.out.println("createExemption");
-        ContextInfo context = getContext();
+        ContextInfo contextInfo = getContext();
         // create
         String exemptionRequestId = "request1";
         ExemptionInfo info = new ExemptionInfo();
@@ -64,7 +64,7 @@ public class ExemptionServicePersistenceConformanceTest {
         info.setStateKey(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY);
         info.setPersonId("person1");
         Date before = new Date();
-        ExemptionInfo result = instance.createExemption(exemptionRequestId, info.getTypeKey(), info, context);
+        ExemptionInfo result = instance.createExemption(exemptionRequestId, info.getTypeKey(), info, contextInfo);
         Date after = new Date();
         if (result == info) {
             fail("returned object should not be the same as the one passed in");
@@ -92,7 +92,7 @@ public class ExemptionServicePersistenceConformanceTest {
         // READ/get
         info = new ExemptionInfo(result);
 
-        result = instance.getExemption(info.getId(), context);
+        result = instance.getExemption(info.getId(), contextInfo);
         assertEquals(result.getId(), info.getId());
         assertEquals(result.getTypeKey(), info.getTypeKey());
         assertEquals(result.getStateKey(), info.getStateKey());
@@ -106,9 +106,9 @@ public class ExemptionServicePersistenceConformanceTest {
         // update
         info = new ExemptionInfo(result);
         info.setEffectiveDate(new Date());
-        context.setPrincipalId(TEST_PRINCIPAL_ID2);
+        contextInfo.setPrincipalId(TEST_PRINCIPAL_ID2);
         before = new Date();
-        result = instance.updateExemption(info.getId(), info, context);
+        result = instance.updateExemption(info.getId(), info, contextInfo);
         after = new Date();
         if (result == info) {
             fail("returned object should not be the same as the one passed in");
@@ -145,12 +145,12 @@ public class ExemptionServicePersistenceConformanceTest {
         exemptionRequestInfo.setTypeKey(ExemptionServiceConstants.DATE_EXEMPTION_REQUEST_TYPE_KEY);
         exemptionRequestInfo.setStateKey(ExemptionServiceConstants.EXEMPTION_REQUEST_APPROVED_STATE_KEY);
         exemptionRequestInfo.setPersonId("person1");
-        ContextInfo context = getContext();
+        ContextInfo contextInfo = getContext();
         Date before = new Date();
         ExemptionRequestInfo result = instance.createExemptionRequest(exemptionRequestInfo.getPersonId(),
                 exemptionRequestInfo.getTypeKey(),
                 exemptionRequestInfo,
-                context);
+                contextInfo);
         Date after = new Date();
         if (result == exemptionRequestInfo) {
             fail("returned object should not be the same as the one passed in");

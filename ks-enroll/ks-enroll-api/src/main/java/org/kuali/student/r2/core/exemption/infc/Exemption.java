@@ -52,7 +52,7 @@ public interface Exemption extends IdEntity {
      * 
      * @name Process Id
      */
-    public String getProcessId();
+    public String getProcessKey();
 
     /**
      * The Id of a Check that indicates to what Check in the Process
@@ -60,7 +60,7 @@ public interface Exemption extends IdEntity {
      *
      * @name Check Id
      */
-    public String getCheckKey();
+    public String getCheckId();
 
     
     /**

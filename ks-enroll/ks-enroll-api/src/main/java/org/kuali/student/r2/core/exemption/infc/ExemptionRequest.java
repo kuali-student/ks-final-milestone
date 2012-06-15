@@ -39,7 +39,7 @@ public interface ExemptionRequest extends IdEntity {
      *
      * @name Process id
      */
-    public String getProcessId();
+    public String getProcessKey();
 
     /**
      * The Id of a Check that indicates to what Check in the Process
@@ -47,7 +47,7 @@ public interface ExemptionRequest extends IdEntity {
      *
      * @name Check Id
      */
-    public String getCheckKey();
+    public String getCheckId();
 
     /**
      * The Id of the Person for whom the request is requested
@@ -62,7 +62,7 @@ public interface ExemptionRequest extends IdEntity {
      * The Id of the Person making the request.
      * 
      * If not specified it should default to the person identified in the supplied
-     * context.
+     * contextInfo.
      *
      * @name Requester Id
      */

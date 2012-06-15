@@ -27,7 +27,7 @@ import org.kuali.student.r2.core.exemption.infc.AgendaOverride;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StatementOverrideInfo", propOrder = {"agendaId", "anchorId",
+@XmlType(name = "AgendaOverrideInfo", propOrder = {"agendaId", "anchorId",
     "_futureElements"})
 public class AgendaOverrideInfo implements AgendaOverride, Serializable {
 
@@ -51,18 +51,18 @@ public class AgendaOverrideInfo implements AgendaOverride, Serializable {
     }
 
     /**
-     * Constructs a new StatementOverrideInfo from another
-     * StatementOverride.
+     * Constructs a new AgendaOverrideInfo from another
+     * AgendaOverride.
      * 
-     * @param exemption the StatementOverride to copy
+     * @param orig AgendaOverride to copy
      */
-    public AgendaOverrideInfo(AgendaOverride statementOverride) {
+    public AgendaOverrideInfo(AgendaOverride orig) {
         super();
-        if (null != statementOverride) {
-            this.existingAgendaId = statementOverride.getExistingAgendaId();
-            this.newAgendaId = statementOverride.getNewAgendaId();
-            this.anchorRefObjectId = statementOverride.getAnchorRefObjectId();
-            this.anchorRefObjectUri = statementOverride.getAnchorRefObjectUri();
+        if (null != orig) {
+            this.existingAgendaId = orig.getExistingAgendaId();
+            this.newAgendaId = orig.getNewAgendaId();
+            this.anchorRefObjectId = orig.getAnchorRefObjectId();
+            this.anchorRefObjectUri = orig.getAnchorRefObjectUri();
         }
 
         _futureElements = null;
