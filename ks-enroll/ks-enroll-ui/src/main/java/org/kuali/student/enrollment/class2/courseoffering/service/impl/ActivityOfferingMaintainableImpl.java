@@ -3,9 +3,12 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
@@ -25,10 +28,11 @@ import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
-
-import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
 
@@ -137,6 +141,16 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
     }
 
+    @Override
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        super.processAfterAddLine(view, collectionGroup, model, addLine);
+
+        if (addLine instanceof ScheduleComponentWrapper) {
+            ScheduleComponentWrapper scheduleComponentWrapper = (ScheduleComponentWrapper)addLine;
+            //scheduleComponentWrapper.setEndTime("TESTING");
+        }
+    }
+
     public ContextInfo getContextInfo() {
         if (null == contextInfo) {
             contextInfo = ContextBuilder.loadContextInfo();
@@ -160,7 +174,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         return this.typeService;
     }
 
-
     public StateService getStateService() {
            if(stateService == null) {
              stateService = CourseOfferingResourceLoader.loadStateService();
@@ -181,6 +194,22 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
 
         return courseService;
+    }
+
+    public List<String> getBuildingsCodesForSuggest(String userEnteredCode) {
+        List<String> buildingCodes = new ArrayList<String>();
+        buildingCodes.add(userEnteredCode+"Dog");
+        buildingCodes.add(userEnteredCode+"Emu");
+        buildingCodes.add(userEnteredCode+"Fox");
+        return buildingCodes;
+    }
+
+    public List<String> getRoomNumbersForSuggest(String buildingCode) {
+        List<String> roomNumbers = new ArrayList<String>();
+        roomNumbers.add("101");
+        roomNumbers.add("202");
+        roomNumbers.add("303");
+        return roomNumbers;
     }
 
 }

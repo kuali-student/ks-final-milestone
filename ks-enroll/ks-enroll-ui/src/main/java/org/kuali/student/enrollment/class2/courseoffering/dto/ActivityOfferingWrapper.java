@@ -7,12 +7,15 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityOfferingWrapper implements Serializable{
 
     private ActivityOfferingInfo aoInfo;
     private FormatOfferingInfo formatOffering;
     private TermInfo term;
+    private List<ScheduleComponentWrapper> scheduleComponentWrappers;
     private boolean readOnlyView;
     private boolean isChecked;
 
@@ -27,6 +30,7 @@ public class ActivityOfferingWrapper implements Serializable{
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         formatOffering = new FormatOfferingInfo();
         term = new TermInfo();
+        scheduleComponentWrappers = new ArrayList<ScheduleComponentWrapper>();
         this.setReadOnlyView(false);
         this.setIsChecked(false);
     }
@@ -58,6 +62,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setAoInfo(ActivityOfferingInfo aoInfo) {
         this.aoInfo = aoInfo;
+    }
+
+    public List<ScheduleComponentWrapper> getScheduleComponentWrappers() {
+        return scheduleComponentWrappers;
+    }
+
+    public void setScheduleComponentWrappers(List<ScheduleComponentWrapper> scheduleComponentWrappers) {
+        this.scheduleComponentWrappers = scheduleComponentWrappers;
     }
 
     public boolean getReadOnlyView() {
