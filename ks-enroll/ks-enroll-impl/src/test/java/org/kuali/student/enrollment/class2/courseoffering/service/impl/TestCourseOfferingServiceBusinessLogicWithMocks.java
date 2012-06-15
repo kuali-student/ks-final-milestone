@@ -139,7 +139,8 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
         assertNotNull(targetCo);
         assertEquals(sourceCo.getCourseId(), targetCo.getCourseId());
         assertEquals(targetTerm.getId(), targetCo.getTermId());
-        assertEquals(sourceCo.getStateKey(), targetCo.getStateKey());
+// This test not relevant since state actually changes in rollover
+//        assertEquals(sourceCo.getStateKey(), targetCo.getStateKey());
         assertEquals(sourceCo.getTypeKey(), targetCo.getTypeKey());
         assertEquals(sourceCo.getCourseOfferingTitle(), targetCo.getCourseOfferingTitle());
         
@@ -148,7 +149,8 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
         FormatOfferingInfo targetFo = targetFos.get(0);
         assertEquals(sourceFo.getFormatId(), targetFo.getFormatId());
         assertEquals(targetTerm.getId(), targetFo.getTermId());
-        assertEquals(sourceFo.getStateKey(), targetFo.getStateKey());
+// This test not relevant since state actually changes in rollover
+//        assertEquals(sourceFo.getStateKey(), targetFo.getStateKey());
         assertEquals(sourceFo.getTypeKey(), targetFo.getTypeKey());
         assertEquals(sourceFo.getName(), targetFo.getName());        
         
@@ -157,7 +159,8 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
         ActivityOfferingInfo targetAo = targetAos.get(0);
         assertEquals(sourceAo.getActivityId(), targetAo.getActivityId());
         assertEquals(targetTerm.getId(), targetAo.getTermId());
-        assertEquals(sourceAo.getStateKey(), targetAo.getStateKey());
+// This test not relevant since state actually changes in rollover
+//        assertEquals(sourceAo.getStateKey(), targetAo.getStateKey());
         assertEquals(sourceAo.getTypeKey(), targetAo.getTypeKey());
         assertEquals(sourceAo.getName(), targetAo.getName());
 
