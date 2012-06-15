@@ -245,6 +245,20 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     /**
+     * Method used to invoke the CO inquiry view from Manage Course Offering screen while search input is Course Offering
+     * Code (04a screen)
+     */
+    @RequestMapping(params = "methodToCall=viewTheCO")
+    public ModelAndView viewTheCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();
+        Properties urlParameters = _buildCOURLParameters(theCourseOfferingInfo,"start",false,getContextInfo());
+        String controllerPath = "inquiry";
+        return super.performRedirect(theForm,controllerPath, urlParameters);
+    }
+
+    /**
      * Method used to invoke the Edit CO screen from Manage Course Offering screen while search input is Course Offering
      * Code (04a screen)
      */

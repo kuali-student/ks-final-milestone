@@ -65,7 +65,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-DataField"
-                      p:label="COURSE ID"
+                      p:label="COURSE OFFERING CODE"
                       p:propertyName="courseOfferingCode" />
                 <bean parent="Uif-DataField"
                       p:label="TITLE"
