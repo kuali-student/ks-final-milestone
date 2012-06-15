@@ -15,7 +15,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String subjectCode;
     private String radioSelection;
     private String inputCode;
-//    private boolean haveValidTerm;
     private List<CourseOfferingInfo> courseOfferingList;
     private CourseOfferingInfo theCourseOffering;
 
@@ -80,15 +79,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     public void setInputCode(String inputCode){
         this.inputCode = inputCode;
     }
-    
-//    public boolean isHaveValidTerm(){
-//        return haveValidTerm;
-//    }
-//
-//    public void setHaveValidTerm(boolean haveValidTerm){
-//        this.haveValidTerm = haveValidTerm;
-//    }
-    
+
     public List<CourseOfferingInfo> getCourseOfferingList(){
         return courseOfferingList;
     }
