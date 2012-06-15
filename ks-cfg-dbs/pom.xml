@@ -45,7 +45,7 @@
     <ks.impex.date.format>yyyyMMddHHmmss</ks.impex.date.format>
 
     <!-- Oracle specific properties -->
-    <ks.impex.masterdb.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.impex.masterdb.url>
+    <ks.impex.masterdb.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</ks.impex.masterdb.url>
     <ks.impex.masterdb.schema>KSMASTER</ks.impex.masterdb.schema>
     <ks.impex.masterdb.username>KSMASTER</ks.impex.masterdb.username>
     <ks.impex.masterdb.password>KSMASTER</ks.impex.masterdb.password>
