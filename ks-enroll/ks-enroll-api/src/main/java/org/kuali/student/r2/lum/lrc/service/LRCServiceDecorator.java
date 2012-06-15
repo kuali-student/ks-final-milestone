@@ -66,12 +66,14 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public ResultValuesGroupInfo createResultValuesGroup(ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo context)
+    public ResultValuesGroupInfo createResultValuesGroup(String resultScaleKey,
+            String resultValuesGroupTypeKey,
+            ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo context)
             throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().createResultValuesGroup(gradeValuesGroupInfo, context);
+        return getNextDecorator().createResultValuesGroup(resultScaleKey, resultValuesGroupTypeKey, gradeValuesGroupInfo, context);
     }
 
     @Override
@@ -113,12 +115,14 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public ResultValueInfo createResultValue(ResultValueInfo resultValueInfo, ContextInfo context)
+    public ResultValueInfo createResultValue(String resultScaleKey,
+            String resultValueTypeKey,
+            ResultValueInfo resultValueInfo, ContextInfo context)
             throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().createResultValue(resultValueInfo, context);
+        return getNextDecorator().createResultValue(resultScaleKey, resultValueTypeKey, resultValueInfo, context);
     }
 
     @Override
@@ -221,7 +225,7 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public ResultScaleInfo createResultScale(ResultScaleInfo resultScaleInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().createResultScale(resultScaleInfo, context);
+    public ResultScaleInfo createResultScale(String resultScaleTypeKey, ResultScaleInfo resultScaleInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().createResultScale(resultScaleTypeKey, resultScaleInfo, context);
     }
 }

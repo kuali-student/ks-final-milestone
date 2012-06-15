@@ -177,7 +177,10 @@ public interface LRCService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ResultValuesGroupInfo createResultValuesGroup(@WebParam(name = "resultGroupInfo") ResultValuesGroupInfo resultValuesGroupInfo,
+    public ResultValuesGroupInfo createResultValuesGroup(
+            @WebParam(name = "resultScaleKey") String resultScaleKey,
+            @WebParam(name = "resultValuesGroupTypeKey") String resultValuesGroupTypeKey,
+            @WebParam(name = "resultGroupInfo") ResultValuesGroupInfo resultValuesGroupInfo,
             @WebParam(name = "context") ContextInfo context)
             throws AlreadyExistsException,
             DataValidationErrorException,
@@ -425,7 +428,9 @@ public interface LRCService {
 
     /**
      * Create a new result value 
-     * @param resultValueInfo
+     * @param resultScaleKey scale to which this value is attached
+     * @param resultValueTypeKey type of the result value to be created
+     * @param resultValueInfo  info about the result value
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
@@ -438,7 +443,10 @@ public interface LRCService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ResultValueInfo createResultValue(@WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo,
+    public ResultValueInfo createResultValue(
+            @WebParam(name = "resultScaleKey") String resultScaleKey,
+            @WebParam(name = "resultValueTypeKey") String resultValueTypeKey,
+            @WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo,
             @WebParam(name = "context") ContextInfo context)
             throws AlreadyExistsException,
             DataValidationErrorException,
@@ -633,6 +641,7 @@ public interface LRCService {
     /**
      * Creates a new result scale.
      * 
+     * @param resultScaleTypeKey type key of the result scale
      * @param resultScaleInfo information about the result scale 
      *        being created
      * @param context Context information containing the principalId
@@ -647,7 +656,8 @@ public interface LRCService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ResultScaleInfo createResultScale(@WebParam(name = "resultGroupInfo") ResultScaleInfo resultScaleInfo,
+    public ResultScaleInfo createResultScale(@WebParam(name = "resultScaleTypeKey") String resultScaleTypeKey,
+            @WebParam(name = "resultGroupInfo") ResultScaleInfo resultScaleInfo,
             @WebParam(name = "context") ContextInfo context)
             throws AlreadyExistsException,
             DataValidationErrorException,
