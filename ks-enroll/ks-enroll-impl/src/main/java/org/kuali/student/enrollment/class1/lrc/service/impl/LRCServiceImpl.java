@@ -322,5 +322,98 @@ public class LRCServiceImpl implements LRCService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public ResultScaleInfo createResultScale(ResultScaleInfo resultScaleInfo,
+            ContextInfo context)
+            throws AlreadyExistsException,
+            DataValidationErrorException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public StatusInfo deleteResultScale(String resultScaleKey,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<String> getResultScaleKeysByType(String resultScaleTypeKey,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ResultScaleInfo> getResultScalesByKeys(List<String> resultScaleKeys,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScale(String resultScaleKey,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScaleType(String resultScaleTypeKey,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ResultScaleInfo updateResultScale(String resultScaleKey,
+            ResultScaleInfo resultScaleInfo,
+            ContextInfo context)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            VersionMismatchException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateResultScale(String validationType,
+            ResultScaleInfo gradeScaleInfo,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    
     
 }
