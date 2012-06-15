@@ -4,6 +4,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.state.dto.StateInfo;
 
 import java.io.Serializable;
 
@@ -14,6 +15,11 @@ public class ActivityOfferingWrapper implements Serializable{
     private TermInfo term;
     private boolean readOnlyView;
     private boolean isChecked;
+
+    // Tanveer 06/13/2012
+    private String stateName;
+    private String typeName;
+
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
@@ -70,4 +76,19 @@ public class ActivityOfferingWrapper implements Serializable{
         this.isChecked = checked;
     }
 
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 }
