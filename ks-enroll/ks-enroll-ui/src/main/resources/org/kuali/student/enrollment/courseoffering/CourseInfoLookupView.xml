@@ -127,10 +127,8 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoLookupableImpl"/>
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseTitle"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="subjectArea"/>
             </list>
         </property>
         <property name="resultFields">
