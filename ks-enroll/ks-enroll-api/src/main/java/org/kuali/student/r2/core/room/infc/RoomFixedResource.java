@@ -31,7 +31,6 @@ public interface RoomFixedResource extends HasId, HasAttributesAndMeta {
      * Quantity of this resource
      *
      * @name Quantity
-     * @required
      */
     public Integer getQuantity();
 

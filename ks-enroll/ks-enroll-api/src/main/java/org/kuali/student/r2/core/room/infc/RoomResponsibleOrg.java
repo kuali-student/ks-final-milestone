@@ -15,7 +15,6 @@
 
 package org.kuali.student.r2.core.room.infc;
 
-import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**

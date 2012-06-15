@@ -15,10 +15,8 @@
 
 package org.kuali.student.r2.core.room.infc;
 
-import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.core.room.dto.RoomUsageInfo;
-
 import java.util.List;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
  * Room information
@@ -31,8 +29,9 @@ public interface Room extends IdEntity {
     /**
      * Code assigned to room (for example, "239")
      *
+     * Must be unique within the building.
+     * 
      * @name Room Code
-     * @readOnly
      * @required
      */
     public String getRoomCode();
@@ -50,7 +49,6 @@ public interface Room extends IdEntity {
      * Floor the room is in
      *
      * @name Floor
-     * @readOnly
      * @required
      */
     public String getFloor();
