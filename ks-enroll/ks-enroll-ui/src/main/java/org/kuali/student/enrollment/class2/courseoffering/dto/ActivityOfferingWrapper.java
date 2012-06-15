@@ -26,7 +26,7 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
-        aoInfo.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+        aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         formatOffering = new FormatOfferingInfo();
         term = new TermInfo();
