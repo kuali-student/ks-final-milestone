@@ -119,6 +119,8 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 getWorkflowDocumentActionsService().returnToPreviousNode(docActionParams, returnPoint);
             } else if (StringUtils.equals(action,WORKFLOW_DOCUMENT_ACTION_WITHDRAW)) {
                 getWorkflowDocumentActionsService().superUserDisapprove(docActionParams,true);
+            } else if (StringUtils.equals(action, WORKFLOW_DOCUMENT_ACTION_SUBMIT)) {
+                getWorkflowDocumentActionsService().route(docActionParams);
             } else {
                 throw new OperationFailedException("Invalid Action requested:" + action);
             }
