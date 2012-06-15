@@ -1,8 +1,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.KRADConstants;
+
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -17,9 +19,14 @@ import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
+
+import javax.xml.namespace.QName;
 import java.util.List;
 import java.util.Map;
 
@@ -27,8 +34,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     private transient CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
-    private transient TypeService typeService;
-    private transient StateService stateService;
+    private TypeService typeService;
+    private StateService stateService;
     private CourseService courseService;
 
 
@@ -106,8 +113,12 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             document.getNewMaintainableObject().setDataObject(wrapper);
             document.getOldMaintainableObject().setDataObject(wrapper);
             document.getDocumentHeader().setDocumentDescription("Edit AO - " + info.getActivityCode());
-//            StateInfo state = getStateService().getState(wrapper.getDto().getStateKey(), getContextInfo());
-//            wrapper.setStateName(state.getName());
+            /* Tanveer 06/14/2012 Uncomment these two lines once LUI state data is in the db. Li Pan has created the Jira 1464
+            StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), getContextInfo());
+            wrapper.setStateName(state.getName());   */
+            TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), getContextInfo());
+            wrapper.setTypeName(typeInfo.getName());
+
             return wrapper;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -134,12 +145,21 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         return contextInfo;
     }
 
-    public TypeService getTypeService() {
+/*    public TypeService getTypeService() {
            if(typeService == null) {
              typeService = CourseOfferingResourceLoader.loadTypeService();
         }
         return this.typeService;
+    } */
+
+    // Tanveer 06/14/2012
+    public TypeService getTypeService() {
+        if(typeService == null) {
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.typeService;
     }
+
 
     public StateService getStateService() {
            if(stateService == null) {
@@ -162,4 +182,5 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         return courseService;
     }
+
 }
