@@ -78,8 +78,8 @@ public class ProcessPocExemptionServiceDecorator extends ExemptionServiceDecorat
         info.setTypeKey(ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY);
         info.setStateKey(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY);
         info.setName(request.getName());
-        info.setProcessId(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
-        info.setCheckKey(ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_OPEN);
+        info.setProcessKey(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
+        info.setCheckId(ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_OPEN);
         try {
             info = this.createExemption(info.getExemptionRequestId(), info.getTypeKey(), info, context);
         } catch (Exception ex) {
@@ -95,8 +95,8 @@ public class ProcessPocExemptionServiceDecorator extends ExemptionServiceDecorat
         info.setTypeKey(ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY);
         info.setStateKey(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY);
         info.setName(request.getName());
-        info.setProcessId(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
-        info.setCheckKey(ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_NOT_CLOSED);
+        info.setProcessKey(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
+        info.setCheckId(ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_NOT_CLOSED);
         DateOverrideInfo dateOverride = new DateOverrideInfo();
         dateOverride.setMilestoneId(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
         dateOverride.setEffectiveEndDate(endDate);
