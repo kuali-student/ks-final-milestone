@@ -91,31 +91,16 @@
 
     <!-- Grant permissions needed for KS -->
     <ks.impex.oracle.sql.grants>
-      GRANT CREATE PROCEDURE
-      , CREATE SEQUENCE
-      , CREATE SESSION
-      , CREATE SYNONYM
-      , CREATE TABLE
-      ,
-      CREATE TRIGGER
-      , CREATE TYPE
-      , CREATE VIEW
-      TO ${ks.impex.username}
-      /
-
-      GRANT SELECT ON pending_trans$ to
-      ${ks.impex.username}
-      /
-
-      GRANT SELECT ON dba_2pc_pending to ${ks.impex.username}
-      /
-
-      GRANT SELECT ON
-      dba_pending_transactions to ${ks.impex.username}
-      /
-
-      GRANT EXECUTE ON dbms_system to ${ks.impex.username}
-      /
+    GRANT CREATE PROCEDURE
+    , CREATE SEQUENCE
+    , CREATE SESSION
+    , CREATE SYNONYM
+    , CREATE TABLE
+    , CREATE TRIGGER
+    , CREATE TYPE
+    , CREATE VIEW
+    TO ${ks.impex.username}
+    /
     </ks.impex.oracle.sql.grants>
     <!-- This is executed just before generating XML from the master db -->
     <ks.impex.oracle.sql.pre.export>
