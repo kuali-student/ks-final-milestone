@@ -147,11 +147,12 @@ public class TestProcessServiceModel {
             if (debugMode) { Log.warn("Retrieved: " + check) ; }
         }
         // check the schema
-        validateSchemaAndContent("KSEN_PROCESS_CHECK_ATTR", "", 3, 6);
+        validateSchemaAndContent("select * from KSEN_PROCESS_CHECK_ATTR", 3, 6);
+        validateSchemaAndContent("select * from KSEN_PROCESS_CHECK", 18, 2);
     }
 
-    private void validateSchemaAndContent (String tableName, String qualifier, int numberOfColumnsExpected, int numberOfRowsExpected) throws SQLException {
-        ResultSet rs = dataSource.getConnection().createStatement().executeQuery("select * from " + tableName);
+    private void validateSchemaAndContent (String query, int numberOfColumnsExpected, int numberOfRowsExpected) throws SQLException {
+        ResultSet rs = dataSource.getConnection().createStatement().executeQuery(query);
         ResultSetMetaData meta = rs.getMetaData();
         int cols = meta.getColumnCount();
         if (debugMode) {
@@ -171,6 +172,7 @@ public class TestProcessServiceModel {
             rowNum++;
         }
         assertEquals(numberOfRowsExpected, rowNum - 1);
+        rs.close();
     }
 
 }
