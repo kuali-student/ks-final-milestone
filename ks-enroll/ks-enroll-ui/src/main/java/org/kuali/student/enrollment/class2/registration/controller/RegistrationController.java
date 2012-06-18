@@ -101,8 +101,8 @@ public class RegistrationController extends UifControllerBase {
         //        regRequestItem.setCreditOptionKey("kuali.credit.option.RVG1"); TODO: fix
         regRequestItem.setGradingOptionId("kuali.grading.option.RVG1");
         regRequestItem.setName(regGroupWrapper.getRegistrationGroup().getName());
-        regRequestItem.setOkToHoldList(false);
-        regRequestItem.setOkToWaitlist(regGroupWrapper.getRegistrationGroup().getHasWaitlist());
+        regRequestItem.setOkToHoldUntilList(false);
+        regRequestItem.setOkToWaitlist(true);
         return regRequestItem;
     }
 
@@ -115,8 +115,8 @@ public class RegistrationController extends UifControllerBase {
         //        regRequestItem.setCredits("kuali.credit.option.RVG1");
         regRequestItem.setGradingOptionId("kuali.grading.option.RVG1");
         regRequestItem.setName(regGroupWrapper.getRegistrationGroup().getName());
-        regRequestItem.setOkToHoldList(false);
-        regRequestItem.setOkToWaitlist(regGroupWrapper.getRegistrationGroup().getHasWaitlist());
+        regRequestItem.setOkToHoldUntilList(false);
+        regRequestItem.setOkToWaitlist(true);
         return regRequestItem;
     }
 
@@ -449,71 +449,60 @@ public class RegistrationController extends UifControllerBase {
 
     protected void processSubmitRegRequest(RegistrationRequestInfo regRequest, RegistrationForm registrationForm, boolean oneClick) {
        ContextInfo context = new ContextInfo();
-        try {
-        	  String validationTypeKey = "FIXME";
-           	String regRequestTypeKey = "FIXME";
+       try {
+           String validationTypeKey = "FIXME";
+           String regRequestTypeKey = "FIXME";
 
-           	
-            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegistrationRequest(validationTypeKey, regRequestTypeKey, regRequest, context);
-            if (CollectionUtils.isEmpty(validationResultInfos)) {
-                //RegRequestInfo regRequest = saveRegRequest(registrationForm.getRegRequest(), context);
-                RegistrationResponseInfo regResponse = getCourseRegistrationService().submitRegistrationRequest(regRequest.getId(), context);
-
-                if(regResponse.getOperationStatus().getStatus().equalsIgnoreCase("SUCCESS")){
-                    GlobalVariables.getMessageMap().putInfo("GLOBAL_INFO", "enroll.registrationSuccessful");
-                    //TODO check this logic
-                    //Assuming registration successful if no errors returned
-                    if(!oneClick){
-                        registrationForm.setRegRequest(null);
-                    }
-                    registrationForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), registrationForm.getTermId(), context));
-                }
-                else {
-                    if(regResponse.getOperationStatus().getErrors().isEmpty()) {
-                        GlobalVariables.getMessageMap().putError("GLOBAL_ERRORS", "enroll.registrationUnsuccessful");
-                    }
-                }
-
-                if(!regResponse.getOperationStatus().getErrors().isEmpty()){
-                    for(String message: regResponse.getOperationStatus().getErrors()){
-                        GlobalVariables.getMessageMap().putError("GLOBAL_ERRORS", "error.enroll.requirementsNotMet", message);
-                    }
-                }
-                if(!regResponse.getOperationStatus().getWarnings().isEmpty()){
-                    for(String message: regResponse.getOperationStatus().getWarnings()){
-                        GlobalVariables.getMessageMap().putWarning("GLOBAL_WARNINGS", message);
-                    }
-                }
-                if(!regResponse.getOperationStatus().getMessages().isEmpty()){
-                    for(String message: regResponse.getOperationStatus().getMessages()){
-                        GlobalVariables.getMessageMap().putInfo("GLOBAL_INFO", message);
-                    }
-                }
-            } else {
-                GlobalVariables.getMessageMap().putError("GLOBAL_ERRORS", "enroll.registrationUnsuccessful");
-                StringBuilder builder = new StringBuilder("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
-                for (ValidationResultInfo resultInfo : validationResultInfos) {
-                    builder.append(resultInfo.getMessage()).append("\n");
-                }
-                throw new RuntimeException(builder.toString());
-            }
-        } catch (DoesNotExistException e) {
-            throw new RuntimeException(e);
-        } catch (InvalidParameterException e) {
-            throw new RuntimeException(e);
-        } catch (MissingParameterException e) {
-            throw new RuntimeException(e);
-        } catch (OperationFailedException e) {
-            throw new RuntimeException(e);
-        } catch (PermissionDeniedException e) {
-            throw new RuntimeException(e);
-        } catch (AlreadyExistsException e) {
-            throw new RuntimeException(e);
-        } catch (DisabledIdentifierException e) {
-            throw new RuntimeException(e);
-        }
+           
+           List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegistrationRequest(validationTypeKey, regRequestTypeKey, regRequest, context);
+           if (CollectionUtils.isEmpty(validationResultInfos)) {
+               //RegRequestInfo regRequest = saveRegRequest(registrationForm.getRegRequest(), context);
+               RegistrationResponseInfo regResponse = getCourseRegistrationService().submitRegistrationRequest(regRequest.getId(), context);
+               
+               if (!regResponse.getHasFailed()) {
+                   GlobalVariables.getMessageMap().putInfo("GLOBAL_INFO", "enroll.registrationSuccessful");
+                   //TODO check this logic
+                   //Assuming registration successful if no errors returned
+                   if (!oneClick) {
+                       registrationForm.setRegRequest(null);
+                   }
+                   registrationForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), registrationForm.getTermId(), context));
+               } else {
+                   if (regResponse.getMessages().isEmpty()) {
+                       GlobalVariables.getMessageMap().putError("GLOBAL_ERRORS", "enroll.registrationUnsuccessful");
+                   }
+               }
+               
+               if (!regResponse.getMessages().isEmpty()) {
+                   for (String message : regResponse.getMessages()) {
+                       GlobalVariables.getMessageMap().putError("GLOBAL_ERRORS", "error.enroll.requirementsNotMet", message);
+                   }
+               }
+           } else {
+               GlobalVariables.getMessageMap().putError("GLOBAL_ERRORS", "enroll.registrationUnsuccessful");
+               StringBuilder builder = new StringBuilder("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
+               for (ValidationResultInfo resultInfo : validationResultInfos) {
+                   builder.append(resultInfo.getMessage()).append("\n");
+               }
+               throw new RuntimeException(builder.toString());
+           }
+       } catch (DoesNotExistException e) {
+           throw new RuntimeException(e);
+       } catch (InvalidParameterException e) {
+           throw new RuntimeException(e);
+       } catch (MissingParameterException e) {
+           throw new RuntimeException(e);
+       } catch (OperationFailedException e) {
+           throw new RuntimeException(e);
+       } catch (PermissionDeniedException e) {
+           throw new RuntimeException(e);
+       } catch (AlreadyExistsException e) {
+           throw new RuntimeException(e);
+       } catch (DisabledIdentifierException e) {
+           throw new RuntimeException(e);
+       }
     }
-
+    
     /**
      * After the document is loaded calls method to setup the maintenance object
      */
