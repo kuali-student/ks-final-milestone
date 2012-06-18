@@ -374,7 +374,9 @@ public class ProcessServiceImpl implements ProcessService {
     public List<String> getCheckKeysByType(@WebParam(name = "checkTypeKey") String checkTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<CheckEntity> checkEntities = checkDao.getByCheckTypeId(checkTypeKey);
+        // List<CheckEntity> checkEntities = checkDao.getByCheckTypeId(checkTypeKey);
+        List<CheckEntity> checkEntities = checkDao.getByCheckType(checkTypeKey);
+
 
         List<String> checkIds = new ArrayList<String>();
         for (CheckEntity processEntity : checkEntities) {

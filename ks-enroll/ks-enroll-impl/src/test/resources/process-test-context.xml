@@ -25,7 +25,7 @@
 	    <!--  Preloaded data -->
     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
-        <property name="shouldLoadData" value="true"/>
+        <property name="shouldLoadData" value="false"/>
         <property name="preloadMap">
             <map>
                 <entry key="persistentUnit">
@@ -76,6 +76,10 @@
         <property name="generateDdl" value="${jpa.generateDdl}" />
     </bean>
 
+    <bean id="debugMode" class="java.lang.Boolean">
+        <constructor-arg value="true" />
+    </bean>
+
     <!-- Default JPA EntityManagerFactory -->
     <bean id="defaultEntityManagerFactory" abstract="true"
         class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" autowire-candidate="false" autowire="byType">
@@ -87,14 +91,18 @@
     
    <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
         <property name="persistenceUnitName" value="persistentUnit"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml" />
+        <property name="persistenceXmlLocation" value="classpath:META-INF/process-persistence.xml" />
         <property name="dataSource" ref="dataSource" />
    </bean>
     
     <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-    
+
+    <bean id="checkDao" class="org.kuali.student.r2.core.class1.process.dao.CheckDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
     <bean id="processServiceImpl" class="org.kuali.student.r2.core.class1.process.service.impl.ProcessServiceImpl">
         <property name="checkDao" ref="checkDao"/>
         <property name="instructionDao" ref="instructionDao"/>
@@ -114,10 +122,6 @@
     </bean>
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
-    <bean id="checkDao" class="org.kuali.student.r2.core.class1.process.dao.CheckDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-  
     <bean id="instructionDao" class="org.kuali.student.r2.core.class1.process.dao.InstructionDao">
         <property name="em" ref="entityManager"/>
     </bean>
@@ -142,11 +146,11 @@
 
 	<tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
-    <bean id="courseRegService" class="org.kuali.student.r2.core.class1.process.CourseRegistrationServiceProcessCheckDecorator">
+    <!--<bean id="courseRegService" class="org.kuali.student.r2.core.class1.process.CourseRegistrationServiceProcessCheckDecorator">
         <property name="nextDecorator" ref="courseRegServiceMock"/>
-    </bean>
+    </bean>-->
 
-    <bean id="courseRegServiceMock" class="org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceMockImpl"/>
+    <!-- <bean id="courseRegServiceMock" class="org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceMockImpl"/> -->
 
     <bean id="exemptionService" class="org.kuali.student.r2.core.class1.process.ProcessPocExemptionServiceDecorator">
         <constructor-arg ref="exemptionServiceMock" />

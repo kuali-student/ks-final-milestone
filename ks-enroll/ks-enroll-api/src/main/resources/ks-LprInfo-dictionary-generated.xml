@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated on Thu Jun 14 11:06:41 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -38,11 +38,11 @@ plus any of its dependencies -->
 	<!-- ********************************************************************************************************** -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
-	<!-- LuiPersonRelationInfo-->
-	<bean id="LuiPersonRelationInfo-generated" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="luiPersonRelationInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo"/>
-		<property name="objectLabel" value="Lui Person Relation"/>
+	<!-- LprInfo-->
+	<bean id="LprInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="lprInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.lpr.dto.LprInfo"/>
+		<property name="objectLabel" value="Lpr"/>
 		<property name="objectDescription">
 			<value>
 Detailed information about a single LUI to Person Relation. This is used to
@@ -59,20 +59,20 @@ to advise students in a particular program.
 
 		<property name="attributes">
 			<list>
-				<ref bean="LuiPersonRelationInfo.id"/>
-				<ref bean="LuiPersonRelationInfo.typeKey"/>
-				<ref bean="LuiPersonRelationInfo.stateKey"/>
-				<ref bean="LuiPersonRelationInfo.luiId"/>
-				<ref bean="LuiPersonRelationInfo.personId"/>
-				<ref bean="LuiPersonRelationInfo.commitmentPercent"/>
-				<ref bean="LuiPersonRelationInfo.effectiveDate"/>
-				<ref bean="LuiPersonRelationInfo.expirationDate"/>
+				<ref bean="LprInfo.id"/>
+				<ref bean="LprInfo.typeKey"/>
+				<ref bean="LprInfo.stateKey"/>
+				<ref bean="LprInfo.luiId"/>
+				<ref bean="LprInfo.personId"/>
+				<ref bean="LprInfo.commitmentPercent"/>
+				<ref bean="LprInfo.effectiveDate"/>
+				<ref bean="LprInfo.expirationDate"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
-				<ref bean="LuiPersonRelationInfo.meta"/>
+				<ref bean="LprInfo.meta"/>
 			</list>
 		</property>
 
@@ -82,19 +82,19 @@ to advise students in a particular program.
 		</property>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="LprInfo.id-generated" abstract="true" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="LprInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="LprInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.luiId-generated" abstract="true" parent="BaseKuali.luiId">
+	<bean id="LprInfo.luiId-generated" abstract="true" parent="BaseKuali.luiId">
 		<property name="name" value="luiId"/>
 		<property name="shortLabel" value="Lui Id"/>
 		<property name="summary">
@@ -111,7 +111,7 @@ Unique identifier for a Learning Unit Instance (LUI).
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.personId-generated" abstract="true" parent="BaseKuali.personId">
+	<bean id="LprInfo.personId-generated" abstract="true" parent="BaseKuali.personId">
 		<property name="name" value="personId"/>
 		<property name="shortLabel" value="Person Id"/>
 		<property name="summary">
@@ -128,7 +128,7 @@ Unique identifier for a person record.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.resultValuesGroupKeys-generated" abstract="true" parent="CollectionDefinition">
+	<bean id="LprInfo.resultValuesGroupKeys-generated" abstract="true" parent="CollectionDefinition">
 		<property name="name" value="resultValuesGroupKeys"/>
 		<property name="shortLabel" value="Result Values Group Keys"/>
 		<property name="summary">
@@ -153,32 +153,36 @@ for this course.
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.commitmentPercent-generated" abstract="true" parent="BaseKuali.float">
+	<bean id="LprInfo.commitmentPercent-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="commitmentPercent"/>
 		<property name="shortLabel" value="Commitment Percent"/>
 		<property name="summary">
 			<value>
 Commitment percentage for the person in the LUI
+
+Valid range should be between 0 and 100.00 inclusive.
 			</value>
 		</property>
 		<property name="label" value="Commitment Percent"/>
 		<property name="description">
 			<value>
 Commitment percentage for the person in the LUI
+
+Valid range should be between 0 and 100.00 inclusive.
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+	<bean id="LprInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
 		<property name="name" value="effectiveDate"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
+	<bean id="LprInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
 		<property name="name" value="expirationDate"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="LprInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -224,11 +228,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="LuiPersonRelationInfo.meta.versionInd"/>
-						<ref bean="LuiPersonRelationInfo.meta.createTime"/>
-						<ref bean="LuiPersonRelationInfo.meta.createId"/>
-						<ref bean="LuiPersonRelationInfo.meta.updateTime"/>
-						<ref bean="LuiPersonRelationInfo.meta.updateId"/>
+						<ref bean="LprInfo.meta.versionInd"/>
+						<ref bean="LprInfo.meta.createTime"/>
+						<ref bean="LprInfo.meta.createId"/>
+						<ref bean="LprInfo.meta.updateTime"/>
+						<ref bean="LprInfo.meta.updateId"/>
 					</list>
 				</property>
 
@@ -245,23 +249,23 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="LprInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="LprInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="LprInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="LprInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="LuiPersonRelationInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="LprInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 </beans>

@@ -139,7 +139,8 @@
                                 <inputFile>ks-AppointmentSlotInfo-dictionary.xml</inputFile>                                  
                                 <inputFile>ks-AppointmentInfo-dictionary.xml</inputFile> 
                                 <!-- LPR -->
-                                <inputFile>ks-LuiPersonRelationInfo-dictionary.xml</inputFile>
+                                <!--<inputFile>ks-LuiPersonRelationInfo-dictionary.xml</inputFile>-->
+                                <inputFile>ks-LprInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprRosterInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprRosterEntryInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprTransactionInfo-dictionary.xml</inputFile>
@@ -204,7 +205,12 @@
                                 <inputFile>ks-FormatInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-ActivityInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-LoDisplayInfo-dictionary.xml</inputFile>   
-                                <inputFile>ks-LoCategoryInfo-dictionary.xml</inputFile> 
+                                <inputFile>ks-LoCategoryInfo-dictionary.xml</inputFile>
+                                <!-- Process -->
+                                <inputFile>ks-CheckInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-InstructionInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-ProcessCategoryInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-ProcessInfo-dictionary.xml</inputFile>
 <!--                                 Program 
                                 <inputFile>ks-CoreProgramInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-CredentialProgramInfo-dictionary.xml</inputFile> 
@@ -251,18 +257,48 @@
 <!--                             Appointment -->
                                 <className>AppointmentWindowInfo</className>
                                 <className>AppointmentSlotInfo</className>                                  
-                                <className>AppointmentInfo</className>  
+                                <className>AppointmentInfo</className>
+<!--                                Course -->
+                                <className>CourseInfo</className>
+                                <className>FormatInfo</className>
+                                <className>ActivityInfo</className>
+                                <className>LoDisplayInfo</className>
+<!--                                Course Offering      -->
+                                <className>CourseOfferingInfo</className>
+                                <className>OfferingInstructorInfo</className>
+                                <className>FormatOfferingInfo</className>
+                                <className>ActivityOfferingInfo</className>
+                                <className>RegistrationGroupInfo</className>
+                                <className>SeatPoolDefinitionInfo</className>
+<!--                                Course registration -->
+                                <className>CourseRegistrationInfo</className>
+                                <className>ActivityRegistrationInfo</className>
+                                <className>RegGroupRegistrationInfo</className>
+                                <className>RegRequestInfo</className>
+                                <className>RegRequestItemInfo</className>
+                                <className>RegResponseInfo</className>
+                                <className>RegResponseItemInfo</className>
+<!--                                Course waitlist -->
+                                <className>CourseWaitlistEntryInfo</className>
+<!--                                Exemption -->
+                                <className>ExemptionInfo</className>
+                                <className>ExemptionRequestInfo</className>
+<!--                                Grading -->
+                                <className>GradeRosterInfo</className>
+                                <className>GradeRosterEntryInfo</className>
+                                <className>GradeValuesGroupInfo</className>
+<!--                                Hold         -->
+                                <className>HoldInfo</className>
+                                <className>IssueInfo</className>
 <!--                                LPR -->
-                                <className>LuiPersonRelationInfo</className>
+                                <!--<className>LuiPersonRelationInfo</className>-->
+                                <className>LPRInfo</className>
                                 <className>LprRosterInfo</className>
                                 <className>LprRosterEntryInfo</className>
                                 <className>LprTransactionInfo</className>
                                 <className>LprTransactionItemInfo</className>
                                 <className>RequestOptionInfo</className>
                                 <className>LprTransactionItemResultInfo</className>                           
-<!--                                Hold         -->
-                                <className>HoldInfo</className>
-                                <className>IssueInfo</className>
 <!--                                LUI                 -->
                                 <className>LuiInfo</className>
                                 <className>LuiIdentifierInfo</className>
@@ -274,56 +310,32 @@
                                 <className>MeetingScheduleInfo</className>
                                 <className>LuiLuiRelationInfo</className>
                                 <className>LuiCapacityInfo</className>
-<!--                                Course Offering      -->
-                                <className>CourseOfferingInfo</className>
-                                <className>OfferingInstructorInfo</className>
-                                <className>FormatOfferingInfo</className>
-                                <className>ActivityOfferingInfo</className>
-                                <className>RegistrationGroupInfo</className>
-                                <className>SeatPoolDefinitionInfo</className>
-                                <!-- Course registration -->
-                                <className>CourseRegistrationInfo</className>
-                                <className>ActivityRegistrationInfo</className>
-                                <className>RegGroupRegistrationInfo</className>
-                                <className>RegRequestInfo</className>
-                                <className>RegRequestItemInfo</className>
-                                <className>RegResponseInfo</className>
-                                <className>RegResponseItemInfo</className>
-                                <!-- Course waitlist -->
-                                <className>CourseWaitlistEntryInfo</className>
-                                <!-- Exemption -->
-                                <className>ExemptionInfo</className>
-                                <className>ExemptionRequestInfo</className>
-                                <!-- Grading -->
-                                <className>GradeRosterInfo</className>
-                                <className>GradeRosterEntryInfo</className>
-                                <className>GradeValuesGroupInfo</className>
-                                <!-- LRR -->
+<!--                                LRR -->
                                 <className>LearningResultRecordInfo</className>
                                 <className>ResultSourceInfo</className>
-                                <!-- LRC -->
+<!--                                LRC -->
                                 <className>ResultValuesGroupInfo</className>
                                 <className>ResultValueInfo</className>
                                 <className>ResultScaleInfo</className>      
-                                <!-- Course --> 
-                                <className>CourseInfo</className>  
-                                <className>FormatInfo</className>  
-                                <className>ActivityInfo</className>  
-                                <className>LoDisplayInfo</className> 
-                                <!-- Program -->
+<!--                                Program -->
                                 <className>CoreProgramInfo</className>
                                 <className>CredentialProgramInfo</className> 
                                 <className>HonorsProgramInfo</className>  
                                 <className>MajorDisciplineInfo</className>  
                                 <className>ProgramRequirementInfo</className>  
-                                <className>ProgramVariationInfo</className> 
-                                <!-- Type -->
+                                <className>ProgramVariationInfo</className>
+<!--                                Process -->
+                                <className>CheckInfo</className>
+                                <className>InstructionInfo</className>
+                                <className>ProcessCategoryInfo</className>
+                                <className>ProcessInfo</className>
+<!--                                State -->
+                                <className>StateInfo</className>
+                                <className>LifecycleInfo</className>
+<!--                                Type -->
                                 <className>TypeInfo</className>
                                 <className>TypeTypeRelationInfo</className>
-                                <!-- State -->
-                                <className>StateInfo</className>
-                                <className>LifecycleInfo</className>                              
-                            </classNames>                     
+                            </classNames>
                         </configuration>
                     </execution>                  
                 </executions>

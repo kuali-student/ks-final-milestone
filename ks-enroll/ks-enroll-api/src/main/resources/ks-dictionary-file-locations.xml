@@ -6,7 +6,8 @@
 
     <!--LPR Service-->
     <bean id="luiPersonRelationInfoDictionaryLocation" class="java.lang.String">
-        <constructor-arg value="classpath:ks-LuiPersonRelationInfo-dictionary.xml" />
+        <!--<constructor-arg value="classpath:ks-LuiPersonRelationInfo-dictionary.xml" />-->
+        <constructor-arg value="classpath:ks-LprInfo-dictionary.xml" />
     </bean>
     <bean name="luiPersonRelationServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>

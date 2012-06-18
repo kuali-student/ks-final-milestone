@@ -5,12 +5,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-
 @Entity
 @Table(name = "KSEN_PROCESS_CHECK_ATTR")
-public class CheckAttributeEntity extends BaseAttributeEntity<CheckEntity> {
+public class CheckAttributeEntity /* extends BaseAttributeEntity<CheckEntity> */{
 
     ////////////////////
     // DATA FIELDS
@@ -25,7 +22,7 @@ public class CheckAttributeEntity extends BaseAttributeEntity<CheckEntity> {
     //////////////////////////
 
     public CheckAttributeEntity() {}
-
+    /*
     public CheckAttributeEntity(String key, String value) {
         super(key, value);
     }
@@ -34,12 +31,12 @@ public class CheckAttributeEntity extends BaseAttributeEntity<CheckEntity> {
         super(att);
         setOwner(owner);
     }
-
+      */
     ///////////////////////////
     // GETTERS AND SETTERS
     ///////////////////////////
 
-    @Override
+    /*@Override
     public void setOwner(CheckEntity owner) {
         this.owner = owner;
     }
@@ -47,5 +44,5 @@ public class CheckAttributeEntity extends BaseAttributeEntity<CheckEntity> {
     @Override
     public CheckEntity getOwner() {
         return owner;
-    }
+    } */
 }

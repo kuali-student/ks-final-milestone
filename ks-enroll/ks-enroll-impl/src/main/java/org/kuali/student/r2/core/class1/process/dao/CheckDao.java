@@ -7,7 +7,11 @@ import java.util.List;
 
 public class CheckDao extends GenericEntityDao<CheckEntity> {
 
-    public List<CheckEntity> getByCheckTypeId(String checkTypeId) {
-        return em.createQuery("from CheckEntity a where a.checkType.id=:checkTypeId").setParameter("checkTypeId", checkTypeId).getResultList();
+    public List<CheckEntity> getByCheckType(String checkType) {
+        return em.createQuery("from CheckEntity a where a.checkType=:checkType").setParameter("checkType", checkType).getResultList();
+    }
+
+    public List<CheckEntity> getByName(String name) {
+        return em.createQuery("from CheckEntity a where a.name=:name").setParameter("name", name).getResultList();
     }
 }
