@@ -102,7 +102,7 @@ public class CourseOfferingMaintainableImpl extends MaintainableImpl implements 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
-            if (getDataObject() instanceof ActivityOfferingWrapper){
+            if (getDataObject() instanceof CourseOfferingEditWrapper){
                 CourseOfferingInfo info = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
                 CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(info);
                 List<FormatOfferingInfo> formats = getCourseOfferingService().getFormatOfferingsByCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
