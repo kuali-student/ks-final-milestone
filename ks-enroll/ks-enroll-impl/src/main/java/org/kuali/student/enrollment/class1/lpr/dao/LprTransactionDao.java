@@ -26,22 +26,4 @@ public class LprTransactionDao extends GenericEntityDao<LprTransactionEntity> {
                 .setParameter("lprTransactionItemId", lprTransactionItemId).getSingleResult()) ;
     }
 
-    /**
-     * Merge the provided info object into the lpr object loaded from the database.
-     * 
-     * @param lprId
-     * @param info
-     * @return
-     * @throws DoesNotExistException 
-     */
-    public void mergeFromDto(LprTransactionEntity entity, LprTransactionInfo info) throws DoesNotExistException {
-    	
-    	List<Object> orphanedData = entity.fromDto(info);
-    	
-    	for (Object orphan : orphanedData) {
-			
-    		em.remove(orphan);
-		}
-    	
-    }
 }

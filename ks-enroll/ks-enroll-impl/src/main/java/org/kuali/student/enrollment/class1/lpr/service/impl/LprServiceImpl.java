@@ -622,7 +622,7 @@ public class LprServiceImpl implements LprService {
 
         if (null != lprTrans) {
         	
-        	 lprTransDao.mergeFromDto(lprTrans, lprTransactionInfo);
+        	 lprTrans.fromDto(lprTransactionInfo);
         	 
             if (lprTransactionInfo.getStateKey() != null) {
             	lprTrans.setLprTransState(lprTransactionInfo.getStateKey());
@@ -631,8 +631,9 @@ public class LprServiceImpl implements LprService {
             	lprTrans.setLprTransType(lprTransactionInfo.getTypeKey());
             }
 
-            
             lprTrans.setEntityUpdated(context);
+            
+            lprTransDao.merge(lprTrans);
             
             return lprTransDao.find(lprTransactionId).toDto();
 
@@ -641,7 +642,6 @@ public class LprServiceImpl implements LprService {
         }
     }
 
-    @Transactional
     private List<LprTransactionItemEntity> processLprTransactionItemsModification(LprTransactionInfo modifiedTransactionInfo, LprTransactionEntity originalLprTransEntity, ContextInfo context) {
         List<LprTransactionItemEntity> modifiedLprTransItemEntities = new ArrayList<LprTransactionItemEntity>();
         LprTransactionInfo originalLprTransInfo = originalLprTransEntity.toDto();

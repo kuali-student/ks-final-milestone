@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.lpr.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -65,11 +66,11 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     @Column(name = "LRP_TRANS_STATE", nullable=false)
     private String lprTransState;
 
-@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LprTransactionAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
+    private final Set<LprTransactionAttributeEntity> attributes = new HashSet<LprTransactionAttributeEntity>();
     
-@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LprTransactionItemEntity> lprTransactionItems;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
+    private final Set<LprTransactionItemEntity> lprTransactionItems = new HashSet<LprTransactionItemEntity>();
    
 
     public LprTransactionEntity() {}
@@ -86,9 +87,8 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     }
 
     @SuppressWarnings("unchecked")
-	public List<Object>fromDto (LprTransaction lprTransaction) {
+	public void fromDto (LprTransaction lprTransaction) {
     	
-    	List<Object>orphanList = new ArrayList<Object>();
 		
     	 this.setName(lprTransaction.getName());
     	 
@@ -106,90 +106,24 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
              this.setDescrPlain(null);
          }
          
+         this.attributes.clear();
          
-         EntityMergeHelper<LprTransactionAttributeEntity, Attribute>attributeMergeHelper = new EntityMergeHelper<LprTransactionAttributeEntity, Attribute>();
-         
-         EntityMergeResult<LprTransactionAttributeEntity> attributeMergeResults = attributeMergeHelper.merge(this.attributes, (Collection<Attribute>) lprTransaction.getAttributes(), new EntityMergeHelper.EntityMergeOptions<LprTransactionAttributeEntity, Attribute>() {
-
-			@Override
-			public String getEntityId(LprTransactionAttributeEntity entity) {
-				return entity.getId();
-			}
-
-			@Override
-			public String getInfoId(Attribute info) {
-				return info.getId();
-			}
-
-			@Override
-			public List<Object> merge(LprTransactionAttributeEntity entity,
-					Attribute info) {
-				
-				entity.fromDto(info);
-				
-				entity.setOwner(LprTransactionEntity.this);
-				
-				return new ArrayList<Object>();
-			}
-
-			@Override
-			public LprTransactionAttributeEntity create(Attribute att) {
-				LprTransactionAttributeEntity attr = new LprTransactionAttributeEntity(att);
-				
-				attr.setOwner(LprTransactionEntity.this);
-				
-				return attr;
-				
-			}
-        	 
-		});
-         
-         this.setAttributes(attributeMergeResults.getMergedList());
-         
-         orphanList.addAll(attributeMergeResults.getOrphanList());
-         
-         
-         EntityMergeHelper<LprTransactionItemEntity, LprTransactionItem>transactionItemMergeHelper = new EntityMergeHelper<LprTransactionItemEntity, LprTransactionItem>();
-         
-         EntityMergeResult<LprTransactionItemEntity> transactionItemMergeResult = transactionItemMergeHelper.merge(this.lprTransactionItems, (Collection<LprTransactionItem>) lprTransaction.getLprTransactionItems(), new EntityMergeHelper.EntityMergeOptions<LprTransactionItemEntity, LprTransactionItem>() {
-
-			@Override
-			public String getEntityId(LprTransactionItemEntity entity) {
-				return entity.getId();
-			}
-
-			@Override
-			public String getInfoId(LprTransactionItem info) {
-				return info.getId();
-			}
-
-			@Override
-			public List<Object> merge(LprTransactionItemEntity entity,
-					LprTransactionItem info) {
-				
-				List<Object>orphanList = entity.fromDto(info);
-				
-				entity.setOwner(LprTransactionEntity.this);
-				
-				return orphanList;
-			}
-
-			@Override
-			public LprTransactionItemEntity create(LprTransactionItem info) {
-				LprTransactionItemEntity lprTransactionItemEntity = new LprTransactionItemEntity(info);
+         for (Attribute attr : lprTransaction.getAttributes()) {
 			
-				lprTransactionItemEntity.setOwner(LprTransactionEntity.this);
-				
-				return lprTransactionItemEntity;
-			}
-        	 
-		});
+        	 LprTransactionAttributeEntity lprAttr;
+			this.attributes.add(lprAttr = new LprTransactionAttributeEntity(attr));
+			lprAttr.setOwner(this);
+         }
+
+         this.lprTransactionItems.clear();
          
-         this.setLprTransactionItems(transactionItemMergeResult.getMergedList());
+         for (LprTransactionItem lprTransactionItem : lprTransaction.getLprTransactionItems()) {
+			
+        	 LprTransactionItemEntity item;
+			 this.lprTransactionItems.add(item = new LprTransactionItemEntity(lprTransactionItem));
+        	 item.setOwner(this);
+		}
          
-         orphanList.addAll(transactionItemMergeResult.getOrphanList());
-		
-		return orphanList;
     }
     
     
@@ -277,13 +211,20 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     }
 
     public void setLprTransactionItems(Set<LprTransactionItemEntity> lprTransactionItems) {
-        this.lprTransactionItems = lprTransactionItems;
+    	
+    	this.lprTransactionItems.clear();
+    	
+    	if (lprTransactionItems != null)
+    		this.lprTransactionItems.addAll(lprTransactionItems);
     }
 
 
     @Override
     public void setAttributes(Set<LprTransactionAttributeEntity> attributes) {
-        this.attributes = attributes;
+    	this.attributes.clear();
+    	
+    	if (attributes != null)
+    		this.attributes.addAll(attributes);
     }
 
     @Override

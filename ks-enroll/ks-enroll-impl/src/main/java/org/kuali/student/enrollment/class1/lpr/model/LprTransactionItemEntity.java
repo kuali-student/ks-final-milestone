@@ -16,14 +16,17 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -37,9 +40,6 @@ import org.kuali.student.enrollment.lpr.infc.LprTransactionItemRequestOption;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.helper.EntityMergeHelper;
-import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeOptions;
-import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeResult;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 
@@ -83,14 +83,16 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 	@Column(name = "LPR_TRANS_ITEM_STATE")
 	private String lprTransactionItemState;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private Set<LprTransactionItemAttributeEntity> attributes;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval=true)
+	private final Set<LprTransactionItemAttributeEntity> attributes = new HashSet<LprTransactionItemAttributeEntity>();
 	
-	@OneToMany (cascade = CascadeType.ALL, mappedBy = "lprTransactionItem")
-	private Set<LprTransactionItemRequestOptionEntity>requestOptions;
+	@OneToMany (cascade = CascadeType.ALL, mappedBy = "lprTransactionItem", orphanRemoval=true)
+	private final Set<LprTransactionItemRequestOptionEntity>requestOptions = new HashSet<LprTransactionItemRequestOptionEntity>();
 	
-	@OneToMany (cascade = CascadeType.ALL, mappedBy = "lprTransactionItem")
-	private Set<LprTransactionItemResultValueGroupEntity>resultValueGroups;
+	@ElementCollection(fetch=FetchType.EAGER)
+	@JoinTable (name="KSEN_LPR_TRANS_ITEM_RVG", joinColumns=@JoinColumn(name="LPR_TRANS_ITEM_ID"))
+	@Column(name="RESULT_VAL_GRP_ID")
+	private final Set<String>resultValueGroupIds = new HashSet<String>();
 	
 	@ManyToOne
 	@JoinColumn(name="LPR_TRANS_ID")
@@ -110,9 +112,8 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 	}
 	
 
-	public List<Object> fromDto(LprTransactionItem lprTransactionItem) {
+	public void fromDto(LprTransactionItem lprTransactionItem) {
 		
-		List<Object>orphanList = new ArrayList<Object>();
 
 		this.setNewLuiId(lprTransactionItem.getNewLuiId());
 		this.setExistingLuiId(lprTransactionItem.getExistingLuiId());
@@ -138,120 +139,28 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 		}
 
 		
-		EntityMergeHelper<LprTransactionItemAttributeEntity, Attribute>attributeMergeHelper = new EntityMergeHelper<LprTransactionItemAttributeEntity, Attribute>();
+		this.attributes.clear();
 		
-		EntityMergeResult<LprTransactionItemAttributeEntity> attributesMergeResult = attributeMergeHelper.merge(attributes,  (Collection<Attribute>) lprTransactionItem.getAttributes(), new EntityMergeHelper.EntityMergeOptions<LprTransactionItemAttributeEntity, Attribute>() {
-
-			@Override
-			public String getEntityId(LprTransactionItemAttributeEntity entity) {
-				return entity.getId();
-			}
-
-			@Override
-			public String getInfoId(Attribute info) {
-				return info.getId();
-			}
-
-			@Override
-			public List<Object> merge(LprTransactionItemAttributeEntity entity,
-					Attribute info) {
-				
-				entity.fromDto(info);
-				
-				entity.setOwner(LprTransactionItemEntity.this);
-				
-				return new ArrayList<Object>();
-			}
-
-			@Override
-			public LprTransactionItemAttributeEntity create(Attribute info) {
-				
-				LprTransactionItemAttributeEntity entity = new LprTransactionItemAttributeEntity(info);
-				
-				entity.setOwner(LprTransactionItemEntity.this);
-				
-				return entity;
-			}
-		
+		for (Attribute attr : lprTransactionItem.getAttributes()) {
 			
-		});
-
-		this.attributes = attributesMergeResult.getMergedList();
+			LprTransactionItemAttributeEntity lprAttr;
+			this.attributes.add(lprAttr = new LprTransactionItemAttributeEntity(attr));
+			lprAttr.setOwner(this);
+		}
 		
-		orphanList.addAll(attributesMergeResult.getOrphanList());
+		this.requestOptions.clear();
 		
-		EntityMergeHelper<LprTransactionItemRequestOptionEntity, LprTransactionItemRequestOption>requestOptionMergeHelper = new EntityMergeHelper<LprTransactionItemRequestOptionEntity, LprTransactionItemRequestOption>();
+		for (LprTransactionItemRequestOption requestOption : lprTransactionItem.getRequestOptions()) {
 		
-		EntityMergeResult<LprTransactionItemRequestOptionEntity> requestOptionMergeResults = requestOptionMergeHelper.merge(this.requestOptions, (Collection<LprTransactionItemRequestOption>) lprTransactionItem.getRequestOptions(), new EntityMergeOptions<LprTransactionItemRequestOptionEntity, LprTransactionItemRequestOption>() {
-
-			@Override
-			public String getEntityId(
-					LprTransactionItemRequestOptionEntity entity) {
-				return entity.getId();
-			}
-
-			@Override
-			public String getInfoId(LprTransactionItemRequestOption info) {
-				return info.getId();
-			}
-
-			@Override
-			public List<Object> merge(
-					LprTransactionItemRequestOptionEntity entity,
-					LprTransactionItemRequestOption info) {
-				
-				entity.fromDto(info);
-				
-				entity.setLprTransactionItem(LprTransactionItemEntity.this);
-				
-				return new ArrayList<Object>();
-			}
-
-			@Override
-			public LprTransactionItemRequestOptionEntity create(
-					LprTransactionItemRequestOption info) {
-				
-				LprTransactionItemRequestOptionEntity entity = new LprTransactionItemRequestOptionEntity(info);
-				
-				entity.setLprTransactionItem(LprTransactionItemEntity.this);
-				
-				return entity;
-			}
-		
-		
-		});
-		
-		
-		this.requestOptions = requestOptionMergeResults.getMergedList();
-		
-		orphanList.addAll(requestOptionMergeResults.getOrphanList());
-		
-		EntityMergeHelper<LprTransactionItemResultValueGroupEntity, String> resultValueGroupMergeHelper = new EntityMergeHelper<LprTransactionItemResultValueGroupEntity, String>();
-		
-		EntityMergeResult<LprTransactionItemResultValueGroupEntity> resultValueGroupMergeResult = resultValueGroupMergeHelper.mergeStringList(this.resultValueGroups, lprTransactionItem.getResultValuesGroupKeys(), new EntityMergeHelper.StringMergeOptions<LprTransactionItemResultValueGroupEntity>() {
-
-			@Override
-			public String getKey(LprTransactionItemResultValueGroupEntity entity) {
-				return entity.getResultValueGroupId();
-			}
-
-			@Override
-			public LprTransactionItemResultValueGroupEntity create(String value) {
-				
-				LprTransactionItemResultValueGroupEntity entity = new LprTransactionItemResultValueGroupEntity(value);
-				
-				entity.setLprTransactionItem(LprTransactionItemEntity.this);
-				
-				return entity;
-			}
+			this.requestOptions.add(new LprTransactionItemRequestOptionEntity(requestOption));
 			
-		});
+		}
 		
-		this.resultValueGroups = resultValueGroupMergeResult.getMergedList();
+		this.resultValueGroupIds.clear();
 		
-		orphanList.addAll(resultValueGroupMergeResult.getOrphanList());
+		this.resultValueGroupIds.addAll(lprTransactionItem.getResultValuesGroupKeys());
 		
-		return orphanList;
+		
 	}
 
 	public LprTransactionItemInfo toDto() {
@@ -301,16 +210,11 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 			lprTransItemInfo.setRequestOptions(new ArrayList<LprTransactionItemRequestOptionInfo>());
 		}
 		
-		Set<LprTransactionItemResultValueGroupEntity> resultValueGroupsList = getResultValueGroups();
-		
-		if (resultValueGroupsList != null) {
-			
-			for (LprTransactionItemResultValueGroupEntity lprTransactionItemResultValueGroup : resultValueGroupsList) {
-				lprTransItemInfo.getResultValuesGroupKeys().add(lprTransactionItemResultValueGroup.getResultValueGroupId());
-			}
-			
-		}
 
+		List<String> resultValueGroupKeys = new ArrayList<String> (getResultValueGroupIds().size());
+		
+		lprTransItemInfo.setResultValuesGroupKeys(resultValueGroupKeys);
+		
 		if (this.getResultingLprId() != null && this.getStatus() != null) {
 			// only record the details if the values are not null
 			LprTransactionItemResultInfo lprItemResult = new LprTransactionItemResultInfo();
@@ -408,7 +312,11 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 	}
 
 	public void setAttributes(Set<LprTransactionItemAttributeEntity> attributes) {
-		this.attributes = attributes;
+		
+		this.attributes.clear();
+		
+		if (attributes != null)
+			this.attributes.addAll(attributes);
 	}
 
 	public String getResultMessage() {
@@ -441,16 +349,24 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
 	public void setRequestOptions(
 			Set<LprTransactionItemRequestOptionEntity> requestOptions) {
-		this.requestOptions = requestOptions;
+		this.requestOptions.clear();
+		
+		if (requestOptions != null)
+			this.requestOptions.addAll(requestOptions);
 	}
 
-	public Set<LprTransactionItemResultValueGroupEntity> getResultValueGroups() {
-		return resultValueGroups;
+	
+
+	public Set<String> getResultValueGroupIds() {
+		return resultValueGroupIds;
 	}
 
-	public void setResultValueGroups(
-			Set<LprTransactionItemResultValueGroupEntity> resultValueGroups) {
-		this.resultValueGroups = resultValueGroups;
+	public void setResultValueGroupIds(Set<String> resultValueGroupIds) {
+		this.resultValueGroupIds.clear();
+		
+		if (resultValueGroupIds != null) {
+			this.resultValueGroupIds.addAll(resultValueGroupIds);
+		}
 	}
 
 	@Override

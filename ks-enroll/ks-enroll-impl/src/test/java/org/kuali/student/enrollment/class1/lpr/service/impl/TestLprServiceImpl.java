@@ -46,7 +46,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:lpr-test-context.xml" })
-@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback=true)
+@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestLprServiceImpl extends TestLprServiceMockImpl {
 
@@ -84,39 +84,30 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 	}
 
 	@Before
-	public  void setUp() {
+	public void setUp() {
 		// intentionally does not call super.setUp()
 
-			principalId = "123";
-			callContext = new ContextInfo();
-			callContext.setPrincipalId(principalId);
+		principalId = "123";
+		callContext = new ContextInfo();
+		callContext.setPrincipalId(principalId);
 
-			txTemplate = new TransactionTemplate(txManager);
+		txTemplate = new TransactionTemplate(txManager);
 
-			txTemplate
-					.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-			txTemplate.execute(new TransactionCallback<Void>() {
+		txTemplate
+				.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		try {
 
-				@Override
-				public Void doInTransaction(TransactionStatus status) {
-
-					try {
-						
-						if (lprDao.findAll().size() == 0)
-							new LprTestDataLoader(lprDao).loadData();
-					} catch (Exception ex) {
-						throw new RuntimeException(ex);
-					}
-					return null;
-				}
-
-			});
-
+			if (lprDao.findAll().size() == 0)
+				new LprTestDataLoader(lprDao).loadData();
+		} catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
 	}
-	
+
 	@After
 	public void cleanup() {
-		
+
 	}
 
 	@Test
@@ -234,6 +225,5 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 		assertNotNull(lpr.getTypeKey());
 
 	}
-
 
 }
