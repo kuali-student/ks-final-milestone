@@ -37,18 +37,14 @@ public class ActivityOfferingRoomResourcesListFinder extends UifKeyValuesFinderB
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        ConcreteKeyValue keyValue = new ConcreteKeyValue();
-        keyValue.setKey("A");
-        keyValue.setValue("Camcorder");
-        keyValues.add(keyValue);
-        keyValue = new ConcreteKeyValue();
-        keyValue.setKey("B");
-        keyValue.setValue("DVD Player");
-        keyValues.add(keyValue);
-        keyValue = new ConcreteKeyValue();
-        keyValue.setKey("C");
-        keyValue.setValue("Overhead Projector");
-        keyValues.add(keyValue);
+        //TODO - get values from...?
+        keyValues.add(new ConcreteKeyValue("Camcorder",null));
+        keyValues.add(new ConcreteKeyValue("DVD Player",null));
+        keyValues.add(new ConcreteKeyValue("Overhead Projector",null));
+        keyValues.add(new ConcreteKeyValue("Phonograph Player",null));
+        keyValues.add(new ConcreteKeyValue("Walkie-Talkie",null));
+        keyValues.add(new ConcreteKeyValue("AM Radio",null));
+        keyValues.add(new ConcreteKeyValue("8-Track Cassette Player",null));
 
         return keyValues;
     }

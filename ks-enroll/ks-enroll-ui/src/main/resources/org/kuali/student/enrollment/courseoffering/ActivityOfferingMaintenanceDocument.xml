@@ -145,7 +145,8 @@
                                         <bean parent="Uif-DataField" p:propertyName="room" p:label="Room"/>
                                         <bean parent="Uif-DataField" p:propertyName="ownership" p:label="Ownership"/>
                                         <bean parent="Uif-DataField" p:propertyName="capacity" p:label="Capacity"/>
-                                        <bean parent="Uif-DataField" p:propertyName="roomFeatures" p:label="Room Features"/>
+                                        <bean parent="Uif-DataField" p:propertyName="roomFeatures" p:label="Room Features"
+                                              p:style="font-size:95%"/>
                                     </list>
                                 </property>
                                 <property name="addLineItems">
@@ -268,6 +269,10 @@
                                                                                                       p:size="4"
                                                                                                       p:watermarkText="hh:mm"/>
                                                                                             </property>
+                                                                                            <property name="validCharactersConstraint">
+                                                                                                <bean parent="ValidCharactersConstraint"
+                                                                                                      p:value="^(\d?\d:\d\d|([tT][bB][aA]))$"/>
+                                                                                            </property>
                                                                                         </bean>
                                                                                         <bean parent="Uif-InputField"
                                                                                               p:propertyName="addEndTimeAmPm">
@@ -299,10 +304,10 @@
                                                                 <bean parent="Uif-InputField-LabelTop"
                                                                       p:propertyName="building"
                                                                       p:label="Building">
+                                                                    <!--
                                                                     <property name="suggest.render" value="true" />
                                                                     <property name="suggest.sourcePropertyName" value="building" />
                                                                     <property name="attributeQuery">
-                                                                    <!--<property name="suggest.suggestQuery">-->
                                                                         <bean parent="Uif-AttributeQueryConfig">
                                                                             <property name="queryMethodToCall"
                                                                                       value="getBuildingsCodesForSuggest"/>
@@ -310,6 +315,7 @@
                                                                                       value="building"/>
                                                                         </bean>
                                                                     </property>
+                                                                    -->
                                                                     <property name="control">
                                                                         <bean parent="Uif-TextControl" p:size="15">
                                                                         </bean>
@@ -318,12 +324,13 @@
                                                                 <bean parent="Uif-InputField-LabelTop"
                                                                       p:propertyName="room"
                                                                       p:label="Room">
+                                                                    <!--
                                                                     <property name="suggest.render" value="true" />
                                                                     <property name="suggest.sourcePropertyName" value="room" />
                                                                     <property name="suggest.suggestQuery.dataObjectClassName"
                                                                               value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
                                                                     <property name="attributeQuery">
-                                                                    <!--<property name="suggest.suggestQuery">-->
+                                                                    <!==<property name="suggest.suggestQuery">==>
                                                                         <bean parent="Uif-AttributeQueryConfig">
                                                                             <property name="queryMethodToCall"
                                                                                       value="getRoomNumbersForSuggest"/>
@@ -331,6 +338,7 @@
                                                                                       value="building"/>
                                                                         </bean>
                                                                     </property>
+                                                                    -->
                                                                     <property name="refreshWhenChangedPropertyNames"
                                                                               value="#lp.building"/>
                                                                     <property name="control">

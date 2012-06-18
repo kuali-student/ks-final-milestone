@@ -29,6 +29,7 @@ import org.kuali.student.r2.core.type.service.TypeService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -147,7 +148,29 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         if (addLine instanceof ScheduleComponentWrapper) {
             ScheduleComponentWrapper scheduleComponentWrapper = (ScheduleComponentWrapper)addLine;
-            //scheduleComponentWrapper.setEndTime("TESTING");
+            if ("1".equals(scheduleComponentWrapper.getAddDaysSpecifiedBoolean())) {
+                if (null != scheduleComponentWrapper.getAddWeekDayOptions()) {
+                    List<String> weekDayLabels = Arrays.asList("Su ","M ","T ","W ","Th ","F ","Sa ");
+                    StringBuilder weekDays = new StringBuilder();
+                    for (Integer day : scheduleComponentWrapper.getAddWeekDayOptions()) {
+                        weekDays.append(weekDayLabels.get(day));
+                    }
+                    scheduleComponentWrapper.setWeekDays(weekDays.toString());
+                }
+            }
+            else {
+                scheduleComponentWrapper.setWeekDays("To Be Announced");
+            }
+            if (null != scheduleComponentWrapper.getAddRoomResources()) {
+                StringBuilder resources = new StringBuilder();
+                for (String resource : scheduleComponentWrapper.getAddRoomResources()) {
+                    if (resources.length() > 0) {
+                        resources.append(", ");
+                    }
+                    resources.append(resource);
+                }
+                scheduleComponentWrapper.setRoomFeatures(resources.toString());
+            }
         }
     }
 
@@ -197,6 +220,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     }
 
     public List<String> getBuildingsCodesForSuggest(String userEnteredCode) {
+        //TODO - make this an actual search based on user-entered text
         List<String> buildingCodes = new ArrayList<String>();
         buildingCodes.add(userEnteredCode+"Dog");
         buildingCodes.add(userEnteredCode+"Emu");
@@ -205,6 +229,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     }
 
     public List<String> getRoomNumbersForSuggest(String buildingCode) {
+        //TODO - make this an actual search based on the building & user-entered text
         List<String> roomNumbers = new ArrayList<String>();
         roomNumbers.add("101");
         roomNumbers.add("202");

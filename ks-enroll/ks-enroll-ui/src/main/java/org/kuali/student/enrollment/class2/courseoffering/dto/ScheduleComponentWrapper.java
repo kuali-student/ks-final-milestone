@@ -48,13 +48,9 @@ public class ScheduleComponentWrapper implements Serializable {
     private String ownership;
     private Integer capacity;
 
-    /*
-    public ScheduleComponentWrapper() {
-        addWeekDayOptions = new ArrayList<Integer>();
-        addIsLocationUnlisted = false;
-        addRoomResources = new ArrayList<String>();
-        addAdditionalResources = new ArrayList<String>();
-    }*/
+    // constructor
+    //public ScheduleComponentWrapper() {
+    //}
 
     public String getAddDaysSpecifiedBoolean() {
         return addDaysSpecifiedBoolean;

@@ -1,7 +1,6 @@
 .label-normal label { font-weight:normal; }
 
 .uif-header h3 { border-bottom:2px solid black; }
-h4.uif-headerText { font-weight:bold; }
 
 div.ks-meeting-collection { margin-bottom:10px; }
 .ks-meeting-collection-days .uif-horizontalCheckboxesFieldset label { margin-right:3px; }
