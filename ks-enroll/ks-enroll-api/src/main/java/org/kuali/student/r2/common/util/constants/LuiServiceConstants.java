@@ -179,7 +179,7 @@ public class LuiServiceConstants {
     public static final String LUI_AO_STATE_APPROVED_KEY = "kuali.lui.activity.offering.state.approved";
     public static final String LUI_AO_STATE_SCHEDULED_KEY = "kuali.lui.activity.offering.state.scheduled";
     public static final String LUI_AO_STATE_OFFERED_KEY = "kuali.lui.activity.offering.state.offered";
-    public static final String LUI_AO_STATE_SUSPENDED_KEY = "kuali.lui.activity.offering.state.suspended ";
+    public static final String LUI_AO_STATE_SUSPENDED_KEY = "kuali.lui.activity.offering.state.suspended";
     public static final String LUI_AO_STATE_CANCELED_KEY = "kuali.lui.activity.offering.state.canceled";
     public static final String LUI_AO_STATE_UNSCHEDULED_KEY = "kuali.lui.activity.offering.state.unscheduled";
 
