@@ -479,6 +479,49 @@ public class TestKRMSCreateAgendasPhase2 extends KRMSTestCase {
 						KSKRMSConstants.CONTEXT_COURSE_RESTRICTS, KSNAMESPACE),
 				null, KSNAMESPACE, proposition35_1);
 		
+		// Creating agenda 36 based on made up data
+		PropositionParametersBuilder proposition36_1 = createProposition(
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "MATH112", "=");
+		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA36,
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_ANTI_REQUISITE, KSNAMESPACE),
+				null, KSNAMESPACE, proposition36_1);
+		
+		PropositionParametersBuilder proposition36_2 = createProposition(
+				KSKRMSConstants.TERM_COMPLETED_COURSE_SET, "MATH", "=");
+		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA36,
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_ANTI_REQUISITE, KSNAMESPACE),
+				null, KSNAMESPACE, proposition36_2);
+		
+		PropositionParametersBuilder proposition36_3 = createProposition(
+				KSKRMSConstants.TERM_COMPLETED_COURSE_NUMBER, "112", "=");
+		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA36,
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_ANTI_REQUISITE, KSNAMESPACE),
+				null, KSNAMESPACE, proposition36_3);
+		
+		PropositionParametersBuilder proposition36_4 = createProposition(
+				KSKRMSConstants.TERM_COMPLETED_LEARNING_OBJ_DESCR, "Skill", "=");
+		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA36,
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_ANTI_REQUISITE, KSNAMESPACE),
+				null, KSNAMESPACE, proposition36_4);
+		
+		PropositionParametersBuilder proposition36_5 = createProposition(
+				KSKRMSConstants.TERM_COMPLETED_EFFECTIVE_DATE_FROM, "12/12/12", "=");
+		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA36,
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_ANTI_REQUISITE, KSNAMESPACE),
+				null, KSNAMESPACE, proposition36_5);
+		
+		PropositionParametersBuilder proposition36_6 = createProposition(
+				KSKRMSConstants.TERM_COMPLETED_COURSE_CODE, "MATH", "=");
+		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA36,
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_ANTI_REQUISITE, KSNAMESPACE),
+				null, KSNAMESPACE, proposition36_6);
+		
 		// Creating agenda 37 based on made up data
 		PropositionParametersBuilder proposition37_1 = createProposition(
 				KSKRMSConstants.TERM_NUMBER_OF_CREDITS, "5", "=");
