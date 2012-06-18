@@ -56,7 +56,7 @@ public class KSKRMSConstants {
 	public static final String TERM_SCORE = "Score";
 	public static final String TERM_TEST = "Test";
 	public static final String TERM_FREE_TEXT = "Free Text";
-	public static final String TERM_COMPLETED_COURSE = "Completed courses";
+	public static final String TERM_COMPLETED_COURSES = "Completed courses";
 	public static final String TERM_ENROLLED_COURSE = "Enrolled course by term";
 	
 	public static final String KS_AGENDA_TYPE = "KSAgendaType";
@@ -85,6 +85,45 @@ public class KSKRMSConstants {
 	public static final String COURSE_CODE_TERM_PROPERTY = "courseCodeProperty";
 	//		
 	public static final String CONTEXT_INFO_TERM_NAME = "contextInfo";
+	
+	//Phase 2
+	
+	public static final String TERM_DEPT_NUMBER = "Department number";
+	public static final String TERM_ADMIN_ORG_NUMBER = "Admin org number";
+	public static final String TERM_COMPLETED_COURSE_NUMBER = "Completed course number: subject code";
+	public static final String TERM_COMPLETED_COURSE_CODE = "Completed course number: subject code";
+	public static final String TERM_COMPLETED_COURSE_SET = "Completed course set";
+	public static final String TERM_COMPLETED_EFFECTIVE_DATE_FROM = "Completed effective date range: effective from";
+	public static final String TERM_COMPLETED_EFFECTIVE_DATE_TO = "Completed effective date range: effective to";
+	public static final String TERM_COMPLETED_LEARNING_OBJ_DESCR = "Completed learning Objective: Description";
+	public static final String TERM_ENROLLED_COURSE_NUMBER_RANGE = "Enrolled course number: course number range";
+	public static final String TERM_ENROLLED_COURSE_NUMBER_SUBJECT_CODE = "Enrolled course number: subject code";
+	public static final String TERM_ENROLLED_SET = "Enrolled set";
+	public static final String TERM_ENROLLED_COURSES = "Enrolled courses";
+	public static final String TERM_ENROLLED_EFFECTIVE_DATE_FROM = "Enrolled effective date range: effective from";
+	public static final String TERM_ENROLLED_EFFECTIVE_DATE_TO = "Enrolled effective date range: effective to";
+	public static final String TERM_ENROLLED_LEARNING_OBJ_DESCR = "Enrolled learning Objective: Description";
+
+	public static final String AGENDA20 = "Must have successfully completed a minimum of <n> cradits from courses in the <org>.";
+	public static final String AGENDA21 = "Permissions of <admin org> required";
+	public static final String AGENDA22 = "Must have achieved a minimum score <score> on <test>";
+	public static final String AGENDA23 = "Must be concurrently enrolled in <course>";
+	public static final String AGENDA24 = "Must be concurrently enrolled in a minimum of <n> courses from <courses>";
+	public static final String AGENDA25 = "Must be concurrently enrolled in all courses from <courses>";
+	public static final String AGENDA26 = "Must have earned a minimum cumulative GPA of <GPA>";
+	public static final String AGENDA27 = "Must have earned a minimum of <n> total credits";
+	public static final String AGENDA28 = "Must not have successfully completed <course>";
+	public static final String AGENDA29 = "Must have successfully completed a minimum of <n> credits from courses in the <org>";
+	public static final String AGENDA30 = "Must have successfully completed <course>";
+	public static final String AGENDA31 = "Must not have successfully completed any courses from <courses>";
+	public static final String AGENDA32 = "Must not have successfully completed any cradits from <courses>";
+	public static final String AGENDA33 = "Must successfully complete no more than <n> credits from <courses>";
+	public static final String AGENDA34 = "Must have achieved a score no higher than <score> on <test>";
+	public static final String AGENDA35 = "Must not have successfully completed <course>";
+	public static final String AGENDA36 = "Must not have successfully completed any courses from <courses>";
+	public static final String AGENDA37 = "May be repeater for a maximum of <n> cradits";
+	
+	
 	
 	
 	
