@@ -46,7 +46,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lrc-mock-service-test-context.xml"})
-public class TempTestLrcServiceMockImpl {
+public class TestLrcServiceMockImpl {
 
     public LRCService getLRCService() {
         return lrcService;

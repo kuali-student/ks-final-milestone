@@ -37,7 +37,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
-public class TempLrcServiceMockImpl implements LRCService {
+public class LrcServiceMockImpl implements LRCService {
 
     @Override
     public ResultValuesGroupInfo getResultValuesGroup(String resultValuesGroupKey,
