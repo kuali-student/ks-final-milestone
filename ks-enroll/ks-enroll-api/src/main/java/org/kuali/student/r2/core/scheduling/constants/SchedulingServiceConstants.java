@@ -26,6 +26,11 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRespInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRespItemInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+
 
 /**
  * This class holds the constants used by the Scheduling service
@@ -73,5 +78,20 @@ public class SchedulingServiceConstants {
     public static final String FRIDAY_TIMESLOT_DAY_CODE = "F";
     public static final String SATURDAY_TIMESLOT_DAY_CODE = "Sa";
     public static final String SUNDAY_TIMESLOT_DAY_CODE = "Su";
+
+    public static List<Integer> TIME_SLOT_DAYS_OF_WEEK_ACTIVITY_OFFERING_TYPE;
+
+    static {
+        List<Integer> temp = new ArrayList<Integer>(7);
+        temp.add(Calendar.MONDAY);
+        temp.add(Calendar.TUESDAY);
+        temp.add(Calendar.WEDNESDAY);
+        temp.add(Calendar.THURSDAY);
+        temp.add(Calendar.FRIDAY);
+        temp.add(Calendar.SATURDAY);
+        temp.add(Calendar.SUNDAY);
+
+        TIME_SLOT_DAYS_OF_WEEK_ACTIVITY_OFFERING_TYPE = Collections.unmodifiableList(temp);
+    }
 
 }

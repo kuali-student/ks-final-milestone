@@ -16,12 +16,23 @@
 package org.kuali.student.r2.core.class1.scheduling.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.core.class1.scheduling.util.SchedulingServiceUtil;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Entity class for Time Slot data in the Scheduling Service
@@ -31,7 +42,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "KSEN_SCHED_TMSLOT")
-public class TimeSlotEntity extends MetaEntity {
+@NamedQueries({
+        @NamedQuery(name = "TimeSlotEntity.GetByTimeSlotType", query = "select timeSlot from TimeSlotEntity timeSlot where timeSlot.timeSlotType = :timeSlotType"),
+        @NamedQuery(name = "TimeSlotEntity.GetByTimeSlotTypeDaysAndStartTime", query = "select timeSlot from TimeSlotEntity timeSlot where timeSlot.timeSlotType = :timeSlotType and timeSlot.weekdays = :weekdays and timeSlot.startTimeMillis = :startTimeMillis"),
+        @NamedQuery(name = "TimeSlotEntity.GetByTimeSlotTypeDaysStartTimeAndEndTime", query = "select timeSlot from TimeSlotEntity timeSlot where timeSlot.timeSlotType = :timeSlotType and timeSlot.weekdays = :weekdays and timeSlot.startTimeMillis = :startTimeMillis and timeSlot.endTimeMillis = :endTimeMillis")})
+
+
+public class TimeSlotEntity extends MetaEntity implements AttributeOwner<TimeSlotAttributeEntity> {
 
     @Column(name = "TM_SLOT_TYPE")
     private String timeSlotType;
@@ -45,7 +62,7 @@ public class TimeSlotEntity extends MetaEntity {
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
 
-    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrPlain;
 
     @Column(name = "WEEKDAYS")
@@ -56,6 +73,50 @@ public class TimeSlotEntity extends MetaEntity {
 
     @Column(name = "END_TIME_MS")
     private Long endTimeMillis;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval=true)
+    private Set<TimeSlotAttributeEntity> attributes = new HashSet<TimeSlotAttributeEntity>();
+
+    public TimeSlotEntity() {
+        super();
+    }
+
+    public TimeSlotEntity(TimeSlot timeSlot) {
+        super(timeSlot);
+        setId(timeSlot.getId());
+        setTimeSlotType(timeSlot.getTypeKey());
+        setTimeSlotState(timeSlot.getStateKey());
+        setName(timeSlot.getName());
+        setWeekdays(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlot.getWeekdays()));
+        setStartTimeMillis(timeSlot.getStartTime().getMilliSeconds());
+        setEndTimeMillis(timeSlot.getEndTime().getMilliSeconds());
+    }
+
+    public TimeSlotInfo toDto() {
+        TimeSlotInfo info = new TimeSlotInfo();
+
+
+
+        info.setId(getId());
+        info.setTypeKey(getTimeSlotType());
+        info.setStateKey(getTimeSlotState());
+        info.setName(getName());
+        info.setWeekdays(SchedulingServiceUtil.weekdaysString2WeekdaysList(getWeekdays()));
+
+        info.setStartTime(new TimeOfDayInfo());
+        info.getStartTime().setMilliSeconds(getStartTimeMillis());
+
+        info.setEndTime(new TimeOfDayInfo());
+        info.getEndTime().setMilliSeconds(getEndTimeMillis());
+
+        info.setDescr(new RichTextInfo());
+        info.getDescr().setFormatted(getDescrFormatted());
+        info.getDescr().setPlain(getDescrPlain());
+
+        info.setMeta(super.toDTO());
+
+        return info;
+    }
 
     public String getTimeSlotType() {
         return timeSlotType;
@@ -119,5 +180,13 @@ public class TimeSlotEntity extends MetaEntity {
 
     public void setEndTimeMillis(Long endTimeMillis) {
         this.endTimeMillis = endTimeMillis;
+    }
+
+    public Set<TimeSlotAttributeEntity> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Set<TimeSlotAttributeEntity> attributes) {
+        this.attributes = attributes;
     }
 }

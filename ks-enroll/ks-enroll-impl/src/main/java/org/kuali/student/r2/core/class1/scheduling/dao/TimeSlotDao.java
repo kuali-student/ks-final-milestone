@@ -18,6 +18,9 @@ package org.kuali.student.r2.core.class1.scheduling.dao;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.scheduling.model.TimeSlotEntity;
 
+import javax.persistence.Query;
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: andy
@@ -26,4 +29,30 @@ import org.kuali.student.r2.core.class1.scheduling.model.TimeSlotEntity;
  * To change this template use File | Settings | File Templates.
  */
 public class TimeSlotDao extends GenericEntityDao<TimeSlotEntity> {
+
+    public List<TimeSlotEntity> getByTimeSlotType(String timeSlotType) {
+        Query query = em.createNamedQuery("TimeSlotEntity.GetByTimeSlotType");
+        query.setParameter("timeSlotType", timeSlotType);
+
+        return query.getResultList();
+    }
+
+    public List<TimeSlotEntity> getByTimeSlotTypeWeekdaysAndStartTime(String timeSlotType, String weekdays, Long startTime) {
+        Query query = em.createNamedQuery("TimeSlotEntity.GetByTimeSlotTypeDaysAndStartTime");
+        query.setParameter("timeSlotType", timeSlotType);
+        query.setParameter("weekdays", weekdays);
+        query.setParameter("startTimeMillis", startTime);
+
+        return query.getResultList();
+    }
+
+    public List<TimeSlotEntity> getByTimeSlotTypeWeekdaysStartTimeAndEndTime(String timeSlotType, String weekdays, Long startTime, Long endTime) {
+        Query query = em.createNamedQuery("TimeSlotEntity.GetByTimeSlotTypeDaysStartTimeAndEndTime");
+        query.setParameter("timeSlotType", timeSlotType);
+        query.setParameter("weekdays", weekdays);
+        query.setParameter("startTimeMillis", startTime);
+        query.setParameter("endTimeMillis", endTime);
+
+        return query.getResultList();
+    }
 }

@@ -63,11 +63,20 @@ public class SchedulingServiceDataLoader {
     public final static Long END_TIME_MILLIS_3_50_PM = (long) (15 * 60 * 60 * 1000 + 50 * 60 * 1000);
     public final static Long END_TIME_MILLIS_4_10_PM = (long) (15 * 60 * 60 * 1000 + 70 * 60 * 1000);
 
+    public final static Long START_TIME_MILLIS_5_10_PM = (long) (17 * 60 * 60 * 1000 + 10 * 60 * 1000);
+    public final static Long END_TIME_MILLIS_6_00_PM = (long) (18 * 60 * 60 * 1000);
+
+    private ContextInfo contextInfo;
+
     public SchedulingServiceDataLoader() {
+        contextInfo = new ContextInfo();
+        contextInfo.setPrincipalId(principalId);
+        contextInfo.setCurrentDate(new Date());
     }
 
     public SchedulingServiceDataLoader (SchedulingService schedulingService) {
-        this.schedulingService = schedulingService;
+        this();
+        setSchedulingService(schedulingService);
     }
 
     public SchedulingService getSchedulingService() {
@@ -98,6 +107,8 @@ public class SchedulingServiceDataLoader {
         ////////////////////
         // TEST DATA
         ////////////////////
+        CommonServiceConstants.setIsIdAllowedOnCreate(contextInfo, true);
+
         loadTimeSlotInfo("1", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, DOW_M_W_F, START_TIME_MILLIS_8_00_AM, END_TIME_MILLIS_8_50_AM);
         loadTimeSlotInfo("2", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, DOW_M_W_F, START_TIME_MILLIS_8_00_AM, END_TIME_MILLIS_9_10_AM);
         loadTimeSlotInfo("3", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, DOW_T_TH, START_TIME_MILLIS_8_00_AM, END_TIME_MILLIS_8_50_AM);
@@ -114,6 +125,11 @@ public class SchedulingServiceDataLoader {
         loadTimeSlotInfo("14", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, DOW_M_W_F, START_TIME_MILLIS_3_00_PM, END_TIME_MILLIS_4_10_PM);
         loadTimeSlotInfo("15", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, DOW_T_TH, START_TIME_MILLIS_3_00_PM, END_TIME_MILLIS_3_50_PM);
         loadTimeSlotInfo("16", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, DOW_T_TH, START_TIME_MILLIS_3_00_PM, END_TIME_MILLIS_4_10_PM);
+
+        loadTimeSlotInfo("toDelete", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, DOW_M_W_F, START_TIME_MILLIS_5_10_PM, END_TIME_MILLIS_6_00_PM);
+        loadTimeSlotInfo("toUpdate", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, DOW_M_W_F, START_TIME_MILLIS_5_10_PM, END_TIME_MILLIS_6_00_PM);
+
+        CommonServiceConstants.setIsIdAllowedOnCreate(contextInfo, false);
     }
 
     private void loadTimeSlotInfo (String ts_id, String stateKey, String typeKey, List<Integer> weekdays, Long startTimeInMillisecs, Long endTimeInMillisecs)
@@ -129,44 +145,7 @@ public class SchedulingServiceDataLoader {
         ts.setEndTime(endTime);
         ts.setStateKey(stateKey);
         ts.setTypeKey(typeKey);
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setPrincipalId(principalId);
-        contextInfo.setCurrentDate(new Date());
-        CommonServiceConstants.setIsIdAllowedOnCreate(contextInfo, true);
         schedulingService.createTimeSlot(typeKey, ts, contextInfo);
-    }
-
-    public static String ts2Str (TimeSlot ts) {
-        String toRet = ts.getId() + ", ";
-        for (Integer day : ts.getWeekdays()) {
-            switch (day) {
-                case Calendar.MONDAY:
-                    toRet += "M";
-                    break;
-                case Calendar.TUESDAY:
-                    toRet += "T";
-                    break;
-                case Calendar.WEDNESDAY:
-                    toRet += "W";
-                    break;
-                case Calendar.THURSDAY:
-                    toRet += "TH";
-                    break;
-                case Calendar.FRIDAY:
-                    toRet += "F";
-                    break;
-                case Calendar.SATURDAY:
-                    toRet += "SA";
-                    break;
-                case Calendar.SUNDAY:
-                    toRet += "SU";
-                    break;
-                default:
-            }
-            toRet += " ";
-        }
-        toRet += ", " + ts.getStartTime().getMilliSeconds() + ", " + ts.getEndTime().getMilliSeconds();
-        return toRet;
     }
 
     public static ScheduleRequestInfo setupScheduleRequestInfo(String scheduleRequestInfoId, String scheduleRequestInfoRefObjectId,

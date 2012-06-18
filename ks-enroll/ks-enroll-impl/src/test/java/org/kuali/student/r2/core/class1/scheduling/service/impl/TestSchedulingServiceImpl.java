@@ -42,7 +42,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Created with IntelliJ IDEA.
@@ -58,7 +62,7 @@ import static org.junit.Assert.*;
 @Ignore
 public class TestSchedulingServiceImpl {
 
-    @Resource(name = "schedulingServiceValidationDecorator")
+    @Resource(name = "schedulingServiceImpl")
     private SchedulingService schedulingService;
 
     public static String principalId = "123";
@@ -76,8 +80,16 @@ public class TestSchedulingServiceImpl {
     }
 
     private void loadData() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
-        SchedulingServiceDataLoader loader = new SchedulingServiceDataLoader (this.schedulingService);
+        SchedulingServiceDataLoader loader = new SchedulingServiceDataLoader(this.schedulingService);
         loader.loadData();
+    }
+
+    public SchedulingService getSchedulingService() {
+        return schedulingService;
+    }
+
+    public void setSchedulingService(SchedulingService schedulingService) {
+        this.schedulingService = schedulingService;
     }
 
     @Test
@@ -142,10 +154,10 @@ public class TestSchedulingServiceImpl {
     @Test
     public void testgetTimeSlotIdsByType() throws Exception {
         List<String> l_actoff = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, contextInfo);
-        assertEquals(16, l_actoff.size());
-        for (int i=1; i<=16; i++) {
-            assertEquals("" + i, l_actoff.get(i - 1));
-        }
+        assertEquals(18, l_actoff.size());
+        assertTrue(l_actoff.contains("1"));
+        assertTrue(l_actoff.contains("16"));
+
         List l_final = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_FINAL_EXAM_KEY, contextInfo);
         assertEquals(0, l_final.size());
     }
@@ -209,15 +221,14 @@ public class TestSchedulingServiceImpl {
     @Test
     public void getValidDaysOfWeekByTimeSlotType() throws Exception {
         List<Integer> valid_days_act_off = schedulingService.getValidDaysOfWeekByTimeSlotType(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, contextInfo);
-        // should return days Monday through Friday
+        // should return days Monday through Saturday
         assertTrue(valid_days_act_off.contains(Calendar.MONDAY));
         assertTrue(valid_days_act_off.contains(Calendar.TUESDAY));
         assertTrue(valid_days_act_off.contains(Calendar.WEDNESDAY));
         assertTrue(valid_days_act_off.contains(Calendar.THURSDAY));
         assertTrue(valid_days_act_off.contains(Calendar.FRIDAY));
-        // should not contain Sat or Sun
-        assertFalse(valid_days_act_off.contains(Calendar.SATURDAY));
-        assertFalse(valid_days_act_off.contains(Calendar.SUNDAY));
+        assertTrue(valid_days_act_off.contains(Calendar.SATURDAY));
+        assertTrue(valid_days_act_off.contains(Calendar.SUNDAY));
 
         List<Integer> valid_days_final = schedulingService.getValidDaysOfWeekByTimeSlotType(SchedulingServiceConstants.TIME_SLOT_TYPE_FINAL_EXAM_KEY, contextInfo);
         // should not return any days
@@ -370,7 +381,6 @@ public class TestSchedulingServiceImpl {
         assertTrue(savedAttributeInfo.getValue().equals(attributeValue));
 
     }
-
 
     @Test
     public void testupdateScheduleRequest () throws Exception {

@@ -75,7 +75,7 @@
 
     <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
         <property name="persistenceUnitName" value="persistentUnit"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/atp-persistence.xml" />
+        <property name="persistenceXmlLocation" value="classpath:META-INF/scheduling-persistence.xml" />
         <property name="dataSource" ref="dataSource" />
     </bean>
 
@@ -91,11 +91,19 @@
 
     <bean id="schedulingServiceImpl"
           class="org.kuali.student.r2.core.class1.scheduling.service.impl.SchedulingServiceImpl">
+        <property name="timeSlotDao" ref="timeSlotDao"/>
     </bean>
 
+    <bean id="timeSlotDao" class="org.kuali.student.r2.core.class1.scheduling.dao.TimeSlotDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <!-- Commenting out until data dictionry is generated for Scheduling classes
     <bean id="schedulingServiceValidationDecorator" class="org.kuali.student.r2.core.class1.scheduling.service.decorators.SchedulingServiceValidationDecorator">
         <property name="nextDecorator" ref="schedulingServiceImpl"/>
         <property name="validator" ref="validator"/>
     </bean>
+
+    -->
 
 </beans>

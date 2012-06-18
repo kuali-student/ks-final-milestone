@@ -17,6 +17,7 @@
 package org.kuali.student.r2.core.class1.scheduling.service.decorators;
 
 
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -273,6 +274,13 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
             ,ReadOnlyException
     {
         // create
+
+        if (timeSlotInfo.getId() != null) {
+            if (!CommonServiceConstants.isIdAllowedOnCreate(contextInfo)) {
+                throw new ReadOnlyException("ID cannot be supplied when creating a TimeSlot.");
+            }
+        }
+
         try {
             List<ValidationResultInfo> errors =
                     this.validateTimeSlot(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), timeSlotTypeKey, timeSlotInfo, contextInfo);

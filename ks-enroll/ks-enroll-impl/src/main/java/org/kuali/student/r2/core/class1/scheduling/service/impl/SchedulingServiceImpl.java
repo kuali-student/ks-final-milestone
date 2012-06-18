@@ -28,6 +28,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.class1.scheduling.dao.TimeSlotDao;
+import org.kuali.student.r2.core.class1.scheduling.model.TimeSlotEntity;
+import org.kuali.student.r2.core.class1.scheduling.util.SchedulingServiceUtil;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchRespInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
@@ -35,8 +39,11 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRespInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,7 +53,20 @@ import java.util.List;
  * Time: 3:09 PM
  * To change this template use File | Settings | File Templates.
  */
+
+@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class SchedulingServiceImpl implements SchedulingService {
+
+    private TimeSlotDao timeSlotDao;
+
+    public TimeSlotDao getTimeSlotDao() {
+        return timeSlotDao;
+    }
+
+    public void setTimeSlotDao(TimeSlotDao timeSlotDao) {
+        this.timeSlotDao = timeSlotDao;
+    }
+
     @Override
     public ScheduleInfo getSchedule(@WebParam(name = "scheduleId") String scheduleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
@@ -229,27 +249,103 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     @Override
     public TimeSlotInfo getTimeSlot(@WebParam(name = "timeSlotId") String timeSlotId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+
+        TimeSlotEntity retrieved = timeSlotDao.find(timeSlotId);
+
+        if(retrieved == null) {
+            throw new DoesNotExistException(timeSlotId);
+        }
+
+        return retrieved.toDto();
     }
 
     @Override
     public List<TimeSlotInfo> getTimeSlotsByIds(@WebParam(name = "timeSlotIds") List<String> timeSlotIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<TimeSlotEntity> entities = timeSlotDao.findByIds(timeSlotIds);
+
+        if(entities == null) {
+            throw new DoesNotExistException();
+        }
+
+        List<TimeSlotInfo> results = new ArrayList<TimeSlotInfo>(entities.size());
+
+        for (TimeSlotEntity entity : entities) {
+            if(entity == null) {
+                // if one of the entities from "findByIds" is returned as null,
+                // then one of the keys in the list was not found
+                throw new DoesNotExistException();
+            }
+
+            results.add(entity.toDto());
+        }
+
+        return results;
     }
 
     @Override
     public List<String> getTimeSlotIdsByType(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<TimeSlotEntity> entities = timeSlotDao.getByTimeSlotType(timeSlotTypeKey);
+
+        List<String> ids = new ArrayList<String>(entities.size());
+
+        for(TimeSlotEntity e : entities) {
+            ids.add(e.getId());
+        }
+
+        return ids;
     }
 
     @Override
     public List<TimeSlotInfo> getTimeSlotsByDaysAndStartTime(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek, @WebParam(name = "startTime") TimeOfDayInfo startTime, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+
+        // Check that no invalid days of week are passed in
+        List<Integer> temp = new ArrayList<Integer>(daysOfWeek);
+
+        temp.removeAll(getValidDaysOfWeekByTimeSlotType(timeSlotTypeKey, contextInfo));
+
+        // if there are any integers left after removing all the valid ones for the type, then there are invalid entries
+        if(!temp.isEmpty()) {
+            throw new InvalidParameterException("Invalid entries found in daysOfWeek parameter for type " + timeSlotTypeKey + " - " + temp.toString());
+        }
+
+        // Build the string version of the days
+        String weekdays = SchedulingServiceUtil.weekdaysList2WeekdaysString(daysOfWeek);
+
+        List<TimeSlotEntity> entities = timeSlotDao.getByTimeSlotTypeWeekdaysAndStartTime(timeSlotTypeKey, weekdays, startTime.getMilliSeconds());
+
+        List<TimeSlotInfo> results = new ArrayList<TimeSlotInfo>(entities.size());
+
+        for (TimeSlotEntity entity : entities) {
+            results.add(entity.toDto());
+        }
+
+        return results;
     }
 
     @Override
     public List<TimeSlotInfo> getTimeSlotsByDaysAndStartTimeAndEndTime(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek, @WebParam(name = "startTime") TimeOfDayInfo startTime, @WebParam(name = "endTime") TimeOfDayInfo endTime, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        // Check that no invalid days of week are passed in
+        List<Integer> temp = new ArrayList<Integer>(daysOfWeek);
+
+        temp.removeAll(getValidDaysOfWeekByTimeSlotType(timeSlotTypeKey, contextInfo));
+
+        // if there are any integers left after removing all the valid ones for the type, then there are invalid entries
+        if(!temp.isEmpty()) {
+            throw new InvalidParameterException("Invalid entries found in daysOfWeek parameter for type " + timeSlotTypeKey + " - " + temp.toString());
+        }
+
+        // Build the string version of the days
+        String weekdays = SchedulingServiceUtil.weekdaysList2WeekdaysString(daysOfWeek);
+
+        List<TimeSlotEntity> entities = timeSlotDao.getByTimeSlotTypeWeekdaysStartTimeAndEndTime(timeSlotTypeKey, weekdays, startTime.getMilliSeconds(), endTime.getMilliSeconds());
+
+        List<TimeSlotInfo> results = new ArrayList<TimeSlotInfo>(entities.size());
+
+        for (TimeSlotEntity entity : entities) {
+            results.add(entity.toDto());
+        }
+
+        return results;
     }
 
     @Override
@@ -268,8 +364,15 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public TimeSlotInfo createTimeSlot(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "timeSlotInfo") TimeSlotInfo timeSlotInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new UnsupportedOperationException();
+        TimeSlotEntity entity = new TimeSlotEntity(timeSlotInfo);
+
+        entity.setTimeSlotType(timeSlotTypeKey);
+
+        timeSlotDao.persist(entity);
+
+        return entity.toDto();
     }
 
     @Override
@@ -319,6 +422,14 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     @Override
     public List<Integer> getValidDaysOfWeekByTimeSlotType(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        if(timeSlotTypeKey.equals(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY)) {
+            return SchedulingServiceConstants.TIME_SLOT_DAYS_OF_WEEK_ACTIVITY_OFFERING_TYPE;
+        }
+        else if (timeSlotTypeKey.equals(SchedulingServiceConstants.TIME_SLOT_TYPE_FINAL_EXAM_KEY)) {
+            return Collections.emptyList();
+        }
+        else {
+            throw new InvalidParameterException("No defined valid days of week for type: " + timeSlotTypeKey);
+        }
     }
 }
