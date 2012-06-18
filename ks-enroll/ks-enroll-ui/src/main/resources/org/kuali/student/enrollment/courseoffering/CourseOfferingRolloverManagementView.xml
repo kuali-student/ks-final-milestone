@@ -38,12 +38,10 @@
               p:id="selectTermsForRollover">
              <property name="items">
                 <list>
-                    <bean parent="Uif-DataField" p:propertyName="statusField" p:label="Status (temp)"/>
                     <bean parent="Uif-VerticalBoxGroup" p:style="min-width:17cm">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-GridSection" p:headerText="Select Target Term"
-                                      p:layoutManager.numberOfColumns="2">
+                                <bean parent="Uif-VerticalBoxSubSection" p:headerText="Select Target Term">
                                     <property name="validationMessages">
                                         <bean parent="Uif-GroupValidationMessages">
                                             <property name="displayFieldLabelWithMessages" value="false"/>
@@ -51,6 +49,7 @@
                                     </property>
                                     <property name="items">
                                         <list>
+                                            <bean parent="Uif-Message" p:messageText="To begin select the term into which the course offerings will be rolled over."/>
                                             <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
                                                 <property name="items">
                                                     <list>
@@ -62,24 +61,24 @@
                                                             </property>
                                                         </bean>
                                                         <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm" p:valign="bottom"/>
+                                                        <bean parent="Uif-VerticalBoxSubSection" p:render="@{displayedTargetTermCode!=''}">
+                                                            <property name="items">
+                                                                <list>
+                                                                    <!-- More stuff on left side here -->
+                                                                    <bean parent="Uif-DataField" p:propertyName="displayedTargetTermCode" p:label="Term Code"/>
+                                                                    <bean parent="Uif-DataField" p:propertyName="targetTermStartDate" p:label="Term Start Date"/>
+                                                                    <bean parent="Uif-DataField" p:propertyName="targetTermEndDate" p:label="Term End Date"/>
+                                                                </list>
+                                                            </property>
+                                                        </bean>
                                                     </list>
                                                 </property>
                                             </bean>
-                                            <bean parent="Uif-VerticalBoxSubSection" p:render="@{displayedTargetTermCode!=''}">
-                                                <property name="items">
-                                                    <list>
-                                                    <!-- More stuff on left side here -->
-                                                        <bean parent="Uif-DataField" p:propertyName="displayedTargetTermCode" p:label="Term Code"/>
-                                                        <bean parent="Uif-DataField" p:propertyName="targetTermStartDate" p:label="Term Start Date"/>
-                                                        <bean parent="Uif-DataField" p:propertyName="targetTermEndDate" p:label="Term End Date"/>
-                                                    </list>
-                                                </property>
-                                            </bean>
+
                                         </list>
                                     </property>
                                 </bean>
-                                <bean parent="Uif-GridSection" p:headerText="Select Source Term"
-                                      p:layoutManager.numberOfColumns="2">
+                                <bean parent="Uif-VerticalBoxSubSection" p:headerText="Select Source Term">
                                     <property name="validationMessages">
                                         <bean parent="Uif-GroupValidationMessages">
                                              <property name="displayFieldLabelWithMessages" value="false"/>
@@ -87,6 +86,7 @@
                                     </property>
                                     <property name="items">
                                         <list>
+                                            <bean parent="Uif-Message" p:messageText="Specify the term from which the rollover will occur."/>
                                             <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
                                                 <property name="items">
                                                     <list>
@@ -97,19 +97,20 @@
                                                         </bean>
 
                                                         <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goSourceTerm" p:valign="middle"/>
+                                                        <bean parent="Uif-VerticalBoxSubSection" p:render="@{displayedSourceTermCode!=''}">
+                                                            <property name="items">
+                                                                <list>
+                                                                    <!-- More stuff on right side here -->
+                                                                    <bean parent="Uif-DataField" p:propertyName="displayedSourceTermCode" p:label="Term Code"/>
+                                                                    <bean parent="Uif-DataField" p:propertyName="sourceTermStartDate" p:label="Term Start Date"/>
+                                                                    <bean parent="Uif-DataField" p:propertyName="sourceTermEndDate" p:label="Term End Date"/>
+                                                                </list>
+                                                            </property>
+                                                        </bean>
                                                     </list>
                                                 </property>
                                             </bean>
-                                            <bean parent="Uif-VerticalBoxSubSection" p:render="@{displayedSourceTermCode!=''}">
-                                                <property name="items">
-                                                    <list>
-                                                        <!-- More stuff on right side here -->
-                                                        <bean parent="Uif-DataField" p:propertyName="displayedSourceTermCode" p:label="Term Code"/>
-                                                        <bean parent="Uif-DataField" p:propertyName="sourceTermStartDate" p:label="Term Start Date"/>
-                                                        <bean parent="Uif-DataField" p:propertyName="sourceTermEndDate" p:label="Term End Date"/>
-                                                    </list>
-                                                </property>
-                                            </bean>
+
                                         </list>
                                     </property>
                                 </bean>
