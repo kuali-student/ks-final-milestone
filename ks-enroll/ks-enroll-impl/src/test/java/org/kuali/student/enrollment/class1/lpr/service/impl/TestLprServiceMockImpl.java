@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import org.kuali.student.enrollment.test.util.IdEntityTester;
+import org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import static org.junit.Assert.*;
 import org.kuali.student.enrollment.test.util.ListOfStringTester;
@@ -45,6 +46,7 @@ import org.kuali.student.enrollment.test.util.IdEntityTester;
 import org.kuali.student.enrollment.test.util.ListOfStringTester;
 import org.kuali.student.enrollment.test.util.MetaTester;
 import org.kuali.student.enrollment.test.util.RelationshipTester;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -114,6 +116,12 @@ public class TestLprServiceMockImpl {
 
         // test read
         expected = actual;
+        for (AttributeInfo itemInfo : expected.getAttributes()) {
+			
+        	// clear out any id's set during the persistence
+        	// to let the checks work properly
+        	itemInfo.setId(null);
+		}
         actual = lprService.getLpr(actual.getId(), callContext);
         assertEquals(expected.getId(), actual.getId());
         new RelationshipTester().check(expected, actual);
@@ -126,6 +134,12 @@ public class TestLprServiceMockImpl {
 
         // test update
         expected = actual;
+        for (AttributeInfo itemInfo : expected.getAttributes()) {
+			
+        	// clear out any id's set during the persistence
+        	// to let the checks work properly
+        	itemInfo.setId(null);
+		}
         expected.setEffectiveDate(new Timestamp(expected.getEffectiveDate().getTime() - 2000));
         expected.setExpirationDate(new Timestamp(expected.getExpirationDate().getTime() + 2000));
         expected.setCommitmentPercent("33.33");
@@ -144,6 +158,12 @@ public class TestLprServiceMockImpl {
 
         // test read
         expected = actual;
+        for (AttributeInfo itemInfo : expected.getAttributes()) {
+			
+        	// clear out any id's set during the persistence
+        	// to let the checks work properly
+        	itemInfo.setId(null);
+		}
         actual = lprService.getLpr(actual.getId(), callContext);
         assertEquals(expected.getId(), actual.getId());
         new RelationshipTester().check(expected, actual);
@@ -177,6 +197,7 @@ public class TestLprServiceMockImpl {
             VersionMismatchException {
         // test create
         LprTransactionInfo expected = new LprTransactionInfo();
+        
         expected.setRequestingPersonId("person1");
         expected.setAtpId("atp1");
         expected.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
@@ -199,6 +220,14 @@ public class TestLprServiceMockImpl {
 
         // test read
         expected = actual;
+        
+        for (LprTransactionItemInfo itemInfo : expected.getLprTransactionItems()) {
+			
+        	// clear out any id's set during the persistence
+        	// to let the checks work properly
+        	itemInfo.setId(null);
+		}
+        
         actual = lprService.getLprTransaction(actual.getId(), callContext);
         assertEquals(expected.getId(), actual.getId());
         new IdEntityTester().check(expected, actual);
@@ -210,6 +239,13 @@ public class TestLprServiceMockImpl {
 
         // test update
         expected = actual;
+        
+        for (LprTransactionItemInfo itemInfo : expected.getLprTransactionItems()) {
+			
+        	// clear out any id's set during the persistence
+        	// to let the checks work properly
+        	itemInfo.setId(null);
+		}
         new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
         actual = lprService.updateLprTransaction(expected.getId(), expected, callContext);
         assertEquals(expected.getId(), actual.getId());
@@ -222,6 +258,13 @@ public class TestLprServiceMockImpl {
 
         // test read
         expected = actual;
+        
+        for (LprTransactionItemInfo itemInfo : expected.getLprTransactionItems()) {
+			
+        	// clear out any id's set during the persistence
+        	// to let the checks work properly
+        	itemInfo.setId(null);
+		}
         actual = lprService.getLprTransaction(actual.getId(), callContext);
         assertEquals(expected.getId(), actual.getId());
         new IdEntityTester().check(expected, actual);

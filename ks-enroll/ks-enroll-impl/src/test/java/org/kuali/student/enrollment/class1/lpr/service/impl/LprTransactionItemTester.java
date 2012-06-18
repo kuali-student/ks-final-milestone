@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.test.util.IdEntityTester;
 import org.kuali.student.enrollment.test.util.ListOfStringTester;
@@ -45,15 +47,16 @@ public class LprTransactionItemTester {
         return list;
     }
 
+    
     public void check(List<LprTransactionItemInfo> expectedList, List<LprTransactionItemInfo> actualList) {
         if (expectedList.size() != actualList.size()) {
             this.dump(expectedList, actualList);
         }
         assertEquals(expectedList.size(), actualList.size());
         List<LprTransactionItemInfo> expectedSorted = new ArrayList<LprTransactionItemInfo>(expectedList);
-//        Collections.sort(expectedSorted, new LprTransactionItemInfoComparator());
+       Collections.sort(expectedSorted, new LprTransactionItemInfoComparator());
         List<LprTransactionItemInfo> actualSorted = new ArrayList<LprTransactionItemInfo>(actualList);
-//        Collections.sort(actualSorted, new LprTransactionItemInfoComparator());
+       Collections.sort(actualSorted, new LprTransactionItemInfoComparator());
         for (int i = 0; i < expectedSorted.size(); i++) {
             LprTransactionItemInfo expected = expectedSorted.get(i);
             LprTransactionItemInfo actual = actualSorted.get(i);
@@ -88,38 +91,11 @@ public class LprTransactionItemTester {
         @Override
         public int compare(LprTransactionItemInfo o1, LprTransactionItemInfo o2) {
         	
-        	String k1 = calcSortKey(o1);
-        	String k2 = calcSortKey(o2);
+        	String k1 = o1.getNewLuiId();
+        	String k2 = o2.getNewLuiId();
         	
             return k1.compareTo(k2);
         }
 
-        private String calcSortKey(LprTransactionItemInfo item) {
-            StringBuilder sb = new StringBuilder();
-            
-            boolean existingElement = false;
-            
-            if (item.getId() != null) {
-                sb.append(item.getId());
-                existingElement = true;
-            }
-          
-            if (item.getNewLuiId() != null) {
-            	
-            	if (existingElement)
-            		  sb.append("\t");
-            	
-                sb.append(item.getNewLuiId());
-                
-                existingElement = true;
-            }
-            if (item.getExistingLuiId() != null) {
-            	if (existingElement)
-          		  sb.append("\t");
-            	
-                sb.append(item.getExistingLuiId());
-            }
-            return sb.toString();
-        }
     }
 }

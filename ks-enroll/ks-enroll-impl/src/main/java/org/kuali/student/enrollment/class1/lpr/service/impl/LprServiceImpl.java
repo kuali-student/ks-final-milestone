@@ -291,7 +291,8 @@ public class LprServiceImpl implements LprService {
 
         if (lprEntity != null) {
         	
-            lprDao.mergeFromDto(lprEntity, lprInfo);
+        	
+        	lprEntity.fromDto(lprInfo);
         	
             if (lprInfo.getStateKey() != null) {
             	lprEntity.setPersonRelationStateId(lprInfo.getStateKey());
@@ -302,6 +303,8 @@ public class LprServiceImpl implements LprService {
             }
 
             lprEntity.setEntityUpdated(contextInfo);
+            
+            lprDao.merge(lprEntity);
             
             return lprDao.find(lprId).toDto();
         } else {

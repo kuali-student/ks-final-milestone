@@ -9,8 +9,9 @@ import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constant
 import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constants.TEST_VALUE_1;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -47,8 +48,10 @@ public class DataLoader {
 
     private Set<LprAttributeEntity> createAttributes() {
         Set<LprAttributeEntity> attributes = new HashSet<LprAttributeEntity>();
-        attributes.add(new LprAttributeEntity(DA_KEY_1, DA_VALUE_1));
-        attributes.add(new LprAttributeEntity(DA_KEY_2, DA_VALUE_2));
+        
+        attributes.add (new LprAttributeEntity(DA_KEY_1, DA_VALUE_1));
+        attributes.add (new LprAttributeEntity(DA_KEY_2, DA_VALUE_2));
+        
         return attributes;
     }
 

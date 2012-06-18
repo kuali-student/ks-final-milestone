@@ -7,6 +7,7 @@ import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
@@ -29,7 +30,7 @@ public class LprTestDataLoader {
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, VersionMismatchException,
             AlreadyExistsException, CircularRelationshipException {
-        loadLpr("Lpr-1", "lui-1","Person-1", new BigDecimal (80.00F),  "kuali.lpr.type.courseoffering.instructor.main", "kuali.lpr.state.draft");
+        loadLpr( "Lpr-1", "lui-1","Person-1", new BigDecimal (80.00F),  "kuali.lpr.type.courseoffering.instructor.main", "kuali.lpr.state.draft");
         loadLpr("Lpr-2", "lui-1","Person-2", new BigDecimal (20.00F),  "kuali.lpr.type.courseoffering.instructor.ta", "kuali.lpr.state.draft");
         loadLpr("Lpr-3","lui-2", "Person-1", new BigDecimal (100.00F),  "kuali.lpr.type.courseoffering.instructor.main", "kuali.lpr.state.draft");
 
@@ -49,12 +50,16 @@ public class LprTestDataLoader {
         lprEntity.setPersonRelationTypeId(lprType);
         
         
-        lprEntity.setCreateId(principalId);
-        Date time;
-        lprEntity.setCreateTime(time = new Date());
+        ContextInfo ctx = new ContextInfo();
         
-        lprEntity.setUpdateId(principalId);
-        lprEntity.setUpdateTime(time);
+        ctx.setPrincipalId(principalId);
+        
+        Date d;
+		ctx.setCurrentDate(d = new Date());
+        
+		lprEntity.setEntityCreated(ctx);
+        
+       
         
         lprDao.persist(lprEntity);
     }
