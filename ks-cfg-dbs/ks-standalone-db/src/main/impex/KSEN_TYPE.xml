@@ -573,6 +573,73 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_KEY="kuali.milestone.type.group.registration" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="A certification that a student completed the requirements for a particular area of study that results in a paper certificate being awarded"
+        DESCR_PLAIN="A certification that a student completed the requirements for a particular area of study that results in a paper certificate being awarded"
+        NAME="Certificate"
+        TYPE_KEY="kuali.result.scale.type.certificate" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Attestation that a student completed the requirements for a certification for a particular job or profession"
+        DESCR_PLAIN="Attestation that a student completed the requirements for a certification for a particular job or profession"
+        NAME="Certification"
+        TYPE_KEY="kuali.result.scale.type.certification" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Credit that is awarded for completion of a course"
+        DESCR_PLAIN="Credit that is awarded for completion of a course"
+        NAME="Credit" TYPE_KEY="kuali.result.scale.type.credit" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Degree awarded for the completion of a particular program of study"
+        DESCR_PLAIN="Degree awarded for the completion of a particular program of study"
+        NAME="Degree" TYPE_KEY="kuali.result.scale.type.degree" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Grade Point Average"
+        DESCR_PLAIN="Grade Point Average" NAME="GPA"
+        TYPE_KEY="kuali.result.scale.type.gpa" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="The result of an assessment, typically of a course"
+        DESCR_PLAIN="The result of an assessment, typically of a course"
+        NAME="Grade"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.result.scale.type.grade" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Grades that are not really the result of assessments but rather indicate administrative issue affecting the assignment of the grade.  For example an I for an incomplete grade"
+        DESCR_PLAIN="Grades that are not really the result of assessments but rather indicate administrative issue affecting the assignment of the grade.  For example an I for an incomplete grade"
+        NAME="Admin Grade"
+        TYPE_KEY="kuali.result.scale.type.grade.admin" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="An honor that is awarded to a student"
+        DESCR_PLAIN="An honor that is awarded to a student" NAME="Honor"
+        TYPE_KEY="kuali.result.scale.type.honor" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Indicates the completion of a smaller area of study in conjunction with a degree"
+        DESCR_PLAIN="Indicates the completion of a smaller area of study in conjunction with a degree"
+        NAME="Minor" TYPE_KEY="kuali.result.scale.type.minor" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Indicates the completion or lack thereof or the amount of progress towards the completion.  Often applied to requirements"
+        DESCR_PLAIN="Indicates the completion or lack thereof or the amount of progress towards the completion.  Often applied to requirements"
+        NAME="Completion"
+        TYPE_KEY="kuali.result.scale.type.requirement.completion" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Student's Year of Study, often within a program i.e. Freshman, Sophomore, Junior, Senior"
+        DESCR_PLAIN="Student's Year of Study, often within a program i.e. Freshman, Sophomore, Junior, Senior"
+        NAME="Student Year"
+        TYPE_KEY="kuali.result.scale.type.student.year" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="A result value" DESCR_PLAIN="A result value"
+        NAME="Value" TYPE_KEY="kuali.result.value.type.value" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="A result grouping that includes just a single result value "
+        DESCR_PLAIN="A result grouping that includes just a single result value "
+        NAME="Fixed" TYPE_KEY="kuali.result.values.group.type.fixed" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Multiple explicitly named values from which one may be choosen"
+        DESCR_PLAIN="Multiple explicitly named values from which one may be choosen"
+        NAME="Multiple"
+        TYPE_KEY="kuali.result.values.group.type.multiple" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="A grouping that indicates a range of numeric values with a specified increment.  It is not necessary that all of the values within that range have been explicitly pre-defined "
+        DESCR_PLAIN="A grouping that indicates a range of numeric values with a specified increment.  It is not necessary that all of the values within that range have been explicitly pre-defined "
+        NAME="Range" TYPE_KEY="kuali.result.values.group.type.range" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The results of trying to reverse a rollover"
         DESCR_PLAIN="The results of trying to reverse a rollover"
         NAME="Reverse of a Rollover"
