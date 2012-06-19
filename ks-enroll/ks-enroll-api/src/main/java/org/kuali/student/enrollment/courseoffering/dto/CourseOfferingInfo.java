@@ -39,7 +39,7 @@ import org.w3c.dom.Element;
         "id", "typeKey", "stateKey", "descr", "courseId",
         "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", 
         "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds", 
-        "unitsContentOwnerOrgIds",  "maximumEnrollment",
+        "unitsContentOwnerOrgIds",  "maximumEnrollment", "finalExamType",
         "minimumEnrollment", "jointOfferingIds", "gradingOptionId", 
         "registrationGradingOptionIds", "creditOptionDisplay", "creditOptionId", 
         "waitlistLevelTypeKey", "waitlistMaximum", "hasWaitlist", "waitlistTypeKey","campusLocations", 

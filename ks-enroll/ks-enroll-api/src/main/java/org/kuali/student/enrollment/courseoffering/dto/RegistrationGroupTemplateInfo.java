@@ -24,8 +24,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroupTemplate;
+import org.kuali.student.enrollment.courseoffering.service.ListOfListOfStringXmlAdapter;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import org.w3c.dom.Element;
@@ -49,6 +51,7 @@ public class RegistrationGroupTemplateInfo
     private String formatOfferingId;
 
     @XmlElement
+    @XmlJavaTypeAdapter (value=ListOfListOfStringXmlAdapter.class)
     private List<List<String>> activityOfferingCombinations;
 
     @XmlAnyElement
