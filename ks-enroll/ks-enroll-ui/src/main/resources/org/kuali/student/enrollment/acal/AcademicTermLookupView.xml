@@ -35,6 +35,7 @@
       <list>
 
 
+
           <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code"/>
           <bean parent="Uif-LookupCriteriaInputField" p:propertyName="startDate" p:label="Year"/>
 
@@ -54,5 +55,28 @@
       </list>
     </property>
   </bean>
+
+
+    <bean id="KS-AcademicTerm-InquiryView" parent="KSInquiryView">
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicTermInfoInquirableImpl" />
+        <property name="Items">
+            <list>
+                <bean parent="Uif-GridSection">
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="id"/>
+                            <bean parent="Uif-InputField" p:propertyName="code"/>
+                            <bean parent="Uif-InputField" p:propertyName="descr.plain"/>
+                            <bean parent="Uif-InputField" p:propertyName="typeKey"/>
+                            <bean parent="Uif-InputField" p:propertyName="stateKey"/>
+                            <bean parent="Uif-InputField" p:propertyName="startDate"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 </beans>
