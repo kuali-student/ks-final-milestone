@@ -35,72 +35,77 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationGroupInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
-                "activityOfferingIds", 
-                "courseOfferingId", "registrationCode", "termId", "formatOfferingId",
-                "isHonorsOffering", "maximumEnrollment", 
+                "formatOfferingId",  "courseOfferingId", "termId", 
+                "registrationCode", "activityOfferingIds", 
+                "isHonorsOffering", "maximumEnrollment", "isGenerated",
                 "meta", "attributes", "_futureElements"})
 
-public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationGroup {
+public class RegistrationGroupInfo 
+    extends IdEntityInfo 
+    implements RegistrationGroup {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private List<String> activityOfferingIds;
-
-    @XmlElement
-    private String courseOfferingId;
-
-    @XmlElement
-    private Integer maximumEnrollment;
 
     @XmlElement
     private String formatOfferingId;
 
     @XmlElement
-    private String registrationCode;
+    private String courseOfferingId;
 
     @XmlElement
     private String termId;
     
     @XmlElement
+    private String registrationCode;
+
+    @XmlElement
+    private List<String> activityOfferingIds;
+
+    @XmlElement
+    private Integer maximumEnrollment;
+
+    @XmlElement
     private Boolean isHonorsOffering;
+
+    @XmlElement
+    private Boolean isGenerated;
 
     @XmlAnyElement
     private List<Element> _futureElements;
 
     
+    /**
+     * Constructs a new RegistrationGroupInfo.
+     */
     public RegistrationGroupInfo() {
     }
 
+    /**
+     * Constructs a new RegistrationGroupInfo from another
+     * RegistrationGroup.
+     *
+     * @param registrationGroup the registration group to copy
+     */
     public RegistrationGroupInfo(RegistrationGroup registrationGroup) {
         super(registrationGroup); 
         
         if (registrationGroup == null) {
             return;      
         }
-        
-        this.activityOfferingIds = (null != registrationGroup.getActivityOfferingIds()) ? new ArrayList<String>(registrationGroup.getActivityOfferingIds()) : null;
-        this.courseOfferingId = registrationGroup.getCourseOfferingId();
+
         this.formatOfferingId = registrationGroup.getFormatOfferingId();
-        this.isHonorsOffering = (null != registrationGroup.getIsHonorsOffering()) ? new Boolean(registrationGroup.getIsHonorsOffering()) : null;
-        this.maximumEnrollment = registrationGroup.getMaximumEnrollment();
-        this.registrationCode = registrationGroup.getRegistrationCode();
+        this.courseOfferingId = registrationGroup.getCourseOfferingId();
         this.termId = registrationGroup.getTermId();
-    }
+        
+        this.registrationCode = registrationGroup.getRegistrationCode();
+        
+        if (registrationGroup.getActivityOfferingIds() != null) {
+            this.activityOfferingIds = new ArrayList<String>(registrationGroup.getActivityOfferingIds());
+        }
 
-    @Override
-    public List<String> getActivityOfferingIds() {
-        return activityOfferingIds;
-    }
-
-    @Override
-    public String getCourseOfferingId() {
-        return courseOfferingId;
-    }
-
-    @Override
-    public Integer getMaximumEnrollment() {
-        return maximumEnrollment;
+        this.isHonorsOffering = registrationGroup.getIsHonorsOffering();
+        this.maximumEnrollment = registrationGroup.getMaximumEnrollment();
+        this.isHonorsOffering = registrationGroup.getIsHonorsOffering();
     }
 
     @Override
@@ -108,46 +113,74 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         return formatOfferingId;
     }
 
-    @Override
-    public String getRegistrationCode() {
-        return registrationCode;
+    public void setFormatOfferingId(String formatOfferingId) {
+        this.formatOfferingId = formatOfferingId;
     }
 
-   @Override
-    public String getTermId() {
-        return termId;
-    }
-    
     @Override
-    public Boolean getIsHonorsOffering() {
-        return isHonorsOffering;
-    }
-
-    public void setActivityOfferingIds(List<String> activityOfferingIds) {
-        this.activityOfferingIds = activityOfferingIds;
+    public String getCourseOfferingId() {
+        return courseOfferingId;
     }
 
     public void setCourseOfferingId(String courseOfferingId) {
         this.courseOfferingId = courseOfferingId;
     }
 
-    public void setMaximumEnrollment(Integer maximumEnrollment) {
-        this.maximumEnrollment = maximumEnrollment;
-    }
-
-    public void setFormatOfferingId(String formatOfferingId) {
-        this.formatOfferingId = formatOfferingId;
-    }
-
-    public void setRegistrationCode(String registrationCode) {
-        this.registrationCode = registrationCode;
+    @Override
+    public String getTermId() {
+        return termId;
     }
 
     public void setTermId(String termId) {
         this.termId = termId;
     }
 
+    @Override
+    public String getRegistrationCode() {
+        return registrationCode;
+    }
+
+    public void setRegistrationCode(String registrationCode) {
+        this.registrationCode = registrationCode;
+    }
+
+    @Override
+    public List<String> getActivityOfferingIds() {
+        if (activityOfferingIds == null) {
+            activityOfferingIds = new ArrayList<String>();
+        }
+
+        return activityOfferingIds;
+    }
+
+    public void setActivityOfferingIds(List<String> activityOfferingIds) {
+        this.activityOfferingIds = activityOfferingIds;
+    }
+
+    @Override
+    public Boolean getIsHonorsOffering() {
+        return isHonorsOffering;
+    }
+
     public void setIsHonorsOffering(Boolean isHonorsOffering) {
         this.isHonorsOffering = isHonorsOffering;
+    }
+
+    @Override
+    public Integer getMaximumEnrollment() {
+        return maximumEnrollment;
+    }
+
+    public void setMaximumEnrollment(Integer maximumEnrollment) {
+        this.maximumEnrollment = maximumEnrollment;
+    }
+
+    @Override
+    public Boolean getIsGenerated() {
+        return isGenerated;
+    }
+
+    public void setIsGenerated(Boolean isGenerated) {
+        this.isGenerated = isGenerated;
     }
 }

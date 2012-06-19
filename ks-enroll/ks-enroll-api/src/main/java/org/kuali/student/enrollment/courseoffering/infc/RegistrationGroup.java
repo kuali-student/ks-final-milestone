@@ -32,6 +32,17 @@ public interface RegistrationGroup
     extends IdEntity {
 
     /**
+     * Canonical format to which this registration group belong to.  
+     *
+     * @name Format Id
+     * @impl This maps the the version dependent id of the format
+     *       clu. Stored as cluId in Lui.
+     * @required
+     * @readOnly
+     */
+    public String getFormatOfferingId();
+
+    /**
      * Course offering for this registration group.
      *
      * @name CourseOffering Id
@@ -49,33 +60,12 @@ public interface RegistrationGroup
      * be nested term of courseOffering.
      *
      * @name Term id
+     * @readOnly
      * @required
      * @impl maps to Lui.getAtpId()
      */
     public String getTermId();
 
-    /**
-     * Canonical format to which this registration group belong to.  
-     *
-     * @name Format Id
-     * @impl This maps the the version dependent id of the format
-     *       clu. Stored as cluId in Lui.
-     */
-    public String getFormatOfferingId();
-
-    /**
-     * Activity Offerings for the registration group. This list should
-     * be constrained by the canonical format and the activity
-     * offerings listed in the course offering.
-     *
-     * @name ActivityOffering Ids
-     * @required
-     * @impl Maps to the lui Ids of the activityOffering retrieved
-     *       from luiluirelation of type activityOffering to
-     *       registration group.
-     */
-    public List<String> getActivityOfferingIds();
-            
     /**
      * Uniquely identifies an instance of the course for the purposes
      * of registration.
@@ -84,6 +74,18 @@ public interface RegistrationGroup
      * @impl maps to lui code in Lui
      */
     public String getRegistrationCode();
+
+    /**
+     * Activity Offerings for the registration group. This list should
+     * be constrained by the canonical format and the activity
+     * offerings listed in the course offering.
+     *
+     * @name ActivityOffering Ids
+     * @impl Maps to the lui Ids of the activityOffering retrieved
+     *       from luiluirelation of type activityOffering to
+     *       registration group.
+     */
+    public List<String> getActivityOfferingIds();            
     
     /**
      * Indicates that the entire course offering is an Honors Course.
@@ -102,4 +104,13 @@ public interface RegistrationGroup
      * @impl maps to Lui.maximumEnrollment
      */
     public Integer getMaximumEnrollment();
+
+    /**
+     * Tests if this registration group wa sthe product of an
+     * automatic generation. manually created registration groups
+     * return false for this.
+     *
+     * @name Is Generated
+     */
+    public Boolean getIsGenerated();
 }

@@ -836,19 +836,19 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * Retrieves the Activity Offerings by actvity offering template id which don't have
      * registration groups created for them yet.
      *
-     * @param courseOfferingId  The Id of the course offering
+     * @param formatOfferingId  The Id of the format offering
      * @param context
      * @return
-     * @throws DoesNotExistException   The courseOfferingId does not exist
+     * @throws DoesNotExistException   The formatOfferingId does not exist
      * @throws InvalidParameterException  Invalid formatOfferingId
      * @throws MissingParameterException  Missing formatOfferingId
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ActivityOfferingInfo> getActivityOfferingsByCourseOfferingWithoutRegGroup(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ActivityOfferingInfo> getActivityOfferingsByFormatOfferingWithoutRegGroup(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
-       /**
+    /**
      * Creates a new Activity Offering for a format offering.
      *
      *
@@ -1072,7 +1072,8 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public List<RegistrationGroupInfo> getRegistrationGroupsForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     *  Retrieves a list of RegistrationGroup records that contain all the activity offerings in the input list
+     *  Retrieves a list of RegistrationGroup records that contain all
+     *  the activity offerings in the input list.
      *
      * @param activityOfferingIds  List of activityOffering Identifiers
      * @param context
@@ -1089,10 +1090,9 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * Retrieves a list of RegistrationGroup records that belongs to a
      * CourseOffering for a given canonical format type
      *
-     *
      * @param formatOfferingId Unique Id of the CourseOffering
-     * @param context          Context information containing the principalId and locale
-     *                         information about the caller of service operation
+     * @param context information containing the principalId and
+     *        locale information about the caller of service operation
      * @return List of RegistrationGroups
      * @throws DoesNotExistException     courseOfferingId or formatTypeKey not found
      * @throws InvalidParameterException invalid courseOfferingId or formatTypeKey
@@ -1103,7 +1103,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public List<RegistrationGroupInfo> getRegistrationGroupsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates a new Registration Group
+     * Creates a new Registration Group.
      *
      * @param formatOfferingId       formatofferingId that the  RegistrationGroup is based on
      * @param registrationGroupType      courseOffering Id that the RegistrationGroup will belong to
@@ -1135,6 +1135,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      */
     public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+                                                                                   
     /**
      * Updates an existing RegistrationGroup.
      *
@@ -1168,6 +1169,49 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteRegistrationGroup(@WebParam(name = "registrationGroupId") String registrationGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Deletes all Registration Groups for a Format Offering.
+     *
+     * @param registrationGroupId the Id of the FormatOffering
+     * @param context             Context information containing the principalId and locale
+     *                            information about the caller of service operation
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+                                              //    public StatusInfo deleteRegistrationGroupsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Deletes all generated Registration Groups for a Format
+     * Offering. A generated registration group is one whose
+     * isGenerated() flag is true.
+     *
+     * @param registrationGroupId the Id of the FormatOffering
+     * @param context             Context information containing the principalId and locale
+     *                            information about the caller of service operation
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+                                              //    public StatusInfo deleteGeneratedRegistrationGroupsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Deletes all generated Registration Groups that were the result
+     * of a Registration Group Template.
+     *
+     * @param registrationGroupId the Id of the FormatOffering
+     * @param context             Context information containing the principalId and locale
+     *                            information about the caller of service operation
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+                                              //    public StatusInfo deleteGeneratedRegistrationGroupsForTemplate(@WebParam(name = "registrationGroupTemplateId") String registrationGroupTemplateId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 
     /**
      * Validates a registration group. Depending on the value of validationType,
@@ -1206,6 +1250,34 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException authorization failure
      */
     public RegistrationGroupTemplateInfo getRegistrationGroupTemplate(@WebParam(name = "registrationGroupTemplateId") String registrationGroupTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
+     * Validates a course offering. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current object and
+     * its directly contained sub-objects or expanded to perform all tests
+     * related to this object. If an identifier is present for the academic
+     * calendar and a record is found for that identifier, the validation checks
+     * if the academic calendar can be shifted to the new values. If a record
+     * cannot be found for the identifier, it is assumed that the record does
+     * not exist and as such, the checks performed will be much shallower,
+     * typically mimicking those performed by setting the validationType to the
+     * current object. This is a slightly different pattern from the standard
+     * validation as the caller provides the identifier in the create statement
+     * instead of the server assigning an identifier.
+     *
+     * @param validationType     Identifier of the extent of validation
+     * @param courseOfferingInfo the course offering information to be tested.
+     * @param context            Context information containing the principalId and locale
+     *                           information about the caller of service operation
+     * @return the results from performing the validation
+     * @throws DoesNotExistException     validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, courseOfferingInfo
+     * @throws MissingParameterException missing validationTypeKey, courseOfferingInfo
+     * @throws OperationFailedException  unable to complete request
+     */
+                                                                      //    public List<ValidationResultInfo> validateRegistrationGroupTemplate(@WebParam(name = "validationType") String validationType, @WebParam(name = "registrationGroupTemplateInfo") RegistrationGroupTemplateInfo registrationGroupTemplateInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
 
     /**
      * Updates a registration Group template based on the info object
