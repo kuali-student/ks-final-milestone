@@ -124,7 +124,9 @@ public class CourseOfferingMaintainableImpl extends MaintainableImpl implements 
 
                 document.getNewMaintainableObject().setDataObject(formObject);
                 document.getOldMaintainableObject().setDataObject(formObject);
-    //            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
+                document.getDocumentHeader().setDocumentDescription("Edit CO - " + info.getCourseOfferingCode());
+
+                //            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
     //            formObject.setStateName(state.getName());
                 return formObject;
             }
