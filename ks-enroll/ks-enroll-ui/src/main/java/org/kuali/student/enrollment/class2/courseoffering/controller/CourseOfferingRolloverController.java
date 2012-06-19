@@ -230,20 +230,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=cleanTargetTerm")
-    public ModelAndView cleanTargetTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CourseOfferingViewHelperService helper = getViewHelperService(form);
-        if (form.getSourceTerm() == null || form.getTargetTerm() == null) {
-            form.setStatusField("(cleanUp) Source/target term objects appear to be missing");
-            return getUIFModelAndView(form);
-        }
-        form.setStatusField("");
-
-        helper.cleanTargetTerm(form.getTargetTerm().getId(), form);
-        return getUIFModelAndView(form);
-    }
-
     public CourseOfferingViewHelperService getViewHelperService(CourseOfferingRolloverManagementForm rolloverForm) {
         if (viewHelperService == null) {
             if (rolloverForm.getView().getViewHelperServiceClass() != null) {

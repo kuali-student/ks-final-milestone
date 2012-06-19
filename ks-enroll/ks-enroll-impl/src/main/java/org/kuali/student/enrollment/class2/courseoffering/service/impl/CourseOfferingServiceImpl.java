@@ -105,8 +105,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         //Cascade delete to the formats
         List<FormatOfferingInfo> fos = getFormatOfferingsByCourseOffering(courseOfferingId, context);
-        for(FormatOfferingInfo fo:fos){
-            deleteFormatOfferingCascaded(fo.getId(),context);
+        for (FormatOfferingInfo fo:fos){
+            deleteFormatOfferingCascaded(fo.getId(), context);
         }
         //Delete all attached things (LPRs, EnrollmentFees, org relations, etc.)
         //TODO
@@ -119,8 +119,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteFormatOfferingCascaded( String formatOfferingId,ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+    public StatusInfo deleteFormatOfferingCascaded(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // Delete dependent activity offerings
+        List<ActivityOfferingInfo> aos = getActivityOfferingsByFormatOffering(formatOfferingId, context);
+        for (ActivityOfferingInfo ao: aos) {
+            deleteActivityOffering(ao.getId(), context);
+        }
+        // Delete the format offering
+        try {
+            deleteFormatOffering(formatOfferingId, context);
+        } catch (DependentObjectsExistException e) {
+            // Rethrow it for now
+            throw new OperationFailedException(e.getMessage());
+        }
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        return statusInfo;
     }
 
     @Override

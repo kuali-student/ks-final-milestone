@@ -24,8 +24,10 @@ import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConsta
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseofferingset.service.impl.DeleteTargetTermRolloverRunner;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
@@ -45,7 +47,9 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -277,24 +281,60 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         return mainSocCount;
     }
 
+    private SocInfo _getUniqueMainSoc(List<String> socIds) {
+        SocInfo mainSoc = null;
+        int mainSocCount = 0;
+        try {
+            for (String socId: socIds) {
+                SocInfo socInfo = socService.getSoc(socId, new ContextInfo());
+                if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                    mainSocCount++;
+                    if (mainSocCount > 1) {
+                        mainSoc = null;
+                    } else if (mainSocCount == 1) {
+                        mainSoc = socInfo;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return mainSoc;
+    }
+
     @Override
     public boolean termHasSoc(String termId, CourseOfferingRolloverManagementForm form) {
         CourseOfferingSetService socService = _getSocService();
         try {
             List<String> socIds = socService.getSocIdsByTerm(termId, new ContextInfo());
             if (socIds == null || socIds.isEmpty()) {
-                form.setStatusField("No SOCS in source term");
+                if (form != null) {
+                    form.setStatusField("No SOCS in source term");
+                }
                 return false;
             } else {
                 int mainSocCount = _mainSocCount(socIds);
                 if (mainSocCount != 1) {
-                    form.setStatusField("Wrong number of SOCS in source term: " + socIds.size());
+                    if (form != null) {
+                        form.setStatusField("Wrong number of SOCS in source term: " + socIds.size());
+                    }
                     return false;
                 }
             }
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Override
+    public SocInfo getMainSoc(String termId) {
+        CourseOfferingSetService socService = _getSocService();
+        try {
+            List<String> socIds = socService.getSocIdsByTerm(termId, new ContextInfo());
+            return _getUniqueMainSoc(socIds);
+        } catch (Exception e) {
+            return null;
         }
     }
 
@@ -359,60 +399,13 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     }
 
     @Override
-    public void cleanTargetTerm(String targetTermId, CourseOfferingRolloverManagementForm form) {
+    public void deleteTargetTerm(String targetTermId, DeleteTargetTermForm form) {
         // Remove SOCS, SOCResults, and course offerings
-        CourseOfferingSetService socService = _getSocService();
-        CourseOfferingService coService = _getCourseOfferingService();
-
-        try {
-            // First, the course offerings
-            List<String> coIds = coService.getCourseOfferingIdsByTerm(targetTermId, Boolean.FALSE, new ContextInfo());
-            if (coIds != null) {
-                for (String coId : coIds) {
-                    List<FormatOfferingInfo> foInfos =
-                            coService.getFormatOfferingsByCourseOffering(coId, new ContextInfo());
-                    for (FormatOfferingInfo foInfo: foInfos) {
-                        String foId = foInfo.getId();
-                        // Delete activity offerings
-                        List<ActivityOfferingInfo> aoInfos =
-                                coService.getActivityOfferingsByFormatOffering(foId, new ContextInfo());
-                        for (ActivityOfferingInfo aoInfo: aoInfos) {
-                            coService.deleteActivityOffering(aoInfo.getId(), new ContextInfo());
-                        }
-                        // Delete format offerings first
-                        coService.deleteFormatOffering(foInfo.getId(), new ContextInfo());
-                    }
-                    coService.deleteCourseOffering(coId, new ContextInfo());
-                }
-            }
-            // Then, SocRolloverItems
-            List<String> socIds = socService.getSocIdsByTerm(targetTermId, new ContextInfo());
-            if (socIds != null) {
-                ContextInfo contextInfo = new ContextInfo();
-                for (String targetSocId : socIds) {
-                    SocInfo socInfo = socService.getSoc(targetSocId, new ContextInfo());
-                    if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                        List<String> resultIds = socService.getSocRolloverResultIdsByTargetSoc(targetSocId, contextInfo);
-                        if (resultIds != null) {
-                            for (String resultId: resultIds) {
-                                List<SocRolloverResultItemInfo> items = socService.getSocRolloverResultItemsByResultId(resultId, contextInfo);
-                                // Items deleted here
-                                for (SocRolloverResultItemInfo item: items) {
-                                    socService.deleteSocRolloverResultItem(item.getId(), contextInfo);
-                                }
-                                // Results deleted here
-                                socService.deleteSocRolloverResult(resultId, contextInfo);
-                            }
-                        }
-                        // Finally, delete the SOC
-                        socService.deleteSoc(targetSocId, contextInfo);
-                    }
-                }
-            }
-            
-        } catch (Exception ex) {
-            form.setStatusField("Exception in cleanTargetTerm");
-        }
+        DeleteTargetTermRolloverRunner runner = new DeleteTargetTermRolloverRunner();
+        runner.setSocService(_getSocService());
+        runner.setCoService(_getCourseOfferingService());
+        runner.setTermId(targetTermId);
+        runner.run();
     }
 
     @Override
@@ -516,7 +509,13 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         return socRolloverResultInfos;
     }
 
-
+    @Override
+    public String formatDate(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("EEE, MMMMM d, yyyy");
+        String startDateStr = format.format(date);
+        return startDateStr;
+    }
+    
     private CourseOfferingService _getCourseOfferingService() {
         if (coService == null) {
             coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
