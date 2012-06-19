@@ -26,7 +26,6 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.*;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingAdminDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
@@ -494,12 +493,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         return list;
     }
 
+    
     @Override
-    public List<ActivityOfferingInfo> getActivityOfferingsByCourseOfferingWithoutRegGroup(String courseOfferingId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        throw new OperationFailedException("getActivityOfferingTypesForActivityType has not been implemented");
-    }
+	public List<ActivityOfferingInfo> getActivityOfferingsByFormatOfferingWithoutRegGroup(
+			String formatOfferingId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+    	 throw new OperationFailedException("getActivityOfferingTypesForActivityType has not been implemented");
+	}
 
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
