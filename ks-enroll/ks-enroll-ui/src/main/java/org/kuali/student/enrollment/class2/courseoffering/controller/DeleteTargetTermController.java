@@ -26,6 +26,7 @@ import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRol
 import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -114,6 +115,10 @@ public class DeleteTargetTermController extends UifControllerBase {
         SocInfo mainSoc = helperService.getMainSoc(dttForm.getDisplayedTargetTermId());
         if (mainSoc == null) {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.delete.targetTerm.noSoc");
+            return getUIFModelAndView(form);
+        }
+        if (!mainSoc.getStateKey().equals(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY)) {
+            GlobalVariables.getMessageMap().putError("targetTermCode", "error.delete.targetTerm.notDraftSoc");
             return getUIFModelAndView(form);
         }
         helperService.deleteTargetTerm(dttForm.getDisplayedTargetTermId(), dttForm);

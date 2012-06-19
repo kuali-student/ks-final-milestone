@@ -90,14 +90,12 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         List<TermInfo> termList = helper.findTermByTermCode(form.getTargetTermCode());
         if (termList != null && termList.size() == 1) {
             //validation to check if already rollover target term exists..
-            List<String> targetSocIds = this._getSocService().getSocIdsByTerm(termList.get(0).getId(), new ContextInfo());
-            if (targetSocIds.size() > 0) {
-                SocInfo socInfo = _getSocService().getSoc(targetSocIds.get(0), new ContextInfo());
-                if (socInfo.getTermId().equalsIgnoreCase(termList.get(0).getId())) {
-                    GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.rollover.targetTermExists");
-                    form.resetForm();
-                    return getUIFModelAndView(form);
-                }
+            List<String> coIds = this._getCourseOfferingService().getCourseOfferingIdsByTerm(termList.get(0).getId(), true, new ContextInfo());
+            if (!coIds.isEmpty()) {
+                // Print error message if there are course offerings in the target term
+                GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.rollover.targetTermExists");
+                form.resetForm();
+                return getUIFModelAndView(form);
             }
             // Get first term
             TermInfo matchingTerm = termList.get(0);

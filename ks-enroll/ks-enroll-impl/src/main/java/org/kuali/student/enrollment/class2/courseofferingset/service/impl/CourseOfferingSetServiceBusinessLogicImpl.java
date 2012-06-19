@@ -138,6 +138,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         if (targetSoc == null) {
             // Did not find target SOC, make a new one
             targetSoc = new SocInfo(sourceSoc);
+            targetSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY); // Make it draft in the new term
             foundTargetSoc = false;
             targetSoc.setId(null);
             targetSoc.setTermId(targetTermId);
