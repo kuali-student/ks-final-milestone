@@ -19,6 +19,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -766,6 +767,34 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
             }
         }
+    }
+
+    private QueryByCriteria buildQueryByCriteriaForTerm(String type, String code){
+        List<Predicate> predicates = new ArrayList<Predicate>();
+
+        predicates.add(PredicateFactory.equal("atpType", type));
+        predicates.add(PredicateFactory.equalIgnoreCase("atpCode", code));
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+        QueryByCriteria qbc = qbcBuilder.build();
+
+        return qbc;
+    }
+
+    public List<TermInfo> getTermsByTypeAndCode(String type, String code)throws Exception {
+
+        List<TermInfo> termInfoList = new ArrayList<TermInfo>();
+
+        QueryByCriteria qbc = buildQueryByCriteriaForTerm(type, code);
+
+        List<TermInfo> terms = getAcalService().searchForTerms(qbc, getContextInfo());
+        for (TermInfo term : terms) {
+            termInfoList.add(term);
+        }
+
+        return termInfoList;
+
     }
 
     public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial) throws Exception {
