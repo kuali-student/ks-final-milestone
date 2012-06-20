@@ -23,6 +23,11 @@
     <li><a href="${ConfigProperties.ks.lum.MainEntryPoint}">Curriculum Management</a></li>
     <li><a href="${ConfigProperties.ks.org.MainEntryPoint}">Organization Management</a></li>
   </ul>
-  
+  <ul class="chan">
+    <li><portal:portalLink
+            title="Enrollment (in progress)" displayTitle="true"
+            url="${ConfigProperties.application.url}/kr-krad/launch?viewId=enrollmentHomeView&methodToCall=start" /></li>
+  </ul>
+
 </div>
 <channel:portalChannelBottom />
