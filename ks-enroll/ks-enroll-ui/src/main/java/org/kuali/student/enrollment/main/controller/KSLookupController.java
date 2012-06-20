@@ -1,15 +1,18 @@
 package org.kuali.student.enrollment.main.controller;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.lookup.Lookupable;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.LookupController;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.enrollment.uif.view.KSLookupView;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -63,25 +66,37 @@ public class KSLookupController extends LookupController {
             request.setAttribute("reqSearchResultsActualSize", new Integer(displayList.size()));
         }
 
-        if(displayList != null && displayList.size() == 1){
+        lookupForm.setSearchResults(displayList);
 
-            Object object = displayList.iterator().next();
+        if(getView(lookupForm) instanceof KSLookupView){
+            KSLookupView ksLookupView = (KSLookupView)getView(lookupForm);
+            String defaultAction = ksLookupView.getDefaultSingleLookupResultAction();
+            if (StringUtils.isNotBlank(defaultAction) && displayList != null && displayList.size() == 1){
+                Object object = displayList.iterator().next();
 
-            DataObjectEntry ddEntry = KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getDataObjectEntry(lookupForm.getDataObjectClassName());
-            String titleAttribute = ddEntry.getTitleAttribute();
+                DataObjectEntry ddEntry = KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getDataObjectEntry(lookupForm.getDataObjectClassName());
+                String titleAttribute = ddEntry.getTitleAttribute();
 
-            Properties props = new Properties();
-            props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
-            props.put(titleAttribute,ObjectPropertyUtils.getPropertyValue(object, titleAttribute));
-            props.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
-            props.put(UifConstants.UrlParams.SHOW_HOME,BooleanUtils.toStringTrueFalse(false));
-            props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE,lookupForm.getDataObjectClassName());
+                Properties props = new Properties();
+                props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
+                props.put(titleAttribute,ObjectPropertyUtils.getPropertyValue(object, titleAttribute));
+                props.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
+                props.put(UifConstants.UrlParams.SHOW_HOME,BooleanUtils.toStringTrueFalse(false));
+                props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE,lookupForm.getDataObjectClassName());
+                props.put("returnLocation", lookupForm.getReturnLocation());
 
-            return performRedirect(lookupForm,KRADConstants.PARAM_MAINTENANCE_VIEW_MODE_INQUIRY,props );
-        }else{
-            lookupForm.setSearchResults(displayList);
-            return getUIFModelAndView(lookupForm);
+                return performRedirect(lookupForm,defaultAction,props );
+            }
         }
+
+        return getUIFModelAndView(lookupForm);
     }
 
+    private View getView(LookupForm form){
+         if (form.getView() != null){
+             return form.getView();
+         }else{
+             return form.getPostedView();
+         }
+    }
 }
