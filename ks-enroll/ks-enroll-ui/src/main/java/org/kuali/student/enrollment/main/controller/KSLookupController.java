@@ -83,7 +83,6 @@ public class KSLookupController extends LookupController {
                 props.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
                 props.put(UifConstants.UrlParams.SHOW_HOME,BooleanUtils.toStringTrueFalse(false));
                 props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE,lookupForm.getDataObjectClassName());
-                props.put("returnLocation", lookupForm.getReturnLocation());
 
                 return performRedirect(lookupForm,defaultAction,props );
             }

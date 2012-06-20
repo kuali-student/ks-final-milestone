@@ -49,9 +49,32 @@
         </property>
     </bean>
 
+    <bean id="KSInquiryFooter" parent="KSInquiryFooter-parent"/>
+
+    <bean id="KSInquiryFooter-parent" parent="Uif-InquiryFooter" abstract="true">
+    <property name="items">
+      <list>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="export" p:actionLabel="export"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EXPORT]}"
+              p:onClickScript="writeHiddenToForm(&quot;unblockUIOnLoading&quot;, &quot;true&quot;);"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="returnToPrevious" p:actionLabel="Cancel"
+              p:render="@{#view.renderedInLightBox and formHistory != null and !formHistory?.historyEntries?.empty}"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="returnToHub" p:actionLabel="Home"
+              p:render="@{#view.renderedInLightBox and formHistory != null and (formHistory?.historyEntries?.size() > 1)}"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{#view.renderedInLightBox}"
+              p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{!#view.renderedInLightBox}"
+              p:methodToCall="close"/>
+      </list>
+    </property>
+  </bean>
+
     <bean id="KSInquiryView" abstract="true" parent="Uif-InquiryView">
         <property name="theme">
             <bean parent="KSTheme"/>
+        </property>
+        <property name="footer">
+            <ref bean="KSInquiryFooter"/>
         </property>
     </bean>
 
@@ -106,50 +129,6 @@
         <property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>
         <property name="cssClasses" value="ui-priority-secondary-sm"/>
     </bean>
-
-    <!--<bean id="KSFooterDocument" parent="Uif-FooterBase">
-      <property name="items">
-        <list>
-          <bean parent="Uif-PrimaryActionButton" p:methodToCall="performRouteReport" p:actionLabel="Route Report"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:methodToCall="sendAdHocRequests" p:actionLabel="Send Adhoc"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('route', replacePage);" p:actionLabel="Submit"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('save', replacePage);" p:actionLabel="Save"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('blanketApprove', replacePage);" p:actionLabel="Blanket Approve"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('approve', replacePage);" p:actionLabel="Approve"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:methodToCall="disapprove" p:actionLabel="Disapprove"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:methodToCall="fyi" p:actionLabel="FYI"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:methodToCall="acknowledge" p:actionLabel="Acknowledge"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
-          <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
-          <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-          <bean parent="Uif-ActionLink" p:clientSideJs="validateAndSubmit('copy', replacePage);" p:actionLabel="Copy"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
-        </list>
-      </property>
-    </bean>-->
-
-    <!--<bean id="KSFooter_SubmitCancel" parent="KSFooterDocument">
-      <property name="items">
-        <list>
-            <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('route', replacePage);" p:actionLabel="Submit"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-            <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-        </list>
-      </property>
-    </bean>-->
 
     <bean id="KSHeader_Empty" parent="Uif-HeaderOne">
       <property name="items">
