@@ -2,22 +2,19 @@ package org.kuali.student.enrollment.class1.lpr.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,15 +22,9 @@ import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
 import org.kuali.student.enrollment.class1.lpr.service.impl.mock.LprTestDataLoader;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
-import org.kuali.student.enrollment.test.util.AttributeTester;
-import org.kuali.student.enrollment.test.util.ListOfStringTester;
-import org.kuali.student.enrollment.test.util.MetaTester;
-import org.kuali.student.enrollment.test.util.RelationshipTester;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -223,7 +214,52 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 		assertNotNull(lpr);
 		assertNotNull(lpr.getStateKey());
 		assertNotNull(lpr.getTypeKey());
+		
+		
 
+	}
+	
+	
+	
+	@Test
+	public void testGetters () throws Exception {
+		
+//	           loadLpr( "Lpr-1", "lui-1","Person-1", new BigDecimal (80.00F),  "kuali.lpr.type.courseoffering.instructor.main", "kuali.lpr.state.draft");
+//	           loadLpr("Lpr-2", "lui-1","Person-2", new BigDecimal (20.00F),  "kuali.lpr.type.courseoffering.instructor.ta", "kuali.lpr.state.draft");
+//	           loadLpr("Lpr-3","lui-2", "Person-1", new BigDecimal (100.00F),  "kuali.lpr.type.courseoffering.instructor.main", "kuali.lpr.state.draft");
+		
+		List<String> lprIds = new ArrayList<String>();
+		
+		lprIds.add("Lpr-1");
+		
+		List<LprInfo> lprs = lprService.getLprsByIds(lprIds, callContext);
+		
+		assertEquals(1, lprs.size());
+		
+		lprIds.add("Lpr-3");
+		
+		lprs = lprService.getLprsByIds(lprIds, callContext);
+		
+		assertEquals(2, lprs.size());
+		
+		String luiId = "lui-1";
+		lprs = lprService.getLprsByLui(luiId, callContext);
+		
+		assertEquals(2, lprs.size());
+		
+		String lprTypeKey = "kuali.lpr.state.draft";
+		lprs = lprService.getLprsByLuiAndType(luiId, lprTypeKey, callContext);
+		
+		assertEquals(2, lprs.size());
+		
+		String personId = "Person-2";
+		lprs = lprService.getLprsByPerson(personId, callContext);
+		
+		assertEquals(1, lprs.size());
+		
+		lprs = lprService.getLprsByPersonAndLui("Person-1", "lui-2", callContext);
+		
+		assertEquals(1, lprs.size());
 	}
 
 }

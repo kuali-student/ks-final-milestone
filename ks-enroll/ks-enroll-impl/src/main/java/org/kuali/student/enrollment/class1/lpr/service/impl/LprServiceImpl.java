@@ -52,7 +52,7 @@ public class LprServiceImpl implements LprService {
     private LprDao lprDao;
     private LprTransactionDao lprTransDao;
     private LprTransactionItemDao lprTransItemDao;
-
+    
     public void setLprTransItemDao(LprTransactionItemDao lprTransItemDao) {
         this.lprTransItemDao = lprTransItemDao;
     }
@@ -375,8 +375,8 @@ public class LprServiceImpl implements LprService {
     @Override
     public List<LprInfo> getLprsByPersonForAtp(String personId, String atpId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	// TODO: get a reference to the luiService so we can resolve the atpid
+    	throw new UnsupportedOperationException("Operation not implemented");
     }
 
     @Override
@@ -744,17 +744,19 @@ public class LprServiceImpl implements LprService {
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        List<LprEntity> entityList = lprDao.getLprsByPersonAndType(personId, typeKey);
-        List<LprInfo> infoList = new ArrayList<LprInfo>();
-        for (LprEntity entity : entityList) {
-            // TODO: inject this impl with a lui service impl to get the atp to check
-//            LuiEntity lui = luiDao.find(entity.getLuiId());
-//            if (StringUtils.equals(lui.getAtpId(), atpId)) {
-            infoList.add(entity.toDto());
-//            }
-        }
-
-        return infoList;
+    	// TODO: get a reference to the luiService so we can resolve the atpid
+    	 throw new UnsupportedOperationException("Operation not implemented");
+//        List<LprEntity> entityList = lprDao.getLprsByPersonAndType(personId, typeKey);
+//        List<LprInfo> infoList = new ArrayList<LprInfo>();
+//        for (LprEntity entity : entityList) {
+//            // TODO: inject this impl with a lui service impl to get the atp to check
+////            LuiEntity lui = luiDao.find(entity.getLuiId());
+////            if (StringUtils.equals(lui.getAtpId(), atpId)) {
+//            infoList.add(entity.toDto());
+////            }
+//        }
+//
+//        return infoList;
     }
 
     @Override
@@ -762,24 +764,33 @@ public class LprServiceImpl implements LprService {
     public List<LprInfo> getLprsByPersonForAtpAndLuiType(String personId, String atpId, String luiTypeKey, ContextInfo context) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<LprEntity> entityList = lprDao.getLprsByPerson(personId);
-
-        List<LprInfo> infoList = new ArrayList<LprInfo>();
-        for (LprEntity entity : entityList) {
-//            LuiEntity lui = luiDao.find(entity.getLuiId());
-//            if ((lui.getAtpId().equals(atpId)) && (lui.getLuiType().equals(luiTypeKey))) {
-            infoList.add(entity.toDto());
-//            }
-        }
-
-        return infoList;
+    	
+    	// TODO: get a reference to the luiService here to resolve the atp and lui type key data
+    	 throw new UnsupportedOperationException("Operation not implemented");
+//        List<LprEntity> entityList = lprDao.getLprsByPerson(personId);
+//
+//        List<LprInfo> infoList = new ArrayList<LprInfo>();
+//        for (LprEntity entity : entityList) {
+////            LuiEntity lui = luiDao.find(entity.getLuiId());
+////            if ((lui.getAtpId().equals(atpId)) && (lui.getLuiType().equals(luiTypeKey))) {
+//            infoList.add(entity.toDto());
+////            }
+//        }
+//
+//        return infoList;
     }
 
     @Override
-    public List<LprInfo> getLprsByLuiAndType(String luiId, String typeKey, ContextInfo context) throws DoesNotExistException,
+    public List<LprInfo> getLprsByLuiAndType(String luiId, String lprTypeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	
+    	List<LprInfo>infoList = new ArrayList<LprInfo>();
+    	
+    	for (LprEntity lprEntity : lprDao.getLprsByLuiAndType(luiId, lprTypeKey)) {
+			
+    		infoList.add(lprEntity.toDto());
+		}
+        return infoList;
     }
 
     @Override
