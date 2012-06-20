@@ -78,7 +78,11 @@ public class KSLookupController extends LookupController {
                 String titleAttribute = ddEntry.getTitleAttribute();
 
                 Properties props = new Properties();
-                props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
+                if("maintenance".equals(defaultAction)){
+                    props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "maintenanceEdit");
+                }  else{
+                    props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
+                }
                 props.put(titleAttribute,ObjectPropertyUtils.getPropertyValue(object, titleAttribute));
                 props.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
                 props.put(UifConstants.UrlParams.SHOW_HOME,BooleanUtils.toStringTrueFalse(false));
