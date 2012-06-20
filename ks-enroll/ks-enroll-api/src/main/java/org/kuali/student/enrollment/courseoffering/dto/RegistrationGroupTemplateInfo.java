@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationGroupTemplateInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
-                "formatOfferingId",  "activityOfferingCombinations",
+                "formatOfferingId",  "activityOfferingIds",
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationGroupTemplateInfo 
@@ -52,7 +52,7 @@ public class RegistrationGroupTemplateInfo
 
     @XmlElement
     @XmlJavaTypeAdapter (value=ListOfListOfStringXmlAdapter.class)
-    private List<List<String>> activityOfferingCombinations;
+    private List<List<String>> activityOfferingIds;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -78,10 +78,10 @@ public class RegistrationGroupTemplateInfo
         }
 
         this.formatOfferingId = template.getFormatOfferingId();
-        if (template.getActivityOfferingCombinations() != null) {
-            this.activityOfferingCombinations = new ArrayList<List<String>>(template.getActivityOfferingCombinations().size());
-            for (List<String> combos : template.getActivityOfferingCombinations()) {
-                this.activityOfferingCombinations.add(new ArrayList<String>(combos));
+        if (template.getActivityOfferingIds() != null) {
+            this.activityOfferingIds = new ArrayList<List<String>>(template.getActivityOfferingIds().size());
+            for (List<String> combos : template.getActivityOfferingIds()) {
+                this.activityOfferingIds.add(new ArrayList<String>(combos));
             }
         }
     }
@@ -96,15 +96,15 @@ public class RegistrationGroupTemplateInfo
     }
 
     @Override
-    public List<List<String>> getActivityOfferingCombinations() {
-        if (activityOfferingCombinations == null) {
-            activityOfferingCombinations = new ArrayList<List<String>>();
+    public List<List<String>> getActivityOfferingIds() {
+        if (activityOfferingIds == null) {
+            activityOfferingIds = new ArrayList<List<String>>();
         }
 
-        return activityOfferingCombinations;
+        return activityOfferingIds;
     }
 
-    public void setActivityOfferingCombinations(List<List<String>> activityOfferingCombinations) {
-        this.activityOfferingCombinations = activityOfferingCombinations;
+    public void setActivityOfferingIds(List<List<String>> activityOfferingids) {
+        this.activityOfferingIds = activityOfferingIds;
     }
 }

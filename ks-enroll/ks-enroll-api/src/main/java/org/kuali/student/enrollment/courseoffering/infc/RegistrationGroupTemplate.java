@@ -45,7 +45,7 @@ public interface RegistrationGroupTemplate
      * activity offering Id from each and every list within the
      * activity offering combinations should be created.
      *
-     * @name Activity Offering combinations
+     * @name Activity Offering Ids
      */
-    public List<List<String>> getActivityOfferingCombinations();
+    public List<List<String>> getActivityOfferingIds();
 }

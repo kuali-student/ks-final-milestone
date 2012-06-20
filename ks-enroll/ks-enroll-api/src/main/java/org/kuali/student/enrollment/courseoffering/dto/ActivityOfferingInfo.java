@@ -44,8 +44,9 @@ import org.w3c.dom.Element;
                 "weeklyTotalContactHours",  "isEvaluated",
                 "maximumEnrollment", "minimumEnrollment","isMaxEnrollmentEstimate",
                 "finalExamStartTime", "finalExamEndTime", 
-                "finalExamSpaceCode", "activityOfferingURL",
-                "courseOfferingId", "courseOfferingTitle", "courseOfferingCode", "hasWaitlist", "waitlistTypeKey",
+                "finalExamSpaceCode", "activityOfferingURL", 
+                "courseOfferingId", "courseOfferingTitle", 
+                "courseOfferingCode", "hasWaitlist", "waitlistTypeKey",
                 "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
                 "meta", "attributes", "_futureElements"})
 
@@ -134,7 +135,7 @@ public class ActivityOfferingInfo
     private String waitlistTypeKey;
 
     @XmlElement
-	private Integer waitlistMaximum;
+    private Integer waitlistMaximum;
 
     @XmlElement
     private Boolean isWaitlistCheckinRequired;

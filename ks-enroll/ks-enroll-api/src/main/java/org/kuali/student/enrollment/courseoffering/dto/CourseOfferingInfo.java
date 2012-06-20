@@ -39,15 +39,17 @@ import org.w3c.dom.Element;
         "id", "typeKey", "stateKey", "descr", "courseId",
         "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", 
         "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds", 
-        "unitsContentOwnerOrgIds",  "maximumEnrollment", "finalExamType",
+        "unitsContentOwnerOrgIds",  "maximumEnrollment", 
         "minimumEnrollment", "jointOfferingIds", "gradingOptionId", 
         "registrationGradingOptionIds", "creditOptionDisplay", "creditOptionId", 
         "waitlistLevelTypeKey", "waitlistMaximum", "hasWaitlist", "waitlistTypeKey","campusLocations", 
         "isEvaluated", "fundingSource", "isFeeAtActivityOffering", 
-        "isFinancialAidEligible", "courseOfferingURL",
+        "isFinancialAidEligible", "courseOfferingURL", "finalExamType",
         "meta", "attributes", "_futureElements"})
 
-public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseOffering {
+public class CourseOfferingInfo 
+    extends IdNamelessEntityInfo 
+    implements CourseOffering {
 
     private static final long serialVersionUID = 1L;
 

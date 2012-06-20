@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.kuali.student.enrollment.courseoffering.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -28,70 +28,104 @@ import org.kuali.student.enrollment.courseoffering.infc.SeatPoolDefinition;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
-/**
- * 
- * @author Kuali Student Team (Kamal)
- *
- */
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SeatPoolDefinitionInfo", propOrder = {"registrationGroupIds", "courseOfferingId", 
-        "maximumSeatCount", "processingPriority", "capacityRestrictionStatementId",
-        "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
-public class SeatPoolDefinitionInfo extends IdEntityInfo implements SeatPoolDefinition {
+@XmlType(name = "SeatPoolDefinitionInfo", propOrder = {
+                "id", "typeKey", "stateKey", "name", "descr", 
+                "activityOfferingId", "expirationMilestoneTypeKey",
+                "isPercentage", "seatLimit", "processingPriority", 
+                "populationId",
+                "meta", "attributes", "_futureElements"})
+
+public class SeatPoolDefinitionInfo 
+    extends IdEntityInfo 
+    implements SeatPoolDefinition {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String courseOfferingId;
+    private String activityOfferingId;
 
     @XmlElement    
-    private List<String> registrationGroupIds;
+    private String expirationMilestoneTypeKey;
+
+    @XmlElement    
+    private Boolean isPercentage;
     
     @XmlElement
-    private Integer maximumSeatCount;
+    private Integer seatLimit;
     
     @XmlElement
     private Integer processingPriority;
     
     @XmlElement
-    private String capacityRestrictionStatementId;
+    private String populationId;
     
     @XmlAnyElement
     private List<Element> _futureElements;
     
     
+    /**
+     * Constructs a new SeatPoolDefinition.
+     */
     public SeatPoolDefinitionInfo() {
     }
-    
-    public SeatPoolDefinitionInfo(SeatPoolDefinition seatpool) {
-        super(seatpool);
+
+    /**
+     * Constructs a new SeatPoolDefinition.
+     *
+     * @param pool the seat pool definition to copy
+     */    
+    public SeatPoolDefinitionInfo(SeatPoolDefinition pool) {
+        super(pool);
         
-        if(null == seatpool) return;
+        if (pool == null) {
+            return;
+        }
         
-        this.courseOfferingId = seatpool.getCourseOfferingId();
-        this.maximumSeatCount = (null != seatpool.getMaximumSeatCount()) ? new Integer(seatpool.getMaximumSeatCount()) : null;
-        this.registrationGroupIds = (null != seatpool.getRegistrationGroupIds()) ? new ArrayList<String>(seatpool.getRegistrationGroupIds()) : null;
-        this.processingPriority = (null != seatpool.getProcessingPriority()) ? new Integer(seatpool.getProcessingPriority()) : null;
-        this.capacityRestrictionStatementId = seatpool.getCapacityRestrictionStatementId();
+        this.activityOfferingId = pool.getActivityOfferingId();
+        this.expirationMilestoneTypeKey = pool.getExpirationMilestoneTypeKey();
+        this.isPercentage = pool.getIsPercentage();
+        this.seatLimit = pool.getSeatLimit();
+        this.processingPriority = pool.getProcessingPriority();
+        this.populationId = pool.getPopulationId();
     }
    
         
     @Override
-    public String getCourseOfferingId() {
-        return this.courseOfferingId;
+    public String getActivityOfferingId() {
+        return this.activityOfferingId;
+    }
+
+    public void setActivityOfferingId(String activityOfferingId) {
+        this.activityOfferingId = activityOfferingId;;
     }
 
     @Override
-    public List<String> getRegistrationGroupIds() {
-        if(null == this.registrationGroupIds) {
-            this.registrationGroupIds = new ArrayList<String>();
-        }
-        return this.registrationGroupIds;
+    public String getExpirationMilestoneTypeKey() {
+        return this.expirationMilestoneTypeKey;
+    }
+
+    public void setExpirationMilestoneTypeKey(String expirationMilestoneTypeKey) {
+        this.expirationMilestoneTypeKey = expirationMilestoneTypeKey;
     }
 
     @Override
-    public Integer getMaximumSeatCount() {
-        return this.maximumSeatCount;
+    public Boolean getIsPercentage() {
+        return this.isPercentage;
+    }
+
+    public void setIsPercentage(Boolean isPercentage) {
+        this.isPercentage = isPercentage;;
+    }
+
+    @Override
+    public Integer getSeatLimit() {
+        return this.seatLimit;
+    }
+
+    public void setSeatLimit(Integer seatLimit) {
+        this.seatLimit = seatLimit;
     }
 
     @Override
@@ -99,24 +133,16 @@ public class SeatPoolDefinitionInfo extends IdEntityInfo implements SeatPoolDefi
         return this.processingPriority;
     }
 
-    @Override
-    public String getCapacityRestrictionStatementId() {
-        return this.capacityRestrictionStatementId;        
-    }
-    
-    public void setRegistrationGroupIds(List<String> registrationGroupIds) {
-        this.registrationGroupIds = registrationGroupIds;
-    }
-
-    public void setMaximumSeatCount(Integer maximumSeatCount) {
-        this.maximumSeatCount = maximumSeatCount;
-    }
-
     public void setProcessingPriority(Integer processingPriority) {
         this.processingPriority = processingPriority;
     }
 
-    public void setCapacityRestrictionStatementId(String capacityRestrictionStatementId) {
-        this.capacityRestrictionStatementId = capacityRestrictionStatementId;
+    @Override
+    public String getPopulationId() {
+        return this.populationId;
+    }
+
+    public void setPopulationId(String populationId) {
+        this.populationId = populationId;
     }        
 }

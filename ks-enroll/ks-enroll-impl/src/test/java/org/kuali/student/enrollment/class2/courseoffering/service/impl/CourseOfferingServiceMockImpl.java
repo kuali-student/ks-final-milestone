@@ -651,9 +651,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     private Map<String, RegistrationGroupInfo> registrationGroupMap = new LinkedHashMap<String, RegistrationGroupInfo>();
 
 
-
     @Override
     public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(String formatOfferingId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        throw new OperationFailedException("generateRegistrationGroupsForFormatOffering has not been implemented");
+    }
+
+    @Override
+    public List<RegistrationGroupInfo> generateRegistrationGroupsForTemplate(String registrationGroupTemplateId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         throw new OperationFailedException("generateRegistrationGroupsForFormatOffering has not been implemented");
@@ -726,17 +732,10 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForCourseOffering(String courseOfferingId, ContextInfo context)
+    public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForActivityOffering(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("getSeatPoolDefinitionsForCourseOffering has not been implemented");
-    }
-
-    @Override
-    public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForRegGroup(String registrationGroupId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        throw new OperationFailedException("getSeatPoolDefinitionsForRegGroup has not been implemented");
+        throw new OperationFailedException("getSeatPoolDefinitionsForActivityOffering has not been implemented");
     }
 
     // cache variable

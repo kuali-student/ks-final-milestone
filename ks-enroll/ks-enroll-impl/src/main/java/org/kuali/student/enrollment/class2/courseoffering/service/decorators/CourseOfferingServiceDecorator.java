@@ -177,15 +177,9 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return getNextDecorator().searchForActivityOfferingIds(criteria, context);
     }
 
-
     @Override
-    public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForRegGroup(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getSeatPoolDefinitionsForRegGroup(registrationGroupId, context);
-    }
-
-    @Override
-    public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getSeatPoolDefinitionsForCourseOffering(courseOfferingId, context);
+    public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
     }
 
     @Override
@@ -353,8 +347,10 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return getNextDecorator().generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
     }
 
-   
-
+    @Override
+    public List<RegistrationGroupInfo> generateRegistrationGroupsForTemplate(String registrationGroupTemplateId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().generateRegistrationGroupsForTemplate(registrationGroupTemplateId, context);
+    }   
 
     @Override
     public StatusInfo deleteSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
