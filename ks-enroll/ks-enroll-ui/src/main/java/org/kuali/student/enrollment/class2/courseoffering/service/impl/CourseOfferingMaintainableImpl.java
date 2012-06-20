@@ -24,6 +24,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingEditMaintainable;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -121,6 +122,14 @@ public class CourseOfferingMaintainableImpl extends MaintainableImpl implements 
                     }
                 }
                 formObject.setStudentRegOptions(studentRegOptions);
+                formObject.setOrganizationNames(new ArrayList<OrganizationInfoWrapper>());
+                  /*
+                if(info.getUnitsContentOwnerOrgIds() != null){
+                    if(formObject.)
+                    for(String orgId: info.getUnitsContentOwnerOrgIds()){
+
+                    }
+                } */
 
                 document.getNewMaintainableObject().setDataObject(formObject);
                 document.getOldMaintainableObject().setDataObject(formObject);

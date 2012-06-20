@@ -160,5 +160,14 @@
     <bean id="enumValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
+    <!-- Organization Service -->
+    <bean id="orgDao" class="org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="extendedOrgDao" class="org.kuali.student.r2.core.class1.organization.dao.ExtendedOrgDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
 
 </beans>

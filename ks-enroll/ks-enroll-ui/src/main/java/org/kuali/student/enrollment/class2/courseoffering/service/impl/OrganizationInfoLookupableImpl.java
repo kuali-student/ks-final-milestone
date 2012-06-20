@@ -40,11 +40,12 @@ import java.util.Map;
  */
 public class OrganizationInfoLookupableImpl extends LookupableImpl {
     private OrganizationService organizationService;
+    ContextInfo contextInfo = new ContextInfo();
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<OrgInfo> results = new ArrayList<OrgInfo>();
-        ContextInfo context = new ContextInfo();
+
 
         String shortName = fieldValues.get("shortName");
         String longName = fieldValues.get("longName");
@@ -63,8 +64,12 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
             qBuilder.setPredicates(PredicateFactory.equal("shortName",shortName));
         }
         try {
+            QueryByCriteria query = qBuilder.build();
 
-            java.util.List<OrgInfo> orgInfos = getOrganizationService().searchForOrgs(qBuilder.build(), context);
+            OrganizationService  organizationService = getOrganizationService();
+
+
+            java.util.List<OrgInfo> orgInfos = organizationService.searchForOrgs(query, getContextInfo());
             if (!orgInfos.isEmpty()){
                 results.addAll(orgInfos);
             }
@@ -77,10 +82,17 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
 
     private OrganizationService getOrganizationService(){
         if(organizationService == null) {
-            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organizationService", "OrganizationService"));
+            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
 
         }
         return organizationService;
 
+    }
+
+    public ContextInfo getContextInfo() {
+        if (contextInfo == null){
+            contextInfo =  org.kuali.student.enrollment.common.util.ContextBuilder.loadContextInfo();
+        }
+        return contextInfo;
     }
 }

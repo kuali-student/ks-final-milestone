@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class CourseOfferingEditWrapper implements Serializable {
     private List<FormatOfferingInfo> formatOfferings;
     private List<String> studentRegOptions;
     private List<OrganizationInfoWrapper> organizationNames;
-    private String organizationName;
+
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
@@ -90,11 +91,4 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.organizationNames = organizationNames;
     }
 
-    public String getOrganizationName() {
-        return organizationName;
-    }
-
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
-    }
 }

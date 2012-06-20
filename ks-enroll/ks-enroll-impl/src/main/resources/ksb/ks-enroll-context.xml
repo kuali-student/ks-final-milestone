@@ -601,4 +601,31 @@
         </property>
     </bean>
 
+    <bean id="orgServiceImplNew" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
+        <property name="organizationDao" ref="orgDao" />
+        <property name="extendedOrgDao" ref="extendedOrgDao" />
+        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService"/>
+    </bean>
+
+    <bean id="ks.exp.organizationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="orgServiceImplNew" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.organization.service.OrganizationService" />
+                <property name="localServiceName" value="OrganizationService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+
+
+
+
+
+
+
 </beans>

@@ -201,9 +201,12 @@
                 </bean>
 
                 <bean id="KS-CourseOfferingEdit-OrganizationSection" parent="Uif-TableCollectionSection"
+                      p:layoutManager.style="width: 100%; display:block;"
                       p:layoutManager.numberOfColumns="1"
-                      p:headerText="ADMINISTERING ORGANIZATIONS" p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper"
-                      p:propertyName="organizationNames" p:layoutManager.renderSequenceField="false"
+                      p:headerText="ADMINISTERING ORGANIZATIONS"
+                      p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper"
+                      p:propertyName="organizationNames"
+                      p:layoutManager.renderSequenceField="false"
                       p:layoutManager.generateAutoSequence="false"
                       p:layoutManager.separateAddLine="false"
                       p:layoutManager.richTable.disableTableSort="true"
@@ -213,19 +216,23 @@
 
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField"  p:label="Organization Name"  p:propertyName="organizationName" p:required="true"
+                            <bean parent="Uif-InputField"  p:label="Organization ID"  p:propertyName="id" p:required="true"
                                   p:style="font-weight:bold;white-space:nowrap;">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="16" />
+                                    <bean parent="Uif-TextControl" p:size="16" p:disabled="true" />
                                 </property>
                                 <!--<property name="quickfinder.render" value="true"/>-->
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
+
                                 <property name="quickfinder.fieldConversions">
                                     <map>
-                                        <entry key="shortName" value="organizationName" />
+                                        <entry key="id" value="id" />
+                                        <entry key="longName" value="organizationName"/>
                                     </map>
                                 </property>
                             </bean>
+                            <bean parent="Uif-DataField" p:propertyName="organizationName" p:label="Organization Name"/>
+
                         </list>
                     </property>
                 </bean>

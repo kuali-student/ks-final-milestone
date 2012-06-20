@@ -134,6 +134,26 @@
         <class>org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultItemEntity</class>
         <class>org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultItemAttributeEntity</class>
         <class>org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultOptionEntity</class>
+
+        <!-- Org Entities -->
+        <class>org.kuali.student.core.organization.entity.Org</class>
+        <class>org.kuali.student.core.organization.entity.OrgAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgHierarchy</class>
+        <class>org.kuali.student.core.organization.entity.OrgHierarchyAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgOrgRelation</class>
+        <class>org.kuali.student.core.organization.entity.OrgOrgRelationAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgOrgRelationType</class>
+        <class>org.kuali.student.core.organization.entity.OrgOrgRelationTypeAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgPersonRelation</class>
+        <class>org.kuali.student.core.organization.entity.OrgPersonRelationAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgPersonRelationType</class>
+        <class>org.kuali.student.core.organization.entity.OrgPersonRelationTypeAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgPositionRestriction</class>
+        <class>org.kuali.student.core.organization.entity.OrgPositionRestrictionAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgType</class>
+        <class>org.kuali.student.core.organization.entity.OrgTypeAttribute</class>
+
+
     <!--class>org.kuali.student.r2.core.class1.process.model.CheckAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.CheckEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.CheckRichTextEntity</class>
