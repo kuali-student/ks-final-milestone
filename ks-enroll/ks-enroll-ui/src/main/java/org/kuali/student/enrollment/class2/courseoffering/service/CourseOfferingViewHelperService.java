@@ -40,7 +40,7 @@ public interface CourseOfferingViewHelperService extends ViewHelperService {
 
     public boolean cleanSourceTerm(String targetTermId, CourseOfferingRolloverManagementForm form);
     
-    public SocInfo performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form);
+    public boolean performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form);
 
     public SocRolloverResultInfo performReverseRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form);
 
@@ -53,4 +53,10 @@ public interface CourseOfferingViewHelperService extends ViewHelperService {
     public String formatDate(Date date);
 
     public SocInfo getMainSoc(String termId);
+
+    // Used in rollover details screen
+    public String formatDateAndTime(Date date);
+
+    // User friendly term string
+    public String getTermDesc(String termId);
 }

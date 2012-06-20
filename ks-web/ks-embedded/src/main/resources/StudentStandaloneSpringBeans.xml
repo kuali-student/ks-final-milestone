@@ -114,6 +114,7 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingCreateMaintenanceView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/OrganizationInfoLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DeleteTargetTermView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagement-SelectTermPage.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">

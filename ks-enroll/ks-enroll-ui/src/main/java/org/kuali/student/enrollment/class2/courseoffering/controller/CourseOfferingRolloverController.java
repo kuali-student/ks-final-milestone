@@ -65,6 +65,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     private CourseOfferingService coService;
 
     final Logger logger = Logger.getLogger(CourseOfferingRolloverController.class);
+    public static final String ROLLOVER_DETAILS_PAGEID = "selectTermForRolloverDetails";
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -112,6 +113,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             form.setTargetTermEndDate(endDateStr);
             // TODO: Put in last rollover date (Kirk says this may be unnecessary in new wireframes 5/18/2012)
             form.setTargetTerm(matchingTerm);
+            form.setIsGoSourceButtonDisabled(false); // Make go button for source enabled
         } else {
             form.setTargetTerm(null);
             form.resetForm();
@@ -140,12 +142,15 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         boolean sourceTermHasSoc = helper.termHasSoc(sourceTerm.getId(), form);
         if (!likeTerms) {
             GlobalVariables.getMessageMap().putError("sourceTermCode", "error.likeTerms.validation");
+            form.setIsRolloverButtonDisabled(true);
             return getUIFModelAndView(form);
         } else if (!sourcePrecedesTarget) {
             GlobalVariables.getMessageMap().putError("sourceTermCode", "error.years.validation");
+            form.setIsRolloverButtonDisabled(true);
             return getUIFModelAndView(form);
         } else if (!sourceTermHasSoc) {
             GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.sourceTerm.noSoc");
+            form.setIsRolloverButtonDisabled(true);
             return getUIFModelAndView(form);
         }
 
@@ -165,6 +170,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             String endDateStr = format.format(endDate);
             form.setSourceTermEndDate(endDateStr);
             form.setSourceTerm(matchingTerm);
+            form.setIsRolloverButtonDisabled(false); // Enable the button
         } else {
             form.setTargetTerm(null);
             form.resetForm();
@@ -186,8 +192,15 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         String sourceTermId = form.getSourceTerm().getId();
         String targetTermId = form.getTargetTerm().getId();
 
-        helper.performRollover(sourceTermId, targetTermId, form);
-        return getUIFModelAndView(form);
+        boolean success = helper.performRollover(sourceTermId, targetTermId, form);
+        if (success) {
+            form.setRolloverTargetTermCode(form.getTargetTermCode());
+            // Switch to rollover details page
+            return getUIFModelAndView(form, ROLLOVER_DETAILS_PAGEID);
+        } else{
+            // Had problems, stay in the same screen
+            return getUIFModelAndView(form);
+        }
     }
 
     @RequestMapping(params = "methodToCall=setUpSourceTerm")
@@ -246,9 +259,10 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         //helper class for courseOfferingSetService
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         //To fetch Term by code which is desirable.
-        List<TermInfo> termList = helper.findTermByTermCode(form.getRolloverTargetTerm());
+        List<TermInfo> termList = helper.findTermByTermCode(form.getRolloverTargetTermCode());
         if (termList.size() != 0) {
-            List<SocRolloverResultInfo> socRolloverResultInfos = helper.findRolloverByTerm(termList.get(0).getId());
+            String targetTermId = termList.get(0).getId();
+            List<SocRolloverResultInfo> socRolloverResultInfos = helper.findRolloverByTerm(targetTermId);
             if (socRolloverResultInfos != null & socRolloverResultInfos.size() != 0) {
                 if (socRolloverResultInfos.size() > 1) {
                     logger.warn("Multiple Soc Rollover Results Found");
@@ -263,14 +277,14 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 SocInfo socInfo = _getSocService().getSoc(socRolloverResultInfo.getSourceSocId(), new ContextInfo());
 
                 if (socInfo != null) {//TODO delete this code block, there is weird semantic id logic happening
-                    String pattern = "([0-9]+)([a-zA-Z]+)";
-                    String term = socInfo.getTermId().replaceAll(pattern, "$2 $1");
-                    form.setRolloverSourceTerm(term);
+                    String friendlySourceTermDesc = helper.getTermDesc(socInfo.getTermId());
+                    form.setRolloverSourceTermDesc(friendlySourceTermDesc);
+                    String friendlyTargetTermDesc = helper.getTermDesc(targetTermId);
+                    form.setRolloverTargetTermDesc(friendlyTargetTermDesc);
                 }
                 Date dateInitiated = socRolloverResultInfo.getMeta().getCreateTime();
-                SimpleDateFormat format = new SimpleDateFormat("MMMM d yyyy, hh:mm");
-                String startDate = format.format(dateInitiated);
-                form.setDateInitiated(startDate);
+                String startDateStr = helper.formatDateAndTime(dateInitiated);
+                form.setDateInitiated(startDateStr);
                 //if items skipped is null, then below condition passess and items skipped is calculated
                 if (socRolloverResultInfo.getCourseOfferingsCreated() == null || socRolloverResultInfo.getCourseOfferingsCreated().toString().length() < 1) {
                     Integer temp = socRolloverResultInfo.getItemsExpected() - socRolloverResultInfo.getItemsProcessed();
@@ -279,9 +293,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                     form.setCourseOfferingsAllowed(socRolloverResultInfo.getItemsProcessed() + "transitioned with " + socRolloverResultInfo.getCourseOfferingsSkipped() + " exceptions");
                 }
                 Date dateCompleted = socRolloverResultInfo.getMeta().getUpdateTime();
-                format = new SimpleDateFormat("MMMM d yyyy, hh:mm");
-                String updatedDate = format.format(dateCompleted);
-                form.setDateCompleted(updatedDate);
+                String updatedDateStr = helper.formatDateAndTime(dateCompleted);
+                form.setDateCompleted(updatedDateStr);
                 //CourseOfferingSet service to get Soc Rollover ResultItems by socResultItemInfo id
                 try {
                     List<SocRolloverResultItemInfo> socRolloverResultItemInfos =

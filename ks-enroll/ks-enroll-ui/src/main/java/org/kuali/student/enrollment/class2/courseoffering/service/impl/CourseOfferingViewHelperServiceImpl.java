@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -372,22 +373,21 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     }
     
     @Override
-    public SocInfo performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
+    public boolean performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
         CourseOfferingSetService socService = _getSocService();
         try {
             List<String> socIds = socService.getSocIdsByTerm(sourceTermId, new ContextInfo());
-            if (socIds == null || socIds.isEmpty()) {
-                form.setStatusField("No source soc ID found");
-            } else if (socIds.size() > 1) {
-                form.setStatusField("Too many SOCs in source term: " + socIds.size());
+            SocInfo socInfo = _getUniqueMainSoc(socIds);
+            if (socInfo == null) {
+                GlobalVariables.getMessageMap().putError("targetTermCode", "error.rollover.sourceTerm.noSoc");
             } else {
-                String sourceSocId = socIds.get(0);
+                String sourceSocId = socInfo.getId();
                 List<String> options = new ArrayList<String>();
                 // TODO: Force rollover to run synchronously for now
                 options.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
                 options.add(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY);
                 SocInfo result = socService.rolloverSoc(sourceSocId, targetTermId, options, new ContextInfo());
-                return result;
+                return true;
             }
         } catch (Exception e) {
             System.err.println("--------- rollover exception in performRollover [START]");
@@ -395,7 +395,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
             System.err.println("--------- rollover exception in performRollover [END]");
             form.setStatusField("performRollover: Exception thrown: " + e.getMessage());
         }
-        return null;
+        return false;
     }
 
     @Override
@@ -515,7 +515,24 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         String startDateStr = format.format(date);
         return startDateStr;
     }
-    
+
+    @Override
+    public String formatDateAndTime(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("MMMMM d, yyyy, h:mm a");
+        String startDateStr = format.format(date);
+        return startDateStr;
+    }
+
+    @Override
+    public String getTermDesc(String termId) {
+        try {
+            TermInfo termInfo = _getAcalService().getTerm(termId, new ContextInfo());
+            return termInfo.getDescr().getPlain();
+        } catch (Exception e) {
+            return "NO TERM DATA";
+        }
+    }
+
     private CourseOfferingService _getCourseOfferingService() {
         if (coService == null) {
             coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
