@@ -23,7 +23,7 @@
 
 
   <bean id="TermInfo" parent="TermInfo-parent">
-       <property name="titleAttribute" value="code"/>
+       <property name="titleAttribute" value="id"/>
   </bean>
 
   <bean id="AcademicTerm-LookupView" parent="KSLookupView">
