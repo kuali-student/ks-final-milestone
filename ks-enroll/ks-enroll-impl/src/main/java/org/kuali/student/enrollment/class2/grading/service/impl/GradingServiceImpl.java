@@ -648,7 +648,7 @@ public class GradingServiceImpl implements GradingService {
         List<GradeValuesGroupInfo> gradeValuesGroupInfos = new ArrayList<GradeValuesGroupInfo>();
 
         for(ResultValuesGroupInfo resultValuesGroupInfo : resultValuesGroupInfos){
-            List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByIds(resultValuesGroupInfo.getResultValueKeys(),context);
+            List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(),context);
             try {
                 gradeValuesGroupInfos.add(gradeValuesGroupAssembler.assemble(resultValuesGroupInfo,resultValueInfos,context));
             } catch (AssemblyException e) {
@@ -774,7 +774,7 @@ public class GradingServiceImpl implements GradingService {
             }
         }
 
-        List<ResultValueInfo> resultValues = lrcService.getResultValuesByIds(resultValueKeys, context);
+        List<ResultValueInfo> resultValues = lrcService.getResultValuesByKeys(resultValueKeys, context);
         for (int i = 0; i < resultValues.size(); i++) {
             LearningResultRecordInfo lrr = filteredLrrs.get(i);
             ResultValueInfo resultValue = resultValues.get(i);
@@ -850,7 +850,7 @@ public class GradingServiceImpl implements GradingService {
             }
         }
 
-        List<ResultValueInfo> resultValues = lrcService.getResultValuesByIds(resultValueKeys, context);
+        List<ResultValueInfo> resultValues = lrcService.getResultValuesByKeys(resultValueKeys, context);
         for (int i = 0; i < resultValues.size(); i++) {
             ResultValueInfo resultValue = resultValues.get(i);
             String resultValuetypeKey = resultValue.getTypeKey();
