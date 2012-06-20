@@ -4,21 +4,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <!--<import resource="classpath:ks-EnrollmentFeeInfo-dictionary.xml"/>-->
-    <!--<import resource="classpath:UifKSDefinitions.xml"/>-->
-
     <!-- EnrollmentFeeInfo-->
     <bean id="EnrollmentFeeInfo" parent="EnrollmentFeeInfo-parent">
         <property name="titleAttribute" value="id"/>
     </bean>
 
-
-
     <!-- LookupView -->
     <bean id="KS-EnrollmentFeeInfo-LookupView" parent="KSLookupView">
-        <property name="headerText" value="Enrollment Fee Lookup (Search: To be implemented soon) " />
+        <property name="headerText" value="Enrollment Fee Lookup" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeInfoLookupableImpl" />
+
 
         <property name="criteriaFields">
             <list>
@@ -26,12 +22,6 @@
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="refObjectURI"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="refObjectId"/>
 
-
-                <!-- not implemented
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" />
-                -->
             </list>
         </property>
         <property name="resultFields">
