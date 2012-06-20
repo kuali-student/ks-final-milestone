@@ -34,198 +34,210 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public ResultValuesGroupInfo getResultValuesGroup(String resultValuesGroupKey, ContextInfo context)
+    public ResultValuesGroupInfo getResultValuesGroup(String resultValuesGroupKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesGroup(resultValuesGroupKey, context);
+        return getNextDecorator().getResultValuesGroup(resultValuesGroupKey, contextInfo);
     }
 
     @Override
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByKeys(List<String> resultValuesGroupKeys, ContextInfo context)
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByKeys(List<String> resultValuesGroupKeys, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesGroupsByKeys(resultValuesGroupKeys, context);
+        return getNextDecorator().getResultValuesGroupsByKeys(resultValuesGroupKeys, contextInfo);
     }
 
     @Override
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultValue(String resultValueKey, ContextInfo context)
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultValue(String resultValueKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesGroupsByResultValue(resultValueKey, context);
+        return getNextDecorator().getResultValuesGroupsByResultValue(resultValueKey, contextInfo);
     }
 
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScale(String resultScaleKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesGroupsByResultScale(resultScaleKey, context);
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScale(String resultScaleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultValuesGroupsByResultScale(resultScaleKey, contextInfo);
     }
 
     @Override
-    public List<String> getResultValuesGroupKeysByType(String resultValuesGroupTypeKey, ContextInfo context)
+    public List<String> getResultValuesGroupKeysByType(String resultValuesGroupTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesGroupKeysByType(resultValuesGroupTypeKey, context);
+        return getNextDecorator().getResultValuesGroupKeysByType(resultValuesGroupTypeKey, contextInfo);
     }
 
     @Override
     public ResultValuesGroupInfo createResultValuesGroup(String resultScaleKey,
             String resultValuesGroupTypeKey,
-            ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo context)
+            ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo contextInfo)
             throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().createResultValuesGroup(resultScaleKey, resultValuesGroupTypeKey, gradeValuesGroupInfo, context);
+        return getNextDecorator().createResultValuesGroup(resultScaleKey, resultValuesGroupTypeKey, gradeValuesGroupInfo, contextInfo);
     }
 
     @Override
     public ResultValuesGroupInfo updateResultValuesGroup(String resultValuesGroupKey,
-            ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo context)
+            ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException,
             VersionMismatchException {
-        return getNextDecorator().updateResultValuesGroup(resultValuesGroupKey, gradeValuesGroupInfo, context);
+        return getNextDecorator().updateResultValuesGroup(resultValuesGroupKey, gradeValuesGroupInfo, contextInfo);
     }
 
     @Override
-    public StatusInfo deleteResultValuesGroup(String resultValuesGroupKey, ContextInfo context)
+    public StatusInfo deleteResultValuesGroup(String resultValuesGroupKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteResultValuesGroup(resultValuesGroupKey, context);
+        return getNextDecorator().deleteResultValuesGroup(resultValuesGroupKey, contextInfo);
     }
 
     @Override
-    public ResultValueInfo getResultValue(String resultValueKey, ContextInfo context)
+    public ResultValueInfo getResultValue(String resultValueKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValue(resultValueKey, context);
+        return getNextDecorator().getResultValue(resultValueKey, contextInfo);
     }
 
     @Override
-    public List<ResultValueInfo> getResultValuesByIds(List<String> resultValueKeys, ContextInfo context)
+    public List<ResultValueInfo> getResultValuesByKeys(List<String> resultValueKeys, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesByIds(resultValueKeys, context);
+        return getNextDecorator().getResultValuesByKeys(resultValueKeys, contextInfo);
     }
 
     @Override
-    public List<ResultValueInfo> getResultValuesForResultValuesGroup(String resultValuesGroupKey, ContextInfo context)
+    public List<ResultValueInfo> getResultValuesForResultValuesGroup(String resultValuesGroupKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesForResultValuesGroup(resultValuesGroupKey, context);
+        return getNextDecorator().getResultValuesForResultValuesGroup(resultValuesGroupKey, contextInfo);
     }
 
     @Override
     public ResultValueInfo createResultValue(String resultScaleKey,
             String resultValueTypeKey,
-            ResultValueInfo resultValueInfo, ContextInfo context)
+            ResultValueInfo resultValueInfo, ContextInfo contextInfo)
             throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().createResultValue(resultScaleKey, resultValueTypeKey, resultValueInfo, context);
+        return getNextDecorator().createResultValue(resultScaleKey, resultValueTypeKey, resultValueInfo, contextInfo);
     }
 
     @Override
-    public ResultValueInfo updateResultValue(String resultValueKey, ResultValueInfo resultValueInfo, ContextInfo context)
+    public ResultValueInfo updateResultValue(String resultValueKey, ResultValueInfo resultValueInfo, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException,
             VersionMismatchException {
-        return getNextDecorator().updateResultValue(resultValueKey, resultValueInfo, context);
+        return getNextDecorator().updateResultValue(resultValueKey, resultValueInfo, contextInfo);
     }
 
     @Override
-    public StatusInfo deleteResultValue(String resultValueKey, ContextInfo context) throws DoesNotExistException,
+    public StatusInfo deleteResultValue(String resultValueKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().deleteResultValue(resultValueKey, context);
+        return getNextDecorator().deleteResultValue(resultValueKey, contextInfo);
     }
 
     @Override
     public List<ValidationResultInfo> validateResultValue(String validationType, ResultValueInfo resultValueInfo,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        return getNextDecorator().validateResultValue(validationType, resultValueInfo, context);
+        return getNextDecorator().validateResultValue(validationType, resultValueInfo, contextInfo);
     }
 
     @Override
     public List<ValidationResultInfo> validateResultValuesGroup(String validationType,
-            ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo context) throws DoesNotExistException,
+            ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateResultValuesGroup(validationType, gradeValuesGroupInfo, context);
+        return getNextDecorator().validateResultValuesGroup(validationType, gradeValuesGroupInfo, contextInfo);
     }
 
     @Override
-    public ResultScaleInfo getResultScale(String resultScaleId, ContextInfo context) throws DoesNotExistException,
+    public ResultScaleInfo getResultScale(String resultScaleKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().getResultScale(resultScaleId, context);
+        return getNextDecorator().getResultScale(resultScaleKey, contextInfo);
     }
 
     @Override
-    public List<ResultValueInfo> getResultValuesForScale(String resultScaleKey, ContextInfo context)
+    public List<ResultValueInfo> getResultValuesForScale(String resultScaleKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesForScale(resultScaleKey, context);
+        return getNextDecorator().getResultValuesForScale(resultScaleKey, contextInfo);
     }
 
     @Override
-    public List<ResultValueInfo> getResultValuesForResultValuesGroups(List<String> resultValuesGroupKeys, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesForResultValuesGroups(resultValuesGroupKeys, context);
+    public List<ResultValueInfo> getResultValuesForResultValuesGroups(List<String> resultValuesGroupKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultValuesForResultValuesGroups(resultValuesGroupKeys, contextInfo);
     }
 
     @Override
-    public ResultValuesGroupInfo getCreateResultValueWithinRange(String resultValue, String resultValuesGroupKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCreateResultValueWithinRange(resultValue, resultValuesGroupKey, context);
+    public ResultValueInfo getCreateResultValueForScale(String resultValue, String scaleKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getCreateResultValueForScale(resultValue, scaleKey, contextInfo);
     }
 
     @Override
-    public ResultValuesGroupInfo getCreateRangeCreditResultValuesGroup(String creditValueMin, String creditValueMax, String creditValueIncrement, String scaleId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCreateRangeCreditResultValuesGroup(creditValueMin, creditValueMax, creditValueIncrement, scaleId, context);
+    public ResultValuesGroupInfo getCreateRangeCreditResultValuesGroup(String creditValueMin, String creditValueMax, String creditValueIncrement, String scaleKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getCreateRangeCreditResultValuesGroup(creditValueMin, creditValueMax, creditValueIncrement, scaleKey, contextInfo);
     }
 
     @Override
-    public ResultValuesGroupInfo getCreateMultipleCreditResultValuesGroup(List<String> creditValues, String scaleId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCreateMultipleCreditResultValuesGroup(creditValues, scaleId, context);
+    public ResultValuesGroupInfo getCreateMultipleCreditResultValuesGroup(List<String> creditValues, String scaleKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getCreateMultipleCreditResultValuesGroup(creditValues, scaleKey, contextInfo);
     }
 
     @Override
-    public ResultValuesGroupInfo getCreateFixedCreditResultValuesGroup(String creditValue, String scaleId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCreateFixedCreditResultValuesGroup(creditValue, scaleId, context);
+    public ResultValuesGroupInfo getCreateFixedCreditResultValuesGroup(String creditValue, String scaleKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getCreateFixedCreditResultValuesGroup(creditValue, scaleKey, contextInfo);
     }
 
     @Override
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScaleType(String resultScaleTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesGroupsByResultScaleType(resultScaleTypeKey, context);
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScaleType(String resultScaleTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultValuesGroupsByResultScaleType(resultScaleTypeKey, contextInfo);
     }
 
     @Override
-    public List<ValidationResultInfo> validateResultScale(String validationType, ResultScaleInfo gradeScaleInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateResultScale(validationType, gradeScaleInfo, context);
+    public List<ValidationResultInfo> validateResultScale(String validationType, ResultScaleInfo gradeScaleInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().validateResultScale(validationType, gradeScaleInfo, contextInfo);
     }
 
     @Override
-    public ResultScaleInfo updateResultScale(String resultScaleKey, ResultScaleInfo resultScaleInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return getNextDecorator().updateResultScale(resultScaleKey, resultScaleInfo, context);
+    public ResultScaleInfo updateResultScale(String resultScaleKey, ResultScaleInfo resultScaleInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        return getNextDecorator().updateResultScale(resultScaleKey, resultScaleInfo, contextInfo);
     }
 
     @Override
-    public List<ResultScaleInfo> getResultScalesByKeys(List<String> resultScaleKeys, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultScalesByKeys(resultScaleKeys, context);
+    public List<ResultScaleInfo> getResultScalesByKeys(List<String> resultScaleKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultScalesByKeys(resultScaleKeys, contextInfo);
     }
 
     @Override
-    public List<String> getResultScaleKeysByType(String resultScaleTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultScaleKeysByType(resultScaleTypeKey, context);
+    public List<String> getResultScaleKeysByType(String resultScaleTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultScaleKeysByType(resultScaleTypeKey, contextInfo);
     }
 
     @Override
-    public StatusInfo deleteResultScale(String resultScaleKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteResultScale(resultScaleKey, context);
+    public StatusInfo deleteResultScale(String resultScaleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteResultScale(resultScaleKey, contextInfo);
     }
 
     @Override
-    public ResultScaleInfo createResultScale(String resultScaleTypeKey, ResultScaleInfo resultScaleInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().createResultScale(resultScaleTypeKey, resultScaleInfo, context);
+    public ResultScaleInfo createResultScale(String resultScaleTypeKey, ResultScaleInfo resultScaleInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().createResultScale(resultScaleTypeKey, resultScaleInfo, contextInfo);
     }
+
+    @Override
+    public ResultValueInfo getResultValueForScaleAndValue(String resultScaleKey, String value, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultValueForScaleAndValue(resultScaleKey, value, contextInfo);
+    }
+
+    @Override
+    public List<String> getResultValueKeysByType(String resultValueTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator ().getResultValueKeysByType(resultValueTypeKey, contextInfo);
+    }
+    
+    
 }
