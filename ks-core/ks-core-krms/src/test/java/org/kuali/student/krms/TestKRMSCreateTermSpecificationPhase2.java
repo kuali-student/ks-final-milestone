@@ -199,44 +199,102 @@ public class TestKRMSCreateTermSpecificationPhase2 extends KRMSTestCase {
 		// Create all the terms...
 		// createNumberOfCreditsTermDefinition(nameSpace);
 		//
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS,
-				KSKRMSConstants.TERM_NUMBER_OF_CREDITS, null);
+		List<TermParameterDefinition.Builder> termParameters = new ArrayList<TermParameterDefinition.Builder>();
+		
+        setupTermParameters(termParameters, null, "???termParameterValue");
+        setupTermParameters(termParameters, null, "???termParameterValue");
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_ORG_NUMBER,
 				KSKRMSConstants.TERM_DEPT_NUMBER, null);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, null, "???termParameterValue");
+        setupTermParameters(termParameters, null, "???termParameterValue");
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_ORG_NUMBER,
 				KSKRMSConstants.TERM_ADMIN_ORG_NUMBER, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_COMPLETED_COURSE_NUMBER, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_COMPLETED_COURSE_CODE, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_COMPLETED_COURSE_SET, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_COMPLETED_EFFECTIVE_DATE_FROM, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_COMPLETED_EFFECTIVE_DATE_TO, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_COMPLETED_LEARNING_OBJ_DESCR, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_ENROLLED_COURSE_NUMBER_RANGE, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_ENROLLED_COURSE_NUMBER_SUBJECT_CODE, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_ENROLLED_SET, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_ENROLLED_COURSES, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_ENROLLED_EFFECTIVE_DATE_FROM, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_ENROLLED_EFFECTIVE_DATE_TO, null);
-		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
-				KSKRMSConstants.TERM_ENROLLED_LEARNING_OBJ_DESCR, null);
 		
-		
-        // Term Param
-		List<TermParameterDefinition.Builder> termParameters = new ArrayList<TermParameterDefinition.Builder>();
+		termParameters.clear();
         setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
-        setupTermParameters(termParameters, KSKRMSConstants.COURSE_CODE_TERM_PROPERTY, "???termParameterValue");
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_COMPLETED_COURSE_NUMBER, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_COMPLETED_COURSE_CODE, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_COMPLETED_COURSE_SET, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_COMPLETED_EFFECTIVE_DATE_FROM, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_COMPLETED_EFFECTIVE_DATE_TO, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_COMPLETED_LEARNING_OBJ_DESCR, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+        setupTermParameters(termParameters, KSKRMSConstants.TERM_ID_TERM_PROPERTY, "???termParameterValue");
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_ENROLLED_COURSE_NUMBER_RANGE, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+        setupTermParameters(termParameters, KSKRMSConstants.TERM_ID_TERM_PROPERTY, "???termParameterValue");
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_ENROLLED_COURSE_NUMBER_SUBJECT_CODE, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+        setupTermParameters(termParameters, KSKRMSConstants.TERM_ID_TERM_PROPERTY, "???termParameterValue");		
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_ENROLLED_SET, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+        setupTermParameters(termParameters, KSKRMSConstants.TERM_ID_TERM_PROPERTY, "???termParameterValue");
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_ENROLLED_COURSE, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+        setupTermParameters(termParameters, KSKRMSConstants.TERM_ID_TERM_PROPERTY, "???termParameterValue");
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_ENROLLED_COURSES, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+        setupTermParameters(termParameters, KSKRMSConstants.TERM_ID_TERM_PROPERTY, "???termParameterValue");		
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_ENROLLED_EFFECTIVE_DATE_FROM, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+        setupTermParameters(termParameters, KSKRMSConstants.TERM_ID_TERM_PROPERTY, "???termParameterValue");		
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_ENROLLED_EFFECTIVE_DATE_TO, termParameters);
+		
+		termParameters.clear();
+        setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+        setupTermParameters(termParameters, KSKRMSConstants.TERM_ID_TERM_PROPERTY, "???termParameterValue");		
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE,
+				KSKRMSConstants.TERM_ENROLLED_LEARNING_OBJ_DESCR, termParameters);
+		
+		
+        // Term Parameter Example
+		//List<TermParameterDefinition.Builder> termParameters = new ArrayList<TermParameterDefinition.Builder>();
+        //setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
+        //setupTermParameters(termParameters, KSKRMSConstants.COURSE_CODE_TERM_PROPERTY, "???termParameterValue");
         //
 	}
 

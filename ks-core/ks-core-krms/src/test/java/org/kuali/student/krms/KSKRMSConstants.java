@@ -40,24 +40,27 @@ public class KSKRMSConstants {
 	
 	public static final String TERM_APPROVED_COURSE = "Approved course";
 	public static final String TERM_APPROVED_COURSES = "Approved courses";
+	public static final String TERM_COMPLETED_COURSE = "Completed Course";
+	public static final String TERM_COMPLETED_COURSES = "Completed Courses";
+	public static final String TERM_ENROLLED_COURSE = "Enrolled course by term";
 	public static final String TERM_COURSE_NUMBER_RANGE = "Course Number : Course Number Range";
 	public static final String TERM_SUBJECT_CODE = "Course Number : Subject Code";
 	public static final String TERM_COURSE_SET = "Course Set";
 	public static final String TERM_DATE_EFFECTIVE_FROM = "Effective Date Range : Effective From";
 	public static final String TERM_DATE_EFFECTIVE_TO = "Effective Date Range : Effective To";
+	public static final String TERM_FREE_TEXT = "Free Text";
 	public static final String TERM_GPA = "GPA";
 	public static final String TERM_GRADE = "Grade";
 	public static final String TERM_GRADE_TYPE = "Grade Type";
-	public static final String TERM_LEARNING_OBJ_DESCRIPTION = "Learning Objectives : Description";
+	public static final String TERM_LEARNING_OBJECTIVE = "Learning Objectives : Description";
 	public static final String TERM_NUMBER_OF_COURSES = "Number of Courses";
 	public static final String TERM_NUMBER_OF_CREDITS = "Number of Credits";
 	public static final String TERM_PROPOSED_COURSE = "Proposed Course";
 	public static final String TERM_PROPOSED_COURSES = "Proposed Courses";
 	public static final String TERM_SCORE = "Score";
 	public static final String TERM_TEST = "Test";
-	public static final String TERM_FREE_TEXT = "Free Text";
-	public static final String TERM_COMPLETED_COURSES = "Completed courses";
-	public static final String TERM_ENROLLED_COURSE = "Enrolled course by term";
+	
+	
 	
 	public static final String KS_AGENDA_TYPE = "KSAgendaType";
 	public static final String KS_TERM_RESOLVER_TYPE = "KSKRMSTermResolverTypeService";
@@ -83,6 +86,8 @@ public class KSKRMSConstants {
 	
 	public static final String PERSON_ID_TERM_PROPERTY = "personIdProperty";
 	public static final String COURSE_CODE_TERM_PROPERTY = "courseCodeProperty";
+	public static final String TERM_ID_TERM_PROPERTY = "termIdProperty";
+	public static final String CALC_TYPE_KEY_TERM_PROPERTY = "calculationTypeKeyProperty";
 	//		
 	public static final String CONTEXT_INFO_TERM_NAME = "contextInfo";
 	

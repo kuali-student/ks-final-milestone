@@ -48,6 +48,9 @@ public class KSKRMSExecutionConstants {
     //
 	public static final String PERSON_ID_TERM_PROPERTY = "personIdProperty";
 	public static final String COURSE_CODE_TERM_PROPERTY = "courseCodeProperty";
+	public static final String TERM_ID_TERM_PROPERTY = "termIdProperty";
+	public static final String CALC_TYPE_KEY_TERM_PROPERTY = "calculationTypeKeyProperty";
+	
 	//		
 	public static final String CONTEXT_INFO_TERM_NAME = "contextInfo";
 }
