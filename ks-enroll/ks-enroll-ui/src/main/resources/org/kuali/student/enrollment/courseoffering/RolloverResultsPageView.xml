@@ -32,7 +32,7 @@
                         <property name="items">
                             <list>
                                  <bean parent="Uif-Message" p:messageText="Specify a term to review the details of the associated rollover."/>
-                                 <bean parent="Uif-HorizontalBoxSection">
+                                 <bean parent="Uif-HorizontalBoxGroup">
                                       <property name="items">
                                            <list>
                                              <bean parent="Uif-InputField" p:propertyName="rolloverTargetTermCode" p:label="Term" p:required="true">
@@ -41,7 +41,7 @@
                                                 </property>
 
                                              </bean>
-                                             <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Go" p:methodToCall="goRolloverTerm" p:valign="bottom"/>
+                                             <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Go" p:methodToCall="showRolloverResults" p:valign="bottom"/>
                                              <bean parent="Uif-Message" p:messageText="Enter Valid Term" p:render="@{rolloverSourceTermDesc=='' and rolloverTargetTermCode!=''}" p:style="color:red;"/>
                                            </list>
                                       </property>
@@ -96,10 +96,10 @@
                                                               p:propertyName="displayedTargetTermCode"
                                                               p:fieldLabel.renderColon="false" p:label="Configuration Options">
                                                             <property name="control">
-                                                                <bean parent="Uif-VerticalCheckboxesControl">
+                                                                <bean parent="Uif-VerticalCheckboxesControl" p:disabled="@{isConfigurationOptionsDisabled}">
                                                                     <property name="options">
                                                                         <list>
-                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox1" p:value="Exclude cancelled course offerings"/>
+                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox1" p:value="Exclude canceled course offerings"/>
                                                                             <bean parent="Uif-KeyLabelPair" p:key="checkBox2" p:value="Refresh rollover with catalog versions"/>
                                                                             <bean parent="Uif-KeyLabelPair" p:key="checkBox3" p:value="Exclude scheduling information"/>
                                                                             <bean parent="Uif-KeyLabelPair" p:key="checkBox4" p:value="Exclude instructor information"/>

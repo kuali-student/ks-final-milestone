@@ -72,21 +72,37 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         return new CourseOfferingRolloverManagementForm();
     }
 
+    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startPerformRollover")
+    public ModelAndView startPerformRollover(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+        CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
+        System.err.println("startPerformRollover");
+        return getUIFModelAndView(theForm);
+        // return super.start(theForm, result, request, response);
+    }
+
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
-        Date date = Calendar.getInstance().getTime();
-        System.err.println(date.toString() + " ");
-        System.err.println(theForm);
+        System.err.println("start=====");
+        return getUIFModelAndView(theForm);
+        // return super.start(theForm, result, request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startRolloverDetails")
+    public ModelAndView startRolloverDetails(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
+        System.err.println("startRolloverDetails");
         String rolloverTerm = theForm.getRolloverTargetTermCode();
 
-        try{
-            if(rolloverTerm!= null && !"".equals(rolloverTerm)){
-                return goRolloverTerm(theForm, result, request, response);
+        try {
+            if (rolloverTerm != null && !"".equals(rolloverTerm)) {
+                return showRolloverResults(theForm, result, request, response);
             }
-        }catch (Exception ex){
+        } catch (Exception ex){
             return getUIFModelAndView(theForm);
         }
 
@@ -205,6 +221,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         boolean success = helper.performRollover(sourceTermId, targetTermId, form);
         if (success) {
             form.setRolloverTargetTermCode(form.getTargetTermCode());
+            showRolloverResults(form, result, request, response); // TODO: Factor out a common method?
             // Switch to rollover details page
             return start(form,result,request,response);
             //return getUIFModelAndView(form, ROLLOVER_DETAILS_PAGEID);
@@ -264,17 +281,24 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     }
 
     //This method looks for rollover resultInfos for specific target term.
-    @RequestMapping(params = "methodToCall=goRolloverTerm")
-    public ModelAndView goRolloverTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(params = "methodToCall=showRolloverResults")
+    public ModelAndView showRolloverResults(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
         //helper class for courseOfferingSetService
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         //To fetch Term by code which is desirable.
-        List<TermInfo> termList = helper.findTermByTermCode(form.getRolloverTargetTermCode());
-        if (termList.size() != 0) {
+        String termCode = form.getRolloverTargetTermCode();
+        List<TermInfo> termList = helper.findTermByTermCode(termCode);
+        if (termList.isEmpty()) {
+            GlobalVariables.getMessageMap().putError("rolloverTargetTermCode", "error.rollover.targetTerm.noResults", termCode);
+            form.resetForm(); // TODO: Does this make sense?  I don't think so. cclin
+        } else {
             String targetTermId = termList.get(0).getId();
             List<SocRolloverResultInfo> socRolloverResultInfos = helper.findRolloverByTerm(targetTermId);
-            if (socRolloverResultInfos != null & socRolloverResultInfos.size() != 0) {
+            if (socRolloverResultInfos == null & socRolloverResultInfos.isEmpty()) {
+                GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.targetTerm.noResults");
+                form.resetForm(); // TODO: Does this make sense?  I don't think so. cclin
+            } else {
                 if (socRolloverResultInfos.size() > 1) {
                     logger.warn("Multiple Soc Rollover Results Found");
                 }
@@ -287,7 +311,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 //SocInfo service to get Source Term Id
                 SocInfo socInfo = _getSocService().getSoc(socRolloverResultInfo.getSourceSocId(), new ContextInfo());
 
-                if (socInfo != null) {//TODO delete this code block, there is weird semantic id logic happening
+                if (socInfo != null) {
                     String friendlySourceTermDesc = helper.getTermDesc(socInfo.getTermId());
                     form.setRolloverSourceTermDesc(friendlySourceTermDesc);
                     String friendlyTargetTermDesc = helper.getTermDesc(targetTermId);
@@ -335,13 +359,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 } catch (DoesNotExistException dne) {
                     throw new RuntimeException(dne);
                 }
-            } else {
-                form.resetForm();
-            }
-        } else {
-            form.resetForm();
-
-        }
+            } 
+        } 
         return getUIFModelAndView(form, ROLLOVER_DETAILS_PAGEID);
     }
 

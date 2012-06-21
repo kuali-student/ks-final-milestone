@@ -51,14 +51,19 @@
                                         <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-InputField" p:propertyName="targetTermCode"
-                                                          p:label="Target Term" p:labelPlacement="TOP"
-                                                          p:required="true">
-                                                        <property name="control">
-                                                            <bean parent="Uif-TextControl" p:size="5" p:watermarkText="20132" p:minLength="5" p:maxLength="5"/>
+                                                    <bean parent="Uif-HorizontalFieldGroup" p:required="true" p:label="Target Term" p:labelPlacement="TOP">
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean parent="Uif-InputField" p:propertyName="targetTermCode"
+                                                                      p:required="true">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:size="5" p:watermarkText="20132" p:minLength="5" p:maxLength="5"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm" p:valign="bottom"/>
+                                                            </list>
                                                         </property>
                                                     </bean>
-                                                    <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm" p:valign="bottom"/>
                                                     <bean parent="Uif-VerticalBoxSubSection" p:render="@{displayedTargetTermCode!=''}">
                                                         <property name="items">
                                                             <list>
@@ -88,13 +93,19 @@
                                         <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-InputField" p:propertyName="sourceTermCode" p:label="Source Term" p:labelPlacement="TOP" p:required="true">
-                                                        <property name="control">
-                                                            <bean parent="Uif-TextControl" p:size="5" p:watermarkText="20122" p:minLength="5" p:maxLength="5"/>
+                                                    <bean parent="Uif-HorizontalFieldGroup" p:required="true" p:label="Source Term" p:labelPlacement="TOP">
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean parent="Uif-InputField" p:propertyName="sourceTermCode" p:required="true">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:size="5" p:watermarkText="20122" p:minLength="5" p:maxLength="5"/>
+                                                                    </property>
+                                                                </bean>
+
+                                                                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goSourceTerm" p:disabled="@{isGoSourceButtonDisabled}" p:valign="middle"/>
+                                                            </list>
                                                         </property>
                                                     </bean>
-
-                                                    <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goSourceTerm" p:disabled="@{isGoSourceButtonDisabled}" p:valign="middle"/>
                                                     <bean parent="Uif-VerticalBoxSubSection" p:render="@{displayedSourceTermCode!=''}">
                                                         <property name="items">
                                                             <list>

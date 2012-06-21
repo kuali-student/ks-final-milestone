@@ -53,7 +53,8 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private String courseOfferingsAllowed;
     private String activityOfferingsAllowed;
     private List<SocRolloverResultItemWrapper> socRolloverResultItems;
-
+    private boolean isConfigurationOptionsDisabled = true;
+    
     public CourseOfferingRolloverManagementForm(){
         targetTermCode = "";
         sourceTermCode = "";
@@ -249,6 +250,14 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         isRolloverButtonDisabled = rolloverButtonDisabled;
     }
 
+    public boolean getIsConfigurationOptionsDisabled() {
+        return isConfigurationOptionsDisabled;
+    }
+
+    public void setIsConfigurationOptionsDisabled(boolean isConfigurationOptionsDisabled) {
+        this.isConfigurationOptionsDisabled = isConfigurationOptionsDisabled;
+    }
+    
     public void resetForm(){
         displayedTargetTermCode = "";
         targetTermStartDate = "";
@@ -267,5 +276,6 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         socRolloverResultItems = new ArrayList<SocRolloverResultItemWrapper>();
         isGoSourceButtonDisabled = true;
         isRolloverButtonDisabled = true;
+        isConfigurationOptionsDisabled = true;
     }
  }
