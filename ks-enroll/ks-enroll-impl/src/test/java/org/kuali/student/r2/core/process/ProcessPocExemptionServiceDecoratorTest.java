@@ -15,8 +15,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
-import org.kuali.student.r2.core.class1.process.ProcessPocConstants;
-import org.kuali.student.r2.core.class1.process.ProcessPocExemptionServiceDecorator;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.exemption.service.ExemptionServiceMockImpl;

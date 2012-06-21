@@ -17,8 +17,8 @@
 package org.kuali.student.r2.core.process.service.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.r2.core.class1.process.dao.CheckDao;
-import org.kuali.student.r2.core.class1.process.model.CheckEntity;
+import org.kuali.student.r2.core.process.dao.CheckDao;
+import org.kuali.student.r2.core.process.model.CheckEntity;
 
 import java.util.Date;
 import java.util.Hashtable;

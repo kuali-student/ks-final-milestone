@@ -9,16 +9,16 @@
 	<!-- JPA test "unit" -->
 	<persistence-unit name="persistentUnit"
 		transaction-type="JTA">
-		<class>org.kuali.student.r2.core.class1.process.model.CheckEntity</class>
-		<!-- <class>org.kuali.student.r2.core.class1.process.model.CheckAttributeEntity</class>
-		<class>org.kuali.student.r2.core.class1.process.model.InstructionEntity</class>
-		<class>org.kuali.student.r2.core.class1.process.model.InstructionAttributeEntity</class>
-		<class>org.kuali.student.r2.core.class1.process.model.InstructionAcademicTimePeriodTypeEntity</class>
-		<class>org.kuali.student.r2.core.class1.process.model.ProcessEntity</class>
-		<class>org.kuali.student.r2.core.class1.process.model.ProcessAttributeEntity</class>
-		<class>org.kuali.student.r2.core.class1.process.model.ProcessCategoryEntity</class>
-		<class>org.kuali.student.r2.core.class1.process.model.ProcessCategoryAttributeEntity</class>
-        <class>org.kuali.student.r2.core.class1.process.model.ProcessCategoryProcessRelationEntity</class> -->
+		<class>org.kuali.student.r2.core.process.model.CheckEntity</class>
+		<!-- <class>org.kuali.student.r2.core.process.model.CheckAttributeEntity</class>
+		<class>org.kuali.student.r2.core.process.model.InstructionEntity</class>
+		<class>org.kuali.student.r2.core.process.model.InstructionAttributeEntity</class>
+		<class>org.kuali.student.r2.core.process.model.InstructionAcademicTimePeriodTypeEntity</class>
+		<class>org.kuali.student.r2.core.process.model.ProcessEntity</class>
+		<class>org.kuali.student.r2.core.process.model.ProcessAttributeEntity</class>
+		<class>org.kuali.student.r2.core.process.model.ProcessCategoryEntity</class>
+		<class>org.kuali.student.r2.core.process.model.ProcessCategoryAttributeEntity</class>
+        <class>org.kuali.student.r2.core.process.model.ProcessCategoryProcessRelationEntity</class> -->
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 

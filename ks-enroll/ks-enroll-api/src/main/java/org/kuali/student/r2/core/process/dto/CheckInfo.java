@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CheckInfo", propOrder = { "id", "typeKey", "stateKey", "name",
                 "descr", "issueId", "milestoneTypeKey", 
-                "agendaId", "processKey", 
+                "agendaId", "childProcessKey",
                 "rightComparisonValue", "leftComparisonAgendaId", "rightComparisonAgendaId",
                 "meta", "attributes", "_futureElements" })
 
@@ -66,7 +66,7 @@ public class CheckInfo
     private String leftComparisonAgendaId;
 
     @XmlElement 
-    private String processKey;
+    private String childProcessKey;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -95,7 +95,7 @@ public class CheckInfo
             this.leftComparisonAgendaId = check.getLeftComparisonAgendaId();
             this.rightComparisonValue = check.getRightComparisonValue();
             this.rightComparisonAgendaId = check.getRightComparisonAgendaId();
-            this.processKey = check.getProcessKey();
+            this.childProcessKey = check.getProcessKey();
         }
     }
 
@@ -132,11 +132,15 @@ public class CheckInfo
 
     @Override
     public String getProcessKey() {
-        return this.processKey;
+        return getChildProcessKey();
     }
 
-    public void setProcessKey(String processKey) {
-        this.processKey = processKey;
+    public String getChildProcessKey() {
+        return this.childProcessKey;
+    }
+
+    public void setChildProcessKey(String childProcessKey) {
+        this.childProcessKey= childProcessKey;
     }
 
     @Override

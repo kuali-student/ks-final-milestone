@@ -12,8 +12,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
-import org.kuali.student.r2.core.class1.process.ProcessPocConstants;
-import org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl;
 
 /**
  *

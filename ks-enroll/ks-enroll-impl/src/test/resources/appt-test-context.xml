@@ -83,7 +83,7 @@
         <property name="dataSource" ref="dataSource" />
    </bean>
 
-    <bean id="populationService" class="org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl"/>
+    <bean id="populationService" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceMockImpl"/>
 
     <bean id="appointmentDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao"/>
     <bean id="appointmentWindowDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao"/>

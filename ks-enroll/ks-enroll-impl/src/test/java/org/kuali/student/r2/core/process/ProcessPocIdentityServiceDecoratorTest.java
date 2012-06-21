@@ -12,8 +12,6 @@ import org.junit.Test;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.student.kim.permission.mock.IdentityServiceMockImpl;
-import org.kuali.student.r2.core.class1.process.ProcessPocConstants;
-import org.kuali.student.r2.core.class1.process.ProcessPocIdentityServiceDecorator;
 
 import static org.junit.Assert.*;
 

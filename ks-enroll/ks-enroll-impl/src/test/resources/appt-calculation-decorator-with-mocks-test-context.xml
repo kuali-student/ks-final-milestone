@@ -20,7 +20,7 @@
         <property name="properties" value="${propertiesPrefix.systemProperties}" />
     </bean>
     
-    <bean id="populationService" class="org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl"/>
+    <bean id="populationService" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceMockImpl"/>
  
     <bean id="appointmentServiceMock" class="org.kuali.student.r2.core.class1.appointment.service.impl.AppointmentServiceMockImpl" />
 

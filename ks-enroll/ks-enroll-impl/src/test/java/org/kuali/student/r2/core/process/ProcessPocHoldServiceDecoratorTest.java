@@ -13,8 +13,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.class1.process.ProcessPocConstants;
-import org.kuali.student.r2.core.class1.process.ProcessPocHoldServiceDecorator;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 

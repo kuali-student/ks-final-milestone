@@ -501,7 +501,7 @@
 
   <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
-  <bean id="processService" class="org.kuali.student.r2.core.class1.process.service.impl.ProcessServiceImpl">
+  <bean id="processService" class="org.kuali.student.r2.core.process.service.impl.ProcessServiceImpl">
       <property name="processDao" ref="processDao" />
       <property name="checkDao" ref="checkDao" />
       <property name="instructionDao" ref="instructionDao" />
@@ -530,7 +530,7 @@
     </bean>
 
     <!-- Population service -->
-    <bean id="populationService" class="org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl">
+    <bean id="populationService" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceMockImpl">
     </bean>
 
     <bean id="ks.exp.populationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

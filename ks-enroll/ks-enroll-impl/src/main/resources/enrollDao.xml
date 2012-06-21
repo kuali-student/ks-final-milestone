@@ -109,15 +109,15 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="processDao" class="org.kuali.student.r2.core.class1.process.dao.ProcessDao">
+    <bean id="processDao" class="org.kuali.student.r2.core.process.dao.ProcessDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="instructionDao" class="org.kuali.student.r2.core.class1.process.dao.InstructionDao">
+    <bean id="instructionDao" class="org.kuali.student.r2.core.process.dao.InstructionDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="checkDao" class="org.kuali.student.r2.core.class1.process.dao.CheckDao">
+    <bean id="checkDao" class="org.kuali.student.r2.core.process.dao.CheckDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
