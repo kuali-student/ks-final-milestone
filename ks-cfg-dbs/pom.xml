@@ -329,7 +329,7 @@
       <plugin>
         <groupId>org.kuali.maven.plugins</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0.30</version>
+        <version>1.0.31-SNAPSHOT</version>
         <dependencies>
           <dependency>
             <groupId>mysql</groupId>
