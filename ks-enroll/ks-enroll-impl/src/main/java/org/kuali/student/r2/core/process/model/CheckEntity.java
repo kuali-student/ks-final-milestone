@@ -122,7 +122,7 @@ public class CheckEntity extends MetaEntity /*implements AttributeOwner<CheckAtt
         checkInfo.setAgendaId(agendaId);
         checkInfo.setRightComparisonAgendaId(rightAgendaId);
         checkInfo.setLeftComparisonAgendaId(leftAgendaId);
-        checkInfo.setProcessKey(childProcessId);
+        checkInfo.setChildProcessKey(childProcessId);
         List<AttributeInfo> dtoAttributes = checkInfo.getAttributes();
         dtoAttributes.clear();
         for (String key : this.attributes.keySet()) {

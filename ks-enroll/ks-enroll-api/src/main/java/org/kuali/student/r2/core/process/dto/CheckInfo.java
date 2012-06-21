@@ -139,6 +139,10 @@ public class CheckInfo
         return this.childProcessKey;
     }
 
+    public void setProcessKey(String childProcessKey) {
+        setChildProcessKey(childProcessKey);
+    }
+
     public void setChildProcessKey(String childProcessKey) {
         this.childProcessKey= childProcessKey;
     }
