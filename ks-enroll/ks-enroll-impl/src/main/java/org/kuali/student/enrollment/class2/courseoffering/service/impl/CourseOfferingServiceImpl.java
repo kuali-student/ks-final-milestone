@@ -86,9 +86,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     private CourseOfferingCodeGenerator offeringCodeGenerator;
 
-    // TODO - remove when KSENROLL-247 is resolved
-    private static final Integer TEMP_MAX_ENROLLMENT_DEFAULT = 50;
-
     public CourseOfferingServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
     }
