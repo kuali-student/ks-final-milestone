@@ -123,14 +123,12 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="coInfo.hasWaitlist" p:label="Waitlists" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="coInfo.hasWaitlist" p:label="Waitlists" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                 <property name="control">
-                                    <bean parent="Uif-VerticalCheckboxesControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="true" p:value="This course offering has a waitlist"/>
-                                            </list>
-                                        </property>
+                                    <bean parent="Uif-CheckboxControl">
+                                     <property name="checkboxLabel" value="This course offering has a waitlist"/>
+
+
                                     </bean>
                                 </property>
                             </bean>
@@ -243,14 +241,11 @@
                             <bean parent="Uif-MessageField" p:messageText=""/>
                             <bean parent="Uif-InputField" p:propertyName="coInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                 <property name="control">
-                                    <bean parent="Uif-VerticalCheckboxesControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="true" p:value="This is an Honors Course"/>
-                                            </list>
-                                        </property>
+                                    <bean parent="Uif-CheckboxControl">
+                                        <property name="checkboxLabel" value="This is an Honors Course"/>
                                     </bean>
                                 </property>
+
                             </bean>
                         </list>
                     </property>

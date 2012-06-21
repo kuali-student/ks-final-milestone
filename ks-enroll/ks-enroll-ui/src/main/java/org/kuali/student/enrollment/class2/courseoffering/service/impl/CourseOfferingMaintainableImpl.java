@@ -62,7 +62,10 @@ public class CourseOfferingMaintainableImpl extends MaintainableImpl implements 
 
     @Override
     public void saveDataObject() {
-        if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
+        if(getDataObject() instanceof CourseOfferingEditWrapper)        {
+               persistEditCourseOffering();
+        }
+        else if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
             try {
                 if (getDataObject() instanceof CourseOfferingCreateWrapper){
@@ -98,6 +101,18 @@ public class CourseOfferingMaintainableImpl extends MaintainableImpl implements 
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    protected void persistEditCourseOffering(){
+        CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)getDataObject();
+        CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
+
+        try{
+            getCourseOfferingService().updateCourseOffering(coInfo.getId(),coInfo,getContextInfo());
+        }   catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+
     }
 
     @Override
