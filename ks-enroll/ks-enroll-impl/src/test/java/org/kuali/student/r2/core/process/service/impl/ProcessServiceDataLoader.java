@@ -482,7 +482,51 @@ public class ProcessServiceDataLoader {
                 "The process of checking a student's basic eligibility to register for courses",
                 "The process of checking a student's basic eligibility to register for courses",
                 ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
-
+        loadProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, ProcessServiceConstants.PROCESS_TYPE_KEY,
+                ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Eligibility for Term",
+                "The process of checking a student's eligibility to register for a particular term",
+                "The process of checking a student's eligibility to register for a particular ter.",
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+        loadProcess(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, ProcessServiceConstants.PROCESS_TYPE_KEY,
+                ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Holds Cleared",
+                "The process of checking a student's eligibility to register for a particular term",
+                "The process of checking a student's eligibility to register for a particular term",
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+        loadProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, ProcessServiceConstants.PROCESS_TYPE_KEY,
+                ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Eligible for Course",
+                "The process of checking a student's eligibility to register for a particular course",
+                "The process of checking a student's eligibility to register for a particular course",
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+        loadProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, ProcessServiceConstants.PROCESS_TYPE_KEY,
+                ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Eligible for Courses",
+                "The process of checking a student's eligibility and ability to register for a proposed set of courses",
+                "The process of checking a student's eligibility and ability to register for a proposed set of courses",
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+        loadProcess(ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED, ProcessServiceConstants.PROCESS_TYPE_KEY,
+                ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Acknowledgements Confirmed",
+                "The process of checking a student's eligibility to register for a particular term",
+                "The process of checking a student's eligibility to register for a particular term",
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+        loadProcess(ProcessServiceConstants.PROCESS_KEY_REGISTER_FOR_COURSES, ProcessServiceConstants.PROCESS_TYPE_KEY,
+                ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Register for Courses",
+                "The process of checking a student's eligibility and actually register for a proposed set of courses",
+                "The process of checking a student's eligibility and actually register for a proposed set of courses",
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+        loadProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES, ProcessServiceConstants.PROCESS_TYPE_KEY,
+                ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "View Grades",
+                "The process of checking a student's basic ability to view grades",
+                "The process of checking a student's basic ability to view grades",
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_ACADEMIC_RECORD, contextInfo);
+        loadProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, ProcessServiceConstants.PROCESS_TYPE_KEY,
+                ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "View Grades for Term",
+                "The process of checking a student's basic ability to view grades for a particular term",
+                "The process of checking a student's basic ability to view grades for a particular term",
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_ACADEMIC_RECORD, contextInfo);
+        loadProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_COURSE_GRADE, ProcessServiceConstants.PROCESS_TYPE_KEY,
+                ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "View Course Grade",
+                "The process of checking if a student can actually view a grade in a particular course",
+                "The process of checking if a student can actually view a grade in a particular course",
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_ACADEMIC_RECORD, contextInfo);
     }
 
     private void loadProcessCategory (String categoryId, String type, String state, String name,
