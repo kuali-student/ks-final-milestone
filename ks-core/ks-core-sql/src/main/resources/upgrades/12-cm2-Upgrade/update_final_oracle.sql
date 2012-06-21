@@ -2688,6 +2688,10 @@ update KRIM_RSP_T set NM = 'SenateReview' where RSP_ID = '304'
 /
 update KRIM_RSP_T set NM = 'PublicationReview' where RSP_ID = '305'
 /
+
+update KRIM_RSP_T set VER_NBR = 1 where VER_NBR = 0
+/
+
 --KSCM-560 end
 alter table KRIM_RSP_T add constraint KRIM_RSP_T_TC1 unique (NM, NMSPC_CD)
 /
@@ -4990,7 +4994,7 @@ BEGIN
 	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_DT_T';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_DT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
-/*/
+/ */
 -----------------------------------------------------------------------------
 -- KREW_DOC_HDR_EXT_LONG_T
 -----------------------------------------------------------------------------
@@ -6048,6 +6052,15 @@ values ((select (max(to_number(role_mbr_id)) + 1) from krim_role_mbr_t where rol
         (select prncpl_id from krim_prncpl_t where prncpl_nm = 'admin'),
         'P', current_date, 1, sys_guid())
 /
+--
+insert into krim_role_mbr_t
+(last_updt_dt, mbr_id, mbr_typ_cd, obj_id, role_id, role_mbr_id, ver_nbr)
+values (current_date, '5', 'P', 'KS_SYS_KS_CM_ROLE_MEMBER_27', '10002', '10028', 1)
+/
+insert into krim_role_mbr_t
+(last_updt_dt, mbr_id, mbr_typ_cd, obj_id, role_id, role_mbr_id, ver_nbr)
+values (current_date, '5', 'P', 'KS_SYS_KS_CMA_ROLE_MEMBER_28', '10001', '10029', 1)
+/
 
 insert into krim_role_perm_t
 (role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
@@ -6328,7 +6341,7 @@ update krms_typ_t set nm='Route to PeopleFlow' where typ_id = '1001'
 -- remove constraint that is preventing compound props from persisting
 
 /*alter table krms_cmpnd_prop_props_t modify seq_no NUMBER(5) null
-/*/
+/ */
 
 
 
@@ -6359,7 +6372,7 @@ delete from krim_perm_attr_data_t
 
 
 /*alter table KREW_RTE_NODE_T modify ACTVN_TYP varchar(1)
-/*/
+/ */
 
 
 
@@ -6390,7 +6403,7 @@ update krms_prop_t set krms_prop_t.cmpnd_seq_no = (select seq_no from krms_cmpnd
 
 /*alter table krms_cmpnd_prop_props_t drop (seq_no)
 /
-*/
+ */
 
 
 
@@ -6628,7 +6641,7 @@ CREATE SEQUENCE krms_cntxt_term_spec_prereq_s INCREMENT BY 1 START WITH 10000 NO
 
 
 /*alter table KREW_DOC_HDR_T drop column RTE_LVL_MDFN_DT
-/*/
+/ */
 
 
 
@@ -7645,7 +7658,7 @@ CREATE TABLE KRCR_STYLE_T
 INSERT INTO KRCR_STYLE_T SELECT STYLE_ID, NM, XML, ACTV_IND, VER_NBR, OBJ_ID FROM KREW_STYLE_T
 /
 /*DROP TABLE KREW_STYLE_T
-/*/
+/ */
 ALTER TABLE KRCR_STYLE_T
     ADD CONSTRAINT KRCR_STYLE_TP1
 PRIMARY KEY (STYLE_ID)
