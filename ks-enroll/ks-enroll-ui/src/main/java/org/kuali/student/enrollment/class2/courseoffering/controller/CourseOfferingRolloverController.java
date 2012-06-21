@@ -80,6 +80,16 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         Date date = Calendar.getInstance().getTime();
         System.err.println(date.toString() + " ");
         System.err.println(theForm);
+        String rolloverTerm = theForm.getRolloverTargetTermCode();
+
+        try{
+            if(rolloverTerm!= null && !"".equals(rolloverTerm)){
+                return goRolloverTerm(theForm, result, request, response);
+            }
+        }catch (Exception ex){
+            return getUIFModelAndView(theForm);
+        }
+
         return getUIFModelAndView(theForm);
         // return super.start(theForm, result, request, response);
     }
@@ -196,7 +206,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         if (success) {
             form.setRolloverTargetTermCode(form.getTargetTermCode());
             // Switch to rollover details page
-            return getUIFModelAndView(form, ROLLOVER_DETAILS_PAGEID);
+            return start(form,result,request,response);
+            //return getUIFModelAndView(form, ROLLOVER_DETAILS_PAGEID);
         } else{
             // Had problems, stay in the same screen
             return getUIFModelAndView(form);
@@ -331,7 +342,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             form.resetForm();
 
         }
-        return getUIFModelAndView(form);
+        return getUIFModelAndView(form, ROLLOVER_DETAILS_PAGEID);
     }
 
     private CourseOfferingSetService _getSocService() {
