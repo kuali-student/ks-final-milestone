@@ -65,6 +65,7 @@ import org.kuali.rice.krms.impl.repository.RuleBoService;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.rice.krms.impl.repository.TermBoServiceImpl;
+import org.kuali.rice.krms.impl.repository.TermResolverBo;
 import org.kuali.rice.krms.impl.repository.TermSpecificationBo;
 
 import org.kuali.rice.krms.test.KRMSTestCase;
@@ -189,6 +190,18 @@ public class KSKRMSTestCase extends KRMSTestCase {
 				.findByPrimaryKey(TermBo.class, queryArgs);
 		if (termBo != null) {
 			return TermBo.to(termBo);
+		}
+		return null;
+	}
+	
+	protected TermResolverDefinition krmsTermResolverLookup(String termResolverName) {
+		// this may be called more than once, we only want to create one though
+		Map<String, String> queryArgs = new HashMap<String, String>();
+		queryArgs.put("nm", termResolverName);
+		TermResolverBo termBo = getBoService()
+				.findByPrimaryKey(TermResolverBo.class, queryArgs);
+		if (termBo != null) {
+			return TermResolverBo.to(termBo);
 		}
 		return null;
 	}

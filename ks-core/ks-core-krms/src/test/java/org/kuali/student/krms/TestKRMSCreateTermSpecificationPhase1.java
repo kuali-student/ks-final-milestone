@@ -331,7 +331,7 @@ public class TestKRMSCreateTermSpecificationPhase1 extends KRMSTestCase {
 
 	}
 
-	// @Test
+	@Test
 	public void createAllContexts() {
 		String nameSpace = KSNAMESPACE;
 		// Create all the contexts...
@@ -385,7 +385,7 @@ public class TestKRMSCreateTermSpecificationPhase1 extends KRMSTestCase {
 		return krmsAgendaType;
 	}
 	
-	// @Test
+	@Test
 	public void TestCreateType() {
 		getKSKRMSType(KSNAMESPACE, KSKRMSConstants.KS_AGENDA_TYPE, "testAgendaTypeService");
 	}
