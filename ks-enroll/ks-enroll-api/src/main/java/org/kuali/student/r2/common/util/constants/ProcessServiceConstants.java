@@ -96,6 +96,18 @@ public class ProcessServiceConstants {
     public static final String PROCESS_OWNING_ORG_GRAD_SCHOOL = "GRAD_SCHOOL_ORG";
 
     /**
+     * known process category keys
+     */
+    public static final String PROCESS_CATEGORY_KEY_ADMISSIONS = "kuali.process.type.admissions";
+    public static final String PROCESS_CATEGORY_KEY_COURSE_REGISTRATION = "kuali.process.type.registration";
+    public static final String PROCESS_CATEGORY_KEY_PROGRAM_ENROLLMENT = "kuali.process.type.enrollment";
+    public static final String PROCESS_CATEGORY_KEY_ACADEMIC_RECORD = "kuali.process.type.acad.record";
+    public static final String PROCESS_CATEGORY_KEY_GRADUATION = "kuali.process.type.graduation";
+    public static final String PROCESS_CATEGORY_KEY_STUDENT_ACCOUNTS = "kuali.process.type.student.accounts";
+    public static final String PROCESS_CATEGORY_KEY_LIBRARY = "kuali.process.type.library";
+    public static final String PROCESS_CATEGORY_KEY_HOUSING = "kuali.process.type.housing";
+
+    /**
      * known process keys
      */
     public static final String PROCESS_KEY_BASIC_ELIGIBILITY = "kuali.process.registration.basic.eligibility";
