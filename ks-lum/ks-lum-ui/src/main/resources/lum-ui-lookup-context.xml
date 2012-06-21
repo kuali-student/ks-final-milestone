@@ -249,8 +249,8 @@
   <property name="initialLookup" ref="kuali.lu.lookup.credit.degree.types" />
  </bean>
 
- <bean id="activities.activityTypeKey" parent="uilookupconfig-parent">
-  <property name="path" value="courseInfo.formats.activities.activityTypeKey" />
+ <bean id="activities.typeKey" parent="uilookupconfig-parent">
+  <property name="path" value="courseInfo.formats.activities.typeKey" />
   <property name="initialLookup" ref="kuali.lookup.lutypes.activity" />
  </bean>
 

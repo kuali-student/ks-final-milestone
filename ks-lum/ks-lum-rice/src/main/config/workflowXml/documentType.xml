@@ -102,7 +102,7 @@
       <label>Credit Course Retirement</label>
       <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_RETIRE_BY_PROPOSAL&amp;idType=documentNumber</docHandler>
       <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
-      <active>false</active>
+      <active>true</active>
       <routePaths>
         <routePath>
           <start name="PreRoute" nextNode="Department Review" />          
@@ -165,12 +165,13 @@
           <organizationId>141</organizationId>
         </role>
         <role name="Publication Review">
-	      <activationType>P</activationType>
+          <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
           <organizationId>176</organizationId>
         </role>
       </routeNodes>
     </documentType>
+    
     <documentType>
       <name>kuali.proposal.type.course.modify</name>
       <parent>CluCreditCourseParentDocument</parent>

@@ -835,7 +835,7 @@
 		<property name="attributes">
 			<list>
 				<ref bean="activityInfo.academicSubjectOrgs" />
-				<ref bean="activityInfo.activityType" />
+				<ref bean="activityInfo.typeKey" />
 				<ref bean="activityInfo.contactHours" />
 				<ref bean="activityInfo.defaultEnrollmentEstimate" />
 				<ref bean="activityInfo.duration" />
@@ -856,11 +856,11 @@
 	</bean>
 	<bean id="activityInfo.academicSubjectOrgs" parent="activityInfo.academicSubjectOrgs-parent" />
 
-	<bean id="activityInfo.activityType-parent" abstract="true"
+	<bean id="activityInfo.typeKey-parent" abstract="true"
 		parent="cluInfo.type-parent">
-		<property name="name" value="activityType" />
+		<property name="name" value="typeKey" />
 	</bean>
-	<bean id="activityInfo.activityType" parent="activityInfo.activityType-parent" />
+	<bean id="activityInfo.typeKey" parent="activityInfo.typeKey-parent" />
 
 	<bean id="activityInfo.contactHours-parent" abstract="true"
 		parent="baseSingleComplex">

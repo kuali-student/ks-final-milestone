@@ -15,18 +15,23 @@
 
 package org.kuali.student.lum.kim.role.type;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.namespace.QName;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-
-import javax.xml.namespace.QName;
-import java.util.*;
 
 public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
@@ -46,10 +51,11 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 	 * See DerivedRoleTypeServiceBase
 	 */
 	/* (non-Javadoc)
-	 * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+	 * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromDerivedRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
-	public List<RoleMembership> getRoleMembersFromApplicationRole(
-			String namespaceCode, String roleName, Map<String,String> qualification, ContextInfo contextInfo) {
+	@Override
+	public List<RoleMembership> getRoleMembersFromDerivedRole(
+			String namespaceCode, String roleName, Map<String,String> qualification) {
 		if (null == orgService) {
 		   	orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
 		}
@@ -76,7 +82,7 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 			if(includedOrgPersonRelationTypes!=null){
 				for(String orgPersonRelationType:includedOrgPersonRelationTypes){
 					List<String> principalIds = new ArrayList<String>();
-					List<OrgPersonRelationInfo> orgPersonRelationInfos = orgService.getOrgPersonRelationsByTypeAndOrg(orgPersonRelationType, orgId, contextInfo);
+					List<OrgPersonRelationInfo> orgPersonRelationInfos = orgService.getOrgPersonRelationsByTypeAndOrg(orgPersonRelationType, orgId, ContextUtils.getContextInfo());
 					for (OrgPersonRelationInfo orgPersonRelationInfo : orgPersonRelationInfos) {
 					    principalIds.add(orgPersonRelationInfo.getPersonId());
                     }
@@ -90,7 +96,7 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 			    //getCurrent Date
 			    Date now = new Date();
 				List<OrgPersonRelationInfo> relations = null;
-				relations = orgService.getOrgPersonRelationsByOrg(orgId, contextInfo);
+				relations = orgService.getOrgPersonRelationsByOrg(orgId, ContextUtils.getContextInfo());
 				for(OrgPersonRelationInfo relation:relations){
 					if(excludedOrgPersonRelationTypes==null||!excludedOrgPersonRelationTypes.contains(relation.getTypeKey())){
 					    //Add role membership only for memberships that are valid meaning expiration date is greater than or equal to current date.

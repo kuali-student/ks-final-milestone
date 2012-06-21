@@ -20,11 +20,11 @@ package org.kuali.student.lum.lu.assembly.data.client.constants.orch;
 public interface CreditCourseActivityConstants
 {
 	public static final String ID = "id";
-	public static final String ACTIVITY_TYPE = "activityType";
+	public static final String TYPE_KEY = "typeKey";
 	public static final String CONTACT_HOURS = "contactHours";
 	public static final String DURATION = "duration";
 	public static final String DEFAULT_ENROLLMENT_ESTIMATE = "defaultEnrollmentEstimate";
-	public static final String STATE = "stateKey";
+	public static final String STATE_KEY = "stateKey";
 	public static final String _RUNTIME_DATA = "_runtimeData";
 }
 

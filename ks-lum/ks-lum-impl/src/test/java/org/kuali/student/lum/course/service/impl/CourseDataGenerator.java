@@ -248,9 +248,10 @@ public class CourseDataGenerator {
         if ("resultValueIds".equals(name)) {
             return String.valueOf(propertyIndex);
         }
-        if ("activityType".equals(name)) {
-            return activities[generator.nextInt(activities.length)];
-        }
+        //This has been renamed to 'typeKey' and should be handled in one of the 'if' statements above.
+        //if ("activityType".equals(name)) {
+        //     return activities[generator.nextInt(activities.length)];
+        //}
         if ("stateKey".equals(name)) {
             return DtoConstants.STATE_DRAFT;
         }

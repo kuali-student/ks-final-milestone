@@ -15,6 +15,14 @@
 
 package org.kuali.student.lum.kim.role.type;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -26,12 +34,9 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
-
+import org.kuali.student.lum.kim.KimQualificationHelper;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.lum.kim.KimQualificationHelper;
-
-import java.util.*;
 
 /**
  *

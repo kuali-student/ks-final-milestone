@@ -476,7 +476,7 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
 
     @Override
     public String toString() {
-        return "CluInfo[id=" + this.getId() + ", type=" + this.getTypeKey() + "]";
+        return "CluInfo[id=" + this.getId() + ", typeKey=" + this.getTypeKey() + "]";
     }
 
 }
