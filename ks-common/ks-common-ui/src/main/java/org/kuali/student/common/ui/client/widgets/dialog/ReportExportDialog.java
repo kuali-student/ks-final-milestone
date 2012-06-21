@@ -58,10 +58,14 @@ public class ReportExportDialog {
 
         // Add buttons to layout panel.
         this.addCancelCompleteCallback();
-        layout.add(actionButtons);
-
-        dialog.setMaxHeight(200);
-        dialog.setMaxWidth(250);
+        
+        // Add buttons to light box.  Note that we must use methods
+        // in KSLightBox to add the button group (to ensure the
+        // buttons show up below the line in the UI) and we need
+        // to choose proper sizing using the built in light box size of
+        // medium.  
+        dialog.addButtonGroup(actionButtons);
+        dialog.setSize(KSLightBox.Size.MEDIUM);       
     }
 
     public void show() {
