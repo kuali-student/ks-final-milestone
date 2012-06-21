@@ -171,7 +171,7 @@ public class ProcessServiceDataLoader {
                 null, // left
                 null, // child process id
                 contextInfo);
-        loadCheck(ProcessServiceConstants.CHECK_KEY_HAS_ACKNOWLEDGED_RIAA, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY , "has acknowledged RIAA",
+        loadCheck(ProcessServiceConstants.CHECK_KEY_HAS_ACKNOWLEDGED_RIAA, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY, "has acknowledged RIAA",
                 "Checks if student has acknowledged RIAA",
                 "Checks if student has acknowledged RIAA",
                 null, // issue id
@@ -181,7 +181,7 @@ public class ProcessServiceDataLoader {
                 null, // left
                 null, // child process id
                 contextInfo);
-        loadCheck(ProcessServiceConstants.CHECK_KEY_HAS_ACKNOWLEDGED_HONOR_CODE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY , "has acknowledged honour code",
+        loadCheck(ProcessServiceConstants.CHECK_KEY_HAS_ACKNOWLEDGED_HONOR_CODE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY, "has acknowledged honour code",
                 "Checks if student has acknowledged honour code",
                 "Checks if student has acknowledged honour code",
                 null, // issue id
@@ -191,7 +191,7 @@ public class ProcessServiceDataLoader {
                 null, // left
                 null, // child process id
                 contextInfo);
-        loadCheck(ProcessServiceConstants.CHECK_KEY_HAS_VERIFIED_EMERGENCY_CONTACT_DATA, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY , "has verified emergency contact data",
+        loadCheck(ProcessServiceConstants.CHECK_KEY_HAS_VERIFIED_EMERGENCY_CONTACT_DATA, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY, "has verified emergency contact data",
                 "Checks if student has verified emergency contact data",
                 "Checks if student has verified emergency contact data",
                 null, // issue id
@@ -201,7 +201,7 @@ public class ProcessServiceDataLoader {
                 null, // left
                 null, // child process id
                 contextInfo);
-        loadCheck(ProcessServiceConstants.CHECK_KEY_HAS_APPLIED_TO_GRADUATE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY , "has applied to graduate",
+        loadCheck(ProcessServiceConstants.CHECK_KEY_HAS_APPLIED_TO_GRADUATE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY, "has applied to graduate",
                 "Checks if student has applied to graduate",
                 "Checks if student has applied to graduate",
                 null, // issue id
@@ -211,6 +211,128 @@ public class ProcessServiceDataLoader {
                 null, // left
                 null, // child process id
                 contextInfo);
+        loadCheck(ProcessServiceConstants.CHECK_KEY_STUDENT_HAS_BASIC_ELIGIBILITY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, "student has basic eligibility",
+                "Checks all the checks defined in the basic eligibility process",
+                "Checks all the checks defined in the basic eligibility process",
+                null, // issue id
+                null, // milestone type
+                null, // agenda id
+                null, // right
+                null, // left
+                ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, // child process id
+                contextInfo);
+        loadCheck(ProcessServiceConstants.CHECK_KEY_IS_STUDENT_EXPECTED_IN_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, "is student expected in term",
+                "Checks if the student is actually expected to register in the term",
+                "Checks if the student is actually expected to register in the term",
+                null, // issue id
+                null, // milestone type
+                null, // agenda id
+                null, // right
+                null, // left
+                null, // child process id
+                contextInfo);
+        loadCheck(ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_OPEN, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY, "registration period is open",
+                "Checks that the registration period is open",
+                "Checks that the registration period is open",
+                null, // issue id
+                "kuali.atp.milestone.RegistrationPeriod", // milestone type
+                null, // agenda id
+                null, // right
+                null, // left
+                null, // child process id
+                contextInfo);
+        loadCheck(ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_NOT_CLOSED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY, "registration period is not yet closed",
+                "Checks that the registration period is not yet closed",
+                "Checks that the registration period is not yet closed",
+                null, // issue id
+                "kuali.atp.milestone.RegistrationPeriod", // milestone type
+                null, // agenda id
+                null, // right
+                null, // left
+                null, // child process id
+                contextInfo);
+        loadCheck(ProcessServiceConstants.CHECK_KEY_REGISTRATION_HOLDS_CLEARED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, "Registration Holds Cleared",
+                "Checks that the checks in the registration holds process",
+                "Checks that the checks in the registration holds process",
+                null, // issue id
+                null, // milestone type
+                null, // agenda id
+                null, // right
+                null, // left
+                ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, // child process id
+                contextInfo);
+        loadCheck(ProcessServiceConstants.CHECK_KEY_ACKNOWLEDGEMENTS_CONFIRMED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, "Acknowledgements Confirmed",
+                "Checks all the acknowledgements have been cleared",
+                "Checks all the acknowledgements have been cleared",
+                null, // issue id
+                null, // milestone type
+                null, // agenda id
+                null, // right
+                null, // left
+                null, // child process id
+                contextInfo);
+        loadCheck(ProcessServiceConstants.CHECK_KEY_MAX_TOTAL_CREDITS_ALLOWED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MAXIMUM_VALUE_CHECK_TYPE_KEY, "Maximum Total Credits Allowed",
+                "cannot have already earned more than 32 credits",
+                "cannot have already earned more than 32 credits",
+                null, // issue id
+                null, // milestone type
+                null, // agenda id
+                null, // right
+                null, // left
+                null, // child process id
+                contextInfo);
+        loadCheck(ProcessServiceConstants.CHECK_KEY_INTERNATIONAL_STUDENT_CHECK_IN, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, "International student check in",
+                "International student needs to check-in when they first arrive",
+                "International student needs to check-in when they first arrive",
+                null, // issue id
+                null, // milestone type
+                null, // agenda id
+                null, // right
+                null, // left
+                null, // child process id
+                contextInfo);
+        loadCheck(ProcessServiceConstants.CHECK_KEY_IS_NOT_SUMMER_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, "is not Summer Term",
+                "Checks that this is not the summer term",
+                "Checks that this is not the summer term",
+                null, // issue id
+                null, // milestone type
+                "kuali.agenda.is.not.summer.term", // agenda id
+                null, // right
+                null, // left
+                null, // child process id
+                contextInfo);
+        loadCheck(ProcessServiceConstants.CHECK_KEY_MANDATORY_ADVISING_CHECK, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, "Mandatory Advising Check",
+                "Mandatory Advising Check",
+                "Mandatory Advising Check",
+                null, // issue id
+                null, // milestone type
+                null, // agenda id
+                null, // right
+                null, // left
+                null, // child process id
+                contextInfo);
+        loadCheck(ProcessServiceConstants.CHECK_KEY_UNRESOLVED_INCOMPLETE_GRADES, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, "Unresolved Incomplete grades",
+                "Unresolved Incomplete grades",
+                "Unresolved Incomplete grades",
+                null, // issue id
+                null, // milestone type
+                null, // agenda id
+                null, // right
+                null, // left
+                null, // child process id
+                contextInfo);
+        loadCheck(ProcessServiceConstants.CHECK_KEY_ELIGIBILITY_FOR_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, "Eligibility for Terms",
+                "Checks all the checks that the student is eligible for the term",
+                "Checks all the checks that the student is eligible for the term",
+                null, // issue id
+                null, // milestone type
+                null, // agenda id
+                null, // right
+                null, // left
+                ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, // child process id
+                contextInfo);
+
+
 
     }
 
