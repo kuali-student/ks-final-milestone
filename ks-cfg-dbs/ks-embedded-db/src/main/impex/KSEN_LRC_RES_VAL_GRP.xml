@@ -222,4 +222,16 @@
         RES_SCALE_ID="kuali.result.scale.student.year"
         STATE_ID="kuali.result.values.group.state.approved"
         TYPE_ID="kuali.result.values.group.type.multiple" VER_NBR="1"/>
+    <KSEN_LRC_RES_VAL_GRP CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
+        ID="kuali.resultComponent.grade.letter" NAME="Letter"
+        RES_SCALE_ID="kuali.result.scale.grade.letter"
+        STATE_ID="kuali.result.values.group.state.approved"
+        TYPE_ID="kuali.result.values.group.type.multiple" VER_NBR="1"/>
+    <KSEN_LRC_RES_VAL_GRP CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
+        ID="kuali.resultComponent.grade.passFail" NAME="Pass/Fail"
+        RES_SCALE_ID="kuali.result.scale.grade.pf"
+        STATE_ID="kuali.result.values.group.state.approved"
+        TYPE_ID="kuali.result.values.group.type.multiple" VER_NBR="1"/>
 </dataset>
