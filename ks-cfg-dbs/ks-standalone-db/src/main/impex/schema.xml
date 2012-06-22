@@ -5376,5 +5376,4 @@
     <sequence name="KRSB_MSG_QUE_S" nextval="1000"/>
     <sequence name="KRSB_SVC_DEF_S" nextval="10000"/>
     <sequence name="KRSB_SVC_DSCRPTR_S" nextval="10000"/>
-    <sequence name="KSEN_LPR_ROSTER_ASSO_LUI_ID" nextval="0"/>
 </database>
