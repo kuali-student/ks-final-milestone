@@ -38,6 +38,9 @@ public class ProcessServiceConstants {
     public static final String REF_OBJECT_URI_CHECK = NAMESPACE + "/" + CheckInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_INSTRUCTION = NAMESPACE + "/" + InstructionInfo.class.getSimpleName();
 
+    ///////////////////////////////////
+    // TYPES AND STATES
+    ///////////////////////////////////
 
     /**
      * ProcessCategory Types/States
@@ -89,6 +92,10 @@ public class ProcessServiceConstants {
     public static final String PROCESS_CHECK_STATE_DISABLED = "kuali.process.check.state.disabled";
     public static final String PROCESS_CHECK_STATE_INACTIVE = "kuali.process.check.state.inactive";
     public static final String[] CHECK_LIFECYCLE_KEYS = {PROCESS_CHECK_STATE_ENABLED, PROCESS_CHECK_STATE_DISABLED, PROCESS_CHECK_STATE_INACTIVE};
+
+    ///////////////////////////////////
+    // KEYS / IDS
+    ///////////////////////////////////
 
     /**
      * Dummy Process Owner Organization

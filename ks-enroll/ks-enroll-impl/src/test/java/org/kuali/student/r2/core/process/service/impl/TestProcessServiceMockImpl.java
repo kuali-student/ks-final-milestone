@@ -24,7 +24,9 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
+import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.mortbay.log.Log;
@@ -105,6 +107,7 @@ public class TestProcessServiceMockImpl {
 
     @Test
     public void testProcessCrud () throws Exception {
+        if (debugMode) { logger.warn("testing Process CRUD"); }
         // create
         String processRequestId = "request1";
         ProcessInfo info = new ProcessInfo();
@@ -191,6 +194,7 @@ public class TestProcessServiceMockImpl {
 
     @Test
     public void testInstructionCrud () throws Exception {
+        if (debugMode) { logger.warn("testing Instruction CRUD"); }
         // create
         String instructionRequestId = "request1";
         InstructionInfo info = new InstructionInfo();
@@ -281,4 +285,185 @@ public class TestProcessServiceMockImpl {
         }catch (DoesNotExistException e) {}
         catch (Exception e) { fail("Threw exception " + e + " when expecting a DoesNotExistException");}
     }
+
+    @Test
+    public void testCheckCrud () throws Exception {
+        if (debugMode) { logger.warn("testing Check CRUD"); }
+        // create
+        String checkRequestId = "request1";
+        CheckInfo info = new CheckInfo();
+        info.setId(checkRequestId);
+        info.setTypeKey(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY);
+        info.setStateKey(ProcessServiceConstants.INDIRECT_RULE_CHECK_TYPE_KEY);
+        info.setName ("A Necessary Check");
+        Date before = new Date();
+        CheckInfo result = processService.createCheck(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, info, contextInfo);
+        Date after = new Date();
+        if (result == info) {
+            fail("returned object should not be the same as the one passed in");
+        }
+        assertEquals(checkRequestId, result.getId());
+        assertEquals(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, result.getTypeKey());
+        assertEquals(info.getStateKey(), result.getStateKey());
+        assertEquals(principalId, result.getMeta().getCreateId());
+        if (result.getMeta().getCreateTime().before(before)) {
+            fail("create time should not be before the call");
+        }
+        if (result.getMeta().getCreateTime().after(after)) {
+            fail("create time should not be after the call");
+        }
+        if (result.getMeta().getUpdateTime().before(before)) {
+            fail("update time should not be before the call");
+        }
+        if (result.getMeta().getUpdateTime().after(after)) {
+            fail("update time should not be after the call");
+        }
+        assertEquals(info.getName(), result.getName());
+        assertEquals(principalId, result.getMeta().getUpdateId());
+        assertNotNull(result.getMeta().getVersionInd());
+
+        // read / get
+        info = new CheckInfo(result);
+        result = processService.getCheck(info.getId(), contextInfo);
+        assertEquals(result.getId(), info.getId());
+        assertEquals(result.getTypeKey(), info.getTypeKey());
+        assertEquals(result.getStateKey(), info.getStateKey());
+        assertEquals(result.getProcessKey(), info.getProcessKey());
+        assertEquals(result.getName(), info.getName());
+        assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
+        assertEquals(result.getMeta().getUpdateId(), info.getMeta().getUpdateId());
+        assertEquals(result.getMeta().getCreateTime(), info.getMeta().getCreateTime());
+        assertEquals(result.getMeta().getUpdateTime(), info.getMeta().getUpdateTime());
+        assertEquals(result.getMeta().getVersionInd(), info.getMeta().getVersionInd());
+        assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
+
+        // update
+        info = new CheckInfo(result);
+        info.setName("Are you gone with the wind?");
+        contextInfo.setPrincipalId(principalId2);
+        before = new Date();
+        result = processService.updateCheck(info.getId(), info, contextInfo);
+        after = new Date();
+        if (result == info) {
+            fail("returned object should not be the same as the one passed in");
+        }
+        assertEquals (info.getId(), result.getId());
+        assertEquals(info.getTypeKey(), result.getTypeKey());
+        assertEquals(info.getStateKey(), result.getStateKey());
+        assertEquals(info.getName(), result.getName());
+        assertEquals(principalId, result.getMeta().getCreateId());
+        if (result.getMeta().getCreateTime().after(before)) {
+            fail("create time should be before the update call");
+        }
+        if (result.getMeta().getUpdateTime().before(before)) {
+            fail("update time should not be before the call");
+        }
+        if (result.getMeta().getUpdateTime().after(after)) {
+            fail("update time should not be after the call");
+        }
+        assertEquals(principalId2, result.getMeta().getUpdateId());
+        if (info.getMeta().getVersionInd().compareTo(result.getMeta().getVersionInd())>= 0) {
+            fail ("version ind should be lexically greater than the old version id");
+        }
+
+        // delete
+        info = new CheckInfo(result);
+        result = processService.getCheck(info.getId(), contextInfo);
+        processService.deleteCheck(info.getId(), contextInfo);
+        try {
+            result = processService.getCheck(info.getId(), contextInfo);
+        }catch (DoesNotExistException e) {}
+        catch (Exception e) { fail("Threw exception " + e + " when expecting a DoesNotExistException");}
+    }
+
+    @Test
+    public void testProcessCategoryCrud () throws Exception {
+        if (debugMode) { logger.warn("testing ProcessCategory CRUD"); }
+        // create
+        String processCategoryRequestId = "request1";
+        ProcessCategoryInfo info = new ProcessCategoryInfo();
+        info.setId(processCategoryRequestId);
+        info.setTypeKey(ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY);
+        info.setStateKey(ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE);
+        info.setName ("Category of Tests");
+        Date before = new Date();
+        ProcessCategoryInfo result = processService.createProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, info, contextInfo);
+        Date after = new Date();
+        if (result == info) {
+            fail("returned object should not be the same as the one passed in");
+        }
+        assertEquals(processCategoryRequestId, result.getId());
+        assertEquals(ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, result.getTypeKey());
+        assertEquals(info.getStateKey(), result.getStateKey());
+        assertEquals(principalId, result.getMeta().getCreateId());
+        if (result.getMeta().getCreateTime().before(before)) {
+            fail("create time should not be before the call");
+        }
+        if (result.getMeta().getCreateTime().after(after)) {
+            fail("create time should not be after the call");
+        }
+        if (result.getMeta().getUpdateTime().before(before)) {
+            fail("update time should not be before the call");
+        }
+        if (result.getMeta().getUpdateTime().after(after)) {
+            fail("update time should not be after the call");
+        }
+        assertEquals(info.getName(), result.getName());
+        assertEquals(principalId, result.getMeta().getUpdateId());
+        assertNotNull(result.getMeta().getVersionInd());
+
+        // read / get
+        info = new ProcessCategoryInfo(result);
+        result = processService.getProcessCategory(info.getId(), contextInfo);
+        assertEquals(result.getId(), info.getId());
+        assertEquals(result.getTypeKey(), info.getTypeKey());
+        assertEquals(result.getStateKey(), info.getStateKey());
+        assertEquals(result.getName(), info.getName());
+        assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
+        assertEquals(result.getMeta().getUpdateId(), info.getMeta().getUpdateId());
+        assertEquals(result.getMeta().getCreateTime(), info.getMeta().getCreateTime());
+        assertEquals(result.getMeta().getUpdateTime(), info.getMeta().getUpdateTime());
+        assertEquals(result.getMeta().getVersionInd(), info.getMeta().getVersionInd());
+        assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
+
+        // update
+        info = new ProcessCategoryInfo(result);
+        info.setName("A newer category - kuali!");
+        contextInfo.setPrincipalId(principalId2);
+        before = new Date();
+        result = processService.updateProcessCategory(info.getId(), info, contextInfo);
+        after = new Date();
+        if (result == info) {
+            fail("returned object should not be the same as the one passed in");
+        }
+        assertEquals (info.getId(), result.getId());
+        assertEquals(info.getTypeKey(), result.getTypeKey());
+        assertEquals(info.getStateKey(), result.getStateKey());
+        assertEquals(info.getName(), result.getName());
+        assertEquals(principalId, result.getMeta().getCreateId());
+        if (result.getMeta().getCreateTime().after(before)) {
+            fail("create time should be before the update call");
+        }
+        if (result.getMeta().getUpdateTime().before(before)) {
+            fail("update time should not be before the call");
+        }
+        if (result.getMeta().getUpdateTime().after(after)) {
+            fail("update time should not be after the call");
+        }
+        assertEquals(principalId2, result.getMeta().getUpdateId());
+        if (info.getMeta().getVersionInd().compareTo(result.getMeta().getVersionInd())>= 0) {
+            fail ("version ind should be lexically greater than the old version id");
+        }
+
+        // delete
+        info = new ProcessCategoryInfo(result);
+        result = processService.getProcessCategory(info.getId(), contextInfo);
+        processService.deleteProcessCategory(info.getId(), contextInfo);
+        try {
+            result = processService.getProcessCategory(info.getId(), contextInfo);
+        }catch (DoesNotExistException e) {}
+        catch (Exception e) { fail("Threw exception " + e + " when expecting a DoesNotExistException");}
+    }
+
+
 }
