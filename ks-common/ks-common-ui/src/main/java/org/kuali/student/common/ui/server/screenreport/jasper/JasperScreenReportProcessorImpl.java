@@ -38,9 +38,9 @@ public class JasperScreenReportProcessorImpl implements ScreenReportProcessor {
 
     final Logger LOG = Logger.getLogger(JasperScreenReportProcessorImpl.class);
 
-    private static final String PROPERTIES_FILE = "jasper.properties";
+    protected static final String PROPERTIES_FILE = "jasper.properties";
 
-    private static Properties jasperProperties = new Properties();
+    protected static Properties jasperProperties = new Properties();
 
     public JasperScreenReportProcessorImpl() {
         super();
@@ -122,7 +122,7 @@ public class JasperScreenReportProcessorImpl implements ScreenReportProcessor {
      * @return
      * @throws JRException
      */
-    private byte[] exportXls(JasperPrint jprint) throws JRException {
+    protected byte[] exportXls(JasperPrint jprint) throws JRException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         JRXlsExporter exporter = new JRXlsExporter();
@@ -256,7 +256,7 @@ public class JasperScreenReportProcessorImpl implements ScreenReportProcessor {
      * Compile and generate the report from the template files and datamodel from the UI.
      */
     @SuppressWarnings("unchecked")
-    private JasperPrint prepare(String template, String reportTitle, Data dataMap, List<ExportElement> dataList) throws JRException {
+    protected JasperPrint prepare(String template, String reportTitle, Data dataMap, List<ExportElement> dataList) throws JRException {
         // Compile base report
         String templateLocation = (String) jasperProperties.get(template);
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(templateLocation);
