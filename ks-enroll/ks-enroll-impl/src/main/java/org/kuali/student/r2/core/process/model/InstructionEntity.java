@@ -38,12 +38,14 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "PROCESS_ID", nullable = false)
+    // Note: in the ERD and DDL this looks like an @ManyToOne but we use a String instead because we don't want JPA to recursively load
+    // all of the related data.
+    @Column(name = "PROCESS_ID", nullable = false)
     private String processId;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "CHECK_ID", nullable = false)
+    // Note: in the ERD and DDL this looks like an @ManyToOne but we use a String instead because we don't want JPA to recursively load
+    // all of the related data.
+    @Column(name = "CHECK_ID", nullable = false)
     private String checkId;
 
     @Column(name = "APPLD_POPULATION_ID")
