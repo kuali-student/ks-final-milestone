@@ -4,11 +4,14 @@ import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.util.KSKRMSConstants;
 
 public class KSTermResolverTypeService implements TermResolverTypeService {
 
 	AcademicRecordService acadRecordService;
+	CourseRegistrationService courseRegistrationService;
+	
 	@Override
 	public TermResolver<?> loadTermResolver(
 			TermResolverDefinition termResolverDefinition) {
@@ -22,11 +25,20 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 		}
 		return null;
 	}
+	
 	public AcademicRecordService getAcadRecordService() {
 		return acadRecordService;
 	}
 	public void setAcadRecordService(AcademicRecordService acadRecordService) {
 		this.acadRecordService = acadRecordService;
+	}
+	
+	public CourseRegistrationService getCourseRegistrationService() {
+		return courseRegistrationService;
+	}
+	
+	public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
+		this.courseRegistrationService = courseRegistrationService;
 	}
 
 }
