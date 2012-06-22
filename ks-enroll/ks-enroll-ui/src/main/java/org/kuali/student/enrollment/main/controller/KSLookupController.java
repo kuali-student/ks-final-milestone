@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -74,16 +75,20 @@ public class KSLookupController extends LookupController {
             if (StringUtils.isNotBlank(defaultAction) && displayList != null && displayList.size() == 1){
                 Object object = displayList.iterator().next();
 
-                DataObjectEntry ddEntry = KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getDataObjectEntry(lookupForm.getDataObjectClassName());
-                String titleAttribute = ddEntry.getTitleAttribute();
-
                 Properties props = new Properties();
-                if("maintenance".equals(defaultAction)){
-                    props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "maintenanceEdit");
+
+                DataObjectEntry ddEntry = KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getDataObjectEntry(lookupForm.getDataObjectClassName());
+
+                List<String> pkKeys = ddEntry.getPrimaryKeys();
+                for (String pkKey : pkKeys) {
+                    props.put(pkKey,ObjectPropertyUtils.getPropertyValue(object, pkKey));
+                }
+
+                if(StringUtils.equals(defaultAction,KRADConstants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE)){
+                    props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
                 }  else{
                     props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
                 }
-                props.put(titleAttribute,ObjectPropertyUtils.getPropertyValue(object, titleAttribute));
                 props.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
                 props.put(UifConstants.UrlParams.SHOW_HOME,BooleanUtils.toStringTrueFalse(false));
                 props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE,lookupForm.getDataObjectClassName());
