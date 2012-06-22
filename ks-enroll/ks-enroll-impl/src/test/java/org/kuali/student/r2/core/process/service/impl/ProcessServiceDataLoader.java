@@ -74,6 +74,7 @@ public class ProcessServiceDataLoader {
 
         // load process categories
         // -----------------------------
+        if (debugMode) { logger.warn("loading process categories"); }
         loadProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_KEY_ADMISSIONS, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, "Admissions",
                 "Blocks a student from changing her degree program", "Blocks a student from changing her degree program", contextInfo);
         loadProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, "Course Registration",
@@ -104,12 +105,13 @@ public class ProcessServiceDataLoader {
 
         // load checks
         // --------------
+        if (debugMode) { logger.warn("loading checks"); }
         loadCheck(ProcessServiceConstants.CHECK_KEY_IS_ALIVE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, "is alive",
                 "Checks if student is actually alive",
                 "Checks if student is actually alive",
                 null, // issue id
                 null, // milestone type
-                "kuali.agenda.is.alive", // agenda id
+                ProcessServiceConstants.AGENDA_IS_ALIVE_KEY, // agenda id
                 null, // right
                 null, // left
                 null, // child process id
@@ -147,7 +149,7 @@ public class ProcessServiceDataLoader {
         loadCheck(ProcessServiceConstants.CHECK_KEY_HAS_OVERDUE_LIBRARY_BOOK, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, "has overdue library book",
                 "Checks if student has an overdue library book",
                 "Checks if student has an overdue library book",
-                "kuali.hold.issue.library.book.overdue", // issue id
+                ProcessServiceConstants.ISSUE_HOLD_LIBRARY_BOOK_OVERDUE_KEY, // issue id
                 null, // milestone type
                 null, // agenda id
                 null, // right
@@ -167,7 +169,7 @@ public class ProcessServiceDataLoader {
         loadCheck(ProcessServiceConstants.CHECK_KEY_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, "has not paid bill from prior term",
                 "Checks if student has an unpaid bill from a prior term",
                 "Checks if student has an unpaid bill from a prior term",
-                "kuali.hold.issue.financial.unpaid.tuition.prior.term", // issue id
+                ProcessServiceConstants.ISSUE_HOLD_UPAID_TUITION_FROM_LAST_TERM, // issue id
                 null, // milestone type
                 null, // agenda id
                 null, // right
@@ -238,7 +240,7 @@ public class ProcessServiceDataLoader {
                 "Checks that the registration period is open",
                 "Checks that the registration period is open",
                 null, // issue id
-                "kuali.atp.milestone.RegistrationPeriod", // milestone type
+                ProcessServiceConstants.MILESTONE_TYPE_ATP_REGISTRATION_PERIOD, // milestone type
                 null, // agenda id
                 null, // right
                 null, // left
@@ -248,7 +250,7 @@ public class ProcessServiceDataLoader {
                 "Checks that the registration period is not yet closed",
                 "Checks that the registration period is not yet closed",
                 null, // issue id
-                "kuali.atp.milestone.RegistrationPeriod", // milestone type
+                ProcessServiceConstants.MILESTONE_TYPE_ATP_REGISTRATION_PERIOD, // milestone type
                 null, // agenda id
                 null, // right
                 null, // left
@@ -299,7 +301,7 @@ public class ProcessServiceDataLoader {
                 "Checks that this is not the summer term",
                 null, // issue id
                 null, // milestone type
-                "kuali.agenda.is.not.summer.term", // agenda id
+                ProcessServiceConstants.AGENDA_IS_NOT_SUMMER_TERM, // agenda id
                 null, // right
                 null, // left
                 null, // child process id
@@ -477,56 +479,70 @@ public class ProcessServiceDataLoader {
 
         // load processes
         // ------------------
+        if (debugMode) { logger.warn("loading processes"); }
         loadProcess(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, ProcessServiceConstants.PROCESS_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Basic Eligibility",
                 "The process of checking a student's basic eligibility to register for courses",
                 "The process of checking a student's basic eligibility to register for courses",
-                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
         loadProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, ProcessServiceConstants.PROCESS_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Eligibility for Term",
                 "The process of checking a student's eligibility to register for a particular term",
                 "The process of checking a student's eligibility to register for a particular ter.",
-                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
         loadProcess(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, ProcessServiceConstants.PROCESS_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Holds Cleared",
                 "The process of checking a student's eligibility to register for a particular term",
                 "The process of checking a student's eligibility to register for a particular term",
-                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
         loadProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, ProcessServiceConstants.PROCESS_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Eligible for Course",
                 "The process of checking a student's eligibility to register for a particular course",
                 "The process of checking a student's eligibility to register for a particular course",
-                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
         loadProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, ProcessServiceConstants.PROCESS_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Eligible for Courses",
                 "The process of checking a student's eligibility and ability to register for a proposed set of courses",
                 "The process of checking a student's eligibility and ability to register for a proposed set of courses",
-                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
         loadProcess(ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED, ProcessServiceConstants.PROCESS_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Acknowledgements Confirmed",
                 "The process of checking a student's eligibility to register for a particular term",
                 "The process of checking a student's eligibility to register for a particular term",
-                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
         loadProcess(ProcessServiceConstants.PROCESS_KEY_REGISTER_FOR_COURSES, ProcessServiceConstants.PROCESS_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Register for Courses",
                 "The process of checking a student's eligibility and actually register for a proposed set of courses",
                 "The process of checking a student's eligibility and actually register for a proposed set of courses",
-                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, contextInfo);
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
         loadProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES, ProcessServiceConstants.PROCESS_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "View Grades",
                 "The process of checking a student's basic ability to view grades",
                 "The process of checking a student's basic ability to view grades",
-                ProcessServiceConstants.PROCESS_CATEGORY_KEY_ACADEMIC_RECORD, contextInfo);
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
         loadProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, ProcessServiceConstants.PROCESS_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "View Grades for Term",
                 "The process of checking a student's basic ability to view grades for a particular term",
                 "The process of checking a student's basic ability to view grades for a particular term",
-                ProcessServiceConstants.PROCESS_CATEGORY_KEY_ACADEMIC_RECORD, contextInfo);
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
         loadProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_COURSE_GRADE, ProcessServiceConstants.PROCESS_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "View Course Grade",
                 "The process of checking if a student can actually view a grade in a particular course",
                 "The process of checking if a student can actually view a grade in a particular course",
-                ProcessServiceConstants.PROCESS_CATEGORY_KEY_ACADEMIC_RECORD, contextInfo);
+                ProcessServiceConstants.PROCESS_CATEGORY_KEY_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
+
+        // load instructions
+        // -------------------
+        if (debugMode) { logger.warn("loading instructions"); }
+        loadInstruction(null,ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+                ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,ProcessServiceConstants.CHECK_KEY_IS_ALIVE,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                "A key piece of data is wrong on your biographic record. Please come to the Registrar's office to clear it up",
+                "A key piece of data is wrong on your biographic record. Please come to the Registrar's office to clear it up",1,
+                false, // warning
+                false, // continue on fail
+                false, // exemptible
+                null, contextInfo);
+
     }
 
     private void loadProcessCategory (String categoryId, String type, String state, String name,
@@ -544,7 +560,7 @@ public class ProcessServiceDataLoader {
 
     private void loadProcess (String processId, String type, String state, String name,
                               String descriptionPlain, String descriptionFormatted,
-                              String categoryId, ContextInfo contextInfo)
+                              String categoryId, String ownerOrgId, ContextInfo contextInfo)
             throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         ProcessInfo info = new ProcessInfo();
@@ -552,6 +568,7 @@ public class ProcessServiceDataLoader {
         info.setTypeKey(type);
         info.setStateKey(state);
         info.setName(name);
+        info.setOwnerOrgId(ownerOrgId);
         info.setDescr(new RichTextInfo(descriptionPlain, descriptionFormatted));
         processService.createProcess(processId, type, info, contextInfo);
         processService.addProcessToProcessCategory(processId, categoryId, contextInfo);

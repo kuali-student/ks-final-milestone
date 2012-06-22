@@ -108,6 +108,23 @@ public class ProcessServiceConstants {
     public static final String PROCESS_CATEGORY_KEY_HOUSING = "kuali.process.type.housing";
 
     /**
+     * known agenda ids
+     */
+    public static final String AGENDA_IS_ALIVE_KEY = "kuali.agenda.is.alive";
+    public static final String AGENDA_IS_NOT_SUMMER_TERM = "kuali.agenda.is.not.summer.term";
+
+    /**
+     * known issue ids
+     */
+    public static final String ISSUE_HOLD_LIBRARY_BOOK_OVERDUE_KEY = "kuali.hold.issue.library.book.overdue";
+    public static final String ISSUE_HOLD_UPAID_TUITION_FROM_LAST_TERM = "kuali.hold.issue.financial.unpaid.tuition.prior.term";
+
+    /**
+     * known milestone types
+     */
+    public static final String MILESTONE_TYPE_ATP_REGISTRATION_PERIOD = "kuali.atp.milestone.RegistrationPeriod";
+
+    /**
      * known process keys
      */
     public static final String PROCESS_KEY_BASIC_ELIGIBILITY = "kuali.process.registration.basic.eligibility";
@@ -160,4 +177,19 @@ public class ProcessServiceConstants {
     public static final String CHECK_KEY_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL = "kuali.check.course.has.room.for.student.in.a.seatpool";
     public static final String CHECK_KEY_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE = "kuali.check.grades.have.been.submitted.for.course";
     public static final String CHECK_KEY_HAS_COMPLETED_COURSE_EVALUATION = "kuali.check.has.completed.course.evaluation";
+
+    /**
+     * known population ids
+     */
+    public static final String POPULATION_ID_EVERYONE = "kuali.population.everyone";
+    public static final String POPULATION_ID_FINAL_TERM_SENIORS = "kuali.population.final.term.seniors";
+    public static final String POPULATION_ID_NOT_IN_A_DEGREE_GRANTING_PROGRAM = "kuali.population.not.in.a.degree.granting.program";
+    public static final String POPULATION_ID_INTERNATIONAL_STUDENTS = "kuali.population.international.student";
+    public static final String POPULATION_ID_SUMMER_ONLY_STUDENT = "kuali.population.summer.only.student";
+    public static final String POPULATION_ID_FRESHMAN = "kuali.population.freshman";
+    public static final String POPULATION_ID_SOPHOMORE = "kuali.population.sophomore";
+    public static final String POPULATION_ID_UNDERGRADUATE = "kuali.population.undergraduate";
+    public static final String POPULATION_ID_NORTH_CAMPUS_STUDENTS = "kuali.population.north.campus.students";
+    public static final String POPULATION_ID_SOUTH_CAMPUS_STUDENTS = "kuali.population.south.campus.students";
+
 }
