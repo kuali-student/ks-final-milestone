@@ -21,8 +21,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.mortbay.log.Log;
@@ -35,6 +37,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * This class tests ProcessServiceMockImpl
@@ -101,10 +104,7 @@ public class TestProcessServiceMockImpl {
     }
 
     @Test
-    public void testCrud () throws Exception {
-        // PROCESS
-        // --------------
-
+    public void testProcessCrud () throws Exception {
         // create
         String processRequestId = "request1";
         ProcessInfo info = new ProcessInfo();
@@ -187,11 +187,98 @@ public class TestProcessServiceMockImpl {
             result = processService.getProcess(info.getKey(), contextInfo);
         }catch (DoesNotExistException e) {}
         catch (Exception e) { fail("Threw exception " + e + " when expecting a DoesNotExistException");}
-
-        // INSTRUCTIONS
-        // ----------------
-
-
     }
 
+    @Test
+    public void testInstructionCrud () throws Exception {
+        // create
+        String instructionRequestId = "request1";
+        InstructionInfo info = new InstructionInfo();
+        info.setId(instructionRequestId);
+        info.setTypeKey(ProcessServiceConstants.INSTRUCTION_TYPE_KEY);
+        info.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
+        info.setProcessKey(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY);
+        info.setCheckKey(ProcessServiceConstants.CHECK_KEY_HAS_NOT_BEEN_EXPELLED);
+        info.setAppliedPopulationKey(ProcessServiceConstants.POPULATION_ID_EVERYONE);
+        info.setPosition(3);
+        info.setMessage(new RichTextInfo("You are not allowed to continue at this university", "You are not allowed to continue at this university"));
+        Date before = new Date();
+        InstructionInfo result = processService.createInstruction(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, ProcessServiceConstants.CHECK_KEY_HAS_NOT_BEEN_EXPELLED, ProcessServiceConstants.INSTRUCTION_TYPE_KEY, info, contextInfo);
+        Date after = new Date();
+        if (result == info) {
+            fail("returned object should not be the same as the one passed in");
+        }
+        assertEquals(instructionRequestId, result.getId());
+        assertEquals(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, result.getTypeKey());
+        assertEquals(info.getStateKey(), result.getStateKey());
+        assertEquals(principalId, result.getMeta().getCreateId());
+        if (result.getMeta().getCreateTime().before(before)) {
+            fail("create time should not be before the call");
+        }
+        if (result.getMeta().getCreateTime().after(after)) {
+            fail("create time should not be after the call");
+        }
+        if (result.getMeta().getUpdateTime().before(before)) {
+            fail("update time should not be before the call");
+        }
+        if (result.getMeta().getUpdateTime().after(after)) {
+            fail("update time should not be after the call");
+        }
+        assertEquals(info.getPosition(), result.getPosition());
+        assertEquals(principalId, result.getMeta().getUpdateId());
+        assertNotNull(result.getMeta().getVersionInd());
+
+        // read / get
+        info = new InstructionInfo(result);
+        result = processService.getInstruction(info.getId(), contextInfo);
+        assertEquals(result.getId(), info.getId());
+        assertEquals(result.getTypeKey(), info.getTypeKey());
+        assertEquals(result.getStateKey(), info.getStateKey());
+        assertEquals(result.getProcessKey(), info.getProcessKey());
+        assertEquals(result.getCheckKey(), info.getCheckKey());
+        assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
+        assertEquals(result.getMeta().getUpdateId(), info.getMeta().getUpdateId());
+        assertEquals(result.getMeta().getCreateTime(), info.getMeta().getCreateTime());
+        assertEquals(result.getMeta().getUpdateTime(), info.getMeta().getUpdateTime());
+        assertEquals(result.getMeta().getVersionInd(), info.getMeta().getVersionInd());
+        assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
+
+        // update
+        info = new InstructionInfo(result);
+        info.setPosition(5);
+        contextInfo.setPrincipalId(principalId2);
+        before = new Date();
+        result = processService.updateInstruction(info.getId(), info, contextInfo);
+        after = new Date();
+        if (result == info) {
+            fail("returned object should not be the same as the one passed in");
+        }
+        assertEquals (info.getId(), result.getId());
+        assertEquals(info.getTypeKey(), result.getTypeKey());
+        assertEquals(info.getStateKey(), result.getStateKey());
+        assertEquals(info.getPosition(), result.getPosition());
+        assertEquals(principalId, result.getMeta().getCreateId());
+        if (result.getMeta().getCreateTime().after(before)) {
+            fail("create time should be before the update call");
+        }
+        if (result.getMeta().getUpdateTime().before(before)) {
+            fail("update time should not be before the call");
+        }
+        if (result.getMeta().getUpdateTime().after(after)) {
+            fail("update time should not be after the call");
+        }
+        assertEquals(principalId2, result.getMeta().getUpdateId());
+        if (info.getMeta().getVersionInd().compareTo(result.getMeta().getVersionInd())>= 0) {
+            fail ("version ind should be lexically greater than the old version id");
+        }
+
+        // delete
+        info = new InstructionInfo(result);
+        result = processService.getInstruction(info.getId(), contextInfo);
+        processService.deleteInstruction(info.getId(), contextInfo);
+        try {
+            result = processService.getInstruction(info.getId(), contextInfo);
+        }catch (DoesNotExistException e) {}
+        catch (Exception e) { fail("Threw exception " + e + " when expecting a DoesNotExistException");}
+    }
 }
