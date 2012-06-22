@@ -26,12 +26,12 @@ import com.google.gwt.core.client.GWT;
 
 public class ReportExportDialog {
 
-    private VerticalFlowPanel layout = new VerticalFlowPanel();
-    private KSLightBox dialog;
+    protected VerticalFlowPanel layout = new VerticalFlowPanel();
+    protected KSLightBox dialog;
 
-    private KSRadioButtonListImpl selectItemWidget = GWT.create(KSRadioButtonListImpl.class);
+    protected KSRadioButtonListImpl selectItemWidget = GWT.create(KSRadioButtonListImpl.class);
 
-    private ActionCancelGroup actionButtons = new ActionCancelGroup(ButtonEnumerations.ExportCancelEnum.EXPORT, ButtonEnumerations.ExportCancelEnum.CANCEL);
+    protected ActionCancelGroup actionButtons = new ActionCancelGroup(ButtonEnumerations.ExportCancelEnum.EXPORT, ButtonEnumerations.ExportCancelEnum.CANCEL);
 
     public ReportExportDialog() {
 
@@ -48,24 +48,15 @@ public class ReportExportDialog {
         // Add radiobutton to layout panel.
         HorizontalBlockFlowPanel radioPanel = new HorizontalBlockFlowPanel();
         radioPanel.setHeight("90px");
-        SimpleListItems formatList = new SimpleListItems();
-        formatList.addItem(ExportUtils.PDF, this.getMessage("pdfFormat"));
-        formatList.addItem(ExportUtils.DOC, this.getMessage("docFormat"));
-        selectItemWidget.setListItems(formatList);
+        selectItemWidget.setListItems(addFileFormatButtons());
         selectItemWidget.selectItem(ExportUtils.PDF);
         radioPanel.add(selectItemWidget);
         layout.add(radioPanel);
 
         // Add buttons to layout panel.
         this.addCancelCompleteCallback();
-        
-        // Add buttons to light box.  Note that we must use methods
-        // in KSLightBox to add the button group (to ensure the
-        // buttons show up below the line in the UI) and we need
-        // to choose proper sizing using the built in light box size of
-        // medium.  
         dialog.addButtonGroup(actionButtons);
-        dialog.setSize(KSLightBox.Size.MEDIUM);       
+        dialog.setSize(KSLightBox.Size.MEDIUM); 
     }
 
     public void show() {
@@ -104,8 +95,16 @@ public class ReportExportDialog {
         });
     }
 
-    private String getMessage(final String msgKey) {
+    protected String getMessage(final String msgKey) {
         return Application.getApplicationContext().getMessage(msgKey);
+    }
+    
+    protected SimpleListItems addFileFormatButtons()
+    {
+    	SimpleListItems formatList = new SimpleListItems();
+        formatList.addItem(ExportUtils.PDF, this.getMessage("pdfFormat"));
+        formatList.addItem(ExportUtils.DOC, this.getMessage("docFormat"));
+        return formatList;
     }
 
 }
