@@ -70,7 +70,7 @@
         </bean>
         <bean parent="Uif-InputField" p:propertyName="instructionalDays" p:label="Instructional Days" p:render="@{!#isAddLine}">
             <property name="control">
-                <bean parent="Uif-TextControl" p:size="5" p:disabled="true"/>
+                <bean parent="Uif-TextControl" p:size="3" p:disabled="true"/>
             </property>
         </bean>
        </list>

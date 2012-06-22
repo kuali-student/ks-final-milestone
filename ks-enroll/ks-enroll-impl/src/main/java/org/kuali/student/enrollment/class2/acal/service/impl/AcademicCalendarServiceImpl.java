@@ -2,8 +2,11 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
+import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.Weeks;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -1907,55 +1910,73 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public Integer getInstructionalDaysForTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-
         KeyDateInfo instructionalPeriodKeyDate = null;
 
         List<KeyDateInfo> keyDates = getKeyDatesForTerm(termId, contextInfo);
-
         for (KeyDateInfo keyDate : keyDates) {
             if (keyDate.getTypeKey().equals(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)) {
-
                 instructionalPeriodKeyDate = new KeyDateInfo(keyDate);
-
+                break;
             }
+        }
+        
+        int instructionalDaysForTerm = 0;
+        DateMidnight currentDate = new DateMidnight(instructionalPeriodKeyDate.getStartDate().getTime());
+        DateMidnight endDate = new DateMidnight(instructionalPeriodKeyDate.getEndDate().getTime());
 
+        // go from start to end and count instructional days
+        while (currentDate.compareTo(endDate) <= 0) {
+            if (_dateIsInstructional(currentDate)) {
+                ++instructionalDaysForTerm;
+            }
+            currentDate = currentDate.plusDays(1);
         }
 
-        DateTime instructionalStart = new DateTime(instructionalPeriodKeyDate.getStartDate().getTime());
-        DateTime instructionalEnd = new DateTime(instructionalPeriodKeyDate.getEndDate().getTime());
-
-        Days totalDays = Days.daysBetween(instructionalStart, instructionalEnd);
-
-        Weeks weeks = Weeks.weeksBetween(instructionalStart, instructionalEnd);
-
-        int approxWeekends = weeks.getWeeks() * 2;
-
-        int totalDaysInTerm = totalDays.getDays();
-
-        return totalDaysInTerm - (approxWeekends + getNumberOfHolidayDatesInTerm(termId, instructionalPeriodKeyDate, contextInfo));
-
+        // subtract non-instructional holidays which fall on instructional days
+        instructionalDaysForTerm -=
+                _getNumberOfNonInstructionalHolidaysForTerm(termId, instructionalPeriodKeyDate, contextInfo);
+        
+        return instructionalDaysForTerm;
     }
 
-    private Integer getNumberOfHolidayDatesInTerm(String termId, KeyDateInfo instructionalPeriodKeyDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private int _getNumberOfNonInstructionalHolidaysForTerm(String termId, KeyDateInfo instructionalPeriodKeyDate, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+
+        DateMidnight currentDate, stopDate;
+        List<DateMidnight> nonInstructionalHolidayDates = new ArrayList<DateMidnight>();
         List<AcademicCalendarInfo> acalsForTerm = getAcademicCalendarsForTerm(termId, contextInfo);
-        int numberOfHolidayDays = 0;
+        
         for (AcademicCalendarInfo acal : acalsForTerm) {
+            List<HolidayInfo> holidaysForTerm =
+                    getHolidaysByDateForAcademicCalendar( acal.getId(), instructionalPeriodKeyDate.getStartDate(), 
+                                                          instructionalPeriodKeyDate.getEndDate(), contextInfo);
 
-            List<HolidayInfo> holidays = getHolidaysByDateForAcademicCalendar(acal.getId(), instructionalPeriodKeyDate.getStartDate(), instructionalPeriodKeyDate.getEndDate(), contextInfo);
-
-            for (HolidayInfo holiday : holidays) {
-                Period holidayPeriod;
-                if (holiday.getIsDateRange()){
-                    holidayPeriod = new Period(holiday.getStartDate().getTime(), holiday.getEndDate().getTime());
-                    numberOfHolidayDays = numberOfHolidayDays + holidayPeriod.toStandardDays().getDays();
-                }else{
-                    numberOfHolidayDays = numberOfHolidayDays + 1;
+            for (HolidayInfo holiday : holidaysForTerm) {
+                if (!holiday.getIsInstructionalDay()) {
+                    currentDate = new DateMidnight(holiday.getStartDate().getTime());
+                    stopDate = new DateMidnight(holiday.getEndDate().getTime());
+                    while (currentDate.compareTo(stopDate) <= 0) {
+                        if ((_dateIsInstructional(currentDate))
+                                &&  ( ! nonInstructionalHolidayDates.contains(currentDate))) {
+                            nonInstructionalHolidayDates.add(currentDate);
+                        }
+                        currentDate = currentDate.plusDays(1);
+                    }
                 }
             }
         }
-        return numberOfHolidayDays;
+        
+        return nonInstructionalHolidayDates.size();
+    }
 
+    private boolean _dateIsInstructional(DateMidnight date) {
+        //TODO - instructional days should be configurable
+        if ((date.getDayOfWeek() != DateTimeConstants.SATURDAY)
+                &&  (date.getDayOfWeek() != DateTimeConstants.SUNDAY)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -1992,9 +2013,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             List<HolidayInfo> holidays = getHolidaysForHolidayCalendar(holidayCalendarId, contextInfo);
 
             for (HolidayInfo holiday : holidays) {
-                if (holiday.getStartDate().after(startDate)){
-                    if (holiday.getIsDateRange()){
-                        if (holiday.getEndDate().before(endDate)){
+                if (holiday.getStartDate().after(startDate)) {
+                    if (holiday.getIsDateRange()) {
+                        if (holiday.getEndDate().before(endDate)) {
                            holidaysForAcal.add(holiday);
                         }
                     }else{
