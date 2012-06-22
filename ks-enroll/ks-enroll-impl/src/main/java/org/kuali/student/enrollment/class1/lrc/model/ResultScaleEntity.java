@@ -1,8 +1,9 @@
 package org.kuali.student.enrollment.class1.lrc.model;
 
+import java.util.ArrayList;
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
@@ -11,114 +12,127 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.util.RichTextHelper;
 
 @Entity
-@Table(name = "KSEN_LRC_RES_SCALE")
+@Table(name = "KSEN_LRC_RESULT_SCALE")
+@NamedQueries({
+    @NamedQuery(name = "ResultScaleEntity.getIdsByType",
+    query = "select id from ResultScaleEntity where type = :type")
+})
 public class ResultScaleEntity extends MetaEntity implements AttributeOwner<ResultScaleAttributeEntity> {
 
+    @Column(name = "RESULT_SCALE_TYPE")
+    private String type;
+    @Column(name = "RESULT_SCALE_STATE")
+    private String state;
     @Column(name = "NAME")
     private String name;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private ResultScaleRichTextEntity descr;
-
-    @Column(name = "TYPE_ID")
-    private String type;
-
-    @Column(name = "STATE_ID")
-    private String state;
-
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String descrPlain;
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String descrFormatted;
+    @Column(name = "RANGE_MIN_VALUE")
+    private String minValue;
+    @Column(name = "RANGE_MAX_VALUE")
+    private String maxValue;
+    @Column(name = "RANGE_INCREMENT")
+    private String increment;
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "EFF_DT")
     private Date effectiveDate;
-
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "EXPIR_DT")
     private Date expirationDate;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    // orphan removal does not work so need to manually remove them ourselves
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<ResultScaleAttributeEntity> attributes;
 
-    @Column(name = "MIN_VALUE")
-    private String minValue;
-
-    @Column(name = "MAX_VALUE")
-    private String maxValue;
-
-    @Column(name = "INCR")
-    private String increment;
-
     public ResultScaleEntity() {
-
     }
 
-    public ResultScaleEntity(ResultScaleInfo dto) {
+    public ResultScaleEntity(ResultScaleInfo dto,
+            EntityManager em) {
         super(dto);
-        this.setName(dto.getName());
         this.setId(dto.getKey());
-        if (dto.getDescr() != null) {
-            ResultScaleRichTextEntity entityDesc = new ResultScaleRichTextEntity(dto.getDescr());
-            this.setDescr(entityDesc);
-        }
-        this.setEffectiveDate(dto.getEffectiveDate());
-        this.setExpirationDate(dto.getExpirationDate());
+        this.setType(dto.getTypeKey());
+        fromDTO(dto, em);
+    }
+
+    public void fromDTO(ResultScaleInfo dto,
+            EntityManager em) {
+
+        List<Object> orphanData = new ArrayList<Object>();
+        this.setName(dto.getName());
         this.setState(dto.getStateKey());
-        //No Entity available (not needed) for ResultValueRangeInfo as it's a 1-1 for ResultValuesGroup. But, Service contract has the ResultValueRangeInfo object
-        if (dto.getResultValueRange() != null) {
+        if (dto.getDescr() != null) {
+            this.setDescrFormatted(dto.getDescr().getFormatted());
+            this.setDescrPlain(dto.getDescr().getPlain());
+        } else {
+            this.setDescrFormatted(null);
+            this.setDescrPlain(null);
+        }
+        if (dto.getResultValueRange() == null) {
+            this.setMinValue(null);
+            this.setMaxValue(null);
+            this.setIncrement(null);
+        } else {
             this.setMinValue(dto.getResultValueRange().getMinValue());
             this.setMaxValue(dto.getResultValueRange().getMaxValue());
             this.setIncrement(dto.getResultValueRange().getIncrement());
         }
-
-        this.setAttributes(new HashSet<ResultScaleAttributeEntity>());
-        if (null != dto.getAttributes()) {
-            for (Attribute att : dto.getAttributes()) {
-                ResultScaleAttributeEntity attEntity = new ResultScaleAttributeEntity(att);
-                this.getAttributes().add(attEntity);
+        this.setEffectiveDate(dto.getEffectiveDate());
+        this.setExpirationDate(dto.getExpirationDate());
+        // dynamic attributes
+        if (this.getAttributes() == null) {
+            this.setAttributes(new HashSet<ResultScaleAttributeEntity>());
+        }
+        Set<String> idSet = new HashSet<String>(dto.getAttributes().size());
+        for (AttributeInfo attr : dto.getAttributes()) {
+            if (attr.getId() != null) {
+                idSet.add(attr.getId());
             }
         }
+        for (ResultScaleAttributeEntity attEntity : new ArrayList<ResultScaleAttributeEntity> (this.getAttributes())) {
+            if (!idSet.contains(attEntity.getId())) {
+                em.remove(attEntity);
+                this.getAttributes().remove(attEntity);
+            }
+        }
+        for (Attribute att : dto.getAttributes()) {
+            ResultScaleAttributeEntity attEntity = new ResultScaleAttributeEntity(att);
+            attEntity.setOwner(this);
+            this.getAttributes().add(attEntity);
+        }
+        return;
     }
 
-    public String getName() {
-        return name;
+    public String getDescrFormatted() {
+        return descrFormatted;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDescrFormatted(String descrFormatted) {
+        this.descrFormatted = descrFormatted;
     }
 
-    public ResultScaleRichTextEntity getDescr() {
-        return descr;
+    public String getDescrPlain() {
+        return descrPlain;
     }
 
-    public void setDescr(ResultScaleRichTextEntity descr) {
-        this.descr = descr;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
+    public void setDescrPlain(String descrPlain) {
+        this.descrPlain = descrPlain;
     }
 
     public Date getEffectiveDate() {
@@ -137,12 +151,12 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
         this.expirationDate = expirationDate;
     }
 
-    public String getMinValue() {
-        return minValue;
+    public String getIncrement() {
+        return increment;
     }
 
-    public void setMinValue(String minValue) {
-        this.minValue = minValue;
+    public void setIncrement(String increment) {
+        this.increment = increment;
     }
 
     public String getMaxValue() {
@@ -153,12 +167,36 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
         this.maxValue = maxValue;
     }
 
-    public String getIncrement() {
-        return increment;
+    public String getMinValue() {
+        return minValue;
     }
 
-    public void setIncrement(String increment) {
-        this.increment = increment;
+    public void setMinValue(String minValue) {
+        this.minValue = minValue;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
@@ -176,38 +214,26 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
         ResultScaleInfo info = new ResultScaleInfo();
 
         info.setKey(getId());
+        info.setTypeKey(getType());
+        info.setStateKey(getState());
         info.setName(getName());
-
-        if (getDescr() != null) {
-            info.setDescr(getDescr().toDto());
-        }
-
-        if (getState() != null) {
-            info.setStateKey(getState());
-        }
-
-        if (getType() != null) {
-            info.setTypeKey(getType());
-        }
-
+        info.setDescr(new RichTextHelper().toRichTextInfo(getDescrPlain(), getDescrFormatted()));
         info.setEffectiveDate(getEffectiveDate());
         info.setExpirationDate(getExpirationDate());
-
-        //No Entity available (not needed) for ResultValueRangeInfo as it's a 1-1 for ResultValuesGroup. But, Service contract has the ResultValueRangeInfo object
-        ResultValueRangeInfo resultValueRange = new ResultValueRangeInfo();
-        resultValueRange.setMaxValue(getMaxValue());
-        resultValueRange.setMinValue(getMinValue());
-        resultValueRange.setIncrement(getIncrement());
-        info.setResultValueRange(resultValueRange);
-
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (ResultScaleAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
+        if (this.getMinValue() != null || this.getMaxValue() != null || this.getIncrement() != null) {
+            ResultValueRangeInfo resultValueRange = new ResultValueRangeInfo();
+            resultValueRange.setMaxValue(getMaxValue());
+            resultValueRange.setMinValue(getMinValue());
+            resultValueRange.setIncrement(getIncrement());
+            info.setResultValueRange(resultValueRange);
         }
-        info.setAttributes(atts);
+        if (this.getAttributes() != null) {
+            for (ResultScaleAttributeEntity att : getAttributes()) {
+                AttributeInfo attInfo = att.toDto();
+                info.getAttributes().add(attInfo);
+            }
+        }
         info.setMeta(super.toDTO());
-
         return info;
     }
 }

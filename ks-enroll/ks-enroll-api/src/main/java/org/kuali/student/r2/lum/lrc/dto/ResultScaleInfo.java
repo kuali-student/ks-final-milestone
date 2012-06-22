@@ -59,15 +59,17 @@ public class ResultScaleInfo
         super();
     }
 
-    public ResultScaleInfo(ResultScale resultScale) {
-        super(resultScale);
-        if (null != resultScale) {
-            this.resultValueRange = new ResultValueRangeInfo(resultScale.getResultValueRange());
-            if (resultScale.getEffectiveDate() != null) {
-                this.effectiveDate = new Date(resultScale.getEffectiveDate().getTime());
+    public ResultScaleInfo(ResultScale orig) {
+        super(orig);
+        if (null != orig) {
+            if (orig.getResultValueRange() != null) {
+                this.resultValueRange = new ResultValueRangeInfo(orig.getResultValueRange());
             }
-            if (resultScale.getExpirationDate() != null) {
-                this.expirationDate = new Date(resultScale.getExpirationDate().getTime());
+            if (orig.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(orig.getEffectiveDate().getTime());
+            }
+            if (orig.getExpirationDate() != null) {
+                this.expirationDate = new Date(orig.getExpirationDate().getTime());
             }
         }
     }

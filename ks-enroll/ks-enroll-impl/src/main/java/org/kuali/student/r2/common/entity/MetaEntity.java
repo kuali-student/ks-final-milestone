@@ -19,6 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.infc.HasMeta;
 import org.kuali.student.r2.common.infc.Meta;
@@ -63,6 +64,24 @@ public abstract class MetaEntity extends BaseVersionEntity {
         }
     }
 
+    
+    public void setEntityCreated(ContextInfo context) {
+    	
+    	if (context != null) {
+    		this.setCreateTime(context.getCurrentDate());
+    		this.setCreateId(context.getPrincipalId());
+    	
+    		setEntityUpdated(context);
+    	}
+    }
+    
+    public void setEntityUpdated (ContextInfo context) {
+    	
+    	if (context != null) {
+    		this.setUpdateTime(context.getCurrentDate());
+    		this.setUpdateId(context.getPrincipalId());
+    	}
+    }
     public Date getCreateTime() {
         return createTime;
     }

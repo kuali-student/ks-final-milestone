@@ -122,7 +122,6 @@
         <class>org.kuali.student.r2.core.class1.process.model.ProcessAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.process.model.ProcessEntity</class>
         <class>org.kuali.student.r2.core.class1.process.model.ProcessRichTextEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupRichTextEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.LrrAttributeEntity</class>
@@ -131,7 +130,6 @@
         <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.population.model.PopulationEntity</class>
         <class>org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity</class>

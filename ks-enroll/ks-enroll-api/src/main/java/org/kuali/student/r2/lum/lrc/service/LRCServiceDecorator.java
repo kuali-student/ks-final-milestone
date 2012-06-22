@@ -8,6 +8,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -136,6 +137,7 @@ public abstract class LRCServiceDecorator implements LRCService {
 
     @Override
     public StatusInfo deleteResultValue(String resultValueKey, ContextInfo contextInfo) throws DoesNotExistException,
+            DependentObjectsExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return getNextDecorator().deleteResultValue(resultValueKey, contextInfo);
@@ -220,7 +222,7 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public StatusInfo deleteResultScale(String resultScaleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteResultScale(String resultScaleKey, ContextInfo contextInfo) throws DoesNotExistException, DependentObjectsExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteResultScale(resultScaleKey, contextInfo);
     }
 
@@ -236,8 +238,6 @@ public abstract class LRCServiceDecorator implements LRCService {
 
     @Override
     public List<String> getResultValueKeysByType(String resultValueTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getResultValueKeysByType(resultValueTypeKey, contextInfo);
+        return getNextDecorator().getResultValueKeysByType(resultValueTypeKey, contextInfo);
     }
-    
-    
 }

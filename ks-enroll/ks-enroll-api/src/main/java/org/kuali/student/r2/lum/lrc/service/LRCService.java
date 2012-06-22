@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -519,6 +520,7 @@ public interface LRCService extends LrcServiceBusinessLogic {
      *                operation
      * @return status of the delete operation
      * @throws DoesNotExistException resultValueKey does not exist
+     * @throws DependentObjectsExistException if a group is tied to this value
      * @throws InvalidParameterException  invalid resultValueKey
      * @throws MissingParameterException missing resultValueKey
      * @throws OperationFailedException unable to complete request
@@ -527,6 +529,7 @@ public interface LRCService extends LrcServiceBusinessLogic {
     public StatusInfo deleteResultValue(@WebParam(name = "resultValueKey") String resultValueKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
+            DependentObjectsExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -731,6 +734,7 @@ public interface LRCService extends LrcServiceBusinessLogic {
      *                operation     
      * @return status of the operation
      * @throws DoesNotExistException resultScaleKey not found
+     * @throws DependentObjectsExistException if a group or value exists for this scale
      * @throws InvalidParameterException invalid resultScaleKey
      * @throws MissingParameterException missing resultScaleKey
      * @throws OperationFailedException unable to complete request
@@ -739,6 +743,7 @@ public interface LRCService extends LrcServiceBusinessLogic {
     public StatusInfo deleteResultScale(@WebParam(name = "resultScaleKey") String resultScaleKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
+            DependentObjectsExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -817,7 +822,9 @@ public interface LRCService extends LrcServiceBusinessLogic {
             PermissionDeniedException;
 
     /**
-     * Retrieves result values by result scale key.
+     * Retrieves result values for the list of Result values groups.
+     * 
+     * No values are selected for groups that are RANGES.
      * 
      * @param resultValuesGroupKeys list of result value groups for which to return values
      * @param contextInfo Context information containing the principalId

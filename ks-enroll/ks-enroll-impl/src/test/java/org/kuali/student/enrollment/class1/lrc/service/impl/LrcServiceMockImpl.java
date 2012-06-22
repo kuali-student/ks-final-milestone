@@ -28,6 +28,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -69,58 +70,57 @@ public class LrcServiceMockImpl implements LRCService {
             throw new DoesNotExistException(resultValuesGroupKey);
         }
         ResultValuesGroupInfo rvg = this.resultValuesGroupMap.get(resultValuesGroupKey);
-        this.loadResultValuesWithRange(rvg, context);
         return rvg;
     }
-
-    private void loadResultValuesWithRange(ResultValuesGroupInfo rvg,
-            ContextInfo contextInfo)
-            throws OperationFailedException {
-        if (!rvg.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
-            return;
-        }
-        rvg.getResultValueKeys().clear();
-        List<ResultValueInfo> values;
-        try {
-            values = this.getResultValuesForScale(rvg.getResultScaleKey(), contextInfo);
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (InvalidParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (MissingParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (OperationFailedException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (PermissionDeniedException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        }
-        for (ResultValueInfo rv : values) {
-            if (isWithinRange(rv, rvg)) {
-                rvg.getResultValueKeys().add(rv.getKey());
-            }
-        }
-    }
-
-    private boolean isWithinRange(ResultValueInfo rv,
-            ResultValuesGroupInfo rvg) {
-        float numericValue = Float.parseFloat(rv.getNumericValue());
-        float minValue = Float.parseFloat(rvg.getResultValueRange().getMinValue());
-        if (numericValue < minValue) {
-            return false;
-        }
-
-        float maxValue = Float.parseFloat(rvg.getResultValueRange().getMaxValue());
-        if (numericValue > maxValue) {
-            return false;
-        }
-        float increment = Float.parseFloat(rvg.getResultValueRange().getIncrement());
-        float diff = numericValue - minValue;
-        float remainder = diff % increment;
-        if (remainder != 0) {
-            return false;
-        }
-        return true;
-    }
+//
+//    private void loadResultValuesWithRange(ResultValuesGroupInfo rvg,
+//            ContextInfo contextInfo)
+//            throws OperationFailedException {
+//        if (!rvg.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
+//            return;
+//        }
+//        rvg.getResultValueKeys().clear();
+//        List<ResultValueInfo> values;
+//        try {
+//            values = this.getResultValuesForScale(rvg.getResultScaleKey(), contextInfo);
+//        } catch (DoesNotExistException ex) {
+//            throw new OperationFailedException("unexpected", ex);
+//        } catch (InvalidParameterException ex) {
+//            throw new OperationFailedException("unexpected", ex);
+//        } catch (MissingParameterException ex) {
+//            throw new OperationFailedException("unexpected", ex);
+//        } catch (OperationFailedException ex) {
+//            throw new OperationFailedException("unexpected", ex);
+//        } catch (PermissionDeniedException ex) {
+//            throw new OperationFailedException("unexpected", ex);
+//        }
+//        for (ResultValueInfo rv : values) {
+//            if (isWithinRange(rv, rvg)) {
+//                rvg.getResultValueKeys().add(rv.getKey());
+//            }
+//        }
+//    }
+//
+//    private boolean isWithinRange(ResultValueInfo rv,
+//            ResultValuesGroupInfo rvg) {
+//        float numericValue = Float.parseFloat(rv.getNumericValue());
+//        float minValue = Float.parseFloat(rvg.getResultValueRange().getMinValue());
+//        if (numericValue < minValue) {
+//            return false;
+//        }
+//
+//        float maxValue = Float.parseFloat(rvg.getResultValueRange().getMaxValue());
+//        if (numericValue > maxValue) {
+//            return false;
+//        }
+//        float increment = Float.parseFloat(rvg.getResultValueRange().getIncrement());
+//        float diff = numericValue - minValue;
+//        float remainder = diff % increment;
+//        if (remainder != 0) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     @Override
     public List<ResultValuesGroupInfo> getResultValuesGroupsByKeys(List<String> resultValuesGroupKeys,
@@ -147,7 +147,6 @@ public class LrcServiceMockImpl implements LRCService {
             PermissionDeniedException {
         List<ResultValuesGroupInfo> list = new ArrayList<ResultValuesGroupInfo>();
         for (ResultValuesGroupInfo info : resultValuesGroupMap.values()) {
-            this.loadResultValuesWithRange(info, context);
             if (info.getResultValueKeys().contains(resultValueKey)) {
                 list.add(info);
             }
@@ -166,7 +165,6 @@ public class LrcServiceMockImpl implements LRCService {
         List<ResultValuesGroupInfo> list = new ArrayList<ResultValuesGroupInfo>();
         for (ResultValuesGroupInfo info : resultValuesGroupMap.values()) {
             if (info.getResultScaleKey().contains(resultScaleKey)) {
-                this.loadResultValuesWithRange(info, context);
                 list.add(info);
             }
         }
@@ -184,7 +182,6 @@ public class LrcServiceMockImpl implements LRCService {
         List<String> list = new ArrayList<String>();
         for (ResultValuesGroupInfo info : resultValuesGroupMap.values()) {
             if (resultValuesGroupTypeKey.equals(info.getTypeKey())) {
-                this.loadResultValuesWithRange(info, context);
                 list.add(info.getKey());
             }
         }
@@ -197,7 +194,7 @@ public class LrcServiceMockImpl implements LRCService {
     @Override
     public ResultValuesGroupInfo createResultValuesGroup(String resultScaleKey,
             String resultValuesGroupTypeKey,
-            ResultValuesGroupInfo gradeValuesGroupInfo,
+            ResultValuesGroupInfo resultValuesGroupInfo,
             ContextInfo context)
             throws AlreadyExistsException,
             DataValidationErrorException,
@@ -205,20 +202,19 @@ public class LrcServiceMockImpl implements LRCService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
+        if (resultValuesGroupMap.containsKey(resultValuesGroupInfo.getKey())) {
+            throw new AlreadyExistsException(resultValuesGroupInfo.getKey());
+        }
         // create 
-        ResultValuesGroupInfo copy = new ResultValuesGroupInfo(gradeValuesGroupInfo);
+        ResultValuesGroupInfo copy = new ResultValuesGroupInfo(resultValuesGroupInfo);
         copy.setResultScaleKey(resultScaleKey);
         copy.setTypeKey(resultValuesGroupTypeKey);
         if (copy.getKey() == null) {
             copy.setKey(resultValuesGroupMap.size() + "");
         }
-        if (resultValuesGroupMap.containsKey(copy.getKey())) {
-            throw new AlreadyExistsException (copy.getKey());
-        }
         copy.setMeta(newMeta(context));
         resultValuesGroupMap.put(copy.getKey(), copy);
         ResultValuesGroupInfo rvgNew = new ResultValuesGroupInfo(copy);
-        this.loadResultValuesWithRange(rvgNew, context);
         return rvgNew;
     }
 
@@ -245,7 +241,6 @@ public class LrcServiceMockImpl implements LRCService {
         copy.setMeta(updateMeta(copy.getMeta(), context));
         this.resultValuesGroupMap.put(gradeValuesGroupInfo.getKey(), copy);
         ResultValuesGroupInfo rvgNew = new ResultValuesGroupInfo(copy);
-        this.loadResultValuesWithRange(rvgNew, context);
         return rvgNew;
     }
 
@@ -299,7 +294,6 @@ public class LrcServiceMockImpl implements LRCService {
         ResultValuesGroupInfo rvg = this.lrcServiceBusinessLogic.getCreateRangeCreditResultValuesGroup(creditValueMin,
                 creditValueMax,
                 creditValueIncrement, scaleKey, context);
-        this.loadResultValuesWithRange(rvg, context);
         return rvg;
 
     }
@@ -343,7 +337,7 @@ public class LrcServiceMockImpl implements LRCService {
         }
         return list;
     }
-    
+
     @Override
     public List<String> getResultValueKeysByType(String resultValueTypeKey,
             ContextInfo context)
@@ -363,19 +357,14 @@ public class LrcServiceMockImpl implements LRCService {
 
     @Override
     public List<ResultValueInfo> getResultValuesForResultValuesGroup(String resultValuesGroupKey,
-            ContextInfo context)
+            ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        List<ResultValueInfo> list = new ArrayList<ResultValueInfo>();
-        ResultValuesGroupInfo info = this.getResultValuesGroup(resultValuesGroupKey, context);
-        this.loadResultValuesWithRange(info, context);
-        for (String key : info.getResultValueKeys()) {
-            list.add(this.getResultValue(resultValuesGroupKey, context));
-        }
-        return list;
+        ResultValuesGroupInfo info = this.getResultValuesGroup(resultValuesGroupKey, contextInfo);
+        return this.getResultValuesByKeys(info.getResultValueKeys(), contextInfo);
     }
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
@@ -393,15 +382,15 @@ public class LrcServiceMockImpl implements LRCService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
+        if (resultValueMap.containsKey(resultValueInfo.getKey())) {
+            throw new AlreadyExistsException(resultValueInfo.getKey());
+        }
         // create 
         ResultValueInfo copy = new ResultValueInfo(resultValueInfo);
         copy.setResultScaleKey(resultScaleKey);
         copy.setTypeKey(resultValueTypeKey);
         if (copy.getKey() == null) {
             copy.setKey(resultValueMap.size() + "");
-        }
-        if (resultValueMap.containsKey(copy.getKey())) {
-            throw new AlreadyExistsException (copy.getKey());
         }
         copy.setMeta(newMeta(context));
         resultValueMap.put(copy.getKey(), copy);
@@ -437,10 +426,15 @@ public class LrcServiceMockImpl implements LRCService {
     public StatusInfo deleteResultValue(String resultValueKey,
             ContextInfo context)
             throws DoesNotExistException,
+            DependentObjectsExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
+        List<ResultValuesGroupInfo> list = this.getResultValuesGroupsByResultValue(resultValueKey, context);
+        if (!list.isEmpty()) {
+            throw new DependentObjectsExistException(list.size() + " rvgs exist");
+        }
         if (this.resultValueMap.remove(resultValueKey) == null) {
             throw new DoesNotExistException(resultValueKey);
         }
@@ -478,7 +472,6 @@ public class LrcServiceMockImpl implements LRCService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-
         List<ResultValuesGroupInfo> list = new ArrayList<ResultValuesGroupInfo>();
         List<String> scaleKeys = this.getResultScaleKeysByType(resultScaleTypeKey, context);
         for (String scaleKey : scaleKeys) {
@@ -546,14 +539,14 @@ public class LrcServiceMockImpl implements LRCService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
+        if (resultScaleMap.containsKey(resultScaleInfo.getKey())) {
+            throw new AlreadyExistsException(resultScaleInfo.getKey());
+        }
         // create 
         ResultScaleInfo copy = new ResultScaleInfo(resultScaleInfo);
         copy.setTypeKey(resultScaleTypeKey);
         if (copy.getKey() == null) {
             copy.setKey(resultScaleMap.size() + "");
-        }
-        if (resultScaleMap.containsKey(copy.getKey())) {
-            throw new AlreadyExistsException (copy.getKey());
         }
         copy.setMeta(newMeta(context));
         resultScaleMap.put(copy.getKey(), copy);
@@ -589,10 +582,19 @@ public class LrcServiceMockImpl implements LRCService {
     public StatusInfo deleteResultScale(String resultScaleKey,
             ContextInfo context)
             throws DoesNotExistException,
+            DependentObjectsExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
+        List<ResultValueInfo> values = this.getResultValuesForScale(resultScaleKey, context);
+        if (!values.isEmpty()) {
+            throw new DependentObjectsExistException(values.size() + " ResultValue(s) exist");
+        }
+        List<ResultValuesGroupInfo> groups = this.getResultValuesGroupsByResultScale(resultScaleKey, context);
+        if (!groups.isEmpty()) {
+            throw new DependentObjectsExistException(groups.size() + " ResultValuesGroup(s) exist");
+        }
         if (this.resultScaleMap.remove(resultScaleKey) == null) {
             throw new DoesNotExistException(resultScaleKey);
         }
@@ -666,7 +668,6 @@ public class LrcServiceMockImpl implements LRCService {
         Set<String> keys = new HashSet<String>();
         for (String rvgKey : resultValuesGroupKeys) {
             ResultValuesGroupInfo rvg = this.getResultValuesGroup(rvgKey, context);
-            this.loadResultValuesWithRange(rvg, context);
             for (String rvKey : rvg.getResultValueKeys()) {
                 if (keys.add(rvKey)) {
                     list.add(this.getResultValue(rvKey, context));

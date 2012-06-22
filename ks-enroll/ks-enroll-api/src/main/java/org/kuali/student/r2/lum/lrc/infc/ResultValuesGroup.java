@@ -43,6 +43,9 @@ public interface ResultValuesGroup extends KeyEntity, HasEffectiveDates {
 
     /**
      * Contains the list of discrete results value keys in this group.
+     * 
+     * This list should be empty of the group is a RANGE (that is the whole point of a range).
+     * 
      * @name Result Value Keys
      */
     public List<String> getResultValueKeys();

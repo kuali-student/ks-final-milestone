@@ -118,16 +118,12 @@
         <class>org.kuali.student.common.entity.RichText</class>
         <class>org.kuali.student.common.entity.TimeAmount</class>
 
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultScaleAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultScaleEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultScaleRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupRichTextEntity</class>
 
         <class>org.kuali.student.lum.lrc.entity.LrcRichText</class>
         <class>org.kuali.student.lum.lrc.entity.ResultComponent</class>
