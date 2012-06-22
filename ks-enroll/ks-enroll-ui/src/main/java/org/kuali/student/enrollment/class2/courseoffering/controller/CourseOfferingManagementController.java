@@ -9,8 +9,10 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
@@ -220,8 +222,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"start",true,getContextInfo());
             controllerPath = "inquiry";
         }
-        else if(selectedObject instanceof ActivityOfferingInfo) {
-            urlParameters = _buildAOURLParameters((ActivityOfferingInfo)selectedObject,"start",true,getContextInfo());
+        else if(selectedObject instanceof ActivityOfferingWrapper) {
+            urlParameters = _buildAOURLParameters(((ActivityOfferingWrapper)selectedObject).getAoInfo(),"start",true,getContextInfo());
             controllerPath ="inquiry";
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
@@ -290,17 +292,17 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("coInfo.id", courseOfferingInfo.getId());
-        props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper");
+        props.put("dataObjectClassName", CourseOfferingEditWrapper.class.getName());
         return props;
     }
 
     private Properties _buildAOURLParameters(ActivityOfferingInfo activityOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put("id", activityOfferingInfo.getId());
+        props.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, activityOfferingInfo.getId());
         //props.put("readOnlyView", readOnlyView);
-        props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper");
-        props.put("viewId", "KS-ActivityOffering-InquiryView2");
+        props.put("dataObjectClassName", ActivityOfferingWrapper.class.getName());
+        //props.put("viewId", "KS-ActivityOffering-InquiryView2");
         return props;
     }
 
