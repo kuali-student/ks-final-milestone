@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
@@ -33,9 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * This class tests ProcessServiceMockImpl
@@ -59,6 +58,7 @@ public class TestProcessServiceMockImpl {
     ///////////////////
 
     public static String principalId = "123";
+    public static String principalId2 = "321";
     public ContextInfo contextInfo = null;
 
     @Resource(name = "processServiceMockImpl")
@@ -85,6 +85,7 @@ public class TestProcessServiceMockImpl {
 
     @Before
     public void setUp() {
+        // set up context
         contextInfo = new ContextInfo();
         contextInfo.setPrincipalId(principalId);
         try {
@@ -94,15 +95,16 @@ public class TestProcessServiceMockImpl {
         } catch (Exception ex) {
             throw new RuntimeException (ex);
         }
-    }
 
-    @Test
-    public void testSetup() {
+        // test setup
         assertNotNull(processService);
     }
 
     @Test
-    public void testProcessCrud () throws Exception {
+    public void testCrud () throws Exception {
+        // PROCESS
+        // --------------
+
         // create
         String processRequestId = "request1";
         ProcessInfo info = new ProcessInfo();
@@ -136,6 +138,59 @@ public class TestProcessServiceMockImpl {
         assertNotNull(result.getMeta().getVersionInd());
 
         // read / get
+        info = new ProcessInfo(result);
+        result = processService.getProcess(info.getKey(), contextInfo);
+        assertEquals(result.getKey(), info.getKey());
+        assertEquals(result.getTypeKey(), info.getTypeKey());
+        assertEquals(result.getStateKey(), info.getStateKey());
+        assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
+        assertEquals(result.getMeta().getUpdateId(), info.getMeta().getUpdateId());
+        assertEquals(result.getMeta().getCreateTime(), info.getMeta().getCreateTime());
+        assertEquals(result.getMeta().getUpdateTime(), info.getMeta().getUpdateTime());
+        assertEquals(result.getMeta().getVersionInd(), info.getMeta().getVersionInd());
+        assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
+
+        // update
+        info = new ProcessInfo(result);
+        info.setName("new name");
+        contextInfo.setPrincipalId(principalId2);
+        before = new Date();
+        result = processService.updateProcess(info.getKey(), info, contextInfo);
+        after = new Date();
+        if (result == info) {
+            fail("returned object should not be the same as the one passed in");
+        }
+        assertEquals (info.getKey(), result.getKey());
+        assertEquals(info.getTypeKey(), result.getTypeKey());
+        assertEquals(info.getStateKey(), result.getStateKey());
+        assertEquals(info.getName(), result.getName());
+        assertEquals(principalId, result.getMeta().getCreateId());
+        if (result.getMeta().getCreateTime().after(before)) {
+            fail("create time should be before the update call");
+        }
+        if (result.getMeta().getUpdateTime().before(before)) {
+            fail("update time should not be before the call");
+        }
+        if (result.getMeta().getUpdateTime().after(after)) {
+            fail("update time should not be after the call");
+        }
+        assertEquals(principalId2, result.getMeta().getUpdateId());
+        if (info.getMeta().getVersionInd().compareTo(result.getMeta().getVersionInd())>= 0) {
+            fail ("version ind should be lexically greater than the old version id");
+        }
+
+        // delete
+        info = new ProcessInfo(result);
+        result = processService.getProcess(info.getKey(), contextInfo);
+        processService.deleteProcess(info.getKey(), contextInfo);
+        try {
+            result = processService.getProcess(info.getKey(), contextInfo);
+        }catch (DoesNotExistException e) {}
+        catch (Exception e) { fail("Threw exception " + e + " when expecting a DoesNotExistException");}
+
+        // INSTRUCTIONS
+        // ----------------
+
 
     }
 

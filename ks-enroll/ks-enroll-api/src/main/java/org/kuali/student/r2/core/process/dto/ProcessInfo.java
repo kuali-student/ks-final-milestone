@@ -85,4 +85,17 @@ public class ProcessInfo
     public void setOwnerOrgId(String ownerOrgId) {
         this.ownerOrgId = ownerOrgId;
     }
+
+    ///////////////////////
+    // FUNCTIONALS
+    ///////////////////////
+
+
+    @Override
+    public String toString() {
+        return "ProcessInfo{" +
+                "ownerOrgId='" + ownerOrgId + '\'' +
+                ", _futureElements=" + _futureElements +
+                '}';
+    }
 }
