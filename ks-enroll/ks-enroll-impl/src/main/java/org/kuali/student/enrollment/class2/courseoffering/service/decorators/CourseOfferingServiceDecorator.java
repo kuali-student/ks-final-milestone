@@ -105,6 +105,16 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
+    public List<ValidationResultInfo> validateRegistrationGroupTemplate(String validationTypeKey, RegistrationGroupTemplateInfo registrationGroupTemplateInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().validateRegistrationGroupTemplate(validationTypeKey, registrationGroupTemplateInfo, context);
+    }
+
+    @Override
+    public RegistrationGroupTemplateInfo createRegistrationGroupTemplate(RegistrationGroupTemplateInfo registrationGroupTemplateInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createRegistrationGroupTemplate(registrationGroupTemplateInfo, context);
+    }
+
+    @Override
     public RegistrationGroupTemplateInfo updateRegistrationGroupTemplate(String registrationGroupTemplateId, RegistrationGroupTemplateInfo registrationGroupTemplateInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         return getNextDecorator().updateRegistrationGroupTemplate(registrationGroupTemplateId, registrationGroupTemplateInfo, context);
     }
@@ -365,6 +375,21 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     @Override
     public StatusInfo deleteRegistrationGroup(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteRegistrationGroup(registrationGroupId, context);
+    }
+
+    @Override
+    public StatusInfo deleteRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteRegistrationGroupsByFormatOffering(formatOfferingId, context);
+    }
+
+    @Override
+    public StatusInfo deleteGeneratedRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteGeneratedRegistrationGroupsByFormatOffering(formatOfferingId, context);
+    }
+
+    @Override
+    public StatusInfo deleteGeneratedRegistrationGroupsForTemplate(String registrationGroupTemplateId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteGeneratedRegistrationGroupsForTemplate(registrationGroupTemplateId, context);
     }
 
     @Override

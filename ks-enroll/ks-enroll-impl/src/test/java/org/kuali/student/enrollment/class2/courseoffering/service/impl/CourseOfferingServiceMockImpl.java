@@ -694,6 +694,21 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
+    public StatusInfo deleteRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unsupported");
+    }
+
+    @Override
+    public StatusInfo deleteGeneratedRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unsupported");
+    }
+
+    @Override
+    public StatusInfo deleteGeneratedRegistrationGroupsForTemplate(String registrationGroupTemplateId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unsupported");
+    }
+
+    @Override
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // validate
@@ -705,6 +720,17 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         throw new OperationFailedException("getActivityOfferingTypesForActivityType has not been implemented");
+    }
+
+
+    @Override
+    public List<ValidationResultInfo> validateRegistrationGroupTemplate(String validationTypeKey, RegistrationGroupTemplateInfo registrationGroupTemplateInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return new ArrayList<ValidationResultInfo>();
+    }
+
+    @Override
+    public RegistrationGroupTemplateInfo createRegistrationGroupTemplate(RegistrationGroupTemplateInfo registrationGroupTemplateInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        throw new OperationFailedException("unsupported");
     }
 
     @Override

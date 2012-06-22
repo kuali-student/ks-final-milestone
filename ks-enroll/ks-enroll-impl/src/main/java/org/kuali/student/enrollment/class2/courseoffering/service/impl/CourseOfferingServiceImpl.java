@@ -1249,6 +1249,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
+
+    @Override
+    public StatusInfo deleteRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public StatusInfo deleteGeneratedRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public StatusInfo deleteGeneratedRegistrationGroupsForTemplate(String registrationGroupTemplateId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
     @Override
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType,
                                                                 RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException,
@@ -1261,6 +1277,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public RegistrationGroupTemplateInfo getRegistrationGroupTemplate(String registrationGroupTemplateId,
                                                                       ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+
+    @Override
+    public List<ValidationResultInfo> validateRegistrationGroupTemplate(String validationTypeKey, RegistrationGroupTemplateInfo registrationGroupTemplateInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public RegistrationGroupTemplateInfo createRegistrationGroupTemplate(RegistrationGroupTemplateInfo registrationGroupTemplateDefinitionInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new UnsupportedOperationException();
     }
 

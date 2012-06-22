@@ -1196,7 +1196,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-                                              //    public StatusInfo deleteRegistrationGroupsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+     public StatusInfo deleteRegistrationGroupsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Deletes all generated Registration Groups for a Format
@@ -1211,7 +1211,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-                                              //    public StatusInfo deleteGeneratedRegistrationGroupsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+     public StatusInfo deleteGeneratedRegistrationGroupsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Deletes all generated Registration Groups that were the result
@@ -1225,8 +1225,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-                                              //    public StatusInfo deleteGeneratedRegistrationGroupsForTemplate(@WebParam(name = "registrationGroupTemplateId") String registrationGroupTemplateId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
+     public StatusInfo deleteGeneratedRegistrationGroupsForTemplate(@WebParam(name = "registrationGroupTemplateId") String registrationGroupTemplateId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a registration group. Depending on the value of validationType,
@@ -1291,8 +1290,22 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws MissingParameterException missing validationTypeKey, courseOfferingInfo
      * @throws OperationFailedException  unable to complete request
      */
-                                                                      //    public List<ValidationResultInfo> validateRegistrationGroupTemplate(@WebParam(name = "validationType") String validationType, @WebParam(name = "registrationGroupTemplateInfo") RegistrationGroupTemplateInfo registrationGroupTemplateInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+      public List<ValidationResultInfo> validateRegistrationGroupTemplate(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "registrationGroupTemplateInfo") RegistrationGroupTemplateInfo registrationGroupTemplateInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
+    /**
+     * Creates a new Registration Group Template.
+     *
+     * @param seatPoolDefinitionInfo Details of the RegistrationGroupTemplate to be created
+     * @param context                Context information containing the principalId and locale
+     *                               information about the caller of service operation
+     * @return newly created RegistrationGroupTemplate
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws InvalidParameterException    One or more parameters invalid
+     * @throws MissingParameterException    One or more parameters missing
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     */
+    public RegistrationGroupTemplateInfo createRegistrationGroupTemplate(@WebParam(name = "registrationGroupTemplateInfo") RegistrationGroupTemplateInfo registrationGroupTemplateInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates a registration Group template based on the info object
