@@ -534,10 +534,90 @@ public class ProcessServiceDataLoader {
         // load instructions
         // -------------------
         if (debugMode) { logger.warn("loading instructions"); }
-        loadInstruction(null,ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+        loadInstruction("2",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
                 ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,ProcessServiceConstants.CHECK_KEY_IS_ALIVE,ProcessServiceConstants.POPULATION_ID_EVERYONE,
-                "A key piece of data is wrong on your biographic record. Please come to the Registrar's office to clear it up",
-                "A key piece of data is wrong on your biographic record. Please come to the Registrar's office to clear it up",1,
+                "A key piece of data is wrong on your biographic record, please come to the Registrar's office to clear it up",
+                "A key piece of data is wrong on your biographic record, please come to the Registrar's office to clear it up",1,
+                false, // warning
+                false, // continue on fail
+                false, // exemptible
+                null, contextInfo);
+        loadInstruction("3",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+                ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,ProcessServiceConstants.CHECK_KEY_HAS_BEEN_ADMITTED,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                "According to our records you have not (yet) been admitted to this school",
+                "According to our records you have not (yet) been admitted to this school", 2,
+                false, // warning
+                false, // continue on fail
+                false, // exemptible
+                null, contextInfo);
+        loadInstruction("4",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+                ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,ProcessServiceConstants.CHECK_KEY_HAS_CONFIRMED_INTEND_TO_ATTEND,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                "According to our records you have never confirmed your intent to attend",
+                "According to our records you have never confirmed your intent to attend",3,
+                false, // warning
+                false, // continue on fail
+                true, // exemptible
+                null, contextInfo);
+        loadInstruction("5",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+                ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,ProcessServiceConstants.CHECK_KEY_HAS_NOT_BEEN_EXPELLED,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                "You are not allowed to continue at this university",
+                "You are not allowed to continue at this university",4,
+                false, // warning
+                false, // continue on fail
+                false, // exemptible
+                null, contextInfo);
+        loadInstruction("7",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+                ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED,ProcessServiceConstants.CHECK_KEY_HAS_OVERDUE_LIBRARY_BOOK,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                "Please note: you have an overdue library book",
+                "Please note: you have an overdue library book",3,
+                true, // warning
+                true, // continue on fail
+                true, // exemptible
+                null, contextInfo);
+        loadInstruction("8",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+                ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED,ProcessServiceConstants.CHECK_KEY_HAS_UNPAID_LIBRARY_FINE,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                "You have an unpaid library fine, please contact the library to resolve the matter",
+                "You have an unpaid library fine, please contact the library to resolve the matter",4,
+                false, // warning
+                false, // continue on fail
+                false, // exemptible
+                null, contextInfo);
+        loadInstruction("9",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+                ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED,ProcessServiceConstants.CHECK_KEY_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                "You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter",
+                "You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter",5,
+                false, // warning
+                true, // continue on fail
+                true, // exemptible
+                null, contextInfo);
+        loadInstruction("11",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+                ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,ProcessServiceConstants.CHECK_KEY_HAS_ACKNOWLEDGED_RIAA,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                "Please acknowledge the RIAA",
+                "Please acknowledge the RIAA",5,
+                false, // warning
+                false, // continue on fail
+                false, // exemptible
+                null, contextInfo);
+        loadInstruction("12",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+                ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,ProcessServiceConstants.CHECK_KEY_HAS_ACKNOWLEDGED_HONOR_CODE,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                "Please acknowledge the honour code",
+                "Please acknowledge the honour code",6,
+                false, // warning
+                false, // continue on fail
+                false, // exemptible
+                null, contextInfo);
+        loadInstruction("13",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+                ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,ProcessServiceConstants.CHECK_KEY_HAS_VERIFIED_EMERGENCY_CONTACT_DATA,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                "Please verify your Emergency Contact info",
+                "Please verify your Emergency Contact info",7,
+                false, // warning
+                false, // continue on fail
+                false, // exemptible
+                null, contextInfo);
+        loadInstruction("14",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+                ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,ProcessServiceConstants.CHECK_KEY_HAS_APPLIED_TO_GRADUATE,ProcessServiceConstants.POPULATION_ID_FINAL_TERM_SENIORS,
+                "Since you have sufficient credits, please apply to graduate ",
+                "Since you have sufficient credits, please apply to graduate ",8,
                 false, // warning
                 false, // continue on fail
                 false, // exemptible
