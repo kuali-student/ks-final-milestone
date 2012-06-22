@@ -36,10 +36,11 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 /**
  * This class tests ProcessServiceMockImpl
@@ -464,6 +465,25 @@ public class TestProcessServiceMockImpl {
         }catch (DoesNotExistException e) {}
         catch (Exception e) { fail("Threw exception " + e + " when expecting a DoesNotExistException");}
     }
+
+    @Test
+    public void testProcessCategoryOperations () throws Exception {
+        // misc. methods
+        List<String> processCategoryIds = new ArrayList<String>();
+        processCategoryIds.add(ProcessServiceConstants.PROCESS_CATEGORY_KEY_ADMISSIONS);
+        processCategoryIds.add(ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION);
+        List<ProcessCategoryInfo> processCategoryInfos = processService.getProcessCategoriesByIds(processCategoryIds, contextInfo);
+        assertEquals(2, processCategoryInfos.size());
+        for (ProcessCategoryInfo info: processCategoryInfos) {
+            assertTrue(processCategoryIds.contains(info.getId()));
+        }
+        List<String> processCategoryIdsByType = processService.getProcessCategoryIdsByType(ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, contextInfo);
+        assertEquals(8, processCategoryIdsByType.size());
+        for (String id: processCategoryIdsByType) {
+            assertEquals(processService.getProcessCategory(id, contextInfo).getTypeKey(), ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY);
+        }
+    }
+
 
 
 }
