@@ -21,8 +21,6 @@ public interface LprTransactionItem extends IdEntity {
      * and SWAP
      * 
      * @name Type Key
-     * @required
-     * @readOnly
      */
     @Override
     public String getTypeKey();
@@ -34,8 +32,6 @@ public interface LprTransactionItem extends IdEntity {
      * and FAILED. etc
      * 
      * @name State Key
-     * @required
-     *
      */
     @Override
     public String getStateKey();
@@ -44,17 +40,8 @@ public interface LprTransactionItem extends IdEntity {
      * The person id for whom this request is to generate or update the lpr
      * 
      * @name Person Id
-     * @required
      */
     public String getPersonId();
-
-    /**
-     * The identifier of the transaction that contains this transaction item.
-     * @name Transaction Id
-     * @required
-     * @readOnly
-     */
-    public String getTransactionId ();
 
     /**
      * The LUI id for a new relation request.
@@ -76,7 +63,7 @@ public interface LprTransactionItem extends IdEntity {
      * 
      * @name Request Options
      */
-    public List<? extends LprTransactionItemRequestOption> getRequestOptions();
+    public List<? extends RequestOption> getRequestOptions();
 
     /**
      * Returns the result for this transaction item once it has been processed.
@@ -95,5 +82,19 @@ public interface LprTransactionItem extends IdEntity {
      * @name Result Values Group Keys
      */
     public List<String> getResultValuesGroupKeys();
+
+    /**
+     * A transaction item group id used to link together LPR transaction items of the
+     * related LUIs (if any) created as part of a single transaction item.
+     * 
+     * Note: this field is deprecated
+     * It was added at the last minute for core-slice as a way to group together 
+     * the resulting LPRs so they can be searched later but this 
+     * approach will be refactored out.
+     * 
+     * @name Group Id
+     */
+    @Deprecated
+    public String getGroupId();
 
 }

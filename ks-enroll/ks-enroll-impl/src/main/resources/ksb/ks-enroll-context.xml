@@ -183,6 +183,37 @@
     </property>
   </bean>
 
+<!-- Added by Tanveer 06/14/2012 -->
+    <bean id="ks.exp.stateService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="stateService" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.state.service.StateService" />
+                <property name="localServiceName" value="StateService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/state" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="feeService" class="org.kuali.student.r2.core.fee.service.impl.FeeServiceImpl">
+    <property name="enrollmentFeeDao" ref="enrollmentFeeDao" />
+  </bean>
+
+  <bean id="ks.exp.feeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+    <property name="serviceDefinition">
+      <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+        <property name="jaxWsService" value="true" />
+        <property name="service" ref="feeService" />
+        <property name="serviceInterface" value="org.kuali.student.r2.core.fee.service.FeeService" />
+        <property name="localServiceName" value="FeeService" />
+        <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/fee" />
+        <property name="busSecurity" value="${ks.lum.bus.security}" />
+      </bean>
+    </property>
+  </bean>
+
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
 
@@ -272,7 +303,10 @@
         <property name="criteriaLookupService" ref="criteriaLookupService" />
         <property name="typeService" ref="typeService" />
         <property name="businessLogic" ref="coBusinessLogic" />
+        <property name="offeringCodeGenerator" ref="offeringCodeGenerator" />
   </bean>
+
+   <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
 
    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseServiceImpl" />
@@ -380,7 +414,7 @@
     <property name="statementDao" ref="statementDao" />
   </bean>
 
-  <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
+  <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
     <property name="lprDao" ref="lprDao" />
     <property name="lprRosterDao" ref="lprRosterDao" />
     <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
@@ -388,7 +422,7 @@
     <property name="lprTransItemDao" ref="lprTrasactionItemDao" />
   </bean>
 
-  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceValidationDecorator">
+  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
     <property name="nextDecorator" ref="lprPersistenceService" />
     <property name="validator" ref="validator" />
   </bean>
@@ -566,5 +600,32 @@
             </bean>
         </property>
     </bean>
+
+    <bean id="orgServiceImplNew" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
+        <property name="organizationDao" ref="orgDao" />
+        <property name="extendedOrgDao" ref="extendedOrgDao" />
+        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService"/>
+    </bean>
+
+    <bean id="ks.exp.organizationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="orgServiceImplNew" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.organization.service.OrganizationService" />
+                <property name="localServiceName" value="OrganizationService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+
+
+
+
+
+
 
 </beans>

@@ -41,16 +41,20 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private String statusField;
     private TermInfo sourceTerm;
     private TermInfo targetTerm;
-    
+    private boolean isGoSourceButtonDisabled = true;
+    private boolean isRolloverButtonDisabled = true;
+
     // rollover details fields
-    private String rolloverSourceTerm;
-    private String rolloverTargetTerm;
+    private String rolloverSourceTermDesc;
+    private String rolloverTargetTermCode;
+    private String rolloverTargetTermDesc;
     private String dateInitiated;
     private String dateCompleted;
     private String courseOfferingsAllowed;
     private String activityOfferingsAllowed;
     private List<SocRolloverResultItemWrapper> socRolloverResultItems;
-
+    private boolean isConfigurationOptionsDisabled = true;
+    
     public CourseOfferingRolloverManagementForm(){
         targetTermCode = "";
         sourceTermCode = "";
@@ -63,8 +67,8 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         sourceTermEndDate = "";
         statusField = "";
         //rollover details fields
-        rolloverSourceTerm = "";
-        rolloverTargetTerm = "";
+        rolloverSourceTermDesc = "";
+        rolloverTargetTermCode = "";
         dateInitiated = "";
         dateCompleted = "";
         socRolloverResultItems = new ArrayList<SocRolloverResultItemWrapper>();
@@ -142,13 +146,22 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         this.sourceTermEndDate = sourceTermEndDate;
     }
 
-    public String getRolloverSourceTerm() {
-        return rolloverSourceTerm;
+    public String getRolloverSourceTermDesc() {
+        return rolloverSourceTermDesc;
     }
 
-    public void setRolloverSourceTerm(String rolloverSourceTerm) {
-        this.rolloverSourceTerm = rolloverSourceTerm;
+    public void setRolloverSourceTermDesc(String rolloverSourceTermDesc) {
+        this.rolloverSourceTermDesc = rolloverSourceTermDesc;
     }
+
+    public String getRolloverTargetTermDesc() {
+        return rolloverTargetTermDesc;
+    }
+
+    public void setRolloverTargetTermDesc(String rolloverTargetTermDesc) {
+        this.rolloverTargetTermDesc = rolloverTargetTermDesc;
+    }
+
     public String getDateInitiated() {
         return dateInitiated;
     }
@@ -157,12 +170,12 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         this.dateInitiated = dateInitiated;
     }
 
-    public String getRolloverTargetTerm() {
-        return rolloverTargetTerm;
+    public String getRolloverTargetTermCode() {
+        return rolloverTargetTermCode;
     }
 
-    public void setRolloverTargetTerm(String rolloverTargetTerm) {
-        this.rolloverTargetTerm = rolloverTargetTerm;
+    public void setRolloverTargetTermCode(String rolloverTargetTermCode) {
+        this.rolloverTargetTermCode = rolloverTargetTermCode;
     }
 
     public String getDateCompleted() {
@@ -221,6 +234,30 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         this.targetTerm = targetTerm;
     }
 
+    public boolean getIsGoSourceButtonDisabled() {
+        return isGoSourceButtonDisabled;
+    }
+
+    public void setIsGoSourceButtonDisabled(boolean goSourceButtonDisabled) {
+        isGoSourceButtonDisabled = goSourceButtonDisabled;
+    }
+
+    public boolean getIsRolloverButtonDisabled() {
+        return isRolloverButtonDisabled;
+    }
+
+    public void setIsRolloverButtonDisabled(boolean rolloverButtonDisabled) {
+        isRolloverButtonDisabled = rolloverButtonDisabled;
+    }
+
+    public boolean getIsConfigurationOptionsDisabled() {
+        return isConfigurationOptionsDisabled;
+    }
+
+    public void setIsConfigurationOptionsDisabled(boolean isConfigurationOptionsDisabled) {
+        this.isConfigurationOptionsDisabled = isConfigurationOptionsDisabled;
+    }
+    
     public void resetForm(){
         displayedTargetTermCode = "";
         targetTermStartDate = "";
@@ -231,9 +268,14 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         sourceTermEndDate = "";
         statusField = "";
         //rollover details fields
-        rolloverSourceTerm = "";
+        rolloverSourceTermDesc = "";
+        rolloverTargetTermCode = "";
+        rolloverTargetTermDesc = "";
         dateInitiated = "";
         dateCompleted = "";
         socRolloverResultItems = new ArrayList<SocRolloverResultItemWrapper>();
+        isGoSourceButtonDisabled = true;
+        isRolloverButtonDisabled = true;
+        isConfigurationOptionsDisabled = true;
     }
  }

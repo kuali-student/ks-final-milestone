@@ -1,5 +1,5 @@
-DELIMITER $$
-DROP PROCEDURE IF EXISTS `riceserverdemo`.`test`$$
+DELIMITER //
+DROP PROCEDURE IF EXISTS `riceserverdemo`.`test`//
 CREATE PROCEDURE `riceserverdemo`.`test`()
 BEGIN
   DECLARE done int;
@@ -73,6 +73,6 @@ commit;
 close term_spec_cursor;
 set done = 0;
 
-    END$$
+    END//
 
 DELIMITER 

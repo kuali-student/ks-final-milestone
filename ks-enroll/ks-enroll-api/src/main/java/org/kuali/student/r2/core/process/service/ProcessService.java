@@ -1,9 +1,8 @@
 /**
- * Copyright 2011 The Kuali Foundation 
- *
- * Licensed under the Educational Community License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Copyright 2011 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
@@ -22,7 +21,6 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -185,7 +183,7 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateProcessCategory(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "processCategoryTypeKey") String processCategoryTypeKey, @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateProcessCategory(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a new ProcessCategory.
@@ -195,6 +193,8 @@ public interface ProcessService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return the ProcessCategory just created
+     * @throws AlreadyExistsException the ProcessCategory being
+     *         created already exists
      * @throws DataValidationErrorException one or more values invalid
      *         for this operation
      * @throws InvalidParameterException invalid processInfo or
@@ -206,7 +206,7 @@ public interface ProcessService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public ProcessCategoryInfo createProcessCategory(@WebParam(name = "processCategoryTypeKey") String processCategoryTypeKey, @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public ProcessCategoryInfo createProcessCategory(@WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing ProcessCategory.
@@ -292,7 +292,7 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo removeProcessFromProcessCategory(@WebParam(name = "processKey") String processKey, @WebParam(name = "processCategoryId") String processCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removeProcessFromProcessCategory(@WebParam(name = "processKey") String processKey, @WebParam(name = "processCategoryId") String processCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a Process.
@@ -409,7 +409,6 @@ public interface ProcessService {
      * identifier.
      *
      * @param validationTypeKey the identifier of the extent of validation
-     * @param processTypeKey the identifier for the Process Type
      * @param processInfo the Process information to be tested
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
@@ -423,13 +422,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateProcess(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "processTypeKey") String processTypeKey, @WebParam(name = "processInfo") ProcessInfo processInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateProcess(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "processInfo") ProcessInfo processInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a new Process.
      *
      * @param processKey the key of Process to be created
-     * @param processTypeKey the identifier for the Process Type
      * @param processInfo the details of Process to be created
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
@@ -447,7 +445,7 @@ public interface ProcessService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public ProcessInfo createProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "processTypeKey") String processTypeKey, @WebParam(name = "processInfo") ProcessInfo processInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public ProcessInfo createProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "processInfo") ProcessInfo processInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing Process.
@@ -482,51 +480,50 @@ public interface ProcessService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return status of the operation (success, failed)
-     * @throws DependentObjectsExistException Instructions related to
-     *         this Process
      * @throws DoesNotExistException processKey not found
      * @throws InvalidParameterException invalid processKey or contextInfo
      * @throws MissingParameterException missing processKey or contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a Check.
      *
-     * @param checkId a unique Id of a Check
+     * @param checkKey a unique Id of a Check
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
      * @return a Check
-     * @throws DoesNotExistException checkId not found
-     * @throws InvalidParameterException  contextInfo is not
-     *         valid
-     * @throws MissingParameterException checkId or contextInfo is
-     *         missing or null
+     * @throws DoesNotExistException checkKey not found
+     * @throws InvalidParameterException invalid checkKey or
+     *         contextInfo
+     * @throws MissingParameterException missing checkKey or
+     *         contextInfo
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws PermissionDeniedException authorization failure
      */
-    public CheckInfo getCheck(@WebParam(name = "checkId") String checkId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CheckInfo getCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Checks corresponding to the
      * given list of Check Ids.
      *
-     * @param checkIdss list of Checks to be retrieved
-     * @param contextInfo information containing the
+     * @param checkKeys list of Checkess to be retrieved
+     * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of Check Ids of the given type
-     * @throws DoesNotExistException a checkId in list not found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException checkId or contextInfo is
-     *         missing or null
+     * @throws DoesNotExistException an checkKey in list not found
+     * @throws InvalidParameterException invalid checkKey or 
+     *         contextInfo
+     * @throws MissingParameterException missing checkKey or
+     *         contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CheckInfo> getChecksByIds(@WebParam(name = "checkIds") List<String> checkIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<CheckInfo> getChecksByIds(@WebParam(name = "checkKeys") List<String> checkKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Check Ids of the specified type.
@@ -605,34 +602,35 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateCheck(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "checkTypeKey") String checkTypeKey, @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateCheck(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a new Check.
      *
-     * @param chekTypeKey an identifier for the Check Type
      * @param checkInfo the details of Check to be created
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
      * @return the Check just created
+     * @throws AlreadyExistsException the Check being
+     *         created already exists
      * @throws DataValidationErrorException one or more values invalid
      *         for this operation
-     * @throws InvalidParameterException checkInfo or
-     *         contextInfo is not valid
-     * @throws MissingParameterException checkTypeKey, checkInfo or
-     *         contextInfo is missing or null
+     * @throws InvalidParameterException invalid checkInfo or
+     *         contextInfo
+     * @throws MissingParameterException missing checkInfo or
+     *         contextInfo
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws PermissionDeniedException authorization failure
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public CheckInfo createCheck(@WebParam(name = "checkTypeKey") String checkTypeKey, @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public CheckInfo createCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;;
 
     /** 
      * Updates an existing Check.
      *
-     * @param checkId the Id of Check to be updated
+     * @param checkKey the Id of Check to be updated
      * @param checkInfo the details of updates to Check
      *        being updated
      * @param contextInfo Context information containing the
@@ -641,38 +639,37 @@ public interface ProcessService {
      * @return the details of Check just updated
      * @throws DataValidationErrorException One or more values invalid 
      *         for this operation
-     * @throws DoesNotExistException checkId not found
-     * @throws InvalidParameterException checkInfo or contextInfo is
-     *         not valid
-     * @throws MissingParameterException checkId, checkInfo, or
-     *         contextInfo is missing or null
+     * @throws DoesNotExistException checkKey not found
+     * @throws InvalidParameterException invalid checkKey,
+     *         checkInfo, or contextInfo
+     * @throws MissingParameterException missing checkKey,
+     *         checkInfo, or contextInfo
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws PermissionDeniedException authorization failure
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      * @throws VersionMismatchException The action was attempted on an out 
      *         of date version.
      */
-    public CheckInfo updateCheck(@WebParam(name = "checkId") String checkId, @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public CheckInfo updateCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /** 
      * Deletes an existing Check.
      *
-     * @param checkId the Id of the Check to be deleted
+     * @param checkKey the Id of the Check to be deleted
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
      * @return status of the operation (success, failed)
-     * @throws DependentObjectsExistException Instructions related to
-     *         this Check
-     * @throws DoesNotExistException checkIs not found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException checkId or contextInfo is
-     *         missing or null
+     * @throws DoesNotExistException checkKey not found
+     * @throws InvalidParameterException invalid checkKey or
+     *         contextInfo
+     * @throws MissingParameterException missing checkKey or
+     *         contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteCheck(@WebParam(name = "checkId") String checkId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves an Instruction.
@@ -751,36 +748,39 @@ public interface ProcessService {
      * Retrieves a list of Instructions relating to the given
      * Check.
      *
-     * @param checkId a unique identfiier for a Check
+     * @param checkKey a unique identfiier for a Check
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of Instructions
-     * @throws InvalidParameterException contextInfo is not valie
-     * @throws MissingParameterException checkId or contextInfo is
-     *         misisng or null
+     * @throws InvalidParameterException invalid checkKey or 
+     *         contextInfo
+     * @throws MissingParameterException missing checkKey or
+     *         contextInfo
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<InstructionInfo> getInstructionsByCheck(@WebParam(name = "checkId") String checkId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<InstructionInfo> getInstructionsByCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Instructions relating to the given
      * Process and Check.
      *
      * @param processKey a unique identfiier for a Process
-     * @param checkId a unique identfiier for a Check
+     * @param checkKey a unique identfiier for a Check
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of Instructions
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException processKey, checkId, or
-     *         contextInfo is missing or null
+     * @throws DoesNotExistException checkKey not found
+     * @throws InvalidParameterException invalid processKey, checkKey,
+     *         or contextInfo
+     * @throws MissingParameterException missing processKey, checkKey,
+     *         or contextInfo
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occuured
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<InstructionInfo> getInstructionsByProcessAndCheck(@WebParam(name = "processKey") String processKey, @WebParam(name = "checkId") String checkId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<InstructionInfo> getInstructionsByProcessAndCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Instructions based on the criteria and returns a list of
@@ -819,61 +819,59 @@ public interface ProcessService {
      * validationType, this validation could be limited to tests on
      * just the current object and its directly contained sub-objects
      * or expanded to perform all tests related to this object. If an
-     * identifier is present for the Instruction and a record is found
-     * for that identifier, the validation instructions if the
+     * identifier is present for the Instruction and a record is
+     * found for that identifier, the validation instructions if the
      * Instruction can be shifted to the new values. If a record
      * cannot be found for the identifier, it is assumed that the
-     * record does not exist and as such, the instructions performed
-     * will be much shallower, typically mimicking those performed by
-     * setting the validationType to the current object. This is a
-     * slightly different pattern from the standard validation as the
-     * caller provides the identifier in the create statement instead
-     * of the server assigning an identifier.
+     * record does not exist and as such, the instructions performed will be
+     * much shallower, typically mimicking those performed by setting
+     * the validationType to the current object. This is a slightly
+     * different pattern from the standard validation as the caller
+     * provides the identifier in the create statement instead of the
+     * server assigning an identifier.
      *
      * @param validationTypeKey the identifier of the extent of validation
      * @param processKey the identifier of the related Process
-     * @param checkId the identifier of the related Check
-     * @param instructionTypeKey the identifier of an Instruction Type
+     * @param checkKey the identifier of the related Check
      * @param instructionInfo the Instruction information to be tested
-     * @param contextInfo information containing the
+     * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
      * @return Results from performing the validation
      * @throws DoesNotExistException validationTypeKey, processKey, or
-     *         checkId not found
-     * @throws InvalidParameterException instructionInfo or
-     *         contextInfo is invalid
+     *         checkKey not found
+     * @throws InvalidParameterException invalid validationTypeKey,
+     *         processKey, checkKey, instructionInfo, or contextInfo
      * @throws MissingParameterException missing validationTypeKey,
-     *         processKey, checkId, instructionTypeKey
-     *         instructionInfo, or contextInfo
+     *         processKey, checkKey, instructionInfo, or contextInfo
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occured
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateInstruction(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "processKey") String processKey, @WebParam(name = "checkId") String checkId, @WebParam(name = "instructionTypeKey") String instructionTypeKey, @WebParam(name = "instructionInfo") InstructionInfo instructionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateInstruction(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "processKey") String processKey, @WebParam(name = "checkKey") String checkKey, @WebParam(name = "instructionInfo") InstructionInfo instructionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a new Instruction.
      *
-     * @param processKey the identifier of the related Process
-     * @param checkId the identifier of the related Check
-     * @param instructionTypeKey the identifier of an Instruction Type
+     * @param instructionId the Id of Instruction to be created
      * @param instructionInfo the details of Instruction to be created
-     * @param contextInfo information containing the
+     * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
      * @return the Instruction just created
+     * @throws AlreadyExistsException the Instruction being
+     *         created already exists
      * @throws DataValidationErrorException one or more values invalid
      *         for this operation
-     * @throws InvalidParameterException instructionInfo or
-     *         contextInfo is invalid
-     * @throws MissingParameterException checkId, instructionInfo, or
-     *         contextInfo is missing or null
+     * @throws InvalidParameterException invalid processKey, checkKey,
+     *         instructionInfo, or contextInfo
+     * @throws MissingParameterException missing processKey, checkKey, 
+     *         instructionInfo, or contextInfo
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws PermissionDeniedException authorization failure
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public InstructionInfo createInstruction(@WebParam(name = "processKey") String processKey, @WebParam(name = "checkId") String checkId, @WebParam(name = "instructionTypeKey") String instructionTypeKey, @WebParam(name = "instructionInfo") InstructionInfo instructionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public InstructionInfo createInstruction(@WebParam(name = "processKey") String processKey, @WebParam(name = "checkKey") String checkKey, @WebParam(name = "instructionInfo") InstructionInfo instructionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing Instruction.

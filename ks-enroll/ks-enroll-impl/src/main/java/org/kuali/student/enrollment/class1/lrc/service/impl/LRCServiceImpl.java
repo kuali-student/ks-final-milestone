@@ -43,7 +43,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     public ResultValuesGroupInfo getResultValuesGroup(
             @WebParam(name = "resultValuesGroupId") String resultValuesGroupId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         ResultValuesGroupEntity entity = resultValuesGroupDao.find(resultValuesGroupId);
         if (entity != null) {
@@ -53,9 +53,9 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByIds(
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByKeys(
             @WebParam(name = "resultValuesGroupIds") List<String> resultValuesGroupIds,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ResultValuesGroupEntity> entities = resultValuesGroupDao.findByIds(resultValuesGroupIds);
         List<ResultValuesGroupInfo> resultValuesGroupInfos = new ArrayList<ResultValuesGroupInfo>();
@@ -67,24 +67,26 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public List<ResultValuesGroupInfo> getResultValuesGroupsByResultValue(
-            @WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context)
+            @WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 
     @Override
-    public List<String> getResultValuesGroupIdsByType(
+    public List<String> getResultValuesGroupKeysByType(
             @WebParam(name = "resultValuesGroupTypeKey") String resultValuesGroupTypeKey,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 
     @Override
     public ResultValuesGroupInfo createResultValuesGroup(
-            @WebParam(name = "resultGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo,
-            @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
+            String resultScaleKey,
+            String resultValuesGroupTypeKey,
+            ResultValuesGroupInfo gradeValuesGroupInfo,
+            ContextInfo contextInfo) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         ResultValuesGroupEntity entity = resultValuesGroupDao.find(gradeValuesGroupInfo.getKey());
@@ -114,7 +116,7 @@ public class LRCServiceImpl implements LRCService {
     public ResultValuesGroupInfo updateResultValuesGroup(
             @WebParam(name = "resultValuesGroupId") String resultValuesGroupId,
             @WebParam(name = "resultValuesGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo,
-            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
@@ -122,7 +124,7 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public StatusInfo deleteResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
@@ -131,14 +133,14 @@ public class LRCServiceImpl implements LRCService {
     public List<ValidationResultInfo> validateResultValuesGroup(
             @WebParam(name = "validationType") String validationType,
             @WebParam(name = "resultGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 
     @Override
     public ResultValueInfo getResultValue(@WebParam(name = "resultValueId") String resultValueId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         ResultValueEntity entity = resultValueDao.find(resultValueId);
         if (entity != null) {
@@ -148,8 +150,8 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    public List<ResultValueInfo> getResultValuesByIds(@WebParam(name = "resultValueIds") List<String> resultValueIds,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<ResultValueInfo> getResultValuesByKeys(@WebParam(name = "resultValueIds") List<String> resultValueIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ResultValueEntity> entities = resultValueDao.findByIds(resultValueIds);
         List<ResultValueInfo> infos = new ArrayList<ResultValueInfo>();
@@ -162,14 +164,14 @@ public class LRCServiceImpl implements LRCService {
     @Override
     public List<ResultValueInfo> getResultValuesForResultValuesGroup(
             @WebParam(name = "resultValuesGroupId") String resultValuesGroupId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 
     @Override
-    public ResultValueInfo createResultValue(@WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo,
-            @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
+    public ResultValueInfo createResultValue(String resultScaleKey, String resultValueTypeKey, ResultValueInfo resultValueInfo,
+            ContextInfo contextInfo) throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
@@ -178,7 +180,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     public ResultValueInfo updateResultValue(@WebParam(name = "resultValueId") String resultValueId,
             @WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo,
-            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
@@ -186,7 +188,7 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public StatusInfo deleteResultValue(@WebParam(name = "resultValueId") String resultValueId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
@@ -194,14 +196,14 @@ public class LRCServiceImpl implements LRCService {
     @Override
     public List<ValidationResultInfo> validateResultValue(@WebParam(name = "validationType") String validationType,
             @WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 
     @Override
     public ResultScaleInfo getResultScale(@WebParam(name = "resultScaleKey") String resultScaleKey,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         ResultScaleEntity entity = resultScaleDao.find(resultScaleKey);
         if (entity != null) {
@@ -212,16 +214,16 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public List<ResultValueInfo> getResultValuesForScale(@WebParam(name = "resultScaleKey") String resultScaleKey,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 
-    /*private StateEntity findState(String stateKey, ContextInfo context) throws InvalidParameterException,
+    /*private StateEntity findState(String stateKey, ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         StateEntity state = null;
         try {
-            StateInfo stInfo = stateService.getState(stateKey, context);
+            StateInfo stInfo = stateService.getState(stateKey, contextInfo);
             if (stInfo != null) {
                 state = new StateEntity(stInfo);
                 return state;
@@ -265,4 +267,178 @@ public class LRCServiceImpl implements LRCService {
         this.stateService = stateService;
     }
 
+    @Override
+    public ResultValuesGroupInfo getCreateFixedCreditResultValuesGroup(String creditValue,
+            String scaleKey,
+            ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ResultValuesGroupInfo getCreateMultipleCreditResultValuesGroup(List<String> creditValues,
+            String scaleKey,
+            ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ResultValuesGroupInfo getCreateRangeCreditResultValuesGroup(String creditValueMin,
+            String creditValueMax,
+            String creditValueIncrement,
+            String scaleKey,
+            ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ResultValueInfo getCreateResultValueForScale(String resultValue,
+            String scaleKey,
+            ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ResultValueInfo> getResultValuesForResultValuesGroups(List<String> resultValuesGroupKeys,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ResultScaleInfo createResultScale(String resultTypeKey, ResultScaleInfo resultScaleInfo,
+            ContextInfo contextInfo)
+            throws AlreadyExistsException,
+            DataValidationErrorException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public StatusInfo deleteResultScale(String resultScaleKey,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<String> getResultScaleKeysByType(String resultScaleTypeKey,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ResultScaleInfo> getResultScalesByKeys(List<String> resultScaleKeys,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScale(String resultScaleKey,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScaleType(String resultScaleTypeKey,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ResultScaleInfo updateResultScale(String resultScaleKey,
+            ResultScaleInfo resultScaleInfo,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            VersionMismatchException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateResultScale(String validationType,
+            ResultScaleInfo gradeScaleInfo,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ResultValueInfo getResultValueForScaleAndValue(String resultScaleKey,
+            String value,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<String> getResultValueKeysByType(String resultValueTypeKey,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    
+    
 }

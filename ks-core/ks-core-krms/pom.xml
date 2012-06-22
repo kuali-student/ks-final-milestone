@@ -36,7 +36,11 @@
 			<artifactId>rice-it-internal-tools</artifactId>
 			<version>${kuali.rice.version}</version>
 		</dependency>
-
+		<dependency>
+  			<artifactId>rice-it-krms</artifactId>
+		    <groupId>org.kuali.rice</groupId>
+    		<version>${kuali.rice.version}</version>
+		</dependency>
 		<!-- dependency>
 			<groupId>org.kuali.rice</groupId>
 			<version>${kuali.rice.version}</version>

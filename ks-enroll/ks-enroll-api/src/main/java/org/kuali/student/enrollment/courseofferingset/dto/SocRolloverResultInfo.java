@@ -31,23 +31,23 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SocRolloverResultInfo", propOrder = {"id",
-    "typeKey",
-    "stateKey",
-    "sourceSocId",
-    "targetSocId",
-    "targetTermId",
-    "optionKeys",
-    "itemsProcessed",
-    "itemsExpected",
-    "courseOfferingsCreated",
-    "courseOfferingsSkipped",
-    "activityOfferingsCreated",
-    "activityOfferingsSkipped",
-    "sourceTermId",
-    "message",
-    "meta",
-    "attributes",
-    "_futureElements"})
+        "typeKey",
+        "stateKey",
+        "sourceSocId",
+        "targetSocId",
+        "targetTermId",
+        "optionKeys",
+        "itemsProcessed",
+        "itemsExpected",
+        "courseOfferingsCreated",
+        "courseOfferingsSkipped",
+        "activityOfferingsCreated",
+        "activityOfferingsSkipped",
+        "sourceTermId",
+        "message",
+        "meta",
+        "attributes",
+        "_futureElements"})
 public class SocRolloverResultInfo
         extends IdNamelessEntityInfo
         implements SocRolloverResult {
@@ -86,7 +86,7 @@ public class SocRolloverResultInfo
     /**
      * Copies Soc rollover results
      *
-     * @param 
+     * @param
      */
     public SocRolloverResultInfo(SocRolloverResult orig) {
 
@@ -223,5 +223,5 @@ public class SocRolloverResultInfo
         this.sourceTermId = sourceTermId;
     }
 
-    
+
 }

@@ -48,8 +48,4 @@ public class TimeOfDayInfo implements TimeOfDay {
     public void setMilliSeconds(Long milliSeconds) {
         this.milliSeconds = milliSeconds;
     }
-
-    public boolean equals (TimeOfDay timeOfDay) {
-        return (this.milliSeconds.compareTo(timeOfDay.getMilliSeconds()) == 0);
-    }
 }

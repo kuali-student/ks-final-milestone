@@ -11,8 +11,8 @@
 		transaction-type="JTA">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>

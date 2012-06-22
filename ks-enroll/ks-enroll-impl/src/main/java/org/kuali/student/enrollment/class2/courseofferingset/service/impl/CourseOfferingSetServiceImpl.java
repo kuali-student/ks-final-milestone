@@ -111,9 +111,10 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         SocEntity entity = new SocEntity(info);
         entity.setId(info.getId());
         entity.setSocType(typeKey);
-        
-        entity.setEntityCreated(context);
-        
+        entity.setCreateId(context.getPrincipalId());
+        entity.setCreateTime(context.getCurrentDate());
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
         socDao.persist(entity);
         return entity.toDto();
     }
@@ -130,9 +131,10 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         SocRolloverResultEntity entity = new SocRolloverResultEntity(info);
         entity.setId(info.getId());
         entity.setSocRorType(typeKey);
-       
-        entity.setEntityCreated(context);
-        
+        entity.setCreateId(context.getPrincipalId());
+        entity.setCreateTime(context.getCurrentDate());
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
         socRorDao.persist(entity);
         return entity.toDto();
     }
@@ -149,9 +151,10 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         SocRolloverResultItemEntity entity = new SocRolloverResultItemEntity(info);
         entity.setId(info.getId());
         entity.setSocRorType(typeKey);
-       
-        entity.setEntityCreated(context);
-        
+        entity.setCreateId(context.getPrincipalId());
+        entity.setCreateTime(context.getCurrentDate());
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
         socRorItemDao.persist(entity);
         return entity.toDto();
     }
@@ -174,9 +177,10 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             SocRolloverResultItemEntity entity = new SocRolloverResultItemEntity(info);
             entity.setId(info.getId());
             entity.setSocRorType(typeKey);
-           
-            entity.setEntityCreated(context);
-            
+            entity.setCreateId(context.getPrincipalId());
+            entity.setCreateTime(context.getCurrentDate());
+            entity.setUpdateId(context.getPrincipalId());
+            entity.setUpdateTime(context.getCurrentDate());
             socRorItemDao.persist(entity);
         }
         return new Integer(count);
@@ -360,8 +364,8 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
                         failure++;
                     }
                 }
-                info.setItemsCreated(success);
-                info.setItemsSkipped(failure);
+                info.setCourseOfferingsCreated(success);
+                info.setCourseOfferingsSkipped(failure);
             }
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
@@ -575,9 +579,8 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new DoesNotExistException(id);
         }
         entity.fromDTO(info);
-       
-        entity.setEntityUpdated(context);
-        
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
         socDao.merge(entity);
         return entity.toDto();
     }
@@ -593,9 +596,8 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new DoesNotExistException(id);
         }
         entity.setItemsProcessed(itemsProcessed);
-       
-        entity.setEntityUpdated(context);
-        
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
         socRorDao.merge(entity);
         return entity.toDto();
     }
@@ -624,9 +626,8 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         }
         entity.setOptions(notDeletedOptions);
         entity.fromDTO(info);
-       
-        entity.setEntityUpdated(context);
-        
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
         socRorDao.merge(entity);
         return entity.toDto();
     }
@@ -642,9 +643,8 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new DoesNotExistException(id);
         }
         entity.fromDTO(info);
-       
-        entity.setEntityUpdated(context);
-        
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
         socRorItemDao.merge(entity);
         return entity.toDto();
     }

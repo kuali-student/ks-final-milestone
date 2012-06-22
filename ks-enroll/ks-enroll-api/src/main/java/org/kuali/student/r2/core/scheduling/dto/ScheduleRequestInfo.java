@@ -52,7 +52,6 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
     }
 
     public ScheduleRequestInfo(ScheduleRequest scheduleRequest) {
-        super (scheduleRequest);
         if (null != scheduleRequest) {
             this.refObjectId = scheduleRequest.getRefObjectId();
             this.refObjectTypeKey = scheduleRequest.getRefObjectTypeKey();

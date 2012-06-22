@@ -19,7 +19,7 @@
 <div class="body">
     <strong>Calendar Search</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Enrollment Home" url="${ConfigProperties.application.url}/kr-krad/launch?viewId=enrollmentHomeView&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Calendar Search" url="${ConfigProperties.application.url}/kr-krad/calendarSearch?viewId=calendarSearchView&methodToCall=start" /></li>
     </ul>
     <strong>Holiday Calendar</strong>
     <ul class="chan">

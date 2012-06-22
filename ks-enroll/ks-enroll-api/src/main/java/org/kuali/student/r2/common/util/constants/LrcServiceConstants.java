@@ -875,4 +875,20 @@ public class LrcServiceConstants {
 //    public static final String RESULT_VALUE_CREDIT_TYPE = "kuali.lrc.type.credit";
     // result value type
     public static final String RESULT_VALUE_TYPE_KEY_VALUE = "kuali.result.value.type.value";
+    
+    // scale states
+    public static final String RESULT_SCALE_STATE_DRAFT = "kuali.result.scale.state.draft";
+    public static final String RESULT_SCALE_STATE_APPROVED = "kuali.result.scale.state.approved";
+    public static final String RESULT_SCALE_STATE_RETIRED = "kuali.result.scale.state.retired";
+    
+    // value states
+    public static final String RESULT_VALUE_STATE_DRAFT = "kuali.result.value.state.draft";
+    public static final String RESULT_VALUE_STATE_APPROVED = "kuali.result.value.state.approved";
+    public static final String RESULT_VALUE_STATE_RETIRED = "kuali.result.value.state.retired";
+    
+    
+    // values groups
+    public static final String RESULT_GROUPS_STATE_DRAFT = "kuali.result.values.group.state.draft";
+    public static final String RESULT_GROUPS_STATE_APPROVED = "kuali.result.values.group.state.approved";
+    public static final String RESULT_GROUPS_STATE_RETIRED = "kuali.result.values.group.state.retired";
 }

@@ -8,7 +8,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -62,7 +61,7 @@ public class TestProcessServiceImpl {
     }
 
     @Test
-    public void testCrudProcess() throws DependentObjectsExistException, InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, AlreadyExistsException, ReadOnlyException, VersionMismatchException {
+    public void testCrudProcess() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, AlreadyExistsException, ReadOnlyException, VersionMismatchException {
 
         // Read
         ProcessInfo existingProcess = processService.getProcess("kuali.process.registration.basic.eligibility", context);
@@ -75,8 +74,9 @@ public class TestProcessServiceImpl {
         // Create
         ProcessInfo process = new ProcessInfo();
         process.setOwnerOrgId("Owner1");
+        process.setTypeKey(ProcessServiceConstants.PROCESS_TYPE_KEY);
         process.setStateKey(ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY);
-        processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
+        processService.createProcess(processId, process, context);
         process = processService.getProcess(processId, context);
         assertNotNull(process);
         assertEquals("Owner1", process.getOwnerOrgId());
@@ -105,7 +105,7 @@ public class TestProcessServiceImpl {
     }
 
     @Test
-    public void testCrudCheck() throws DependentObjectsExistException, InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, AlreadyExistsException, ReadOnlyException, VersionMismatchException {
+    public void testCrudCheck() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, AlreadyExistsException, ReadOnlyException, VersionMismatchException {
 
         // Read
         CheckInfo existingCheck = processService.getCheck("kuali.check.is.alive", context);
@@ -117,6 +117,7 @@ public class TestProcessServiceImpl {
         assertNotNull(existingCheck.getTypeKey());
         assertNotNull(existingCheck.getStateKey());
 
+        String checkKey = "newCheck";
 
         // Create
         CheckInfo check = new CheckInfo();
@@ -124,9 +125,10 @@ public class TestProcessServiceImpl {
         check.setIssueId("Hold-Issue-2");
         check.setMilestoneTypeKey("milestoneTypeKey-1");
         check.setProcessKey("kuali.process.registration.basic.eligibility");
+        check.setTypeKey(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY);
         check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ENABLED);
-        CheckInfo checkR = processService.createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check, context);
-        check = processService.getCheck(checkR.getId(), context);
+        processService.createCheck(checkKey, check, context);
+        check = processService.getCheck(checkKey, context);
         assertNotNull(check);
         assertEquals("AgendaId-1", check.getAgendaId());
         assertEquals("Hold-Issue-2", check.getIssueId());
@@ -142,8 +144,8 @@ public class TestProcessServiceImpl {
         check.setAgendaId("AgendaId-2");
         check.setTypeKey(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY);
         check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_INACTIVE);
-        processService.updateCheck(check.getId(), check, context);
-        check = processService.getCheck(check.getId(), context);
+        processService.updateCheck(check.getKey(), check, context);
+        check = processService.getCheck(checkKey, context);
         assertNotNull(check);
         assertEquals("AgendaId-2", check.getAgendaId());
         assertEquals("Hold-Issue-1", check.getIssueId());
@@ -153,9 +155,9 @@ public class TestProcessServiceImpl {
         assertEquals("kuali.process.check.lifecycle", check.getStateKey());
 
         // Delete
-        processService.deleteCheck(check.getId(), context);
+        processService.deleteCheck(checkKey, context);
         try {
-            processService.getCheck(check.getId(), context);
+            processService.getCheck(checkKey, context);
             fail("Check not deleted properly.");
         } catch (DoesNotExistException e) {
             // expected, do nothing
@@ -206,7 +208,8 @@ public class TestProcessServiceImpl {
         instruction.setPosition(5);
         instruction.setProcessKey("kuali.process.registration.eligibility.for.term");
         instruction.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
-        instruction = processService.createInstruction(instruction.getProcessKey(), instruction.getCheckKey(), ProcessServiceConstants.INSTRUCTION_TYPE_KEY, instruction, context);
+        instruction.setTypeKey(ProcessServiceConstants.INSTRUCTION_TYPE_KEY);
+        instruction = processService.createInstruction(instruction.getProcessKey(), instruction.getCheckKey(), instruction, context);
         String instructionId = instruction.getId();
         instruction = processService.getInstruction(instructionId, context);
         assertNotNull(instruction.getAppliedAtpTypeKeys());

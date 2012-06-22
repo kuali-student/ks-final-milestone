@@ -39,10 +39,10 @@
     <bean id="CourseOfferingEdit-MaintenanceView" parent="KSMaintenanceView">
         <property name="headerText" value="Course Offering Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
-        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingMaintainableImpl" />
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
+                <!-- bean parent="Uif-HorizontalBoxSection">
                     <property name="headerText" value="Edit Course Offering"/>
                     <property name="items">
                         <list>
@@ -50,36 +50,102 @@
                             <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingTitle" />
                             <bean parent="Uif-DataField" p:propertyName="coInfo.termId" />
                             <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode" />
-                            <!--bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode"/-->
-
-
-                            <!-- bean parent="Uif-InputField" p:propertyName="coInfo.gradingOptionIds" p:label="Checkboxes 3" p:width="auto"
-                                  p:instructionalText="Disabled CheckboxGroupControl" p:defaultValue="2">
-                                <property name="control">
-                                    <bean parent="Uif-VerticalCheckboxesControl" p:disabled="true">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Option 1"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Option 2"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Option 3"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean -->
                         </list>
                     </property>
-                </bean>
+                </bean-->
 
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Course Offering Information">
+                    <property name="items">
+                        <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:width="100pt">
+                            <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode" p:label="Course Offering Code" p:fieldLabel.renderColon="false" p:labelPlacement="TOP" />
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.courseNumberSuffix" p:label="Change Suffix" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="5" />
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl"/>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradeTypeKeyValues" p:addBlankOption="false" />
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" p:addBlankOption="false" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.studentRegistrationOptionIds" p:label="Student Registration Options" p:labelPlacement="TOP" p:render="@{!#dp.studentRegOptions.empty}">
+                                 <property name="control">
+                                    <bean parent="Uif-VerticalCheckboxesControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.StudentRegistrationOptionsKeyValues" p:addBlankOption="false" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField" p:label="Student Registration Options" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
+                    <property name="items">
+                        <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.finalExamType" p:label="Final Exams" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamOptionsKeyValues" p:addBlankOption="false" />
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Waitlists">
+                    <property name="items">
+                        <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="coInfo.hasWaitlist" p:label="Waitlists" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl">
+                                     <property name="checkboxLabel" value="This course offering has a waitlist"/>
+
+
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="Waitlist Type" p:propertyName="coInfo.waitlistTypeKey" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" />
                                 </property>
                             </bean>
                         </list>
@@ -132,6 +198,58 @@
                     </property>
                 </bean>
 
+                <bean id="KS-CourseOfferingEdit-OrganizationSection" parent="Uif-TableCollectionSection"
+                      p:layoutManager.style="width: 100%; display:block;"
+                      p:layoutManager.numberOfColumns="1"
+                      p:headerText="ADMINISTERING ORGANIZATIONS"
+                      p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper"
+                      p:propertyName="organizationNames"
+                      p:layoutManager.renderSequenceField="false"
+                      p:layoutManager.generateAutoSequence="false"
+                      p:layoutManager.separateAddLine="false"
+                      p:layoutManager.richTable.disableTableSort="true"
+                      p:addLineLabel.labelText=""
+                      p:layoutManager.richTable.render="false"
+                      p:layoutManager.applyAlternatingRowStyles="false">
+
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField"  p:label="Organization ID"  p:propertyName="id" p:required="true"
+                                  p:style="font-weight:bold;white-space:nowrap;">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="16" p:disabled="true" />
+                                </property>
+                                <!--<property name="quickfinder.render" value="true"/>-->
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
+
+                                <property name="quickfinder.fieldConversions">
+                                    <map>
+                                        <entry key="id" value="id" />
+                                        <entry key="longName" value="organizationName"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="organizationName" p:label="Organization Name"/>
+
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText=""/>
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl">
+                                        <property name="checkboxLabel" value="This is an Honors Course"/>
+                                    </bean>
+                                </property>
+
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="footer.items">
@@ -139,12 +257,11 @@
         </property>
     </bean>
 
-
     <bean id="CourseOfferingEditMaintenanceDocument" parent="CourseOfferingEditMaintenanceDocument-parentBean"/>
 
     <bean id="CourseOfferingEditMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
-        <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl"/>
+        <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingMaintainableImpl"/>
         <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.CourseOfferingEditRule" />
         <property name="documentTypeName" value="CourseOfferingEditMaintenanceDocument"/>
         <property name="lockingKeys">
@@ -154,11 +271,9 @@
         </property>
     </bean>
 
-
     <util:list id="coInstructors-options">
         <bean parent="Uif-KeyLabelPair" p:key="" p:value="Select One..."/>
         <bean parent="Uif-KeyLabelPair" p:key="kuali.lpr.type.instructor.main" p:value="Instructor"/>
         <bean parent="Uif-KeyLabelPair" p:key="kuali.lpr.type.instructor.assistant" p:value="Teaching Assistant"/>
     </util:list>
-
 </beans>

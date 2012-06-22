@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExemptionRequestInfo", propOrder = {"id", "typeKey",
-    "stateKey", "name", "descr", "processId", "checkKey",
+    "stateKey", "name", "descr", "processKey", "checkKey",
     "personId",
     "requesterId", "requestDate",
     "approvedByPersonId", "approvedDate",
@@ -41,7 +41,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private String processId;
+    private String processKey;
     @XmlElement
     private String checkKey;
     @XmlElement
@@ -76,7 +76,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     public ExemptionRequestInfo(ExemptionRequest request) {
         super(request);
         if (null != request) {
-            this.processId = request.getProcessId();
+            this.processKey = request.getProcessKey();
             this.checkKey = request.getCheckKey();
             this.personId = request.getPersonId();
             this.requesterId = request.getRequesterId();
@@ -101,12 +101,12 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     }
 
     @Override
-    public String getProcessId() {
-        return processId;
+    public String getProcessKey() {
+        return processKey;
     }
 
-    public void setProcessId(String processId) {
-        this.processId = processId;
+    public void setProcessKey(String processKey) {
+        this.processKey = processKey;
     }
 
     @Override

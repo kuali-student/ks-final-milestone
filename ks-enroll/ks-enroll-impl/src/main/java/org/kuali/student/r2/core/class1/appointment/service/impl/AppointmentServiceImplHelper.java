@@ -78,9 +78,10 @@ public class AppointmentServiceImplHelper {
     */
     public AppointmentInfo createAppointmentNoTransact(String personId, String appointmentSlotId, String appointmentTypeKey, AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentEntity  appointmentEntity = new AppointmentEntity(appointmentInfo);
-      
-        appointmentEntity.setEntityCreated(contextInfo);
-        
+        appointmentEntity.setCreateId(contextInfo.getPrincipalId());
+        appointmentEntity.setCreateTime(contextInfo.getCurrentDate());
+        appointmentEntity.setUpdateId(contextInfo.getPrincipalId());
+        appointmentEntity.setUpdateTime(contextInfo.getCurrentDate());
         // TODO: Determine if there should be a check between apptType/slotId and apptInfo counterparts
         // Need to manually set the entity since appointmentInfo only has an id for its corresponding AppointmentSlot
         AppointmentSlotEntity slotEntity = appointmentSlotDao.find(appointmentSlotId);
@@ -234,9 +235,10 @@ public class AppointmentServiceImplHelper {
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentSlotEntity appointmentSlotEntity = new AppointmentSlotEntity(appointmentSlotTypeKey, appointmentSlotInfo);
-        
-        appointmentSlotEntity.setEntityCreated(contextInfo);
-        
+        appointmentSlotEntity.setCreateId(contextInfo.getPrincipalId());
+        appointmentSlotEntity.setCreateTime(contextInfo.getCurrentDate());
+        appointmentSlotEntity.setUpdateId(contextInfo.getPrincipalId());
+        appointmentSlotEntity.setUpdateTime(contextInfo.getCurrentDate());
         // Need to manually set the entity since appointmentSlotInfo only has an id for its corresponding AppointmentWindow
         AppointmentWindowEntity windowEntity = appointmentWindowDao.find(appointmentWindowId);
         if (null == windowEntity) {

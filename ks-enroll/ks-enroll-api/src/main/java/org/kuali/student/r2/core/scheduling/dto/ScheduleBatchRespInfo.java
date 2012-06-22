@@ -53,7 +53,6 @@ public class ScheduleBatchRespInfo extends IdNamelessEntityInfo implements Sched
     }
 
     public ScheduleBatchRespInfo(ScheduleBatchResp scheduleBatchResp) {
-        super (scheduleBatchResp);
         if (null != scheduleBatchResp) {
             this.submittedDate = scheduleBatchResp.getSubmittedDate();
             this.statusMessage = scheduleBatchResp.getStatusMessage();

@@ -3,14 +3,14 @@
     border-bottom:  1px solid #d3d3d3;
 }
 
-.ks-termDates-table{
+.ks-enrollment-home > .uif-header { border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px; }
+.ks-enrollment-home-group { margin-bottom:5px; margin-top:15px; }
 
-}
+.ks-termDates-table{}
 
 .ks-termDates-table tr{
     border-top:  1px solid #d3d3d3;
     border-bottom:  1px solid #d3d3d3;
-
 }
 
 .ks-termDates-table th{

@@ -2,11 +2,11 @@ package org.kuali.student.r2.common.util;
 
 import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.util.Arrays;
@@ -27,7 +27,7 @@ public class KSKeyGenerator  {
 		
 		String [] namesArrayAtpType = new String[]{AcademicCalendarService.class.getName(), AtpService.class.getName()};
 		String[] namesArrayLuiType = new String[] {LuiService.class.getName()};
-		String[] namesArrayLPRType = new String[] {LprService.class.getName()};
+		String[] namesArrayLPRType = new String[] {LuiPersonRelationService.class.getName()};
 		
 		if(Arrays.asList(namesArrayAtpType).contains(serviceName)){
 			
@@ -36,7 +36,7 @@ public class KSKeyGenerator  {
 		}else if(Arrays.asList( namesArrayLuiType ).contains(serviceName)){
 			key = LuiServiceConstants.LUI_KEY_PREFIX;
 		}else if(Arrays.asList( namesArrayLPRType ).contains(serviceName)){
-			key = LprServiceConstants.LPR_KEY_PREFIX;
+			key = LuiPersonRelationServiceConstants.LPR_KEY_PREFIX; 
 		}
 		
 		if(key!=null){

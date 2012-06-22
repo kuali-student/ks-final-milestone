@@ -24,33 +24,30 @@ package org.kuali.student.r2.lum.lrc.infc;
 public interface ResultValueRange {
 
     /**
-     * Min Result Value string Lower end of the value range. Typically
-     * corresponds with the short coded form of the result(ex. "1.0",
-     * "25.0" etc.) Should the data resultTypeKey of values (min/max)
-     * be numbers and not Strings in the value range?
+     * Minimum Result Value allowed for this range.
+     *
      * 
      * @name Min Value
      * @return a floating point decimal as a string
+     * @required
      */
     public String getMinValue();
 
     /**
-     * Max Result Value string Upper end of the value range. Typically
-     * corresponds with the short coded form of the result(ex. "3.0",
-     * "100.0" etc.). Upper end can be left empty to indicate
-     * unbounded upper end.
+     * Maximum Result Value allowed for this range.
      * 
      * @name Max Value
      * @return a floating point decimal as a string
+     * @required
      */
     public String getMaxValue();
 
     /**
-     * Increment number Legal increments in the result values. This
-     * has to be a decimal e.g 0.5)
-     * 
+     * Legal increment of the value within the range
+     *  
      * @name Increment
      * @return a floating point decimal as a string
+     * @required
      */
     public String getIncrement();
 }

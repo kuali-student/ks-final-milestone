@@ -1,56 +1,30 @@
-/*
- * Copyright 2011 The Kuali Foundation 
- *
- * Licensed under the Educational Community License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
-
 package org.kuali.student.enrollment.courseregistration.infc;
 
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**
- * An ActivityRegistration represents a single ActivityOffering within
- * the CourseOffering for which the student
- * registered. ActivityRegistrations are created as a result of a
- * student registration (submisison of a RegistrationRequest) to a
- * RegistrationGroup.
- *
- * An ActivityRegistration will be generated for every
- * ActivityOffering defined in the RegistrationGroup.
+ * An ActivityRegistration represents the activities in the course the student
+ * has registered for. For a given course there will be multiple activity
+ * offerings. For each course registration there will be at least one activity
+ * registration.
  * 
- * @author Kuali Student Team
+ * @author Kuali Student Team (sambit)
  */
-
-public interface ActivityRegistration 
-    extends Relationship {
+public interface ActivityRegistration extends Relationship {
 
     /**
-     * The person Id for this registration.
+     * Returns the activity offering id for the activity registration.
      * 
-     * @name Student Id
-     * @readOnly
-     * @required
-     * @impl Lpr.personId
+     * @return
+     */
+    public ActivityOffering getActivityOffering();
+
+    /**
+     * Student id for this Activity Registration.
+     * 
+     * @return
      */
     public String getStudentId();
 
-    /**
-     * The ActivityOffering Id.
-     * 
-     * @name ActivityOffering Id
-     * @readOnly
-     * @required
-     * @impl Lpr.luiId
-     */
-    public String getActivityOfferingId();
 }

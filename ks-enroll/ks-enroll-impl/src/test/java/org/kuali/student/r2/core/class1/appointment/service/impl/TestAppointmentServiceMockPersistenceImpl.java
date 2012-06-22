@@ -27,7 +27,8 @@ import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.junit.Before;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
-import org.kuali.student.enrollment.test.util.AttributeTester;
+import org.kuali.student.enrollment.class2.acal.service.impl.AttributeHelper;
+import org.kuali.student.enrollment.class2.acal.service.impl.AttributeTester;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.junit.Test;
@@ -94,8 +95,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
         orig.getSlotRule().setSlotDuration(getTimeAmount("hours", 1));
         orig.getSlotRule().setSlotStartInterval(getTimeAmount("minutes", 2));
         orig.getSlotRule().setWeekdays(Arrays.asList(1, 2, 3));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
         AppointmentWindowInfo info = appointmentService.createAppointmentWindow(orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -113,7 +114,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         assertEquals(orig.getMaxAppointmentsPerSlot(), info.getMaxAppointmentsPerSlot());
         assertEquals(orig.getPeriodMilestoneId(), info.getPeriodMilestoneId());
         this.compareSlotRules(orig.getSlotRule(), info.getSlotRule());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -132,7 +133,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         assertEquals(orig.getStartDate(), info.getStartDate());
         assertEquals(orig.getEndDate(), info.getEndDate());
         this.compareSlotRules(orig.getSlotRule(), info.getSlotRule());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -155,7 +156,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         orig.getSlotRule().setSlotDuration(getTimeAmount("eons", 2));
         orig.getSlotRule().setWeekdays(Arrays.asList(2, 3, 4));
         orig.getSlotRule().setSlotStartInterval(getTimeAmount("seconds", 3));
-        new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
+        new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
                 "value1Updated");
         info = this.appointmentService.updateAppointmentWindow(orig.getId(), orig,
                 callContext);
@@ -170,7 +171,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         assertEquals(orig.getStartDate(), info.getStartDate());
         assertEquals(orig.getEndDate(), info.getEndDate());
         this.compareSlotRules(orig.getSlotRule(), info.getSlotRule());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -191,7 +192,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         assertEquals(orig.getStartDate(), info.getStartDate());
         assertEquals(orig.getEndDate(), info.getEndDate());
         this.compareSlotRules(orig.getSlotRule(), info.getSlotRule());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -235,8 +236,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
         orig.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
         orig.setStartDate(new Date());
         orig.setEndDate(new Date(new Date().getTime() + 100000));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
         AppointmentSlotInfo info = appointmentService.createAppointmentSlot(orig.getAppointmentWindowId(),
                 orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
@@ -245,7 +246,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getStartDate(), info.getStartDate());
         assertEquals(orig.getEndDate(), info.getEndDate());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -259,7 +260,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getStartDate(), info.getStartDate());
         assertEquals(orig.getEndDate(), info.getEndDate());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -269,7 +270,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         orig.setStateKey(AppointmentServiceConstants.APPOINTMENT_SLOTS_STATE_ACTIVE_KEY);
         orig.setStartDate(new Date(orig.getStartDate().getTime() - 10000));
         orig.setEndDate(new Date(orig.getEndDate().getTime() + 10000));
-        new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
+        new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
                 "value1Updated");
         info = this.appointmentService.updateAppointmentSlot(orig.getId(), orig,
                 callContext);
@@ -279,7 +280,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getStartDate(), info.getStartDate());
         assertEquals(orig.getEndDate(), info.getEndDate());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -295,7 +296,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getStartDate(), info.getStartDate());
         assertEquals(orig.getEndDate(), info.getEndDate());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -376,8 +377,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
         orig.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
         orig.setEffectiveDate(new Date());
         orig.setExpirationDate(new Date(new Date().getTime() + 100000));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
-        orig.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
+        orig.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
         AppointmentInfo info = appointmentService.createAppointment(orig.getPersonId(), orig.getSlotId(), orig.getTypeKey(), orig,
                 callContext);
         assertNotNull(info);
@@ -387,7 +388,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getEffectiveDate(), info.getEffectiveDate());
         assertEquals(orig.getExpirationDate(), info.getExpirationDate());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -402,7 +403,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getEffectiveDate(), info.getEffectiveDate());
         assertEquals(orig.getExpirationDate(), info.getExpirationDate());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -412,7 +413,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         orig.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
         orig.setEffectiveDate(new Date(orig.getEffectiveDate().getTime() - 10000));
         orig.setExpirationDate(new Date(orig.getExpirationDate().getTime() + 10000));
-        new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
+        new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
                 "value1Updated");
         info = this.appointmentService.updateAppointment(orig.getId(), orig,
                 callContext);
@@ -423,7 +424,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getEffectiveDate(), info.getEffectiveDate());
         assertEquals(orig.getExpirationDate(), info.getExpirationDate());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -440,7 +441,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getEffectiveDate(), info.getEffectiveDate());
         assertEquals(orig.getExpirationDate(), info.getExpirationDate());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -499,14 +500,14 @@ public class TestAppointmentServiceMockPersistenceImpl {
         slot.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
         slot.setStartDate(new Date());
         slot.setEndDate(new Date(new Date().getTime() + 100000));
-        slot.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
-        slot.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+        slot.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
+        slot.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
         slot = appointmentService.createAppointmentSlot(slot.getAppointmentWindowId(), slot.getTypeKey(), slot, callContext);
 
         // test dependent objects exists exceptions (slot for window)
         StatusInfo status = null;
 //        try {
-//            status = appointmentService.deleteAppointmentWindowCascading(window.getId(), contextInfo);
+//            status = appointmentService.deleteAppointmentWindowCascading(window.getId(), callContext);
 //
 //        } catch (DependentObjectsExistException ex) {
 //            // expected
@@ -519,14 +520,14 @@ public class TestAppointmentServiceMockPersistenceImpl {
 //
 //        // test dependent objects exists exceptions appointment for slot
 //        try {
-//            status = appointmentService.deleteAppointmentSlot(slot.getId(), contextInfo);
+//            status = appointmentService.deleteAppointmentSlot(slot.getId(), callContext);
 //            fail("should have thrown DependentObjectsExistException");
 //        } catch (DependentObjectsExistException ex) {
 //            // expected
 //        }
 //        // test dependent objects exists exceptions appointment for slot in bulk delete method
 //        try {
-//            status = appointmentService.deleteAppointmentSlotsByWindow(window.getId(), contextInfo);
+//            status = appointmentService.deleteAppointmentSlotsByWindow(window.getId(), callContext);
 //            fail("should have thrown DependentObjectsExistException");
 //        } catch (DependentObjectsExistException ex) {
 //            // expected
@@ -584,8 +585,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
         appt.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
         appt.setEffectiveDate(new Date());
         appt.setExpirationDate(new Date(new Date().getTime() + 100000));
-        appt.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
-        appt.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+        appt.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
+        appt.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
         appt = appointmentService.createAppointment(appt.getPersonId(), appt.getSlotId(), appt.getTypeKey(), appt,
                 callContext);
         return appt;

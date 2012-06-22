@@ -1,6 +1,6 @@
 package org.kuali.student.r2.core.class1.process.model;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "KSEN_CHECK_ATTR")
-public class CheckAttributeEntity extends BaseAttributeEntityNew<CheckEntity> {
+public class CheckAttributeEntity extends BaseAttributeEntity<CheckEntity> {
 
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
@@ -22,9 +22,8 @@ public class CheckAttributeEntity extends BaseAttributeEntityNew<CheckEntity> {
         super(key, value);
     }
 
-    public CheckAttributeEntity(Attribute att, CheckEntity owner) {
+    public CheckAttributeEntity(Attribute att) {
         super(att);
-        setOwner(owner);
     }
 
     @Override

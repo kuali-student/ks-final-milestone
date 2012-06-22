@@ -57,17 +57,18 @@ public class ResultScaleInfo
 
     public ResultScaleInfo() {
         super();
-        resultValueRange = null;	
-        effectiveDate = null;
-        expirationDate = null;
     }
 
     public ResultScaleInfo(ResultScale resultScale) {
         super(resultScale);
         if (null != resultScale) {
             this.resultValueRange = new ResultValueRangeInfo(resultScale.getResultValueRange());
-            this.effectiveDate = new Date(resultScale.getEffectiveDate().getTime());
-            this.expirationDate = new Date(resultScale.getExpirationDate().getTime());
+            if (resultScale.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(resultScale.getEffectiveDate().getTime());
+            }
+            if (resultScale.getExpirationDate() != null) {
+                this.expirationDate = new Date(resultScale.getExpirationDate().getTime());
+            }
         }
     }
 

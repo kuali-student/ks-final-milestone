@@ -13,11 +13,13 @@ import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.registration.form.RegistrationForm;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 
 import java.util.List;
 
+//Needs to clean up the core slice codes
+@Deprecated
 public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
 
     public void checkRegElements(CollectionGroup collGroup, RegistrationForm form){
@@ -36,20 +38,18 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
             if(StringUtils.isNotBlank(id)){
 
                 for (CourseRegistrationInfo reg : regs) {
-                    /*
                     if (reg.getRegGroupRegistration().getRegistrationGroup().getId().equals(id)
-                            && reg.getRegGroupRegistration().getStateKey().equals(LprServiceConstants.REGISTERED_STATE_KEY)) {
+                            && reg.getRegGroupRegistration().getStateKey().equals(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY)) {
                         renderDropButton = true;
                         courseRegistered = true;
                         renderRegButtons = false;
                         break;
                     }
-                    */
                 }
 
-                if (form.getRegRequest() != null && form.getRegRequest().getRegistrationRequestItems() != null) {
-                    for (RegistrationRequestItemInfo regRequestItemInfo : form.getRegRequest().getRegistrationRequestItems()) {
-                        String regGroupId = regRequestItemInfo.getNewRegistrationGroupId();
+                if (form.getRegRequest() != null && form.getRegRequest().getRegRequestItems() != null) {
+                    for (RegRequestItemInfo regRequestItemInfo : form.getRegRequest().getRegRequestItems()) {
+                        String regGroupId = regRequestItemInfo.getNewRegGroupId();
                         if (StringUtils.isNotBlank(regGroupId)) {
                             // find the regGroupWrapper that matches the id from the supplemental list
                             //RegistrationGroupWrapper regGroupWrapper = form.getRegistrationGroupWrappersById().get(regGroupId);
@@ -106,8 +106,8 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
 
     public void checkSubmitItemRender(Component component, RegistrationForm form){
         boolean render = false;
-        if(form.getRegRequest() != null && form.getRegRequest().getRegistrationRequestItems() != null
-                && !form.getRegRequest().getRegistrationRequestItems().isEmpty()){
+        if(form.getRegRequest() != null && form.getRegRequest().getRegRequestItems() != null
+                && !form.getRegRequest().getRegRequestItems().isEmpty()){
             render = true;
         }
         component.setRender(render);
@@ -115,8 +115,8 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
 
     public void checkRenderCartEmpty(Component component, RegistrationForm form){
         boolean render = true;
-        if(form.getRegRequest() != null && form.getRegRequest().getRegistrationRequestItems() != null
-                && !form.getRegRequest().getRegistrationRequestItems().isEmpty()){
+        if(form.getRegRequest() != null && form.getRegRequest().getRegRequestItems() != null
+                && !form.getRegRequest().getRegRequestItems().isEmpty()){
             render = false;
         }
         component.setRender(render);

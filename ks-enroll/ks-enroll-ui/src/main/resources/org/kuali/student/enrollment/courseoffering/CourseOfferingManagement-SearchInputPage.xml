@@ -31,42 +31,44 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HorizontalFieldGroup">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true">
-                                            <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2009" p:minLength="7" p:maxLength="7"/>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Set" p:methodToCall="searchForTerm"/>
-                                    </list>
+                            <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-CriteriaSection" parent="Uif-HorizontalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="5" p:watermarkText="20132" p:minLength="5" p:maxLength="5"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-HorizontalFieldGroup" p:render="@{haveValidTerm}">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-InputField" p:propertyName="radioSelection" p:label="" p:width="auto" p:required="true">
-                                            <property name="control">
-                                                <bean parent="Uif-VerticalRadioControl">
-                                                    <property name="options">
-                                                        <list>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="courseOfferingCode" p:value="Course ID"/>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="subjectCode" p:value="Subject Code"/>
-                                                        </list>
-                                                    </property>
-                                                </bean>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="inputCode" p:label="" p:required="true">
-                                            <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="10"/>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Show" p:methodToCall="show"/>
-                                    </list>
+                            <bean parent="Uif-InputField" p:propertyName="radioSelection" p:label="" p:width="auto" p:required="true" p:defaultValue="courseOfferingCode">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="courseOfferingCode" p:value="Course Offering Code"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="subjectCode" p:value="Subject Code"/>
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
+                            <bean parent="Uif-InputField" p:propertyName="inputCode" p:label="" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Show" p:methodToCall="show"/>
                         </list>
                     </property>
                 </bean>

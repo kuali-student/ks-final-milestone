@@ -37,8 +37,9 @@ import org.w3c.dom.Element;
 @XmlType(name = "ActivityOfferingInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
                 "formatOfferingId", "formatOfferingName",
-                "activityId", "termId", "termCode", "activityCode", "scheduleId",
-                "isHonorsOffering", "gradingOptionKeys", "instructors",
+                "activityId", "termId", "termCode", "activityCode", 
+                "activityNumberSuffix", "scheduleId",
+                "isHonorsOffering", "instructors",
                 "weeklyInclassContactHours", "weeklyOutofclassContactHours", 
                 "weeklyTotalContactHours",  "isEvaluated",
                 "maximumEnrollment", "minimumEnrollment","isMaxEnrollmentEstimate",
@@ -70,16 +71,16 @@ public class ActivityOfferingInfo
 
     @XmlElement
     private String activityCode;   
+
+    @XmlElement
+    private String activityNumberSuffix;   
     
     @XmlElement
     private String scheduleId;
 
     @XmlElement
     private Boolean isHonorsOffering;
-    
-    @XmlElement
-    private List<String> gradingOptionKeys;
-       
+
     @XmlElement
     private List<OfferingInstructorInfo> instructors;
 
@@ -153,13 +154,10 @@ public class ActivityOfferingInfo
         this.termId = offering.getTermId();
         this.scheduleId = offering.getScheduleId();
         this.activityCode = offering.getActivityCode();
+        this.activityNumberSuffix = offering.getActivityNumberSuffix();
 
         this.isHonorsOffering = offering.getIsHonorsOffering();
         this.instructors = new ArrayList<OfferingInstructorInfo>();
-
-        if (offering.getGradingOptionKeys() != null) {
-            this.gradingOptionKeys = new ArrayList<String>(offering.getGradingOptionKeys());
-        }
 
         for (OfferingInstructor instructor : offering.getInstructors()) {
             this.instructors.add(new OfferingInstructorInfo(instructor));
@@ -232,7 +230,6 @@ public class ActivityOfferingInfo
         this.termCode = termCode;
     }
 
-
     @Override
     public String getActivityCode() {
         return activityCode;
@@ -240,6 +237,15 @@ public class ActivityOfferingInfo
 
     public void setActivityCode(String activityCode) {
         this.activityCode = activityCode;
+    }
+
+    @Override
+    public String getActivityNumberSuffix() {
+        return activityNumberSuffix;
+    }
+
+    public void setActivityNumberSuffix(String activityNumberSuffix) {
+        this.activityNumberSuffix = activityNumberSuffix;
     }
 
     @Override
@@ -258,19 +264,6 @@ public class ActivityOfferingInfo
 
     public void setIsHonorsOffering(Boolean isHonorsOffering) {
         this.isHonorsOffering = isHonorsOffering;
-    }
-
-    @Override
-    public List<String> getGradingOptionKeys() {
-        if (gradingOptionKeys == null) {
-            gradingOptionKeys = new ArrayList<String>();
-        }
-
-        return gradingOptionKeys;
-    }
-
-    public void setGradingOptionKeys(List<String> gradingOptionKeys) {
-        this.gradingOptionKeys = gradingOptionKeys;
     }
 
     @Override
