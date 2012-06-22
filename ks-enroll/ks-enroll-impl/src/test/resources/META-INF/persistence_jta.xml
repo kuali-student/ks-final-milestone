@@ -79,25 +79,22 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgAttributeEntity</class>
 -->
 
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransItemAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntryEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntryAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryAttributeEntity</class>
 
         <class>org.kuali.student.r2.core.process.model.CheckAttributeEntity</class>
         <class>org.kuali.student.r2.core.process.model.CheckEntity</class>
-        <class>org.kuali.student.r2.core.process.model.CheckRichTextEntity</class>
         <class>org.kuali.student.r2.core.process.model.InstructionAttributeEntity</class>
         <class>org.kuali.student.r2.core.process.model.InstructionEntity</class>
-        <class>org.kuali.student.r2.core.process.model.InstructionMessageEntity</class>
         <class>org.kuali.student.r2.core.process.model.ProcessAttributeEntity</class>
         <class>org.kuali.student.r2.core.process.model.ProcessEntity</class>
-        <class>org.kuali.student.r2.core.process.model.ProcessRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.LrrAttributeEntity</class>

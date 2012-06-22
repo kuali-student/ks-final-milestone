@@ -9,17 +9,17 @@
 	<!-- JPA test "unit" -->
     <persistence-unit name="co" transaction-type="JTA">
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntryEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntryAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRichTextEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransItemAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionAttributeEntity</class>
 
         <class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
