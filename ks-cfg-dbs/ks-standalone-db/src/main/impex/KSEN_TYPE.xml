@@ -341,6 +341,66 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/common/AttributeInfo"
         TYPE_KEY="kuali.attribute.where.fees.attached.flag" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="An course offered for academic credit"
+        DESCR_PLAIN="An course offered for academic credit"
+        NAME="Credit Course"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/course/CourseInfo"
+        TYPE_KEY="kuali.lu.type.CreditCourse" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="A shell for course formats"
+        DESCR_PLAIN="A shell for course formats"
+        NAME="Credit Course Format"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/course/FormatInfo"
+        TYPE_KEY="kuali.lu.type.CreditCourseFormatShell" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="The exchange of opinions or questions on course material, directed by the instructor."
+        DESCR_PLAIN="The exchange of opinions or questions on course material, directed by the instructor."
+        NAME="Directed"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lu.type.activity.Directed" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="The exchange of opinions or questions on course material."
+        DESCR_PLAIN="The exchange of opinions or questions on course material."
+        NAME="Discussion"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lu.type.activity.Discussion" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Students doing homework, problem sets and reading assignments and writing"
+        DESCR_PLAIN="Students doing homework, problem sets and reading assignments and writing"
+        NAME="Homework"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lu.type.activity.Homework" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Student working on projects in a defined laboratory space. Instructors are on-hand for students to ask questions and guidance."
+        DESCR_PLAIN="Student working on projects in a defined laboratory space. Instructors are on-hand for students to ask questions and guidance."
+        NAME="Lab"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lu.type.activity.Lab" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Instructor presentation of course materials."
+        DESCR_PLAIN="Instructor presentation of course materials."
+        NAME="Lecture"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lu.type.activity.Lecture" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Instructor or assistant walking through a learning practice."
+        DESCR_PLAIN="Instructor or assistant walking through a learning practice."
+        NAME="Tutorial"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lu.type.activity.Tutorial" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Web-based or technologically-mediated activities replacing standard discussion sections"
+        DESCR_PLAIN="Web-based or technologically-mediated activities replacing standard discussion sections"
+        NAME="Web Discuss"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lu.type.activity.WebDiscussion" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Instructor presentation of course materials via the web"
+        DESCR_PLAIN="Instructor presentation of course materials via the web"
+        NAME="Web Lecture"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lu.type.activity.WebLecture" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Student works as a clerk for a working professional."
         DESCR_PLAIN="Student works as a clerk for a working professional."
         NAME="Clerkship"
@@ -389,11 +449,29 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lu.type.activity.studio" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="All of these types of activities: Lecture, Lab, Discussion, etc."
+        DESCR_PLAIN="All of these types of activities: Lecture, Lab, Discussion, etc."
+        NAME="All Activity Types"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/course/ActivityInfo"
+        TYPE_KEY="kuali.lu.type.grouping.activity" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Physical activity and participation are incorporated into the   class."
         DESCR_PLAIN="Physical activity and participation are incorporated into the   class."
         NAME="Activity"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.activity" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Student works as a clerk for a working professional."
+        DESCR_PLAIN="Student works as a clerk for a working professional."
+        NAME="Clerkship"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lui.type.activity.offering.clerkship" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Student participates in both observing and executing health care delivery in a clinic setting."
+        DESCR_PLAIN="Student participates in both observing and executing health care delivery in a clinic setting."
+        NAME="Clinic"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lui.type.activity.offering.clinic" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="A seminar led by different instructors"
         DESCR_PLAIN="A seminar led by different instructors"
@@ -406,6 +484,12 @@
         NAME="Comp Based"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.compbased" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Student attend a conference and optionally present their research results."
+        DESCR_PLAIN="Student attend a conference and optionally present their research results."
+        NAME="Conference"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lui.type.activity.offering.conference" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Correspondence" DESCR_PLAIN="Correspondence"
         NAME="Correspond"
@@ -466,11 +550,23 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.lecture" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Student has supervised practical application of theory similar to an junior professional in a professional setting."
+        DESCR_PLAIN="Student has supervised practical application of theory similar to an junior professional in a professional setting."
+        NAME="Practicum"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lui.type.activity.offering.practicum" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Individually scheduled classes, typically music."
         DESCR_PLAIN="Individually scheduled classes, typically music."
         NAME="Private"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.private" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Discussion of course material, quizzes, tests and other exercises."
+        DESCR_PLAIN="Discussion of course material, quizzes, tests and other exercises."
+        NAME="Quiz"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lui.type.activity.offering.quiz" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Oral review of course material   by students, often in small groups and   often lead by TAs"
         DESCR_PLAIN="Oral review of course material   by students, often in small groups and   often lead by TAs"
@@ -488,6 +584,12 @@
         NAME="Self Paced"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.selfpaced" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Student participate in discussing specific topics in small groups with faculty."
+        DESCR_PLAIN="Student participate in discussing specific topics in small groups with faculty."
+        NAME="Seminar"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        TYPE_KEY="kuali.lui.type.activity.offering.seminar" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Student practice of studio skills and/or tasks"
         DESCR_PLAIN="Student practice of studio skills and/or tasks"
@@ -537,10 +639,10 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.course.offering" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="All of these types of activities: Lecture, Lab, Discussion, etc."
-        DESCR_PLAIN="All of these types of activities: Lecture, Lab, Discussion, etc."
-        NAME="All Activity Types"
-        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        DESCR_FORMATTED="All of these types of activity offerings: Lecture, Lab, Discussion, etc."
+        DESCR_PLAIN="All of these types of activity offerings: Lecture, Lab, Discussion, etc."
+        NAME="All Activity Offering Types"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo"
         TYPE_KEY="kuali.lui.type.grouping.activity" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The list of milestone types that are used for Registration Key Dates in Registration Appointments"
