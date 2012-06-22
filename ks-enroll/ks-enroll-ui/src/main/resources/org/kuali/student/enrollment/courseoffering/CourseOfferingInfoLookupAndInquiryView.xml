@@ -67,34 +67,57 @@
           >
         <property name="Items">
             <list>
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Course Offering Information">
+                    <property name="items">
+                        <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-VerticalBoxSection">
-                    <property name="headerText" value="Course Offering Information"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:label="ID" p:propertyName="coInfo.id" p:readOnly="true" />
                             <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingTitle" />
                             <bean parent="Uif-DataField" p:propertyName="coInfo.termId" />
                             <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode" />
+                            <bean parent="Uif-DataField" p:label="Grading Option" p:propertyName="selectedGradingOptionName" />
+
+                            <bean parent="Uif-DataField" p:label="Student Registration Options" p:propertyName="selectedstudentRegOpts" />
+
                         </list>
                     </property>
                 </bean>
 
 
-                <bean parent="Uif-VerticalBoxSection">
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
                     <property name="items">
                         <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
                     </property>
                 </bean>
-
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="coInfo.gradingOptionId" />
-                            <bean parent="Uif-DataField" p:label="Student Registration Options" p:propertyName="coInfo.studentRegistrationOptionIds" />
                             <bean parent="Uif-DataField" p:propertyName="coInfo.finalExamType" />
                         </list>
                     </property>
                 </bean>
+
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Waitlists">
+                    <property name="items">
+                        <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Waitlist type:" p:propertyName="coInfo.waitlistTypeKey" />
+                            <!--<bean parent="Uif-MessageField" p:lable="Has waitlist" p:messageText="@{coInfo.hasWaitlist ? 'YES':'NO'}"/>-->
+                            <bean parent="Uif-MessageField" p:label="Has waitlist:" p:labelPlacement="LEFT" p:fieldLabel.renderColon="false" p:messageText="@{dataObject.coInfo.hasWaitlist ? 'YES':'NO'}" />
+
+                            <bean parent="Uif-DataField" p:label="Waitlist level type:" p:propertyName="coInfo.waitlistLevelTypeKey" />
+                        </list>
+                    </property>
+                </bean>
+
                 <!--
                 <bean parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
                     <property name="items">

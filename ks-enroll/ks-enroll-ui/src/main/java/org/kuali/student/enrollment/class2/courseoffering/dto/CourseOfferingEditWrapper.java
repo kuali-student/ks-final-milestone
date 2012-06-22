@@ -41,6 +41,9 @@ public class CourseOfferingEditWrapper implements Serializable {
     private List<String> studentRegOptions;
     private List<OrganizationInfoWrapper> organizationNames;
 
+    private String selectedGradingOptionName;
+    private String selectedstudentRegOpts;
+
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
@@ -91,4 +94,20 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.organizationNames = organizationNames;
     }
 
+
+    public String getSelectedGradingOptionName() {
+        return selectedGradingOptionName;
+    }
+
+    public void setSelectedGradingOptionName(String selectedGradingOptionName) {
+        this.selectedGradingOptionName = selectedGradingOptionName;
+    }
+
+    public String getSelectedstudentRegOpts() {
+        return selectedstudentRegOpts;
+    }
+
+    public void setSelectedstudentRegOpts(String selectedstudentRegOpts) {
+        this.selectedstudentRegOpts = selectedstudentRegOpts;
+    }
 }
