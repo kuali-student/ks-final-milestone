@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "KSEN_LRC_RES_VALUE_ATTR")
+@Table(name = "KSEN_LRC_RESULT_VALUE_ATTR")
 public class ResultValueAttributeEntity  extends BaseAttributeEntity<ResultValueEntity> {
 
     @ManyToOne

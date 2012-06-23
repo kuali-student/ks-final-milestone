@@ -27,7 +27,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "KSEN_LRC_RES_VAL_GRP_ATTR")
+@Table(name = "KSEN_LRC_RVG_ATTR")
 public class ResultValuesGroupAttributeEntity extends BaseAttributeEntity<ResultValuesGroupEntity> {
 
     @ManyToOne

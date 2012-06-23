@@ -49,7 +49,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     @Column(name = "RESULT_SCALE_ID")
     private String resultScaleId;
     @Column(name = "NUMERIC_VALUE")
-    private String numericValue;
+    private int numericValue;
     @Column(name = "RESULT_VALUE")
     private String value;
     @Temporal(TemporalType.TIMESTAMP)
@@ -84,7 +84,9 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         }
         setEffectiveDate(dto.getEffectiveDate());
         setExpirationDate(dto.getExpirationDate());
-        setNumericValue(dto.getNumericValue());
+        if(dto.getNumericValue() != null && !"".equals(dto.getNumericValue())){
+            setNumericValue(Integer.parseInt(dto.getNumericValue()));
+        }
         setValue(dto.getValue()); 
         // dynamic attributes
         if (this.getAttributes() == null) {
@@ -117,11 +119,11 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         this.resultScaleId = resultScaleId;
     }
 
-    public String getNumericValue() {
+    public int getNumericValue() {
         return numericValue;
     }
 
-    public void setNumericValue(String numericValue) {
+    public void setNumericValue(int numericValue) {
         this.numericValue = numericValue;
     }
 
@@ -207,7 +209,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         info.setName(getName());
         info.setDescr(new RichTextHelper().toRichTextInfo(getDescrPlain(), getDescrFormatted()));
         info.setResultScaleKey(getResultScaleId());
-        info.setNumericValue(getNumericValue());
+        info.setNumericValue(String.valueOf(getNumericValue()));
         info.setValue(getValue());
         info.setEffectiveDate(getEffectiveDate());
         info.setExpirationDate(getExpirationDate());
