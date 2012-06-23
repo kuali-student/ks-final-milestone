@@ -237,10 +237,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String activityId = theForm.getActivityIdForNewAO();
-        String formatOfferingId = theForm.getFormatIdForNewAO();
+        String formatId = theForm.getFormatIdForNewAO();
         int aoCount = Integer.parseInt(theForm.getNoOfActivityOfferings());
 
-        ActivityOfferingInfo aoInfo = getViewHelperService(theForm).createActivityOfferings(formatOfferingId,activityId,aoCount,theForm.getTheCourseOffering());
+        getViewHelperService(theForm).createActivityOfferings(formatId, activityId, aoCount, theForm.getTheCourseOffering());
 
         return getUIFModelAndView(theForm);
 

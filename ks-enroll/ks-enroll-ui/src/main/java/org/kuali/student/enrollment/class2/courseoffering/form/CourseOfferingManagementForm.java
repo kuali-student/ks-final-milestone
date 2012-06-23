@@ -124,4 +124,8 @@ public class CourseOfferingManagementForm extends UifFormBase {
         return activityIdForNewAO;
     }
 
+    public void setActivityIdForNewAO(String activityIdForNewAO) {
+        this.activityIdForNewAO = activityIdForNewAO;
+    }
+
 }

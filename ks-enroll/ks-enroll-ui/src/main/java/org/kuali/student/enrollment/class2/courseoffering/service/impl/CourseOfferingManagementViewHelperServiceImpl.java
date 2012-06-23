@@ -4,10 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.uif.control.SelectControl;
-import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
@@ -23,10 +19,17 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.ActivityInfo;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -39,8 +42,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
     private transient CourseOfferingService coService = null;
 
     private CourseService courseService;
+    private TypeService typeService;
+    private StateService stateService;
 
- 
+
     public List<TermInfo> findTermByTermCode(String termCode) throws Exception {
         // TODO: Find sensible way to rewrap exception that acal service may throw
         // Find the term (alas, I think it does approximate search)
@@ -113,108 +118,94 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         return courseOfferings;
     }
 
-    public void populateFormatTypes(InputField field, CourseOfferingManagementForm coForm) {
+    public void createActivityOfferings(String formatId, String activityId, int noOfActivityOfferings, CourseOfferingInfo courseOfferingInfo){
 
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "Select Format Type"));
-        CourseOfferingInfo selectedCourseOffering = coForm.getTheCourseOffering();
+        FormatInfo format = null;
+        CourseInfo course;
 
-        keyValues.add(new ConcreteKeyValue("Lecture-only", "Lecture-only"));
-        keyValues.add(new ConcreteKeyValue("Lecture-Lab", "Lecture-Lab"));
-        keyValues.add(new ConcreteKeyValue("Lecture-Lab/Discussion", "Lecture-Lab/Discussion"));
-
-//        List<FormatInfo> formatInfos;
-//        try {
-//            formatInfos = getCourseService().getCourseFormats(selectedCourseOffering.getCourseId());
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        try {
-//            for (FormatInfo formatInfo : formatInfos) {
-//                keyValues.add(new ConcreteKeyValue(formatInfo.getType(),formatInfo.getId()));
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-
-        ((SelectControl) field.getControl()).setOptions(keyValues);
-
-    }
-
-    public void populateActivityTypes(InputField field, CourseOfferingManagementForm coForm) {
-
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "Select Activity Type"));
-        String formatId = coForm.getFormatIdForNewAO();
-
-        keyValues.add(new ConcreteKeyValue("Lecture", "Lecture"));
-        keyValues.add(new ConcreteKeyValue("Lab", "Lab"));
-
-//        try {
-//            List<ActivityInfo> activityInfos = getCourseService().getCourseActivities(formatId);
-//            for (ActivityInfo activityInfo : activityInfos) {
-//               keyValues.add(new ConcreteKeyValue(activityInfo.getActivityType(),activityInfo.getId()));
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-
-        ((SelectControl) field.getControl()).setOptions(keyValues);
-
-    }
-
-    public ActivityOfferingInfo createActivityOfferings(String formatOfferingId,String activityId,int noOfActivityOfferings, CourseOfferingInfo courseOfferingInfo){
-
-        FormatOfferingInfo formatOfferingInfo;
+        // Get the format object for the id selected
         try {
-            formatOfferingInfo = getCourseOfferingService().getFormatOffering(formatOfferingId,getContextInfo());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        ActivityInfo activity = null;
-        try {
-            List<ActivityInfo> activityInfo = getCourseService().getCourseActivities(formatOfferingInfo.getFormatId());
-            for (ActivityInfo info : activityInfo) {
-                if (StringUtils.equals(activityId,info.getId())){
-                    activity = info;
+            course = getCourseService().getCourse(courseOfferingInfo.getCourseId());
+            for (FormatInfo f : course.getFormats()) {
+                if(f.getId().equals(formatId)) {
+                    format = f;
+                    break;
                 }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        /**
-         * FIXME: get activity offering type for an activity offering
-         */
+        // find the format offering object for the selected format
+        FormatOfferingInfo formatOfferingInfo = null;
+        try {
+            List<FormatOfferingInfo> courseOfferingFOs = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingInfo.getId(), getContextInfo());
+            for(FormatOfferingInfo fo : courseOfferingFOs) {
+                if (fo.getFormatId().equals(formatId)) {
+                    formatOfferingInfo = fo;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        // find the Activity object that matches the activity id selected
+        ActivityInfo activity = null;
+        List<ActivityInfo> activities = format.getActivities();
+        for (ActivityInfo info : activities) {
+            if (StringUtils.equals(activityId, info.getId())) {
+                activity = info;
+            }
+        }
+
+        // Get the matching activity offering type for the selected activity
+        TypeInfo activityOfferingType = null;
+        try {
+            List<TypeInfo> types = getTypeService().getAllowedTypesForType(activity.getActivityType(), getContextInfo());
+            // only one AO type should be mapped to each Activity type
+            if(types.size() > 1) {
+                throw new RuntimeException("More than one allowed type is matched to activity type of: " + activity.getActivityType());
+            }
+
+            activityOfferingType = types.get(0);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         for (int i=0;i<noOfActivityOfferings;i++){
             ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
-            aoInfo.setFormatOfferingId(formatOfferingId);
-            aoInfo.setTypeKey(activity.getActivityType());
+            aoInfo.setActivityId(activityId);
+            aoInfo.setFormatOfferingId(formatOfferingInfo.getId());
+            aoInfo.setTypeKey(activityOfferingType.getKey());
             aoInfo.setCourseOfferingId(courseOfferingInfo.getId());
+            aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
             try {
-                return _getCourseOfferingService().createActivityOffering(formatOfferingId,activityId,"kuali.lui.type.grouping.activity",aoInfo,getContextInfo());
+                _getCourseOfferingService().createActivityOffering(formatOfferingInfo.getId(), activityId, activityOfferingType.getKey(), aoInfo, getContextInfo());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
-
-        return null;
 
     }
 
     public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo,CourseOfferingManagementForm form) throws Exception{
         String courseOfferingId = theCourseOfferingInfo.getId();
         List<ActivityOfferingInfo> activityOfferingInfoList;
-        List<ActivityOfferingWrapper> activityOfferingWrapperList = new ArrayList();
+        List<ActivityOfferingWrapper> activityOfferingWrapperList = null;
 
         try{
             activityOfferingInfoList =_getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, getContextInfo());
-            int i = 0;
+            activityOfferingWrapperList = new ArrayList<ActivityOfferingWrapper>(activityOfferingInfoList.size());
+
             for (ActivityOfferingInfo info : activityOfferingInfoList) {
-                activityOfferingWrapperList.add(new ActivityOfferingWrapper());
-                activityOfferingWrapperList.get(i).setAoInfo(info);
-                i++;
+                ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info);
+                StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), getContextInfo());
+                wrapper.setStateName(state.getName());
+                TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), getContextInfo());
+                wrapper.setTypeName(typeInfo.getName());
+
+                activityOfferingWrapperList.add(wrapper);
             }
         } catch (Exception e) {
             throw new RuntimeException("Error: Does not find a valid term with the Course Id = "+ courseOfferingId+ ". Exception "+e);
@@ -260,6 +251,20 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             courseService = CourseOfferingResourceLoader.loadCourseService();
         }
         return courseService;
+    }
+
+    public TypeService getTypeService() {
+        if(typeService == null) {
+            typeService = CourseOfferingResourceLoader.loadTypeService();
+        }
+        return this.typeService;
+    }
+
+    public StateService getStateService() {
+        if(stateService == null) {
+            stateService = CourseOfferingResourceLoader.loadStateService();
+        }
+        return stateService;
     }
 
 }

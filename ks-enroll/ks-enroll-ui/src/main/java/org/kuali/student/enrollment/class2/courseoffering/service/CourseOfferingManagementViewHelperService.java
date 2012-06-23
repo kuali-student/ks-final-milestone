@@ -20,5 +20,5 @@ public interface CourseOfferingManagementViewHelperService {
     public void loadCourseOfferingsByTermAndSubjectCode (String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception;
     public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception;
 
-    public ActivityOfferingInfo createActivityOfferings(String formatOfferingId,String activityId,int noOfActivityOfferings, CourseOfferingInfo courseOfferingInfo);
+    public void createActivityOfferings(String formatOfferingId,String activityId,int noOfActivityOfferings, CourseOfferingInfo courseOfferingInfo);
 }

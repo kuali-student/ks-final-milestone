@@ -54,14 +54,20 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="formatIdForNewAO" p:label="Format" p:labelPlacement="TOP" p:required="true" p:finalizeMethodToCall="populateFormatTypes" >
+                            <bean parent="Uif-InputField" p:propertyName="formatIdForNewAO" p:label="Format" p:labelPlacement="TOP" p:required="true" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatsForCreateAOKeyValues" p:addBlankOption="false" />
+                                </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:finalizeMethodToCall="populateActivityTypes" >
+                            <bean parent="Uif-InputField" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:refreshWhenChangedPropertyNames="formatIdForNewAO">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivitiesForCreateAOKeyValues" p:addBlankOption="false" />
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="noOfActivityOfferings" p:label="Quantity" p:labelPlacement="TOP" p:required="true">
@@ -124,13 +130,13 @@
                 </bean>
                 <bean parent="Uif-DataField"
                       p:label="STATUS"
-                      p:propertyName="aoInfo.stateKey" />
+                      p:propertyName="stateName" />
                 <bean parent="Uif-DataField"
                       p:label="CODE"
                       p:propertyName="aoInfo.activityCode"/>
                 <bean parent="Uif-DataField"
                       p:label="TYPE"
-                      p:propertyName="aoInfo.typeKey"/>
+                      p:propertyName="typeName"/>
                 <bean parent="Uif-DataField"
                       p:label="FORMAT"
                       p:propertyName="aoInfo.formatOfferingName"/>
