@@ -47,8 +47,7 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
 
     private static final long serialVersionUID = 1L;
 
-    private EnumerationManagementService enumerationManagementService;
-    private FinalExamComparator finalExamComparator = new FinalExamComparator();
+    private transient EnumerationManagementService enumerationManagementService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -63,7 +62,7 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
 
         try {
             List<EnumeratedValueInfo> enumerationInfos = (List<EnumeratedValueInfo> ) getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null);
-            Collections.sort(enumerationInfos, finalExamComparator);
+            Collections.sort(enumerationInfos, new FinalExamComparator());
 
             for(EnumeratedValueInfo enumerationInfo : enumerationInfos) {
                 if (enumerationInfo.getCode().equals("STD")) {
@@ -94,7 +93,7 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
         return this.enumerationManagementService;
     }
 
-    private class FinalExamComparator implements Comparator {
+    private static class FinalExamComparator implements Comparator {
 
         @Override
         public int compare(Object o1, Object o2) {

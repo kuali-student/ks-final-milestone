@@ -60,7 +60,7 @@ public class CourseOfferingMaintainableImpl extends MaintainableImpl implements 
     private transient TypeService typeService;
     private transient StateService stateService;
     private transient CourseService courseService;
-    private OrganizationService organizationService;
+    private transient OrganizationService organizationService;
 
     //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012).
 

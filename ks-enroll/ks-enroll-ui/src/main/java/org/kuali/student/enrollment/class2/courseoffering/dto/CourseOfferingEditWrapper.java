@@ -16,9 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
