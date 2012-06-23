@@ -12,25 +12,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FormatOfferingTypeForCreateCOTypeKeyValues  extends UifKeyValuesFinderBase implements Serializable {
+public class FormatOfferingTypeForCreateCOTypeKeyValues extends AbstractFormatOfferingTypeKeyValues {
 
     @Override
-    public List<KeyValue> getKeyValues(ViewModel model) {
-
+    List<FormatInfo> getFormats(ViewModel model) {
         MaintenanceForm form = (MaintenanceForm)model;
-
         CourseOfferingCreateWrapper coWrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        if (coWrapper.getCourse() != null){
-            for (FormatInfo format : coWrapper.getCourse().getFormats()) {
-                ConcreteKeyValue keyValue = new ConcreteKeyValue();
-                keyValue.setKey(format.getId());
-                keyValue.setValue(format.getType());
-                keyValues.add(keyValue);
-            }
+        if(coWrapper.getCourse() != null){
+            return coWrapper.getCourse().getFormats();
+        }   else {
+            return null;
         }
 
-        return keyValues;
+
     }
 }

@@ -122,12 +122,13 @@ public class CourseOfferingMaintainableImpl extends MaintainableImpl implements 
                 CourseOfferingInfo info = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
                 CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(info);
                 List<FormatOfferingInfo> formats = getCourseOfferingService().getFormatOfferingsByCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
-                formObject.setFormatOfferings(formats);
+                formObject.setFormatOfferingList(formats);
                 // checking if there are any student registration options from CLU for screen display
                 List<String> studentRegOptions = new ArrayList<String>();
                 String courseId = info.getCourseId();
                 if (courseId != null) {
                     CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId);
+                    formObject.setCourse(courseInfo);
                     List<String> gradingOptions = courseInfo.getGradingOptions();
                     Set<String> regOpts = new HashSet<String>(Arrays.asList(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS));
                     for(String regOpt: regOpts) {

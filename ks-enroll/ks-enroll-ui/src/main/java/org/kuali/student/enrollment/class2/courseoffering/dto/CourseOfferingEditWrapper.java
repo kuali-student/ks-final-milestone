@@ -21,9 +21,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,9 +35,10 @@ import java.util.List;
 public class CourseOfferingEditWrapper implements Serializable {
 
     private CourseOfferingInfo coInfo;
-    private List<FormatOfferingInfo> formatOfferings;
+    private List<FormatOfferingInfo> formatOfferingList;
     private List<String> studentRegOptions;
     private List<OrganizationInfoWrapper> organizationNames;
+    private CourseInfo course;
 
     private String selectedGradingOptionName;
     private String selectedstudentRegOpts;
@@ -47,7 +46,7 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
-        formatOfferings = new ArrayList<FormatOfferingInfo>();
+        formatOfferingList = new ArrayList<FormatOfferingInfo>();
         studentRegOptions = new ArrayList<String>();
     }
 
@@ -64,15 +63,15 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.coInfo = coInfo;
     }
 
-    public List<FormatOfferingInfo> getFormatOfferings() {
-        return formatOfferings;
+    public List<FormatOfferingInfo> getFormatOfferingList() {
+        return formatOfferingList;
     }
 
-    public void setFormatOfferings(List<FormatOfferingInfo> formatOfferings) {
-        if (formatOfferings == null) {
-            formatOfferings = new ArrayList<FormatOfferingInfo>();
+    public void setFormatOfferingList(List<FormatOfferingInfo> formatOfferingList) {
+        if (formatOfferingList == null) {
+            formatOfferingList = new ArrayList<FormatOfferingInfo>();
         }
-        this.formatOfferings = formatOfferings;
+        this.formatOfferingList = formatOfferingList;
     }
 
     public List<String> getStudentRegOptions() {
@@ -109,5 +108,13 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     public void setSelectedstudentRegOpts(String selectedstudentRegOpts) {
         this.selectedstudentRegOpts = selectedstudentRegOpts;
+    }
+
+    public CourseInfo getCourse() {
+        return course;
+    }
+
+    public void setCourse(CourseInfo course) {
+        this.course = course;
     }
 }
