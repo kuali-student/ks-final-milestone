@@ -33,12 +33,15 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.constants.StateServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.service.TypeService;
 
@@ -57,6 +60,7 @@ public class CourseOfferingMaintainableImpl extends MaintainableImpl implements 
     private transient TypeService typeService;
     private transient StateService stateService;
     private transient CourseService courseService;
+    private OrganizationService organizationService;
 
     //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012).
 
@@ -139,13 +143,16 @@ public class CourseOfferingMaintainableImpl extends MaintainableImpl implements 
                 }
                 formObject.setStudentRegOptions(studentRegOptions);
                 formObject.setOrganizationNames(new ArrayList<OrganizationInfoWrapper>());
-                  /*
-                if(info.getUnitsContentOwnerOrgIds() != null){
-                    if(formObject.)
-                    for(String orgId: info.getUnitsContentOwnerOrgIds()){
 
+                ArrayList<OrganizationInfoWrapper> orgList = new ArrayList<OrganizationInfoWrapper>();
+
+                if(info.getUnitsDeploymentOrgIds() != null){
+                    for(String orgId: info.getUnitsDeploymentOrgIds()){
+                        OrgInfo orgInfo = getOrganizationService().getOrg(orgId,getContextInfo());
+                        orgList.add(new OrganizationInfoWrapper(orgInfo));
                     }
-                } */
+                }
+                formObject.setOrganizationNames(orgList);
 
                 document.getNewMaintainableObject().setDataObject(formObject);
                 document.getOldMaintainableObject().setDataObject(formObject);
@@ -219,5 +226,13 @@ public class CourseOfferingMaintainableImpl extends MaintainableImpl implements 
             courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, "CourseService"));
         }
         return this.courseService;
+    }
+
+    private OrganizationService getOrganizationService(){
+        if(organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
+        }
+        return organizationService;
+
     }
 }

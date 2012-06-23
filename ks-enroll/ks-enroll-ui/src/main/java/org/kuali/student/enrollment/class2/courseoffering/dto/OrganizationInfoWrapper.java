@@ -16,6 +16,8 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+
 import java.io.Serializable;
 
 /**
@@ -26,6 +28,15 @@ import java.io.Serializable;
 public class OrganizationInfoWrapper implements Serializable {
     private String organizationName;
     private String id;
+
+    public OrganizationInfoWrapper() {
+    }
+
+    public OrganizationInfoWrapper(OrgInfo orgInfo) {
+        this.id = orgInfo.getId();
+        this.organizationName = orgInfo.getLongName();
+    }
+
 
     public String getOrganizationName() {
         return organizationName;
