@@ -210,8 +210,14 @@ public class CourseOfferingTransformer {
         lui.setUnitsDeployment(co.getUnitsDeploymentOrgIds());
         lui.setMaximumEnrollment(co.getMaximumEnrollment());
         lui.setMinimumEnrollment(co.getMinimumEnrollment());
-        lui.getResultValuesGroupKeys().add(co.getGradingOptionId());
-        lui.getResultValuesGroupKeys().addAll(co.getStudentRegistrationOptionIds());
+
+        // there are primary key constraints on the resultValuesGroupKeys.
+        // So we need to blow out old list, and replace with new
+        // TODO: Shouldn't this be handled at the JPA level with some sort of merge?
+        List<String> newOptions = new ArrayList<String>();
+        newOptions.add(co.getGradingOptionId());
+        newOptions.addAll(co.getStudentRegistrationOptionIds());
+        lui.setResultValuesGroupKeys(newOptions);
 
         LuiIdentifierInfo oi = lui.getOfficialIdentifier();
         if (oi == null) {
