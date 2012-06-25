@@ -3,12 +3,9 @@ package org.kuali.student.enrollment.main.controller;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
-import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.krad.lookup.Lookupable;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.LookupController;
 import org.kuali.rice.krad.web.form.LookupForm;
@@ -21,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
@@ -46,34 +42,14 @@ public class KSLookupController extends LookupController {
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") LookupForm lookupForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
-        suppressActionsIfNeeded(lookupForm);
 
-        Lookupable lookupable = lookupForm.getLookupable();
-        if (lookupable == null) {
-            LOG.error("Lookupable is null.");
-            throw new RuntimeException("Lookupable is null.");
-        }
+        ModelAndView modelAndView = super.search(lookupForm,result,request,response);
 
-        // validate search parameters
-        lookupable.validateSearchParameters(lookupForm, lookupForm.getCriteriaFields());
-
-        Collection<?> displayList =
-                lookupable.performSearch(lookupForm, lookupForm.getCriteriaFields(), true);
-
-        if (displayList instanceof CollectionIncomplete<?>) {
-            request.setAttribute("reqSearchResultsActualSize",
-                    ((CollectionIncomplete<?>) displayList).getActualSizeIfTruncated());
-        } else {
-            request.setAttribute("reqSearchResultsActualSize", new Integer(displayList.size()));
-        }
-
-        lookupForm.setSearchResults(displayList);
-
-        if(getView(lookupForm) instanceof KSLookupView){
-            KSLookupView ksLookupView = (KSLookupView)getView(lookupForm);
+        if(lookupForm.getPostedView() instanceof KSLookupView){
+            KSLookupView ksLookupView = (KSLookupView)lookupForm.getPostedView();
             String defaultAction = ksLookupView.getDefaultSingleLookupResultAction();
-            if (StringUtils.isNotBlank(defaultAction) && displayList != null && displayList.size() == 1){
-                Object object = displayList.iterator().next();
+            if (StringUtils.isNotBlank(defaultAction) && lookupForm.getSearchResults() != null && lookupForm.getSearchResults().size() == 1){
+                Object object = lookupForm.getSearchResults().iterator().next();
 
                 Properties props = new Properties();
 
@@ -97,14 +73,7 @@ public class KSLookupController extends LookupController {
             }
         }
 
-        return getUIFModelAndView(lookupForm);
+        return modelAndView;
     }
 
-    private View getView(LookupForm form){
-         if (form.getView() != null){
-             return form.getView();
-         }else{
-             return form.getPostedView();
-         }
-    }
 }
