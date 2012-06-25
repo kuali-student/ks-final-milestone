@@ -22,8 +22,7 @@
 
     <bean id="CourseOfferingEditWrapper-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
-        <!--<property name="titleAttribute" value="efInfo.id"/>   -->
-        <property name="titleAttribute" value="id"/>
+        <property name="titleAttribute" value="coInfo.courseOfferingCode"/>
         <property name="attributes">
             <list>
             </list>
@@ -167,8 +166,9 @@
         </property>
     </bean>
 
-    <bean id="CourseOfferingEdit-MaintenanceView" parent="KSMaintenanceView">
-        <property name="headerText" value="Course Offering Maintenance"/>
+    <!-- Edit a Course Offering MaintenanceView -->
+    <bean id="KS-CourseOfferingEditWrapper-EditMaintenanceView" parent="KSMaintenanceView">
+        <property name="headerText" value="Edit a Course Offering"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
 
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
