@@ -107,16 +107,60 @@ public class CourseOfferingMaintainableImpl extends MaintainableImpl implements 
         }
     }
 
-    protected void persistEditCourseOffering(){
+    protected void persistEditCourseOffering() {
         CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)getDataObject();
         CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
 
         try{
+            // persist format offerings
+            //this.persistFormatOfferings();     //This currently doesn't work.
+
+            //persist unitDeploymentOrgIds
+            List<String> unitDeploymentOrgIds = new ArrayList<String>();
+            for(OrganizationInfoWrapper orgWrapper : coEditWrapper.getOrganizationNames()){
+                unitDeploymentOrgIds.add(orgWrapper.getId());
+            }
+
+            coInfo.setUnitsDeploymentOrgIds(unitDeploymentOrgIds);
+            coInfo.setStudentRegistrationOptionIds(coEditWrapper.getStudentRegOptions());
+
             getCourseOfferingService().updateCourseOffering(coInfo.getId(),coInfo,getContextInfo());
         }   catch (Exception ex){
             throw new RuntimeException(ex);
         }
 
+    }
+
+    /**
+     * For this method we need to get the old Format offerings and the new format offerings and compare the two.
+     * This is because format offerings are a separate service call outside the CourseOffering. The service calls
+     * also cannot handle any sort of "merge" operation. So we can only create, update, and delete as three different
+     * calls.
+     * @throws Exception
+     */
+    protected void persistFormatOfferings() throws Exception{
+        //TODO: We need more information on the new course offerings for them to properly submit through the service.
+        CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)getDataObject();
+        CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
+
+        List<FormatOfferingInfo> newFormats = coEditWrapper.getFormatOfferingList();
+        List<FormatOfferingInfo> oldFormats = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfo.getId(), getContextInfo());
+
+        for(FormatOfferingInfo formatOffering:newFormats){
+            formatOffering.setStateKey("kuali.lui.format.offering.state.planned");
+            formatOffering.setTermId(coInfo.getTermId());
+            formatOffering.setCourseOfferingId(coInfo.getId());
+            if(oldFormats.contains(formatOffering)) {   // update
+                getCourseOfferingService().updateFormatOffering(formatOffering.getId(),formatOffering,getContextInfo());
+            } else {                                    // create
+                getCourseOfferingService().createFormatOffering(coInfo.getId(),formatOffering.getFormatId(),formatOffering.getTypeKey(),formatOffering,getContextInfo());
+            }
+        }
+        for(FormatOfferingInfo oldFormatOffering: oldFormats){  // delete
+            if(!newFormats.contains(oldFormatOffering)) {
+                getCourseOfferingService().deleteFormatOfferingCascaded(oldFormatOffering.getId(),getContextInfo());
+            }
+        }
     }
 
     @Override
