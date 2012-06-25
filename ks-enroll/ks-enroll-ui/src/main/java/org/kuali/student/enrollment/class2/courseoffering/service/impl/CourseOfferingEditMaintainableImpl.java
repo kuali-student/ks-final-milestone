@@ -53,7 +53,7 @@ import java.util.*;
  *
  * @author Kuali Student Team
  */
-public class CourseOfferingMaintainableImpl extends MaintainableImpl implements CourseOfferingEditMaintainable {
+public class CourseOfferingEditMaintainableImpl extends MaintainableImpl implements CourseOfferingEditMaintainable {
 
     private transient CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
