@@ -303,10 +303,10 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         //helper class for courseOfferingSetService
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         //To fetch Term by code which is desirable.
-        String termCode = form.getRolloverTargetTermCode();
-        List<TermInfo> termList = helper.findTermByTermCode(termCode);
+        String targetTermCode = form.getRolloverTargetTermCode();
+        List<TermInfo> termList = helper.findTermByTermCode(targetTermCode);
         if (termList.isEmpty()) {
-            GlobalVariables.getMessageMap().putError("rolloverTargetTermCode", "error.rollover.targetTerm.noResults", termCode);
+            GlobalVariables.getMessageMap().putError("rolloverTargetTermCode", "error.rollover.targetTerm.noResults", targetTermCode);
             form.resetForm(); // TODO: Does this make sense?  I don't think so. cclin
             return getUIFModelAndView(form);
         } else {
@@ -316,7 +316,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             // Get rollover result info for target term
             List<SocRolloverResultInfo> socRolloverResultInfos = helper.findRolloverByTerm(targetTermId);
             if (socRolloverResultInfos == null || socRolloverResultInfos.isEmpty()) {
-                GlobalVariables.getMessageMap().putError("rolloverTargetTermCode", "error.rollover.targetTerm.noResults", termCode);
+                GlobalVariables.getMessageMap().putError("rolloverTargetTermCode", "error.rollover.targetTerm.noResults", targetTermCode);
                 form.resetForm(); // TODO: Does this make sense?  I don't think so. cclin
                 return getUIFModelAndView(form);
             } else {

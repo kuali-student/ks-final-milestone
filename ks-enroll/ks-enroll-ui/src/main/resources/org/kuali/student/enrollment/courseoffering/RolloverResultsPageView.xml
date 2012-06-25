@@ -73,29 +73,26 @@
                                             <bean parent="Uif-HorizontalBoxSubSection">
                                                 <property name="items">
                                                     <list>
-                                                        <bean parent="Uif-DataField" p:label="Source Term"
-                                                              p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
-                                                              p:propertyName="rolloverSourceTermDesc">
-                                                        </bean>
-                                                    </list>
-                                                </property>
-                                            </bean>
-                                            <bean parent="Uif-HorizontalBoxSubSection">
-                                                <property name="items">
-                                                    <list>
-                                                        <bean parent="Uif-DataField" p:label="Date Initiated"
-                                                              p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
-                                                              p:propertyName="dateInitiated">
-                                                        </bean>
-                                                    </list>
-                                                </property>
-                                            </bean>
-                                            <bean parent="Uif-HorizontalBoxSubSection">
-                                                <property name="items">
-                                                    <list>
-                                                        <bean parent="Uif-DataField" p:label="Course Offerings"
-                                                              p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
-                                                              p:propertyName="courseOfferingsAllowed">
+                                                        <bean parent="Uif-GridSubSection" p:width="10cm">
+                                                            <property name="items">
+                                                                <list>
+                                                                    <bean parent="Uif-DataField" p:label="Source Term"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="rolloverSourceTermDesc"/>
+                                                                    <bean parent="Uif-DataField" p:label="Date Initiated"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="dateInitiated"/>
+                                                                    <bean parent="Uif-DataField" p:label="Date Completed"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="dateCompleted"/>
+                                                                    <bean parent="Uif-DataField" p:label="Course Offerings"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="courseOfferingsAllowed"/>
+                                                                    <bean parent="Uif-DataField" p:label="Activity Offerings"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="activityOfferingsAllowed"/>
+                                                                </list>
+                                                            </property>
                                                         </bean>
                                                     </list>
                                                 </property>
@@ -118,26 +115,6 @@
                                                                     </property>
                                                                 </bean>
                                                             </property>
-                                                        </bean>
-                                                    </list>
-                                                </property>
-                                            </bean>
-                                            <bean parent="Uif-HorizontalBoxSubSection">
-                                                <property name="items">
-                                                    <list>
-                                                        <bean parent="Uif-DataField" p:label="Date Completed"
-                                                              p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
-                                                              p:propertyName="dateCompleted">
-                                                        </bean>
-                                                    </list>
-                                                </property>
-                                            </bean>
-                                            <bean parent="Uif-HorizontalBoxSubSection">
-                                                <property name="items">
-                                                    <list>
-                                                        <bean parent="Uif-DataField" p:label="Activity Offerings"
-                                                              p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
-                                                              p:propertyName="activityOfferingsAllowed">
                                                         </bean>
                                                     </list>
                                                 </property>
