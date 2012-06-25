@@ -150,7 +150,7 @@
                 <bean parent="Uif-ActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete this activity offering?')" p:methodToCall="delete" p:actionLabel="Delete" />
+                <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete this activity offering?')" p:methodToCall="delete" p:actionLabel="Delete" p:render = "@{#line.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.draft'}" />
             </list>
         </property>
     </bean>
