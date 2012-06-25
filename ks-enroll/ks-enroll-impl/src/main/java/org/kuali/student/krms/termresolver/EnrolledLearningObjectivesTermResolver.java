@@ -48,7 +48,7 @@ public class EnrolledLearningObjectivesTermResolver implements TermResolver<List
         return courseRegistrationService;
     }
 
-    public void setAcademicRecordService(CourseRegistrationService courseRegistrationService) {
+    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
         this.courseRegistrationService = courseRegistrationService;
     }
 

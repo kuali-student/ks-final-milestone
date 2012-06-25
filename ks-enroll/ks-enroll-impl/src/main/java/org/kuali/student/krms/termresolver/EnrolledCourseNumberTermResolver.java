@@ -48,7 +48,7 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<List<Cours
         return courseRegistrationService;
     }
 
-    public void setAcademicRecordService(CourseRegistrationService courseRegistrationService) {
+    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
         this.courseRegistrationService = courseRegistrationService;
     }
 
@@ -79,10 +79,11 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<List<Cours
     public List<CourseRegistrationInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
         String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        String termId = parameters.get(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
         
         List<CourseRegistrationInfo> result = null;
         try {
-            result = courseRegistrationService.getCourseRegistrationsForStudent(personId, context);
+            result = courseRegistrationService.getCourseRegistrationsForStudentByTerm(personId, termId, context);
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
