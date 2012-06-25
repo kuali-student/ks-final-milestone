@@ -240,7 +240,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         String formatId = theForm.getFormatIdForNewAO();
         int aoCount = Integer.parseInt(theForm.getNoOfActivityOfferings());
 
-        getViewHelperService(theForm).createActivityOfferings(formatId, activityId, aoCount, theForm.getTheCourseOffering());
+        getViewHelperService(theForm).createActivityOfferings(formatId, activityId, aoCount, theForm);
 
         return getUIFModelAndView(theForm);
 

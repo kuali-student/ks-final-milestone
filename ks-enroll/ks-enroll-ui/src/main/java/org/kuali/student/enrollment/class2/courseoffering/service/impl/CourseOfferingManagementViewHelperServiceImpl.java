@@ -118,14 +118,15 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         return courseOfferings;
     }
 
-    public void createActivityOfferings(String formatId, String activityId, int noOfActivityOfferings, CourseOfferingInfo courseOfferingInfo){
+    public void createActivityOfferings(String formatId, String activityId, int noOfActivityOfferings, CourseOfferingManagementForm form){
 
         FormatInfo format = null;
         CourseInfo course;
+        CourseOfferingInfo courseOffering = form.getTheCourseOffering();
 
         // Get the format object for the id selected
         try {
-            course = getCourseService().getCourse(courseOfferingInfo.getCourseId());
+            course = getCourseService().getCourse(courseOffering.getCourseId());
             for (FormatInfo f : course.getFormats()) {
                 if(f.getId().equals(formatId)) {
                     format = f;
@@ -139,7 +140,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         // find the format offering object for the selected format
         FormatOfferingInfo formatOfferingInfo = null;
         try {
-            List<FormatOfferingInfo> courseOfferingFOs = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingInfo.getId(), getContextInfo());
+            List<FormatOfferingInfo> courseOfferingFOs = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOffering.getId(), getContextInfo());
             for(FormatOfferingInfo fo : courseOfferingFOs) {
                 if (fo.getFormatId().equals(formatId)) {
                     formatOfferingInfo = fo;
@@ -178,10 +179,16 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             aoInfo.setActivityId(activityId);
             aoInfo.setFormatOfferingId(formatOfferingInfo.getId());
             aoInfo.setTypeKey(activityOfferingType.getKey());
-            aoInfo.setCourseOfferingId(courseOfferingInfo.getId());
+            aoInfo.setCourseOfferingId(courseOffering.getId());
             aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
             try {
-                _getCourseOfferingService().createActivityOffering(formatOfferingInfo.getId(), activityId, activityOfferingType.getKey(), aoInfo, getContextInfo());
+                ActivityOfferingInfo activityOfferingInfo = _getCourseOfferingService().createActivityOffering(formatOfferingInfo.getId(), activityId, activityOfferingType.getKey(), aoInfo, getContextInfo());
+                ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(activityOfferingInfo);
+                StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), getContextInfo());
+                wrapper.setStateName(state.getName());
+                TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), getContextInfo());
+                wrapper.setTypeName(typeInfo.getName());
+                form.getActivityWrapperList().add(wrapper);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
