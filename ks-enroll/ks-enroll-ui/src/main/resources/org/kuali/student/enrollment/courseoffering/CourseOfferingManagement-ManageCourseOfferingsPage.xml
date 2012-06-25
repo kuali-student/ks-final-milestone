@@ -64,9 +64,11 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField"
-                      p:label="COURSE OFFERING CODE"
-                      p:propertyName="courseOfferingCode" />
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="id" />
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField"
                       p:label="TITLE"
                       p:propertyName="courseOfferingTitle"/>
@@ -80,8 +82,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-SubmitActionLink" p:methodToCall="loadAOs" p:actionLabel="Edit Activity Offerings  " />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View  " />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
                 <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="delete" p:actionLabel="Delete" />
             </list>

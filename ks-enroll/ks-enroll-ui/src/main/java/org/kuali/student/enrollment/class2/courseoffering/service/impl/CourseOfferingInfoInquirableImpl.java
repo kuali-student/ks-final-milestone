@@ -47,6 +47,9 @@ public class CourseOfferingInfoInquirableImpl extends InquirableImpl {
     @Override
     public Object retrieveDataObject(Map<String, String> parameters) {
         String coInfoId = parameters.get("coInfo.id");
+        if(coInfoId == null || "".equals(coInfoId)){
+            coInfoId = parameters.get("id");
+        }
         ResultValuesGroup rvGroup = null;
 
         try {
