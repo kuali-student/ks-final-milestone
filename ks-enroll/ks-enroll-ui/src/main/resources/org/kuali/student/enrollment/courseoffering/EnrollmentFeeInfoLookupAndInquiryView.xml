@@ -14,7 +14,7 @@
         <property name="headerText" value="Enrollment Fee Lookup" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeInfoLookupableImpl" />
-        <property name="defaultSingleLookupResultAction"    value="maintenance"/>
+        <property name="defaultSingleLookupResultAction"    value="@{#Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}"/>
 
 
         <property name="criteriaFields">

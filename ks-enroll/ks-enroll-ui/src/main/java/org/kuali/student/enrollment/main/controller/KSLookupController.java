@@ -36,8 +36,7 @@ public class KSLookupController extends LookupController {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KSLookupController.class);
 
     /**
-     * search - sets the values of the data entered on the form on the jsp into a map and then searches for the
-     * results.
+     * Overrides the KRAD search functionality to perform redirect on single search result.
      */
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") LookupForm lookupForm, BindingResult result,

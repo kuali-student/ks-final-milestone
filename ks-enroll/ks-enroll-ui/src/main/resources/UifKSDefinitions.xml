@@ -51,6 +51,9 @@
 
     <bean id="KSInquiryFooter" parent="KSInquiryFooter-parent"/>
 
+    <!-- We are overriding the lookup footer bean to customize the default CLOSE button action. On Close button action(if it's not rendered in lightbox), We need to return to the enrollment
+      home page instead of closing the window (window.close). As the rice uses nested beans, it's not possible to override the close button bean. But, looks like rice team is working
+      on creating seperate beans instead of nested beans. Once we get that, we should be able to override just the close button bean instead of overriding the entire footer bean-->
     <bean id="KSInquiryFooter-parent" parent="Uif-InquiryFooter" abstract="true">
     <property name="items">
       <list>
