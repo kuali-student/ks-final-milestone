@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.lrc.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -49,7 +50,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     @Column(name = "RESULT_SCALE_ID")
     private String resultScaleId;
     @Column(name = "NUMERIC_VALUE")
-    private int numericValue;
+    private BigDecimal numericValue;
     @Column(name = "RESULT_VALUE")
     private String value;
     @Temporal(TemporalType.TIMESTAMP)
@@ -84,8 +85,12 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         }
         setEffectiveDate(dto.getEffectiveDate());
         setExpirationDate(dto.getExpirationDate());
-        if(dto.getNumericValue() != null && !"".equals(dto.getNumericValue())){
-            setNumericValue(Integer.parseInt(dto.getNumericValue()));
+        if(dto.getNumericValue() != null){
+            setNumericValue(new BigDecimal(dto.getNumericValue()));
+        }
+        else
+        {
+            setNumericValue (null);
         }
         setValue(dto.getValue()); 
         // dynamic attributes
@@ -119,11 +124,11 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         this.resultScaleId = resultScaleId;
     }
 
-    public int getNumericValue() {
+    public BigDecimal getNumericValue() {
         return numericValue;
     }
 
-    public void setNumericValue(int numericValue) {
+    public void setNumericValue(BigDecimal numericValue) {
         this.numericValue = numericValue;
     }
 

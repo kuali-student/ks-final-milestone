@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.test.util.AttributeTester;
+import org.kuali.student.enrollment.test.util.FloatAsStringTester;
 import org.kuali.student.enrollment.test.util.KeyEntityTester;
 import org.kuali.student.enrollment.test.util.ListOfStringTester;
 import org.kuali.student.enrollment.test.util.MetaTester;
@@ -325,8 +326,8 @@ public class TestLrcServiceMockImpl {
         new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
         new TimeTester().check(expected.getExpirationDate(), actual.getExpirationDate());
         assertEquals(expected.getResultScaleKey(), actual.getResultScaleKey());
-        assertEquals(expected.getValue(), actual.getValue());
-        assertEquals(expected.getNumericValue(), actual.getNumericValue());
+        assertEquals (expected.getValue(), actual.getValue());
+        new FloatAsStringTester ().check(expected.getNumericValue(), actual.getNumericValue());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterCreate(actual.getMeta());
 
@@ -346,7 +347,7 @@ public class TestLrcServiceMockImpl {
         new TimeTester().check(expected.getExpirationDate(), actual.getExpirationDate());
         assertEquals(expected.getResultScaleKey(), actual.getResultScaleKey());
         assertEquals(expected.getValue(), actual.getValue());
-        assertEquals(expected.getNumericValue(), actual.getNumericValue());
+        new FloatAsStringTester ().check(expected.getNumericValue(), actual.getNumericValue());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
 
@@ -364,7 +365,7 @@ public class TestLrcServiceMockImpl {
         new KeyEntityTester().check(expected, actual);
         assertEquals(expected.getResultScaleKey(), actual.getResultScaleKey());
         assertEquals(expected.getValue(), actual.getValue());
-        assertEquals(expected.getNumericValue(), actual.getNumericValue());
+        new FloatAsStringTester ().check(expected.getNumericValue(), actual.getNumericValue());
         new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
         new TimeTester().check(expected.getExpirationDate(), actual.getExpirationDate());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
@@ -377,7 +378,7 @@ public class TestLrcServiceMockImpl {
         new KeyEntityTester().check(expected, actual);
         assertEquals(expected.getResultScaleKey(), actual.getResultScaleKey());
         assertEquals(expected.getValue(), actual.getValue());
-        assertEquals(expected.getNumericValue(), actual.getNumericValue());
+        new FloatAsStringTester ().check(expected.getNumericValue(), actual.getNumericValue());
         new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
         new TimeTester().check(expected.getExpirationDate(), actual.getExpirationDate());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
@@ -910,7 +911,7 @@ public class TestLrcServiceMockImpl {
         assertEquals(LrcServiceConstants.RESULT_VALUE_TYPE_KEY_VALUE, rv.getTypeKey());
         assertEquals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, rv.getResultScaleKey());
         assertEquals(value, rv.getValue());
-        assertEquals(value, rv.getNumericValue());
+        new FloatAsStringTester ().check(value, rv.getNumericValue());
         // get again should not create a new one
         this.lrcService.getCreateResultValueForScale(value, LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, callContext);
         assertEquals("kuali.result.value.credit.degree.75", rv.getKey());
@@ -919,6 +920,6 @@ public class TestLrcServiceMockImpl {
         assertEquals(LrcServiceConstants.RESULT_VALUE_TYPE_KEY_VALUE, rv.getTypeKey());
         assertEquals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, rv.getResultScaleKey());
         assertEquals(value, rv.getValue());
-        assertEquals(value, rv.getNumericValue());
+        new FloatAsStringTester ().check(value, rv.getNumericValue());
     }
 }
