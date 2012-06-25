@@ -36,6 +36,137 @@
         </property>
     </bean>
 
+    <!-- InquiryView -->
+    <bean id="KS-CourseOfferingEditWrapper-InquiryView" parent="KSInquiryView"
+          p:headerText="Course Offering Inquiry"
+          p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"
+          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoInquirableImpl"
+            >
+        <property name="Items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Course Offering Information">
+                    <property name="items">
+                        <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:label="ID" p:propertyName="coInfo.id" p:readOnly="true" />
+                            <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingTitle" />
+                            <bean parent="Uif-DataField" p:propertyName="coInfo.termId" />
+                            <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode" />
+                            <bean parent="Uif-DataField" p:label="Grading Option" p:propertyName="selectedGradingOptionName" />
+
+                            <bean parent="Uif-DataField" p:label="Student Registration Options" p:propertyName="selectedstudentRegOpts" />
+
+                        </list>
+                    </property>
+                </bean>
+
+
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
+                    <property name="items">
+                        <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="coInfo.finalExamType" />
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Waitlists">
+                    <property name="items">
+                        <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Waitlist type:" p:propertyName="coInfo.waitlistTypeKey" />
+                            <!--<bean parent="Uif-MessageField" p:lable="Has waitlist" p:messageText="@{coInfo.hasWaitlist ? 'YES':'NO'}"/>-->
+                            <bean parent="Uif-MessageField" p:label="Has waitlist:" p:labelPlacement="LEFT" p:fieldLabel.renderColon="false" p:messageText="@{dataObject.coInfo.hasWaitlist ? 'YES':'NO'}" />
+
+                            <bean parent="Uif-DataField" p:label="Waitlist level type:" p:propertyName="coInfo.waitlistLevelTypeKey" />
+                        </list>
+                    </property>
+                </bean>
+
+                <!--
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
+                    <property name="items">
+                        <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="coInfo.finalExamType" p:label="Final Exams" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamOptionsKeyValues" p:addBlankOption="false" />
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="headerText" value="Personnel"/>
+                    <property name="items">
+                        <list>
+                            <bean id="KS-ActivityOffering-PersonnelSection" parent="Uif-TableCollectionSection"
+                                p:layoutManager.numberOfColumns="6"
+                                p:layoutManager.style="width: 100%; display:block;">
+                                <property name="headerText" value="Affiliated Personnel" />
+                                <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo" />
+                                <property name="propertyName" value="coInfo.instructors" />
+                                <property name="layoutManager.renderSequenceField" value="false" />
+                                <property name="layoutManager.separateAddLine" value="false" />
+                                <property name="layoutManager.richTable.render" value="false" />
+                                <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                                <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID">
+                                            <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                                            <property name="quickfinder.fieldConversions">
+                                                <map>
+                                                    <entry key="name" value="personName"/>
+                                                    <entry key="entityId" value="personId"/>
+                                                </map>
+                                            </property>
+                                            <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="personName" p:label="Name" p:readOnly="true" />
+                                        <bean parent="Uif-InputField" p:propertyName="typeKey" p:label="AFFILIATION">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:options-ref="coInstructors-options" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="percentageEffort" p:label="INST.EFFORT">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="10" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                -->
+
+            </list>
+        </property>
+    </bean>
+
     <bean id="CourseOfferingEdit-MaintenanceView" parent="KSMaintenanceView">
         <property name="headerText" value="Course Offering Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
