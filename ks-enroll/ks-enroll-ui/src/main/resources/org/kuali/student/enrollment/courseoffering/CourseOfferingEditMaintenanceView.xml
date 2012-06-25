@@ -22,7 +22,7 @@
 
     <bean id="CourseOfferingEditWrapper-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
-        <property name="titleAttribute" value="coInfo.courseOfferingCode"/>
+        <property name="titleAttribute" value="id"/>
         <property name="attributes">
             <list>
             </list>
