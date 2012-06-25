@@ -8,11 +8,9 @@
     <bean id="KS-AcademicCalendar-FlowView" parent="KSFormView">
         <property name="id" value="academicCalendarFlowView"/>
         <property name="headerText" value="Academic Calendar"/>
+        <property name="header.render" value="false"/>
         <property name="entryPageId" value="academicCalendarCopyPage"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
-        <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
-        </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>
@@ -27,6 +25,7 @@
         <!--<property name="defaultBindingObjectPath" value=""/>-->
         <property name="additionalCssFiles">
             <list merge="true">
+                <value>ks-enroll/css/calendar.css</value>
                 <value>ks-enroll/css/acal.css</value>
             </list>
         </property>
