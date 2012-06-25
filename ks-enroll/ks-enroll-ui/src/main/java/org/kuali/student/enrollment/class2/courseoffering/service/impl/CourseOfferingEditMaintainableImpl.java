@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -25,7 +26,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingEditMaintainable;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -53,7 +53,7 @@ import java.util.*;
  *
  * @author Kuali Student Team
  */
-public class CourseOfferingEditMaintainableImpl extends MaintainableImpl implements CourseOfferingEditMaintainable {
+public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
 
     private transient CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
