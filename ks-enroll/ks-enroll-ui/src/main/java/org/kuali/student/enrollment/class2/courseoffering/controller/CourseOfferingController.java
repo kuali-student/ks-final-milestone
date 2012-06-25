@@ -74,7 +74,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
             //Get all the course offerings in a term
             List<String> courseOfferingIds = getCourseOfferingService().getCourseOfferingIdsByTerm(term.getId(),false,getContextInfo());
-            List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,getContextInfo());
+            List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(),term.getId(),getContextInfo());
 
             coWrapper.getExistingTermOfferings().clear();
             coWrapper.getExistingCourseOfferings().clear();

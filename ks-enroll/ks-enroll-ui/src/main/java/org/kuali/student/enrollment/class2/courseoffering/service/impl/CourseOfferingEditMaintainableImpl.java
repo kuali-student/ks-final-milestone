@@ -17,7 +17,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -214,12 +213,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
 
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        if (getDataObject() instanceof CourseOfferingCreateWrapper){
-            document.getDocumentHeader().setDocumentDescription("Course Offering");
-            if (requestParameters.get("targetTermCode") != null && requestParameters.get("targetTermCode").length != 0){
-                ((CourseOfferingCreateWrapper)document.getNewMaintainableObject().getDataObject()).setTargetTermCode(requestParameters.get("targetTermCode")[0]);
-            }
-        } else if (getDataObject() instanceof ActivityOfferingWrapper){
+        if (getDataObject() instanceof ActivityOfferingWrapper){
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)document.getNewMaintainableObject().getDataObject();
             document.getDocumentHeader().setDocumentDescription("Activity Offering");
             try {
