@@ -23,6 +23,7 @@
     <bean id="KS-CourseOfferingRolloverManagement-SelectTermPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="selectTermsForRollover"
           p:headerText="Perform Rollover">
+        <!-- It's easier to put the footer up front since it has a lot less content -->
         <property name="footer">
             <bean parent="Uif-FooterBase">
                 <property name="items">
@@ -33,11 +34,11 @@
                     </list>
                 </property>
             </bean>
-        </property>
+        </property> <!-- End of footer -->
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup" p:style="min-width:17cm">
-                    <property name="items">
+                <property name="items">
                         <list>
                             <bean parent="Uif-VerticalBoxSubSection" p:headerText="Select Target Term">
                                 <property name="validationMessages">

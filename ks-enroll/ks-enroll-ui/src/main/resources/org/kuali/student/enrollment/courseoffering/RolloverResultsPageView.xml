@@ -59,6 +59,17 @@
                                                     </list>
                                                 </property>
                                             </bean>
+                                            <!-- Displays Release to Depts button and Re-do Rollover -->
+                                            <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:render="@{!releaseToDeptsDisabled}">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release to Departments"
+                                                              p:methodToCall="confirmReleaseToDepts"/>
+                                                        <bean parent="Uif-ActionLink" p:actionLabel="Re-do Rollover" p:methodToCall="redoRollover"/>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <!-- Source term display -->
                                             <bean parent="Uif-HorizontalBoxSubSection">
                                                 <property name="items">
                                                     <list>
@@ -152,7 +163,26 @@
                                                  <bean parent="Uif-DataField" p:propertyName="message" p:label="Details"/>
                                        </list>
                                    </property>
-                                 </bean>  <!-- -->
+                                 </bean>  <!-- grid sectoin -->
+                                <bean parent="Uif-VerticalBoxSection" p:width="20cm" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-Message" p:render="@{!isReleasedToDepts}"
+                                                      p:messageText="Currently, only central administrators are able to make changes to course offering information in this term's course schedule. To grant departmental administrators access to copy and edit functions, you must first release the term to departments. Doing so will disable future Rollovers to this term."/>
+                                                <bean parent="Uif-Message" p:render="@{isReleasedToDepts}"
+                                                      p:messageText="This term has already been released to departments." p:style="font-style:italic"/>
+                                                <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:render="@{!releaseToDeptsDisabled}">
+                                                    <property name="items">
+                                                        <list>
+                                                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release to Departments"
+                                                                  p:methodToCall="confirmReleaseToDepts"/>
+                                                            <bean parent="Uif-ActionLink" p:actionLabel="Re-do Rollover" p:methodToCall="redoRollover"/>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </list>
+                                        </property>
+                                </bean>
                             </list>
                         </property>
                     </bean>

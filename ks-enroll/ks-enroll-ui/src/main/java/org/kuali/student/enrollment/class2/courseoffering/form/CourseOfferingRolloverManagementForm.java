@@ -54,7 +54,14 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private String activityOfferingsAllowed;
     private List<SocRolloverResultItemWrapper> socRolloverResultItems;
     private boolean isConfigurationOptionsDisabled = true;
-    
+    private boolean acceptIndicator = false;
+
+    // release to depts fields
+    private boolean releaseToDeptsDisabled = false;
+    private boolean releaseToDeptsInvalidTerm = false;
+    private boolean releaseToDeptsAlreadyReleased = false;
+    private boolean isReleasedToDepts = false;
+
     public CourseOfferingRolloverManagementForm(){
         targetTermCode = "";
         sourceTermCode = "";
@@ -69,9 +76,15 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         //rollover details fields
         rolloverSourceTermDesc = "";
         rolloverTargetTermCode = "";
+        rolloverTargetTermDesc = "";
         dateInitiated = "";
         dateCompleted = "";
         socRolloverResultItems = new ArrayList<SocRolloverResultItemWrapper>();
+        // release to depts fields
+        releaseToDeptsDisabled = false;
+        releaseToDeptsAlreadyReleased = false;
+        releaseToDeptsInvalidTerm = false;
+        
      }
 
     public String getTargetTermCode() {
@@ -257,7 +270,47 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     public void setIsConfigurationOptionsDisabled(boolean isConfigurationOptionsDisabled) {
         this.isConfigurationOptionsDisabled = isConfigurationOptionsDisabled;
     }
-    
+
+    public boolean getAcceptIndicator() {
+        return acceptIndicator;
+    }
+
+    public void setAcceptIndicator(boolean acceptIndicator) {
+        this.acceptIndicator = acceptIndicator;
+    }
+
+    public boolean getReleaseToDeptsDisabled() {
+        return releaseToDeptsDisabled;
+    }
+
+    public void setReleaseToDeptsDisabled(boolean releaseToDeptsDisabled) {
+        this.releaseToDeptsDisabled = releaseToDeptsDisabled;
+    }
+
+    public boolean getReleaseToDeptsInvalidTerm() {
+        return releaseToDeptsInvalidTerm;
+    }
+
+    public void setReleaseToDeptsInvalidTerm(boolean releaseToDeptsInvalidTerm) {
+        this.releaseToDeptsInvalidTerm = releaseToDeptsInvalidTerm;
+    }
+
+    public boolean getReleaseToDeptsAlreadyReleased() {
+        return releaseToDeptsAlreadyReleased;
+    }
+
+    public void setReleaseToDeptsAlreadyReleased(boolean releaseToDeptsAlreadyReleased) {
+        this.releaseToDeptsAlreadyReleased = releaseToDeptsAlreadyReleased;
+    }
+
+    public boolean getIsReleasedToDepts() {
+        return isReleasedToDepts;
+    }
+
+    public void setIsReleasedToDepts(boolean releasedToDepts) {
+        isReleasedToDepts = releasedToDepts;
+    }
+
     public void resetForm(){
         displayedTargetTermCode = "";
         targetTermStartDate = "";
@@ -277,5 +330,10 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         isGoSourceButtonDisabled = true;
         isRolloverButtonDisabled = true;
         isConfigurationOptionsDisabled = true;
+        // release to depts fields
+        releaseToDeptsDisabled = false;
+        releaseToDeptsAlreadyReleased = false;
+        releaseToDeptsInvalidTerm = false;
+        isReleasedToDepts = false;
     }
  }

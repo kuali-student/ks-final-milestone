@@ -66,6 +66,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
 
     final Logger logger = Logger.getLogger(CourseOfferingRolloverController.class);
     public static final String ROLLOVER_DETAILS_PAGEID = "selectTermForRolloverDetails";
+    public static final String ROLLOVER_CONFIRM_RELEASE = "releaseToDepts";
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -280,7 +281,22 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         return viewHelperService;
     }
 
-    //This method looks for rollover resultInfos for specific target term.
+    private void _disableReleaseToDeptsIfNeeded(CourseOfferingViewHelperService helper, String targetTermId,
+                                                CourseOfferingRolloverManagementForm form) {
+        SocInfo socInfo = helper.getMainSoc(targetTermId);
+        if (socInfo == null) { 
+            // Disable if no term found
+            form.setReleaseToDeptsDisabled(true);
+            form.setReleaseToDeptsInvalidTerm(true);
+        } else if (!socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY)) {
+            // Disable if not in draft state
+            form.setReleaseToDeptsDisabled(true);
+            form.setReleaseToDeptsAlreadyReleased(true);
+            form.setIsReleasedToDepts(true); // Assume it's been released if no longer in draft state
+        }
+    }
+
+    // This method displays rollover result Infos for specific target term.
     @RequestMapping(params = "methodToCall=showRolloverResults")
     public ModelAndView showRolloverResults(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -292,26 +308,33 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         if (termList.isEmpty()) {
             GlobalVariables.getMessageMap().putError("rolloverTargetTermCode", "error.rollover.targetTerm.noResults", termCode);
             form.resetForm(); // TODO: Does this make sense?  I don't think so. cclin
+            return getUIFModelAndView(form);
         } else {
-            String targetTermId = termList.get(0).getId();
+            TermInfo targetTerm = termList.get(0);
+            form.setTargetTerm(targetTerm);
+            String targetTermId = targetTerm.getId();
+            // Get rollover result info for target term
             List<SocRolloverResultInfo> socRolloverResultInfos = helper.findRolloverByTerm(targetTermId);
-            if (socRolloverResultInfos == null & socRolloverResultInfos.isEmpty()) {
-                GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.targetTerm.noResults");
+            if (socRolloverResultInfos == null || socRolloverResultInfos.isEmpty()) {
+                GlobalVariables.getMessageMap().putError("rolloverTargetTermCode", "error.rollover.targetTerm.noResults", termCode);
                 form.resetForm(); // TODO: Does this make sense?  I don't think so. cclin
+                return getUIFModelAndView(form);
             } else {
                 if (socRolloverResultInfos.size() > 1) {
                     logger.warn("Multiple Soc Rollover Results Found");
                 }
+                _disableReleaseToDeptsIfNeeded(helper, targetTermId, form);
                 SocRolloverResultInfo socRolloverResultInfo = socRolloverResultInfos.get(0);
                 if (socRolloverResultInfo.getStateKey().equals(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY)) {
                     form.setStatusField("Finished");
                 } else if (socRolloverResultInfo.getStateKey().equals(CourseOfferingSetServiceConstants.RUNNING_RESULT_STATE_KEY)) {
                     form.setStatusField("In Progress");
                 }
-                //SocInfo service to get Source Term Id
+                // SocInfo service to get Source Term Id
                 SocInfo socInfo = _getSocService().getSoc(socRolloverResultInfo.getSourceSocId(), new ContextInfo());
 
                 if (socInfo != null) {
+                    // Set some display fields that show friendly, human-readable term data
                     String friendlySourceTermDesc = helper.getTermDesc(socInfo.getTermId());
                     form.setRolloverSourceTermDesc(friendlySourceTermDesc);
                     String friendlyTargetTermDesc = helper.getTermDesc(targetTermId);
@@ -320,7 +343,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 Date dateInitiated = socRolloverResultInfo.getMeta().getCreateTime();
                 String startDateStr = helper.formatDateAndTime(dateInitiated);
                 form.setDateInitiated(startDateStr);
-                //if items skipped is null, then below condition passess and items skipped is calculated
+                // if items skipped is null, then below condition passes and items skipped is calculated
                 if (socRolloverResultInfo.getCourseOfferingsCreated() == null || socRolloverResultInfo.getCourseOfferingsCreated().toString().length() < 1) {
                     Integer temp = socRolloverResultInfo.getItemsExpected() - socRolloverResultInfo.getItemsProcessed();
                     form.setCourseOfferingsAllowed(socRolloverResultInfo.getItemsProcessed() + " transitioned with " + temp + " exceptions");
@@ -330,7 +353,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 Date dateCompleted = socRolloverResultInfo.getMeta().getUpdateTime();
                 String updatedDateStr = helper.formatDateAndTime(dateCompleted);
                 form.setDateCompleted(updatedDateStr);
-                //CourseOfferingSet service to get Soc Rollover ResultItems by socResultItemInfo id
+                // CourseOfferingSet service to get Soc Rollover ResultItems by socResultItemInfo id
                 try {
                     List<SocRolloverResultItemInfo> socRolloverResultItemInfos =
                             _getSocService().getSocRolloverResultItemsByResultId(socRolloverResultInfo.getId(), new ContextInfo());
@@ -340,7 +363,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                             socRolloverResultItemInfos.remove(socRolloverResultItemInfo);
                         } else {
                             String courseOfferingId = socRolloverResultItemInfo.getTargetCourseOfferingId();
-                            if(courseOfferingId == null || "".equals(courseOfferingId)){
+                            if (courseOfferingId == null || "".equals(courseOfferingId)){
                                 courseOfferingId = socRolloverResultItemInfo.getSourceCourseOfferingId();
                             }
 
@@ -362,6 +385,74 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             } 
         } 
         return getUIFModelAndView(form, ROLLOVER_DETAILS_PAGEID);
+    }
+
+    /**
+     * This is used in the rollover results page to
+     */
+    @RequestMapping(params = "methodToCall=releaseToDepts")
+    public ModelAndView releaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.err.println("releaseToDepts");
+        CourseOfferingViewHelperService helper = getViewHelperService(form);
+        boolean accept = form.getAcceptIndicator();
+        TermInfo targetTerm = form.getTargetTerm();
+        if (!accept) {
+            // Didn't click approval
+            GlobalVariables.getMessageMap().putError("approveCheckbox", "error.rollover.release.notApproved");
+        } else if (targetTerm == null) {
+            // Didn't get term info from Rollover Results page
+            GlobalVariables.getMessageMap().putError("approveCheckbox", "error.rollover.invalidTerm");
+        } else {
+            // We're good!
+            System.err.println("Ready to release to depts");
+            SocInfo socInfo = helper.getMainSoc(targetTerm.getId());
+            if (!socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY)) {
+                // If it's not draft, then set variable to disable release to depts in the UI
+                form.setReleaseToDeptsDisabled(true);
+                form.setReleaseToDeptsAlreadyReleased(true);
+            } else {
+                // It's draft, so change to state to open
+                socInfo.setStateKey(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY);
+                // Persist the state change
+                _getSocService().updateSoc(socInfo.getId(), socInfo, new ContextInfo());
+                form.setReleaseToDeptsDisabled(true);
+                form.setReleaseToDeptsAlreadyReleased(true);
+            }
+        }
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=startReleaseToDepts")
+    public ModelAndView startReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.err.println("startReleaseToDepts");
+        String targetTermCode = form.getRolloverTargetTermCode();
+        if (targetTermCode == null || targetTermCode.trim().isEmpty()) {
+            form.setReleaseToDeptsDisabled(true);
+        }
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=checkApproval")
+    public ModelAndView checkApproval(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.err.println("checkApproval " + form.getAcceptIndicator());
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=redoRollover")
+    public ModelAndView redoRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.err.println("redoRollover ");
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=confirmReleaseToDepts")
+    public ModelAndView confirmReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.err.println("confirmReleaseToDepts ");
+        return getUIFModelAndView(form, ROLLOVER_CONFIRM_RELEASE);
     }
 
     private CourseOfferingSetService _getSocService() {

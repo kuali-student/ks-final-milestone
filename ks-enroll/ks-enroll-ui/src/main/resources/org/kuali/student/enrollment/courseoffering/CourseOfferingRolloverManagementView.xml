@@ -36,6 +36,7 @@
                 <list>
                     <ref bean="KS-CourseOfferingRolloverManagement-SelectTermPage"/>
                     <ref bean="KS-RolloverResultsPage-SelectTermPage"/>
+                    <ref bean="KS-CourseOfferingRolloverManagement-ReleaseToDeptsPage"/>
                 </list>
             </property>
 
