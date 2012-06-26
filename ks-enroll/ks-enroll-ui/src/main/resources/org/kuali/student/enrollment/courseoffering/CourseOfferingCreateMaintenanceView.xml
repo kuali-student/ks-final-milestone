@@ -301,7 +301,7 @@
 
     <util:list id="gradeRosterLevel-options">
         <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
-        <bean parent="Uif-KeyLabelPair" p:key="Coruse" p:value="Course"/>
+        <bean parent="Uif-KeyLabelPair" p:key="Course" p:value="Course"/>
         <bean parent="Uif-KeyLabelPair" p:key="Lecture" p:value="Lecture"/>
     </util:list>
 
