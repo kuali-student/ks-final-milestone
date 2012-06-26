@@ -32,6 +32,7 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableBloc
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableModel;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableRow;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHTML;
@@ -51,7 +52,9 @@ public class ExportUtils {
     public static final String PDF = "PDF";
     public static final String DOC = "DOC";
     public static final String XLS = "XLS";
-
+    public static final String XML = "XML";
+    public static final String RTF = "RTF";
+    public static final String TEXT = "TEXT";
     /**
      * 
      * Inspect the given widget for the value and add it to the export element object.
@@ -237,7 +240,7 @@ public class ExportUtils {
             
             // Loop through all the rows.
             for (SummaryTableRow row : block.getSectionRowList()) {
-                ExportElement element = new ExportElement();
+                ExportElement element = GWT.create(ExportElement.class);
 				element.setSectionName(blockName);
 				element.setViewName(blockName);
 				element.setFieldLabel(row.getTitle());
@@ -456,7 +459,7 @@ public class ExportUtils {
      * @return
      */
     private static ExportElement createExportElement(String viewName, String sectionName, List<ExportElement> childElements, Widget child) {
-        ExportElement exportItem = new ExportElement();
+        ExportElement exportItem = GWT.create(ExportElement.class);
         exportItem.setSectionName(sectionName);
         exportItem.setViewName(viewName);
                             
@@ -466,7 +469,7 @@ public class ExportUtils {
     }
 
     private static ExportElement createExportElement2(String viewName, String sectionName, List<ExportElement> childElements, Widget child) {
-        ExportElement exportItem = new ExportElement();
+        ExportElement exportItem = GWT.create(ExportElement.class);
         exportItem.setSectionName(sectionName);
         exportItem.setViewName(viewName);
                             
