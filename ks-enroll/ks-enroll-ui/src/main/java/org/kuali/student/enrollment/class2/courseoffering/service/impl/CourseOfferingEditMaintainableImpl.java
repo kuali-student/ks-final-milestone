@@ -116,7 +116,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
 
         try{
             // persist format offerings
-            //this.persistFormatOfferings();     //This currently doesn't work.
+            this.persistFormatOfferings();     //This currently doesn't work.
 
             //persist unitDeploymentOrgIds
             List<String> unitDeploymentOrgIds = new ArrayList<String>();
@@ -153,14 +153,23 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             formatOffering.setStateKey("kuali.lui.format.offering.state.planned");
             formatOffering.setTermId(coInfo.getTermId());
             formatOffering.setCourseOfferingId(coInfo.getId());
-            if(oldFormats.contains(formatOffering)) {   // update
-                getCourseOfferingService().updateFormatOffering(formatOffering.getId(),formatOffering,getContextInfo());
-            } else {                                    // create
-                getCourseOfferingService().createFormatOffering(coInfo.getId(),formatOffering.getFormatId(),formatOffering.getTypeKey(),formatOffering,getContextInfo());
+            for ( FormatOfferingInfo oldFormatOffering:oldFormats) {
+                if (oldFormatOffering.getId().equals(formatOffering.getId())) {
+                    getCourseOfferingService().updateFormatOffering(formatOffering.getId(),formatOffering,getContextInfo());
+                } else {                                    // create
+                    getCourseOfferingService().createFormatOffering(coInfo.getId(),formatOffering.getFormatId(),formatOffering.getTypeKey(),formatOffering,getContextInfo());
+                }
             }
         }
+
         for(FormatOfferingInfo oldFormatOffering: oldFormats){  // delete
-            if(!newFormats.contains(oldFormatOffering)) {
+            boolean isTrue = false;
+            for (FormatOfferingInfo newFormatOffering:newFormats) {
+                if (newFormatOffering.getId().equals(oldFormatOffering.getId())){
+                    isTrue = true;
+                }
+            }
+            if (!isTrue) {
                 getCourseOfferingService().deleteFormatOfferingCascaded(oldFormatOffering.getId(),getContextInfo());
             }
         }
