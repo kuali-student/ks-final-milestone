@@ -48,7 +48,7 @@ public class CourseSetEnrollmentProposition extends CourseEnrollmentProposition 
 
         if(courseIds == null) {
 
-            Term term = new Term(RulesExecutionConstants.courseSetTermSpec, Collections.singletonMap(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY_NAME, courseSetId));
+            Term term = new Term(RulesExecutionConstants.COURSE_SET_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY, courseSetId));
 
             courseIds = environment.resolveTerm(term, this);
         }
