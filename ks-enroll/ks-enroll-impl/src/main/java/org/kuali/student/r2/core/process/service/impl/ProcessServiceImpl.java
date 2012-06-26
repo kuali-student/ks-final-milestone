@@ -371,7 +371,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<String> getCheckKeysByType(@WebParam(name = "checkTypeKey") String checkTypeKey,
+    public List<String> getCheckIdsByType(@WebParam(name = "checkTypeKey") String checkTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // List<CheckEntity> checkEntities = checkDao.getByCheckTypeId(checkTypeKey);
@@ -387,7 +387,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<String> searchForCheckKeys(@WebParam(name = "criteria") QueryByCriteria criteria,
+    public List<String> searchForCheckIds(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO
@@ -690,7 +690,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
         toUpdate.setProcessId(process.getId());
 
-        CheckEntity check = checkDao.find(instructionInfo.getCheckKey());
+        CheckEntity check = checkDao.find(instructionInfo.getCheckId());
         if (null == check) {
             throw new InvalidParameterException("Instruction checkId");
         }

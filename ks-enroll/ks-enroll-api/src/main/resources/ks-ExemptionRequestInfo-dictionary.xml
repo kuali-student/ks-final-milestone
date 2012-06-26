@@ -82,8 +82,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ExemptionRequestInfo.checkKey" parent="ExemptionRequestInfo.checkKey-parent"/>
-	<bean id="ExemptionRequestInfo.checkKey-parent" abstract="true" parent="ExemptionRequestInfo.checkKey-generated">
+	<bean id="ExemptionRequestInfo.checkId" parent="ExemptionRequestInfo.checkId-parent"/>
+	<bean id="ExemptionRequestInfo.checkId-parent" abstract="true" parent="ExemptionRequestInfo.checkId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

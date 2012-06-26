@@ -93,43 +93,25 @@ public class ProcessServiceConstants {
     public static final String PROCESS_CHECK_STATE_INACTIVE = "kuali.process.check.state.inactive";
     public static final String[] CHECK_LIFECYCLE_KEYS = {PROCESS_CHECK_STATE_ENABLED, PROCESS_CHECK_STATE_DISABLED, PROCESS_CHECK_STATE_INACTIVE};
 
+    /**
+     * Milestone Types
+     */
+    public static final String MILESTONE_TYPE_ATP_REGISTRATION_PERIOD = "kuali.atp.milestone.RegistrationPeriod";
+
+    /**
+     * Population Types/States
+     */
+    public static final String POPULATION_TYPE_KEY_AUTOMATIC = "kuali.population.type.automatic";
+    public static final String POPULATION_TYPE_KEY_MANUAL = "kuali.population.type.manual";
+
     ///////////////////////////////////
-    // KEYS / IDS
+    // KEYS / IDS / NAMES
     ///////////////////////////////////
 
     /**
      * Dummy Process Owner Organization
      */
     public static final String PROCESS_OWNING_ORG_GRAD_SCHOOL = "GRAD_SCHOOL_ORG";
-
-    /**
-     * known process category keys
-     */
-    public static final String PROCESS_CATEGORY_KEY_ADMISSIONS = "kuali.process.type.admissions";
-    public static final String PROCESS_CATEGORY_KEY_COURSE_REGISTRATION = "kuali.process.type.registration";
-    public static final String PROCESS_CATEGORY_KEY_PROGRAM_ENROLLMENT = "kuali.process.type.enrollment";
-    public static final String PROCESS_CATEGORY_KEY_ACADEMIC_RECORD = "kuali.process.type.acad.record";
-    public static final String PROCESS_CATEGORY_KEY_GRADUATION = "kuali.process.type.graduation";
-    public static final String PROCESS_CATEGORY_KEY_STUDENT_ACCOUNTS = "kuali.process.type.student.accounts";
-    public static final String PROCESS_CATEGORY_KEY_LIBRARY = "kuali.process.type.library";
-    public static final String PROCESS_CATEGORY_KEY_HOUSING = "kuali.process.type.housing";
-
-    /**
-     * known agenda ids
-     */
-    public static final String AGENDA_IS_ALIVE_KEY = "kuali.agenda.is.alive";
-    public static final String AGENDA_IS_NOT_SUMMER_TERM = "kuali.agenda.is.not.summer.term";
-
-    /**
-     * known issue ids
-     */
-    public static final String ISSUE_HOLD_LIBRARY_BOOK_OVERDUE_KEY = "kuali.hold.issue.library.book.overdue";
-    public static final String ISSUE_HOLD_UPAID_TUITION_FROM_LAST_TERM = "kuali.hold.issue.financial.unpaid.tuition.prior.term";
-
-    /**
-     * known milestone types
-     */
-    public static final String MILESTONE_TYPE_ATP_REGISTRATION_PERIOD = "kuali.atp.milestone.RegistrationPeriod";
 
     /**
      * known process keys
@@ -144,59 +126,140 @@ public class ProcessServiceConstants {
     public static final String PROCESS_KEY_VIEW_GRADES = "kuali.process.acad.record.view.grades";
     public static final String PROCESS_KEY_VIEW_GRADES_FOR_TERM = "kuali.process.acad.record.view.grades.for.term";
     public static final String PROCESS_KEY_VIEW_COURSE_GRADE = "kuali.process.acad.record.view.course.grade";
-    /**
-     * known check keys
-     */
-    public static final String CHECK_KEY_IS_ALIVE = "kuali.check.is.alive";
-    public static final String CHECK_KEY_HAS_BEEN_ADMITTED = "kuali.check.has.been.admitted";
-    public static final String CHECK_KEY_HAS_CONFIRMED_INTEND_TO_ATTEND = "kuali.check.has.confirmed.intend.to.attend";
-    public static final String CHECK_KEY_HAS_NOT_BEEN_EXPELLED = "kuali.check.has.not.been.expelled";
-    public static final String CHECK_KEY_HAS_OVERDUE_LIBRARY_BOOK = "kuali.check.has.overdue.library.book";
-    public static final String CHECK_KEY_HAS_UNPAID_LIBRARY_FINE = "kuali.check.has.unpaid.library.fine";
-    public static final String CHECK_KEY_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM = "kuali.check.has.not.paid.bill.from.prior.term";
-    public static final String CHECK_KEY_HAS_ACKNOWLEDGED_RIAA = "kuali.check.has.acknowledged.riaa";
-    public static final String CHECK_KEY_HAS_ACKNOWLEDGED_HONOR_CODE = "kuali.check.has.acknowledged.honor.code";
-    public static final String CHECK_KEY_HAS_VERIFIED_EMERGENCY_CONTACT_DATA = "kuali.check.has.verified.emergency.contact.data";
-    public static final String CHECK_KEY_HAS_APPLIED_TO_GRADUATE = "kuali.check.has.applied.to.graduate";
-    public static final String CHECK_KEY_STUDENT_HAS_BASIC_ELIGIBILITY = "kuali.check.student.has.basic.eligibility";
-    public static final String CHECK_KEY_IS_STUDENT_EXPECTED_IN_TERM = "kuali.check.is.student.expected.in.term";
-    public static final String CHECK_KEY_REGISTRATION_PERIOD_IS_OPEN = "kuali.check.registration.period.is.open";
-    public static final String CHECK_KEY_REGISTRATION_PERIOD_IS_NOT_CLOSED = "kuali.check.registration.period.is.not.closed";
-    public static final String CHECK_KEY_REGISTRATION_HOLDS_CLEARED = "kuali.check.registration.holds.cleared";
-    public static final String CHECK_KEY_ACKNOWLEDGEMENTS_CONFIRMED = "kuali.check.acknowledgements.confirmed";
-    public static final String CHECK_KEY_MAX_TOTAL_CREDITS_ALLOWED = "kuali.check.max.total.credits.allowed";
-    public static final String CHECK_KEY_INTERNATIONAL_STUDENT_CHECK_IN = "kuali.check.international.student.check.in";
-    public static final String CHECK_KEY_IS_NOT_SUMMER_TERM = "kuali.check.is.not.summer.term";
-    public static final String CHECK_KEY_MANDATORY_ADVISING_CHECK = "kuali.check.mandatory.advising.check";
-    public static final String CHECK_KEY_UNRESOLVED_INCOMPLETE_GRADES = "kuali.check.unresolved.incomplete.grades";
-    public static final String CHECK_KEY_ELIGIBILITY_FOR_TERM = "kuali.check.eligibility.for.term";
-    public static final String CHECK_KEY_HAS_THE_NECESSARY_PREREQ = "kuali.check.has.the.necessary.prereq";
-    public static final String CHECK_KEY_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING = "kuali.check.is.eligible.for.the.course.offering";
-    public static final String CHECK_KEY_NORTH_STUDENTS_MAX_SOUTH_CREDITS = "kuali.check.north.students.max.south.credits";
-    public static final String CHECK_KEY_SOUTH_STUDENTS_MAX_NORTH_CREDITS = "kuali.check.south.students.max.north.credits";
-    public static final String CHECK_KEY_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE = "kuali.check.student.has.eligibility.for.each.course";
-    public static final String CHECK_KEY_DOES_NOT_EXCEED_CREDIT_LIMIT = "kuali.check.does.not.exceed.credit.limit";
-    public static final String CHECK_KEY_DOES_NOT_MEET_CREDIT_MINIMUM = "kuali.check.does.not.meet.credit.minimum";
-    public static final String CHECK_KEY_DOES_NOT_HAVE_A_TIME_CONFLICT = "kuali.check.does.not.have.a.time.conflict";
-    public static final String CHECK_KEY_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD = "kuali.check.too.many.courses.during.initial.registration.period";
-    public static final String CHECK_KEY_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES = "kuali.check.student.is.eligible.for.the.courses";
-    public static final String CHECK_KEY_IS_STUDENTS_REGISTRATION_WINDOW = "kuali.check.is.students.registration.window";
-    public static final String CHECK_KEY_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL = "kuali.check.course.has.room.for.student.in.a.seatpool";
-    public static final String CHECK_KEY_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE = "kuali.check.grades.have.been.submitted.for.course";
-    public static final String CHECK_KEY_HAS_COMPLETED_COURSE_EVALUATION = "kuali.check.has.completed.course.evaluation";
 
     /**
-     * known population ids
+     * known process category ids / names
      */
-    public static final String POPULATION_ID_EVERYONE = "kuali.population.everyone";
-    public static final String POPULATION_ID_FINAL_TERM_SENIORS = "kuali.population.final.term.seniors";
-    public static final String POPULATION_ID_NOT_IN_A_DEGREE_GRANTING_PROGRAM = "kuali.population.not.in.a.degree.granting.program";
-    public static final String POPULATION_ID_INTERNATIONAL_STUDENTS = "kuali.population.international.student";
-    public static final String POPULATION_ID_SUMMER_ONLY_STUDENT = "kuali.population.summer.only.student";
-    public static final String POPULATION_ID_FRESHMAN = "kuali.population.freshman";
-    public static final String POPULATION_ID_SOPHOMORE = "kuali.population.sophomore";
-    public static final String POPULATION_ID_UNDERGRADUATE = "kuali.population.undergraduate";
-    public static final String POPULATION_ID_NORTH_CAMPUS_STUDENTS = "kuali.population.north.campus.students";
-    public static final String POPULATION_ID_SOUTH_CAMPUS_STUDENTS = "kuali.population.south.campus.students";
+    public static final String PROCESS_CATEGORY_ID_ADMISSIONS = "2";
+    public static final String PROCESS_CATEGORY_NAME_ADMISSIONS = "kuali.process.type.admissions";
+    public static final String PROCESS_CATEGORY_ID_COURSE_REGISTRATION = "3";
+    public static final String PROCESS_CATEGORY_NAME_COURSE_REGISTRATION = "kuali.process.type.registration";
+    public static final String PROCESS_CATEGORY_ID_PROGRAM_ENROLLMENT = "4";
+    public static final String PROCESS_CATEGORY_NAME_PROGRAM_ENROLLMENT = "kuali.process.type.enrollment";
+    public static final String PROCESS_CATEGORY_ID_ACADEMIC_RECORD = "5";
+    public static final String PROCESS_CATEGORY_NAME_ACADEMIC_RECORD = "kuali.process.type.acad.record";
+    public static final String PROCESS_CATEGORY_ID_GRADUATION = "6";
+    public static final String PROCESS_CATEGORY_NAME_GRADUATION = "kuali.process.type.graduation";
+    public static final String PROCESS_CATEGORY_ID_STUDENT_ACCOUNTS = "7";
+    public static final String PROCESS_CATEGORY_NAME_STUDENT_ACCOUNTS = "kuali.process.type.student.accounts";
+    public static final String PROCESS_CATEGORY_ID_LIBRARY = "8";
+    public static final String PROCESS_CATEGORY_NAME_LIBRARY = "kuali.process.type.library";
+    public static final String PROCESS_CATEGORY_ID_HOUSING = "9";
+    public static final String PROCESS_CATEGORY_NAME_HOUSING = "kuali.process.type.housing";
+
+    /**
+     * known agenda ids / names
+     */
+    public static final String AGENDA_IS_ALIVE_ID = "kuali.agenda.is.alive";
+    public static final String AGENDA_IS_NOT_SUMMER_TERM_ID = "kuali.agenda.is.not.summer.term";
+
+    /**
+     * known issue ids / names
+     */
+    public static final String ISSUE_HOLD_LIBRARY_BOOK_OVERDUE_ID = "kuali.hold.issue.library.book.overdue";
+    public static final String ISSUE_HOLD_UPAID_TUITION_FROM_LAST_TERM_ID = "kuali.hold.issue.financial.unpaid.tuition.prior.term";
+
+    /**
+     * known check ids / names
+     */
+    public static final String CHECK_ID_IS_ALIVE = "2";
+    public static final String CHECK_NAME_IS_ALIVE = "kuali.check.is.alive";
+    public static final String CHECK_ID_HAS_BEEN_ADMITTED = "3";
+    public static final String CHECK_NAME_HAS_BEEN_ADMITTED = "kuali.check.has.been.admitted";
+    public static final String CHECK_ID_HAS_CONFIRMED_INTEND_TO_ATTEND = "4";
+    public static final String CHECK_NAME_HAS_CONFIRMED_INTEND_TO_ATTEND = "kuali.check.has.confirmed.intend.to.attend";
+    public static final String CHECK_ID_HAS_NOT_BEEN_EXPELLED = "5";
+    public static final String CHECK_NAME_HAS_NOT_BEEN_EXPELLED = "kuali.check.has.not.been.expelled";
+    public static final String CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK = "7";
+    public static final String CHECK_NAME_HAS_OVERDUE_LIBRARY_BOOK = "kuali.check.has.overdue.library.book";
+    public static final String CHECK_ID_HAS_UNPAID_LIBRARY_FINE = "8";
+    public static final String CHECK_NAME_HAS_UNPAID_LIBRARY_FINE = "kuali.check.has.unpaid.library.fine";
+    public static final String CHECK_ID_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM = "9";
+    public static final String CHECK_NAME_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM = "kuali.check.has.not.paid.bill.from.prior.term";
+    public static final String CHECK_ID_HAS_ACKNOWLEDGED_RIAA = "11";
+    public static final String CHECK_NAME_HAS_ACKNOWLEDGED_RIAA = "kuali.check.has.acknowledged.riaa";
+    public static final String CHECK_ID_HAS_ACKNOWLEDGED_HONOR_CODE = "12";
+    public static final String CHECK_NAME_HAS_ACKNOWLEDGED_HONOR_CODE = "kuali.check.has.acknowledged.honor.code";
+    public static final String CHECK_ID_HAS_VERIFIED_EMERGENCY_CONTACT_DATA = "13";
+    public static final String CHECK_NAME_HAS_VERIFIED_EMERGENCY_CONTACT_DATA = "kuali.check.has.verified.emergency.contact.data";
+    public static final String CHECK_ID_HAS_APPLIED_TO_GRADUATE = "14";
+    public static final String CHECK_NAME_HAS_APPLIED_TO_GRADUATE = "kuali.check.has.applied.to.graduate";
+    public static final String CHECK_ID_STUDENT_HAS_BASIC_ELIGIBILITY = "16";
+    public static final String CHECK_NAME_STUDENT_HAS_BASIC_ELIGIBILITY = "kuali.check.student.has.basic.eligibility";
+    public static final String CHECK_ID_IS_STUDENT_EXPECTED_IN_TERM = "17";
+    public static final String CHECK_NAME_IS_STUDENT_EXPECTED_IN_TERM = "kuali.check.is.student.expected.in.term";
+    public static final String CHECK_ID_REGISTRATION_PERIOD_IS_OPEN = "18";
+    public static final String CHECK_NAME_REGISTRATION_PERIOD_IS_OPEN = "kuali.check.registration.period.is.open";
+    public static final String CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED = "19";
+    public static final String CHECK_NAME_REGISTRATION_PERIOD_IS_NOT_CLOSED = "kuali.check.registration.period.is.not.closed";
+    public static final String CHECK_ID_REGISTRATION_HOLDS_CLEARED = "20";
+    public static final String CHECK_NAME_REGISTRATION_HOLDS_CLEARED = "kuali.check.registration.holds.cleared";
+    public static final String CHECK_ID_ACKNOWLEDGEMENTS_CONFIRMED = "21";
+    public static final String CHECK_NAME_ACKNOWLEDGEMENTS_CONFIRMED = "kuali.check.acknowledgements.confirmed";
+    public static final String CHECK_ID_MAX_TOTAL_CREDITS_ALLOWED = "22";
+    public static final String CHECK_NAME_MAX_TOTAL_CREDITS_ALLOWED = "kuali.check.max.total.credits.allowed";
+    public static final String CHECK_ID_INTERNATIONAL_STUDENT_CHECK_IN = "23";
+    public static final String CHECK_NAME_INTERNATIONAL_STUDENT_CHECK_IN = "kuali.check.international.student.check.in";
+    public static final String CHECK_ID_IS_NOT_SUMMER_TERM = "24";
+    public static final String CHECK_NAME_IS_NOT_SUMMER_TERM = "kuali.check.is.not.summer.term";
+    public static final String CHECK_ID_MANDATORY_ADVISING_CHECK = "25";
+    public static final String CHECK_NAME_MANDATORY_ADVISING_CHECK = "kuali.check.mandatory.advising.check";
+    public static final String CHECK_ID_UNRESOLVED_INCOMPLETE_GRADES = "26";
+    public static final String CHECK_NAME_UNRESOLVED_INCOMPLETE_GRADES = "kuali.check.unresolved.incomplete.grades";
+    public static final String CHECK_ID_ELIGIBILITY_FOR_TERM = "28";
+    public static final String CHECK_NAME_ELIGIBILITY_FOR_TERM = "kuali.check.eligibility.for.term";
+    public static final String CHECK_ID_HAS_THE_NECESSARY_PREREQ = "29";
+    public static final String CHECK_NAME_HAS_THE_NECESSARY_PREREQ = "kuali.check.has.the.necessary.prereq";
+    public static final String CHECK_ID_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING = "30";
+    public static final String CHECK_NAME_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING = "kuali.check.is.eligible.for.the.course.offering";
+    public static final String CHECK_ID_NORTH_STUDENTS_MAX_SOUTH_CREDITS = "31";
+    public static final String CHECK_NAME_NORTH_STUDENTS_MAX_SOUTH_CREDITS = "kuali.check.north.students.max.south.credits";
+    public static final String CHECK_ID_SOUTH_STUDENTS_MAX_NORTH_CREDITS = "32";
+    public static final String CHECK_NAME_SOUTH_STUDENTS_MAX_NORTH_CREDITS = "kuali.check.south.students.max.north.credits";
+    public static final String CHECK_ID_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE = "34";
+    public static final String CHECK_NAME_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE = "kuali.check.student.has.eligibility.for.each.course";
+    public static final String CHECK_ID_DOES_NOT_EXCEED_CREDIT_LIMIT = "35";
+    public static final String CHECK_NAME_DOES_NOT_EXCEED_CREDIT_LIMIT = "kuali.check.does.not.exceed.credit.limit";
+    public static final String CHECK_ID_DOES_NOT_MEET_CREDIT_MINIMUM = "36";
+    public static final String CHECK_NAME_DOES_NOT_MEET_CREDIT_MINIMUM = "kuali.check.does.not.meet.credit.minimum";
+    public static final String CHECK_ID_DOES_NOT_HAVE_A_TIME_CONFLICT = "37";
+    public static final String CHECK_NAME_DOES_NOT_HAVE_A_TIME_CONFLICT = "kuali.check.does.not.have.a.time.conflict";
+    public static final String CHECK_ID_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD = "38";
+    public static final String CHECK_NAME_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD = "kuali.check.too.many.courses.during.initial.registration.period";
+    public static final String CHECK_ID_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES = "40";
+    public static final String CHECK_NAME_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES = "kuali.check.student.is.eligible.for.the.courses";
+    public static final String CHECK_ID_IS_STUDENTS_REGISTRATION_WINDOW = "41";
+    public static final String CHECK_NAME_IS_STUDENTS_REGISTRATION_WINDOW = "kuali.check.is.students.registration.window";
+    public static final String CHECK_ID_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL = "42";
+    public static final String CHECK_NAME_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL = "kuali.check.course.has.room.for.student.in.a.seatpool";
+    public static final String CHECK_ID_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE = "44";
+    public static final String CHECK_NAME_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE = "kuali.check.grades.have.been.submitted.for.course";
+    public static final String CHECK_ID_HAS_COMPLETED_COURSE_EVALUATION = "45";
+    public static final String CHECK_NAME_HAS_COMPLETED_COURSE_EVALUATION = "kuali.check.has.completed.course.evaluation";
+
+    /**
+     * known population ids / names
+     */
+    public static final String POPULATION_ID_EVERYONE = "2";
+    public static final String POPULATION_NAME_EVERYONE = "kuali.population.everyone";
+    public static final String POPULATION_ID_FINAL_TERM_SENIORS = "3";
+    public static final String POPULATION_NAME_FINAL_TERM_SENIORS = "kuali.population.final.term.seniors";
+    public static final String POPULATION_ID_NOT_IN_A_DEGREE_GRANTING_PROGRAM = "4";
+    public static final String POPULATION_NAME_NOT_IN_A_DEGREE_GRANTING_PROGRAM = "kuali.population.not.in.a.degree.granting.program";
+    public static final String POPULATION_ID_INTERNATIONAL_STUDENTS = "6";
+    public static final String POPULATION_NAME_INTERNATIONAL_STUDENTS = "kuali.population.international.student";
+    public static final String POPULATION_ID_SUMMER_ONLY_STUDENT = "7";
+    public static final String POPULATION_NAME_SUMMER_ONLY_STUDENT = "kuali.population.summer.only.student";
+    public static final String POPULATION_ID_FRESHMAN = "8";
+    public static final String POPULATION_NAME_FRESHMAN = "kuali.population.freshman";
+    public static final String POPULATION_ID_SOPHOMORE = "9";
+    public static final String POPULATION_NAME_SOPHOMORE = "kuali.population.sophomore";
+    public static final String POPULATION_ID_UNDERGRADUATE = "11";
+    public static final String POPULATION_NAME_UNDERGRADUATE = "kuali.population.undergraduate";
+    public static final String POPULATION_ID_NORTH_CAMPUS_STUDENTS = "12";
+    public static final String POPULATION_NAME_NORTH_CAMPUS_STUDENTS = "kuali.population.north.campus.students";
+    public static final String POPULATION_ID_SOUTH_CAMPUS_STUDENTS = "13";
+    public static final String POPULATION_NAME_SOUTH_CAMPUS_STUDENTS = "kuali.population.south.campus.students";
+
 
 }

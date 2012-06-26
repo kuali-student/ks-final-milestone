@@ -85,7 +85,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         super(instruction);
         this.setId(instruction.getId());
         this.processId = instruction.getProcessKey();
-        this.checkId = instruction.getCheckKey();
+        this.checkId = instruction.getCheckId();
         this.instructionType = instruction.getTypeKey();
         this.fromDTO (instruction);
     }
@@ -124,7 +124,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         instructionInfo.setMeta(super.toDTO());
         instructionInfo.setId(getId());
         instructionInfo.setProcessKey(processId);
-        instructionInfo.setCheckKey(checkId);
+        instructionInfo.setCheckId(checkId);
         instructionInfo.setTypeKey(instructionType);
         instructionInfo.setStateKey(instructionState);
         instructionInfo.setEffectiveDate(effectiveDate);

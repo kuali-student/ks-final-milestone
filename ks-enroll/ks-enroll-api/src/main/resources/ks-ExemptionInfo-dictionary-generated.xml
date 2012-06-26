@@ -71,7 +71,7 @@ org?
 				<ref bean="ExemptionInfo.name"/>
 				<ref bean="ExemptionInfo.exemptionRequestId"/>
 				<ref bean="ExemptionInfo.processKey"/>
-				<ref bean="ExemptionInfo.checkKey"/>
+				<ref bean="ExemptionInfo.checkId"/>
 				<ref bean="ExemptionInfo.personId"/>
 				<ref bean="ExemptionInfo.effectiveDate"/>
 				<ref bean="ExemptionInfo.expirationDate"/>
@@ -202,8 +202,8 @@ the exemption is applied.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="ExemptionInfo.checkKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="checkKey"/>
+	<bean id="ExemptionInfo.checkId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="checkId"/>
 		<property name="shortLabel" value="Check Key"/>
 		<property name="summary">
 			<value>

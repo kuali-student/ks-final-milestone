@@ -186,7 +186,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             try {
                 exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY, 
                         processContext.getProcessKey(),
-                        instruction.getCheckKey(), 
+                        instruction.getCheckId(),
                         processContext.getStudentId(), 
                         asOfDate, 
                         context);
@@ -214,7 +214,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
 
             CheckInfo check;
             try {
-                check = processService.getCheck(instruction.getCheckKey(), context);
+                check = processService.getCheck(instruction.getCheckId(), context);
             } catch (OperationFailedException ex) {
                 throw ex;
             } catch (Exception ex) {
@@ -237,9 +237,9 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
                 /*
                   need to handle these differently
                   
-                  } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_ALIVE)) {
+                  } else if (check.getKey().equals(ProcessServiceConstants.CHECK_ID_IS_ALIVE)) {
                   propositions.put(new PersonLivingProposition(), instruction);
-                  } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_NOT_SUMMER_TERM)) {
+                  } else if (check.getKey().equals(ProcessServiceConstants.CHECK_ID_IS_NOT_SUMMER_TERM)) {
                   propositions.put(new SummerTermProposition(term), instruction); 
 
                 */

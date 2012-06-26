@@ -72,8 +72,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="InstructionInfo.checkKey" parent="InstructionInfo.checkKey-parent"/>
-	<bean id="InstructionInfo.checkKey-parent" abstract="true" parent="InstructionInfo.checkKey-generated">
+	<bean id="InstructionInfo.checkId" parent="InstructionInfo.checkId-parent"/>
+	<bean id="InstructionInfo.checkId-parent" abstract="true" parent="InstructionInfo.checkId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

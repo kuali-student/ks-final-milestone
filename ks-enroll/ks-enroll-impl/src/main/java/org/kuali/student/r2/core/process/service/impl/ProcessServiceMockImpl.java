@@ -170,6 +170,9 @@ public class ProcessServiceMockImpl implements ProcessService {
             copy.setId(processCategoryMap.size() + 1 + "");
         }
         copy.setMeta(newMeta(contextInfo));
+        if (processCategoryMap.containsKey(copy.getId())) {
+            throw new OperationFailedException("processCategoryId " + copy.getId() + " already exists") ;
+        }
         processCategoryMap.put(copy.getId(), copy);
         return new ProcessCategoryInfo(copy);
     }
@@ -369,6 +372,9 @@ public class ProcessServiceMockImpl implements ProcessService {
             copy.setKey(processMap.size() + 1 + "");
         }
         copy.setMeta(newMeta(contextInfo));
+        if (processMap.containsKey(copy.getKey())) {
+            throw new AlreadyExistsException("process key" + copy.getKey() + " already exists") ;
+        }
         processMap.put(copy.getKey(), copy);
         return new ProcessInfo(copy);
     }
@@ -443,7 +449,7 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public List<String> getCheckKeysByType(String checkTypeKey, ContextInfo contextInfo)
+    public List<String> getCheckIdsByType(String checkTypeKey, ContextInfo contextInfo)
             throws InvalidParameterException
             ,MissingParameterException
             ,OperationFailedException
@@ -459,13 +465,13 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public List<String> searchForCheckKeys(QueryByCriteria criteria, ContextInfo contextInfo)
+    public List<String> searchForCheckIds(QueryByCriteria criteria, ContextInfo contextInfo)
             throws InvalidParameterException
             ,MissingParameterException
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("searchForCheckKeys has not been implemented");
+        throw new OperationFailedException ("searchForCheckIds has not been implemented");
     }
 
     @Override
@@ -509,6 +515,9 @@ public class ProcessServiceMockImpl implements ProcessService {
             copy.setId(checkMap.size() + 1 + "");
         }
         copy.setMeta(newMeta(contextInfo));
+        if (checkMap.containsKey(copy.getId())) {
+            throw new OperationFailedException("check id" + copy.getId() + " already exists") ;
+        }
         checkMap.put(copy.getId(), copy);
         return new CheckInfo(copy);
     }
@@ -623,7 +632,7 @@ public class ProcessServiceMockImpl implements ProcessService {
     {
         List<InstructionInfo> list = new ArrayList<InstructionInfo> ();
         for (InstructionInfo info: instructionMap.values ()) {
-            if (checkId.equals(info.getCheckKey())) {
+            if (checkId.equals(info.getCheckId())) {
                 list.add (info);
             }
         }
@@ -641,7 +650,7 @@ public class ProcessServiceMockImpl implements ProcessService {
         List<InstructionInfo> list = new ArrayList<InstructionInfo> ();
         for (InstructionInfo info: instructionMap.values ()) {
             if (processKey.equals(info.getProcessKey())) {
-                if (checkId.equals(info.getCheckKey())) {
+                if (checkId.equals(info.getCheckId())) {
                     list.add (info);
                 }
             }
@@ -700,6 +709,9 @@ public class ProcessServiceMockImpl implements ProcessService {
             copy.setId(instructionMap.size() + 1 + "");
         }
         copy.setMeta(newMeta(contextInfo));
+        if (instructionMap.containsKey(copy.getId())) {
+            throw new OperationFailedException("instruction id" + copy.getId() + " already exists") ;
+        }
         instructionMap.put(copy.getId(), copy);
         return new InstructionInfo(copy);
     }

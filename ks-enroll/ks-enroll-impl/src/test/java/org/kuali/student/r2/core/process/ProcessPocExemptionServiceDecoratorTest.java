@@ -71,7 +71,7 @@ public class ProcessPocExemptionServiceDecoratorTest {
         exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(
                 ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM,
-                ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_OPEN,
+                ProcessServiceConstants.CHECK_ID_REGISTRATION_PERIOD_IS_OPEN,
                 ProcessPocConstants.PERSON_ID_JOHNNY_MANNING_2374, 
                 context.getCurrentDate(), context);
         assertEquals(1, exemptions.size()); 
@@ -79,7 +79,7 @@ public class ProcessPocExemptionServiceDecoratorTest {
         exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(
                 ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM,
-                ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_NOT_CLOSED,
+                ProcessServiceConstants.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED,
                 ProcessPocConstants.PERSON_ID_EDDIE_PITTMAN_2406, 
                 context.getCurrentDate(), 
                 context);
@@ -90,7 +90,7 @@ public class ProcessPocExemptionServiceDecoratorTest {
         exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(
                 ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM,
-                ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_NOT_CLOSED,
+                ProcessServiceConstants.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED,
                 ProcessPocConstants.PERSON_ID_TRACY_BURTON_2132,
                 context.getCurrentDate(), 
                 context);

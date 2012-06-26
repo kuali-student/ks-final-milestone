@@ -16,19 +16,16 @@
 
 package org.kuali.student.r2.core.process.dto;
 
-import java.io.Serializable;
-import java.util.List;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.core.process.infc.ProcessCategory;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.core.process.infc.ProcessCategory;
-
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProcessCategoryInfo", propOrder = { "id", "typeKey", 
@@ -59,5 +56,13 @@ public class ProcessCategoryInfo
      */
     public ProcessCategoryInfo(ProcessCategory processCategory) {
         super(processCategory);
+    }
+
+    @Override
+    public String toString() {
+        return "ProcessCategoryInfo{" +
+                "id='" + getId() + "' " +
+                "_futureElements=" + _futureElements +
+                '}';
     }
 }

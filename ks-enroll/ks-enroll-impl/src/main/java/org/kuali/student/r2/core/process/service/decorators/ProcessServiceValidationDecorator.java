@@ -335,7 +335,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
             throw new InvalidParameterException("Instruction processKey different than supplied processKey");
         }
 
-        if (null != instructionInfo.getCheckKey() && !checkId.equals(instructionInfo.getCheckKey())) {
+        if (null != instructionInfo.getCheckId() && !checkId.equals(instructionInfo.getCheckId())) {
             throw new InvalidParameterException("Instruction checkId different than supplied checkId");
         }
 
@@ -369,7 +369,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         if (StringUtils.isBlank(instructionInfo.getProcessKey())) {
             throw new InvalidParameterException("Instruction processKey is required");
         }
-        if (StringUtils.isBlank(instructionInfo.getCheckKey())) {
+        if (StringUtils.isBlank(instructionInfo.getCheckId())) {
             throw new InvalidParameterException("Instruction checkId is required");
         }
         if (StringUtils.isBlank(instructionInfo.getTypeKey())) {

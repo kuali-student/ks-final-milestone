@@ -101,7 +101,6 @@ public class TestProcessServiceMockImpl {
         } catch (Exception ex) {
             throw new RuntimeException (ex);
         }
-
         // test setup
         assertNotNull(processService);
     }
@@ -203,12 +202,12 @@ public class TestProcessServiceMockImpl {
         info.setTypeKey(ProcessServiceConstants.INSTRUCTION_TYPE_KEY);
         info.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
         info.setProcessKey(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY);
-        info.setCheckKey(ProcessServiceConstants.CHECK_KEY_HAS_NOT_BEEN_EXPELLED);
+        info.setCheckId(ProcessServiceConstants.CHECK_ID_HAS_NOT_BEEN_EXPELLED);
         info.setAppliedPopulationKey(ProcessServiceConstants.POPULATION_ID_EVERYONE);
         info.setPosition(3);
         info.setMessage(new RichTextInfo("You are not allowed to continue at this university", "You are not allowed to continue at this university"));
         Date before = new Date();
-        InstructionInfo result = processService.createInstruction(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, ProcessServiceConstants.CHECK_KEY_HAS_NOT_BEEN_EXPELLED, ProcessServiceConstants.INSTRUCTION_TYPE_KEY, info, contextInfo);
+        InstructionInfo result = processService.createInstruction(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, ProcessServiceConstants.CHECK_ID_HAS_NOT_BEEN_EXPELLED, ProcessServiceConstants.INSTRUCTION_TYPE_KEY, info, contextInfo);
         Date after = new Date();
         if (result == info) {
             fail("returned object should not be the same as the one passed in");
@@ -240,7 +239,7 @@ public class TestProcessServiceMockImpl {
         assertEquals(result.getTypeKey(), info.getTypeKey());
         assertEquals(result.getStateKey(), info.getStateKey());
         assertEquals(result.getProcessKey(), info.getProcessKey());
-        assertEquals(result.getCheckKey(), info.getCheckKey());
+        assertEquals(result.getCheckId(), info.getCheckId());
         assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(result.getMeta().getUpdateId(), info.getMeta().getUpdateId());
         assertEquals(result.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -468,22 +467,128 @@ public class TestProcessServiceMockImpl {
 
     @Test
     public void testProcessCategoryOperations () throws Exception {
-        // misc. methods
         List<String> processCategoryIds = new ArrayList<String>();
-        processCategoryIds.add(ProcessServiceConstants.PROCESS_CATEGORY_KEY_ADMISSIONS);
-        processCategoryIds.add(ProcessServiceConstants.PROCESS_CATEGORY_KEY_COURSE_REGISTRATION);
+        processCategoryIds.add(ProcessServiceConstants.PROCESS_CATEGORY_ID_ADMISSIONS);
+        processCategoryIds.add(ProcessServiceConstants.PROCESS_CATEGORY_ID_COURSE_REGISTRATION);
         List<ProcessCategoryInfo> processCategoryInfos = processService.getProcessCategoriesByIds(processCategoryIds, contextInfo);
         assertEquals(2, processCategoryInfos.size());
         for (ProcessCategoryInfo info: processCategoryInfos) {
             assertTrue(processCategoryIds.contains(info.getId()));
         }
+
         List<String> processCategoryIdsByType = processService.getProcessCategoryIdsByType(ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, contextInfo);
         assertEquals(8, processCategoryIdsByType.size());
         for (String id: processCategoryIdsByType) {
             assertEquals(processService.getProcessCategory(id, contextInfo).getTypeKey(), ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY);
         }
+        List<String> processCategoryIdsByType2 = processService.getProcessCategoryIdsByType(ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY + "2", contextInfo);
+        assertEquals(0, processCategoryIdsByType2.size());
+
+        List<ProcessCategoryInfo> catInfosForProcess = processService.getProcessCategoriesForProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, contextInfo);
+        assertEquals(1, catInfosForProcess.size());
+        assertEquals(catInfosForProcess.get(0).getId(), ProcessServiceConstants.PROCESS_CATEGORY_ID_ACADEMIC_RECORD);
+        List<ProcessCategoryInfo> catInfosForProcess2 = processService.getProcessCategoriesForProcess(ProcessServiceConstants.PROCESS_KEY_REGISTER_FOR_COURSES, contextInfo);
+        assertEquals(1, catInfosForProcess2.size());
+        assertEquals(catInfosForProcess2.get(0).getId(), ProcessServiceConstants.PROCESS_CATEGORY_ID_COURSE_REGISTRATION);
+
+        try {
+            processService.removeProcessFromProcessCategory(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, ProcessServiceConstants.PROCESS_CATEGORY_ID_COURSE_REGISTRATION, contextInfo);
+        } catch (DoesNotExistException e) {
+            // should be here
+        } catch (Exception e) {
+            throw e;
+        }
+        catInfosForProcess = processService.getProcessCategoriesForProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, contextInfo);
+        processService.removeProcessFromProcessCategory(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, ProcessServiceConstants.PROCESS_CATEGORY_ID_ACADEMIC_RECORD, contextInfo);
+        assertEquals(0, catInfosForProcess.size());
+        processService.addProcessToProcessCategory(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, ProcessServiceConstants.PROCESS_CATEGORY_ID_ACADEMIC_RECORD, contextInfo);
+        catInfosForProcess = processService.getProcessCategoriesForProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, contextInfo);
+        assertEquals(1, catInfosForProcess.size());
     }
 
+    @Test
+    public void testProcessOperations () throws Exception {
+        List<String> processKeys = new ArrayList<String>();
+        processKeys.add(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY);
+        processKeys.add(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES);
+        processKeys.add(ProcessServiceConstants.PROCESS_KEY_VIEW_COURSE_GRADE);
+        List<ProcessInfo> processInfosByKeys = processService.getProcessesByKeys(processKeys, contextInfo);
+        assertEquals(3, processInfosByKeys.size());
+        for (ProcessInfo info: processInfosByKeys) {
+            assertTrue(processKeys.contains(info.getKey()));
+        }
 
+        List<String> processKeysByType = processService.getProcessKeysByType(ProcessServiceConstants.PROCESS_TYPE_KEY, contextInfo);
+        assertEquals(10, processKeysByType.size());
+        assertTrue(processKeysByType.contains(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY));
+        assertTrue(processKeysByType.contains(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM));
+        assertTrue(processKeysByType.contains(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED));
+        assertTrue(processKeysByType.contains(ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED));
+        assertTrue(processKeysByType.contains(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE));
+        assertTrue(processKeysByType.contains(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES));
+        assertTrue(processKeysByType.contains(ProcessServiceConstants.PROCESS_KEY_REGISTER_FOR_COURSES));
+        assertTrue(processKeysByType.contains(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES));
+        assertTrue(processKeysByType.contains(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM));
+        assertTrue(processKeysByType.contains(ProcessServiceConstants.PROCESS_KEY_VIEW_COURSE_GRADE));
+
+        List<ProcessInfo> processInfosByCateg = processService.getProcessesForProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_ID_ACADEMIC_RECORD, contextInfo);
+        assertEquals(3, processInfosByCateg.size());
+        assertTrue(processInfosByCateg.contains(processService.getProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_COURSE_GRADE, contextInfo)));
+        assertTrue(processInfosByCateg.contains(processService.getProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, contextInfo)));
+        assertTrue(processInfosByCateg.contains(processService.getProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES, contextInfo)));
+    }
+
+    @Test
+    public void testCheckOperations () throws Exception {
+        List<String> checkIds = new ArrayList<String>();
+        checkIds.add(ProcessServiceConstants.CHECK_ID_IS_STUDENTS_REGISTRATION_WINDOW);
+        checkIds.add(ProcessServiceConstants.CHECK_ID_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD);
+        checkIds.add(ProcessServiceConstants.CHECK_ID_NORTH_STUDENTS_MAX_SOUTH_CREDITS);
+        checkIds.add(ProcessServiceConstants.CHECK_ID_HAS_THE_NECESSARY_PREREQ);
+        checkIds.add(ProcessServiceConstants.CHECK_ID_DOES_NOT_HAVE_A_TIME_CONFLICT);
+        checkIds.add(ProcessServiceConstants.CHECK_ID_IS_NOT_SUMMER_TERM);
+        List<CheckInfo> checksByIds = processService.getChecksByIds(checkIds, contextInfo);
+        assertEquals(6, checksByIds.size());
+        for (CheckInfo info: checksByIds) {
+            assertTrue(checkIds.contains(info.getId()));
+        }
+
+        List<String> checkIdsByType = processService.getCheckIdsByType(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, contextInfo);
+        assertEquals(37, checkIdsByType.size());
+    }
+
+    @Test
+    public void testInstructionOperations () throws Exception {
+        List<String> instructionIds = new ArrayList<String>();
+        instructionIds.add("2");
+        instructionIds.add("3");
+        instructionIds.add("5");
+        instructionIds.add("8");
+        List<InstructionInfo> instructionByIds = processService.getInstructionsByIds(instructionIds, contextInfo);
+        assertEquals(4, instructionByIds.size());
+        for (InstructionInfo info: instructionByIds) {
+            assertTrue(instructionIds.contains(info.getId()));
+        }
+
+        List<String> instructionIdsByType = processService.getInstructionIdsByType(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, contextInfo);
+        assertEquals(11, instructionIdsByType.size());
+
+        List<InstructionInfo> instructionByProcess = processService.getInstructionsByProcess(ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED, contextInfo);
+        assertEquals(4, instructionByProcess.size());
+        assertTrue(instructionByProcess.contains(processService.getInstruction("14", contextInfo)));
+        assertTrue(instructionByProcess.contains(processService.getInstruction("13", contextInfo)));
+        assertTrue(instructionByProcess.contains(processService.getInstruction("12", contextInfo)));
+        assertTrue(instructionByProcess.contains(processService.getInstruction("11", contextInfo)));
+
+        List<InstructionInfo> instructionByCheck = processService.getInstructionsByCheck(ProcessServiceConstants.CHECK_ID_HAS_ACKNOWLEDGED_RIAA, contextInfo);
+        assertEquals(1, instructionByCheck.size());
+        assertTrue(instructionByCheck.contains(processService.getInstruction("11", contextInfo)));
+
+        List<InstructionInfo> instructionByProcessAndCheck = processService.getInstructionsByProcessAndCheck(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, ProcessServiceConstants.CHECK_ID_HAS_UNPAID_LIBRARY_FINE, contextInfo);
+        assertEquals(1, instructionByProcessAndCheck.size());
+        assertTrue(instructionByProcessAndCheck.contains(processService.getInstruction("8", contextInfo)));
+
+
+    }
 
 }

@@ -72,7 +72,7 @@ the Check is globally applied.
 				<ref bean="InstructionInfo.effectiveDate"/>
 				<ref bean="InstructionInfo.expirationDate"/>
 				<ref bean="InstructionInfo.processKey"/>
-				<ref bean="InstructionInfo.checkKey"/>
+				<ref bean="InstructionInfo.checkId"/>
 				<ref bean="InstructionInfo.appliedPopulationKey"/>
 				<ref bean="InstructionInfo.position"/>
 				<ref bean="InstructionInfo.isWarning"/>
@@ -136,8 +136,8 @@ The process key.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="InstructionInfo.checkKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="checkKey"/>
+	<bean id="InstructionInfo.checkId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="checkId"/>
 		<property name="shortLabel" value="Check Key"/>
 		<property name="summary">
 			<value>

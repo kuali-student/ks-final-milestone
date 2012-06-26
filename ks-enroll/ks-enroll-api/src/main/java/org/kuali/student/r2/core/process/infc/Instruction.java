@@ -57,7 +57,7 @@ public interface Instruction
      * @required
      * @readOnly
      */
-    public String getCheckKey();
+    public String getCheckId();
 
     /**
      * The Population Id to which the Check applies.

@@ -33,7 +33,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InstructionInfo", propOrder = { "id", "typeKey", "stateKey", 
                 "effectiveDate", "expirationDate",
-                "processKey", "checkKey", 
+                "processKey", "checkId",
                 "appliedPopulationKey", "appliedAtpTypeKeys",
                 "message", "position", "isWarning", 
                 "continueOnFail", "isExemptible",
@@ -54,7 +54,7 @@ public class InstructionInfo
     private String processKey;
 
     @XmlElement 
-    private String checkKey;
+    private String checkId;
 
     @XmlElement 
     private String appliedPopulationKey;
@@ -99,7 +99,7 @@ public class InstructionInfo
         super(instruction);
         if (instruction != null) {
             this.processKey= instruction.getProcessKey();
-            this.checkKey = instruction.getCheckKey();
+            this.checkId = instruction.getCheckId();
             this.appliedPopulationKey = instruction.getAppliedPopulationKey();
             if (instruction.getAppliedAtpTypeKeys() != null) {
                 this.appliedAtpTypeKeys = new ArrayList<String>(instruction.getAppliedAtpTypeKeys());
@@ -126,12 +126,12 @@ public class InstructionInfo
     }
 
     @Override
-    public String getCheckKey() {
-        return this.checkKey;
+    public String getCheckId() {
+        return this.checkId;
     }
 
-    public void setCheckKey(String checkKey) {
-        this.checkKey = checkKey;
+    public void setCheckId(String checkId) {
+        this.checkId = checkId;
     }
 
     @Override

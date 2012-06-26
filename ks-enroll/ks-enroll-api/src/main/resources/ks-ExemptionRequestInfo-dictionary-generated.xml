@@ -70,7 +70,7 @@ such as all athletes, or some other group of people?
 				<ref bean="ExemptionRequestInfo.stateKey"/>
 				<ref bean="ExemptionRequestInfo.name"/>
 				<ref bean="ExemptionRequestInfo.processKey"/>
-				<ref bean="ExemptionRequestInfo.checkKey"/>
+				<ref bean="ExemptionRequestInfo.checkId"/>
 				<ref bean="ExemptionRequestInfo.personId"/>
 				<ref bean="ExemptionRequestInfo.requesterId"/>
 				<ref bean="ExemptionRequestInfo.requestDate"/>
@@ -184,8 +184,8 @@ the exemption is requested, if any.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="ExemptionRequestInfo.checkKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="checkKey"/>
+	<bean id="ExemptionRequestInfo.checkId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="checkId"/>
 		<property name="shortLabel" value="Check Key"/>
 		<property name="summary">
 			<value>

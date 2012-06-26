@@ -514,7 +514,7 @@ public interface ProcessService {
      * Retrieves a list of Checks corresponding to the
      * given list of Check Ids.
      *
-     * @param checkIdss list of Checks to be retrieved
+     * @param checkIds list of Checks to be retrieved
      * @param contextInfo information containing the
      *        principalId and locale information about the caller of
      *        service operation
@@ -541,7 +541,7 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getCheckKeysByType(@WebParam(name = "checkTypeKey") String checkTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getCheckIdsByType(@WebParam(name = "checkTypeKey") String checkTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Checks based on the criteria and returns a list of
@@ -557,7 +557,7 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForCheckKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForCheckIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Checks based on the criteria and returns a list of
@@ -610,7 +610,7 @@ public interface ProcessService {
     /** 
      * Creates a new Check.
      *
-     * @param chekTypeKey an identifier for the Check Type
+     * @param checkTypeKey an identifier for the Check Type
      * @param checkInfo the details of Check to be created
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
