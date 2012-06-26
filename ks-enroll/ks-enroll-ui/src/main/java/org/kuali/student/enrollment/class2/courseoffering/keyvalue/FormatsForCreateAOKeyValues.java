@@ -21,10 +21,9 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,24 +54,11 @@ public class FormatsForCreateAOKeyValues extends UifKeyValuesFinderBase implemen
             throw new RuntimeException(e);
         }
         try {
-            StringBuilder formatNameBuilder = new StringBuilder();
             for (FormatInfo formatInfo : formatInfos) {
-                formatNameBuilder.setLength(0);
-                // Create a derived name based on the activities, until https://jira.kuali.org/browse/KSENROLL-1518 is finished
-                List<ActivityInfo> activities = formatInfo.getActivities();
-                for (ActivityInfo activity : activities) {
-                    if(formatNameBuilder.length() != 0) {
-                        formatNameBuilder.append(" / ");
-                    }
-                    TypeInfo type = helperService.getTypeService().getType(activity.getActivityType(), helperService.getContextInfo());
-                    formatNameBuilder.append(type.getName());
-                }
+                String formatName = ViewHelperUtil.buildDerivedFormatName(helperService.getTypeService(), helperService.getContextInfo(), formatInfo);
 
-                if(formatInfo.getActivities().size() == 1) {
-                    formatNameBuilder.append(" Only");
-                }
 
-                keyValues.add(new ConcreteKeyValue(formatInfo.getId(), formatNameBuilder.toString()));
+                keyValues.add(new ConcreteKeyValue(formatInfo.getId(), formatName));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

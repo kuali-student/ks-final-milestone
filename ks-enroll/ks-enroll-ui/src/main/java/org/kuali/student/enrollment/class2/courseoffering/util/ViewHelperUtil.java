@@ -20,6 +20,16 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.lum.course.dto.ActivityInfo;
+import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.type.service.TypeService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,5 +56,25 @@ public class ViewHelperUtil {
 
     public static PersonService getPersonService() {
         return KimApiServiceLocator.getPersonService();
+    }
+
+    public static String buildDerivedFormatName(TypeService typeService, ContextInfo contextInfo, FormatInfo formatInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StringBuilder formatNameBuilder = new StringBuilder();
+
+        // Create a derived name based on the activities, until https://jira.kuali.org/browse/KSENROLL-1518 is finished
+        List<ActivityInfo> activities = formatInfo.getActivities();
+        for (ActivityInfo activity : activities) {
+            if(formatNameBuilder.length() != 0) {
+                formatNameBuilder.append(" / ");
+            }
+            TypeInfo type = typeService.getType(activity.getActivityType(), contextInfo);
+            formatNameBuilder.append(type.getName());
+        }
+
+        if(formatInfo.getActivities().size() == 1) {
+            formatNameBuilder.append(" Only");
+        }
+
+        return formatNameBuilder.toString();
     }
 }
