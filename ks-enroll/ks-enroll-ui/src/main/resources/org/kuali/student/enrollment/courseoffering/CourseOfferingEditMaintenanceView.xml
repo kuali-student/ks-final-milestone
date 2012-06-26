@@ -203,85 +203,83 @@
                         </list>
                     </property>
                 </bean>
-                <ref bean="KS-CourseOfferingEdit-GradingAndRegOptions"/>
+                <ref bean="KS-GradingAndRegOptions"/>
             </list>
         </property>
     </bean>
 
 
-    <bean id="KS-CourseOfferingEdit-GradingAndRegOptions" parent="Uif-HorizontalBoxSubSection">
+    <bean id="KS-GradingAndRegOptions" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <!--
-                <ref bean="KS-CourseOfferingEdit-GradingOptions">
-                <ref bean="KS-CourseOfferingEdit-StudentRegOptions">
-                <ref bean="KS-CourseOfferingEdit-CreditType">
-                -->
-                <bean parent="Uif-VerticalBoxSection">
-                <property name="items">
-                    <bean parent="Uif-InputField" p:propertyName="coInfo.gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
-                        <property name="control">
-                            <bean parent="Uif-VerticalRadioControl"/>
-                        </property>
-                        <property name="optionsFinder">
-                            <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" p:addBlankOption="false" />
-                        </property>
-                    </bean>
+                <ref bean="KS-CourseOfferingEdit-GradingOptions" />
+                <ref bean="KS-CourseOfferingEdit-StudentRegOptions" />
+                <ref bean="KS-CourseOfferingEdit-CreditType" />
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-CourseOfferingEdit-GradingOptions" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <bean parent="Uif-InputField" p:propertyName="coInfo.gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                <property name="control">
+                    <bean parent="Uif-VerticalRadioControl"/>
                 </property>
+                <property name="optionsFinder">
+                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" p:addBlankOption="false" />
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KS-CourseOfferingEdit-StudentRegOptions" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="coInfo.studentRegistrationOptionIds" p:label="Student Registration Options" p:labelPlacement="TOP" p:render="@{!#dp.studentRegOptions.empty}">
+                    <property name="control">
+                        <bean parent="Uif-VerticalCheckboxesControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.StudentRegistrationOptionsKeyValues" p:addBlankOption="false" />
+                    </property>
                 </bean>
-                <bean parent="Uif-VerticalBoxSection">
+                <bean parent="Uif-MessageField" p:label="Student Registration Options" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-CourseOfferingEdit-CreditType" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="creditOption.typeKey" p:label="Credit Type" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl" p:disabled="@{#dp.creditOptionFixed}" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CreditOptionsKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.minCredits" p:fieldLabel.renderColon="false" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed'}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:disabled="@{#dp.creditOptionFixed}" />
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxSection" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range'}">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="coInfo.studentRegistrationOptionIds" p:label="Student Registration Options" p:labelPlacement="TOP" p:render="@{!#dp.studentRegOptions.empty}">
+                            <bean parent="Uif-InputField" p:label="Minimum Credits" p:propertyName="creditOption.minCredits" p:fieldLabel.renderColon="false">
                                 <property name="control">
-                                    <bean parent="Uif-VerticalCheckboxesControl"/>
-                                </property>
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.StudentRegistrationOptionsKeyValues" p:addBlankOption="false" />
+                                    <bean parent="Uif-TextControl" p:size="3" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-MessageField" p:label="Student Registration Options" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}"/>
+                            <bean parent="Uif-InputField" p:label="Maximum Credits" p:propertyName="creditOption.maxCredits" p:fieldLabel.renderColon="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="3" />
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-VerticalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField" p:propertyName="creditOption.typeKey" p:label="Credit Type" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
-                                <property name="control">
-                                    <bean parent="Uif-HorizontalRadioControl" p:disabled="@{#dp.creditOptionFixed}" />
-                                </property>
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CreditOptionsKeyValues" p:addBlankOption="false" />
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.minCredits" p:fieldLabel.renderColon="false" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed'}">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="3" p:disabled="@{#dp.creditOptionFixed}" />
-                                </property>
-                            </bean>
-                            <bean parent="Uif-HorizontalBoxSection" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range'}">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-InputField" p:label="Minimum Credits" p:propertyName="creditOption.minCredits" p:fieldLabel.renderColon="false">
-                                            <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="3" />
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-InputField" p:label="Maximum Credits" p:propertyName="creditOption.maxCredits" p:fieldLabel.renderColon="false">
-                                            <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="3" />
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="creditOption.credits" p:label="Credits" p:fieldLabel.renderColon="false" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.multiple'}">
-                                <property name="control">
-                                    <bean parent="Uif-HorizontalCheckboxesControl" p:options-ref="creditOptionCredits-options"/>
-                                </property>
-                            </bean>
-                        </list>
+                <bean parent="Uif-InputField" p:propertyName="creditOption.credits" p:label="Credits" p:fieldLabel.renderColon="false" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.multiple'}">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalCheckboxesControl" p:options-ref="creditOptionCredits-options"/>
                     </property>
                 </bean>
             </list>
