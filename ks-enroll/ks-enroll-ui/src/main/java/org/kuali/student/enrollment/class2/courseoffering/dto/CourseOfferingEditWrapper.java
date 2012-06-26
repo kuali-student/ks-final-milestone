@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 
@@ -40,6 +41,8 @@ public class CourseOfferingEditWrapper implements Serializable {
     private String selectedGradingOptionName;
     private String selectedstudentRegOpts;
 
+    private CreditOptionInfo creditOption;
+    private boolean creditOptionFixed;
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
@@ -114,4 +117,21 @@ public class CourseOfferingEditWrapper implements Serializable {
     public void setCourse(CourseInfo course) {
         this.course = course;
     }
+
+    public CreditOptionInfo getCreditOption() {
+        return creditOption;
+    }
+
+    public void setCreditOption(CreditOptionInfo creditOption) {
+        this.creditOption = creditOption;
+    }
+
+    public boolean getCreditOptionFixed() {
+        return creditOptionFixed;
+    }
+
+    public void setCreditOptionFixed(boolean creditOptionFixed) {
+        this.creditOptionFixed = creditOptionFixed;
+    }
 }
+
