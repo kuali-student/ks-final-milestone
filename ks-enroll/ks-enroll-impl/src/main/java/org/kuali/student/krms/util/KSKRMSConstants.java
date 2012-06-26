@@ -34,11 +34,11 @@ public class KSKRMSConstants {
 	public static final String COURSE_NUMBER_RANGE_DESCR = "Course Number Range Specification";
 	
 	public static final String TERM_SPEC_EFFECTIVE_DATE_TO = "Effective Date To";
-	public static final String TERM_SPEC_RESOLVER_EFFECTIVE_DATE_TO = "EffectiveDateToTermResolver";
+	public static final String TERM_SPEC_RESOLVER_EFFECTIVE_DATE_TO = "effectiveDateToTermResolver";
 	public static final String _EFFECTIVE_DATE_TO_DESCR = "Effective Date To Term Specification";
 
 	public static final String TERM_SPEC_EFFECTIVE_DATE_FROM = "Effective Date From";
-	public static final String TERM_SPEC_RESOLVER__EFFECTIVE_DATE_FROM = "EffectiveDateFromTermResolver";
+	public static final String TERM_SPEC_RESOLVER_EFFECTIVE_DATE_FROM = "effectiveDateFromTermResolver";
 	public static final String EFFECTIVE_DATE_FROM_DESCR = "Effective Date From Term Specification";
 	
 	public static final String TERM_SPEC_GPA = "GPA";
@@ -62,103 +62,103 @@ public class KSKRMSConstants {
 	public static final String SUBJECT_CODE_DESCR = "Subject Code Term Specification";
 	
 	public static final String TERM_SPEC_FREE_TEXT = "Free Text";
-	public static final String TERM_SPEC_RESOLVER_FREE_TEXT = "FreeTextTermResolver";
+	public static final String TERM_SPEC_RESOLVER_FREE_TEXT = "freeTextTermResolver";
 	public static final String FREE_TEXT_DESCR = "Free Text Term Specification";
 
 	public static final String TERM_SPEC_NUMBER_OF_COURSES = "Number of courses";
-	public static final String TERM_SPEC_RESOLVER_NUMBER_OF_COURSES = "NumberOfCoursesTermResolver";
+	public static final String TERM_SPEC_RESOLVER_NUMBER_OF_COURSES = "numberOfCoursesTermResolver";
 	public static final String NUMBER_OF_COURSES_DESCR = "Number of courses Term Specification";
 
 	public static final String TERM_SPEC_NUMBER_OF_CREDITS = "Number of credits";
-	public static final String TERM_SPEC_RESOLVER_NUMBER_OF_CREDITS = "NumberOfCreditsTermResolver";
+	public static final String TERM_SPEC_RESOLVER_NUMBER_OF_CREDITS = "numberOfCreditsTermResolver";
 	public static final String NUMBER_OF_CREDITS_DESCR = "Number of credits Term Specification";
 
 	public static final String TERM_SPEC_SCORE = "Score";
-	public static final String TERM_SPEC_RESOLVER_SCORE = "ScoreTermResolver";
+	public static final String TERM_SPEC_RESOLVER_SCORE = "scoreTermResolver";
 	public static final String SCORE_DESCR = "Score Term Specification";
 
 	public static final String TERM_SPEC_TEST = "Test";
-	public static final String TERM_SPEC_RESOLVER_TEST = "TestTermResolver";
+	public static final String TERM_SPEC_RESOLVER_TEST = "testTermResolver";
 	public static final String TEST_DESCR = "Test Term Specification";
 	
 	public static final String TERM_SPEC_DEPT_NUMBER = "Department number";
-	public static final String TERM_SPEC_RESOLVER_DEPT_NUMBER = "DeptNumberTermResolver";
+	public static final String TERM_SPEC_RESOLVER_DEPT_NUMBER = "deptNumberTermResolver";
 	public static final String DEPT_NUMBER_DESCR = "Department number Term Specification";
 	
 	public static final String TERM_SPEC_ADMIN_ORG_NUMBER = "Admin org number";
-	public static final String TERM_SPEC_RESOLVER_ADMIN_ORG_NUMBER = "AdminOrgNumberTermResolver";
+	public static final String TERM_SPEC_RESOLVER_ADMIN_ORG_NUMBER = "adminOrgNumberTermResolver";
 	public static final String ADMIN_ORG_NUMBER_DESCR = "Admin org number Term Specification";
 	
 	public static final String TERM_SPEC_COMPLETED_COURSE = "Completed course";
-	public static final String TERM_SPEC_RESOLVER_COMPLETED_COURSE = "CompletedCourseTermResolver";
+	public static final String TERM_SPEC_RESOLVER_COMPLETED_COURSE = "completedCourseTermResolver";
 	public static final String COMPLETED_COURSE_DESCR = "Completed course Term Specification";
 	
 	public static final String TERM_SPEC_COMPLETED_COURSES = "Completed courses";
-	public static final String TERM_SPEC_RESOLVER_COMPLETED_COURSES = "CompletedCoursesTermResolver";
+	public static final String TERM_SPEC_RESOLVER_COMPLETED_COURSES = "completedCoursesTermResolver";
 	public static final String COMPLETED_COURSES_DESCR = "Completed courses Term Specification";
 	
 	public static final String TERM_SPEC_COMPLETED_COURSE_NUMBER = "Completed course number: subject code";
-	public static final String TERM_SPEC_RESOLVER_COMPLETED_COURSE_NUMBER = "CompletedCourseNumberTermResolver";
+	public static final String TERM_SPEC_RESOLVER_COMPLETED_COURSE_NUMBER = "completedCourseNumberTermResolver";
 	public static final String COMPLETED_COURSE_NUMBER_DESCR = "Completed course number: subject code Term Specification";
 	
 	public static final String TERM_SPEC_COMPLETED_COURSE_CODE = "Completed course number: subject code";
-	public static final String TERM_SPEC_RESOLVER_COMPLETED_COURSE_CODE = "CompletedCourseCodeTermResolver";
+	public static final String TERM_SPEC_RESOLVER_COMPLETED_COURSE_CODE = "completedCourseCodeTermResolver";
 	public static final String COMPLETED_COURSE_CODE_DESCR = "Completed course number: subject code Term Specification";
 	
 	public static final String TERM_SPEC_COMPLETED_COURSE_SET = "Completed course set";
-	public static final String TERM_SPEC_RESOLVER_COMPLETED_COURSE_SET = "CompletedCourseSetTermResolver";
+	public static final String TERM_SPEC_RESOLVER_COMPLETED_COURSE_SET = "completedCourseSetTermResolver";
 	public static final String COMPLETED_COURSE_SET_DESCR = "Completed course set Term Specification";
 	
 	public static final String TERM_SPEC_COMPLETED_EFFECTIVE_DATE_FROM = "Completed effective date range: effective from";
-	public static final String TERM_SPEC_RESOLVER_COMPLETED_EFFECTIVE_DATE_FROM = "CompletedEffectiveDateFromTermResolver";
+	public static final String TERM_SPEC_RESOLVER_COMPLETED_EFFECTIVE_DATE_FROM = "completedEffectiveDateFromTermResolver";
 	public static final String COMPLETED_EFFECTIVE_DATE_FROM_DESCR = "Completed effective date range: effective from Term Specification";
 	
 	public static final String TERM_SPEC_COMPLETED_EFFECTIVE_DATE_TO = "Completed effective date range: effective to";
-	public static final String TERM_SPEC_RESOLVER_COMPLETED_EFFECTIVE_DATE_TO = "CompletedEffectiveDateToTermResolver";
+	public static final String TERM_SPEC_RESOLVER_COMPLETED_EFFECTIVE_DATE_TO = "completedEffectiveDateToTermResolver";
 	public static final String COMPLETED_EFFECTIVE_DATE_TO_DESCR = "Completed effective date range: effective to Term Specification";
 	
 	public static final String TERM_SPEC_COMPLETED_LEARNING_OBJ_DESCR = "Completed learning Objective: Description";
-	public static final String TERM_SPEC_RESOLVER_COMPLETED_LEARNING_OBJ_DESCR = "CompletedLearningObjectivesTermResolver";
+	public static final String TERM_SPEC_RESOLVER_COMPLETED_LEARNING_OBJ_DESCR = "completedLearningObjectivesTermResolver";
 	public static final String COMPLETED_LEARNING_OBJ_DESCR_DESCR = "Completed learning Objective: Description Term Specification";
 	
 	public static final String TERM_SPEC_ENROLLED_COURSE = "Enrolled course by term";
-	public static final String TERM_SPEC_RESOLVER_ENROLLED_COURSE = "EnrolledCourseTermResolver";
+	public static final String TERM_SPEC_RESOLVER_ENROLLED_COURSE = "enrolledCourseTermResolver";
 	public static final String ENROLLED_COURSE_DESCR = "Enrolled course by term Term Specification";
 	
 	public static final String TERM_SPEC_ENROLLED_COURSE_NUMBER_RANGE = "Enrolled course number: course number range";
-	public static final String TERM_SPEC_RESOLVER_ENROLLED_COURSE_NUMBER_RANGE = "EnrolledCourseNumberTermResolver";
+	public static final String TERM_SPEC_RESOLVER_ENROLLED_COURSE_NUMBER_RANGE = "enrolledCourseNumberTermResolver";
 	public static final String ENROLLED_COURSE_NUMBER_RANGE_DESCR = "Enrolled course number: course number range Term Specification";
 	
 	public static final String TERM_SPEC_ENROLLED_COURSE_NUMBER_SUBJECT_CODE = "Enrolled course number: subject code";
-	public static final String TERM_SPEC_RESOLVER_ENROLLED_COURSE_NUMBER_SUBJECT_CODE = "EnrolledCourseCodeTermResolver";
+	public static final String TERM_SPEC_RESOLVER_ENROLLED_COURSE_NUMBER_SUBJECT_CODE = "enrolledCourseCodeTermResolver";
 	public static final String ENROLLED_COURSE_NUMBER_SUBJECT_CODE_DESCR = "Enrolled course number: subject code Term Specification";
 	
 	public static final String TERM_SPEC_ENROLLED_SET = "Enrolled set";
-	public static final String TERM_SPEC_RESOLVER_ENROLLED_SET = "EnrolledCourseSet";
+	public static final String TERM_SPEC_RESOLVER_ENROLLED_SET = "enrolledCourseSet";
 	public static final String ENROLLED_SET_DESCR = "Enrolled set Term Specification";
 	
 	public static final String TERM_SPEC_ENROLLED_COURSES = "Enrolled courses";
-	public static final String TERM_SPEC_RESOLVER_ENROLLED_COURSES = "EnrolledCoursesTermResolver";
+	public static final String TERM_SPEC_RESOLVER_ENROLLED_COURSES = "enrolledCoursesTermResolver";
 	public static final String ENROLLED_COURSES_DESCR = "Enrolled courses Term Specification";
 	
 	public static final String TERM_SPEC_ENROLLED_EFFECTIVE_DATE_FROM = "Enrolled effective date range: effective from";
-	public static final String TERM_SPEC_RESOLVER_ENROLLED_EFFECTIVE_DATE_FROM = "EnrolledEffectiveDateFromTermResolver";
+	public static final String TERM_SPEC_RESOLVER_ENROLLED_EFFECTIVE_DATE_FROM = "enrolledEffectiveDateFromTermResolver";
 	public static final String ENROLLED_EFFECTIVE_DATE_FROM_DESCR = "Enrolled effective date range: effective from Term Specification";
 	
 	public static final String TERM_SPEC_ENROLLED_EFFECTIVE_DATE_TO = "Enrolled effective date range: effective to";
-	public static final String TERM_SPEC_RESOLVER_ENROLLED_EFFECTIVE_DATE_TO = "EnrolledEffectiveDateToTermResolver";
+	public static final String TERM_SPEC_RESOLVER_ENROLLED_EFFECTIVE_DATE_TO = "enrolledEffectiveDateToTermResolver";
 	public static final String ENROLLED_EFFECTIVE_DATE_TO_DESCR = "Enrolled effective date range: effective to Term Specification";
 	
 	public static final String TERM_SPEC_ENROLLED_LEARNING_OBJ_DESCR = "Enrolled learning Objective: Description";
-	public static final String TERM_SPEC_RESOLVER_ENROLLED_LEARNING_OBJ_DESCR = "EnrolledLearningObjectivesTermResolver";
+	public static final String TERM_SPEC_RESOLVER_ENROLLED_LEARNING_OBJ_DESCR = "enrolledLearningObjectivesTermResolver";
 	public static final String ENROLLED_LEARNING_OBJ_DESCR_DESCR = "Enrolled learning Objective: Description Term Specification";
 	
 	public static final String TERM_SPEC_ENROLLED_COURSE_BY_TERM = "Enrolled Course By Term Term Resolver";
-	public static final String TERM_SPEC_RESOLVER_ENROLLED_COURSE_BY_TERM = "EnrolledCourseByTermTermResolver";
+	public static final String TERM_SPEC_RESOLVER_ENROLLED_COURSE_BY_TERM = "enrolledCourseByTermTermResolver";
 	public static final String ENROLLED_COURSE_BY_TERM_DESCR = "Enrolled Course By Term Term Resolver Term Specification";
 
 	public static final String TERM_SPEC_ENROLLED_COURSES_BY_TERM = "Enrolled Courses By Term Term Resolver";
-	public static final String TERM_SPEC_RESOLVER_ENROLLED_COURSES_BY_TERM = "EnrolledCoursesByTermTermResolver";
+	public static final String TERM_SPEC_RESOLVER_ENROLLED_COURSES_BY_TERM = "enrolledCoursesByTermTermResolver";
 	public static final String ENROLLED_COURSES_BY_TERM_DESCR = "Enrolled Courses By Term Term Resolver Term Specification";
 	
 	public static final String TERM_APPROVED_COURSE = "Approved course";
