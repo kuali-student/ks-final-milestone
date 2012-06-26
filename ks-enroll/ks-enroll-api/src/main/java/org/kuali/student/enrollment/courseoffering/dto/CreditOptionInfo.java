@@ -32,17 +32,23 @@ import java.util.List;
  * @author Kuali Student Team
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CreditOptions", propOrder = {"id", "type", "credits"})
+@XmlType(name = "CreditOptions", propOrder = {"id", "typeKey", "credits", "minCredits", "maxCredits"})
 
 public class CreditOptionInfo extends IdEntityInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String type;
+    private String typeKey;
 
     @XmlElement
     List<String> credits;
+
+    @XmlElement
+    String minCredits;
+
+    @XmlElement
+    String maxCredits;
 
     /**
      * Constructs a new CreditOptions.
@@ -50,12 +56,12 @@ public class CreditOptionInfo extends IdEntityInfo implements Serializable {
     public CreditOptionInfo() {
     }
 
-    public String getType() {
-        return this.type;
+    public String getTypeKey() {
+        return this.typeKey;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
     }
 
     public List<String> getCredits() {
@@ -69,4 +75,19 @@ public class CreditOptionInfo extends IdEntityInfo implements Serializable {
         this.credits = credits;
     }
 
+    public String getMinCredits() {
+        return this.minCredits;
+    }
+
+    public void setMinCredits(String minCredits) {
+        this.minCredits = minCredits;
+    }
+
+    public String getMaxCredits() {
+        return this.maxCredits;
+    }
+
+    public void setMaxCredits(String maxCredits) {
+        this.maxCredits = maxCredits;
+    }
 }
