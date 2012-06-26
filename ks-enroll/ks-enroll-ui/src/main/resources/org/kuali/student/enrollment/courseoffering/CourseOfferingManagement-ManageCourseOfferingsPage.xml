@@ -42,8 +42,10 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering"/>
+                <bean parent="Uif-Label" p:labelText="Current Course Offerings"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering"/>
             </list>
         </property>
     </bean>
@@ -73,13 +75,13 @@
                 <bean parent="Uif-DataField"
                       p:label="TITLE"
                       p:propertyName="courseOfferingTitle"/>
-                <bean parent="Uif-DataField"
-                      p:label="STATUS"
-                      p:propertyName="stateKey"/>
+                <!--<bean parent="Uif-DataField"-->
+                      <!--p:label="STATUS"-->
+                      <!--p:propertyName="stateKey"/>-->
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions" p:style="display:inline;"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="ACTIONS" p:style="display:inline;"/>
         </property>
         <property name="lineActions">
             <list>
