@@ -87,7 +87,7 @@ implements HoldsDataDictionaryService, HoldsValidator
             String holdTypeKey,
             HoldInfo holdInfo,
             ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         _holdFullValidation(holdInfo, context);
         return getNextDecorator().createHold(personId, issueId, holdTypeKey, holdInfo, context);
 
@@ -113,7 +113,7 @@ implements HoldsDataDictionaryService, HoldsValidator
     }
 
     @Override
-    public IssueInfo createIssue(String issueTypeKey, IssueInfo issueInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public IssueInfo createIssue(String issueTypeKey, IssueInfo issueInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if(issueInfo.getDescr() == null || issueInfo.getDescr().getPlain() == null){
                  throw new InvalidParameterException("Hold issue description cannot be null");

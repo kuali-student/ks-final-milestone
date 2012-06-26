@@ -25,15 +25,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 
 public class HoldServiceDecorator
         implements HoldService {
@@ -70,8 +62,8 @@ public class HoldServiceDecorator
     }
 
     @Override
-    public List<HoldInfo> getHoldsByIssue(String issueId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getHoldsByIssue(issueId, contextInfo);
+    public List<String> getHoldIdsByIssue(String issueId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getHoldIdsByIssue(issueId, contextInfo);
     }
 
     @Override
@@ -115,7 +107,7 @@ public class HoldServiceDecorator
             String holdTypeKey,
             HoldInfo holdInfo,
             ContextInfo contextInfo)
-            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
+            throws DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createHold(personId, issueId, holdTypeKey, holdInfo, contextInfo);
     }
@@ -171,7 +163,7 @@ public class HoldServiceDecorator
     }
 
     @Override
-    public IssueInfo createIssue(String issueTypeKey, IssueInfo issueInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public IssueInfo createIssue(String issueTypeKey, IssueInfo issueInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createIssue(issueTypeKey, issueInfo, contextInfo);
     }
 
@@ -181,7 +173,7 @@ public class HoldServiceDecorator
     }
 
     @Override
-    public StatusInfo deleteIssue(String issueId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteIssue(String issueId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
         return getNextDecorator().deleteIssue(issueId, contextInfo);
     }
 }

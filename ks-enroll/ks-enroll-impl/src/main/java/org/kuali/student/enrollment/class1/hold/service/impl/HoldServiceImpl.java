@@ -99,7 +99,7 @@ public class HoldServiceImpl implements HoldService {
             String issueId,
             String holdTypeKey,
             HoldInfo holdInfo,
-            ContextInfo context) throws AlreadyExistsException,
+            ContextInfo context) throws 
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         if (!personId.equals(holdInfo.getPersonId())) {
@@ -228,8 +228,7 @@ public class HoldServiceImpl implements HoldService {
     @Override
     @Transactional
     public IssueInfo createIssue(String issueTypeKey, IssueInfo issueInfo, ContextInfo context)
-            throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         if (!issueTypeKey.equals(issueInfo.getTypeKey())) {
             throw new InvalidParameterException(issueTypeKey + " does not match type in object " + issueInfo.getTypeKey());
@@ -292,7 +291,7 @@ public class HoldServiceImpl implements HoldService {
     }
 
     @Override
-    public List<HoldInfo> getHoldsByIssue(String issueId, ContextInfo contextInfo) throws InvalidParameterException,
+    public List<String> getHoldIdsByIssue(String issueId, ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
