@@ -935,9 +935,8 @@ public class CluServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<org.kuali.student.common.validation.dto.ValidationResultInfo> r1vrs = defaultValidator.validateObject(cluInfo, objStructure);
-        List<ValidationResultInfo> r2vrs = new R1ToR2CopyHelper().copyValidationResultList(r1vrs);
-        return r2vrs;
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> vris = defaultValidator.validateObject(cluInfo, objStructure, context);
+        return vris;
     }
 
     @Override
@@ -1528,9 +1527,8 @@ public class CluServiceImpl implements CluService {
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluCluRelationInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
 
-        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r1vrs = defaultValidator.validateObject(cluCluRelationInfo, objStructure, null);
-        List<ValidationResultInfo> r2vrs = new R1ToR2CopyHelper().copyValidationResultList(r1vrs);
-        return r2vrs;
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> vris = defaultValidator.validateObject(cluCluRelationInfo, objStructure, null);
+        return vris;
     }
 
     @Override
@@ -1691,10 +1689,9 @@ public class CluServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluPublicationInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r1vrs =
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> vris =
                 defaultValidator.validateObject(cluPublicationInfo, objStructure, null);
-        List<ValidationResultInfo> r2vrs = new R1ToR2CopyHelper().copyValidationResultList(r1vrs);
-        return r2vrs;
+        return vris;
     }
 
     @Override
@@ -1878,9 +1875,8 @@ public class CluServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluResultInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r1vrs = defaultValidator.validateObject(cluResultInfo, objStructure, null);
-        List<ValidationResultInfo> r2vrs = new R1ToR2CopyHelper().copyValidationResultList(r1vrs);
-        return r2vrs;
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> vris = defaultValidator.validateObject(cluResultInfo, objStructure, null);
+        return vris;
     }
 
     @Override
@@ -2090,9 +2086,8 @@ public class CluServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluLoRelation.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r1vrs = defaultValidator.validateObject(cluLoRelationInfo, objStructure, null);
-        List<ValidationResultInfo> r2vrs = new R1ToR2CopyHelper().copyValidationResultList(r1vrs);
-        return r2vrs;
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> vris = defaultValidator.validateObject(cluLoRelationInfo, objStructure, null);
+        return vris;
     }
 
     @Override
@@ -2291,9 +2286,8 @@ public class CluServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluSetInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r1vrs = defaultValidator.validateObject(cluSetInfo, objStructure, null);
-        List<ValidationResultInfo> r2vrs = new R1ToR2CopyHelper().copyValidationResultList(r1vrs);
-        return r2vrs;
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> vris = defaultValidator.validateObject(cluSetInfo, objStructure, null);
+        return vris;
     }
 
     @Override
@@ -2966,7 +2960,7 @@ public class CluServiceImpl implements CluService {
 
 
         //Get any clus that are set to become current in the future, and clear their current dates
-        List<VersionDisplayInfo> versionsInFuture = new R1ToR2CopyHelper().copyVersionDisplays(luDao.getVersionsInDateRange(versionIndId, null, currentDbDate, null));
+        List<VersionDisplayInfo> versionsInFuture = luDao.getVersionsInDateRange(versionIndId, null, currentDbDate, null);
         for (VersionDisplayInfo versionInFuture : versionsInFuture) {
             if (oldClu == null || !versionInFuture.getId().equals(oldClu.getId())) {
                 VersionEntity futureClu;
@@ -3020,7 +3014,7 @@ public class CluServiceImpl implements CluService {
         VersionDisplayInfo versionInfo = null;
         if (LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)) {
             try {
-                versionInfo = new R1ToR2CopyHelper().copyVersionDisplay(luDao.getCurrentCluVersionInfo(refObjectId, refObjectTypeURI));
+                versionInfo = luDao.getCurrentCluVersionInfo(refObjectId, refObjectTypeURI);
             } catch (NoResultException e) {
                 throw new DoesNotExistException("getCurrentCluVersionInfo could not get current CLU version info", e);
             }
@@ -3035,7 +3029,7 @@ public class CluServiceImpl implements CluService {
         VersionDisplayInfo versionInfo = null;
         if (LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)) {
             try {
-                versionInfo = new R1ToR2CopyHelper().copyVersionDisplay(luDao.getCurrentVersionOnDate(refObjectId, refObjectTypeURI, date));
+                versionInfo = luDao.getCurrentVersionOnDate(refObjectId, refObjectTypeURI, date);
             } catch (NoResultException e) {
                 throw new DoesNotExistException("getCurrentCluVersionInfo could not get current CLU version info", e);
             }
@@ -3051,7 +3045,7 @@ public class CluServiceImpl implements CluService {
         VersionDisplayInfo versionInfo = null;
         if (LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)) {
             try {
-                versionInfo = new R1ToR2CopyHelper().copyVersionDisplay(luDao.getFirstVersion(refObjectId, refObjectTypeURI));
+                versionInfo = luDao.getFirstVersion(refObjectId, refObjectTypeURI);
             } catch (NoResultException e) {
                 throw new DoesNotExistException("getFirstVersion could not get first version", e);
             }
@@ -3068,7 +3062,7 @@ public class CluServiceImpl implements CluService {
         VersionDisplayInfo versionInfo = null;
         if (LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)) {
             try {
-                versionInfo = new R1ToR2CopyHelper().copyVersionDisplay(luDao.getVersionBySequenceNumber(refObjectId, refObjectTypeURI, sequence));
+                versionInfo = luDao.getVersionBySequenceNumber(refObjectId, refObjectTypeURI, sequence);
             } catch (NoResultException e) {
                 throw new DoesNotExistException("getVersionBySequenceNumber", e);
             }
@@ -3083,7 +3077,7 @@ public class CluServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<VersionDisplayInfo> versionInfos = null;
         if (LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)) {
-            versionInfos = new R1ToR2CopyHelper().copyVersionDisplays(luDao.getVersions(refObjectId, refObjectTypeURI));
+            versionInfos = luDao.getVersions(refObjectId, refObjectTypeURI);
             if (versionInfos == null) {
                 versionInfos = Collections.<VersionDisplayInfo>emptyList();
             }
@@ -3102,7 +3096,7 @@ public class CluServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<VersionDisplayInfo> versionInfos = null;
         if (LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)) {
-            versionInfos = new R1ToR2CopyHelper().copyVersionDisplays(luDao.getVersionsInDateRange(refObjectId, refObjectTypeURI, from, to));
+            versionInfos = luDao.getVersionsInDateRange(refObjectId, refObjectTypeURI, from, to);
             if (versionInfos == null) {
                 versionInfos = Collections.<VersionDisplayInfo>emptyList();
             }
