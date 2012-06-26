@@ -46,9 +46,9 @@ public class LUConstants {
     public final static String LU_LU_RELATION_TYPE_JOINTLY_OFFERED = "luLuRelationType.colocated";
 
     // Dictionary definitions
-    public static final String STRUCTURE_CLU_INFO = "org.kuali.student.lum.lu.dto.CluInfo";
-    public static final String STRUCTURE_CLU_ID_INFO = "org.kuali.student.lum.lu.dto.CluIdentifierInfo";
-    public static final String STRUCTURE_PROPOSAL_INFO = "org.kuali.student.lum.proposal.dto.ProposalInfo";
+    public static final String STRUCTURE_CLU_INFO = "org.kuali.student.r1.lum.lu.dto.CluInfo";
+    public static final String STRUCTURE_CLU_ID_INFO = "org.kuali.student.r1.lum.lu.dto.CluIdentifierInfo";
+    public static final String STRUCTURE_PROPOSAL_INFO = "org.kuali.student.r1.lum.proposal.dto.ProposalInfo";
 
 	public static final String REF_DOC_RELATION_PROPOSAL_TYPE = "kuali.org.RefObjectType.ProposalInfo";
 

@@ -732,7 +732,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                         + QueryPath.getWildCard()
                         + QueryPath.getPathSeparator() + ACTIVITIES,
                 LUUIConstants.ACTIVITY_LITERAL_LABEL_KEY,
-                Arrays.asList(Arrays.asList(TYPE_KEY,
+                Arrays.asList(Arrays.asList(ACTIVITY_TYPE,
                         LUUIConstants.ACTIVITY_TYPE_LABEL_KEY), Arrays.asList(
                         CONTACT_HOURS + "/" + "unitQuantity",
                         LUUIConstants.CONTACT_HOURS_LABEL_KEY), Arrays.asList(
@@ -1151,7 +1151,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                         + QueryPath.getWildCard()
                         + QueryPath.getPathSeparator() + ACTIVITIES,
                 LUUIConstants.ACTIVITY_LITERAL_LABEL_KEY, Arrays.asList(Arrays
-                        .asList(TYPE_KEY,
+                        .asList(ACTIVITY_TYPE,
                                 LUUIConstants.ACTIVITY_TYPE_LABEL_KEY), Arrays
                         .asList(CONTACT_HOURS + "/" + "unitQuantity",
                                 LUUIConstants.CONTACT_HOURS_LABEL_KEY), Arrays

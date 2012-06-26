@@ -46,7 +46,7 @@ public class SpringConfigurableDateTimeServiceImpl extends DateTimeServiceImpl {
     }
 
     public void setStringToDateFormats(String[] stringToDateFormats) {
-        this.stringToDateFormats = stringToDateFormats;
+        this.stringToDateFormats = stringToDateFormats.clone();
     }
 
     public String[] getStringToTimestampFormats() {
@@ -54,7 +54,7 @@ public class SpringConfigurableDateTimeServiceImpl extends DateTimeServiceImpl {
     }
 
     public void setStringToTimestampFormats(String[] stringToTimestampFormats) {
-        this.stringToTimestampFormats = stringToTimestampFormats;
+        this.stringToTimestampFormats = stringToTimestampFormats.clone();
     }
 
     public String getTimestampToStringFormatForFileName() {

@@ -28,7 +28,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  */ 
 
 public interface Population extends IdEntity {
-    
+
     /**
      * Gets the valid sort order keys that can be used to sort the
      * members of the Population. 

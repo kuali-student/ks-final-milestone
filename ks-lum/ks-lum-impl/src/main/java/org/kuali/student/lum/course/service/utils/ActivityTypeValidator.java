@@ -29,9 +29,9 @@ public class ActivityTypeValidator extends DefaultValidatorImpl {
 		if (o instanceof ActivityInfo && o != null) {
 			ActivityInfo activity = (ActivityInfo)o;
  
-			if (hasActivityData(activity) && !hasText(activity.getTypeKey())){
+			if (hasActivityData(activity)) { // && !hasText(activity.getActivityType())){
 				ValidationResultInfo vr = new ValidationResultInfo();
-				String elementPath = getElementXpath(elementStack) + "/typeKey";
+				String elementPath = getElementXpath(elementStack) + "/activityType";
 				vr.setElement(elementPath);
 				vr.setError("validation.required");
 				validationResults.add(vr);

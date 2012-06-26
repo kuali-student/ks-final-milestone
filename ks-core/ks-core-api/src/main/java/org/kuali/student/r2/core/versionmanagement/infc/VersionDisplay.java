@@ -11,7 +11,7 @@ import java.util.Date;
  * @Author Sri komandur@uw.edu
  */
 public interface VersionDisplay {
-    
+
     /**
      * The unique id of this version record
      * 
@@ -19,7 +19,7 @@ public interface VersionDisplay {
      * @readOnly
      */
     public String getId();
-
+    
     /**
      * Version from which this version was created
      * @name Versioned From Id

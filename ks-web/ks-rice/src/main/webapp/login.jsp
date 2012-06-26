@@ -1,7 +1,3 @@
-<%@ page import="org.springframework.security.ui.webapp.AuthenticationProcessingFilter" %>
-<%@ page import="org.springframework.security.ui.AbstractProcessingFilter" %>
-<%@ page import="org.springframework.security.AuthenticationException" %>
-
 <script type="text/javascript">
 	function setSubmitUrl(form){
 		var hash = unescape(self.document.location.hash.substring(1));
@@ -10,7 +6,7 @@
 	} 
 </script>
 
-<form method="get" onSubmit="return setSubmitUrl(this);">
+<form method="post" onSubmit="return setSubmitUrl(this);">
 	<label for="j_username">Username</label>
 	<input type="text" name="j_username" id="j_username"/>
 	<br/>

@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali.student.common</groupId>
     <artifactId>ks-common</artifactId>
-    <version>0.0.6-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
   </parent>
   <dependencies>
     <!--
@@ -89,38 +89,30 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-              <version>${ks.service.version}</version>
-<!--       <version>${project.version}</version> -->
-
+      <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-              <version>${ks.service.version}</version>
-<!--       <version>${project.version}</version> -->
-
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-             <version>${ks.service.version}</version>
-<!--       <version>${project.version}</version> -->
-
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
-              <version>${ks.service.version}</version>
-<!--       <version>${project.version}</version> -->
-
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-rice-lessdep</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <type>pom</type>
       <scope>test</scope>
     </dependency>
@@ -151,11 +143,11 @@
 		<artifactId>jasperreports</artifactId>
 		<scope>compile</scope>
 	</dependency>
-	<dependency>
+	<!-- dependency>
 		<groupId>net.sf.jasperreports</groupId>
 		<artifactId>jasperreports-fonts</artifactId>
-		<version>4.0.0</version>
-	</dependency>
+		<version>4.0.1</version>
+	</dependency -->
     <dependency>
 		<groupId>com.lowagie</groupId>
 		<artifactId>itext</artifactId>
@@ -245,7 +237,7 @@
         <dependency>
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-core-impl</artifactId>
-          <version>${ks.service.version}</version>
+          <version>${project.version}</version>
         </dependency>
         <dependency>
           <groupId>org.springframework</groupId>

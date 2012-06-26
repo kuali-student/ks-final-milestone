@@ -140,3 +140,5 @@ alter table KRIM_RSP_T modify NMSPC_CD varchar2(40) not null
 /
 alter table KRIM_RSP_T modify NM varchar2(100) not null
 /
+alter table KRIM_RSP_T add constraint KRIM_RSP_T_TC1 unique (NM, NMSPC_CD)
+/

@@ -14,14 +14,14 @@
  */
 package org.kuali.student.lum.kim.role.type;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Dummy class to test Hierarchy Node Test
@@ -47,7 +47,7 @@ public class HierarchyNodeTestRoleTypeServiceBase extends DerivedRoleTypeService
     /* (non-Javadoc)
      * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#sortRoleMembers(java.util.List)
      */
-    @Override
+  //  @Override
     public List<RoleMembership> sortRoleMembers(List<RoleMembership> roleMembers) {
         List<RoleMembership> sortedRoleMembers = new ArrayList<RoleMembership>();
         int group = 0; // counter for the group number to add to the roleSortingCode

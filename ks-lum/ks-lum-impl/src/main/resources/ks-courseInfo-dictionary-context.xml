@@ -1668,6 +1668,7 @@
     <ref bean="activityInfo.id" />
     <ref bean="activityInfo.stateKey" />
     <ref bean="activityInfo.typeKey" />
+ 
     <ref bean="activityInfo.dynamic" />
    </list>
   </property>
@@ -1680,9 +1681,9 @@
  </bean>
  <bean id="activityInfo.unitsContentOwner" parent="activityInfo.unitsContentOwner-parent" />
 
-<bean id="activityInfo.typeKey-parent" abstract="true"
+<bean id="activityInfo.activityType-parent" abstract="true"
        parent="baseString">
-  <property name="name" value="typeKey" />
+  <property name="name" value="activityType" />
   <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.ActivityTypeValidator"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
@@ -1707,7 +1708,7 @@
 		           <property name="whenConstraint">
 		             <list>
 		                <bean parent="whenConstraint">
-		                  <property name="values" ref="activityInfo.typeKey.requiredByNode"/>
+		                  <property name="values" ref="activityInfo.activityType.requiredByNode"/>
 		                  <property name="constraint">
 					        <bean parent="constraint">
 						         <property name="minOccurs" value="1" />
@@ -1741,9 +1742,8 @@
    </bean>
   </property>
  </bean>
- <bean id="activityInfo.typeKey" parent="activityInfo.typeKey-parent" />
- 
- <bean id="activityInfo.typeKey.requiredByNode" class="java.util.ArrayList">
+ <bean id="activityInfo.activityType" parent="activityInfo.activityType-parent" />
+ <bean id="activityInfo.activityType.requiredByNode" class="java.util.ArrayList">
     <constructor-arg>
 		<list>
 			<value>Department Review</value>
@@ -1816,6 +1816,12 @@
   <property name="defaultValue" value="draft"/>
  </bean>
  <bean id="activityInfo.name" parent="activityInfo.name-parent" />
+ 
+  <bean id="activityInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+  <property name="name" value="typeKey" />
+  <property name="defaultValue" value="draft"/>
+ </bean>
+ <bean id="activityInfo.typeKey" parent="activityInfo.typeKey-parent" />
  
  <!--   <bean id="activityInfo.unitTypeKey-parent" abstract="true" parent="baseKualiTypeRequired">
   <property name="name" value="unitTypeKey" />

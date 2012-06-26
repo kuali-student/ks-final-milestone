@@ -1,0 +1,303 @@
+package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.log4j.Logger;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.constants.*;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CourseOfferingTransformer {
+
+    final Logger LOG = Logger.getLogger(CourseOfferingTransformer.class);
+
+    public void lui2CourseOffering(LuiInfo lui, CourseOfferingInfo co, ContextInfo context) {
+        co.setId(lui.getId());
+        co.setTypeKey(lui.getTypeKey());
+        co.setStateKey(lui.getStateKey());
+        co.setDescr(lui.getDescr());
+        co.setMeta(lui.getMeta());
+        co.setCourseOfferingURL(lui.getReferenceURL());
+
+        //Dynamic attributes
+        List<AttributeInfo> attributes = co.getAttributes();
+        for (Attribute attr : lui.getAttributes()) {
+            if (CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY_ATTR.equals(attr.getKey())){
+                co.setWaitlistLevelTypeKey(attr.getValue());
+            } else if  (CourseOfferingServiceConstants.WAIT_LIST_TYPE_KEY_ATTR.equals((attr.getKey()))){
+                co.setWaitlistTypeKey(attr.getValue());
+            } else if (CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR.equals((attr.getKey()))){
+                co.setHasWaitlist(Boolean.valueOf(attr.getValue()));
+            } else if (CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR.equals(attr.getKey())){
+                co.setFinalExamType(attr.getValue());
+            } else if(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
+                co.setEvaluated(Boolean.valueOf(attr.getValue()));
+            } else if (CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR.equals(attr.getKey())){
+                co.setFeeAtActivityOffering(Boolean.valueOf(attr.getValue()));
+            } else if (CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR.equals(attr.getKey())){
+                co.setFundingSource(attr.getValue());
+            } else {
+                attributes.add(new AttributeInfo(attr));
+            }
+        }
+        co.setAttributes(attributes);
+
+        // specific fields
+        co.setMaximumEnrollment(lui.getMaximumEnrollment());
+        co.setMinimumEnrollment(lui.getMinimumEnrollment());
+
+        co.setCourseId(lui.getCluId());
+        co.setTermId(lui.getAtpId());
+        co.setUnitsDeployment(lui.getUnitsDeployment());
+        co.setUnitsContentOwner(lui.getUnitsContentOwner());
+
+        //Split up the result keys for student registration options into a separate field.
+        co.getStudentRegistrationOptionIds().clear();
+        co.setGradingOptionId(null);
+        for(String resultValueGroupKey : lui.getResultValuesGroupKeys()){
+            if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
+                co.getStudentRegistrationOptionIds().add(resultValueGroupKey);
+            }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
+                if(co.getGradingOptionId()!=null){
+                    throw new RuntimeException("This course offering has multiple grading options in the data. It should only have at most one.");
+                }
+                co.setGradingOptionId(resultValueGroupKey);
+            }
+        }
+
+
+        LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
+        if (identifier == null) {
+            co.setCourseOfferingCode(null);
+            co.setCourseNumberSuffix(null);
+            co.setCourseOfferingTitle(null);
+            co.setSubjectArea(null);
+        } else {
+            co.setCourseOfferingCode(identifier.getCode());
+            co.setCourseNumberSuffix(identifier.getSuffixCode());
+            co.setCourseOfferingTitle(identifier.getLongName());
+            co.setSubjectArea(identifier.getDivision());
+        }
+
+        // store honors in lu code
+        LuCodeInfo luCode = this.findLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
+        if (luCode == null) {
+            co.setIsHonorsOffering(false);
+        } else {
+            co.setIsHonorsOffering(string2Boolean(luCode.getValue()));
+        }
+
+
+        //below undecided
+        //lui.getAlternateIdentifiers() -- where to map?
+        //lui.getName() -- where to map?
+        //lui.getReferenceURL() -- where to map?
+        //LuiLuiRelation (to set jointOfferingIds, hasFinalExam)
+//        assembleLuiLuiRelations(co, lui.getId(), context);
+        return;
+    }
+
+    private String boolean2String(Boolean bval) {
+        if (bval == null) {
+            return null;
+        }
+        return bval.toString();
+    }
+
+    private Boolean string2Boolean(String sval) {
+        if (sval == null) {
+            return null;
+        }
+        return Boolean.parseBoolean(sval.toString());
+    }
+
+    private LuCodeInfo findLuCode(LuiInfo lui, String typeKey) {
+        for (LuCodeInfo info : lui.getLuiCodes()) {
+            if (info.getTypeKey().equals(typeKey)) {
+                return info;
+            }
+        }
+        return null;
+    }
+
+    private LuCodeInfo findAddLuCode(LuiInfo lui, String typeKey) {
+        LuCodeInfo info = this.findLuCode(lui, typeKey);
+        if (info != null) {
+            return info;
+        }
+        info = new LuCodeInfo();
+        info.setTypeKey(typeKey);
+        lui.getLuiCodes().add(info);
+        return info;
+    }
+
+    public void courseOffering2Lui(CourseOfferingInfo co, LuiInfo lui, ContextInfo context) {
+        lui.setId(co.getId());
+        lui.setTypeKey(co.getTypeKey());
+        lui.setStateKey(co.getStateKey());
+        lui.setDescr(co.getDescr());
+        lui.setMeta(co.getMeta());
+        lui.setReferenceURL(co.getCourseOfferingURL());
+
+        // Just to make it easier to track in DB
+        String coCode = co.getCourseOfferingCode();
+        if (coCode == null) {
+            coCode = "NOCODE";
+        }
+        lui.setName(coCode + " CO");
+
+        //Dynamic Attributes
+        List<AttributeInfo> attributes = lui.getAttributes();
+        for (Attribute attr : co.getAttributes()) {
+            attributes.add(new AttributeInfo(attr));
+        }
+
+        AttributeInfo waitlistLevelTypeKey = new AttributeInfo();
+        waitlistLevelTypeKey.setKey(CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY_ATTR);
+        waitlistLevelTypeKey.setValue(String.valueOf(co.getWaitlistLevelTypeKey()));
+        attributes.add(waitlistLevelTypeKey);
+
+        AttributeInfo waitlistTypeKey = new AttributeInfo();
+        waitlistTypeKey.setKey(CourseOfferingServiceConstants.WAIT_LIST_TYPE_KEY_ATTR);
+        waitlistTypeKey.setValue(String.valueOf(co.getWaitlistTypeKey()));
+        attributes.add(waitlistTypeKey);
+
+        AttributeInfo waitlistIndicator = new AttributeInfo();
+        waitlistIndicator.setKey(CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR);
+        waitlistIndicator.setValue(String.valueOf(co.getHasWaitlist()));
+        attributes.add(waitlistIndicator);
+
+        AttributeInfo finalExamIndicator = new AttributeInfo();
+        finalExamIndicator.setKey(CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR);
+        finalExamIndicator.setValue(co.getFinalExamType());
+        attributes.add(finalExamIndicator);
+
+        AttributeInfo courseEvaluationIndicator = new AttributeInfo();
+        courseEvaluationIndicator.setKey(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR);
+        courseEvaluationIndicator.setValue(String.valueOf(co.getIsEvaluated()));
+        attributes.add(courseEvaluationIndicator);
+
+        AttributeInfo whereFeesAttachedFlag = new AttributeInfo();
+        whereFeesAttachedFlag.setKey(CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR);
+        whereFeesAttachedFlag.setValue(String.valueOf(co.getIsFeeAtActivityOffering()));
+        attributes.add(whereFeesAttachedFlag);
+
+        AttributeInfo fundingSource = new AttributeInfo();
+        fundingSource.setKey(CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR);
+        fundingSource.setValue(co.getFundingSource());
+        attributes.add(fundingSource);
+
+        lui.setAttributes(attributes);
+
+
+        lui.setCluId(co.getCourseId());
+        lui.setAtpId(co.getTermId());
+        lui.setUnitsContentOwner(co.getUnitsContentOwnerOrgIds());
+        lui.setUnitsDeployment(co.getUnitsDeploymentOrgIds());
+        lui.setMaximumEnrollment(co.getMaximumEnrollment());
+        lui.setMinimumEnrollment(co.getMinimumEnrollment());
+        lui.getResultValuesGroupKeys().add(co.getGradingOptionId());
+        lui.getResultValuesGroupKeys().addAll(co.getStudentRegistrationOptionIds());
+
+        LuiIdentifierInfo oi = lui.getOfficialIdentifier();
+        if (oi == null) {
+            oi = new LuiIdentifierInfo();
+            lui.setOfficialIdentifier(oi);
+            oi.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
+            oi.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+        }
+        oi.setCode(co.getCourseOfferingCode());
+        oi.setSuffixCode(co.getCourseNumberSuffix());
+        oi.setLongName(co.getCourseOfferingTitle());
+        oi.setDivision(co.getSubjectArea());
+
+        LuCodeInfo luCode = this.findAddLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
+        luCode.setValue(boolean2String(co.getIsHonorsOffering()));
+
+        //TODO: the following mapping undecided on wiki
+        //gradeRosterLevelTypeKey
+        //fundingSource
+        //isFinancialAidEligible
+        //registrationOrderTypeKey
+
+    }
+
+    public void copyFromCanonical(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo, List<String> optionKeys) {
+        courseOfferingInfo.setCourseId(courseInfo.getId());
+        courseOfferingInfo.setCourseNumberSuffix(courseInfo.getCourseNumberSuffix());
+        if (!optionKeys.contains(CourseOfferingSetServiceConstants.NOT_COURSE_TITLE_OPTION_KEY)) {
+         courseOfferingInfo.setCourseOfferingTitle(courseInfo.getCourseTitle());
+        }
+        courseOfferingInfo.setSubjectArea(courseInfo.getSubjectArea());
+        courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
+        courseOfferingInfo.setUnitsContentOwner(courseInfo.getUnitsContentOwner());
+        courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
+
+        //Split up the result keys for student registration options into a separate field.
+        courseOfferingInfo.getStudentRegistrationOptionIds().clear();
+        courseOfferingInfo.setGradingOptionId(null);
+        for(String resultValueGroupKey : courseInfo.getGradingOptions()){
+            if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
+                courseOfferingInfo.getStudentRegistrationOptionIds().add(resultValueGroupKey);
+            }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
+                if(courseOfferingInfo.getGradingOptionId()!=null){
+                    //Log warning
+                    LOG.warn("When Copying from Course CLU, multiple grading options were found");
+                }
+                courseOfferingInfo.setGradingOptionId(resultValueGroupKey);
+            }
+        }
+
+        //Set the credit options as the first option from the clu
+        if (courseInfo.getCreditOptions() != null && !courseInfo.getCreditOptions().isEmpty()) {
+//            courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getId());
+        }else{
+            courseOfferingInfo.setCreditOptionId(null);
+        }
+
+        //Log warning if the Clu has multiple credit options
+        if(courseInfo.getCreditOptions().size() > 1){
+            LOG.warn("When Copying from Course CLU, multiple credit options were found");
+        }
+
+        courseOfferingInfo.setDescr(courseInfo.getDescr());
+//        courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
+    }
+
+    // this is not currently in use and needs to be revisited and plugged into the impl
+    public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LuiPersonRelationService lprService)
+            throws OperationFailedException {
+        List<LuiPersonRelationInfo> lprs = null;;
+        try {
+            lprs = lprService.getLprsByLui(luiId, context);
+        } catch (Exception e) {
+            throw new OperationFailedException("DoesNotExistException: " + e.getMessage());
+        }
+
+        for (LuiPersonRelationInfo lpr : lprs) {
+            if (lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
+                OfferingInstructorInfo instructor = new OfferingInstructorInfo();
+                instructor.setPersonId(lpr.getPersonId());
+                instructor.setPercentageEffort(lpr.getCommitmentPercent());
+                instructor.setId(lpr.getId());
+                instructor.setTypeKey(lpr.getTypeKey());
+                instructor.setStateKey(lpr.getStateKey());
+                co.getInstructors().add(instructor);
+            }
+        }
+    }
+}

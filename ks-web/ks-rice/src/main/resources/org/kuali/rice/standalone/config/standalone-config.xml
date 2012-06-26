@@ -29,22 +29,14 @@
 
     <!-- BEGIN KUALI STUDENT SETTINGS -->
     <param name="config.location">classpath:ks-security-config.xml</param>
-    <param name="appserver.url">http://localhost:8083</param>
+    <param name="appserver.url">http://localhost:8081</param>
     <param name="app.code">ks-rice</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="rice.logging.configure">true</param>
     
-    <param name="lum.application.url" override="false">http://localhost:8084/ks-standalone-dev</param>
-
-    <!-- OrgUrls -->
-    <param name="ks.org.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp</param>
-
-    <!-- LumUrls -->
-    <param name="ks.lum.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=CURRICULUM_MANAGEMENT</param>
+    <param name="lum.application.url">http://localhost:8080/ks-standalone</param>
     
-    <!-- KS Home Url -->
-    <param name="ks.home.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>
-   <!-- KSB -->
+    <!-- KSB -->
     <param name="Routing.ImmediateExceptionRouting">true</param>
     <!-- END KUALI STUDENT SETTINGS -->
 
@@ -61,7 +53,7 @@
 
     <!-- KIM -->
     <param name="kim.soapExposedService.jaxws.security">false</param>
-    <param name="kimRoleUpdateServiceSOAP.expose">true</param>
+    <param name="kimRoleServiceSOAP.expose">true</param>
     <!-- END KUALI STUDENT SETTINGS OVERRIDES -->
 
     <!-- Datasource Configuration -->

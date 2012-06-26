@@ -1,14 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>ks-lum</artifactId>
-    <groupId>org.kuali.student.lum</groupId>
-    <version>0.0.6-SNAPSHOT</version>
-  </parent>
-  <groupId>org.kuali.student.lum</groupId>
   <artifactId>ks-lum-impl</artifactId>
   <name>KS LUM Impl</name>
-  <description>KS LUM Impl</description>
+  <description>KS Learning Unit Management Impl</description>
+  <parent>
+    <groupId>org.kuali.student.lum</groupId>
+    <artifactId>ks-lum</artifactId>
+    <version>1.3.0-SNAPSHOT</version>
+  </parent>
   <build>
     <plugins>
       <plugin>
@@ -34,16 +33,30 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
     </dependency>
+
+    <!-- This is a temp fix for spring-tx 2.5.6 being dragged in by rice-impl 1.0.3.1-BX -->
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-tx</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
+      <exclusions>
+        <exclusion>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-cas-client</artifactId>
+        </exclusion>
+      </exclusions>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -55,50 +68,40 @@
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-        <version>${ks.service.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-impl</artifactId>
-        <version>${ks.service.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
-    <!-- dependency>
-    	<groupId>org.kuali.student</groupId>
-    	<artifactId>ks-conversion</artifactId>
-    	<version>0.0.6-SNAPSHOT</version>
-    	<exclusions>
-    		<exclusion>
-    			<groupId>org.kuali.student.lum</groupId>
-  				<artifactId>ks-lum-api</artifactId>
-  			</exclusion>
-    	</exclusions>
-    </dependency-->
     <!-- This is a temp fix for SecurityContextHolder -->
     <dependency>
     	<groupId>org.springframework.security</groupId>
     	<artifactId>spring-security-core</artifactId>
     	<scope>test</scope>
     </dependency>
-	<dependency>
-		<groupId>org.apache.openjpa</groupId>
-		<artifactId>openjpa</artifactId>
-		<version>2.0.1</version>
-		<scope>test</scope>
-	</dependency>
-	<dependency>
-		<groupId>antlr</groupId>
-		<artifactId>antlr</artifactId>
-		<version>2.7.7</version>
-		<scope>test</scope>
-	</dependency>
+		<dependency>
+			<groupId>org.apache.openjpa</groupId>
+			<artifactId>openjpa</artifactId>
+			<version>2.0.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>antlr</groupId>
+			<artifactId>antlr</artifactId>
+			<version>2.7.7</version>
+			<scope>test</scope>
+		</dependency>
+
+
   </dependencies>
-  
   <profiles>
     <profile>
       <id>ks-hibernate</id>

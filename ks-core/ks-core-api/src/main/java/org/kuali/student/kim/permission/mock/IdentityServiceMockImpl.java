@@ -483,6 +483,6 @@ public class IdentityServiceMockImpl implements IdentityService {
     //public List<Principal> getPrincipals(List<String> arg0) {
     //    throw new UnsupportedOperationException("Not supported yet.");
     //}
-    
-    
+
+
 }

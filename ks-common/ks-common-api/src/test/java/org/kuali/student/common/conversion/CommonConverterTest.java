@@ -3,6 +3,7 @@ package org.kuali.student.common.conversion;
 import java.util.Date;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r2.common.dto.StatusInfo;

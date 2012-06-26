@@ -19,7 +19,7 @@
 <config>
     <param name="environment">${environment}</param>
     <param name="module.name">standalone</param>
-    <param name="service.namespace">STANDALONE</param>
+    <param name="application.id">STANDALONE</param>
 
     <param name="config.location">classpath:META-INF/test-config-defaults.xml</param>
 

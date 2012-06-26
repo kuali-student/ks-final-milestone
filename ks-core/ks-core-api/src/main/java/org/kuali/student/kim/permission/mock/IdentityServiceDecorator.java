@@ -483,5 +483,5 @@ public class IdentityServiceDecorator implements IdentityService {
     //public List<Principal> getPrincipals(List<String> arg0) {
     //    return nextDecorator.getPrincipals(arg0);
     //}
-    
+
 }

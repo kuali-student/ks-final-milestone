@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   Copyright 2009 The Kuali Foundation Licensed under the Educational Community
   License, Version 2.0 (the "License"); you may not use this file except in
@@ -10,16 +9,17 @@
   express or implied. See the License for the specific language governing
   permissions and limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.kuali</groupId>
+    <groupId>org.kuali.pom</groupId>
     <artifactId>kuali-common</artifactId>
-    <version>15</version>
+    <version>1.3.5</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>2.0.0-cm-SNAPSHOT</version>
+  <version>1.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <description>
@@ -57,6 +57,7 @@
         <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
+        <module>ks-enroll</module>
         <module>ks-web</module>
       </modules>
     </profile>
@@ -68,10 +69,8 @@
         <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
+        <module>ks-enroll</module>
       </modules>
-      <properties>
-        <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
-      </properties>
     </profile>
     <profile>
       <id>skip-all-wars</id>
@@ -81,6 +80,7 @@
         <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
+        <module>ks-enroll</module>
       </modules>
     </profile>
     <profile>
@@ -94,22 +94,16 @@
       <modules>
         <module>ks-core</module>
         <module>ks-lum</module>
+        <module>ks-enroll</module>
       </modules>
-      <properties>
-        <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
-      </properties>
     </profile>
   </profiles>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.2.1</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.2.1</developerConnection>
-    <url>https://test.kuali.org/svn/student/tags/student-1.2.1</url>
+    <connection>scm:svn:https://svn.kuali.org/repos/student/branches/ks-1.3</connection>
+    <developerConnection>scm:svn:https://svn.kuali.org/repos/student/branches/ks-1.3</developerConnection>
+    <url>https://svn.kuali.org/repos/student/branches/ks-1.3</url>
   </scm>
   <properties>
-    <!-- Remove this property as soon as the devs are comfortable with Maven 3
--->
-    <!-- RU kuali.site.plugin.version>2.0.1</kuali.site.plugin.version-->
-
     <kuali.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</kuali.clover.exclude.pattern.1>
     <kuali.clover.exclude.pattern.2>org/kuali/**/ui/client/**/*.java</kuali.clover.exclude.pattern.2>
     <kuali.clover.exclude.pattern.3>org/kuali/**/client/**/*.java</kuali.clover.exclude.pattern.3>
@@ -138,7 +132,7 @@
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.10</junit.version>
-    <kuali.rice.version>2.0.0</kuali.rice.version>
+    <kuali.rice.version>2.2.0-M1</kuali.rice.version>
     <log4j.version>1.2.16</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
@@ -161,7 +155,7 @@
     <selenium.version>2.7.0</selenium.version>
     <httpcomponents.httpclient.version>4.1.2</httpcomponents.httpclient.version>
     <dozer.version>5.3.2</dozer.version>
-    
+
     <!-- plugin versions -->
     <gwt.codehaus.plugin.version>2.3.0-1</gwt.codehaus.plugin.version>
     <tomcat.plugin.version>1.1</tomcat.plugin.version>
@@ -188,10 +182,8 @@
     <kuali.attach.sources.phase>verify</kuali.attach.sources.phase>
     <ks.contractdoc.phase>site</ks.contractdoc.phase>
     <ks.dictionarydoc.phase>site</ks.dictionarydoc.phase>
-    <ks.dictionarycreate.phase>none</ks.dictionarycreate.phase>
-    <ks.service.version>0.0.6-SNAPSHOT</ks.service.version>
+    <ks.dictionarycreate.phase>none</ks.dictionarycreate.phase>    
   </properties>
-  
   <build>
     <pluginManagement>
       <plugins>
@@ -203,31 +195,30 @@
           </configuration>
         </plugin>
 
-          <!-- CXF Java2WS Default Configuration -->
-          <plugin>
+        <!-- CXF Java2WS Default Configuration -->
+        <plugin>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-java2ws-plugin</artifactId>
+          <version>${cxf.version}</version>
+          <dependencies>
+            <dependency>
               <groupId>org.apache.cxf</groupId>
-              <artifactId>cxf-java2ws-plugin</artifactId>
+              <artifactId>cxf-rt-frontend-jaxws</artifactId>
               <version>${cxf.version}</version>
-              <dependencies>
-                  <dependency>
-                      <groupId>org.apache.cxf</groupId>
-                      <artifactId>cxf-rt-frontend-jaxws</artifactId>
-                      <version>${cxf.version}</version>
-                  </dependency>
-                  <dependency>
-                      <groupId>org.apache.cxf</groupId>
-                      <artifactId>cxf-rt-frontend-simple</artifactId>
-                      <version>${cxf.version}</version>
-                  </dependency>
-              </dependencies>
-              <configuration>
-                  <genWsdl>true</genWsdl>
-                  <genWrapperbean>true</genWrapperbean>
-                  <verbose>true</verbose>
-                  <argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
-                  <className/>
-              </configuration>
-          </plugin>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.cxf</groupId>
+              <artifactId>cxf-rt-frontend-simple</artifactId>
+              <version>${cxf.version}</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <genWsdl>true</genWsdl>
+            <genWrapperbean>true</genWrapperbean>
+            <verbose>true</verbose>
+            <argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
+          </configuration>
+        </plugin>
 
         <!-- Tomcat Plugin Configuration -->
         <plugin>
@@ -239,7 +230,7 @@
             <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
           </configuration>
         </plugin>
-
+        
         <!--  added by bonnie -->
         <plugin>
           <groupId>org.mortbay.jetty</groupId>
@@ -256,7 +247,7 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
           <configuration>
-            <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
+            <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
           </configuration>
         </plugin>
 
@@ -281,19 +272,8 @@
     </pluginManagement>
     <plugins>
       <plugin>
-        <groupId>com.atlassian.maven.plugins</groupId>
-        <artifactId>maven-clover2-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>generate-clover-info</id>
-            <phase>none</phase>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <!-- RU version>2.1.2</version-->
         <executions>
           <execution>
             <id>sources</id>
@@ -342,11 +322,6 @@
         <version>2.5</version>
         <scope>provided</scope>
       </dependency>
-      <!-- RU dependency>
-        <groupId>javax.persistence</groupId>
-        <artifactId>persistence-api</artifactId>
-        <version>1.0</version>
-      </dependency-->
       <dependency>
         <groupId>javax.transaction</groupId>
         <artifactId>jta</artifactId>
@@ -373,8 +348,8 @@
 		<version>${selenium.version}</version>
 		<scope>test</scope>
 	  </dependency>
-	<!-- This httpclient dependency works with the Selenium tests, but must 
-		have compile scope. Please see ks-common/ks-common-ui/pom.xml and ks-lum/ks-lum-ui/pom.xml 
+	<!-- This httpclient dependency works with the Selenium tests, but must
+		have compile scope. Please see ks-common/ks-common-ui/pom.xml and ks-lum/ks-lum-ui/pom.xml
 		for more info. -->
 	<dependency>
 		<groupId>org.apache.httpcomponents</groupId>
@@ -516,24 +491,31 @@
           </exclusion>
         </exclusions>
       </dependency>
-        <!-- dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>${spring.security.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-support</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-expression</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency-->
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>${spring.security.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-support</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-security-cas</artifactId>
+        <version>${spring.security-cas.version}</version>
+      </dependency>
+      <!--added by bonnie-->
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>${spring.security.version}</version>
+      </dependency>
 
-        <!-- This jar is only needed if you are using CAS with Spring Security
-        -->
+      <!-- This jar is only needed if you are using CAS with Spring Security
+-->
       <dependency>
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-cas</artifactId>
@@ -899,31 +881,31 @@
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-jta</artifactId>
-          <version>${ks.service.version}</version>
+        <version>${project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-cxf</artifactId>
-          <version>${ks.service.version}</version>
+        <version>${project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-metro</artifactId>
-          <version>${ks.service.version}</version>
+        <version>${project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-eclipselink</artifactId>
-          <version>${ks.service.version}</version>
+        <version>${project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-hibernate</artifactId>
-          <version>${ks.service.version}</version>
+        <version>${project.version}</version>
         <type>pom</type>
       </dependency>
 
@@ -938,7 +920,7 @@
       <dependency>
         <groupId>com.google.gwt</groupId>
         <artifactId>gwt-incubator</artifactId>
-        <version>2.3.0</version>
+        <version>2.0.1</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -992,11 +974,6 @@
         <artifactId>rice-kim-impl</artifactId>
         <version>${kuali.rice.version}</version>
       </dependency>
-      <!-- RU dependency>
-        <groupId>org.kuali.rice</groupId>
-        <artifactId>rice-kew-api</artifactId>
-        <version>${kuali.rice.version}</version>
-      </dependency-->
       <dependency>
         <groupId>org.kuali.rice</groupId>
         <artifactId>rice-impl</artifactId>
@@ -1094,28 +1071,12 @@
             <groupId>org.eclipse.jdt</groupId>
             <artifactId>core</artifactId>
           </exclusion>
-          
-		  <!-- JOTM - uncomment out to switch to Bitronix -->        
-	      <!-- 
-	      <exclusion>                                 
-	        <groupId>xapool</groupId>                 
-	        <artifactId>xapool</artifactId>           
-	      </exclusion>                                
-	      <exclusion>                                 
-	        <groupId>jotm</groupId>                   
-	        <artifactId>jotm</artifactId>             
-	      </exclusion>
-	       -->
-	       
+	      
 	      <!-- itext -->
           <exclusion>
             <groupId>itext</groupId>
             <artifactId>itext</artifactId>
           </exclusion>
-          <!-- RU exclusion>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-          </exclusion-->
         </exclusions>
       </dependency>
       <dependency>
@@ -1139,11 +1100,6 @@
         <version>${mysql.connector.version}</version>
       </dependency>
       <!-- Caching dependencies -->
-      <!-- RU dependency>
-        <groupId>net.sf.ehcache</groupId>
-        <artifactId>ehcache-core</artifactId>
-        <version>${ehcache.version}</version>
-      </dependency-->
       <dependency>
         <groupId>backport-util-concurrent</groupId>
         <artifactId>backport-util-concurrent</artifactId>
@@ -1154,7 +1110,7 @@
         <artifactId>jsr107cache</artifactId>
         <version>${jsr107cache.version}</version>
       </dependency>
-
+    
       <!-- Jasper Report dependencies -->
       <dependency>
         <groupId>net.sf.jasperreports</groupId>
@@ -1195,7 +1151,7 @@
         <artifactId>jxl</artifactId>
         <version>${net.sourceforge.jexcelapi.version}</version>
       </dependency>
-      
+
       <!-- Dozer dependency -->
 	  <dependency>
 	    <groupId>net.sf.dozer</groupId>
