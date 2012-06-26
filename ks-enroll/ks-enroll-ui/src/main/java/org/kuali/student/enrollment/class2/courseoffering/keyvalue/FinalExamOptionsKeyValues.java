@@ -25,7 +25,7 @@ import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
-import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;

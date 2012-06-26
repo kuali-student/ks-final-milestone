@@ -5,8 +5,8 @@ import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.common.search.dto.*;
 import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 

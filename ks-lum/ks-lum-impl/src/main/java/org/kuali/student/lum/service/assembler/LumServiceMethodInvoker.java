@@ -91,7 +91,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	 * @throws CircularReferenceException
 	 * @throws ReadOnlyException 
 	 * @throws org.kuali.student.common.exceptions.DataValidationErrorException 
-	 * @throws org.kuali.student.common.exceptions.DoesNotExistException 
+	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
 	 * @throws org.kuali.student.common.exceptions.InvalidParameterException 
 	 * @throws org.kuali.student.common.exceptions.MissingParameterException 
 	 * @throws org.kuali.student.common.exceptions.OperationFailedException 

@@ -234,7 +234,7 @@ public interface CluService extends VersionManagementService ,SearchService {
      *                                   contextInfo
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws org.kuali.student.common.exceptions.DoesNotExistException 
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
      * @throws org.kuali.student.common.exceptions.InvalidParameterException 
      * @throws org.kuali.student.common.exceptions.MissingParameterException 
      * @throws org.kuali.student.common.exceptions.OperationFailedException 

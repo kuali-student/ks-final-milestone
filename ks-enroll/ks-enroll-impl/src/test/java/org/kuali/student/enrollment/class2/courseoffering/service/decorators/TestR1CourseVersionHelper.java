@@ -17,7 +17,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.AcalTestD
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseR1TestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl;
 import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;

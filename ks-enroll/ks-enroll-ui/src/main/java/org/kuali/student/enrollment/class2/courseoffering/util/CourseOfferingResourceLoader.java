@@ -19,7 +19,7 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;

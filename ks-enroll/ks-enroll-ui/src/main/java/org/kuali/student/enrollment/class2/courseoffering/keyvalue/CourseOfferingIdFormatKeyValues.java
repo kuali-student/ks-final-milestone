@@ -31,8 +31,8 @@ import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.CourseServiceConstants;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -67,7 +67,7 @@ public class CourseOfferingIdFormatKeyValues extends UifKeyValuesFinderBase impl
                 CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) getCourseOfferingService().getCourseOffering(courseOfferingId, context);
                 CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseOfferingInfo.getCourseId());
                 formats = courseInfo.getFormats();
-            } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
                 throw new RuntimeException("No subject areas found! There should be some in the database", e);
             } catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
                 throw new RuntimeException(e);

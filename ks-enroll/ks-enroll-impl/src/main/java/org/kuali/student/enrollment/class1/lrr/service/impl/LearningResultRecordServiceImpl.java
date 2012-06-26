@@ -30,7 +30,7 @@ import org.kuali.student.r2.core.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.enrollment.lrr.service.LearningResultRecordService", serviceName = "LearningResultRecordService", portName = "LearningResultRecordService", targetNamespace = "http://student.kuali.org/wsdl/lrr")
-@Transactional(readOnly = true, noRollbackFor = {org.kuali.student.common.exceptions.DoesNotExistException.class}, rollbackFor = {Throwable.class})
+@Transactional(readOnly = true, noRollbackFor = {org.kuali.student.r2.common.exceptions.DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class LearningResultRecordServiceImpl implements LearningResultRecordService {
 
     private LrrDao lrrDao;

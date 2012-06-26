@@ -7,8 +7,7 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -17,8 +16,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -285,8 +283,8 @@ public class CourseOfferingReverseRolloverRunner implements Runnable {
     private CourseInfo getCourse(String courseId) throws Exception {
         CourseInfo course = null;
         try {
-            course = courseService.getCourse(courseId);
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            course = courseService.getCourse(courseId, context);
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("The course does not exist. course: " + courseId, e);
         } catch (Exception e) {
             throw new OperationFailedException("unxpected trying to get course " + courseId, e);

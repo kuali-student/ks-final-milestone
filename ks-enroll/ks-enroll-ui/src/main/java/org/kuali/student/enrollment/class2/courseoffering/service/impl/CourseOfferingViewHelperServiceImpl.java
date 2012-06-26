@@ -42,7 +42,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;

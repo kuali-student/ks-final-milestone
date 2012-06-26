@@ -13,8 +13,8 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
@@ -64,7 +64,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             course = getCourseService().getCourse(courseId);
         } catch (org.kuali.student.common.exceptions.OperationFailedException ofe) {
             System.out.println("call getCourseService().getCourse(courseId), and get OperationFailedException:  " + ofe.toString());
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException dnee) {
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException dnee) {
             System.out.println("call getCourseService().getCourse(courseId), and get DoesNotExistException:  " + dnee.toString());
         } catch (org.kuali.student.common.exceptions.InvalidParameterException ipe) {
             System.out.println("call getCourseService().getCourse(courseId), and get InvalidParameterException:  " + ipe.toString());

@@ -11,7 +11,7 @@ import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import javax.annotation.Resource;
