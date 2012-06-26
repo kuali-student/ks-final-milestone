@@ -5,7 +5,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.r1.common.entity.Attribute;;
+import org.kuali.student.r1.common.entity.Attribute;
 @Deprecated
 @Entity
 @Table(name="KSDO_REF_OBJ_SUB_TYPE_ATTR")

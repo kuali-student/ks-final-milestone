@@ -353,7 +353,7 @@ public class MultiplicityGroup extends Composite {
                     trimmedFieldKey = configFieldKey.substring(configParentKey.length());
 
                     QueryPath fieldPath = QueryPath.concat(subMultParentConfig.getFieldKey(),
-                            trimmedFieldKey);;
+                            trimmedFieldKey);
                     newFieldConfig = new MultiplicityFieldConfiguration(
                             fieldPath.toString(), fieldConfig.getMessageKeyInfo(), fieldConfig.getMetadata(),
                             fieldConfig.getFieldWidgetInitializer());

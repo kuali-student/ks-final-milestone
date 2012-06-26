@@ -713,7 +713,7 @@ public class SearchPanel extends Composite{
 
     private void showCriteriaChosen(List<HasSearchParam> fields){
         enteredCriteriaString.clear();
-        boolean first = true;;
+        boolean first = true;
         for(HasSearchParam field: fields){
             String name = field.getFieldName();
             String value = field.getSearchText();

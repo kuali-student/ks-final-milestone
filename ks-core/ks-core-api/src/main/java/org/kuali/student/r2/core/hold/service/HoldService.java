@@ -478,7 +478,7 @@ public interface HoldService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public IssueInfo createIssue(@WebParam(name = "issueTypeKey") String issueTypeKey, @WebParam(name = "issueInfo") IssueInfo issueInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;;
+    public IssueInfo createIssue(@WebParam(name = "issueTypeKey") String issueTypeKey, @WebParam(name = "issueInfo") IssueInfo issueInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing Issue.

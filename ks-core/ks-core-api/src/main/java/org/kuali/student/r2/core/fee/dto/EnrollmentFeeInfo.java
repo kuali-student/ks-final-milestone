@@ -104,7 +104,7 @@ public class EnrollmentFeeInfo
     }
     
     public void setAmount(EnrollmentFeeAmountInfo amount) {
-        this.amount = amount;;
+        this.amount = amount;
     }
 
     @Override

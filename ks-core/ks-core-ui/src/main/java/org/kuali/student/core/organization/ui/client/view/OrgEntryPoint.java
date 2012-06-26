@@ -43,7 +43,7 @@ public class OrgEntryPoint implements EntryPoint{
     ApplicationComposite app;
     private OrgApplicationManager manager = null;
     SimplePanel content = new SimplePanel();
-//    private OrgMenu orgMenu = new OrgMenu(content);;
+//    private OrgMenu orgMenu = new OrgMenu(content);
 
     public void onModuleLoad() {
         final ApplicationContext context = Application.getApplicationContext();

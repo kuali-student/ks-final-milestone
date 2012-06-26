@@ -306,7 +306,7 @@ public class DocumentServiceImpl implements DocumentService {
                          
         refDocRelationInfo.setRefObjectTypeKey(refObjectTypeKey);
         refDocRelationInfo.setRefObjectId(refObjectId);
-        refDocRelationInfo.setType(refDocRelationTypeKey);;
+        refDocRelationInfo.setType(refDocRelationTypeKey);
         
         RefDocRelation refDocRelation = DocumentServiceAssembler.toRefDocRelation(new RefDocRelation(), refDocRelationInfo, dao);
 

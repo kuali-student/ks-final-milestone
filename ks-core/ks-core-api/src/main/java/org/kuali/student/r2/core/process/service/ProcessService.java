@@ -625,7 +625,7 @@ public interface ProcessService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public CheckInfo createCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;;
+    public CheckInfo createCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing Check.

@@ -20,7 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.r1.common.entity.Attribute;;;
+import org.kuali.student.r1.common.entity.Attribute;
 
 
 
