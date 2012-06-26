@@ -528,6 +528,20 @@ public class CourseOfferingInfo
 	public String getFinalExamType() {
 		return this.finalExamType;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CourseOfferingInfo [courseId=");
+		builder.append(courseId);
+		builder.append(", termId=");
+		builder.append(termId);
+		builder.append(", courseOfferingCode=");
+		builder.append(courseOfferingCode);
+		builder.append("]");
+		return builder.toString();
+	}
+	
 	
 	
     

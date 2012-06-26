@@ -485,4 +485,25 @@ public class ActivityOfferingInfo
     public void setWaitlistCheckinFrequency(TimeAmountInfo waitlistCheckinFrequency) {
         this.waitlistCheckinFrequency = waitlistCheckinFrequency;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("ActivityOfferingInfo [formatOfferingId=");
+		builder.append(formatOfferingId);
+		builder.append(", formatOfferingName=");
+		builder.append(formatOfferingName);
+		builder.append(", courseOfferingId=");
+		builder.append(courseOfferingId);
+		builder.append(", activityId=");
+		builder.append(activityId);
+		builder.append(", termId=");
+		builder.append(termId);
+		builder.append(", scheduleId=");
+		builder.append(scheduleId);
+		builder.append("]");
+		return builder.toString();
+	}
+    
+    
 }

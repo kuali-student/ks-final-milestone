@@ -151,4 +151,19 @@ public class FormatOfferingInfo extends IdEntityInfo implements FormatOffering {
         this.termId = termId;
     }
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("FormatOfferingInfo [courseOfferingId=");
+		builder.append(courseOfferingId);
+		builder.append(", formatId=");
+		builder.append(formatId);
+		builder.append(", termId=");
+		builder.append(termId);
+		builder.append("]");
+		return builder.toString();
+	}
+    
+    
+
 }
