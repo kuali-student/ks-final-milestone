@@ -28,12 +28,6 @@ public class ExportElement implements Serializable {
         super();
     }
 
-    public ExportElement(String viewName, String sectionName) {
-        super();
-        this.viewName = viewName;
-        this.sectionName = sectionName;
-    }
-
     private String sectionName;
     private List<ExportElement> subset;
 
