@@ -375,7 +375,7 @@ public class CourseOfferingInfo
     }
 
     public void setRegistrationGradingOptionIds(List<String> gradingOptionIds) {
-        this.registrationGradingOptionIds = registrationGradingOptionIds;
+        this.registrationGradingOptionIds = gradingOptionIds;
     }
 
     @Override
@@ -523,11 +523,7 @@ public class CourseOfferingInfo
 		
 	}
 
-	@Override
-	public List<String> getStudentRegistrationOptionIds() {
-		return registrationGradingOptionIds;
-	}
-
+	
 	@Override
 	public String getFinalExamType() {
 		return this.finalExamType;
