@@ -88,7 +88,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseOfferingInfo.courseOfferingCode-parent" abstract="true" parent="CourseOfferingInfo.courseOfferingCode-generated">
         <property name="validCharactersConstraint" ref="LineText"/>
 	<!-- insert any overrides to the generated attribute definitions here -->
-        <property name="maxLength" value="10" />
 	</bean>
 
 	<bean id="CourseOfferingInfo.courseNumberSuffix" parent="CourseOfferingInfo.courseNumberSuffix-parent"/>
