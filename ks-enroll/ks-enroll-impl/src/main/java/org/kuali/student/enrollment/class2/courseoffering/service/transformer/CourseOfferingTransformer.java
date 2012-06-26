@@ -9,8 +9,8 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -264,7 +264,7 @@ public class CourseOfferingTransformer {
 
         //Set the credit options as the first option from the clu
         if (courseInfo.getCreditOptions() != null && !courseInfo.getCreditOptions().isEmpty()) {
-//            courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getId());
+            courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getId());
         }else{
             courseOfferingInfo.setCreditOptionId(null);
         }
@@ -274,8 +274,8 @@ public class CourseOfferingTransformer {
             LOG.warn("When Copying from Course CLU, multiple credit options were found");
         }
 
-        courseOfferingInfo.setDescr(courseInfo.getDescr());
-//        courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
+        courseOfferingInfo.setDescr(new R1ToR2CopyHelper().copyRichText(courseInfo.getDescr()));
+        courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
     }
 
     // this is not currently in use and needs to be revisited and plugged into the impl
