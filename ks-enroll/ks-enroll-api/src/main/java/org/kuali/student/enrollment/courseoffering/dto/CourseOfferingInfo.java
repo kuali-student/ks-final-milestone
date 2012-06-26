@@ -288,17 +288,6 @@ public class CourseOfferingInfo
         this.isHonorsOffering = isHonorsOffering;
     }
 
-    @Deprecated
-    @Override
-    public Boolean getHonorsOffering() {
-        return isHonorsOffering;
-    }
-
-    @Deprecated
-    public void setHonorsOffering(Boolean honorsOffering) {
-        isHonorsOffering = honorsOffering;
-    }
-
     @Override
     public List<String> getCampusLocations() {
         return campusLocations;
@@ -479,15 +468,6 @@ public class CourseOfferingInfo
 
     public void setIsFinancialAidEligible(Boolean isFinancialAidEligible) {
         this.isFinancialAidEligible = isFinancialAidEligible;
-    }
-
-    @Override
-    public Boolean getFinancialAidEligible() {
-        return isFinancialAidEligible;
-    }
-
-    public void setFinancialAidEligible(Boolean financialAidEligible) {
-        isFinancialAidEligible = financialAidEligible;
     }
 
     @Override

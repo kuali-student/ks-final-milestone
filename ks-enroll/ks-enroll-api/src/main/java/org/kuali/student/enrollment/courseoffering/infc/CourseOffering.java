@@ -334,19 +334,6 @@ public interface CourseOffering extends IdNamelessEntity{
     public List<String> getCampusLocations();
 
     /**
-     * Is this a Honors Course offering
-     *
-     * @name Honors Flag
-     */
-    public Boolean getHonorsOffering();
-
-    /**
-     * Is this Course Offering Financial aid eligible
-     * @name Financial Aid Eligible Flag
-     */
-    public Boolean getFinancialAidEligible();
-
-    /**
      * Indicates whether a final exam is to be given  for this format Offering
      * and if its true, the level at which it exists
      * Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
