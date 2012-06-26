@@ -21,6 +21,7 @@
 
     <!-- <import resource="classpath:META-INF/default-property-config-context-test.xml"/> -->
     <import resource="classpath:ks-krms-data-dictionary-services-configuration.xml"/>
+    <!--<import resource="classpath:KRMSTestHarnessSpringBeans.xml"/>-->
 <!-- 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/> -->
 	
 	    <!--  Preloaded data -->
@@ -228,7 +229,7 @@
     <bean id="currentDateResolver" class="org.kuali.student.r2.core.class1.process.krms.termresolver.CurrentDateResolver"/>
     
     <bean id="ksKRMSTermResolverTypeService" class="org.kuali.student.krms.termresolver.KSTermResolverTypeService">
-    	<property name="acadRecordService" ref="acadRecordService"/>
+    	<property name="academicRecordService" ref="acadRecordService"/>
     </bean>
     
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
@@ -501,7 +502,7 @@
         <property name="resultValuesGroupDao" ref="resultValuesGroupDao"/>
      	<property name="resultValueDao" ref="resultValueDao"/>
      	<property name="resultScaleDao" ref="resultScaleDao"/>
-     	<property name="stateService" ref="stateService"/>
+
     </bean>
     
     <bean id="acadRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
