@@ -9,8 +9,11 @@ import org.joda.time.Days;
 import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.Weeks;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.acal.dto.*;
+import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.assembler.*;
 import org.kuali.student.r2.common.assembler.AssemblyException;
@@ -600,20 +603,25 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         AtpInfo atp;
 
         if (checkTypeForTermType(termTypeKey, context)) {
-            try {
-                atp = termAssembler.disassemble(termInfo, context);
-            } catch (AssemblyException e) {
-                throw new OperationFailedException("AssemblyException : " + e.getMessage());
-            }
+                try {
+                    atp = termAssembler.disassemble(termInfo, context);
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
+                }
 
-            try {
-                AtpInfo newAtp = atpService.createAtp(atp.getTypeKey(), atp, context);
-                termInfo = termAssembler.assemble(newAtp, context);
-            } catch (AssemblyException e) {
-                throw new OperationFailedException("Error assembling term", e);
-            } catch (ReadOnlyException e) {
-                throw new OperationFailedException("Error assembling term", e);
-            }
+                try {
+                    if(!hasTermCode(atp.getTypeKey(), atp.getCode(), context)){
+                        AtpInfo newAtp = atpService.createAtp(atp.getTypeKey(), atp, context);
+                        termInfo = termAssembler.assemble(newAtp, context);
+                    }
+                    else {
+                        throw new DataValidationErrorException("The term code " + atp.getCode() + " with type( " + atp.getTypeKey() + ") already exists.");
+                    }
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("Error assembling term", e);
+                } catch (ReadOnlyException e) {
+                    throw new OperationFailedException("Error assembling term", e);
+                }
         } else {
             throw new InvalidParameterException("Term type not found: '" + termTypeKey + "'");
         }
@@ -630,11 +638,19 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         TermInfo updatedTerm;
 
         try {
+            AtpInfo existingAtp = atpService.getAtp(termId, context);
+            String termCode = existingAtp.getCode();
+
             AtpInfo toUpdate = termAssembler.disassemble(termInfo, context);
+            if(termCode.equals(toUpdate.getCode()) || (!termCode.equals(toUpdate.getCode()) && !hasTermCode(toUpdate.getTypeKey(), toUpdate.getCode(), context))){
 
-            AtpInfo updated = atpService.updateAtp(termId, toUpdate, context);
+                AtpInfo updated = atpService.updateAtp(termId, toUpdate, context);
 
-            updatedTerm = termAssembler.assemble(updated, context);
+                updatedTerm = termAssembler.assemble(updated, context);
+            }
+            else {
+                throw new DataValidationErrorException("The term code " + toUpdate.getCode() + " with type( " + toUpdate.getTypeKey() + ") already exists.");
+            }
         } catch (AssemblyException e) {
             throw new OperationFailedException("AssemblyException : " + e.getMessage());
         } catch (ReadOnlyException e) {
@@ -642,6 +658,35 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
 
         return updatedTerm;
+    }
+
+    private QueryByCriteria buildQueryByCriteriaForTerm(String type, String code){
+        List<Predicate> predicates = new ArrayList<Predicate>();
+
+        predicates.add(PredicateFactory.equal("atpType", type));
+        predicates.add(PredicateFactory.equalIgnoreCase("atpCode", code));
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+        QueryByCriteria qbc = qbcBuilder.build();
+
+        return qbc;
+    }
+
+    private boolean hasTermCode(String type, String code, ContextInfo context)throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
+        List<TermInfo> termInfoList = new ArrayList<TermInfo>();
+
+        QueryByCriteria qbc = buildQueryByCriteriaForTerm(type, code);
+
+        List<TermInfo> terms = searchForTerms(qbc, context);
+
+        if(terms != null && !terms.isEmpty())
+            return true;
+
+        return false;
+
     }
 
     @Override
