@@ -764,7 +764,7 @@ public class CluServiceImpl implements CluService {
                 Clu clu = luDao.getCurrentCluVersion(cluId);
                 CluInfo cluInfo = new CluInfo();
                 cluInfo.setId(clu.getId());
-                cluInfo.setType(clu.getLuType().getId());
+                cluInfo.setTypeKey(clu.getLuType().getId());
                 cluInfo.setOfficialIdentifier(LuServiceAssembler.toCluIdentifierInfo(clu.getOfficialIdentifier()));
                 clus.add(cluInfo);
             }
@@ -1738,7 +1738,7 @@ public class CluServiceImpl implements CluService {
         cluPub.setStartCycle(cluPublicationInfo.getStartCycle());
         cluPub.setEffectiveDate(cluPublicationInfo.getEffectiveDate());
         cluPub.setExpirationDate(cluPublicationInfo.getExpirationDate());
-        cluPub.setState(cluPublicationInfo.getState());
+        cluPub.setState(cluPublicationInfo.getStateKey());
         cluPub.setType(type);
         cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, cluPublicationInfo.getAttributes(), cluPub, luDao));
         cluPub.setVariants(LuServiceAssembler.toCluPublicationVariants(cluPublicationInfo.getVariants(), cluPub, luDao));
@@ -1792,9 +1792,9 @@ public class CluServiceImpl implements CluService {
 
         CluPublicationType type;
         try {
-            type = luDao.fetch(CluPublicationType.class, cluPublicationInfo.getType());
+            type = luDao.fetch(CluPublicationType.class, cluPublicationInfo.getTypeKey());
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
-            throw new InvalidParameterException("CluPublication Type does not exist for id:" + cluPublicationInfo.getType());
+            throw new InvalidParameterException("CluPublication Type does not exist for id:" + cluPublicationInfo.getTypeKey());
         }
 
         // Update the list of variants
@@ -1835,7 +1835,7 @@ public class CluServiceImpl implements CluService {
         cluPub.setStartCycle(cluPublicationInfo.getStartCycle());
         cluPub.setEffectiveDate(cluPublicationInfo.getEffectiveDate());
         cluPub.setExpirationDate(cluPublicationInfo.getExpirationDate());
-        cluPub.setState(cluPublicationInfo.getState());
+        cluPub.setState(cluPublicationInfo.getStateKey());
         cluPub.setType(type);
         cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, cluPublicationInfo.getAttributes(), cluPub, luDao));
 
@@ -1900,7 +1900,7 @@ public class CluServiceImpl implements CluService {
             throw new DataValidationErrorException("Validation error!", val);
         }
 
-        cluResultInfo.setType(cluResultTypeKey);
+        cluResultInfo.setTypeKey(cluResultTypeKey);
         cluResultInfo.setCluId(cluId);
 
         List<ResultOption> resOptList = new ArrayList<ResultOption>();
@@ -2211,7 +2211,7 @@ public class CluServiceImpl implements CluService {
         }
         if (cluLoRelationTypeEntity == null) {
             throw new DoesNotExistException("CluLoRelationType does not exist for id: "
-                    + cluLoRelationInfo.getType());
+                    + cluLoRelationInfo.getTypeKey());
         }
 
         BeanUtils.copyProperties(cluLoRelationInfo, reltn, new String[]{
@@ -2303,7 +2303,7 @@ public class CluServiceImpl implements CluService {
         checkForMissingParameter(cluSetType, "cluSetType");
         checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
-        cluSetInfo.setType(cluSetType);
+        cluSetInfo.setTypeKey(cluSetType);
 
         validateCluSet(cluSetInfo);
 
@@ -2423,7 +2423,7 @@ public class CluServiceImpl implements CluService {
             throw new DoesNotExistException(cluSetId, ex);
         }
 
-        if (!cluSetInfo.getType().equals(cluSet.getType())) {
+        if (!cluSetInfo.getTypeKey().equals(cluSet.getType())) {
             throw new UnsupportedActionException("CluSet type is set at creation time and cannot be updated. CluSet id=" + cluSetId);
         }
 
@@ -2857,7 +2857,7 @@ public class CluServiceImpl implements CluService {
         CluInfo newClu = null;
 
         try {
-            Clu clu = toCluForCreate(cluInfo.getType(), cluInfo, context);
+            Clu clu = toCluForCreate(cluInfo.getTypeKey(), cluInfo, context);
             //Set the Version data
             Version version = new Version();
             version.setSequenceNumber(latestClu.getVersion().getSequenceNumber() + 1);
