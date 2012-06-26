@@ -34,8 +34,12 @@ public class ReportExportDialog {
     protected ActionCancelGroup actionButtons = new ActionCancelGroup(ButtonEnumerations.ExportCancelEnum.EXPORT, ButtonEnumerations.ExportCancelEnum.CANCEL);
 
     public ReportExportDialog() {
-
-        dialog = new KSLightBox();
+        init();
+    }
+    
+    public void init()
+    {
+    	dialog = new KSLightBox();
         layout.addStyleName("KS-Advanced-Search-Buttons");
         SectionTitle sectionTitle = SectionTitle.generateH2Title(this.getMessage("exportTitle"));
         //layout.add(sectionTitle);
