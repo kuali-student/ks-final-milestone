@@ -27,22 +27,25 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEdit
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.constants.StateServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.common.util.constants.*;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
 import java.util.*;
@@ -60,6 +63,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
     private transient StateService stateService;
     private transient CourseService courseService;
     private transient OrganizationService organizationService;
+    private transient LRCService lrcService;
 
     //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012).
 
@@ -170,12 +174,17 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(info);
                 List<FormatOfferingInfo> formats = getCourseOfferingService().getFormatOfferingsByCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
                 formObject.setFormatOfferingList(formats);
+
+                String courseId = info.getCourseId();
+                CourseInfo courseInfo = new CourseInfo();
+                if (courseId != null) {
+                    courseInfo = (CourseInfo) getCourseService().getCourse(courseId);
+                    formObject.setCourse(courseInfo);
+                }
+
                 // checking if there are any student registration options from CLU for screen display
                 List<String> studentRegOptions = new ArrayList<String>();
-                String courseId = info.getCourseId();
-                if (courseId != null) {
-                    CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId);
-                    formObject.setCourse(courseInfo);
+                if (courseId != null && courseInfo != null) {
                     List<String> gradingOptions = courseInfo.getGradingOptions();
                     Set<String> regOpts = new HashSet<String>(Arrays.asList(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS));
                     for(String regOpt: regOpts) {
@@ -185,6 +194,71 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                     }
                 }
                 formObject.setStudentRegOptions(studentRegOptions);
+
+                // Defining Credit Option and if CLU is fixed (then it's disabled)
+                boolean creditOptionFixed = false;
+                CreditOptionInfo creditOption = new CreditOptionInfo();
+                List<ResultComponentInfo> creditOptions = courseInfo.getCreditOptions();
+                String creditOptionId = info.getCreditOptionId();
+                if (creditOptionId != null) {
+                    ResultValuesGroupInfo resultValuesGroupInfo = getLrcService().getResultValuesGroup(creditOptionId, getContextInfo());
+                    String typeKey = resultValuesGroupInfo.getTypeKey();
+                    List<String> resultValueKeys = resultValuesGroupInfo.getResultValueKeys();
+                    List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValueKeys, getContextInfo());
+                    if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                        creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
+                        if (!resultValueInfos.isEmpty()) {
+                            creditOption.setMinCredits(resultValueInfos.get(0).getValue());
+                        }
+                    } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
+                        creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
+                        if (!resultValueInfos.isEmpty()) {
+                            creditOption.setMinCredits(resultValueInfos.get(0).getValue());
+                            creditOption.setMaxCredits(resultValueInfos.get(1).getValue());
+                        }
+                    } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
+                        creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
+                        if (!resultValueInfos.isEmpty()) {
+                            List<String> credits = new ArrayList<String>();
+                            for (ResultValueInfo resultValueInfo : resultValueInfos) {
+                                credits.add(resultValueInfo.getValue());
+                            }
+                            creditOption.setCredits(credits);
+                        }
+                    }
+                }
+                if (courseId != null && courseInfo != null && !creditOptions.isEmpty()) {
+                    ResultComponentInfo resultComponentInfo = creditOptions.get(0);
+                    if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
+                        creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
+                        if (!resultComponentInfo.getResultValues().isEmpty()) {
+                            creditOption.setMinCredits(resultComponentInfo.getResultValues().get(0));
+                        }
+                        creditOptionFixed = true;
+                    } else {
+                        if (creditOptionId == null || creditOptionId.equals("")) {
+                            if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE)) {
+                                creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
+                                if (!resultComponentInfo.getResultValues().isEmpty()) {
+                                    creditOption.setMinCredits(resultComponentInfo.getResultValues().get(0));
+                                    creditOption.setMaxCredits(resultComponentInfo.getResultValues().get(1));
+                                }
+                            } else if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE)) {
+                                creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
+                                if (!resultComponentInfo.getResultValues().isEmpty()) {
+                                    List<String> credits = new ArrayList<String>();
+                                    for (String credit : resultComponentInfo.getResultValues()) {
+                                        credits.add(credit);
+                                    }
+                                    creditOption.setCredits(credits);
+                                }
+                            }
+                        }
+                    }
+                }
+                formObject.setCreditOption(creditOption);
+                formObject.setCreditOptionFixed(creditOptionFixed);
+
                 formObject.setOrganizationNames(new ArrayList<OrganizationInfoWrapper>());
 
                 ArrayList<OrganizationInfoWrapper> orgList = new ArrayList<OrganizationInfoWrapper>();
@@ -271,6 +345,12 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
         }
         return organizationService;
+    }
 
+    protected LRCService getLrcService() {
+        if(lrcService == null) {
+            lrcService = (LRCService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lrc", "LrcService"));
+        }
+        return this.lrcService;
     }
 }
