@@ -132,6 +132,22 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     }
 
+
+    @RequestMapping(params = "methodToCall=selectAllActivityOfferings")
+    public ModelAndView selectAllActivityOfferings(
+            @ModelAttribute("KualiForm")
+            CourseOfferingManagementForm theForm,
+            BindingResult result,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        List<ActivityOfferingWrapper> list = theForm.getActivityWrapperList();
+        for (ActivityOfferingWrapper listElement : list) {
+            listElement.setIsChecked(true);
+        }
+        return getUIFModelAndView(theForm);
+    }
+
+
     @RequestMapping(params = "methodToCall=loadCOs")
     public ModelAndView loadCOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {

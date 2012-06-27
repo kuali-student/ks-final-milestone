@@ -41,6 +41,7 @@
             <list>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingLinks"/>
                 <ref bean="KS-CourseOfferingManagement-AddActivityOfferingSection"/>
+                <ref bean="KS-CourseOfferingManagement-SelectAll"/>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingListSection"/>
             </list>
         </property>
@@ -107,6 +108,10 @@
             </list>
         </property>
     </bean>
+
+    <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:methodToCall="selectAllActivityOfferings" p:actionLabel="Select All" />
+
+
     <bean id="KS-CourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
           p:layoutManager.numberOfColumns="3"  p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
