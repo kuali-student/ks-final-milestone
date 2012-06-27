@@ -28,6 +28,7 @@ import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRol
 import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseofferingset.service.impl.DeleteTargetTermRolloverRunner;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -69,8 +70,8 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         // TODO: Find sensible way to rewrap exception that acal service may throw
         // Find the term (alas, I think it does approximate search)
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        // TODO: How does one get rid of hard-coding "atpCode"?
-        qbcBuilder.setPredicates(PredicateFactory.equal("atpCode", termCode));
+
+        qbcBuilder.setPredicates(PredicateFactory.equal(CourseOfferingConstants.ATP_CODE, termCode));
 
         QueryByCriteria criteria = qbcBuilder.build();
 
