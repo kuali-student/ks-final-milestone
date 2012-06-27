@@ -200,7 +200,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             controllerPath = "maintenance";
         }
         else if(selectedObject instanceof ActivityOfferingWrapper) {
-            urlParameters = _buildAOURLParameters(((ActivityOfferingWrapper) selectedObject).getAoInfo(),"maintenanceEdit",false,getContextInfo());
+            urlParameters = _buildAOURLParameters(((ActivityOfferingWrapper) selectedObject).getAoInfo(),"maintenanceEdit",false,getContextInfo(), theForm.getTheCourseOffering().getId());
             controllerPath ="maintenance";
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
@@ -226,7 +226,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             controllerPath = "inquiry";
         }
         else if(selectedObject instanceof ActivityOfferingWrapper) {
-            urlParameters = _buildAOURLParameters(((ActivityOfferingWrapper)selectedObject).getAoInfo(),"start",true,getContextInfo());
+            urlParameters = _buildAOURLParameters(((ActivityOfferingWrapper)selectedObject).getAoInfo(),"start",true,getContextInfo(), theForm.getTheCourseOffering().getId());
             controllerPath ="inquiry";
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
@@ -299,10 +299,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return props;
     }
 
-    private Properties _buildAOURLParameters(ActivityOfferingInfo activityOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
+   private Properties _buildAOURLParameters(ActivityOfferingInfo activityOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context, String courseOfferingId){
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, activityOfferingInfo.getId());
+        props.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, courseOfferingId);
         //props.put("readOnlyView", readOnlyView);
         props.put("dataObjectClassName", ActivityOfferingWrapper.class.getName());
         //props.put("viewId", "KS-ActivityOffering-InquiryView2");

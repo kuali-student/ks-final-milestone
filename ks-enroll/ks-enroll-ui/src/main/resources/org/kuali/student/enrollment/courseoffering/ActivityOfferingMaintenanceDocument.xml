@@ -32,6 +32,7 @@
         <property name="primaryKeys">
           <list>
             <value>aoInfo.id</value>
+            <value>courseOfferingId</value>
           </list>
         </property>
       </bean>

@@ -66,6 +66,10 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             ViewHelperUtil.getInstructorNames(info.getInstructors());
             ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info);
 
+            //get the course offering
+            CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID), getContextInfo());
+            wrapper.setCoInfo(courseOfferingInfo);
+
             boolean readOnlyView = Boolean.parseBoolean(dataObjectKeys.get("readOnlyView"));
             wrapper.setReadOnlyView(readOnlyView);
 

@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
@@ -18,7 +19,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private List<ScheduleComponentWrapper> scheduleComponentWrappers;
     private boolean readOnlyView;
     private boolean isChecked;
-
+    private String courseOfferingId;
+    private CourseOfferingInfo coInfo;
     // Tanveer 06/13/2012
     private String stateName;
     private String typeName;
@@ -26,6 +28,7 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
+        coInfo = new CourseOfferingInfo();
         aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         formatOffering = new FormatOfferingInfo();
@@ -102,5 +105,21 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public String getCourseOfferingId() {
+        return courseOfferingId;
+    }
+
+    public void setCourseOfferingId(String courseOfferingId) {
+        this.courseOfferingId = courseOfferingId;
+    }
+
+    public CourseOfferingInfo getCoInfo() {
+        return coInfo;
+    }
+
+    public void setCoInfo(CourseOfferingInfo coInfo) {
+        this.coInfo = coInfo;
     }
 }
