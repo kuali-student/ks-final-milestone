@@ -69,6 +69,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 courseOfferings.add(_getCourseOfferingService().getCourseOffering(coId, getContextInfo()));
             }
             form.setCourseOfferingList(courseOfferings);
+        } else {
+            form.setCourseOfferingList(null);
         }
     }
 
