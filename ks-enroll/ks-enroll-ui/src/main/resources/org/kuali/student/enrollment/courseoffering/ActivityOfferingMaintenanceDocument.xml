@@ -413,6 +413,7 @@
                         <list>
                             <bean id="KS-ActivityOffering-PersonnelSection" parent="Uif-TableCollectionSection"
                                   p:layoutManager.numberOfColumns="6"
+                                  p:id="ao-personnelgroup"
                                   p:layoutManager.style="width: 100%; display:block;">
                                 <property name="headerText" value="Affiliated Personnel" />
                                 <property name="header">
@@ -427,7 +428,7 @@
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID">
+                                        <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID" p:required="true">
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                             <property name="quickfinder.fieldConversions">
                                                 <map>
@@ -443,10 +444,13 @@
                                                 <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="percentageEffort" p:label="INST.EFFORT">
+                                        <bean parent="Uif-InputField" p:propertyName="percentageEffort" p:label="INST.EFFORT" p:required="true" p:exclusiveMin="0" p:inclusiveMax="100">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="10" />
                                             </property>
+                                            <property name="validCharactersConstraint">
+						                        <bean parent="NumericPatternConstraint" />
+					                        </property>
                                         </bean>
                                     </list>
                                 </property>

@@ -44,14 +44,19 @@ public class ViewHelperUtil {
     public static void getInstructorNames(List<OfferingInstructorInfo> instructors){
         if(instructors != null && !instructors.isEmpty()){
             for(OfferingInstructorInfo instructor : instructors){
-                Map<String, String> searchCriteria = new HashMap<String, String>();
-                searchCriteria.put(KIMPropertyConstants.Person.ENTITY_ID, instructor.getPersonId());
-                List<Person> lstPerson = getPersonService().findPeople(searchCriteria);
+                List<Person> lstPerson = getInstructorByPersonId(instructor.getPersonId());
                 if(lstPerson != null && !lstPerson.isEmpty()){
                     instructor.setPersonName(lstPerson.get(0).getName());
                 }
             }
         }
+    }
+
+    public static List<Person> getInstructorByPersonId(String personId){
+        Map<String, String> searchCriteria = new HashMap<String, String>();
+        searchCriteria.put(KIMPropertyConstants.Person.ENTITY_ID, personId);
+        List<Person> lstPerson = getPersonService().findPeople(searchCriteria);
+        return lstPerson;
     }
 
     public static PersonService getPersonService() {

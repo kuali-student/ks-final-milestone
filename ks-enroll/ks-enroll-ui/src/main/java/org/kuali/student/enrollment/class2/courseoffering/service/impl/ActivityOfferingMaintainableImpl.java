@@ -1,11 +1,15 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
+import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
@@ -16,6 +20,7 @@ import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
@@ -121,6 +126,34 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
         }
     }
+
+     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        if (addLine instanceof OfferingInstructorInfo){
+            OfferingInstructorInfo instuctor = (OfferingInstructorInfo) addLine;
+
+            //validate ID
+            List<Person> lstPerson = ViewHelperUtil.getInstructorByPersonId(instuctor.getPersonId());
+            if(lstPerson == null || lstPerson.isEmpty()){
+                GlobalVariables.getMessageMap().putErrorForSectionId("ao-personnelgroup", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_NOTFOUND, instuctor.getPersonId());
+                return false;
+            }
+
+           //validate effort
+            MaintenanceForm form = (MaintenanceForm)model;
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            List<OfferingInstructorInfo> instructors = activityOfferingWrapper.getAoInfo().getInstructors();
+            float totalEffort = 0;
+            for(OfferingInstructorInfo thisInst : instructors){
+                totalEffort = totalEffort + thisInst.getPercentageEffort();
+            }
+            if( totalEffort + instuctor.getPercentageEffort() > 100){
+                GlobalVariables.getMessageMap().putErrorForSectionId("ao-personnelgroup", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_OVERFLOW);
+                return false;
+            }
+        }
+
+       return super.performAddLineValidation(view, collectionGroup, model, addLine);
+     }
 
     public ContextInfo getContextInfo() {
         if (null == contextInfo) {
