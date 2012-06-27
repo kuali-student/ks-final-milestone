@@ -8,6 +8,8 @@
 
 package org.kuali.student.common.ui.client.widgets.dialog;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -33,8 +35,15 @@ public class ReportExportDialog {
 
     protected ActionCancelGroup actionButtons = new ActionCancelGroup(ButtonEnumerations.ExportCancelEnum.EXPORT, ButtonEnumerations.ExportCancelEnum.CANCEL);
 
+    protected List<String> exportFiles=null;
+    
     public ReportExportDialog() {
         init();
+    }
+    
+    public ReportExportDialog(List<String> fileTypes){
+    	exportFiles=fileTypes;
+    	init();   	
     }
     
     public void init()
@@ -106,9 +115,26 @@ public class ReportExportDialog {
     protected SimpleListItems addFileFormatButtons()
     {
     	SimpleListItems formatList = new SimpleListItems();
-        formatList.addItem(ExportUtils.PDF, this.getMessage("pdfFormat"));
-        formatList.addItem(ExportUtils.DOC, this.getMessage("docFormat"));
+    	if(exportFiles==null||exportFiles.isEmpty())
+    	{
+    		formatList.addItem(ExportUtils.PDF, this.getMessage("pdfFormat"));
+            formatList.addItem(ExportUtils.DOC, this.getMessage("docFormat"));
+    	}
+    	else{
+    		for(String str:exportFiles)
+    		{
+    			if(str==ExportUtils.DOC){
+    				formatList.addItem(ExportUtils.DOC, this.getMessage("docFormat"));
+    			}
+    			else if(str==ExportUtils.PDF){
+    				formatList.addItem(ExportUtils.PDF, this.getMessage("pdfFormat"));
+    			}
+    			else if(str==ExportUtils.XLS){
+    				formatList.addItem(ExportUtils.XLS, this.getMessage("xlsFormat"));
+    			}
+    		}
+    	}
+    	
         return formatList;
     }
-
 }
