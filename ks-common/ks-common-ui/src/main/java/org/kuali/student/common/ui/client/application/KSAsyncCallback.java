@@ -15,6 +15,7 @@
  */
 package org.kuali.student.common.ui.client.application;
 
+import org.kuali.student.common.ui.client.security.AsyncCallbackFailureHandler;
 import org.kuali.student.common.ui.client.security.SessionTimeoutHandler;
 import org.kuali.student.common.ui.client.security.SpringSecurityLoginDialogHandler;
 import org.kuali.student.common.ui.client.service.exceptions.VersionMismatchClientException;
@@ -35,20 +36,34 @@ public abstract class KSAsyncCallback<T> implements AsyncCallback<T>{
        
 	private static final SessionTimeoutHandler sessionTimeoutHandler = GWT.create(SpringSecurityLoginDialogHandler.class);
 	
+	// Handles any type of failure in an async call
+	// By default it does nothing.  But it allows an institution to override failure handling.
+    private static final AsyncCallbackFailureHandler asyncCallbackFailureHandler = GWT.create(AsyncCallbackFailureHandler.class);
+ 	
 	/**
 	 * It is recommended that this method not be overrided, as it provides session timeout handling. 
 	 * Instead the handleFailure method should be overriden to handle rpc call error.
 	 *  
 	 */
 	public void onFailure(Throwable caught) {  
-	    if (sessionTimeoutHandler.isSessionTimeout(caught)){
-        	handleTimeout(caught);
-        	sessionTimeoutHandler.handleSessionTimeout();
-        } else if (caught instanceof VersionMismatchClientException){
-            handleVersionMismatch(caught);
-        }else {        
-        	handleFailure(caught);
-        }
+	    // Allow implementing institution to override the entire method using its own
+	    // implementation.  Default implementation returns false, which causes the application
+	    // to use its own error handling
+	    boolean ksShouldHandleException = asyncCallbackFailureHandler.handleFailure(caught);
+	    
+	    
+	    if (ksShouldHandleException){
+	        // The old processing code is in here
+	        // This should be removed at some point 
+	        if (sessionTimeoutHandler.isSessionTimeout(caught)){
+	             handleTimeout(caught);
+	             sessionTimeoutHandler.handleSessionTimeout();
+            } else if (caught instanceof VersionMismatchClientException){
+                 handleVersionMismatch(caught);
+             }else {        
+        	     handleFailure(caught);
+             }
+	    }
     }
 
     /**
