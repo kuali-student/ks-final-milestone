@@ -9,6 +9,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.population.dto.PopulationCategoryInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 
@@ -150,5 +151,138 @@ public class PopulationServiceDecorator implements PopulationService {
     public StatusInfo applyPopulationRuleToPopulation(String populationRuleId, String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().applyPopulationRuleToPopulation(populationRuleId, populationKey, contextInfo);
     }
-    
+
+    @Override
+    public PopulationCategoryInfo getPopulationCategory(String populationCategoryId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        return getNextDecorator().getPopulationCategory(populationCategoryId, contextInfo);
+    }
+
+    @Override
+    public List<PopulationCategoryInfo> getPopulationCategoriesByIds(List<String> populationCategoryIds, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        return getNextDecorator().getPopulationCategoriesByIds(populationCategoryIds, contextInfo);
+    }
+
+    @Override
+    public List<String> getPopulationCategoryIdsByType(String populationTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        return getNextDecorator().getPopulationCategoryIdsByType(populationTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<PopulationCategoryInfo> getPopulationCategoriesForPopulation(String populationId, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        return getNextDecorator().getPopulationCategoriesForPopulation(populationId, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForPopulationCategoryIds(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        return getNextDecorator().searchForPopulationCategoryIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<PopulationCategoryInfo> searchForPopulationCategories(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        return getNextDecorator().searchForPopulationCategories(criteria, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validatePopulationCategory(String validationTypeKey, String populationCategoryTypeKey, PopulationCategoryInfo populationCategoryInfo, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        return getNextDecorator().validatePopulationCategory(validationTypeKey, populationCategoryTypeKey, populationCategoryInfo, contextInfo);
+    }
+
+    @Override
+    public PopulationCategoryInfo createPopulationCategory(String populationCategoryTypeKey, PopulationCategoryInfo populationCategoryInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+            ,ReadOnlyException
+    {
+        return getNextDecorator().createPopulationCategory(populationCategoryTypeKey, populationCategoryInfo, contextInfo);
+    }
+
+    @Override
+    public PopulationCategoryInfo updatePopulationCategory(String populationCategoryId, PopulationCategoryInfo populationInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+            ,ReadOnlyException
+            ,VersionMismatchException
+    {
+        return getNextDecorator().updatePopulationCategory(populationCategoryId, populationInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deletePopulationCategory(String populationCategoryId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        return getNextDecorator().deletePopulationCategory(populationCategoryId, contextInfo);
+    }
+
+    @Override
+    public StatusInfo addPopulationToPopulationCategory(String populationId, String populationCategoryId, ContextInfo contextInfo)
+            throws AlreadyExistsException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        return getNextDecorator().addPopulationToPopulationCategory(populationId, populationCategoryId, contextInfo);
+    }
+
+    @Override
+    public StatusInfo removePopulationFromPopulationCategory(String populationId, String populationCategoryId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        return getNextDecorator().removePopulationFromPopulationCategory(populationId, populationCategoryId, contextInfo);
+    }
+
 }

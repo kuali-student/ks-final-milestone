@@ -58,7 +58,7 @@ public class ProcessServiceMockImpl implements ProcessService {
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, InstructionInfo> instructionMap = new LinkedHashMap<String, InstructionInfo>();
 
-    // stores mapping betweeen process and process category. the key is the process id, the list is the process categories for that process id
+    // stores mapping betweeen process and process category. the key is the process key, the list is the process categories for that process key
     private Map<String, ArrayList<ProcessCategoryInfo>> processCategoriesForProcessMap = new LinkedHashMap<String, ArrayList<ProcessCategoryInfo>> ();
 
     ////////////////////////////////

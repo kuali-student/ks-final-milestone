@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.population.dto.PopulationCategoryInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
@@ -46,6 +47,13 @@ public class PopulationServiceMockImpl implements PopulationService {
     // cache variable
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, PopulationInfo> populationMap = new LinkedHashMap<String, PopulationInfo>();
+
+    // cache variable
+    // The LinkedHashMap is just so the values come back in a predictable order
+    private Map<String, PopulationCategoryInfo> populationCategoryMap = new LinkedHashMap<String, PopulationCategoryInfo>();
+
+    // stores mapping betweeen population and population category. the key is the population id, the list is the population categories for that population id
+    private Map<String, ArrayList<PopulationCategoryInfo>> populationCategoriesForPopulationMap = new LinkedHashMap<String, ArrayList<PopulationCategoryInfo>> ();
 
     ////////////////////////////////
     // FUNCTIONALS
@@ -393,6 +401,192 @@ public class PopulationServiceMockImpl implements PopulationService {
         return newStatus();
 */
         throw new OperationFailedException ("removePopulationRuleFromPopulation has not been implemented");
+    }
+
+    @Override
+    public PopulationCategoryInfo getPopulationCategory(String populationCategoryId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        if (!this.populationCategoryMap.containsKey(populationCategoryId)) {
+            throw new DoesNotExistException(populationCategoryId);
+        }
+        return this.populationCategoryMap.get (populationCategoryId);
+    }
+
+    @Override
+    public List<PopulationCategoryInfo> getPopulationCategoriesByIds(List<String> populationCategoryIds, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        List<PopulationCategoryInfo> list = new ArrayList<PopulationCategoryInfo> ();
+        for (String id: populationCategoryIds) {
+            list.add (this.getPopulationCategory(id, contextInfo));
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> getPopulationCategoryIdsByType(String populationTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        List<String> list = new ArrayList<String> ();
+        for (PopulationCategoryInfo info: populationCategoryMap.values ()) {
+            if (populationTypeKey.equals(info.getTypeKey())) {
+                list.add (info.getId ());
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<PopulationCategoryInfo> getPopulationCategoriesForPopulation(String populationId, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException ("getPopulationCategoriesForPopulation has not been implemented");
+    }
+
+    @Override
+    public List<String> searchForPopulationCategoryIds(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException ("searchForPopulationCategoryIds has not been implemented");
+    }
+
+    @Override
+    public List<PopulationCategoryInfo> searchForPopulationCategories(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException ("searchForPopulationCategories has not been implemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validatePopulationCategory(String validationTypeKey, String populationCategoryTypeKey, PopulationCategoryInfo populationCategoryInfo, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        // validate
+        return new ArrayList<ValidationResultInfo> ();
+    }
+
+    @Override
+    public PopulationCategoryInfo createPopulationCategory(String populationCategoryTypeKey, PopulationCategoryInfo populationCategoryInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+            ,ReadOnlyException
+    {
+        // create
+        if (!populationCategoryTypeKey.equals (populationCategoryInfo.getTypeKey())) {
+            throw new InvalidParameterException ("The type parameter does not match the type on the info object");
+        }
+        PopulationCategoryInfo copy = new PopulationCategoryInfo(populationCategoryInfo);
+        if (copy.getId() == null) {
+            copy.setId(populationCategoryMap.size() + "");
+        }
+        copy.setMeta(newMeta(contextInfo));
+        populationCategoryMap.put(copy.getId(), copy);
+        return new PopulationCategoryInfo(copy);
+    }
+
+    @Override
+    public PopulationCategoryInfo updatePopulationCategory(String populationCategoryId, PopulationCategoryInfo populationInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+            ,ReadOnlyException
+            ,VersionMismatchException
+    {
+        // update
+        if (!populationCategoryId.equals (populationInfo.getId())) {
+            throw new InvalidParameterException ("The id parameter does not match the id on the info object");
+        }
+        PopulationCategoryInfo copy = new PopulationCategoryInfo(populationInfo);
+        PopulationCategoryInfo old = this.getPopulationCategory(populationInfo.getId(), contextInfo);
+        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(old.getMeta().getVersionInd());
+        }
+        copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
+        this.populationCategoryMap .put(populationInfo.getId(), copy);
+        return new PopulationCategoryInfo(copy);
+    }
+
+    @Override
+    public StatusInfo deletePopulationCategory(String populationCategoryId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        if (this.populationCategoryMap.remove(populationCategoryId) == null) {
+            throw new DoesNotExistException(populationCategoryId);
+        }
+        return newStatus();
+    }
+
+    @Override
+    public StatusInfo addPopulationToPopulationCategory(String populationId, String populationCategoryId, ContextInfo contextInfo)
+            throws AlreadyExistsException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        PopulationCategoryInfo info = populationCategoryMap.get(populationCategoryId);
+        ArrayList<PopulationCategoryInfo> populationCategoryInfos = populationCategoriesForPopulationMap.get(populationId);
+        if (populationCategoryInfos==null || populationCategoryInfos.size()==0) { populationCategoryInfos = new ArrayList<PopulationCategoryInfo>(); }
+        if (!populationCategoryInfos.contains(info)) {
+            populationCategoryInfos.add(info);
+        } else throw new AlreadyExistsException(populationCategoryId);
+        populationCategoriesForPopulationMap.put(populationId, populationCategoryInfos); // store new updated relations
+        return newStatus();
+    }
+
+    @Override
+    public StatusInfo removePopulationFromPopulationCategory(String populationId, String populationCategoryId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        PopulationCategoryInfo info = populationCategoryMap.get(populationCategoryId);
+        ArrayList<PopulationCategoryInfo> populationCategoryInfos = populationCategoriesForPopulationMap.get(populationId);
+        if (populationCategoryInfos!=null && populationCategoryInfos.size()>0) {
+            if (populationCategoryInfos.contains(info)) {
+                populationCategoryInfos.remove(info);
+            } else throw new DoesNotExistException(populationCategoryId); // this category not found for population
+        } else throw new DoesNotExistException(populationId); // no categories at all found for population
+        populationCategoriesForPopulationMap.put(populationId, populationCategoryInfos); // store new updated relations
+        return newStatus();
     }
 
     private StatusInfo newStatus() {

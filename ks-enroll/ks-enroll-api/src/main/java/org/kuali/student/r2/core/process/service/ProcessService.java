@@ -69,8 +69,7 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ProcessCategoryInfo getProcessCategory(@WebParam(name = "processCategoryId")
-                                                  String processCategoryId,
+    public ProcessCategoryInfo getProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId,
                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
                 InvalidParameterException,
@@ -79,7 +78,7 @@ public interface ProcessService {
                 PermissionDeniedException;
 
     /** 
-     * Retrieves a list of ProcessCategoryes corresponding to the
+     * Retrieves a list of ProcessCategorys corresponding to the
      * given list of ProcessCategory Ids.
      *
      * @param processCategoryIds list of ProcessCategories to be retrieved
@@ -205,6 +204,7 @@ public interface ProcessService {
      * server assigning an identifier.
      *
      * @param validationTypeKey the identifier of the extent of validation
+     * @param processCategoryTypeKey the ProcessCategory type key
      * @param processCategoryInfo the ProcessCategory information to be tested
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
@@ -231,6 +231,7 @@ public interface ProcessService {
     /** 
      * Creates a new ProcessCategory.
      *
+     * @param processCategoryTypeKey the ProcessCategory type key
      * @param processCategoryInfo the details of ProcessCategory to be created
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of

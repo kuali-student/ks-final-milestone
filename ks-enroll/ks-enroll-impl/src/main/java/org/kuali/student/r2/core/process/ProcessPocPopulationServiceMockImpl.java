@@ -15,6 +15,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.population.dto.PopulationCategoryInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
@@ -304,5 +305,137 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService {
         throw new OperationFailedException("Method not implemented.");
     }
 
+    @Override
+    public PopulationCategoryInfo getPopulationCategory(String populationCategoryId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException("Method not implemented.");
+    }
+
+    @Override
+    public List<PopulationCategoryInfo> getPopulationCategoriesByIds(List<String> populationCategoryIds, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException("Method not implemented.");
+    }
+
+    @Override
+    public List<String> getPopulationCategoryIdsByType(String populationTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException("Method not implemented.");
+    }
+
+    @Override
+    public List<PopulationCategoryInfo> getPopulationCategoriesForPopulation(String populationId, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException("Method not implemented.");
+    }
+
+    @Override
+    public List<String> searchForPopulationCategoryIds(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException("Method not implemented.");
+    }
+
+    @Override
+    public List<PopulationCategoryInfo> searchForPopulationCategories(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException("Method not implemented.");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validatePopulationCategory(String validationTypeKey, String populationCategoryTypeKey, PopulationCategoryInfo populationCategoryInfo, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException("Method not implemented.");
+    }
+
+    @Override
+    public PopulationCategoryInfo createPopulationCategory(String populationCategoryTypeKey, PopulationCategoryInfo populationCategoryInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+            ,ReadOnlyException
+    {
+        throw new OperationFailedException("Method not implemented.");
+    }
+
+    @Override
+    public PopulationCategoryInfo updatePopulationCategory(String populationCategoryId, PopulationCategoryInfo populationInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+            ,ReadOnlyException
+            ,VersionMismatchException
+    {
+        throw new OperationFailedException("Method not implemented.");
+    }
+
+    @Override
+    public StatusInfo deletePopulationCategory(String populationCategoryId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException("Method not implemented.");
+    }
+
+    @Override
+    public StatusInfo addPopulationToPopulationCategory(String populationId, String populationCategoryId, ContextInfo contextInfo)
+            throws AlreadyExistsException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException("Method not implemented.");
+    }
+
+    @Override
+    public StatusInfo removePopulationFromPopulationCategory(String populationId, String populationCategoryId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException("Method not implemented.");
+    }
 
 }

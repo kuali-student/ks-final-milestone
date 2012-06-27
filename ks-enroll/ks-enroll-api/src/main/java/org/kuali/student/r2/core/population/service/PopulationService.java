@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.population.dto.PopulationCategoryInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 
@@ -39,6 +40,7 @@ import java.util.List;
  * Version: 1.0 (Dev)
  *
  * @Author tom
+ * @Author Mezba
  * @Since Mon Nov 21 14:22:34 EDT 2011
  */
 
@@ -66,7 +68,15 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public Boolean isMemberAsOfDate(@WebParam(name = "personId") String personId, @WebParam(name = "populationId") String populationId, @WebParam(name = "date") Date date, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public Boolean isMemberAsOfDate(@WebParam(name = "personId") String personId,
+                                    @WebParam(name = "populationId") String populationId,
+                                    @WebParam(name = "date") Date date,
+                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Gets a list of people Ids who qualify as a member of a
@@ -87,7 +97,14 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getMembersAsOfDate(@WebParam(name = "populationId") String populationId, @WebParam(name = "date") Date date, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getMembersAsOfDate(@WebParam(name = "populationId") String populationId,
+                                           @WebParam(name = "date") Date date,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a Population.
@@ -103,7 +120,13 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public PopulationInfo getPopulation(@WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public PopulationInfo getPopulation(@WebParam(name = "populationId") String populationId,
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of Populations corresponding to the given list
@@ -120,7 +143,13 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<PopulationInfo> getPopulationsByIds(@WebParam(name = "populationIds") List<String> populationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<PopulationInfo> getPopulationsByIds(@WebParam(name = "populationIds") List<String> populationIds,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of Population Ids of the specified type.
@@ -137,7 +166,12 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getPopulationIdsByType(@WebParam(name = "populationTypeId") String populationTypeId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getPopulationIdsByType(@WebParam(name = "populationTypeId") String populationTypeId,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of Populations in which the given
@@ -155,7 +189,12 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<PopulationInfo> getPopulationsForPopulationRule(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<PopulationInfo> getPopulationsForPopulationRule(@WebParam(name = "populationRuleId") String populationRuleId,
+                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for Populations based on the criteria and returns a list
@@ -171,7 +210,12 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForPopulationIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForPopulationIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for Populations based on the criteria and returns a list of
@@ -187,7 +231,12 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<PopulationInfo> searchForPopulations(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<PopulationInfo> searchForPopulations(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Validates a Population. Depending on the value of validationType,
@@ -240,7 +289,14 @@ public interface PopulationService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public PopulationInfo createPopulation(@WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public PopulationInfo createPopulation(@WebParam(name = "populationInfo") PopulationInfo populationInfo,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException;
 
     /**
      * Updates an existing Population.
@@ -265,7 +321,16 @@ public interface PopulationService {
      * @throws VersionMismatchException The action was attempted on an out
      *         of date version.
      */
-    public PopulationInfo updatePopulation(@WebParam(name = "populationId") String populationId, @WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public PopulationInfo updatePopulation(@WebParam(name = "populationId") String populationId,
+                                           @WebParam(name = "populationInfo") PopulationInfo populationInfo,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException, VersionMismatchException;
 
     /**
      * Deletes an existing Population.
@@ -281,7 +346,13 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deletePopulation(@WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deletePopulation(@WebParam(name = "populationId") String populationId,
+                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a PopulationRule.
@@ -299,7 +370,13 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public PopulationRuleInfo getPopulationRule(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public PopulationRuleInfo getPopulationRule(@WebParam(name = "populationRuleId") String populationRuleId,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of PopulationRules corresponding to the
@@ -318,7 +395,13 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<PopulationRuleInfo> getPopulationRulesByIds(@WebParam(name = "populationRuleIds") List<String> populationRuleIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<PopulationRuleInfo> getPopulationRulesByIds(@WebParam(name = "populationRuleIds") List<String> populationRuleIds,
+                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of PopulationRule Ids of the specified type.
@@ -335,7 +418,12 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getPopulationRuleIdsByType(@WebParam(name = "populationTypeKey") String populationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getPopulationRuleIdsByType(@WebParam(name = "populationTypeKey") String populationTypeKey,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of PopulationRules in which the given
@@ -352,7 +440,13 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public PopulationRuleInfo getPopulationRuleForPopulation(@WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public PopulationRuleInfo getPopulationRuleForPopulation(@WebParam(name = "populationId") String populationId,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for PopulationRules based on the criteria and
@@ -369,7 +463,12 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForPopulationRuleIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForPopulationRuleIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for PopulationRules based on the criteria and
@@ -386,7 +485,12 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<PopulationRuleInfo> searchForPopulationRules(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<PopulationRuleInfo> searchForPopulationRules(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Validates a PopulationRule. Depending on the value of
@@ -418,7 +522,14 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validatePopulationRule(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "populationRuleInfo") PopulationRuleInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validatePopulationRule(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                             @WebParam(name = "populationRuleInfo") PopulationRuleInfo populationInfo,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Creates a new PopulationRule.
@@ -439,7 +550,14 @@ public interface PopulationService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public PopulationRuleInfo createPopulationRule(@WebParam(name = "populationRuleInfo") PopulationRuleInfo populationRuleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public PopulationRuleInfo createPopulationRule(@WebParam(name = "populationRuleInfo") PopulationRuleInfo populationRuleInfo,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException;
 
     /**
      * Updates an existing PopulationRule.
@@ -465,7 +583,17 @@ public interface PopulationService {
      * @throws VersionMismatchException The action was attempted on an out
      *         of date version.
      */
-    public PopulationRuleInfo updatePopulationRule(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationInfo") PopulationRuleInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public PopulationRuleInfo updatePopulationRule(@WebParam(name = "populationRuleId") String populationRuleId,
+                                                   @WebParam(name = "populationInfo") PopulationRuleInfo populationInfo,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException,
+                VersionMismatchException;
 
     /**
      * Deletes an existing PopulationRule.
@@ -483,7 +611,13 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deletePopulationRule(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deletePopulationRule(@WebParam(name = "populationRuleId") String populationRuleId,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Applies PopulationRule to a Population. If the Population
@@ -504,7 +638,14 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo applyPopulationRuleToPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo applyPopulationRuleToPopulation(@WebParam(name = "populationRuleId") String populationRuleId,
+                                                      @WebParam(name = "populationId") String populationId,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Removes Population from a PopulationRule.
@@ -524,5 +665,335 @@ public interface PopulationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo removePopulationRuleFromPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removePopulationRuleFromPopulation(@WebParam(name = "populationRuleId") String populationRuleId,
+                                                         @WebParam(name = "populationId") String populationId,
+                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
+
+    /**
+     * Retrieves a PopulationCategory.
+     *
+     * @param populationCategoryId a unique Id of a PopulationCategory
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return a PopulationCategory
+     * @throws DoesNotExistException populationCategoryId not found
+     * @throws InvalidParameterException invalid populationCategoryId or
+     *         contextInfo
+     * @throws MissingParameterException missing populationCategoryId or
+     *         contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public PopulationCategoryInfo getPopulationCategory(@WebParam(name = "populationCategoryId") String populationCategoryId,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of PopulationCategorys corresponding to the
+     * given list of PopulationCategory Ids.
+     *
+     * @param populationCategoryIds list of PopulationCategories to be retrieved
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return a list of PopulationCategory Ids of the given type
+     * @throws DoesNotExistException an populationCategoryId in list not found
+     * @throws InvalidParameterException invalid populationCategoryId or
+     *         contextInfo
+     * @throws MissingParameterException missing populationCategoryId or
+     *         contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<PopulationCategoryInfo> getPopulationCategoriesByIds(@WebParam(name = "populationCategoryIds") List<String> populationCategoryIds,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of PopulationCategory Ids of the specified type.
+     *
+     * @param populationTypeKey a PopulationCategory type to be retrieved
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return a list of PopulationCategory Ids
+     * @throws InvalidParameterException invalid PopulationTypeKey or contextInfo
+     * @throws MissingParameterException missing PopulationTypeKey or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> getPopulationCategoryIdsByType(@WebParam(name = "populationTypeKey") String populationTypeKey,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of PopulationCategories in which the given
+     * Population is related.
+     *
+     * @param populationId a Population key
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return a list of PopulationCategories
+     * @throws InvalidParameterException invalid populationId or contextInfo
+     * @throws MissingParameterException missing populationId or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<PopulationCategoryInfo> getPopulationCategoriesForPopulation(@WebParam(name = "populationId") String populationId,
+                                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for PopulationCategories based on the criteria and
+     * returns a list of PopulationCategory identifiers which match the
+     * search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return list of PopulationCategory Ids
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForPopulationCategoryIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for PopulationCategories based on the criteria and
+     * returns a list of PopulationCategories which match the search
+     * criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return list of PopulationCategories
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<PopulationCategoryInfo> searchForPopulationCategories(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Validates a PopulationCategory. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained sub-objects
+     * or expanded to perform all tests related to this object. If an
+     * identifier is present for the PopulationCategory and a record is
+     * found for that identifier, the validation checks if the
+     * PopulationCategory can be shifted to the new values. If a record
+     * cannot be found for the identifier, it is assumed that the
+     * record does not exist and as such, the checks performed will be
+     * much shallower, typically mimicking those performed by setting
+     * the validationType to the current object. This is a slightly
+     * different pattern from the standard validation as the caller
+     * provides the identifier in the create statement instead of the
+     * server assigning an identifier.
+     *
+     * @param validationTypeKey the identifier of the extent of validation
+     * @param populationCategoryTypeKey the PopulationCategory type key
+     * @param populationCategoryInfo the PopulationCategory information to be tested
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return Results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey,
+     *         PopulationInfo, or contextInfo
+     * @throws MissingParameterException missing validationTypeKey,
+     *         PopulationInfo, or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ValidationResultInfo> validatePopulationCategory(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                 @WebParam(name = "populationCategoryTypeKey") String populationCategoryTypeKey,
+                                                                 @WebParam(name = "populationCategoryInfo") PopulationCategoryInfo populationCategoryInfo,
+                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a new PopulationCategory.
+     *
+     * @param populationCategoryTypeKey the PopulationCategory type key
+     * @param populationCategoryInfo the details of PopulationCategory to be created
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return the PopulationCategory just created
+     * @throws DataValidationErrorException one or more values invalid
+     *         for this operation
+     * @throws InvalidParameterException invalid PopulationInfo or
+     *         contextInfo
+     * @throws MissingParameterException missing PopulationInfo or
+     *         contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read-only
+     */
+    public PopulationCategoryInfo createPopulationCategory(@WebParam(name = "populationCategoryTypeKey") String populationCategoryTypeKey,
+                                                           @WebParam(name = "populationCategoryInfo") PopulationCategoryInfo populationCategoryInfo,
+                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     * Updates an existing PopulationCategory.
+     *
+     * @param populationCategoryId the Id of PopulationCategory to be updated
+     * @param populationInfo the details of updates to PopulationCategory
+     *        being updated
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return the details of PopulationCategory just updated
+     * @throws DataValidationErrorException One or more values invalid
+     *         for this operation
+     * @throws DoesNotExistException populationCategoryId not found
+     * @throws InvalidParameterException invalid populationCategoryId,
+     *         PopulationInfo, or contextInfo
+     * @throws MissingParameterException missing populationCategoryId,
+     *         PopulationInfo, or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read-only
+     * @throws VersionMismatchException The action was attempted on an out
+     *         of date version.
+     */
+    public PopulationCategoryInfo updatePopulationCategory(@WebParam(name = "populationCategoryId") String populationCategoryId,
+                                                           @WebParam(name = "populationInfo") PopulationCategoryInfo populationInfo,
+                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
+
+    /**
+     * Deletes an existing PopulationCategory.
+     *
+     * @param populationCategoryId the Id of the PopulationCategory to be deleted
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException populationCategoryId not found
+     * @throws InvalidParameterException invalid populationCategoryId or
+     *         contextInfo
+     * @throws MissingParameterException missing populationCategoryId or
+     *         contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deletePopulationCategory(@WebParam(name = "populationCategoryId") String populationCategoryId,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Adds Population to a PopulationCategory.
+     *
+     * @param populationId a unique identifier for a Population
+     * @param populationCategoryId a unique identifier for a PopulationCategory
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return status
+     * @throws AlreadyExistsException populationId already related to
+     *         populationCategoryId
+     * @throws DoesNotExistException populationId or
+     *         populationCategoryId not found
+     * @throws InvalidParameterException invalid populationId,
+     *         populationCategoryId, or contextInfo
+     * @throws MissingParameterException missing populationId,
+     *         populationCategoryId, or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo addPopulationToPopulationCategory(@WebParam(name = "populationId") String populationId,
+                                                        @WebParam(name = "populationCategoryId") String populationCategoryId,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Removes Population from a PopulationCategory.
+     *
+     * @param populationId a unique identifier for a Population
+     * @param populationCategoryId a unique identifier for a PopulationCategory
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return status
+     * @throws DoesNotExistException populationId or
+     *         populationCategoryId not found or unrelated
+     * @throws InvalidParameterException invalid populationId,
+     *         populationCategoryId, or contextInfo
+     * @throws MissingParameterException missing populationId,
+     *         populationCategoryId, or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo removePopulationFromPopulationCategory(@WebParam(name = "populationId") String populationId,
+                                                             @WebParam(name = "populationCategoryId") String populationCategoryId,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
 }
