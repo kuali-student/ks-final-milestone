@@ -882,88 +882,88 @@ public class LuContextImplTest {
             return null;
         }
 
-        @Override
-        public SearchResult search(SearchRequest request) throws MissingParameterException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public List<TypeInfo> getLuLuRelationTypes(ContextInfo contextInfo) throws OperationFailedException, UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public ObjectStructureDefinition getObjectStructure(String objectTypeKey, ContextInfo contextInfo) throws UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public List<String> getObjectTypes(ContextInfo contextInfo) throws UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public List<CluInfo> getRelatedClusByCluId(String id, String courseActivityRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
+//        @Override
+//        public SearchResult search(SearchRequest request) throws MissingParameterException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public List<TypeInfo> getLuLuRelationTypes(ContextInfo contextInfo) throws OperationFailedException, UnsupportedOperationException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public ObjectStructureDefinition getObjectStructure(String objectTypeKey, ContextInfo contextInfo) throws UnsupportedOperationException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public List<String> getObjectTypes(ContextInfo contextInfo) throws UnsupportedOperationException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public List<CluInfo> getRelatedClusByCluId(String id, String courseActivityRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+//            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//            return null;
+//        }
+//
+//        @Override
+//        public CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+//            return null;  //To change body of implemented methods use File | Settings | File Templates.
+//        }
 
 	}
 }
