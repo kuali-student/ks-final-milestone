@@ -28,11 +28,9 @@ import java.util.*;
 public class CourseOfferingInfoInquirableImpl extends InquirableImpl {
     private transient CourseOfferingService courseOfferingService;
     private CourseService courseService;
-    private LRCService lrcService;
     private ContextInfo contextInfo = null;
 
 
-    /*
     @Override
     public CourseOfferingInfo retrieveDataObject(Map<String, String> parameters) {
         try {
@@ -42,50 +40,6 @@ public class CourseOfferingInfoInquirableImpl extends InquirableImpl {
             throw new RuntimeException(e);
         }
     }
-    */
-
-    @Override
-    public Object retrieveDataObject(Map<String, String> parameters) {
-        String coInfoId = parameters.get("coInfo.id");
-        if(coInfoId == null || "".equals(coInfoId)){
-            coInfoId = parameters.get("id");
-        }
-        ResultValuesGroup rvGroup = null;
-
-        try {
-            CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coInfoId, getContextInfo());
-            CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
-            List<FormatOfferingInfo> formats = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfoId, getContextInfo());
-//            formObject.setFormatOfferingList(formats);
-            formObject.setCoInfo(coInfo);
-
-            //Display grading options
-            String gradingOptId = coInfo.getGradingOptionId();
-            if (gradingOptId != null && !gradingOptId.isEmpty()) {
-                rvGroup = getLRCService().getResultValuesGroup(coInfo.getGradingOptionId(), getContextInfo());
-                formObject.setSelectedGradingOptionName(rvGroup.getName());
-            }
-
-            //Display student registration options
-            List<String> studentRegOptIds = coInfo.getStudentRegistrationOptionIds();
-            String selectedstudentRegOpts = new String();
-
-            if (studentRegOptIds != null && !studentRegOptIds.isEmpty()) {
-                for (String studentRegOptId: coInfo.getStudentRegistrationOptionIds()) {
-                    rvGroup = getLRCService().getResultValuesGroup(studentRegOptId, getContextInfo());
-                    selectedstudentRegOpts = selectedstudentRegOpts + rvGroup.getName() + "|";
-
-                }
-                selectedstudentRegOpts = selectedstudentRegOpts.substring(0, selectedstudentRegOpts.length()-1);
-                formObject.setSelectedstudentRegOpts(selectedstudentRegOpts);
-            }
-
-            return formObject;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 
     public CourseOfferingService getCourseOfferingService() {
         if(courseOfferingService == null)
@@ -99,15 +53,6 @@ public class CourseOfferingInfoInquirableImpl extends InquirableImpl {
         }
         return this.courseService;
     }
-
-    protected LRCService getLRCService() {
-        if(lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lrc", "LrcService"));
-        }
-        return this.lrcService;
-    }
-
-
 
     public ContextInfo getContextInfo() {
         if (contextInfo == null){

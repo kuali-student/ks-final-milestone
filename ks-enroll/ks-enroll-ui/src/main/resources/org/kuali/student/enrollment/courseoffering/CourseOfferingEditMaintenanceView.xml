@@ -39,7 +39,7 @@
     <bean id="KS-CourseOfferingEditWrapper-InquiryView" parent="KSInquiryView"
           p:headerText="Course Offering Inquiry"
           p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"
-          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoInquirableImpl"
+          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditInquirableImpl"
             >
         <property name="Items">
             <list>
@@ -51,7 +51,7 @@
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="ID" p:propertyName="coInfo.id" p:readOnly="true" />
+                            <!--<bean parent="Uif-InputField" p:label="ID" p:propertyName="coInfo.id" p:readOnly="true" /> -->
                             <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingTitle" />
                             <bean parent="Uif-DataField" p:propertyName="coInfo.termId" />
                             <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode" />
@@ -93,6 +93,7 @@
                         </list>
                     </property>
                 </bean>
+
 
                 <!--
                 <bean parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
