@@ -33,7 +33,7 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.jws.WebParam;
 import java.util.*;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 
 public class GradingServiceImpl implements GradingService {
     private LuiPersonRelationService lprService;
