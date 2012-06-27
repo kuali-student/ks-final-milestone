@@ -644,7 +644,7 @@
             <list>
                 <ref bean="luClient"/>
                 <ref bean="loClient"/>
-                <ref bean="orgClient"/>
+                <!-- <ref bean="orgClient"/> -->
                 <!-- <ref bean="atpClient"/> -->
                 <ref bean="personSearchClient"/>
                 <ref bean="proposalClient"/>
