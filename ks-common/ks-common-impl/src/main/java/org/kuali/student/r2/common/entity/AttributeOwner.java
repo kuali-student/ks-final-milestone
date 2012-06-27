@@ -15,9 +15,9 @@
 
 package org.kuali.student.r2.common.entity;
 
-import java.util.Set;
+import java.util.List;
 
 public interface AttributeOwner<T extends BaseAttributeEntity<?>> {
-    public void setAttributes(Set<T> attributes);
-    public Set<T> getAttributes();
+    public void setAttributes(List<T> attributes);
+    public List<T> getAttributes();
 }
