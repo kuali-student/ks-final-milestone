@@ -1,4 +1,4 @@
-package org.kuali.student.r2.core.process.service;
+package org.kuali.student.r2.core.process.service.decorators;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -9,6 +9,7 @@ import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
+import org.kuali.student.r2.core.process.service.ProcessService;
 
 import java.util.List;
 

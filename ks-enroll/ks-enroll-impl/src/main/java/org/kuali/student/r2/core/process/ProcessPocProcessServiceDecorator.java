@@ -12,7 +12,7 @@ import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
-import org.kuali.student.r2.core.process.service.ProcessServiceDecorator;
+import org.kuali.student.r2.core.process.service.decorators.ProcessServiceDecorator;
 
 /**
  *
