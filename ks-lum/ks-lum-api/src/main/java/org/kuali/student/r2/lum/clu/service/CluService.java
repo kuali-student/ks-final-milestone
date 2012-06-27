@@ -14,17 +14,9 @@
  */
 package org.kuali.student.r2.lum.clu.service;
 
-import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -53,6 +45,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.Date;
 import java.util.List;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 
 /**
  * Learning Unit (LU) Service
@@ -63,7 +56,7 @@ import java.util.List;
  */
 @WebService(name = "CluService", targetNamespace = CluServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CluService extends VersionManagementService ,SearchService {
+public interface CluService extends VersionManagementService {
 
     /**
      * Retrieves the list of delivery method types
@@ -234,10 +227,6 @@ public interface CluService extends VersionManagementService ,SearchService {
      *                                   contextInfo
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     * @throws org.kuali.student.common.exceptions.InvalidParameterException 
-     * @throws org.kuali.student.common.exceptions.MissingParameterException 
-     * @throws org.kuali.student.common.exceptions.OperationFailedException 
      */
     public List<String> getAllowedLuLuRelationTypesForLuType(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "relatedLuTypeKey") String relatedLuTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -1077,9 +1066,8 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws PermissionDeniedException    authorization failure
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
-     * @throws AlreadyExistsException 
      */
-    public CluInfo createClu(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "cluInfo") CluInfo cluInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException;
+    public CluInfo createClu(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "cluInfo") CluInfo cluInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing CLU
@@ -1142,12 +1130,11 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws PermissionDeniedException    authorization failure
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
-     * @throws VersionMismatchException 
      */
     public CluInfo createNewCluVersion(@WebParam(name = "cluId") String cluId,
-            @WebParam(name = "versionComment") String versionComment,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+                                       @WebParam(name = "versionComment") String versionComment,
+                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Sets a specific version of the Clu as current. The sequence number must
@@ -1274,9 +1261,8 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws PermissionDeniedException     authorization failure
      * @throws ReadOnlyException             an attempt at supplying information
      *                                       designated as read only
-     * @throws AlreadyExistsException 
      */
-    public CluCluRelationInfo createCluCluRelation(@WebParam(name = "cluId") String cluId, @WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey, @WebParam(name = "cluCluRelationInfo") CluCluRelationInfo cluCluRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException;
+    public CluCluRelationInfo createCluCluRelation(@WebParam(name = "cluId") String cluId, @WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey, @WebParam(name = "cluCluRelationInfo") CluCluRelationInfo cluCluRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates a relationship between two CLUs
@@ -1355,10 +1341,10 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<ValidationResultInfo> validateCluPublication(@WebParam(name = "validationTypeKey") String validationTypeKey,
-            @WebParam(name = "cluId") String cluId,
-            @WebParam(name = "luPublicationTypeKey") String luPublicationTypeKey,
-            @WebParam(name = "cluPublicationInfo") CluPublicationInfo cluPublicationInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                                                             @WebParam(name = "cluId") String cluId,
+                                                             @WebParam(name = "luPublicationTypeKey") String luPublicationTypeKey,
+                                                             @WebParam(name = "cluPublicationInfo") CluPublicationInfo cluPublicationInfo,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -1383,9 +1369,8 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws PermissionDeniedException    authorization failure
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
-     * @throws AlreadyExistsException 
      */
-    public CluPublicationInfo createCluPublication(@WebParam(name = "cluId") String cluId, @WebParam(name = "luPublicationTypeKey") String luPublicationTypeKey, @WebParam(name = "cluPublicationInfo") CluPublicationInfo cluPublicationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException, DoesNotExistException;
+    public CluPublicationInfo createCluPublication(@WebParam(name = "cluId") String cluId, @WebParam(name = "luPublicationTypeKey") String luPublicationTypeKey, @WebParam(name = "cluPublicationInfo") CluPublicationInfo cluPublicationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing clu publication object
@@ -1465,10 +1450,10 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<ValidationResultInfo> validateCluResult(@WebParam(name = "validationTypeKey") String validationTypeKey,
-            @WebParam(name = "cluId") String cluId,
-            @WebParam(name = "cluResultTypeKey") String cluResultTypeKey,
-            @WebParam(name = "cluResultInfo") CluResultInfo cluResultInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                                                        @WebParam(name = "cluId") String cluId,
+                                                        @WebParam(name = "cluResultTypeKey") String cluResultTypeKey,
+                                                        @WebParam(name = "cluResultInfo") CluResultInfo cluResultInfo,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -1492,12 +1477,11 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws PermissionDeniedException    authorization failure
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
-     * @throws AlreadyExistsException 
      */
     public CluResultInfo createCluResult(@WebParam(name = "cluId") String cluId,
-            @WebParam(name = "cluResultTypeKey") String cluResultTypeKey,
-            @WebParam(name = "cluResultInfo") CluResultInfo cluResultInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException;
+                                         @WebParam(name = "cluResultTypeKey") String cluResultTypeKey,
+                                         @WebParam(name = "cluResultInfo") CluResultInfo cluResultInfo,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing clu result
@@ -1600,9 +1584,8 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws PermissionDeniedException    authorization failure
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
-     * @throws AlreadyExistsException 
      */
-    public CluLoRelationInfo createCluLoRelation(@WebParam(name = "cluId") String cluId, @WebParam(name = "loId") String loId, @WebParam(name = "cluLoRelationTypeKey") String cluLoRelationTypeKey, @WebParam(name = "cluLoRelationInfo") CluLoRelationInfo cluLoRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException;
+    public CluLoRelationInfo createCluLoRelation(@WebParam(name = "cluId") String cluId, @WebParam(name = "loId") String loId, @WebParam(name = "cluLoRelationTypeKey") String cluLoRelationTypeKey, @WebParam(name = "cluLoRelationInfo") CluLoRelationInfo cluLoRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates a relationship between a clu and learning objective
@@ -1665,8 +1648,8 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo addCluResourceRequirement(@WebParam(name = "resourceTypeKey") String resourceTypeKey,
-            @WebParam(name = "cluId") String cluId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                                                @WebParam(name = "cluId") String cluId,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws AlreadyExistsException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1743,9 +1726,8 @@ public interface CluService extends VersionManagementService ,SearchService {
      *                                      designated as read only
      * @throws UnsupportedActionException   CLU set need to be static or dynamic
      *                                      but not both
-     * @throws AlreadyExistsException 
      */
-    public CluSetInfo createCluSet(@WebParam(name = "cluSetTypeKey") String cluSetTypeKey, @WebParam(name = "cluSetInfo") CluSetInfo cluSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException, AlreadyExistsException;
+    public CluSetInfo createCluSet(@WebParam(name = "cluSetTypeKey") String cluSetTypeKey, @WebParam(name = "cluSetInfo") CluSetInfo cluSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException;
 
     /**
      * Update the information for a CLU set
@@ -1911,153 +1893,4 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws UnsupportedActionException CLU set is dynamically determined
      */
     public StatusInfo removeCluFromCluSet(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
-	public SearchResult search(SearchRequest request) throws MissingParameterException;
-
-	/**
-	 * 
-	 * @param contextInfo
-	 * @return
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	@Deprecated
-	public List<TypeInfo> getLuLuRelationTypes(@WebParam(name="contextInfo") ContextInfo contextInfo)
-			throws OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * @param objectTypeKey
-	 * @param contextInfo
-	 * @return
-	 * @throws UnsupportedOperationException
-	 */
-	@Deprecated
-	public ObjectStructureDefinition getObjectStructure(@WebParam(name="objectTypeKey") String objectTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo)
-			 throws UnsupportedOperationException;
-
-	/**
-	 * 
-	 * @param contextInfo
-	 * @return
-	 * @throws UnsupportedOperationException
-	 */
-	@Deprecated
-	public List<String> getObjectTypes(@WebParam(name="contextInfo") ContextInfo contextInfo) throws UnsupportedOperationException;
-
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param searchCriteriaTypeKey
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	@Deprecated
-	public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @return
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	@Deprecated
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param searchResultTypeKey
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	@Deprecated
-	public SearchResultTypeInfo getSearchResultType(@WebParam(name="searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @return
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	@Deprecated
-	public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param searchTypeKey
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	@Deprecated
-	public SearchTypeInfo getSearchType(@WebParam(name="searchTypeKey") String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @return
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	@Deprecated
-	public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param searchCriteriaTypeKey
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	@Deprecated
-	public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param searchResultTypeKey
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	@Deprecated
-	public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name="searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
-
-    @Deprecated
-    public List<org.kuali.student.r2.lum.clu.dto.CluInfo> getRelatedClusByCluId(String id, String courseActivityRelationType)throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException;
-    @Deprecated
-    public CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo)throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException;
 }

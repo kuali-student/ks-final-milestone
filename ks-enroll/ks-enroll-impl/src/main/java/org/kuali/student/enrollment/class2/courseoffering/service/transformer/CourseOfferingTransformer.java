@@ -4,13 +4,12 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -264,7 +263,7 @@ public class CourseOfferingTransformer {
 
         //Set the credit options as the first option from the clu
         if (courseInfo.getCreditOptions() != null && !courseInfo.getCreditOptions().isEmpty()) {
-            courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getId());
+            courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getKey());
         }else{
             courseOfferingInfo.setCreditOptionId(null);
         }
@@ -274,14 +273,31 @@ public class CourseOfferingTransformer {
             LOG.warn("When Copying from Course CLU, multiple credit options were found");
         }
 
-        courseOfferingInfo.setDescr(new R1ToR2CopyHelper().copyRichText(courseInfo.getDescr()));
-        courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
+        courseOfferingInfo.setDescr(courseInfo.getDescr());
+
+        List<CluInstructorInfo> cluInstrList = courseInfo.getInstructors();
+        List<OfferingInstructorInfo> coInstrList = new ArrayList<OfferingInstructorInfo>(cluInstrList.size());
+        for (CluInstructorInfo cluInstr : cluInstrList) {
+            OfferingInstructorInfo coInstr = new OfferingInstructorInfo();
+            List<AttributeInfo> cluAttrList = cluInstr.getAttributes();
+            List<AttributeInfo> coAttrList = new ArrayList<AttributeInfo>(cluAttrList.size());
+            for (AttributeInfo cluAttr : cluAttrList) {
+                AttributeInfo coAttr = new AttributeInfo();
+                coAttr.setId(cluAttr.getId());
+                coAttr.setKey(cluAttr.getKey());
+                coAttr.setValue(cluAttr.getValue());
+                coAttrList.add(coAttr);
+            }
+            coInstr.setAttributes(coAttrList);
+            coInstr.setPersonId(cluInstr.getPersonId());
+        }
     }
+
 
     // this is not currently in use and needs to be revisited and plugged into the impl
     public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LuiPersonRelationService lprService)
             throws OperationFailedException {
-        List<LuiPersonRelationInfo> lprs = null;;
+        List<LuiPersonRelationInfo> lprs = null;
         try {
             lprs = lprService.getLprsByLui(luiId, context);
         } catch (Exception e) {
