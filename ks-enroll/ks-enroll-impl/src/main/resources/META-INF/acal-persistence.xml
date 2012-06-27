@@ -97,12 +97,14 @@
 		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemRequestOptionEntity</class>
 		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemResultValueGroupEntity</class>
 		
-        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntity</class>
+		<!-- commented out until roster service is implemented.
+		<class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntity</class>
         <class>org.kuali.student.enrollment.class1.roster.model.LprRosterAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.roster.model.LprRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryEntity</class>
         <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryAttributeEntity</class>
-
+		-->
+		
         <class>org.kuali.student.r2.core.fee.model.EnrollmentFeeEntity</class>
         <class>org.kuali.student.r2.core.fee.model.EnrollmentFeeAttributeEntity</class>
 
