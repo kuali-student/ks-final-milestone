@@ -44,6 +44,7 @@ public class CommonConverterTest {
         //r2.setMeta(metaInfo)
     }
 
+    @Ignore
     @Test
     public void testMessageInfo() {
         org.kuali.student.r1.common.messages.dto.Message r1 = new org.kuali.student.r1.common.messages.dto.Message();
