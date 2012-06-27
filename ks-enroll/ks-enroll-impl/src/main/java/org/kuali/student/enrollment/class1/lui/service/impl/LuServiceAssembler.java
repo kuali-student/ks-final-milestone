@@ -228,7 +228,7 @@ public class LuServiceAssembler extends BaseAssembler {
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
-        dto.setType(entity.getLuType().getId());
+        dto.setTypeKey(entity.getLuType().getId());
 
         if (entity.getCampusLocations() != null) {
             List<String> campusLocations = new ArrayList<String>(entity.getCampusLocations().size());
@@ -349,10 +349,7 @@ public class LuServiceAssembler extends BaseAssembler {
         for (SearchParameterValue value : entity.getValues()) {
             values.add(value.getValue());
         }
-        dto.setValue(values);
-        if (entity.getValues().size() == 1) {
-            dto.setValue(entity.getValues().get(0).getValue());
-        }
+        dto.setValues(values);
         return dto;
     }
 
@@ -642,7 +639,7 @@ public class LuServiceAssembler extends BaseAssembler {
 
         dto.setLuiId(entity.getLui().getId());
         dto.setRelatedLuiId(entity.getRelatedLui().getId());
-        dto.setType(entity.getLuLuRelationType().getId());
+        dto.setTypeKey(entity.getLuLuRelationType().getId());
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         return dto;
