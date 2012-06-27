@@ -4,9 +4,6 @@
  */
 package org.kuali.student.r2.core.process;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
@@ -16,6 +13,10 @@ import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.dto.ExemptionRequestInfo;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.exemption.service.ExemptionServiceDecorator;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -79,7 +80,7 @@ public class ProcessPocExemptionServiceDecorator extends ExemptionServiceDecorat
         info.setStateKey(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY);
         info.setName(request.getName());
         info.setProcessKey(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
-        info.setCheckId(ProcessServiceConstants.CHECK_ID_REGISTRATION_PERIOD_IS_OPEN);
+        info.setCheckId(ProcessPocConstants.CHECK_ID_REGISTRATION_PERIOD_IS_OPEN);
         try {
             info = this.createExemption(info.getExemptionRequestId(), info.getTypeKey(), info, context);
         } catch (Exception ex) {
@@ -96,7 +97,7 @@ public class ProcessPocExemptionServiceDecorator extends ExemptionServiceDecorat
         info.setStateKey(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY);
         info.setName(request.getName());
         info.setProcessKey(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
-        info.setCheckId(ProcessServiceConstants.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED);
+        info.setCheckId(ProcessPocConstants.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED);
         DateOverrideInfo dateOverride = new DateOverrideInfo();
         dateOverride.setMilestoneId(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
         dateOverride.setEffectiveEndDate(endDate);

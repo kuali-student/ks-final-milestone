@@ -4,7 +4,6 @@
  */
 package org.kuali.student.r2.core.process;
 
-import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,8 +17,10 @@ import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.exemption.service.ExemptionServiceMockImpl;
+import org.kuali.student.r2.core.process.service.impl.ProcessServiceDataLoader;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -71,7 +72,7 @@ public class ProcessPocExemptionServiceDecoratorTest {
         exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(
                 ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM,
-                ProcessServiceConstants.CHECK_ID_REGISTRATION_PERIOD_IS_OPEN,
+                ProcessServiceDataLoader.CHECK_ID_REGISTRATION_PERIOD_IS_OPEN,
                 ProcessPocConstants.PERSON_ID_JOHNNY_MANNING_2374, 
                 context.getCurrentDate(), context);
         assertEquals(1, exemptions.size()); 
@@ -79,7 +80,7 @@ public class ProcessPocExemptionServiceDecoratorTest {
         exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(
                 ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM,
-                ProcessServiceConstants.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED,
+                ProcessServiceDataLoader.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED,
                 ProcessPocConstants.PERSON_ID_EDDIE_PITTMAN_2406, 
                 context.getCurrentDate(), 
                 context);
@@ -90,7 +91,7 @@ public class ProcessPocExemptionServiceDecoratorTest {
         exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(
                 ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM,
-                ProcessServiceConstants.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED,
+                ProcessServiceDataLoader.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED,
                 ProcessPocConstants.PERSON_ID_TRACY_BURTON_2132,
                 context.getCurrentDate(), 
                 context);

@@ -14,6 +14,7 @@ import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
+import org.kuali.student.r2.core.process.service.impl.ProcessServiceDataLoader;
 import org.kuali.student.r2.core.process.service.impl.ProcessServiceMockImpl;
 
 import java.util.List;
@@ -60,10 +61,10 @@ public class ProcessPocProcessServiceDecoratorTest {
         assertEquals(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, process.getKey());
 
         CheckInfo check = null;
-        check = processService.getCheck(ProcessServiceConstants.CHECK_ID_IS_ALIVE, context);
+        check = processService.getCheck(ProcessServiceDataLoader.CHECK_ID_IS_ALIVE, context);
         assertEquals (ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, check.getTypeKey());
         
-        check = processService.getCheck(ProcessServiceConstants.CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK, context);
+        check = processService.getCheck(ProcessServiceDataLoader.CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK, context);
         assertEquals (ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check.getTypeKey());
 
         List<InstructionInfo> instructions = null;
@@ -76,7 +77,7 @@ public class ProcessPocProcessServiceDecoratorTest {
         assertEquals (Boolean.FALSE, instruction.getContinueOnFail());
         assertEquals (Boolean.FALSE, instruction.getIsExemptible());
         assertEquals (Boolean.FALSE, instruction.getIsWarning());
-        assertEquals (ProcessServiceConstants.CHECK_ID_IS_ALIVE, instruction.getCheckId());
+        assertEquals (ProcessServiceDataLoader.CHECK_ID_IS_ALIVE, instruction.getCheckId());
         
         instructions = processService.getInstructionsByProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, context);
         assertEquals(5, instructions.size());

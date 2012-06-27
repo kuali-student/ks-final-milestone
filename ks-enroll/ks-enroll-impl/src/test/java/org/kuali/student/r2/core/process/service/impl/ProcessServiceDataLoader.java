@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.process.ProcessPocConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
@@ -37,6 +38,132 @@ import java.util.List;
  * @author Mezba Mahtab
  */
 public class ProcessServiceDataLoader {
+    public static final String PROCESS_CATEGORY_ID_GRADUATION = "6";
+
+    ///////////////////
+    // CONSTANTS
+    ///////////////////
+
+    /**
+     * known process category ids / names
+     */
+    public static final String PROCESS_CATEGORY_ID_ADMISSIONS = "2";
+    public static final String PROCESS_CATEGORY_NAME_ADMISSIONS = "kuali.process.type.admissions";
+    public static final String PROCESS_CATEGORY_ID_COURSE_REGISTRATION = "3";
+    public static final String PROCESS_CATEGORY_NAME_COURSE_REGISTRATION = "kuali.process.type.registration";
+    public static final String PROCESS_CATEGORY_ID_PROGRAM_ENROLLMENT = "4";
+    public static final String PROCESS_CATEGORY_NAME_PROGRAM_ENROLLMENT = "kuali.process.type.enrollment";
+    public static final String PROCESS_CATEGORY_ID_ACADEMIC_RECORD = "5";
+    public static final String PROCESS_CATEGORY_NAME_ACADEMIC_RECORD = "kuali.process.type.acad.record";
+    public static final String PROCESS_CATEGORY_NAME_GRADUATION = "kuali.process.type.graduation";
+    public static final String PROCESS_CATEGORY_ID_STUDENT_ACCOUNTS = "7";
+    public static final String PROCESS_CATEGORY_NAME_STUDENT_ACCOUNTS = "kuali.process.type.student.accounts";
+    public static final String PROCESS_CATEGORY_ID_LIBRARY = "8";
+    public static final String PROCESS_CATEGORY_NAME_LIBRARY = "kuali.process.type.library";
+    public static final String PROCESS_CATEGORY_ID_HOUSING = "9";
+    public static final String PROCESS_CATEGORY_NAME_HOUSING = "kuali.process.type.housing";
+
+    /**
+     * known check ids / names
+     */
+    public static final String CHECK_ID_IS_ALIVE = "2";
+    public static final String CHECK_NAME_IS_ALIVE = "kuali.check.is.alive";
+    public static final String CHECK_ID_HAS_BEEN_ADMITTED = "3";
+    public static final String CHECK_NAME_HAS_BEEN_ADMITTED = "kuali.check.has.been.admitted";
+    public static final String CHECK_ID_HAS_CONFIRMED_INTEND_TO_ATTEND = "4";
+    public static final String CHECK_NAME_HAS_CONFIRMED_INTEND_TO_ATTEND = "kuali.check.has.confirmed.intend.to.attend";
+    public static final String CHECK_ID_HAS_NOT_BEEN_EXPELLED = "5";
+    public static final String CHECK_NAME_HAS_NOT_BEEN_EXPELLED = "kuali.check.has.not.been.expelled";
+    public static final String CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK = "7";
+    public static final String CHECK_NAME_HAS_OVERDUE_LIBRARY_BOOK = "kuali.check.has.overdue.library.book";
+    public static final String CHECK_ID_HAS_UNPAID_LIBRARY_FINE = "8";
+    public static final String CHECK_NAME_HAS_UNPAID_LIBRARY_FINE = "kuali.check.has.unpaid.library.fine";
+    public static final String CHECK_ID_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM = "9";
+    public static final String CHECK_NAME_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM = "kuali.check.has.not.paid.bill.from.prior.term";
+    public static final String CHECK_ID_HAS_ACKNOWLEDGED_RIAA = "11";
+    public static final String CHECK_NAME_HAS_ACKNOWLEDGED_RIAA = "kuali.check.has.acknowledged.riaa";
+    public static final String CHECK_ID_HAS_ACKNOWLEDGED_HONOR_CODE = "12";
+    public static final String CHECK_NAME_HAS_ACKNOWLEDGED_HONOR_CODE = "kuali.check.has.acknowledged.honor.code";
+    public static final String CHECK_ID_HAS_VERIFIED_EMERGENCY_CONTACT_DATA = "13";
+    public static final String CHECK_NAME_HAS_VERIFIED_EMERGENCY_CONTACT_DATA = "kuali.check.has.verified.emergency.contact.data";
+    public static final String CHECK_ID_HAS_APPLIED_TO_GRADUATE = "14";
+    public static final String CHECK_NAME_HAS_APPLIED_TO_GRADUATE = "kuali.check.has.applied.to.graduate";
+    public static final String CHECK_ID_STUDENT_HAS_BASIC_ELIGIBILITY = "16";
+    public static final String CHECK_NAME_STUDENT_HAS_BASIC_ELIGIBILITY = "kuali.check.student.has.basic.eligibility";
+    public static final String CHECK_ID_IS_STUDENT_EXPECTED_IN_TERM = "17";
+    public static final String CHECK_NAME_IS_STUDENT_EXPECTED_IN_TERM = "kuali.check.is.student.expected.in.term";
+    public static final String CHECK_ID_REGISTRATION_PERIOD_IS_OPEN = ProcessPocConstants.CHECK_ID_REGISTRATION_PERIOD_IS_OPEN;
+    public static final String CHECK_NAME_REGISTRATION_PERIOD_IS_OPEN = "kuali.check.registration.period.is.open";
+    public static final String CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED = ProcessPocConstants.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED;
+    public static final String CHECK_NAME_REGISTRATION_PERIOD_IS_NOT_CLOSED = "kuali.check.registration.period.is.not.closed";
+    public static final String CHECK_ID_REGISTRATION_HOLDS_CLEARED = "20";
+    public static final String CHECK_NAME_REGISTRATION_HOLDS_CLEARED = "kuali.check.registration.holds.cleared";
+    public static final String CHECK_ID_ACKNOWLEDGEMENTS_CONFIRMED = "21";
+    public static final String CHECK_NAME_ACKNOWLEDGEMENTS_CONFIRMED = "kuali.check.acknowledgements.confirmed";
+    public static final String CHECK_ID_MAX_TOTAL_CREDITS_ALLOWED = "22";
+    public static final String CHECK_NAME_MAX_TOTAL_CREDITS_ALLOWED = "kuali.check.max.total.credits.allowed";
+    public static final String CHECK_ID_INTERNATIONAL_STUDENT_CHECK_IN = "23";
+    public static final String CHECK_NAME_INTERNATIONAL_STUDENT_CHECK_IN = "kuali.check.international.student.check.in";
+    public static final String CHECK_ID_IS_NOT_SUMMER_TERM = "24";
+    public static final String CHECK_NAME_IS_NOT_SUMMER_TERM = "kuali.check.is.not.summer.term";
+    public static final String CHECK_ID_MANDATORY_ADVISING_CHECK = "25";
+    public static final String CHECK_NAME_MANDATORY_ADVISING_CHECK = "kuali.check.mandatory.advising.check";
+    public static final String CHECK_ID_UNRESOLVED_INCOMPLETE_GRADES = "26";
+    public static final String CHECK_NAME_UNRESOLVED_INCOMPLETE_GRADES = "kuali.check.unresolved.incomplete.grades";
+    public static final String CHECK_ID_ELIGIBILITY_FOR_TERM = "28";
+    public static final String CHECK_NAME_ELIGIBILITY_FOR_TERM = "kuali.check.eligibility.for.term";
+    public static final String CHECK_ID_HAS_THE_NECESSARY_PREREQ = "29";
+    public static final String CHECK_NAME_HAS_THE_NECESSARY_PREREQ = "kuali.check.has.the.necessary.prereq";
+    public static final String CHECK_ID_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING = "30";
+    public static final String CHECK_NAME_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING = "kuali.check.is.eligible.for.the.course.offering";
+    public static final String CHECK_ID_NORTH_STUDENTS_MAX_SOUTH_CREDITS = "31";
+    public static final String CHECK_NAME_NORTH_STUDENTS_MAX_SOUTH_CREDITS = "kuali.check.north.students.max.south.credits";
+    public static final String CHECK_ID_SOUTH_STUDENTS_MAX_NORTH_CREDITS = "32";
+    public static final String CHECK_NAME_SOUTH_STUDENTS_MAX_NORTH_CREDITS = "kuali.check.south.students.max.north.credits";
+    public static final String CHECK_ID_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE = "34";
+    public static final String CHECK_NAME_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE = "kuali.check.student.has.eligibility.for.each.course";
+    public static final String CHECK_ID_DOES_NOT_EXCEED_CREDIT_LIMIT = "35";
+    public static final String CHECK_NAME_DOES_NOT_EXCEED_CREDIT_LIMIT = "kuali.check.does.not.exceed.credit.limit";
+    public static final String CHECK_ID_DOES_NOT_MEET_CREDIT_MINIMUM = "36";
+    public static final String CHECK_NAME_DOES_NOT_MEET_CREDIT_MINIMUM = "kuali.check.does.not.meet.credit.minimum";
+    public static final String CHECK_ID_DOES_NOT_HAVE_A_TIME_CONFLICT = "37";
+    public static final String CHECK_NAME_DOES_NOT_HAVE_A_TIME_CONFLICT = "kuali.check.does.not.have.a.time.conflict";
+    public static final String CHECK_ID_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD = "38";
+    public static final String CHECK_NAME_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD = "kuali.check.too.many.courses.during.initial.registration.period";
+    public static final String CHECK_ID_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES = "40";
+    public static final String CHECK_NAME_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES = "kuali.check.student.is.eligible.for.the.courses";
+    public static final String CHECK_ID_IS_STUDENTS_REGISTRATION_WINDOW = "41";
+    public static final String CHECK_NAME_IS_STUDENTS_REGISTRATION_WINDOW = "kuali.check.is.students.registration.window";
+    public static final String CHECK_ID_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL = "42";
+    public static final String CHECK_NAME_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL = "kuali.check.course.has.room.for.student.in.a.seatpool";
+    public static final String CHECK_ID_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE = "44";
+    public static final String CHECK_NAME_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE = "kuali.check.grades.have.been.submitted.for.course";
+    public static final String CHECK_ID_HAS_COMPLETED_COURSE_EVALUATION = "45";
+    public static final String CHECK_NAME_HAS_COMPLETED_COURSE_EVALUATION = "kuali.check.has.completed.course.evaluation";
+
+    /**
+     * known population ids / names
+     */
+    public static final String POPULATION_ID_EVERYONE = "2";
+    public static final String POPULATION_NAME_EVERYONE = "kuali.population.everyone";
+    public static final String POPULATION_ID_FINAL_TERM_SENIORS = "3";
+    public static final String POPULATION_NAME_FINAL_TERM_SENIORS = "kuali.population.final.term.seniors";
+    public static final String POPULATION_ID_NOT_IN_A_DEGREE_GRANTING_PROGRAM = "4";
+    public static final String POPULATION_NAME_NOT_IN_A_DEGREE_GRANTING_PROGRAM = "kuali.population.not.in.a.degree.granting.program";
+    public static final String POPULATION_ID_INTERNATIONAL_STUDENTS = "6";
+    public static final String POPULATION_NAME_INTERNATIONAL_STUDENTS = "kuali.population.international.student";
+    public static final String POPULATION_ID_SUMMER_ONLY_STUDENT = "7";
+    public static final String POPULATION_NAME_SUMMER_ONLY_STUDENT = "kuali.population.summer.only.student";
+    public static final String POPULATION_ID_FRESHMAN = "8";
+    public static final String POPULATION_NAME_FRESHMAN = "kuali.population.freshman";
+    public static final String POPULATION_ID_SOPHOMORE = "9";
+    public static final String POPULATION_NAME_SOPHOMORE = "kuali.population.sophomore";
+    public static final String POPULATION_ID_UNDERGRADUATE = "11";
+    public static final String POPULATION_NAME_UNDERGRADUATE = "kuali.population.undergraduate";
+    public static final String POPULATION_ID_NORTH_CAMPUS_STUDENTS = "12";
+    public static final String POPULATION_NAME_NORTH_CAMPUS_STUDENTS = "kuali.population.north.campus.students";
+    public static final String POPULATION_ID_SOUTH_CAMPUS_STUDENTS = "13";
+    public static final String POPULATION_NAME_SOUTH_CAMPUS_STUDENTS = "kuali.population.south.campus.students";
 
     ///////////////////
     // DATA FIELDS
@@ -83,37 +210,37 @@ public class ProcessServiceDataLoader {
             // -----------------------------
             if (debugMode) { logger.warn("loading process categories"); }
             // Admissions
-            loadProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_ID_ADMISSIONS, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, ProcessServiceConstants.PROCESS_CATEGORY_NAME_ADMISSIONS,
+            loadProcessCategory(PROCESS_CATEGORY_ID_ADMISSIONS, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, PROCESS_CATEGORY_NAME_ADMISSIONS,
                     "Blocks a student from changing her degree program", "Blocks a student from changing her degree program", contextInfo);
             // Course Registration
-            loadProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, ProcessServiceConstants.PROCESS_CATEGORY_NAME_COURSE_REGISTRATION,
+            loadProcessCategory(PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, PROCESS_CATEGORY_NAME_COURSE_REGISTRATION,
                     "Processses involving registration in courses, including both initial and subsequent via add/drop processes",
                     "Processses involving registration in courses, including both initial and subsequent via add/drop processes", contextInfo);
             // Program Enrollment
-            loadProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_ID_PROGRAM_ENROLLMENT, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, ProcessServiceConstants.PROCESS_CATEGORY_NAME_PROGRAM_ENROLLMENT,
+            loadProcessCategory(PROCESS_CATEGORY_ID_PROGRAM_ENROLLMENT, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, PROCESS_CATEGORY_NAME_PROGRAM_ENROLLMENT,
                     "Program enrollment processes, picking, changing major, adding a minor or 2nd major", "Program enrollment processes, picking, changing major, adding a minor or 2nd major", contextInfo);
             // Academic Record
-            loadProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_ID_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, ProcessServiceConstants.PROCESS_CATEGORY_NAME_ACADEMIC_RECORD,
+            loadProcessCategory(PROCESS_CATEGORY_ID_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, PROCESS_CATEGORY_NAME_ACADEMIC_RECORD,
                     "Processes invovling access to the academic record including things like requesting and generating transcripts, getting access to grades and verification of attendance and degrees awarded",
                     "Processes invovling access to the academic record including things like requesting and generating transcripts, getting access to grades and verification of attendance and degrees awarded",
                     contextInfo);
             // Graduation
-            loadProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_ID_GRADUATION, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, ProcessServiceConstants.PROCESS_CATEGORY_NAME_GRADUATION,
+            loadProcessCategory(PROCESS_CATEGORY_ID_GRADUATION, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, PROCESS_CATEGORY_NAME_GRADUATION,
                     "Processes involving the awarding of the degree, participating in commencement and/or physically receiving the diploma",
                     "Processes involving the awarding of the degree, participating in commencement and/or physically receiving the diploma",
                     contextInfo);
             // Student Accounts
-            loadProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_ID_STUDENT_ACCOUNTS, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, ProcessServiceConstants.PROCESS_CATEGORY_NAME_STUDENT_ACCOUNTS,
+            loadProcessCategory(PROCESS_CATEGORY_ID_STUDENT_ACCOUNTS, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, PROCESS_CATEGORY_NAME_STUDENT_ACCOUNTS,
                     "Processes involved in setting up and managing a student's account, adding charges, payments, processing refunds",
                     "Processes involved in setting up and managing a student's account, adding charges, payments, processing refunds",
                     contextInfo);
             // Library
-            loadProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_ID_LIBRARY, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, ProcessServiceConstants.PROCESS_CATEGORY_NAME_LIBRARY,
+            loadProcessCategory(PROCESS_CATEGORY_ID_LIBRARY, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, PROCESS_CATEGORY_NAME_LIBRARY,
                     "Processes involving the use of the library both physically or on-line",
                     "Processes involving the use of the library both physically or on-line",
                     contextInfo);
             // Housing
-            loadProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_ID_HOUSING, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, ProcessServiceConstants.PROCESS_CATEGORY_NAME_HOUSING,
+            loadProcessCategory(PROCESS_CATEGORY_ID_HOUSING, ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY, ProcessServiceConstants.PROCESS_CATEGORY_STATE_KEY_ACTIVE, PROCESS_CATEGORY_NAME_HOUSING,
                     "Processes involving housing and dorm access and assignment",
                     "Processes involving housing and dorm access and assignment",
                     contextInfo);
@@ -121,7 +248,7 @@ public class ProcessServiceDataLoader {
             // load checks
             // --------------
             if (debugMode) { logger.warn("loading checks"); }
-            loadCheck(ProcessServiceConstants.CHECK_ID_IS_ALIVE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_IS_ALIVE,
+            loadCheck(CHECK_ID_IS_ALIVE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_IS_ALIVE,
                     "Checks if student is actually alive",
                     "Checks if student is actually alive",
                     null, // issue id
@@ -131,7 +258,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_HAS_BEEN_ADMITTED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_HAS_BEEN_ADMITTED,
+            loadCheck(CHECK_ID_HAS_BEEN_ADMITTED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_HAS_BEEN_ADMITTED,
                     "Checks if student has been admitted",
                     "Checks if student has been admitted",
                     null, // issue id
@@ -141,7 +268,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_HAS_CONFIRMED_INTEND_TO_ATTEND, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_HAS_CONFIRMED_INTEND_TO_ATTEND,
+            loadCheck(CHECK_ID_HAS_CONFIRMED_INTEND_TO_ATTEND, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_HAS_CONFIRMED_INTEND_TO_ATTEND,
                     "Checks if student has confirmed that they actually have accepted the offer and intend to attend",
                     "Checks if student has confirmed that they actually have accepted the offer and intend to attend",
                     null, // issue id
@@ -151,7 +278,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_HAS_NOT_BEEN_EXPELLED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_HAS_NOT_BEEN_EXPELLED,
+            loadCheck(CHECK_ID_HAS_NOT_BEEN_EXPELLED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_HAS_NOT_BEEN_EXPELLED,
                     "Checks if the student has not been expelled",
                     "Checks if the student has not been expelled",
                     null, // issue id
@@ -161,7 +288,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_HAS_OVERDUE_LIBRARY_BOOK,
+            loadCheck(CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, CHECK_NAME_HAS_OVERDUE_LIBRARY_BOOK,
                     "Checks if student has an overdue library book",
                     "Checks if student has an overdue library book",
                     ProcessServiceConstants.ISSUE_HOLD_LIBRARY_BOOK_OVERDUE_ID, // issue id
@@ -171,7 +298,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_HAS_UNPAID_LIBRARY_FINE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_HAS_UNPAID_LIBRARY_FINE,
+            loadCheck(CHECK_ID_HAS_UNPAID_LIBRARY_FINE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, CHECK_NAME_HAS_UNPAID_LIBRARY_FINE,
                     "Checks if student has an unpaid library fine",
                     "Checks if student has an unpaid library fine",
                     null, // issue id
@@ -181,7 +308,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM,
+            loadCheck(CHECK_ID_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, CHECK_NAME_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM,
                     "Checks if student has an unpaid bill from a prior term",
                     "Checks if student has an unpaid bill from a prior term",
                     ProcessServiceConstants.ISSUE_HOLD_UPAID_TUITION_FROM_LAST_TERM_ID, // issue id
@@ -191,7 +318,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_HAS_ACKNOWLEDGED_RIAA, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_HAS_ACKNOWLEDGED_RIAA,
+            loadCheck(CHECK_ID_HAS_ACKNOWLEDGED_RIAA, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY, CHECK_NAME_HAS_ACKNOWLEDGED_RIAA,
                     "Checks if student has acknowledged RIAA",
                     "Checks if student has acknowledged RIAA",
                     null, // issue id
@@ -201,7 +328,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_HAS_ACKNOWLEDGED_HONOR_CODE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_HAS_ACKNOWLEDGED_HONOR_CODE,
+            loadCheck(CHECK_ID_HAS_ACKNOWLEDGED_HONOR_CODE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY, CHECK_NAME_HAS_ACKNOWLEDGED_HONOR_CODE,
                     "Checks if student has acknowledged honour code",
                     "Checks if student has acknowledged honour code",
                     null, // issue id
@@ -211,7 +338,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_HAS_VERIFIED_EMERGENCY_CONTACT_DATA, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_HAS_VERIFIED_EMERGENCY_CONTACT_DATA,
+            loadCheck(CHECK_ID_HAS_VERIFIED_EMERGENCY_CONTACT_DATA, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY, CHECK_NAME_HAS_VERIFIED_EMERGENCY_CONTACT_DATA,
                     "Checks if student has verified emergency contact data",
                     "Checks if student has verified emergency contact data",
                     null, // issue id
@@ -221,7 +348,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_HAS_APPLIED_TO_GRADUATE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_HAS_APPLIED_TO_GRADUATE,
+            loadCheck(CHECK_ID_HAS_APPLIED_TO_GRADUATE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.ACKNOWLEDGEMENT_CHECK_TYPE_KEY, CHECK_NAME_HAS_APPLIED_TO_GRADUATE,
                     "Checks if student has applied to graduate",
                     "Checks if student has applied to graduate",
                     null, // issue id
@@ -231,7 +358,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_STUDENT_HAS_BASIC_ELIGIBILITY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_STUDENT_HAS_BASIC_ELIGIBILITY,
+            loadCheck(CHECK_ID_STUDENT_HAS_BASIC_ELIGIBILITY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, CHECK_NAME_STUDENT_HAS_BASIC_ELIGIBILITY,
                     "Checks all the checks defined in the basic eligibility process",
                     "Checks all the checks defined in the basic eligibility process",
                     null, // issue id
@@ -241,7 +368,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_IS_STUDENT_EXPECTED_IN_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_IS_STUDENT_EXPECTED_IN_TERM,
+            loadCheck(CHECK_ID_IS_STUDENT_EXPECTED_IN_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_IS_STUDENT_EXPECTED_IN_TERM,
                     "Checks if the student is actually expected to register in the term",
                     "Checks if the student is actually expected to register in the term",
                     null, // issue id
@@ -251,7 +378,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_REGISTRATION_PERIOD_IS_OPEN, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_REGISTRATION_PERIOD_IS_OPEN,
+            loadCheck(CHECK_ID_REGISTRATION_PERIOD_IS_OPEN, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY, CHECK_NAME_REGISTRATION_PERIOD_IS_OPEN,
                     "Checks that the registration period is open",
                     "Checks that the registration period is open",
                     null, // issue id
@@ -261,7 +388,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_REGISTRATION_PERIOD_IS_NOT_CLOSED,
+            loadCheck(CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY, CHECK_NAME_REGISTRATION_PERIOD_IS_NOT_CLOSED,
                     "Checks that the registration period is not yet closed",
                     "Checks that the registration period is not yet closed",
                     null, // issue id
@@ -271,7 +398,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_REGISTRATION_HOLDS_CLEARED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_REGISTRATION_HOLDS_CLEARED,
+            loadCheck(CHECK_ID_REGISTRATION_HOLDS_CLEARED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, CHECK_NAME_REGISTRATION_HOLDS_CLEARED,
                     "Checks that the checks in the registration holds process",
                     "Checks that the checks in the registration holds process",
                     null, // issue id
@@ -281,7 +408,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_ACKNOWLEDGEMENTS_CONFIRMED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_ACKNOWLEDGEMENTS_CONFIRMED,
+            loadCheck(CHECK_ID_ACKNOWLEDGEMENTS_CONFIRMED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, CHECK_NAME_ACKNOWLEDGEMENTS_CONFIRMED,
                     "Checks all the acknowledgements have been cleared",
                     "Checks all the acknowledgements have been cleared",
                     null, // issue id
@@ -291,7 +418,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_MAX_TOTAL_CREDITS_ALLOWED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MAXIMUM_VALUE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_MAX_TOTAL_CREDITS_ALLOWED,
+            loadCheck(CHECK_ID_MAX_TOTAL_CREDITS_ALLOWED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MAXIMUM_VALUE_CHECK_TYPE_KEY, CHECK_NAME_MAX_TOTAL_CREDITS_ALLOWED,
                     "cannot have already earned more than 32 credits",
                     "cannot have already earned more than 32 credits",
                     null, // issue id
@@ -301,7 +428,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_INTERNATIONAL_STUDENT_CHECK_IN, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_INTERNATIONAL_STUDENT_CHECK_IN,
+            loadCheck(CHECK_ID_INTERNATIONAL_STUDENT_CHECK_IN, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_INTERNATIONAL_STUDENT_CHECK_IN,
                     "International student needs to check-in when they first arrive",
                     "International student needs to check-in when they first arrive",
                     null, // issue id
@@ -311,7 +438,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_IS_NOT_SUMMER_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_IS_NOT_SUMMER_TERM,
+            loadCheck(CHECK_ID_IS_NOT_SUMMER_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_IS_NOT_SUMMER_TERM,
                     "Checks that this is not the summer term",
                     "Checks that this is not the summer term",
                     null, // issue id
@@ -321,7 +448,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_MANDATORY_ADVISING_CHECK, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_MANDATORY_ADVISING_CHECK,
+            loadCheck(CHECK_ID_MANDATORY_ADVISING_CHECK, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_MANDATORY_ADVISING_CHECK,
                     "Mandatory Advising Check",
                     "Mandatory Advising Check",
                     null, // issue id
@@ -331,7 +458,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_UNRESOLVED_INCOMPLETE_GRADES, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_UNRESOLVED_INCOMPLETE_GRADES,
+            loadCheck(CHECK_ID_UNRESOLVED_INCOMPLETE_GRADES, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_UNRESOLVED_INCOMPLETE_GRADES,
                     "Unresolved Incomplete grades",
                     "Unresolved Incomplete grades",
                     null, // issue id
@@ -341,7 +468,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_ELIGIBILITY_FOR_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_ELIGIBILITY_FOR_TERM,
+            loadCheck(CHECK_ID_ELIGIBILITY_FOR_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, CHECK_NAME_ELIGIBILITY_FOR_TERM,
                     "Checks all the checks that the student is eligible for the term",
                     "Checks all the checks that the student is eligible for the term",
                     null, // issue id
@@ -351,7 +478,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_HAS_THE_NECESSARY_PREREQ, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.INDIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_HAS_THE_NECESSARY_PREREQ,
+            loadCheck(CHECK_ID_HAS_THE_NECESSARY_PREREQ, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.INDIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_HAS_THE_NECESSARY_PREREQ,
                     "Checks that the student has all the necessary pre-requisites to take the course",
                     "Checks that the student has all the necessary pre-requisites to take the course",
                     null, // issue id
@@ -361,7 +488,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.INDIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING,
+            loadCheck(CHECK_ID_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.INDIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING,
                     "Checks that the student passes all the eligibility checks associated with the course offering",
                     "Checks that the student passes all the eligibility checks associated with the course offering",
                     null, // issue id
@@ -371,7 +498,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_NORTH_STUDENTS_MAX_SOUTH_CREDITS, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MINIMUM_VALUE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_NORTH_STUDENTS_MAX_SOUTH_CREDITS,
+            loadCheck(CHECK_ID_NORTH_STUDENTS_MAX_SOUTH_CREDITS, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MINIMUM_VALUE_CHECK_TYPE_KEY, CHECK_NAME_NORTH_STUDENTS_MAX_SOUTH_CREDITS,
                     "North Campus Students can't take South Campus courses until 25 credits",
                     "North Campus Students can't take South Campus courses until 25 credits",
                     null, // issue id
@@ -381,7 +508,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_SOUTH_STUDENTS_MAX_NORTH_CREDITS, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MINIMUM_VALUE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_SOUTH_STUDENTS_MAX_NORTH_CREDITS,
+            loadCheck(CHECK_ID_SOUTH_STUDENTS_MAX_NORTH_CREDITS, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MINIMUM_VALUE_CHECK_TYPE_KEY, CHECK_NAME_SOUTH_STUDENTS_MAX_NORTH_CREDITS,
                     "South Campus Students can't take North Campus courses until 25 credits",
                     "South Campus Students can't take North Campus courses until 25 credits",
                     null, // issue id
@@ -391,7 +518,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE,
+            loadCheck(CHECK_ID_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, CHECK_NAME_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE,
                     "Checks all the checks that make sure the student is eligible for a particular course but does it for all the courses in the proposed set of courses",
                     "Checks all the checks that make sure the student is eligible for a particular course but does it for all the courses in the proposed set of courses",
                     null, // issue id
@@ -401,7 +528,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_DOES_NOT_EXCEED_CREDIT_LIMIT, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MAXIMUM_VALUE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_DOES_NOT_EXCEED_CREDIT_LIMIT,
+            loadCheck(CHECK_ID_DOES_NOT_EXCEED_CREDIT_LIMIT, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MAXIMUM_VALUE_CHECK_TYPE_KEY, CHECK_NAME_DOES_NOT_EXCEED_CREDIT_LIMIT,
                     "Checks that the student has not exceeded her credit limit",
                     "Checks that the student has not exceeded her credit limit",
                     null, // issue id
@@ -411,7 +538,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_DOES_NOT_MEET_CREDIT_MINIMUM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MINIMUM_VALUE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_DOES_NOT_MEET_CREDIT_MINIMUM,
+            loadCheck(CHECK_ID_DOES_NOT_MEET_CREDIT_MINIMUM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MINIMUM_VALUE_CHECK_TYPE_KEY, CHECK_NAME_DOES_NOT_MEET_CREDIT_MINIMUM,
                     "Checks that the student has enough credits to meet the minimum required for her student type",
                     "Checks that the student has enough credits to meet the minimum required for her student type",
                     null, // issue id
@@ -421,7 +548,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_DOES_NOT_HAVE_A_TIME_CONFLICT, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_DOES_NOT_HAVE_A_TIME_CONFLICT,
+            loadCheck(CHECK_ID_DOES_NOT_HAVE_A_TIME_CONFLICT, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_DOES_NOT_HAVE_A_TIME_CONFLICT,
                     "Checks that the set of courses does not have a time conflict between them or that it does not overlap 'too much'",
                     "Checks that the set of courses does not have a time conflict between them or that it does not overlap 'too much'",
                     null, // issue id
@@ -431,7 +558,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MAXIMUM_VALUE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD,
+            loadCheck(CHECK_ID_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.MAXIMUM_VALUE_CHECK_TYPE_KEY, CHECK_NAME_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD,
                     "Checks if the student has registered for too many courses for this particular registration period",
                     "Checks if the student has registered for too many courses for this particular registration period",
                     null, // issue id
@@ -441,7 +568,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES,
+            loadCheck(CHECK_ID_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, CHECK_NAME_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES,
                     "Checks if student is eligible for the courses",
                     "Checks if student is eligible for the courses",
                     null, // issue id
@@ -451,7 +578,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_IS_STUDENTS_REGISTRATION_WINDOW, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_IS_STUDENTS_REGISTRATION_WINDOW,
+            loadCheck(CHECK_ID_IS_STUDENTS_REGISTRATION_WINDOW, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_IS_STUDENTS_REGISTRATION_WINDOW,
                     "Checks if is Student's Registration Window",
                     "Checks if is Student's Registration Window",
                     null, // issue id
@@ -461,7 +588,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL,
+            loadCheck(CHECK_ID_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL,
                     "Checks if course has room for student in a seatpool",
                     "Checks if course has room for student in a seatpool",
                     null, // issue id
@@ -471,7 +598,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE,
+            loadCheck(CHECK_ID_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, CHECK_NAME_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE,
                     "Checks if Grades have been submitted for course",
                     "Checks if Grades have been submitted for course",
                     null, // issue id
@@ -481,7 +608,7 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(ProcessServiceConstants.CHECK_ID_HAS_COMPLETED_COURSE_EVALUATION, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.CHECK_NAME_HAS_COMPLETED_COURSE_EVALUATION,
+            loadCheck(CHECK_ID_HAS_COMPLETED_COURSE_EVALUATION, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_HAS_COMPLETED_COURSE_EVALUATION,
                     "Checks if student has completed course evaluation",
                     "Checks if student has completed course evaluation",
                     null, // issue id
@@ -499,58 +626,58 @@ public class ProcessServiceDataLoader {
                     ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Basic Eligibility",
                     "The process of checking a student's basic eligibility to register for courses",
                     "The process of checking a student's basic eligibility to register for courses",
-                    ProcessServiceConstants.PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
+                    PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, ProcessServiceConstants.PROCESS_TYPE_KEY,
                     ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Eligibility for Term",
                     "The process of checking a student's eligibility to register for a particular term",
                     "The process of checking a student's eligibility to register for a particular ter.",
-                    ProcessServiceConstants.PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
+                    PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, ProcessServiceConstants.PROCESS_TYPE_KEY,
                     ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Holds Cleared",
                     "The process of checking a student's eligibility to register for a particular term",
                     "The process of checking a student's eligibility to register for a particular term",
-                    ProcessServiceConstants.PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
+                    PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, ProcessServiceConstants.PROCESS_TYPE_KEY,
                     ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Eligible for Course",
                     "The process of checking a student's eligibility to register for a particular course",
                     "The process of checking a student's eligibility to register for a particular course",
-                    ProcessServiceConstants.PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
+                    PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, ProcessServiceConstants.PROCESS_TYPE_KEY,
                     ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Eligible for Courses",
                     "The process of checking a student's eligibility and ability to register for a proposed set of courses",
                     "The process of checking a student's eligibility and ability to register for a proposed set of courses",
-                    ProcessServiceConstants.PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
+                    PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED, ProcessServiceConstants.PROCESS_TYPE_KEY,
                     ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Acknowledgements Confirmed",
                     "The process of checking a student's eligibility to register for a particular term",
                     "The process of checking a student's eligibility to register for a particular term",
-                    ProcessServiceConstants.PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
+                    PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_REGISTER_FOR_COURSES, ProcessServiceConstants.PROCESS_TYPE_KEY,
                     ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Register for Courses",
                     "The process of checking a student's eligibility and actually register for a proposed set of courses",
                     "The process of checking a student's eligibility and actually register for a proposed set of courses",
-                    ProcessServiceConstants.PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
+                    PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES, ProcessServiceConstants.PROCESS_TYPE_KEY,
                     ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "View Grades",
                     "The process of checking a student's basic ability to view grades",
                     "The process of checking a student's basic ability to view grades",
-                    ProcessServiceConstants.PROCESS_CATEGORY_ID_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
+                    PROCESS_CATEGORY_ID_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, ProcessServiceConstants.PROCESS_TYPE_KEY,
                     ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "View Grades for Term",
                     "The process of checking a student's basic ability to view grades for a particular term",
                     "The process of checking a student's basic ability to view grades for a particular term",
-                    ProcessServiceConstants.PROCESS_CATEGORY_ID_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
+                    PROCESS_CATEGORY_ID_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_COURSE_GRADE, ProcessServiceConstants.PROCESS_TYPE_KEY,
                     ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "View Course Grade",
                     "The process of checking if a student can actually view a grade in a particular course",
                     "The process of checking if a student can actually view a grade in a particular course",
-                    ProcessServiceConstants.PROCESS_CATEGORY_ID_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
+                    PROCESS_CATEGORY_ID_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
 
             // load instructions
             // -------------------
             if (debugMode) { logger.warn("loading instructions"); }
             loadInstruction("2",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
-                    ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,ProcessServiceConstants.CHECK_ID_IS_ALIVE,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                    ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,CHECK_ID_IS_ALIVE,POPULATION_ID_EVERYONE,
                     "A key piece of data is wrong on your biographic record, please come to the Registrar's office to clear it up",
                     "A key piece of data is wrong on your biographic record, please come to the Registrar's office to clear it up",1,
                     false, // warning
@@ -558,7 +685,7 @@ public class ProcessServiceDataLoader {
                     false, // exemptible
                     null, contextInfo);
             loadInstruction("3",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
-                    ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,ProcessServiceConstants.CHECK_ID_HAS_BEEN_ADMITTED,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                    ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,CHECK_ID_HAS_BEEN_ADMITTED,POPULATION_ID_EVERYONE,
                     "According to our records you have not (yet) been admitted to this school",
                     "According to our records you have not (yet) been admitted to this school", 2,
                     false, // warning
@@ -566,7 +693,7 @@ public class ProcessServiceDataLoader {
                     false, // exemptible
                     null, contextInfo);
             loadInstruction("4",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
-                    ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,ProcessServiceConstants.CHECK_ID_HAS_CONFIRMED_INTEND_TO_ATTEND,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                    ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,CHECK_ID_HAS_CONFIRMED_INTEND_TO_ATTEND,POPULATION_ID_EVERYONE,
                     "According to our records you have never confirmed your intent to attend",
                     "According to our records you have never confirmed your intent to attend",3,
                     false, // warning
@@ -574,7 +701,7 @@ public class ProcessServiceDataLoader {
                     true, // exemptible
                     null, contextInfo);
             loadInstruction("5",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
-                    ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,ProcessServiceConstants.CHECK_ID_HAS_NOT_BEEN_EXPELLED,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                    ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,CHECK_ID_HAS_NOT_BEEN_EXPELLED,POPULATION_ID_EVERYONE,
                     "You are not allowed to continue at this university",
                     "You are not allowed to continue at this university",4,
                     false, // warning
@@ -582,7 +709,7 @@ public class ProcessServiceDataLoader {
                     false, // exemptible
                     null, contextInfo);
             loadInstruction("7",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
-                    ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED,ProcessServiceConstants.CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                    ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED,CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK,POPULATION_ID_EVERYONE,
                     "Please note: you have an overdue library book",
                     "Please note: you have an overdue library book",3,
                     true, // warning
@@ -590,7 +717,7 @@ public class ProcessServiceDataLoader {
                     true, // exemptible
                     null, contextInfo);
             loadInstruction("8",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
-                    ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED,ProcessServiceConstants.CHECK_ID_HAS_UNPAID_LIBRARY_FINE,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                    ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED,CHECK_ID_HAS_UNPAID_LIBRARY_FINE,POPULATION_ID_EVERYONE,
                     "You have an unpaid library fine, please contact the library to resolve the matter",
                     "You have an unpaid library fine, please contact the library to resolve the matter",4,
                     false, // warning
@@ -598,7 +725,7 @@ public class ProcessServiceDataLoader {
                     false, // exemptible
                     null, contextInfo);
             loadInstruction("9",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
-                    ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED,ProcessServiceConstants.CHECK_ID_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                    ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED,CHECK_ID_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM,POPULATION_ID_EVERYONE,
                     "You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter",
                     "You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter",5,
                     false, // warning
@@ -606,7 +733,7 @@ public class ProcessServiceDataLoader {
                     true, // exemptible
                     null, contextInfo);
             loadInstruction("11",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
-                    ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,ProcessServiceConstants.CHECK_ID_HAS_ACKNOWLEDGED_RIAA,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                    ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,CHECK_ID_HAS_ACKNOWLEDGED_RIAA,POPULATION_ID_EVERYONE,
                     "Please acknowledge the RIAA",
                     "Please acknowledge the RIAA",5,
                     false, // warning
@@ -614,7 +741,7 @@ public class ProcessServiceDataLoader {
                     false, // exemptible
                     null, contextInfo);
             loadInstruction("12",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
-                    ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,ProcessServiceConstants.CHECK_ID_HAS_ACKNOWLEDGED_HONOR_CODE,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                    ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,CHECK_ID_HAS_ACKNOWLEDGED_HONOR_CODE,POPULATION_ID_EVERYONE,
                     "Please acknowledge the honour code",
                     "Please acknowledge the honour code",6,
                     false, // warning
@@ -622,7 +749,7 @@ public class ProcessServiceDataLoader {
                     false, // exemptible
                     null, contextInfo);
             loadInstruction("13",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
-                    ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,ProcessServiceConstants.CHECK_ID_HAS_VERIFIED_EMERGENCY_CONTACT_DATA,ProcessServiceConstants.POPULATION_ID_EVERYONE,
+                    ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,CHECK_ID_HAS_VERIFIED_EMERGENCY_CONTACT_DATA,POPULATION_ID_EVERYONE,
                     "Please verify your Emergency Contact info",
                     "Please verify your Emergency Contact info",7,
                     false, // warning
@@ -630,7 +757,7 @@ public class ProcessServiceDataLoader {
                     false, // exemptible
                     null, contextInfo);
             loadInstruction("14",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
-                    ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,ProcessServiceConstants.CHECK_ID_HAS_APPLIED_TO_GRADUATE,ProcessServiceConstants.POPULATION_ID_FINAL_TERM_SENIORS,
+                    ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,CHECK_ID_HAS_APPLIED_TO_GRADUATE,POPULATION_ID_FINAL_TERM_SENIORS,
                     "Since you have sufficient credits, please apply to graduate ",
                     "Since you have sufficient credits, please apply to graduate ",8,
                     false, // warning

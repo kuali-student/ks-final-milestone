@@ -23,6 +23,9 @@ public class ProcessPocConstants {
     public static final String SPRING_2011_TERM_KEY = "kuali.atp.SP2011";    
     public static final String SUMMER_2011_TERM_KEY = "kuali.atp.SU2011";        
     public static final String FALL_2011_TERM_KEY = "kuali.atp.FA2011";
-    public static final String SPRING_2012_TERM_KEY = "kuali.atp.SP2012";       
+    public static final String SPRING_2012_TERM_KEY = "kuali.atp.SP2012";
+
+    public static final String CHECK_ID_REGISTRATION_PERIOD_IS_OPEN = "18";
+    public static final String CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED = "19";
 
 }

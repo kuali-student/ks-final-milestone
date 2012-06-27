@@ -69,7 +69,14 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ProcessCategoryInfo getProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ProcessCategoryInfo getProcessCategory(@WebParam(name = "processCategoryId")
+                                                  String processCategoryId,
+                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of ProcessCategoryes corresponding to the
@@ -88,7 +95,13 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ProcessCategoryInfo> getProcessCategoriesByIds(@WebParam(name = "processCategoryIds") List<String> processCategoryIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ProcessCategoryInfo> getProcessCategoriesByIds(@WebParam(name = "processCategoryIds") List<String> processCategoryIds,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of ProcessCategory Ids of the specified type.
@@ -103,7 +116,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getProcessCategoryIdsByType(@WebParam(name = "processTypeKey") String processTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getProcessCategoryIdsByType(@WebParam(name = "processTypeKey") String processTypeKey,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of ProcessCategories in which the given
@@ -119,7 +137,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ProcessCategoryInfo> getProcessCategoriesForProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ProcessCategoryInfo> getProcessCategoriesForProcess(@WebParam(name = "processKey") String processKey,
+                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for ProcessCategories based on the criteria and
@@ -136,7 +159,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForProcessCategoryIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForProcessCategoryIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for ProcessCategories based on the criteria and
@@ -153,7 +181,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ProcessCategoryInfo> searchForProcessCategories(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ProcessCategoryInfo> searchForProcessCategories(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Validates a ProcessCategory. Depending on the value of
@@ -185,7 +218,15 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateProcessCategory(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "processCategoryTypeKey") String processCategoryTypeKey, @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateProcessCategory(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                              @WebParam(name = "processCategoryTypeKey") String processCategoryTypeKey,
+                                                              @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo,
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Creates a new ProcessCategory.
@@ -206,7 +247,15 @@ public interface ProcessService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public ProcessCategoryInfo createProcessCategory(@WebParam(name = "processCategoryTypeKey") String processCategoryTypeKey, @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public ProcessCategoryInfo createProcessCategory(@WebParam(name = "processCategoryTypeKey") String processCategoryTypeKey,
+                                                     @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException;
 
     /** 
      * Updates an existing ProcessCategory.
@@ -232,7 +281,17 @@ public interface ProcessService {
      * @throws VersionMismatchException The action was attempted on an out 
      *         of date version.
      */
-    public ProcessCategoryInfo updateProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId, @WebParam(name = "processInfo") ProcessCategoryInfo processInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public ProcessCategoryInfo updateProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId,
+                                                     @WebParam(name = "processInfo") ProcessCategoryInfo processInfo,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException,
+                VersionMismatchException;
 
     /** 
      * Deletes an existing ProcessCategory.
@@ -250,7 +309,13 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId,
+                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Adds Process to a ProcessCategory.
@@ -272,7 +337,15 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo addProcessToProcessCategory(@WebParam(name = "processKey") String processKey, @WebParam(name = "processCategoryId") String processCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo addProcessToProcessCategory(@WebParam(name = "processKey") String processKey,
+                                                  @WebParam(name = "processCategoryId") String processCategoryId,
+                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException,
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Removes Process from a ProcessCategory.
@@ -292,7 +365,14 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo removeProcessFromProcessCategory(@WebParam(name = "processKey") String processKey, @WebParam(name = "processCategoryId") String processCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removeProcessFromProcessCategory(@WebParam(name = "processKey") String processKey,
+                                                       @WebParam(name = "processCategoryId") String processCategoryId,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a Process.
@@ -308,7 +388,13 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ProcessInfo getProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ProcessInfo getProcess(@WebParam(name = "processKey") String processKey,
+                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of Processes corresponding to the given list
@@ -325,7 +411,13 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ProcessInfo> getProcessesByKeys(@WebParam(name = "processKeys") List<String> processKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ProcessInfo> getProcessesByKeys(@WebParam(name = "processKeys") List<String> processKeys,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of Process keys of the specified type.
@@ -340,7 +432,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getProcessKeysByType(@WebParam(name = "processTypeKey") String processTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getProcessKeysByType(@WebParam(name = "processTypeKey") String processTypeKey,
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of Processes in which the given
@@ -358,7 +455,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ProcessInfo> getProcessesForProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ProcessInfo> getProcessesForProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId,
+                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for Processs based on the criteria and returns a list
@@ -374,7 +476,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForProcessKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForProcessKeys(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for Processs based on the criteria and returns a list of
@@ -390,7 +497,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ProcessInfo> searchForProcesss(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ProcessInfo> searchForProcesss(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Validates a Process. Depending on the value of validationType,
@@ -423,7 +535,15 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateProcess(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "processTypeKey") String processTypeKey, @WebParam(name = "processInfo") ProcessInfo processInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateProcess(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                      @WebParam(name = "processTypeKey") String processTypeKey,
+                                                      @WebParam(name = "processInfo") ProcessInfo processInfo,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Creates a new Process.
@@ -447,7 +567,17 @@ public interface ProcessService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public ProcessInfo createProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "processTypeKey") String processTypeKey, @WebParam(name = "processInfo") ProcessInfo processInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public ProcessInfo createProcess(@WebParam(name = "processKey") String processKey,
+                                     @WebParam(name = "processTypeKey") String processTypeKey,
+                                     @WebParam(name = "processInfo") ProcessInfo processInfo,
+                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException,
+                DataValidationErrorException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException;
 
     /** 
      * Updates an existing Process.
@@ -472,7 +602,17 @@ public interface ProcessService {
      * @throws VersionMismatchException The action was attempted on an out 
      *         of date version.
      */
-    public ProcessInfo updateProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "processInfo") ProcessInfo processInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public ProcessInfo updateProcess(@WebParam(name = "processKey") String processKey,
+                                     @WebParam(name = "processInfo") ProcessInfo processInfo,
+                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException,
+                VersionMismatchException;
 
     /** 
      * Deletes an existing Process.
@@ -490,7 +630,14 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteProcess(@WebParam(name = "processKey") String processKey,
+                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DependentObjectsExistException,
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a Check.
@@ -508,7 +655,13 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public CheckInfo getCheck(@WebParam(name = "checkId") String checkId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CheckInfo getCheck(@WebParam(name = "checkId") String checkId,
+                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of Checks corresponding to the
@@ -526,7 +679,13 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CheckInfo> getChecksByIds(@WebParam(name = "checkIds") List<String> checkIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<CheckInfo> getChecksByIds(@WebParam(name = "checkIds") List<String> checkIds,
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of Check Ids of the specified type.
@@ -541,7 +700,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getCheckIdsByType(@WebParam(name = "checkTypeKey") String checkTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getCheckIdsByType(@WebParam(name = "checkTypeKey") String checkTypeKey,
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for Checks based on the criteria and returns a list of
@@ -557,7 +721,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForCheckIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForCheckIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for Checks based on the criteria and returns a list of
@@ -573,7 +742,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CheckInfo> searchForChecks(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<CheckInfo> searchForChecks(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Validates a Check. Depending on the value of
@@ -605,7 +779,15 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateCheck(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "checkTypeKey") String checkTypeKey, @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateCheck(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                    @WebParam(name = "checkTypeKey") String checkTypeKey,
+                                                    @WebParam(name = "checkInfo") CheckInfo checkInfo,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Creates a new Check.
@@ -627,7 +809,15 @@ public interface ProcessService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public CheckInfo createCheck(@WebParam(name = "checkTypeKey") String checkTypeKey, @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public CheckInfo createCheck(@WebParam(name = "checkTypeKey") String checkTypeKey,
+                                 @WebParam(name = "checkInfo") CheckInfo checkInfo,
+                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException;
 
     /** 
      * Updates an existing Check.
@@ -653,7 +843,17 @@ public interface ProcessService {
      * @throws VersionMismatchException The action was attempted on an out 
      *         of date version.
      */
-    public CheckInfo updateCheck(@WebParam(name = "checkId") String checkId, @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public CheckInfo updateCheck(@WebParam(name = "checkId") String checkId,
+                                 @WebParam(name = "checkInfo") CheckInfo checkInfo,
+                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException,
+                VersionMismatchException;
 
     /** 
      * Deletes an existing Check.
@@ -672,7 +872,14 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteCheck(@WebParam(name = "checkId") String checkId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteCheck(@WebParam(name = "checkId") String checkId,
+                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DependentObjectsExistException,
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves an Instruction.
@@ -690,7 +897,13 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public InstructionInfo getInstruction(@WebParam(name = "instructionId") String instructionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public InstructionInfo getInstruction(@WebParam(name = "instructionId") String instructionId,
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of Instructions corresponding to the
@@ -709,7 +922,13 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<InstructionInfo> getInstructionsByIds(@WebParam(name = "instructionIds") List<String> instructionIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<InstructionInfo> getInstructionsByIds(@WebParam(name = "instructionIds") List<String> instructionIds,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of Instruction Ids of the specified type.
@@ -726,7 +945,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getInstructionIdsByType(@WebParam(name = "instructionTypeKey") String instructionTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getInstructionIdsByType(@WebParam(name = "instructionTypeKey") String instructionTypeKey,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of all Instructions relating to the given
@@ -745,7 +969,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<InstructionInfo> getInstructionsByProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<InstructionInfo> getInstructionsByProcess(@WebParam(name = "processKey") String processKey,
+                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of Instructions relating to the given
@@ -762,7 +991,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<InstructionInfo> getInstructionsByCheck(@WebParam(name = "checkId") String checkId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<InstructionInfo> getInstructionsByCheck(@WebParam(name = "checkId") String checkId,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of Instructions relating to the given
@@ -780,7 +1014,14 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occuured
      */
-    public List<InstructionInfo> getInstructionsByProcessAndCheck(@WebParam(name = "processKey") String processKey, @WebParam(name = "checkId") String checkId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<InstructionInfo> getInstructionsByProcessAndCheck(@WebParam(name = "processKey") String processKey,
+                                                                  @WebParam(name = "checkId") String checkId,
+                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for Instructions based on the criteria and returns a list of
@@ -796,7 +1037,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForInstructionIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForInstructionIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for Instructions based on the criteria and returns a list of
@@ -812,7 +1058,12 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<InstructionInfo> searchForInstructions(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<InstructionInfo> searchForInstructions(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Validates an Instruction. Depending on the value of
@@ -849,7 +1100,17 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occured
      */
-    public List<ValidationResultInfo> validateInstruction(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "processKey") String processKey, @WebParam(name = "checkId") String checkId, @WebParam(name = "instructionTypeKey") String instructionTypeKey, @WebParam(name = "instructionInfo") InstructionInfo instructionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateInstruction(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                          @WebParam(name = "processKey") String processKey,
+                                                          @WebParam(name = "checkId") String checkId,
+                                                          @WebParam(name = "instructionTypeKey") String instructionTypeKey,
+                                                          @WebParam(name = "instructionInfo") InstructionInfo instructionInfo,
+                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Creates a new Instruction.
@@ -873,7 +1134,17 @@ public interface ProcessService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public InstructionInfo createInstruction(@WebParam(name = "processKey") String processKey, @WebParam(name = "checkId") String checkId, @WebParam(name = "instructionTypeKey") String instructionTypeKey, @WebParam(name = "instructionInfo") InstructionInfo instructionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public InstructionInfo createInstruction(@WebParam(name = "processKey") String processKey,
+                                             @WebParam(name = "checkId") String checkId,
+                                             @WebParam(name = "instructionTypeKey") String instructionTypeKey,
+                                             @WebParam(name = "instructionInfo") InstructionInfo instructionInfo,
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException;
 
     /** 
      * Updates an existing Instruction.
@@ -899,7 +1170,17 @@ public interface ProcessService {
      * @throws VersionMismatchException The action was attempted on an out 
      *         of date version.
      */
-    public InstructionInfo updateInstruction(@WebParam(name = "instructionId") String instructionId, @WebParam(name = "instructionInfo") InstructionInfo instructionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public InstructionInfo updateInstruction(@WebParam(name = "instructionId") String instructionId,
+                                             @WebParam(name = "instructionInfo") InstructionInfo instructionInfo,
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException,
+                VersionMismatchException;
 
     /** 
      * Deletes an existing Instruction.
@@ -917,7 +1198,13 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteInstruction(@WebParam(name = "instructionId") String instructionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteInstruction(@WebParam(name = "instructionId") String instructionId,
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /** 
      * Retrieves a list of all Instructions ready to be
@@ -939,5 +1226,10 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<InstructionInfo> getInstructionsForEvaluation(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<InstructionInfo> getInstructionsForEvaluation(@WebParam(name = "processKey") String processKey,
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 }
