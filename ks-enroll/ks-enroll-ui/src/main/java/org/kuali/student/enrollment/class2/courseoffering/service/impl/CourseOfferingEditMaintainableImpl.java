@@ -117,10 +117,10 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 else{
                     //create a new FO
                     formatOfferingInfo.setStateKey("kuali.lui.format.offering.state.planned");
-                    formatOfferingInfo.setFormatId(formatOfferingInfo.getTypeKey());
+//                    formatOfferingInfo.setFormatId(formatOfferingInfo.getTypeKey());
+                    formatOfferingInfo.setTypeKey("kuali.lui.type.course.format.offering");
                     formatOfferingInfo.setTermId(coInfo.getTermId());
                     formatOfferingInfo.setCourseOfferingId(coInfo.getId());
-                    formatOfferingInfo.setTypeKey("kuali.lui.type.course.format.offering");
                     FormatOfferingInfo createdFormatOffering = getCourseOfferingService().
                             createFormatOffering(coInfo.getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, getContextInfo());
                     updatedFormatOfferingList.add(createdFormatOffering);
