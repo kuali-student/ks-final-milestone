@@ -73,7 +73,7 @@
                                             <bean parent="Uif-HorizontalBoxSubSection">
                                                 <property name="items">
                                                     <list>
-                                                        <bean parent="Uif-GridSubSection" p:width="10cm">
+                                                        <bean parent="Uif-GridSubSection" p:layoutManager.applyDefaultCellWidths="false">
                                                             <property name="items">
                                                                 <list>
                                                                     <bean parent="Uif-DataField" p:label="Source Term"
