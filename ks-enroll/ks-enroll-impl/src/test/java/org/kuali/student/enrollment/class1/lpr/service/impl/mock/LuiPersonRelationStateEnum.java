@@ -28,7 +28,7 @@ import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 
-import org.kuali.student.r2.core.state.infc.State;
+import org.kuali.student.r2.common.state.infc.State;
 
 /**
  * States for Learning Person Relations
