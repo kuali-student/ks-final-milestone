@@ -35,6 +35,32 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+      <repository>
+      <!-- This fixes build by bypassing broken Archiva -->
+      <id>swe.release.afs</id>
+      <name>SWE Release AFS</name>
+      <url>file:///dept/oit/src/repository/archiva/swe-release</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <!-- This fixes build by bypassing UMD broken Archiva -->
+    <!--  Do not commit this to /trunk -->
+    <repository>
+      <id>swe.snapshot.afs</id>
+      <name>SWE Snapshot AFS</name>
+      <url>file:///dept/oit/src/repository/archiva/swe-snapshot</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    
   </repositories>
  
  <!--  Remove this if giving this code back to KS.  Used so we can locally build from branch -->
