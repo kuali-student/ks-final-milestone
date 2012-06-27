@@ -56,7 +56,7 @@ public class CourseOfferingInfoInquirableImpl extends InquirableImpl {
             CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coInfoId, getContextInfo());
             CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
             List<FormatOfferingInfo> formats = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfoId, getContextInfo());
-            formObject.setFormatOfferingList(formats);
+//            formObject.setFormatOfferingList(formats);
             formObject.setCoInfo(coInfo);
 
             //Display grading options
