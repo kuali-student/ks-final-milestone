@@ -18,8 +18,9 @@ public class SocRolloverResultAttributeEntity extends BaseAttributeEntity<SocRol
 
     public SocRolloverResultAttributeEntity() {}
 
-    public SocRolloverResultAttributeEntity(String key, String value) {
+    public SocRolloverResultAttributeEntity(String key, String value, SocRolloverResultEntity owner) {
         super(key, value);
+        setOwner(owner);
     }
 
     public SocRolloverResultAttributeEntity(Attribute att, SocRolloverResultEntity owner) {

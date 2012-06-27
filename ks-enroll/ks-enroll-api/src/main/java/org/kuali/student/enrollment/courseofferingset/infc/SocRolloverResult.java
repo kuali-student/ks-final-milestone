@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.courseofferingset.infc;
 
+import java.util.Date;
 import java.util.List;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
@@ -140,4 +141,14 @@ public interface SocRolloverResult
      * @impl set during the #rolloverSoc operation
      */
     public String getSourceTermId();
+
+    /**
+     * Get date that the rollover started on.  Date includes hours/minutes/seconds.
+     */
+    public Date getDateInitiated();
+
+    /**
+     * Get the date that the rollover completed.  Date includes hours/minutes/seconds.
+     */
+    public Date getDateCompleted();
 }

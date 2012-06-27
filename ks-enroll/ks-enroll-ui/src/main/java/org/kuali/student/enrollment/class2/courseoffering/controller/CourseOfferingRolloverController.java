@@ -296,6 +296,23 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         }
     }
 
+    private String _computeRolloverDuration(Date dateInitiated, Date dateCompleted) {
+        long diffInMillis = dateCompleted.getTime() - dateInitiated.getTime();
+        long diffInSeconds = diffInMillis / 1000;
+        int minutes = (int)(diffInSeconds / 60);
+        int seconds = (int)(diffInSeconds % 60);
+        int hours = minutes / 60;
+        minutes = minutes % 60;
+        String result = seconds + "s";
+        if (minutes > 0 || hours > 0) {
+            result = minutes + "m " + result;
+        }
+        if (hours > 0) {
+            result = hours + "h " + result;
+        }
+        return result;
+    }
+
     // This method displays rollover result Infos for specific target term.
     @RequestMapping(params = "methodToCall=showRolloverResults")
     public ModelAndView showRolloverResults(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
@@ -340,7 +357,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                     String friendlyTargetTermDesc = helper.getTermDesc(targetTermId);
                     form.setRolloverTargetTermDesc(friendlyTargetTermDesc);
                 }
-                Date dateInitiated = socRolloverResultInfo.getMeta().getCreateTime();
+                Date dateInitiated = socRolloverResultInfo.getDateInitiated();
                 String startDateStr = helper.formatDateAndTime(dateInitiated);
                 form.setDateInitiated(startDateStr);
                 // if items skipped is null, then below condition passes and items skipped is calculated
@@ -348,11 +365,17 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                     Integer temp = socRolloverResultInfo.getItemsExpected() - socRolloverResultInfo.getItemsProcessed();
                     form.setCourseOfferingsAllowed(socRolloverResultInfo.getItemsProcessed() + " transitioned with " + temp + " exceptions");
                 } else {
-                    form.setCourseOfferingsAllowed(socRolloverResultInfo.getItemsProcessed() + "transitioned with " + socRolloverResultInfo.getCourseOfferingsSkipped() + " exceptions");
+                    // This is the official way to compute this
+                    form.setCourseOfferingsAllowed(socRolloverResultInfo.getCourseOfferingsCreated() + " transitioned with " +
+                            socRolloverResultInfo.getCourseOfferingsSkipped() + " exceptions");
                 }
-                Date dateCompleted = socRolloverResultInfo.getMeta().getUpdateTime();
+                form.setActivityOfferingsAllowed(socRolloverResultInfo.getActivityOfferingsCreated() + " transitioned with " +
+                        socRolloverResultInfo.getActivityOfferingsSkipped() + " exceptions");
+                Date dateCompleted = socRolloverResultInfo.getDateCompleted();
                 String updatedDateStr = helper.formatDateAndTime(dateCompleted);
                 form.setDateCompleted(updatedDateStr);
+                String rolloverDuration = _computeRolloverDuration(dateInitiated, dateCompleted);
+                form.setRolloverDuration(rolloverDuration);
                 // CourseOfferingSet service to get Soc Rollover ResultItems by socResultItemInfo id
                 try {
                     List<SocRolloverResultItemInfo> socRolloverResultItemInfos =

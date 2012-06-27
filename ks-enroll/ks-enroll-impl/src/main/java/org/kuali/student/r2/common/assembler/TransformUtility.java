@@ -6,6 +6,8 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.HasAttributes;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -85,5 +87,41 @@ public class TransformUtility {
        }
 
         return attributes;
+    }
+    // Pick a format that is human readable.  Year-month-day is kinda neutral way to represent a date
+    // so that it isn't the US month-day-year, nor other places day-month-year.  The advantage of using this over
+    // a more agnostic UTC representation (i.e., milliseconds since Jan 1, 1970) is that
+    // Used in the two methods below for SimpleDateFormat
+    public static final String DYNAMIC_ATTRIBUTE_DATE_FORMAT = "yyyy MMM d HH:mm:ss zzz";
+
+    /**
+     * dateTime refers to a date where hours/minutes/seconds are important in addition to the month day year
+     * This is used to convert to and from a dynamic attribute which requires a string format.
+     * @param date A date object to convert
+     * @return The string version to save it as a dynamic attribute
+     */
+    public static String dateTimeToDynamicAttributeString(Date date) {
+        if (date == null) {
+            return null;
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat(DYNAMIC_ATTRIBUTE_DATE_FORMAT);
+        String formattedDate = formatter.format(date);
+        return formattedDate;
+    }
+
+    /**
+     * Takes a dynamic attribute representing
+     * @param formattedDateStr
+     * @return
+     * @throws ParseException
+     */
+    public static Date dynamicAttributeStringToDateTime(String formattedDateStr) throws ParseException {
+        if (formattedDateStr == null) {
+            return null;
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat(DYNAMIC_ATTRIBUTE_DATE_FORMAT);
+        Date date = formatter.parse(formattedDateStr);
+        return date;
     }
 }

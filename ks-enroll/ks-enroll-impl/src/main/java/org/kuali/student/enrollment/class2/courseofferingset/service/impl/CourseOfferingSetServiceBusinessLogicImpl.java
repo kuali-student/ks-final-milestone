@@ -5,6 +5,7 @@
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -160,6 +161,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         result.setTargetTermId(targetTermId);
         result.setOptionKeys(optionKeys);
         result.setTargetSocId(targetSoc.getId());
+        result.setDateInitiated(new Date());
         try {
             result = this._getSocService().createSocRolloverResult(result.getTypeKey(), result, context);
         } catch (DataValidationErrorException ex) {

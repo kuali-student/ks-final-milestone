@@ -18,6 +18,10 @@ package org.kuali.student.r2.common.util.constants;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Course Offering Service Constants
  * @see LuiServiceConstants
@@ -76,7 +80,24 @@ public class CourseOfferingSetServiceConstants {
     public static final String LOG_FREQUENCY_OPTION_KEY_PREFIX = "kuali.rollover.processing.log.frequency.";
     public static final String HALT_ERRORS_MAX_OPTION_KEY_PREFIX = "kuali.rollover.processing.halt.error.max.";
     public static final String RUN_SYNCHRONOUSLY_OPTION_KEY = "kuali.rollover.processing.run.synchronously";
-    
+    // dynamic attributes for rollover info
+    public static final String CO_CREATED_RESULT_DYNATTR_KEY = "kuali.soc.rollover.result.dynattr.course.offerings.created";
+    public static final String CO_SKIPPED_RESULT_DYNATTR_KEY = "kuali.soc.rollover.result.dynattr.course.offerings.skipped";
+    public static final String AO_CREATED_RESULT_DYNATTR_KEY = "kuali.soc.rollover.result.dynattr.activity.offerings.created";
+    public static final String AO_SKIPPED_RESULT_DYNATTR_KEY = "kuali.soc.rollover.result.dynattr.activity.offerings.skipped";
+    public static final String DATE_INITIATED_RESULT_DYNATTR_KEY = "kuali.soc.rollover.result.dynattr.date.initiated";
+    public static final String DATE_COMPLETED_RESULT_DYNATTR_KEY = "kuali.soc.rollover.result.dynattr.date.completed";
+    public static final Set<String> ALL_RESULT_DYNATTR_KEYS;
+    static { // Store all the dynamic attribute keys in a set...makes lookup easier
+        ALL_RESULT_DYNATTR_KEYS = new HashSet<String>();
+        ALL_RESULT_DYNATTR_KEYS.add(CO_CREATED_RESULT_DYNATTR_KEY);
+        ALL_RESULT_DYNATTR_KEYS.add(CO_SKIPPED_RESULT_DYNATTR_KEY);
+        ALL_RESULT_DYNATTR_KEYS.add(AO_CREATED_RESULT_DYNATTR_KEY);
+        ALL_RESULT_DYNATTR_KEYS.add(AO_SKIPPED_RESULT_DYNATTR_KEY);
+        ALL_RESULT_DYNATTR_KEYS.add(DATE_INITIATED_RESULT_DYNATTR_KEY);
+        ALL_RESULT_DYNATTR_KEYS.add(DATE_COMPLETED_RESULT_DYNATTR_KEY);
+    }
+
     // general processing
     public static final String REVERSE_JUST_CREATES_OPTION_KEY = "kuali.reverse.rollover.just.creates";
     // canonical to course offering options

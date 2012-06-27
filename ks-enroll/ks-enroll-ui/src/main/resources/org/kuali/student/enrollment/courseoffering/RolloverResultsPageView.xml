@@ -85,6 +85,9 @@
                                                                     <bean parent="Uif-DataField" p:label="Date Completed"
                                                                           p:fieldLabel.renderColon="false"
                                                                           p:propertyName="dateCompleted"/>
+                                                                    <bean parent="Uif-DataField" p:label="Rollover Duration"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="rolloverDuration"/>
                                                                     <bean parent="Uif-DataField" p:label="Course Offerings"
                                                                           p:fieldLabel.renderColon="false"
                                                                           p:propertyName="courseOfferingsAllowed"/>

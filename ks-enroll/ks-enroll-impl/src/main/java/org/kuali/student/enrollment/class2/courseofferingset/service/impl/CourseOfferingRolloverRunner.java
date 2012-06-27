@@ -6,6 +6,7 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.apache.log4j.Logger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -128,6 +129,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
             try {
                 this.result = socService.getSocRolloverResult(result.getId(), context);
                 this.result.setStateKey(CourseOfferingSetServiceConstants.ABORTED_RESULT_STATE_KEY);
+                this.result.setDateCompleted(new Date());
                 this.result.setMessage(new RichTextHelper().fromPlain("Got an unexpected exception running rolloever:\n" +
                         ex.toString()));
                 this.socService.updateSocRolloverResult(result.getId(), result, context);
@@ -162,35 +164,39 @@ public class CourseOfferingRolloverRunner implements Runnable {
         this.socService.updateSocRolloverResult(result.getId(), result, context);
 
         // Start processing
-        int i = 0;
+        int sourceCoIdsHandled = 0;
         int errors = 0;
         List<SocRolloverResultItemInfo> items = new ArrayList<SocRolloverResultItemInfo>();
         for (String sourceCoId : sourceCoIds) {
-            logger.info("Processing" + sourceCoId);
-            System.out.println("processing " + sourceCoId);
+            logger.info("Processing: " + sourceCoId);
+            System.out.println("processing: " + sourceCoId);
             try {
                 SocRolloverResultItemInfo item = rolloverOneCourseOfferingReturningItem(sourceCoId);
                 items.add(item);
-                reportProgressIfModulo(items, i);
+                reportProgressIfModulo(items, sourceCoIdsHandled);
                 if (!item.getStateKey().equals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY)) {
                     errors++;
                     if (this.haltErrorsMax != -1) {
                         if (errors > this.haltErrorsMax) {
                             throw new OperationFailedException("Too many errors, exceeded the halt threshold: " + errors +
-                                    " out of " + i + " course offerings rolled over");
+                                    " out of " + sourceCoIdsHandled + " course offerings rolled over");
                         }
                     }
                 }
             } catch (Exception ex) {
                 // log some conetxt for the exception
-                logger.fatal("failed while processing the " + i + "th course offering " + sourceCoId, ex);
+                logger.fatal("failed while processing the " + sourceCoIdsHandled + "th course offering " + sourceCoId, ex);
                 throw ex;
             }
-            i++;
+            sourceCoIdsHandled++;
         }
-        reportProgress(items, i-errors);      // Items Processed = Items - Errors
+        
+        reportProgress(items, sourceCoIdsHandled - errors);      // Items Processed = Items - Errors
         // mark finished
         result = socService.getSocRolloverResult(result.getId(), context);
+        result.setDateCompleted(new Date());
+        result.setCourseOfferingsCreated(sourceCoIdsHandled - errors);
+        result.setCourseOfferingsSkipped(errors);
         result.setStateKey(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY);
         this.socService.updateSocRolloverResult(result.getId(), result, context);
     }

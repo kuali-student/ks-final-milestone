@@ -50,6 +50,7 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private String rolloverTargetTermDesc;
     private String dateInitiated;
     private String dateCompleted;
+    private String rolloverDuration; // Printed in hours, minutes, seconds
     private String courseOfferingsAllowed;
     private String activityOfferingsAllowed;
     private List<SocRolloverResultItemWrapper> socRolloverResultItems;
@@ -79,6 +80,7 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         rolloverTargetTermDesc = "";
         dateInitiated = "";
         dateCompleted = "";
+        rolloverDuration = "";
         socRolloverResultItems = new ArrayList<SocRolloverResultItemWrapper>();
         // release to depts fields
         releaseToDeptsDisabled = false;
@@ -183,6 +185,14 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         this.dateInitiated = dateInitiated;
     }
 
+    public String getRolloverDuration() {
+        return rolloverDuration;
+    }
+
+    public void setRolloverDuration(String rolloverDuration) {
+        this.rolloverDuration = rolloverDuration;
+    }
+
     public String getRolloverTargetTermCode() {
         return rolloverTargetTermCode;
     }
@@ -211,8 +221,8 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         return activityOfferingsAllowed;
     }
 
-    public void setActivityOfferingsNotAllowed(String activityOfferingsNotAllowed) {
-        this.activityOfferingsAllowed = activityOfferingsNotAllowed;
+    public void setActivityOfferingsAllowed(String activityOfferingsAllowed) {
+        this.activityOfferingsAllowed = activityOfferingsAllowed;
     }
     
     public List<SocRolloverResultItemWrapper> getSocRolloverResultItems(){
