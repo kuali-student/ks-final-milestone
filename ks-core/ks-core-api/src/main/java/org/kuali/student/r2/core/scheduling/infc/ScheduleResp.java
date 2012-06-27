@@ -23,16 +23,16 @@ import org.kuali.student.r2.common.infc.IdNamelessEntity;
  *
  * @author tom
  * @since Thu Nov 3 14:22:34 EDT 2011
- */ 
+ */
 
-public interface ScheduleResponse extends IdNamelessEntity {
+public interface ScheduleResp extends IdNamelessEntity {
 
     /**
      *  Batch response identifier
      *
-     *  @name Batch Response Id
+     *  @name Batch Resp Id
      */
-    public String getBatchResponseId();
+    public String getBatchRespId();
 
     /**
      * The Schedule Request Id.

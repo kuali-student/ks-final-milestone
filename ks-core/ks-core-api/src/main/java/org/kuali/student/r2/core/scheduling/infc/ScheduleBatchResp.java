@@ -24,11 +24,11 @@ import java.util.Date;
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public interface ScheduleBatchResponse extends IdNamelessEntity{
+public interface ScheduleBatchResp extends IdNamelessEntity{
 
     /**
      * Date when the batch was submitted
-     * 
+     *
      * @name Submitted Date
      * @required
      */
@@ -43,7 +43,7 @@ public interface ScheduleBatchResponse extends IdNamelessEntity{
 
     /**
      * Overall status of the scheduling transaction
-     * 
+     *
      * @name Status
      */
     public Status getFinalStatus();
