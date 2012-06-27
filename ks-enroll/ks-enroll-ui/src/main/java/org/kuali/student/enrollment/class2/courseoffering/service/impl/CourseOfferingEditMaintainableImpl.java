@@ -21,11 +21,8 @@ import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -69,8 +66,95 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
 
     @Override
     public void saveDataObject() {
+        if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
+            CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)getDataObject(); 
+            updateCourseOffering(coEditWrapper);
+        }
+        else{//for new and copy action, report error
+             System.out.println(">>>Do not support!");
+        }        
+ 
+    }
+
+    private void updateCourseOffering(CourseOfferingEditWrapper coEditWrapper){
+        try{
+            // persist format offerings
+            updateFormatOfferings(coEditWrapper);
+
+            //persist unitDeploymentOrgIds
+            List<String> unitDeploymentOrgIds = new ArrayList<String>();
+            for(OrganizationInfoWrapper orgWrapper : coEditWrapper.getOrganizationNames()){
+                unitDeploymentOrgIds.add(orgWrapper.getId());
+            }
+
+            CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
+            coInfo.setUnitsDeploymentOrgIds(unitDeploymentOrgIds);
+            coInfo.setStudentRegistrationOptionIds(coEditWrapper.getStudentRegOptions());
+
+            getCourseOfferingService().updateCourseOffering(coInfo.getId(),coInfo,getContextInfo());
+        }   catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+
+    }
+
+    private void updateFormatOfferings(CourseOfferingEditWrapper coEditWrapper) throws Exception{
+        List<FormatOfferingInfo> updatedFormatOfferingList = new ArrayList<FormatOfferingInfo>();
+        List<FormatOfferingInfo> formatOfferingList = coEditWrapper.getFormatOfferingList();
+        CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
+        List <String> currentFOIds = getExistingFormatOfferingIds(coInfo.getId());
+        if (formatOfferingList != null && !formatOfferingList.isEmpty())  {
+            for(FormatOfferingInfo formatOfferingInfo : formatOfferingList){
+                if(formatOfferingInfo.getId()!=null &&
+                        !formatOfferingInfo.getId().isEmpty() &&
+                        currentFOIds.contains(formatOfferingInfo.getId())) {
+                    //update FO
+                    FormatOfferingInfo updatedFormatOffering = getCourseOfferingService().
+                            updateFormatOffering(formatOfferingInfo.getId(),formatOfferingInfo, getContextInfo());
+                    updatedFormatOfferingList.add(updatedFormatOffering);
+                    currentFOIds.remove(formatOfferingInfo.getId());
+                }
+                else{
+                    //create a new FO
+                    formatOfferingInfo.setStateKey("kuali.lui.format.offering.state.planned");
+                    formatOfferingInfo.setFormatId(formatOfferingInfo.getTypeKey());
+                    formatOfferingInfo.setTermId(coInfo.getTermId());
+                    formatOfferingInfo.setCourseOfferingId(coInfo.getId());
+                    formatOfferingInfo.setTypeKey("kuali.lui.type.course.format.offering");
+                    FormatOfferingInfo createdFormatOffering = getCourseOfferingService().
+                            createFormatOffering(coInfo.getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, getContextInfo());
+                    updatedFormatOfferingList.add(createdFormatOffering);
+                }
+            }
+            coEditWrapper.setFormatOfferingList(updatedFormatOfferingList);
+
+        }
+        //delete FormatOfferings that have been removed by the user
+        if (currentFOIds != null && currentFOIds.size() > 0){
+            for(String formatOfferingId: currentFOIds){
+                //delete all AOs associated with this FO, then delete FO
+                //Note by bonnie deleteAO invoked in deleteFormatOfferingCascaded seems not completely correct.
+                //I didn't see the code if removing FO-AO relations before deleting AOs....
+                getCourseOfferingService().deleteFormatOfferingCascaded(formatOfferingId, getContextInfo());
+            }
+        }
+    }
+
+    private List<String> getExistingFormatOfferingIds(String courseOfferingId) throws Exception{
+        List<FormatOfferingInfo> formatOfferingInfoList = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, getContextInfo());
+        List<String> formatOfferingIds = new ArrayList<String>();
+
+        if(formatOfferingInfoList != null && !formatOfferingInfoList.isEmpty()){
+            for(FormatOfferingInfo formatOfferingInfo : formatOfferingInfoList){
+                formatOfferingIds.add(formatOfferingInfo.getId());
+            }
+        }
+        return formatOfferingIds;
+    }
+
+/*    public void saveDataObject() {
         if(getDataObject() instanceof CourseOfferingEditWrapper)        {
-               persistEditCourseOffering();
+            persistEditCourseOffering();
         }
         else if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
@@ -133,7 +217,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
         }
 
     }
-
+/*
     /**
      * For this method we need to get the old Format offerings and the new format offerings and compare the two.
      * This is because format offerings are a separate service call outside the CourseOffering. The service calls
@@ -141,7 +225,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
      * calls.
      * @throws Exception
      */
-    protected void persistFormatOfferings() throws Exception{
+/*    protected void persistFormatOfferings() throws Exception{
         //TODO: We need more information on the new course offerings for them to properly submit through the service.
         CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)getDataObject();
         CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
@@ -174,6 +258,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             }
         }
     }
+*/
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -181,7 +266,8 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             if (getDataObject() instanceof CourseOfferingEditWrapper){
                 CourseOfferingInfo info = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
                 CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(info);
-                List<FormatOfferingInfo> formats = getCourseOfferingService().getFormatOfferingsByCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
+                List<FormatOfferingInfo> formats = getCourseOfferingService().getFormatOfferingsByCourseOffering(info.getId(), getContextInfo());
+                System.out.println(">>> find "+formats.size()+" format(s):");
                 formObject.setFormatOfferingList(formats);
 
                 String courseId = info.getCourseId();
@@ -294,7 +380,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
         return null;
     }
 
-    @Override
+/*    @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
         if (getDataObject() instanceof ActivityOfferingWrapper){
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)document.getNewMaintainableObject().getDataObject();
@@ -307,6 +393,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             }
         }
     }
+*/
 
     public ContextInfo getContextInfo() {
         if (null == contextInfo) {

@@ -320,7 +320,7 @@
         <property name="items">
             <list>
 
-                <bean id="KS-CourseOfferingEditFormatOfferingSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false">
+                <bean id="KS-CourseOfferingEdit-FormatOfferingSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false">
                     <property name="headerText" value="" />
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
                     <property name="propertyName" value="formatOfferingList" />
@@ -355,6 +355,7 @@
             </list>
         </property>
     </bean>
+
     <bean id="KS-CourseOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlists">
         <property name="items">
             <list>
