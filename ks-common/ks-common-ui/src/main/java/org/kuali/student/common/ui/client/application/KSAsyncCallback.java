@@ -47,14 +47,14 @@ public abstract class KSAsyncCallback<T> implements AsyncCallback<T>{
 	 */
 	public void onFailure(Throwable caught) {  
 	    // Allow implementing institution to override the entire method using its own
-	    // implementation.  Default implementation returns false, which causes the application
-	    // to use its own error handling
+	    // implementation.  Default implementation returns true, which causes the existing
+	    // code below to be processed
 	    boolean ksShouldHandleException = asyncCallbackFailureHandler.handleFailure(caught);
 	    
 	    
 	    if (ksShouldHandleException){
 	        // The old processing code is in here
-	        // This should be removed at some point 
+	        // This could possibly be removed at some point 
 	        if (sessionTimeoutHandler.isSessionTimeout(caught)){
 	             handleTimeout(caught);
 	             sessionTimeoutHandler.handleSessionTimeout();
