@@ -21,13 +21,17 @@ import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
@@ -99,19 +103,21 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
     }
 
     private void updateFormatOfferings(CourseOfferingEditWrapper coEditWrapper) throws Exception{
-        List<FormatOfferingInfo> updatedFormatOfferingList = new ArrayList<FormatOfferingInfo>();
-        List<FormatOfferingInfo> formatOfferingList = coEditWrapper.getFormatOfferingList();
+        List<FormatOfferingWrapper> updatedFormatOfferingWrapperList = new ArrayList<FormatOfferingWrapper>();
+        List<FormatOfferingWrapper> formatOfferingWrapperList = coEditWrapper.getFormatOfferingWrapperList();
         CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
         List <String> currentFOIds = getExistingFormatOfferingIds(coInfo.getId());
-        if (formatOfferingList != null && !formatOfferingList.isEmpty())  {
-            for(FormatOfferingInfo formatOfferingInfo : formatOfferingList){
+        if (formatOfferingWrapperList != null && !formatOfferingWrapperList.isEmpty())  {
+            for(FormatOfferingWrapper formatOfferingWrapper : formatOfferingWrapperList){
+                FormatOfferingInfo formatOfferingInfo = formatOfferingWrapper.getFormatOfferingInfo(); 
                 if(formatOfferingInfo.getId()!=null &&
                         !formatOfferingInfo.getId().isEmpty() &&
                         currentFOIds.contains(formatOfferingInfo.getId())) {
                     //update FO
                     FormatOfferingInfo updatedFormatOffering = getCourseOfferingService().
                             updateFormatOffering(formatOfferingInfo.getId(),formatOfferingInfo, getContextInfo());
-                    updatedFormatOfferingList.add(updatedFormatOffering);
+                    formatOfferingWrapper.setFormatOfferingInfo(updatedFormatOffering);
+                    updatedFormatOfferingWrapperList.add(formatOfferingWrapper);
                     currentFOIds.remove(formatOfferingInfo.getId());
                 }
                 else{
@@ -123,10 +129,11 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                     formatOfferingInfo.setCourseOfferingId(coInfo.getId());
                     FormatOfferingInfo createdFormatOffering = getCourseOfferingService().
                             createFormatOffering(coInfo.getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, getContextInfo());
-                    updatedFormatOfferingList.add(createdFormatOffering);
+                    formatOfferingWrapper.setFormatOfferingInfo(createdFormatOffering);
+                    updatedFormatOfferingWrapperList.add(formatOfferingWrapper);
                 }
             }
-            coEditWrapper.setFormatOfferingList(updatedFormatOfferingList);
+            coEditWrapper.setFormatOfferingWrapperList(updatedFormatOfferingWrapperList);
 
         }
         //delete FormatOfferings that have been removed by the user
@@ -152,130 +159,44 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
         return formatOfferingIds;
     }
 
-/*    public void saveDataObject() {
-        if(getDataObject() instanceof CourseOfferingEditWrapper)        {
-            persistEditCourseOffering();
-        }
-        else if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
-                getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
-            try {
-                if (getDataObject() instanceof CourseOfferingCreateWrapper){
-                    CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)getDataObject();
-                    CourseOfferingInfo courseOffering = new CourseOfferingInfo();
-                    CourseInfo courseInfo = wrapper.getCourse();
-                    courseOffering.setTermId(wrapper.getTerm().getId());
-                    courseOffering.setCourseOfferingTitle(courseInfo.getCourseTitle());
-//                    courseOffering.setCreditOptionId();
-                    courseOffering.setCourseNumberSuffix(wrapper.getCourseCodeSuffix());
-                    courseOffering.setCourseId(courseInfo.getId());
-                    courseOffering.setCourseCode(courseInfo.getCode());
-                    courseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-                    courseOffering.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
-                    CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(courseInfo.getId(),wrapper.getTerm().getId(),LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,courseOffering,new ArrayList<String>(),getContextInfo());
-                    wrapper.setCoInfo(info);
-                    //FIXEM:create formatoffering relation
-                }else {
-                    ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
-                    ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().createActivityOffering(activityOfferingWrapper.getAoInfo().getFormatOfferingId(), activityOfferingWrapper.getAoInfo().getActivityId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, activityOfferingWrapper.getAoInfo(),getContextInfo());
-                    setDataObject(new ActivityOfferingWrapper(activityOfferingInfo));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
-        else {   //should be edit action
-            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
-            try {
-                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        if (addLine instanceof FormatOfferingWrapper){
+            FormatOfferingWrapper newLine = (FormatOfferingWrapper)addLine;
+            String formatId = newLine.getFormatOfferingInfo().getFormatId();
+            CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)getDataObject();
+            String formatTypeName = getFormatTypeName(coEditWrapper, formatId);
+            newLine.setFormatType(formatTypeName);
         }
     }
 
-    protected void persistEditCourseOffering() {
-        CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)getDataObject();
-        CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
-
-        try{
-            // persist format offerings
-            this.persistFormatOfferings();     //This currently doesn't work.
-
-            //persist unitDeploymentOrgIds
-            List<String> unitDeploymentOrgIds = new ArrayList<String>();
-            for(OrganizationInfoWrapper orgWrapper : coEditWrapper.getOrganizationNames()){
-                unitDeploymentOrgIds.add(orgWrapper.getId());
-            }
-
-            coInfo.setUnitsDeploymentOrgIds(unitDeploymentOrgIds);
-            coInfo.setStudentRegistrationOptionIds(coEditWrapper.getStudentRegOptions());
-
-            getCourseOfferingService().updateCourseOffering(coInfo.getId(),coInfo,getContextInfo());
-        }   catch (Exception ex){
-            throw new RuntimeException(ex);
-        }
-
-    }
-/*
-    /**
-     * For this method we need to get the old Format offerings and the new format offerings and compare the two.
-     * This is because format offerings are a separate service call outside the CourseOffering. The service calls
-     * also cannot handle any sort of "merge" operation. So we can only create, update, and delete as three different
-     * calls.
-     * @throws Exception
-     */
-/*    protected void persistFormatOfferings() throws Exception{
-        //TODO: We need more information on the new course offerings for them to properly submit through the service.
-        CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)getDataObject();
-        CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
-
-        List<FormatOfferingInfo> newFormats = coEditWrapper.getFormatOfferingList();
-        List<FormatOfferingInfo> oldFormats = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfo.getId(), getContextInfo());
-
-        for(FormatOfferingInfo formatOffering:newFormats){
-            formatOffering.setStateKey("kuali.lui.format.offering.state.planned");
-            formatOffering.setTermId(coInfo.getTermId());
-            formatOffering.setCourseOfferingId(coInfo.getId());
-            for ( FormatOfferingInfo oldFormatOffering:oldFormats) {
-                if (oldFormatOffering.getId().equals(formatOffering.getId())) {
-                    getCourseOfferingService().updateFormatOffering(formatOffering.getId(),formatOffering,getContextInfo());
-                } else {                                    // create
-                    getCourseOfferingService().createFormatOffering(coInfo.getId(),formatOffering.getFormatId(),formatOffering.getTypeKey(),formatOffering,getContextInfo());
-                }
-            }
-        }
-
-        for(FormatOfferingInfo oldFormatOffering: oldFormats){  // delete
-            boolean isTrue = false;
-            for (FormatOfferingInfo newFormatOffering:newFormats) {
-                if (newFormatOffering.getId().equals(oldFormatOffering.getId())){
-                    isTrue = true;
-                }
-            }
-            if (!isTrue) {
-                getCourseOfferingService().deleteFormatOfferingCascaded(oldFormatOffering.getId(),getContextInfo());
-            }
-        }
-    }
-*/
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
             if (getDataObject() instanceof CourseOfferingEditWrapper){
                 CourseOfferingInfo info = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
+                //1. set CourseOfferingInfo
                 CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(info);
-                List<FormatOfferingInfo> formats = getCourseOfferingService().getFormatOfferingsByCourseOffering(info.getId(), getContextInfo());
-                System.out.println(">>> find "+formats.size()+" format(s):");
-                formObject.setFormatOfferingList(formats);
 
+                //2. set CourseInfo
                 String courseId = info.getCourseId();
                 CourseInfo courseInfo = new CourseInfo();
                 if (courseId != null) {
                     courseInfo = (CourseInfo) getCourseService().getCourse(courseId);
                     formObject.setCourse(courseInfo);
                 }
+
+                //3. set formatOfferingWrapperList
+                List<FormatOfferingInfo> formats = getCourseOfferingService().getFormatOfferingsByCourseOffering(info.getId(), getContextInfo());
+//                System.out.println(">>> find "+formats.size()+" format(s):");
+                List<FormatOfferingWrapper> formatOfferingWrapperList = new ArrayList<FormatOfferingWrapper>();
+                for (FormatOfferingInfo formatOfferingInfo : formats){
+                    FormatOfferingWrapper formatOfferingWrapper = new FormatOfferingWrapper(formatOfferingInfo);
+                    String formatTypeName = getFormatTypeName(formObject, formatOfferingInfo.getFormatId());
+                    formatOfferingWrapper.setFormatType(formatTypeName);
+                    formatOfferingWrapperList.add(formatOfferingWrapper);
+                }
+                formObject.setFormatOfferingWrapperList(formatOfferingWrapperList);
 
                 // checking if there are any student registration options from CLU for screen display
                 List<String> studentRegOptions = new ArrayList<String>();
@@ -380,21 +301,15 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
         return null;
     }
 
-/*    @Override
-    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        if (getDataObject() instanceof ActivityOfferingWrapper){
-            ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)document.getNewMaintainableObject().getDataObject();
-            document.getDocumentHeader().setDocumentDescription("Activity Offering");
-            try {
-    //            StateInfo state = getStateService().getState(wrapper.getDto().getStateKey(), getContextInfo());
-    //            wrapper.setStateName(state.getName());
-            } catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+    private String getFormatTypeName(CourseOfferingEditWrapper courseOfferingEditWrapper, String coFormId ){
+        List<FormatInfo> formatInfoList = courseOfferingEditWrapper.getCourse().getFormats();
+        for(FormatInfo formatInfo : formatInfoList) {
+            if(coFormId.equals(formatInfo.getId())){
+                return formatInfo.getType();
             }
         }
+        return null;
     }
-*/
-
     public ContextInfo getContextInfo() {
         if (null == contextInfo) {
             contextInfo = new ContextInfo();

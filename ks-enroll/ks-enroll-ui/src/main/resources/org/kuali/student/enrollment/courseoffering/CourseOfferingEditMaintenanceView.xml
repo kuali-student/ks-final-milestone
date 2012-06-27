@@ -323,14 +323,14 @@
 
                 <bean id="KS-CourseOfferingEdit-FormatOfferingSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false">
                     <property name="headerText" value="" />
-                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
-                    <property name="propertyName" value="formatOfferingList" />
+                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
+                    <property name="propertyName" value="formatOfferingWrapperList" />
                     <property name="layoutManager.renderSequenceField" value="false" />
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="formatId"
-                                  p:label="FORMAT" p:labelPlacement="TOP">
+                            <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.formatId"  p:readOnly="@{!#isAddLine}"
+                                  p:label="FORMAT" p:labelPlacement="TOP" p:readOnlyDisplayReplacementPropertyName="formatType">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -338,13 +338,13 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForEditCOTypeKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"
+                            <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
                                   p:label="GRADE ROSTER LEVEL" p:labelPlacement="TOP">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:options-ref="gradeRosterLevel-options"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"
+                            <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
                                   p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:options-ref="finalExamDriverActivity-options"/>

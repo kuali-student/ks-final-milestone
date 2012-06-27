@@ -33,7 +33,7 @@ import java.util.List;
 public class CourseOfferingEditWrapper implements Serializable {
 
     private CourseOfferingInfo coInfo;
-    private List<FormatOfferingInfo> formatOfferingList;
+    private List<FormatOfferingWrapper> formatOfferingWrapperList;
     private List<String> studentRegOptions;
     private List<OrganizationInfoWrapper> organizationNames;
     private CourseInfo course;
@@ -46,7 +46,7 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
-        formatOfferingList = new ArrayList<FormatOfferingInfo>();
+        formatOfferingWrapperList = new ArrayList<FormatOfferingWrapper>();
         studentRegOptions = new ArrayList<String>();
     }
 
@@ -63,15 +63,15 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.coInfo = coInfo;
     }
 
-    public List<FormatOfferingInfo> getFormatOfferingList() {
-        return formatOfferingList;
+    public List<FormatOfferingWrapper> getFormatOfferingWrapperList() {
+        return formatOfferingWrapperList;
     }
 
-    public void setFormatOfferingList(List<FormatOfferingInfo> formatOfferingList) {
-        if (formatOfferingList == null) {
-            formatOfferingList = new ArrayList<FormatOfferingInfo>();
+    public void setFormatOfferingWrapperList(List<FormatOfferingWrapper> formatOfferingWrapperList) {
+        if (formatOfferingWrapperList == null) {
+            formatOfferingWrapperList = new ArrayList<FormatOfferingWrapper>();
         }
-        this.formatOfferingList = formatOfferingList;
+        this.formatOfferingWrapperList = formatOfferingWrapperList;
     }
 
     public List<String> getStudentRegOptions() {
