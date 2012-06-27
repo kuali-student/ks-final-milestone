@@ -94,7 +94,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         this.instructionState = instruction.getStateKey();
         this.effectiveDate = instruction.getEffectiveDate();
         this.expirationDate = instruction.getExpirationDate();
-        this.appliedPopulationId = instruction.getAppliedPopulationKey();
+        this.appliedPopulationId = instruction.getAppliedPopulationId();
         if (instruction.getMessage() != null) {
             this.messageFormatted = instruction.getMessage().getFormatted();
             this.messagePlain = instruction.getMessage().getPlain();
@@ -129,7 +129,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         instructionInfo.setStateKey(instructionState);
         instructionInfo.setEffectiveDate(effectiveDate);
         instructionInfo.setExpirationDate(expirationDate);
-        instructionInfo.setAppliedPopulationKey(appliedPopulationId);
+        instructionInfo.setAppliedPopulationId(appliedPopulationId);
         instructionInfo.setMessage(new RichTextHelper().toRichTextInfo(messagePlain, messageFormatted));
         instructionInfo.setPosition(position);
         instructionInfo.setIsWarning(warning);

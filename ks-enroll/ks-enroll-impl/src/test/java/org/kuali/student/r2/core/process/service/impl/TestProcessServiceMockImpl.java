@@ -203,7 +203,7 @@ public class TestProcessServiceMockImpl {
         info.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
         info.setProcessKey(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY);
         info.setCheckId(ProcessServiceConstants.CHECK_ID_HAS_NOT_BEEN_EXPELLED);
-        info.setAppliedPopulationKey(ProcessServiceConstants.POPULATION_ID_EVERYONE);
+        info.setAppliedPopulationId(ProcessServiceConstants.POPULATION_ID_EVERYONE);
         info.setPosition(3);
         info.setMessage(new RichTextInfo("You are not allowed to continue at this university", "You are not allowed to continue at this university"));
         Date before = new Date();

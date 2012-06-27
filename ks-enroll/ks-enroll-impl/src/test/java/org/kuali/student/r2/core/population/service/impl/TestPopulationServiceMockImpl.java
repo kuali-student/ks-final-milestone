@@ -2,27 +2,30 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.r2.core.population.service;
+package org.kuali.student.r2.core.population.service.impl;
 
-import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
+import org.kuali.student.r2.core.population.service.PopulationService;
+
+import java.util.Date;
+
+import static org.junit.Assert.*;
 
 /**
  *
  * @author nwright
  */
-public class PopulationServiceMockImplTest {
+public class TestPopulationServiceMockImpl {
 
-    public PopulationServiceMockImplTest() {
+    public TestPopulationServiceMockImpl() {
     }
 
     @BeforeClass

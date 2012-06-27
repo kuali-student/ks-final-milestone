@@ -32,7 +32,6 @@ import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
-import javax.annotation.Resource;
 import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -422,7 +421,7 @@ public class AppointmentServiceImplHelper {
     }
     
     private int _computeTotalStudents(AppointmentWindowInfo apptWinInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        List<String> ids = populationService.getMembers(apptWinInfo.getAssignedPopulationId(), contextInfo);
+        List<String> ids = populationService.getMembersAsOfDate(apptWinInfo.getAssignedPopulationId(), contextInfo.getCurrentDate(), contextInfo);
         if (ids != null) {
             return ids.size();
         } else {

@@ -34,7 +34,7 @@ import java.util.List;
 @XmlType(name = "InstructionInfo", propOrder = { "id", "typeKey", "stateKey", 
                 "effectiveDate", "expirationDate",
                 "processKey", "checkId",
-                "appliedPopulationKey", "appliedAtpTypeKeys",
+                "appliedPopulationId", "appliedAtpTypeKeys",
                 "message", "position", "isWarning", 
                 "continueOnFail", "isExemptible",
                 "meta", "attributes",
@@ -57,7 +57,7 @@ public class InstructionInfo
     private String checkId;
 
     @XmlElement 
-    private String appliedPopulationKey;
+    private String appliedPopulationId;
 
     @XmlElement 
     private List<String> appliedAtpTypeKeys;
@@ -100,7 +100,7 @@ public class InstructionInfo
         if (instruction != null) {
             this.processKey= instruction.getProcessKey();
             this.checkId = instruction.getCheckId();
-            this.appliedPopulationKey = instruction.getAppliedPopulationKey();
+            this.appliedPopulationId = instruction.getAppliedPopulationId();
             if (instruction.getAppliedAtpTypeKeys() != null) {
                 this.appliedAtpTypeKeys = new ArrayList<String>(instruction.getAppliedAtpTypeKeys());
             }
@@ -135,12 +135,12 @@ public class InstructionInfo
     }
 
     @Override
-    public String getAppliedPopulationKey() {
-        return this.appliedPopulationKey;
+    public String getAppliedPopulationId() {
+        return this.appliedPopulationId;
     }
 
-    public void setAppliedPopulationKey(String appliedPopulationKey) {
-        this.appliedPopulationKey = appliedPopulationKey;
+    public void setAppliedPopulationId(String appliedPopulationId) {
+        this.appliedPopulationId = appliedPopulationId;
     }
 
     @Override

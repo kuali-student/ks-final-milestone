@@ -153,7 +153,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             // filter out by applicable Population
             boolean skipInstruction = true;
             try {
-                if (populationService.isMember(processContext.getStudentId(), instruction.getAppliedPopulationKey(), context)) {
+                if (populationService.isMemberAsOfDate(processContext.getStudentId(), instruction.getAppliedPopulationId(), context.getCurrentDate(), context)) {
                     skipInstruction = false;
                     break;
                 }

@@ -65,7 +65,7 @@ public interface Instruction
      *
      * @name Applied Population Id
      */
-    public String getAppliedPopulationKey();
+    public String getAppliedPopulationId();
 
     /**
      * The ATP Type keys to which the Check applies.

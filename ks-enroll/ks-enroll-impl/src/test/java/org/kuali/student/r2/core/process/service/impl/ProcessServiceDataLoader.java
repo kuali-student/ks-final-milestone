@@ -705,7 +705,7 @@ public class ProcessServiceDataLoader {
         info.setExpirationDate(expirationDate);
         info.setProcessKey(processId);
         info.setCheckId(checkId);
-        info.setAppliedPopulationKey(appliedPopulationId);
+        info.setAppliedPopulationId(appliedPopulationId);
         info.setMessage(new RichTextInfo(messagePlain, messageFormatted));
         info.setPosition(position);
         info.setIsWarning(warning);

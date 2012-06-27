@@ -1,4 +1,4 @@
-package org.kuali.student.r2.core.class1.population.model;
+package org.kuali.student.r2.core.population.model;
 
 import org.kuali.student.r2.common.entity.MetaEntity;
 

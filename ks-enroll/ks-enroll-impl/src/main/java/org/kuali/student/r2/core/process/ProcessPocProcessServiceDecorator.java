@@ -95,7 +95,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         info.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
         info.setProcessKey(processKey);
         // info.setAppliedPopulationKeys(Arrays.asList(populationKey));
-        info.setAppliedPopulationKey(populationKey);
+        info.setAppliedPopulationId(populationKey);
         info.setCheckId(checkKey);
         info.setMessage(new RichTextHelper().fromPlain(message));
         info.setPosition(position);

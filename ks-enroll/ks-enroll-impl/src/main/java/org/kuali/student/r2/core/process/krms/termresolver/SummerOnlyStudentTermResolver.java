@@ -86,7 +86,7 @@ public class SummerOnlyStudentTermResolver implements TermResolver<Boolean> {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
 
         try {
-            result = populationService.isMember(studentId, summerPopulationKey, context);
+            result = populationService.isMemberAsOfDate(studentId, summerPopulationKey, context.getCurrentDate(), context);
         } catch (DoesNotExistException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (InvalidParameterException e) {
