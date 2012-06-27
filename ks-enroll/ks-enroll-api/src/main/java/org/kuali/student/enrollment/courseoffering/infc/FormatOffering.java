@@ -60,6 +60,13 @@ public interface FormatOffering
     public String getTermId();
 
     /**
+     * The short name for this Format Offering, such as LC or LC/LB.
+     *
+     * @name Short Name
+     */
+    public String getShortName();
+
+    /**
      * Gets a list of Activity Offering Types within this Format
      * Offering.
      *
@@ -83,8 +90,6 @@ public interface FormatOffering
      * Indicates what activity type does the final exam exist in
      *
      * @name  Final Exam Level Type Key
-
      */
     public String getFinalExamLevelTypeKey();
-
 }

@@ -497,32 +497,25 @@ public class CourseOfferingInfo
         this.courseOfferingURL = courseOfferingURL;
     }
 
-	public void setFinalExamType(String value) {
-		
-		this.finalExamType = value;
-		
-	}
-
-	
-	@Override
-	public String getFinalExamType() {
-		return this.finalExamType;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("CourseOfferingInfo [courseId=");
-		builder.append(courseId);
-		builder.append(", termId=");
-		builder.append(termId);
-		builder.append(", courseOfferingCode=");
-		builder.append(courseOfferingCode);
-		builder.append("]");
-		return builder.toString();
-	}
-	
-	
-	
+    @Override
+    public String getFinalExamType() {
+        return this.finalExamType;
+    }
     
+    public void setFinalExamType(String value) {		
+        this.finalExamType = value;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("CourseOfferingInfo [courseId=");
+        builder.append(courseId);
+        builder.append(", termId=");
+        builder.append(termId);
+        builder.append(", courseOfferingCode=");
+        builder.append(courseOfferingCode);
+        builder.append("]");
+        return builder.toString();
+    }
 }

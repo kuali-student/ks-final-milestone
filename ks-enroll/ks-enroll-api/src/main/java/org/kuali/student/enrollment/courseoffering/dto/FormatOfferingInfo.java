@@ -13,6 +13,7 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.enrollment.courseoffering.dto;
 
 import java.util.ArrayList;
@@ -31,11 +32,15 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FormatOfferingInfo", propOrder = {
-    "id", "typeKey", "stateKey", "name", "descr",
-    "courseOfferingId", "formatId", "termId",
-    "activityOfferingTypeKeys", "gradeRosterLevelTypeKey", "finalExamLevelTypeKey",
-    "meta", "attributes", "_futureElements"})
-public class FormatOfferingInfo extends IdEntityInfo implements FormatOffering {
+         "id", "typeKey", "stateKey", "name", "descr",
+         "courseOfferingId", "formatId", "termId", "shortName",
+         "activityOfferingTypeKeys", "gradeRosterLevelTypeKey", 
+         "finalExamLevelTypeKey",
+         "meta", "attributes", "_futureElements"})
+
+public class FormatOfferingInfo 
+    extends IdEntityInfo 
+    implements FormatOffering {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,6 +52,9 @@ public class FormatOfferingInfo extends IdEntityInfo implements FormatOffering {
 
     @XmlElement
     private String termId;
+
+    @XmlElement
+    private String shortName;
 
     @XmlElement
     private List<String> activityOfferingTypeKeys;
@@ -61,6 +69,9 @@ public class FormatOfferingInfo extends IdEntityInfo implements FormatOffering {
     private List<Element> _futureElements;
 
 
+    /**
+     * Constructs a new FormatOffering.
+     */
     public FormatOfferingInfo() {
     }
 
@@ -76,15 +87,18 @@ public class FormatOfferingInfo extends IdEntityInfo implements FormatOffering {
         if (offering == null) {
             return;
         }
-        this.gradeRosterLevelTypeKey = offering.getGradeRosterLevelTypeKey();
-        this.finalExamLevelTypeKey = offering.getFinalExamLevelTypeKey ();
+
         this.courseOfferingId = offering.getCourseOfferingId();
         this.formatId = offering.getFormatId();
-
         this.termId = offering.getTermId();
+        this.shortName = offering.getShortName();
+
         if (offering.getActivityOfferingTypeKeys() != null) {
             this.activityOfferingTypeKeys = new ArrayList<String>(offering.getActivityOfferingTypeKeys());
         }
+
+        this.gradeRosterLevelTypeKey = offering.getGradeRosterLevelTypeKey();
+        this.finalExamLevelTypeKey = offering.getFinalExamLevelTypeKey ();
     }
 
     @Override
@@ -106,43 +120,6 @@ public class FormatOfferingInfo extends IdEntityInfo implements FormatOffering {
     }
 
     @Override
-    public List<String> getActivityOfferingTypeKeys() {
-        if (activityOfferingTypeKeys == null) {
-            activityOfferingTypeKeys = new ArrayList<String>();
-        }
-
-        return activityOfferingTypeKeys;
-    }
-
-
-
-    @Override
-    public String getFinalExamLevelTypeKey() {
-        return this.finalExamLevelTypeKey;
-    }
-
-    @Override
-    public String getGradeRosterLevelTypeKey() {
-        return this.gradeRosterLevelTypeKey;
-    }
-
-
-    public void setGradeRosterLevelTypeKey(String gradeRosterLevelTypeKey) {
-        this.gradeRosterLevelTypeKey = gradeRosterLevelTypeKey;
-    }
-
-    public void setFinalExamLevelTypeKey(String finalExamLevelTypeKey) {
-        this.finalExamLevelTypeKey = finalExamLevelTypeKey;
-    }
-
-    public void set_futureElements(List<Element> _futureElements) {
-        this._futureElements = _futureElements;
-    }
-
-    public void setActivityOfferingTypeKeys(List<String> activityOfferingTypeKeys) {
-        this.activityOfferingTypeKeys = activityOfferingTypeKeys;
-    }
-
     public String getTermId() {
         return termId;
     }
@@ -151,19 +128,56 @@ public class FormatOfferingInfo extends IdEntityInfo implements FormatOffering {
         this.termId = termId;
     }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("FormatOfferingInfo [courseOfferingId=");
-		builder.append(courseOfferingId);
-		builder.append(", formatId=");
-		builder.append(formatId);
-		builder.append(", termId=");
-		builder.append(termId);
-		builder.append("]");
-		return builder.toString();
-	}
-    
-    
+    @Override
+    public String getShortName() {
+        return shortName;
+    }
 
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    @Override
+    public List<String> getActivityOfferingTypeKeys() {
+        if (activityOfferingTypeKeys == null) {
+            activityOfferingTypeKeys = new ArrayList<String>();
+        }
+
+        return activityOfferingTypeKeys;
+    }
+
+    public void setActivityOfferingTypeKeys(List<String> activityOfferingTypeKeys) {
+        this.activityOfferingTypeKeys = activityOfferingTypeKeys;
+    }
+
+    @Override
+    public String getGradeRosterLevelTypeKey() {
+        return this.gradeRosterLevelTypeKey;
+    }
+
+    public void setGradeRosterLevelTypeKey(String gradeRosterLevelTypeKey) {
+        this.gradeRosterLevelTypeKey = gradeRosterLevelTypeKey;
+    }
+
+    @Override
+    public String getFinalExamLevelTypeKey() {
+        return this.finalExamLevelTypeKey;
+    }
+
+    public void setFinalExamLevelTypeKey(String finalExamLevelTypeKey) {
+        this.finalExamLevelTypeKey = finalExamLevelTypeKey;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("FormatOfferingInfo [courseOfferingId=");
+        builder.append(courseOfferingId);
+        builder.append(", formatId=");
+        builder.append(formatId);
+        builder.append(", termId=");
+        builder.append(termId);
+        builder.append("]");
+        return builder.toString();
+    }
 }

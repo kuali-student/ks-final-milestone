@@ -183,27 +183,25 @@ public class RegistrationGroupInfo
     public void setIsGenerated(Boolean isGenerated) {
         this.isGenerated = isGenerated;
     }
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("RegistrationGroupInfo [formatOfferingId=");
-		builder.append(formatOfferingId);
-		builder.append(", courseOfferingId=");
-		builder.append(courseOfferingId);
-		builder.append(", termId=");
-		builder.append(termId);
-		builder.append(", registrationCode=");
-		builder.append(registrationCode);
-		builder.append(", maximumEnrollment=");
-		builder.append(maximumEnrollment);
-		builder.append(", isHonorsOffering=");
-		builder.append(isHonorsOffering);
-		builder.append(", isGenerated=");
-		builder.append(isGenerated);
-		builder.append("]");
-		return builder.toString();
-	}
     
-    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("RegistrationGroupInfo [formatOfferingId=");
+        builder.append(formatOfferingId);
+        builder.append(", courseOfferingId=");
+        builder.append(courseOfferingId);
+        builder.append(", termId=");
+        builder.append(termId);
+        builder.append(", registrationCode=");
+        builder.append(registrationCode);
+        builder.append(", maximumEnrollment=");
+        builder.append(maximumEnrollment);
+        builder.append(", isHonorsOffering=");
+        builder.append(isHonorsOffering);
+        builder.append(", isGenerated=");
+        builder.append(isGenerated);
+        builder.append("]");
+        return builder.toString();
+    }
 }

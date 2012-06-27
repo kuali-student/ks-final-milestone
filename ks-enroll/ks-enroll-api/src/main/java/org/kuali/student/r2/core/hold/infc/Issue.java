@@ -25,7 +25,8 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @since Sun May 1 14:22:34 EDT 2011
  */ 
 
-public interface Issue extends IdEntity {
+public interface Issue 
+    extends IdEntity {
 
     /**
      * The organization related to this hold category.
