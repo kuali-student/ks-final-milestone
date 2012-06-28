@@ -49,8 +49,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
      * 
      * This method will update the state of a major discipline.
      * 
-     * @see org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService#updateStatus(org.kuali.student.common.assembly.data.Data,
-     * java.lang.String)
+     * @see org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService#updateState(org.kuali.student.r1.common.assembly.data.Data, String)
      */
     public DataSaveResult updateState(Data data, String state) throws Exception {
         throw new UnsupportedOperationException("Proposals can not update state explicitly");

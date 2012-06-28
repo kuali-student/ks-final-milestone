@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.util.Arrays;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -13,7 +12,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LuServiceConstants;
 import javax.annotation.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.junit.Before;

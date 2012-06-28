@@ -78,9 +78,10 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			// Use the luService to find activities, then convert and add to the
 			// format
 			try {
-				List<CluInfo> activities = luService.getRelatedClusByCluId(
+				List<CluInfo> activities = luService.getRelatedClusByCluAndRelationType(
 										format.getId(),
-										CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
+										CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE,
+                                        contextInfo);
 				for (CluInfo activity : activities) {
 					ActivityInfo activityInfo = activityAssembler.assemble(
 							activity, null, false,contextInfo);
@@ -165,10 +166,10 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	 * activities and their CluCluRelations will be deleted
 	 * 
 	 * If the Operation
-	 * 
-	 * @param format
-	 * @param result
-	 * @param operation
+	 *
+     * @param nodeId
+     * @param format
+     * @param operation
 	 * @return List of Assembly nodes
 	 * @throws AssemblyException
 	 * @throws OperationFailedException 

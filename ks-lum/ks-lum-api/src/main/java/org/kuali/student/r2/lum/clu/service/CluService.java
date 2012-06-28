@@ -14,6 +14,8 @@
  */
 package org.kuali.student.r2.lum.clu.service;
 
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -43,6 +45,8 @@ import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.xml.ws.RequestWrapper;
+import javax.xml.ws.ResponseWrapper;
 import java.util.Date;
 import java.util.List;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -1165,6 +1169,10 @@ public interface CluService extends VersionManagementService {
      * @throws PermissionDeniedException    authorization failure
      */
     public StatusInfo setCurrentCluVersion(@WebParam(name = "cluVersionId") String cluVersionId, @WebParam(name = "currentVersionStart") Date currentVersionStart, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException;
+
+    @RequestWrapper(className="org.kuali.student.common.search.service.jaxws.Search", targetNamespace="http://student.kuali.org/wsdl/search")
+    @ResponseWrapper(className="org.kuali.student.common.search.service.jaxws.SearchResponse", targetNamespace="http://student.kuali.org/wsdl/search")
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException;
 
     /**
      * Updates the state of the specified CLU

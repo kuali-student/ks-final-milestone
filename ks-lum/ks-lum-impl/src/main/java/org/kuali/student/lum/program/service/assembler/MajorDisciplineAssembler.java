@@ -93,7 +93,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     private CoreProgramInfo assembleCoreProgram(String cluId, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
         CoreProgramInfo coreProgramInfo = null;
         try {
-            List<CluInfo> corePrograms = cluService.getRelatedClusByCluId(cluId, ProgramAssemblerConstants.HAS_CORE_PROGRAM);
+            List<CluInfo> corePrograms = cluService.getRelatedClusByCluAndRelationType(cluId, ProgramAssemblerConstants.HAS_CORE_PROGRAM, contextInfo);
             // TODO - is it an error if there's more than one core program? on
             if (corePrograms.size() == 1) {
                 coreProgramInfo = coreProgramAssembler.assemble(corePrograms.get(0), null, shallowBuild, contextInfo);

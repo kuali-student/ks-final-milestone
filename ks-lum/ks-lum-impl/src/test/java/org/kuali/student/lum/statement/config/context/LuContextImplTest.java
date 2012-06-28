@@ -684,6 +684,11 @@ public class LuContextImplTest {
         }
 
         @Override
+        public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+    @Override
         public CluInfo updateCluState(String cluId, String luState, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;

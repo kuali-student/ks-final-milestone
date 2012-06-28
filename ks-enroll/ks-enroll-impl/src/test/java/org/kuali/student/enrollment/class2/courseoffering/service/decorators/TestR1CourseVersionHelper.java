@@ -20,7 +20,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LuServiceConstants;
 
 /**
  *
