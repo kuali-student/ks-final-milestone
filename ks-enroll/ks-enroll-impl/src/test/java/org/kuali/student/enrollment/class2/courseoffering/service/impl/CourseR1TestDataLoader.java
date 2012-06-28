@@ -15,7 +15,7 @@ import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.util.constants.LuServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 /**
  *
@@ -43,9 +43,9 @@ public class CourseR1TestDataLoader {
 
     public void loadData() {
         loadCourse("COURSE1", "2012FA", "CHEM", "CHEM123", "Chemistry 123", "description 1", "COURSE1-FORMAT1",
-                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY);
+                CluServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, CluServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY);
         loadCourse("COURSE2", "2012SP", "ENG", "ENG101", "Intro English", "description 2", "COURSE2-FORMAT1",
-                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, null);
+                CluServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, null);
     }
 
     public void loadCourse(String id,
@@ -86,13 +86,13 @@ public class CourseR1TestDataLoader {
         RichTextInfo rt = new RichTextInfo();
         rt.setPlain(description);
         info.setDescr(rt);
-        info.setTypeKey(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
+        info.setTypeKey(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         info.setStateKey("Active");
         info.setFormats(new ArrayList<FormatInfo>());
         FormatInfo format = new FormatInfo();
         info.getFormats().add(format);
         format.setId(formatId);
-        format.setTypeKey(LuServiceConstants.COURSE_FORMAT_TYPE_KEY);
+        format.setTypeKey(CluServiceConstants.COURSE_FORMAT_TYPE_KEY);
         format.setStateKey("Active");
         format.setActivities(new ArrayList<ActivityInfo>());
         for (String activityTypeKey : activityTypeKeys) {

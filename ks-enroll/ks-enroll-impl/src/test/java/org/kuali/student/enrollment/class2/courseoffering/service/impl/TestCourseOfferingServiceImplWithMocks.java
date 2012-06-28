@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
-import org.kuali.student.r2.lum.util.constants.LuServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
@@ -301,7 +301,7 @@ public class TestCourseOfferingServiceImplWithMocks {
 
         ActivityOfferingInfo orig = new ActivityOfferingInfo();
         orig.setFormatOfferingId(fo.getId());
-        orig.setActivityId(fo.getId() + "." + LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
+        orig.setActivityId(fo.getId() + "." + CluServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
         orig.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         orig.setMinimumEnrollment(100);

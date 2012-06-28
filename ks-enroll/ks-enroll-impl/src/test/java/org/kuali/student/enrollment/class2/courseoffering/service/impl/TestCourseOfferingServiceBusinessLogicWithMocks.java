@@ -12,7 +12,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.lum.util.constants.LuServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import javax.annotation.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.junit.Before;
@@ -83,9 +83,9 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
 
         CourseR1TestDataLoader courseLoader = new CourseR1TestDataLoader(this.courseService);
         courseLoader.loadCourse("COURSE1", "2012FA", "CHEM", "CHEM123", "Chemistry 123", "description 1", "COURSE1-FORMAT1",
-                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY);
+                CluServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, CluServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY);
         courseLoader.loadCourse("COURSE2", "2012SP", "ENG", "ENG101", "Intro English", "description 2", "COURSE2-FORMAT1",
-                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, null);
+                CluServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, null);
         // get course
         CourseInfo course;
         try {
