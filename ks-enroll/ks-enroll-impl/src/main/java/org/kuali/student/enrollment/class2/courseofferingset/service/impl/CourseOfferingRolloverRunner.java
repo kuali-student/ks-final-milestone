@@ -246,7 +246,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
         }
     }
 
-    // This is a hack, but I need more info out of this private method. cclin
+    // The return type is a hack, but I need more info out of this private method. cclin
     private Object[] rolloverOneCourseOfferingReturningItem(String sourceCoId) throws Exception {
         CourseOfferingInfo targetCo = null;
         String error = null;
@@ -259,6 +259,14 @@ public class CourseOfferingRolloverRunner implements Runnable {
             error = ex.getMessage();
         } catch (InvalidParameterException ex) {
             error = ex.getMessage();
+        } catch (Exception ex) {
+            // This is a catchall for unknown exceptions, possibly due to bad data.  The previous exceptions are considered
+            // expected exceptions.  By catching Exception, the rollover won't stop and will continue to process.
+            error = "Unexpected error rolling over course";
+            String mesg = ex.getMessage();
+            if (mesg != null) {
+                error += ": (" + mesg + ")";
+            }
         }
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
         item.setSocRolloverResultId(result.getId());
