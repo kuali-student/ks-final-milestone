@@ -122,16 +122,6 @@ public class HoldServiceImpl
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        if (!personId.equals(holdInfo.getPersonId())) {
-            throw new InvalidParameterException(personId + " does not match the person Id in the object " + holdInfo.getPersonId());
-        }
-        if (!issueId.equals(holdInfo.getIssueId())) {
-            throw new InvalidParameterException(issueId + " does not match the issueId in the object " + holdInfo.getIssueId());
-        }
-        if (!holdTypeKey.equals(holdInfo.getTypeKey())) {
-            throw new InvalidParameterException(holdTypeKey + " does not match the hold type key in the object " +
-                    holdInfo.getTypeKey());
-        }
         holdInfo.setPersonId(personId);
         holdInfo.setIssueId(issueId);
         holdInfo.setTypeKey(holdTypeKey);
@@ -140,7 +130,8 @@ public class HoldServiceImpl
         if (holdIssueEntity == null) {
             throw new InvalidParameterException(issueId);
         }
-        HoldEntity entity = new HoldEntity(holdInfo, holdDao.getEm(), holdIssueEntity);
+        HoldEntity entity = new HoldEntity(holdInfo);
+        entity.setHoldIssue(holdIssueEntity);
         entity.setEntityCreated(context);
         holdDao.persist(entity);
         return entity.toDto();
@@ -165,7 +156,7 @@ public class HoldServiceImpl
         if (null == entity) {
             throw new DoesNotExistException(holdId);
         }
-        entity.fromDto(holdInfo, holdDao.getEm());
+        entity.fromDto(holdInfo);
         entity.setEntityUpdated(context);
         entity = holdDao.merge(entity);
         holdDao.getEm().flush(); // need to flush to get the version indicator updated
@@ -298,10 +289,8 @@ public class HoldServiceImpl
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        if (!issueTypeKey.equals(issueInfo.getTypeKey())) {
-            throw new InvalidParameterException(issueTypeKey + " does not match type in object " + issueInfo.getTypeKey());
-        }
-        HoldIssueEntity entity = new HoldIssueEntity(issueInfo, holdIssueDao.getEm());
+        issueInfo.setTypeKey(issueTypeKey);
+        HoldIssueEntity entity = new HoldIssueEntity(issueInfo);
         entity.setEntityCreated(context);
         holdIssueDao.persist(entity);
         return entity.toDto();
@@ -326,12 +315,10 @@ public class HoldServiceImpl
         if (null == entity) {
             throw new DoesNotExistException(issueId);
         }
-        entity.fromDto(issueInfo, holdIssueDao.getEm());
-
+        entity.fromDto(issueInfo);
         entity.setEntityUpdated(context);
-
         entity = holdIssueDao.merge(entity);
-        holdDao.getEm().flush(); // need to flush to get the version indicator updated
+        holdIssueDao.getEm().flush(); // need to flush to get the version indicator updated
         return entity.toDto();
     }
 

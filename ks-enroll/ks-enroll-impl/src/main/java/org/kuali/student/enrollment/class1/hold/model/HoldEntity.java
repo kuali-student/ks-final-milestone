@@ -74,7 +74,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     @Column(name = "PERS_ID")
     private String personId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<HoldAttributeEntity> attributes;
 
     @Override
@@ -85,17 +85,18 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     public HoldEntity() {
     }
 
-    public HoldEntity(Hold hold, EntityManager em, HoldIssueEntity holdIssueEntity) {
+    public HoldEntity(Hold hold) {
         super(hold);
         this.setId(hold.getId());
         this.personId = hold.getPersonId();
-        this.holdIssue = holdIssueEntity;
+        // issue an an entity so it gets set in the service
+//        this.holdIssue = hold.getIssueId();
         this.holdType = hold.getTypeKey();
-        this.fromDto(hold, em);
+        this.fromDto(hold);
     }
 
     
-    public void fromDto(Hold dto,  EntityManager em) {
+    public void fromDto(Hold dto) {
         this.setName (dto.getName());
         this.setHoldState(dto.getStateKey());
         if (dto.getDescr() != null) {
@@ -112,18 +113,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         if (this.getAttributes() == null) {
             this.setAttributes(new HashSet<HoldAttributeEntity>());
         }
-        Set<String> idSet = new HashSet<String>(dto.getAttributes().size());
-        for (Attribute attr : dto.getAttributes()) {
-            if (attr.getId() != null) {
-                idSet.add(attr.getId());
-            }
-        }
-        for (HoldAttributeEntity attEntity : new ArrayList<HoldAttributeEntity> (this.getAttributes())) {
-            if (!idSet.contains(attEntity.getId())) {
-                em.remove(attEntity);
-                this.getAttributes().remove(attEntity);
-            }
-        }
+        this.attributes.clear();
         for (Attribute att : dto.getAttributes()) {
             HoldAttributeEntity attEntity = new HoldAttributeEntity(att);
             attEntity.setOwner(this);

@@ -67,7 +67,7 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<HoldIssueAttributeEntity> attributes;
 
     @Column(name = "HOLD_ISSUE_STATE", nullable = false)
@@ -76,14 +76,14 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
     public HoldIssueEntity() {
     }
 
-    public HoldIssueEntity(Issue dto, EntityManager em) {
+    public HoldIssueEntity(Issue dto) {
         super(dto);
         this.setId(dto.getId());
         this.setHoldIssueType(dto.getTypeKey());
-        this.fromDto(dto, em);
+        this.fromDto(dto);
     }
 
-    public void fromDto(Issue dto, EntityManager em) {
+    public void fromDto(Issue dto) {
         setName(dto.getName());
         setHoldIssueState(dto.getStateKey());
         setOrganizationId(dto.getOrganizationId());
@@ -99,18 +99,7 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
         if (this.getAttributes() == null) {
             this.setAttributes(new HashSet<HoldIssueAttributeEntity>());
         }
-        Set<String> idSet = new HashSet<String>(dto.getAttributes().size());
-        for (Attribute attr : dto.getAttributes()) {
-            if (attr.getId() != null) {
-                idSet.add(attr.getId());
-            }
-        }
-        for (HoldIssueAttributeEntity attEntity : new ArrayList<HoldIssueAttributeEntity> (this.getAttributes())) {
-            if (!idSet.contains(attEntity.getId())) {
-                em.remove(attEntity);
-                this.getAttributes().remove(attEntity);
-            }
-        }
+        this.getAttributes().clear();
         for (Attribute att : dto.getAttributes()) {
             HoldIssueAttributeEntity attEntity = new HoldIssueAttributeEntity(att);
             attEntity.setOwner(this);
