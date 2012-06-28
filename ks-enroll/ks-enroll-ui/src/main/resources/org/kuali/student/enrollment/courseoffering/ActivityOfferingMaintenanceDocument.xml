@@ -18,6 +18,37 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+    <bean id="OfferingInstructorWrapper" parent="OfferingInstructorWrapper-parentBean"/>
+
+	<bean id="OfferingInstructorWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="offeringInstructorWrapper"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper"/>
+        <property name="objectLabel" value="OfferingInstructor Wrapper"/>
+		<property name="titleAttribute" value="offeringInstructorInfo.personId"/>
+		<property name="primaryKeys">
+			<list>
+				<value>offeringInstructorInfo.personId</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="OfferingInstructorWrapper.intEffort"/>
+			</list>
+		</property>
+
+		<!--<property name="collections">-->
+			<!--<list>-->
+				<!--<ref bean="OfferingInstructorWrapper.instructors"/>-->
+			<!--</list>-->
+		<!--</property>-->
+	</bean>
+
+    <bean id="OfferingInstructorWrapper.intEffort" parent="BaseKuali.integer">
+		<property name="name" value="intEffort"/>
+		<property name="shortLabel" value="Percentage Effort"/>
+		<property name="required" value="true"/>
+	</bean>
 
       <bean id="ActivityOfferingWrapper" parent="ActivityOfferingWrapper-parentBean"/>
 
@@ -427,7 +458,7 @@
                                 <property name="layoutManager.richTable.render" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="false" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-                                <property name="items">
+                                <property name="addLineItems">
                                     <list>
                                         <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personId" p:label="ID" p:required="true">
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
@@ -441,6 +472,22 @@
                                         </bean>
                                         <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:readOnly="true" />
                                         <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="intEffort" p:label="INST.EFFORT" p:required="true" p:exclusiveMin="0" p:inclusiveMax="100">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="10" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personId" p:label="ID" />
+                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name"/>
+                                        <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION" p:readOnly="true">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
                                             </property>

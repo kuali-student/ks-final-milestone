@@ -52,7 +52,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     public void saveDataObject() {
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
-            disassembleInstructorWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
+            disassembleInstructorsWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
             try {
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
             } catch (Exception e) {
@@ -119,14 +119,20 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
     }
 
-    private void disassembleInstructorWrapper(List<OfferingInstructorWrapper> instructors, ActivityOfferingInfo aoInfo){
+    private void disassembleInstructorsWrapper(List<OfferingInstructorWrapper> instructors, ActivityOfferingInfo aoInfo){
         if(instructors!= null && !instructors.isEmpty()){
             for(OfferingInstructorWrapper instructor : instructors){
-                OfferingInstructorInfo instructorInfo = new OfferingInstructorInfo(instructor.getOfferingInstructorInfo());
-                instructorInfo.setPercentageEffort(instructor.getIntEffort().floatValue());
-                aoInfo.getInstructors().add(instructorInfo);
+                aoInfo.getInstructors().add(disassembleInstructorWrapper(instructor));
             }
         }
+    }
+
+    private OfferingInstructorInfo disassembleInstructorWrapper(OfferingInstructorWrapper instructor){
+        OfferingInstructorInfo instructorInfo = new OfferingInstructorInfo(instructor.getOfferingInstructorInfo());
+        if(instructor.getIntEffort() != null){
+            instructorInfo.setPercentageEffort(instructor.getIntEffort().floatValue());
+        }
+        return instructorInfo;
     }
 
     @Override
@@ -186,6 +192,13 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
 
         return super.performAddLineValidation(view, collectionGroup, model, addLine);
+    }
+
+    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        if (addLine instanceof OfferingInstructorWrapper){
+            OfferingInstructorWrapper Instructor = (OfferingInstructorWrapper) addLine;
+            Instructor.setOfferingInstructorInfo(disassembleInstructorWrapper(Instructor));
+        }
     }
 
     public ContextInfo getContextInfo() {
