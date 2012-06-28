@@ -98,7 +98,7 @@ public class RegistrationGroupTestDataLoader {
 						formatOffering.getId(),
 						activityId,
 						LuiServiceConstants.ACTIVITY_ACTIVITY_OFFERING_TYPE_KEY,
-						CourseOfferingServiceDataUtils.createActivityOffering(term.getId(),
+						CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(),
 								formatOffering.getId(), "schedId", activityId, "Lecture", "A123", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors),
 						callContext);
 	}

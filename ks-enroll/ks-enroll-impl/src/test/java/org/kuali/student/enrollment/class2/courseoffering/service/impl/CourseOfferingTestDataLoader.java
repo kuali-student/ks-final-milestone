@@ -24,13 +24,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
+import org.joda.time.DateTime;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularRelationshipException;
 import org.kuali.student.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.common.exceptions.UnsupportedActionException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -40,6 +46,8 @@ import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -48,25 +56,43 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
+import org.springframework.beans.factory.InitializingBean;
 
 /**
+ * When testing CourseOfferingService it was a problem to have all the base data be reloaded before each test.
+ * 
+ * So this class is now intended to be a spring bean so that it can configure itself once and then the data will
+ * be available for all of the test cases.
+ * 
  * @author ocleirig
+ * 
  *
  */
-public class CourseOfferingTestDataLoader {
+public class CourseOfferingTestDataLoader implements InitializingBean {
 
-	private final AcademicCalendarService acalService;
-	private final CourseOfferingService coService;
+	@Resource
+	private AcademicCalendarService acalService;
 	
-	private final AtpTestDataLoader atpDataLoader;
-	private final AcalTestDataLoader acalDataLoader;
+	@Resource
+	private CourseOfferingService coService;
 	
-	private final CourseService courseService;
+	@Resource
+	private CourseService courseService;
+
+	@Resource
+	private AtpService atpService;
+	
+	private AtpTestDataLoader atpDataLoader;
+	private AcalTestDataLoader acalDataLoader;
+	
 
 	/**
 	 * @param coService 
@@ -74,54 +100,38 @@ public class CourseOfferingTestDataLoader {
 	 * @param canonicalCourseService 
 	 * 
 	 */
-	public CourseOfferingTestDataLoader(AtpService atpService, AcademicCalendarService acalService, CourseOfferingService coService, CourseService canonicalCourseService) {
-		this.acalService = acalService;
-		this.coService = coService;
-		this.courseService = canonicalCourseService;
-		
-		this.atpDataLoader = new AtpTestDataLoader(atpService);
-		this.acalDataLoader = new AcalTestDataLoader(acalService);
-		
-	 
- }
+	public CourseOfferingTestDataLoader() {
+	}
 
-	public void loadData(ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, org.kuali.student.r2.common.exceptions.VersionMismatchException, org.kuali.student.r2.common.exceptions.AlreadyExistsException {
+	
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		this.atpDataLoader = new AtpTestDataLoader(atpService);
+		this.acalDataLoader = new AcalTestDataLoader(acalService);		
+		
+		ContextInfo context = new ContextInfo();
+		
+		context.setPrincipalId("123");
+		context.setCurrentDate(new Date());
 
 		atpDataLoader.loadData();
 		acalDataLoader.loadData();
 		
+		// load in custom dates for use in the courses
+		 TermInfo fall2012 = createTerm("2012FA", "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), context);
+		
+		 TermInfo spring2012 = createTerm("2012SP", "Spring 2012", AtpServiceConstants.ATP_SPRING_TYPE_KEY, new DateTime().withDate(2012, 1, 1).toDate(), new DateTime().withDate(2012, 4, 30).toDate(), context);
+		
 		// load the canonical course data
 		
-		loadCanonicalCourseAndFormat("CLU-1", "2012FA", "CHEM", "CHEM123", "Chemistry 123", "description 1", "COURSE1-FORMAT1",
-                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY);
+		createCourseCHEM123(fall2012, context);
 		
-        loadCanonicalCourseAndFormat("CLU-2", "2012SP", "ENG", "ENG101", "Intro English", "description 2", "COURSE2-FORMAT1",
-                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, null);
-        
-		// test lui data
+		createCourseENG101(spring2012, context);
 		
-		CourseOfferingInfo co1 = CourseOfferingServiceDataUtils.createCourseOffering("CLU-1", "atpId1", "Lui Desc 101", "CHEM123");
-		coService.createCourseOffering("CLU-1", "atpId1", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, co1, new ArrayList<String>(), context);
-		
-		CourseOfferingInfo co2 = CourseOfferingServiceDataUtils.createCourseOffering("CLU-2", "atpId2", "Lui Desc 301", "BIO123");
-		coService.createCourseOffering("CLU-2", "atpId2", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, co2, new ArrayList<String>(), context);
-		
-		// format
-		FormatOfferingInfo fo1 = CourseOfferingServiceDataUtils.createFormatOffering(co1.getId(), "COURSE1-FORMAT1", "atpId1", "Lecture", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-		
-		coService.createFormatOffering(co1.getId(), "COURSE1-FORMAT1", LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, fo1, context);
-		
-		List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
-		
-		instructors.add(CourseOfferingServiceDataUtils.createInstructor("p1", "Instructor", 100.00F));
-		
-		ActivityOfferingInfo ao1 = CourseOfferingServiceDataUtils.createActivityOffering("atpId1", fo1.getId(), "SCHED-1", "COURSE1-FORMAT1", "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
-		
-		coService.createActivityOffering(fo1.getId(), "COURSE1-FORMAT1", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, ao1, context);
 		
 		// activity
 		
-//				loadLui("Lui-1", "Lui one", "cluId1", "atpId1", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "<p>Lui Desc 101</p>", "Lui Desc 101", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
+//		 loadLui("Lui-1", "Lui one", "cluId1", "atpId1", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "<p>Lui Desc 101</p>", "Lui Desc 101", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
 //	     loadLui("Lui-2", "Lui rwo", "cluId2", "atpId2", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "<p>Lui Desc 201</p>", "Lui Desc 201", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
 //	     loadLui("Lui-3", "Lui three", "cluId3", "atpId3", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "<p>Lui Desc 301</p>", "Lui Desc 301 for deletion", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
 //	     loadLui("Lui-4", "Lui four", "cluId4", "atpId4", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "<p>Lui Desc 401</p>", "Lui Desc 401 for deletion", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
@@ -141,31 +151,175 @@ public class CourseOfferingTestDataLoader {
 	     
 		// for registration groups
 		
-	
-	// copied from CourseR1DataLoader
-	
-	        
 	        
 	    }
 
+	    private TermInfo createTerm(String id, String name, String atpTypeKey, Date startDate, Date endDate, ContextInfo context) throws OperationFailedException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, ReadOnlyException {
+	    	
+	    	AtpInfo atpInfo = new AtpInfo();
+	        atpInfo.setId(id);
+	        atpInfo.setName(name);
+	        atpInfo.setTypeKey(atpTypeKey);
+	        atpInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+	        atpInfo.setStartDate(startDate);
+	        atpInfo.setEndDate(endDate);
+	        atpInfo.setDescr(new RichTextHelper().fromPlain(name));
+
+	        try {
+	        TermInfo term = new TermAssembler().assemble(atpInfo, context);
+	        atpInfo.setCode(TermAssembler.buildAtpCodeForTerm(term));
+	        }
+	        catch (AssemblyException e) {
+	            throw new OperationFailedException("Assembly of TermInfo failed", e);
+	        }
+
+	        AtpInfo saved = atpService.createAtp(atpInfo.getTypeKey(), atpInfo, context);
+		
+	        TermInfo term = new TermInfo();
+	        
+	        term.setId(saved.getId());
+	        term.setAttributes(saved.getAttributes());
+	        term.setCode(saved.getCode());
+	        term.setStartDate(saved.getStartDate());
+	        term.setEndDate(saved.getEndDate());
+	        term.setMeta(saved.getMeta());
+	        term.setDescr(saved.getDescr());
+	        term.setStateKey(saved.getStateKey());
+	        term.setTypeKey(saved.getTypeKey());
+	        
+	        return term;
+	}
+
+
+		
+
+
+		private void createCourseCHEM123(TermInfo term, ContextInfo context) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+	    	
+	    	CourseInfo c1 = buildCanonicalCourse("CLU-1", term.getId(), "CHEM", "CHEM123", "Chemistry 123", "description 1");
+			
+			FormatInfo f1 = buildCanonicalFormat("COURSE1-FORMAT1", c1);
+			
+			ActivityInfo f1a1 = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, f1);
+			
+			FormatInfo f2 = buildCanonicalFormat("COURSE1-FORMAT2", c1);
+			
+			ActivityInfo f2a1 = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, f2);
+			ActivityInfo f2a2 = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY, f2);
+			
+			courseService.createCourse(c1);
+		
+
+			// course offering
+			CourseOfferingInfo co1 = CourseOfferingServiceDataUtils.createCourseOffering(c1.getId(), term.getId(), "Chemistry 123", "CHEM123");
+			
+			co1.setId("CO-1");
+			
+			coService.createCourseOffering(c1.getId(), term.getId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, co1, new ArrayList<String>(), context);
+			
+			// FO-1: lecture only format
+			FormatOfferingInfo fo1 = CourseOfferingServiceDataUtils.createFormatOffering(co1.getId(), f1.getId(), term.getId(), "Lecture", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
+			
+			fo1.setId("CO-1:FO-1");
+			
+			coService.createFormatOffering(co1.getId(), f1.getId(), LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, fo1, context);
+			
+			// FO-2: lab and lecture format
+			FormatOfferingInfo fo2 = CourseOfferingServiceDataUtils.createFormatOffering(co1.getId(), f2.getId(), term.getId(), "Lab & Lecture", new String[] {LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY});
+			
+			fo2.setId("CO-1:FO-2");
+			
+			coService.createFormatOffering(co1.getId(), f2.getId(), LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, fo2, context);
+			
+			List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+			
+			instructors.add(CourseOfferingServiceDataUtils.createInstructor("p1", "Instructor", 100.00F));
+			
+			ActivityOfferingInfo f1ao1 = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), co1.getId(), fo1.getId(), "SCHED-1", f1a1.getId(), "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			
+			f1ao1.setId("CO-1:FO-1:AO-1");
+			
+			coService.createActivityOffering(fo1.getId(), f1a1.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, f1ao1, context);
+			
+			ActivityOfferingInfo f2ao1 = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), co1.getId(), fo2.getId(), "SCHED-2", f2a1.getId(), "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			
+			f2ao1.setId("CO-1:FO-2:AO-1");
+			
+			coService.createActivityOffering(fo2.getId(), f2a1.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, f2ao1, context);
+			
+			ActivityOfferingInfo f2ao2 = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), co1.getId(), fo2.getId(), "SCHED-2", f2a2.getId(), "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			
+			f2ao1.setId("CO-1:FO-2:AO-2");
+			
+			coService.createActivityOffering(fo2.getId(), f2a2.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, f2ao2, context);
+			
+			
+			
+	}
+		
+		private void createCourseENG101(TermInfo term, ContextInfo context) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+			
+			CourseInfo c = buildCanonicalCourse("CLU-2",term.getId() , "ENG", "ENG101", "Intro English", "description 2");
+			
+			FormatInfo f1 = buildCanonicalFormat("COURSE2-FORMAT1", c);
+			
+			ActivityInfo f1a1 = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, f1);
+			
+			courseService.createCourse(c);
+			
+			// create offerings
+			CourseOfferingInfo co = CourseOfferingServiceDataUtils.createCourseOffering(c.getId(), term.getId(), "Chemistry 123", "CHEM123");
+			
+			co.setId("CO-2");
+			
+			coService.createCourseOffering(c.getId(), term.getId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, co, new ArrayList<String>(), context);
+			
+			// create format offering
+			// FO-1: lecture only format
+			FormatOfferingInfo fo1 = CourseOfferingServiceDataUtils.createFormatOffering(co.getId(), f1.getId(), term.getId(), "Lecture", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
+						
+			fo1.setId("CO-2:FO-2");
+					
+			coService.createFormatOffering(co.getId(), f1.getId(), LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, fo1, context);
+			
+			// create lecture activity
+			List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+			
+			instructors.add(CourseOfferingServiceDataUtils.createInstructor("p2", "Instructor", 100.00F));
+			
+			ActivityOfferingInfo f1ao1 = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), co.getId(), fo1.getId(), "SCHED-1", f1a1.getId(), "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			
+			f1ao1.setId("CO-2:FO-1:AO-1");
+			
+			coService.createActivityOffering(fo1.getId(), f1a1.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, f1ao1, context);
+			
+			
+			
+	}
+
+
+		public void loadCanonicalCourseAndFormat(String id,
+	            String startTermId,
+	            String subjectArea,
+	            String code,
+	            String title,
+	            String description, 
+	            String formatId,
+	            String activityTypeKey) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
+	        this.loadCourseInternal(id, startTermId, subjectArea, code, title, description, formatId, new String[] {activityTypeKey});
+	    }
+	    
 	    public void loadCanonicalCourseAndFormat(String id,
 	            String startTermId,
 	            String subjectArea,
 	            String code,
 	            String title,
-	            String description,
+	            String description, 
 	            String formatId,
-	            String activityTypeKey1,
-	            String activityTypeKey2) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
-	        List<String> activityTypeKeys = new ArrayList();
-	        if (activityTypeKey1 != null) {
-	            activityTypeKeys.add(activityTypeKey1);
-	        }
-	        if (activityTypeKey1 != null) {
-	            activityTypeKeys.add(activityTypeKey2);
-	        }
+	            String[] activityTypeKeys) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
 	        this.loadCourseInternal(id, startTermId, subjectArea, code, title, description, formatId, activityTypeKeys);
 	    }
+
 
 	    private void loadCourseInternal(String id,
 	            String startTermId,
@@ -174,7 +328,7 @@ public class CourseOfferingTestDataLoader {
 	            String title,
 	            String description,
 	            String formatId,
-	            List<String> activityTypeKeys) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
+	            String[] activityTypeKeys) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
 	        CourseInfo info = new CourseInfo();
 	        info.setStartTerm(startTermId);
 	        info.setEffectiveDate(calcEffectiveDateForTerm(startTermId, id));
@@ -204,6 +358,50 @@ public class CourseOfferingTestDataLoader {
 	        }
 	        
 	        courseService.createCourse(info);
+	    }
+	    
+	    private CourseInfo buildCanonicalCourse(String id, String startTermId, String subjectArea, String code, String title, String description) {
+	    	CourseInfo info = new CourseInfo();
+	    	info.setStartTerm(startTermId);
+	        info.setEffectiveDate(calcEffectiveDateForTerm(startTermId, id));
+	        info.setId(id);
+	        info.setSubjectArea(subjectArea);
+	        info.setCode(code);
+	        info.setCourseNumberSuffix(code.substring(subjectArea.length()));
+	        info.setCourseTitle(title);
+	        RichTextInfo rt = new RichTextInfo();
+	        rt.setPlain(description);
+	        info.setDescr(rt);
+	        info.setType(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
+	        info.setState(DtoConstants.STATE_ACTIVE);
+	        info.setFormats(new ArrayList<FormatInfo>());
+			return info;
+	    }
+	    
+	    private ActivityInfo buildCanonicalActivity(String activityTypeKey, FormatInfo format) {
+	    	
+	    	ActivityInfo info = new ActivityInfo();
+	    	info.setId(format.getId() + "-" + activityTypeKey);
+	    	info.setActivityType(activityTypeKey);
+	    	info.setState(DtoConstants.STATE_ACTIVE);
+	    	
+	    	format.getActivities().add(info);
+	    	
+			return info;
+	    	
+	    }
+	    
+	    private FormatInfo buildCanonicalFormat (String formatId, CourseInfo course) {
+	    	
+	    	FormatInfo info = new FormatInfo();
+	    	info.setId(formatId);
+	    	info.setType(LuServiceConstants.COURSE_FORMAT_TYPE_KEY);
+	    	info.setState(DtoConstants.STATE_ACTIVE);
+	    	info.setActivities(new ArrayList<ActivityInfo>());
+	    	
+	    	course.getFormats().add(info);
+	    	
+			return info;
 	    }
 
 	    private Date calcEffectiveDateForTerm(String termId, String context) {

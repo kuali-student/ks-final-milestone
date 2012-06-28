@@ -167,6 +167,12 @@ public class ActivityOfferingInfo
         }
 
         this.formatOfferingId = offering.getFormatOfferingId();
+        this.formatOfferingName = offering.getFormatOfferingName();
+        
+        this.courseOfferingId = offering.getCourseOfferingId();
+        this.courseOfferingCode = offering.getCourseOfferingCode();
+        this.courseOfferingTitle = offering.getCourseOfferingTitle();
+        
         this.activityId = offering.getActivityId();
         this.termId = offering.getTermId();
         this.scheduleId = offering.getScheduleId();

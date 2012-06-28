@@ -484,7 +484,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             PermissionDeniedException {
         List<ActivityOfferingInfo> list = new ArrayList<ActivityOfferingInfo>();
         for (ActivityOfferingInfo info : activityOfferingMap.values()) {
-            if (courseOfferingId.equals(this.getFormatOffering(info.getFormatOfferingId(), context).getCourseOfferingId())) {
+        	
+            if (courseOfferingId.equals(info.getCourseOfferingId())) {
                 list.add(info);
             }
         }

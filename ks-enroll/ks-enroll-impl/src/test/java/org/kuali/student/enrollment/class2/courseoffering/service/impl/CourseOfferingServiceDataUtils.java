@@ -74,17 +74,20 @@ public final class CourseOfferingServiceDataUtils {
 	 */
 		// Copied from TestCourseOfferingServiceWithMocks
 		// and flushed out using the ActivityOfferingTransformer
-		public static ActivityOfferingInfo createActivityOffering(String termId,
+		public static ActivityOfferingInfo createActivityOffering(String termId, String courseOfferingId,
 				String formatOfferingId, String scheduleId, String activityId, String activityName, String activityCode, String activityTypeKey, List<OfferingInstructorInfo> instructors) {
 			
 			ActivityOfferingInfo orig = new ActivityOfferingInfo();
 			
-			 orig.setId(UUIDHelper.genStringUUID());
-			 
 			orig.setTypeKey(activityTypeKey);
 			orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
 				
+			orig.setCourseOfferingId(courseOfferingId);
 			orig.setFormatOfferingId(formatOfferingId);
+			
+			// TODO: maybe make this settable
+			orig.setFormatOfferingName(formatOfferingId);
+			
 			orig.setActivityId(activityId);
 			
 			orig.setTermId(termId);
@@ -133,8 +136,6 @@ public final class CourseOfferingServiceDataUtils {
 
 			FormatOfferingInfo orig = new FormatOfferingInfo();
 
-		    orig.setId(UUIDHelper.genStringUUID());
-		    
 		    orig.setCourseOfferingId(courseOfferingId);
 			orig.setFormatId(canonicalFormatId);
 			orig.setTermId(termId);
@@ -173,7 +174,7 @@ public final class CourseOfferingServiceDataUtils {
 				String termId, String courseTitle, String courseCode) {
 			CourseOfferingInfo orig = new CourseOfferingInfo();
 			
-			orig.setId(UUIDHelper.genStringUUID());
+			// this is the canonical course id
 			orig.setCourseId(courseId);
 			orig.setTermId(termId);
 			
@@ -255,8 +256,6 @@ public final class CourseOfferingServiceDataUtils {
 	public static OfferingInstructorInfo createInstructor(String personId, String personName, Float percentageEffort) {
 
 		OfferingInstructorInfo instructor = new OfferingInstructorInfo();
-		
-		instructor.setId(UUIDHelper.genStringUUID());
 		
         instructor.setPersonId(personId);
         

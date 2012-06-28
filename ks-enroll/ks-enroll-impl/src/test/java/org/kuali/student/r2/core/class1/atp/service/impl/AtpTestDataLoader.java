@@ -232,7 +232,7 @@ public class AtpTestDataLoader {
         info = atpService.updateAtp(atpId, info, context);
     }
 
-    private void loadAtp(String id,
+    public void loadAtp(String id,
             String name,
             String startDate,
             String endDate,
@@ -289,7 +289,7 @@ public class AtpTestDataLoader {
      * @throws ReadOnlyException
      * @throws AssemblyException
      */
-    private void loadTerm(String id,
+    public void loadTerm(String id,
                          String name,
                          String startDate,
                          String endDate,
