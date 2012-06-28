@@ -26,7 +26,7 @@ import java.io.Serializable;
  */
 public class OfferingInstructorWrapper implements Serializable {
     private OfferingInstructorInfo offeringInstructorInfo;
-    private Integer intEffort;
+    private String sEffort;
 
     public OfferingInstructorWrapper(){
         offeringInstructorInfo = new OfferingInstructorInfo();
@@ -45,11 +45,11 @@ public class OfferingInstructorWrapper implements Serializable {
         this.offeringInstructorInfo =  offeringInstructorInfo;
     }
 
-    public Integer getIntEffort() {
-        return intEffort;
+    public String getsEffort() {
+        return sEffort;
     }
 
-    public void setIntEffort(int intEffort) {
-        this.intEffort = intEffort;
+    public void setsEffort(String sEffort) {
+        this.sEffort = sEffort;
     }
 }

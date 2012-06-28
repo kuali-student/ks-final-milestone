@@ -114,7 +114,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             for(OfferingInstructorInfo instructor : instructors){
                 OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper(instructor);
                 if(instructor.getPercentageEffort() != null){
-                    instructorWrapper.setIntEffort((instructor.getPercentageEffort().intValue()));
+                    instructorWrapper.setsEffort(Integer.toString(instructor.getPercentageEffort().intValue()));
                 }
                 wrapper.getInstructors().add(instructorWrapper);
             }
@@ -131,8 +131,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     private OfferingInstructorInfo disassembleInstructorWrapper(OfferingInstructorWrapper instructor){
         OfferingInstructorInfo instructorInfo = new OfferingInstructorInfo(instructor.getOfferingInstructorInfo());
-        if(instructor.getIntEffort() != null){
-            instructorInfo.setPercentageEffort(instructor.getIntEffort().floatValue());
+        if(instructor.getsEffort() != null){
+            instructorInfo.setPercentageEffort(new Float(instructor.getsEffort()));
         }
         return instructorInfo;
     }
