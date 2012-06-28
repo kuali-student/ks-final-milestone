@@ -21,7 +21,6 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean readOnlyView;
     private boolean isChecked;
     private String courseOfferingId;
-    private CourseOfferingInfo coInfo;
     // Tanveer 06/13/2012
     private String stateName;
     private String typeName;
@@ -78,7 +77,6 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
-        coInfo = new CourseOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
         aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
@@ -166,14 +164,6 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setCourseOfferingId(String courseOfferingId) {
         this.courseOfferingId = courseOfferingId;
-    }
-
-    public CourseOfferingInfo getCoInfo() {
-        return coInfo;
-    }
-
-    public void setCoInfo(CourseOfferingInfo coInfo) {
-        this.coInfo = coInfo;
     }
 
     public List<OfferingInstructorWrapper> getInstructors() {

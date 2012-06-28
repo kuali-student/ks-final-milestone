@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.ws.security.util.StringUtil;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -70,8 +72,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
             //get the course offering
             CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID), getContextInfo());
-            wrapper.setCoInfo(courseOfferingInfo);
-
 
             // Added for WaitList Tanveer 06/27/2012
             wrapper.setWaitListLevelTypeKey(courseOfferingInfo.getWaitlistLevelTypeKey());
@@ -131,7 +131,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     private OfferingInstructorInfo disassembleInstructorWrapper(OfferingInstructorWrapper instructor){
         OfferingInstructorInfo instructorInfo = new OfferingInstructorInfo(instructor.getOfferingInstructorInfo());
-        if(instructor.getsEffort() != null){
+        if(!StringUtils.isBlank(instructor.getsEffort())){
             instructorInfo.setPercentageEffort(new Float(instructor.getsEffort()));
         }
         return instructorInfo;
