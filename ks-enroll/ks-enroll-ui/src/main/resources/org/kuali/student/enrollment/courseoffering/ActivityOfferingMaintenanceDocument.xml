@@ -460,8 +460,8 @@
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="headerText" value="Waitlists and Seatpools"/>
                     <property name="items">
-                        <list>                      <!-- p:propertyName=finalExamSpaceCode is being used as a stub, should be replaced later on Tanveer 05/31/2012 -->
-                            <bean parent="Uif-DataField" p:propertyName="aoInfo.name" p:label="Waitlists" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:defaultValue="There is no wait list for this offering."/>
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="waitListText" p:label="Waitlists" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
                         </list>
                     </property>
                 </bean>
