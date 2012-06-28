@@ -144,7 +144,6 @@ public class TestHoldServiceImpl {
         IssueInfo issue = holdService.getIssue(HoldTestConstants.HOLD_ISSUE_3, callContext);
         issue.setName("New Name");
         issue.setStateKey("fake state");
-        issue.setTypeKey("random type");
         issue.setOrganizationId(HoldTestConstants.ORG_1);
         issue.setDescr(new RichTextInfo("New plain issue", "New <b>Formatted</b> issue"));
         holdService.updateIssue(issue.getId(), issue, callContext);
@@ -153,7 +152,6 @@ public class TestHoldServiceImpl {
         IssueInfo updatedIssue = holdService.getIssue(HoldTestConstants.HOLD_ISSUE_3, callContext);
         assertEquals("New Name", updatedIssue.getName());
         assertEquals("fake state", updatedIssue.getStateKey());
-        assertEquals("random type", updatedIssue.getTypeKey());
         assertEquals(HoldTestConstants.ORG_1, updatedIssue.getOrganizationId());
         assertEquals("New plain issue", updatedIssue.getDescr().getPlain());
         assertEquals("New <b>Formatted</b> issue", updatedIssue.getDescr().getFormatted());

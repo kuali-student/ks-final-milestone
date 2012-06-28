@@ -51,11 +51,7 @@
     <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
-    
-    <bean id="holdRichTextDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldRichTextDao">
-    	<property name="em" ref="enrollEntityManager"/>
-    </bean>   
-    
+     
     <bean id="holdDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>

@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.hold.model;
 
+import java.util.ArrayList;
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -32,6 +33,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  * This is a description of what this class does - andy don't forget to fill this in.
@@ -40,6 +44,12 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "KSEN_HOLD_ISSUE")
+@NamedQueries({
+    @NamedQuery(name = "HoldIssueEntity.getIdsByType",
+    query = "select id from HoldIssueEntity where holdIssueType = :type"),
+    @NamedQuery(name = "HoldIssueEntity.getByOrganization",
+    query = "select ISSUE from HoldIssueEntity ISSUE where ISSUE.organizationId = :organizationId")
+})
 public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIssueAttributeEntity> {
 
     @Column(name = "NAME")
@@ -66,25 +76,44 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
     public HoldIssueEntity() {
     }
 
-    public HoldIssueEntity(Issue issue) {
-        super(issue);
-        this.setId(issue.getId());
-        this.setHoldIssueType(issue.getTypeKey());
-        this.fromDto(issue);
+    public HoldIssueEntity(Issue dto, EntityManager em) {
+        super(dto);
+        this.setId(dto.getId());
+        this.setHoldIssueType(dto.getTypeKey());
+        this.fromDto(dto, em);
     }
 
-    public void fromDto(Issue issue) {
-        setName(issue.getName());
-        setOrganizationId(issue.getOrganizationId());
-        setHoldIssueState(issue.getStateKey());
-        setHoldIssueType(issue.getTypeKey());
-        if (issue.getDescr() != null) {
-            setDescrFormatted(issue.getDescr().getFormatted());
-            setDescrPlain(issue.getDescr().getPlain());
+    public void fromDto(Issue dto, EntityManager em) {
+        setName(dto.getName());
+        setHoldIssueState(dto.getStateKey());
+        setOrganizationId(dto.getOrganizationId());
+        if (dto.getDescr() != null) {
+            this.setDescrFormatted(dto.getDescr().getFormatted());
+            this.setDescrPlain(dto.getDescr().getPlain());
+        } else {
+            this.setDescrFormatted(null);
+            this.setDescrPlain(null);
         }
-        this.setAttributes(new HashSet<HoldIssueAttributeEntity>());
-        for (Attribute att : issue.getAttributes()) {
+        
+        // dynamic attributes
+        if (this.getAttributes() == null) {
+            this.setAttributes(new HashSet<HoldIssueAttributeEntity>());
+        }
+        Set<String> idSet = new HashSet<String>(dto.getAttributes().size());
+        for (Attribute attr : dto.getAttributes()) {
+            if (attr.getId() != null) {
+                idSet.add(attr.getId());
+            }
+        }
+        for (HoldIssueAttributeEntity attEntity : new ArrayList<HoldIssueAttributeEntity> (this.getAttributes())) {
+            if (!idSet.contains(attEntity.getId())) {
+                em.remove(attEntity);
+                this.getAttributes().remove(attEntity);
+            }
+        }
+        for (Attribute att : dto.getAttributes()) {
             HoldIssueAttributeEntity attEntity = new HoldIssueAttributeEntity(att);
+            attEntity.setOwner(this);
             this.getAttributes().add(attEntity);
         }
     }

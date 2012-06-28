@@ -91,12 +91,16 @@ public class LuiTestDataLoader {
         LuiIdentifierEntity luiIdent = new LuiIdentifierEntity();
         luiIdent.setLui(luiEntity);
         luiIdent.setId(additionIden);
+        luiIdent.setCreateId("TESTDATALOADER");
+        luiIdent.setCreateTime(new Date ());
 
         LuiIdentifierEntity luiOfficialIdent = new LuiIdentifierEntity();
         luiOfficialIdent.setLui(luiEntity);
         luiOfficialIdent.setId(officialIdentifier);
         luiOfficialIdent.setShortName(officialIdentName);
-        luiOfficialIdent.setType(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+        luiOfficialIdent.setType(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);        
+        luiOfficialIdent.setCreateId("TESTDATALOADER");
+        luiOfficialIdent.setCreateTime(new Date ());
         List<LuiIdentifierEntity> luiIdents = new ArrayList<LuiIdentifierEntity>();
 
         luiIdents.add(luiIdent);

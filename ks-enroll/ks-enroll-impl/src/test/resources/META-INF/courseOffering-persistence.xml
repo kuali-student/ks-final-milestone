@@ -37,7 +37,6 @@
         <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationAttributeEntity</class>
 
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldEntity</class>

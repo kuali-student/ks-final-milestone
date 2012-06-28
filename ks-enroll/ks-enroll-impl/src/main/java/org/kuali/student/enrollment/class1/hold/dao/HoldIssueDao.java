@@ -16,21 +16,28 @@
 package org.kuali.student.enrollment.class1.hold.dao;
 
 import java.util.List;
+import javax.persistence.Query;
 
 import org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 
 /**
- * This is a description of what this class does - andy don't forget to fill this in. 
- * 
+ * This is a description of what this class does - andy don't forget to fill this in.
+ *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public class HoldIssueDao extends GenericEntityDao<HoldIssueEntity> {
+public class HoldIssueDao
+        extends GenericEntityDao<HoldIssueEntity> {
 
-    @SuppressWarnings("unchecked")
     public List<HoldIssueEntity> getByOrganizationId(String orgId) {
-        return em.createQuery("from HoldIssueEntity i where i.organizationId=:orgId").setParameter("orgId", orgId).getResultList();
+        Query query = em.createNamedQuery("HoldIssueEntity.getByOrganization");
+        query.setParameter("organizationId", orgId);
+        return query.getResultList();
     }
 
-
+    public List<String> getIdsByType(String type) {
+        Query query = em.createNamedQuery("HoldIssueEntity.getIdsByType");
+        query.setParameter("type", type);
+        return query.getResultList();
+    }
 }

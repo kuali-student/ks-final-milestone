@@ -55,8 +55,6 @@
         <class>org.kuali.student.core.statement.entity.ReqComponentTypeAttribute</class>
         <class>org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate</class>
 
-
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldEntity</class>

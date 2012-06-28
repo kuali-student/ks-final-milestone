@@ -1,8 +1,8 @@
 package org.kuali.student.enrollment.class1.hold.model;
 
+import java.util.ArrayList;
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -22,10 +22,30 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import org.kuali.student.r2.common.util.RichTextHelper;
 
 @Entity
 @Table(name = "KSEN_HOLD")
+@NamedQueries({
+    @NamedQuery(name = "HoldEntity.getIdsByType",
+    query = "select id from HoldEntity where holdType = :type"),
+    @NamedQuery(name = "HoldEntity.getIdsByIssue",
+    query = "select H.id from HoldEntity H where H.holdIssue.id = :issueId"),
+    @NamedQuery(name = "HoldEntity.getByPerson",
+    query = "select H from HoldEntity H where H.personId = :personId"),
+    @NamedQuery(name = "HoldEntity.getByPersonAndState",
+    query = "select H from HoldEntity H where H.personId = :personId and h.holdState = :stateKey"),
+    @NamedQuery(name = "HoldEntity.getByIssueAndPerson",
+    query = "select H from HoldEntity H where H.holdIssue.id = :issueId and H.personId = :personId"),
+    @NamedQuery(name = "HoldEntity.getByIssuePersonAndState",
+    query = "select H from HoldEntity H where H.holdIssue.id = :issueId and H.personId = :personId and h.holdState = :stateKey")
+})
 public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttributeEntity> {
+    @Column(name = "NAME")
+    private String name;
 
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
     private String descrPlain;
@@ -65,23 +85,48 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     public HoldEntity() {
     }
 
-    public HoldEntity(Hold hold) {
+    public HoldEntity(Hold hold, EntityManager em, HoldIssueEntity holdIssueEntity) {
         super(hold);
         this.setId(hold.getId());
-        this.setHoldType(hold.getTypeKey());
-        this.fromDto(hold);
-        this.setPersonId(hold.getPersonId());
+        this.personId = hold.getPersonId();
+        this.holdIssue = holdIssueEntity;
+        this.holdType = hold.getTypeKey();
+        this.fromDto(hold, em);
     }
 
-    public void fromDto(Hold hold) {
-        this.setHoldState(hold.getStateKey());
-        this.setEffectiveDate(hold.getEffectiveDate());
-        this.setReleasedDate(hold.getReleasedDate());
-        this.setDescrPlain(hold.getDescr().getPlain());
-        this.setDescrFormatted(hold.getDescr().getFormatted());
-        this.setAttributes(new HashSet<HoldAttributeEntity>());
-        for (Attribute att : hold.getAttributes()) {
+    
+    public void fromDto(Hold dto,  EntityManager em) {
+        this.setName (dto.getName());
+        this.setHoldState(dto.getStateKey());
+        if (dto.getDescr() != null) {
+            this.setDescrFormatted(dto.getDescr().getFormatted());
+            this.setDescrPlain(dto.getDescr().getPlain());
+        } else {
+            this.setDescrFormatted(null);
+            this.setDescrPlain(null);
+        }
+        this.setEffectiveDate(dto.getEffectiveDate());
+        this.setReleasedDate(dto.getReleasedDate());
+        
+        // dynamic attributes
+        if (this.getAttributes() == null) {
+            this.setAttributes(new HashSet<HoldAttributeEntity>());
+        }
+        Set<String> idSet = new HashSet<String>(dto.getAttributes().size());
+        for (Attribute attr : dto.getAttributes()) {
+            if (attr.getId() != null) {
+                idSet.add(attr.getId());
+            }
+        }
+        for (HoldAttributeEntity attEntity : new ArrayList<HoldAttributeEntity> (this.getAttributes())) {
+            if (!idSet.contains(attEntity.getId())) {
+                em.remove(attEntity);
+                this.getAttributes().remove(attEntity);
+            }
+        }
+        for (Attribute att : dto.getAttributes()) {
             HoldAttributeEntity attEntity = new HoldAttributeEntity(att);
+            attEntity.setOwner(this);
             this.getAttributes().add(attEntity);
         }
     }
@@ -89,6 +134,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     public HoldInfo toDto() {
         HoldInfo info = new HoldInfo();
         info.setId(getId());
+        info.setName(name);
         info.setEffectiveDate(effectiveDate);
         info.setReleasedDate(releasedDate);
         info.setPersonId(personId);
@@ -97,9 +143,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         if (holdIssue != null) {
             info.setIssueId(holdIssue.getId());
         }
-        if (descrPlain != null) {
-            info.setDescr(new RichTextInfo(descrPlain, descrFormatted));
-        }
+        info.setDescr(new RichTextHelper().toRichTextInfo(getDescrPlain(), getDescrFormatted()));
 
         info.setMeta(super.toDTO());
         for (HoldAttributeEntity att : getAttributes()) {
@@ -108,6 +152,16 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         }
         return info;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
 
     public String getDescrPlain() {
         return descrPlain;
