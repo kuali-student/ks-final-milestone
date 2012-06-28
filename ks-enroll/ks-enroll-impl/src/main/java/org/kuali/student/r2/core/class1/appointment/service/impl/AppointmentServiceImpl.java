@@ -450,10 +450,11 @@ public class AppointmentServiceImpl implements AppointmentService {
             helper.deleteAppointmentSlotsByWindowCascading(apptWin);
         }
         // if statement between the three supported cases
-        if (apptWin.getApptWindowType().equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY)) {
+        String apptWinType = apptWin.getApptWindowType();
+        if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY.equals(apptWinType)) {
             slotList = helper.createOneSlotPerWindow(apptWin, contextInfo);
-        } else if (apptWin.getApptWindowType().equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY) ||
-                   apptWin.getApptWindowType().equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY)) {
+        } else if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY.equals(apptWinType) ||
+                   AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(apptWinType)) {
             AppointmentSlotRuleInfo slotRule = apptWinInfo.getSlotRule();
             if (slotRule == null) {
                 throw new MissingParameterException("Missing slot rule");
@@ -469,6 +470,12 @@ public class AppointmentServiceImpl implements AppointmentService {
                 throw new InvalidParameterException("End time should be 1 AM or after");
             }
 
+            if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY.equals(apptWinType) &&
+                    apptWin.getMaxAppointmentsPerSlot() <= 0) {
+                // Handle 0 or negative error case
+                int maxAppts = apptWin.getMaxAppointmentsPerSlot();
+                throw new InvalidParameterException("Invalid max: " + maxAppts + ". Max appointment slot allocation require positive max value");
+            }
             Object [] result = helper.createMultiSlots(apptWinInfo, contextInfo);
             slotList = (List<AppointmentSlotInfo>) result[0];
         } else {
