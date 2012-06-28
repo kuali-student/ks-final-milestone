@@ -25,6 +25,7 @@
     <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" >
         <property name="courseService" ref="courseService" />
         <property name="businessLogic" ref="coBusinessLogic" />
+         <property name="typeService" ref="typeService"/>
     </bean>
 
     <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
@@ -32,5 +33,7 @@
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />
     </bean>
+    
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
 </beans>
 
