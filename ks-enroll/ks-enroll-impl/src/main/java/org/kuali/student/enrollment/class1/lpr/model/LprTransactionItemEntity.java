@@ -62,7 +62,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 	@Column(name = "LTI_RESULT_MESSAGE")
 	private String resultMessage;
 
-	@Column(name = "LTI_RESULTING_STATUS")
+	@Column(name = "LTI_RESULT_STATUS")
 	private String status;
 
 	@Column(name = "GROUP_ID")

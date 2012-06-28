@@ -88,13 +88,13 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="SocRolloverResultInfo.itemsCreated" parent="SocRolloverResultInfo.itemsCreated-parent"/>
-	<bean id="SocRolloverResultInfo.itemsCreated-parent" abstract="true" parent="SocRolloverResultInfo.itemsCreated-generated">
+	<bean id="SocRolloverResultInfo.courseOfferingsCreated" parent="SocRolloverResultInfo.courseOfferingsCreated-parent"/>
+	<bean id="SocRolloverResultInfo.courseOfferingsCreated-parent" abstract="true" parent="SocRolloverResultInfo.courseOfferingsCreated-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="SocRolloverResultInfo.itemsSkipped" parent="SocRolloverResultInfo.itemsSkipped-parent"/>
-	<bean id="SocRolloverResultInfo.itemsSkipped-parent" abstract="true" parent="SocRolloverResultInfo.itemsSkipped-generated">
+	<bean id="SocRolloverResultInfo.courseOfferingsSkipped" parent="SocRolloverResultInfo.courseOfferingsSkipped-parent"/>
+	<bean id="SocRolloverResultInfo.courseOfferingsSkipped-parent" abstract="true" parent="SocRolloverResultInfo.courseOfferingsSkipped-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

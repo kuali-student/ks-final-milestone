@@ -215,8 +215,8 @@
 
   <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
     <property name="lprDao" ref="lprDao" />
-    <property name="lprRosterDao" ref="lprRosterDao" />
-    <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
+    <property name="lprTransactionDao" ref="lprTransactionDao" />
+    <property name="lprTransactionItemDao" ref="lprTransactionItemDao" />
   </bean>
 
 
@@ -230,11 +230,11 @@
   </bean>
 
 
-  <bean id="lprRosterDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao">
+  <bean id="lprTransactionDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao">
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="lprRosterEntryDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao">
+  <bean id="lprTransactionItemDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao">
     <property name="em" ref="entityManager" />
   </bean>
 

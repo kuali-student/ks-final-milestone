@@ -385,10 +385,8 @@
 
   <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
     <property name="lprDao" ref="lprDao" />
-    <property name="lprRosterDao" ref="lprRosterDao" />
-    <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
-    <property name="lprTransDao" ref="lprTrasactionDao" />
-    <property name="lprTransItemDao" ref="lprTrasactionItemDao" />
+    <property name="lprTransactionDao" ref="lprTrasactionDao" />
+    <property name="lprTransactionItemDao" ref="lprTrasactionItemDao" />
   </bean>
 
   <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceValidationDecorator">
@@ -426,22 +424,12 @@
   <bean id="courseRegistrationService"
     class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
     <property name="validator" ref="validator" />
-    <property name="lprService" ref="lprPersistenceService" />
-    <property name="dataDictionaryService" ref="dataDictionaryServiceForLpr" />
     <property name="nextDecorator" ref="courseRegistrationImpl" />
   </bean>
 
   <bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
     <property name="lprService" ref="lprServiceValidation" />
     <property name="courseOfferingService" ref="coServiceValidation" />
-    <property name="regRequestAssembler" ref="regRequestAssembler" />
-    <property name="regResponseAssembler" ref="regResponseAssembler" />
-    <property name="courseRegistrationAssembler" ref="courseRegistrationAssembler" />
-    <property name="lrcService" ref="lrcPersistenceService" />
-    <property name="courseService" ref="courseServiceImpl" />
-    <property name="statementService" ref="statementServiceImpl" />
-    <property name="rulesEvaluationUtil" ref="rulesEvaluationUtil" />
-    <property name="propositionBuilder" ref="propositionBuilder" />
   </bean>
 
   <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
@@ -458,9 +446,6 @@
     </property>
   </bean>
 
-  <bean id="courseRegistrationAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler" />
-  <bean id="regRequestAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler" />
-  <bean id="regResponseAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler" />
   <bean id="propositionBuilder" class="org.kuali.student.core.statement.util.PropositionBuilder" />
 
   <bean id="ks.exp.courseRegistrationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

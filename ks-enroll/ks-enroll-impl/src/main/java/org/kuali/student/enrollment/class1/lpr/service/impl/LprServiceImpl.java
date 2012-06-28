@@ -50,21 +50,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class LprServiceImpl implements LprService {
 
     private LprDao lprDao;
-    private LprTransactionDao lprTransDao;
-    private LprTransactionItemDao lprTransItemDao;
+    private LprTransactionDao lprTransactionDao;
+    private LprTransactionItemDao lprTransactionItemDao;
+
+    public LprTransactionDao getLprTransactionDao() {
+        return lprTransactionDao;
+    }
+
+    public void setLprTransactionDao(LprTransactionDao lprTransactionDao) {
+        this.lprTransactionDao = lprTransactionDao;
+    }
+
+    public LprTransactionItemDao getLprTransactionItemDao() {
+        return lprTransactionItemDao;
+    }
+
+    public void setLprTransactionItemDao(LprTransactionItemDao lprTransactionItemDao) {
+        this.lprTransactionItemDao = lprTransactionItemDao;
+    }
     
-    public void setLprTransItemDao(LprTransactionItemDao lprTransItemDao) {
-        this.lprTransItemDao = lprTransItemDao;
-    }
-
-    public LprTransactionDao getLprTransDao() {
-        return lprTransDao;
-    }
-
-    public void setLprTransDao(LprTransactionDao lprTransDao) {
-        this.lprTransDao = lprTransDao;
-    }
-
     public LprDao getLprDao() {
         return lprDao;
     }
@@ -341,7 +345,7 @@ public class LprServiceImpl implements LprService {
     public LprTransactionInfo getLprTransaction(String lprTransactionId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        LprTransactionEntity transactionEntity = lprTransDao.find(lprTransactionId);
+        LprTransactionEntity transactionEntity = lprTransactionDao.find(lprTransactionId);
 
         if (transactionEntity == null)
         	throw new DoesNotExistException("No LprTransactionEntity for id = " + lprTransactionId);
@@ -357,10 +361,10 @@ public class LprServiceImpl implements LprService {
 
         StatusInfo status = new StatusInfo();
 
-        LprTransactionEntity lprTrans = lprTransDao.find(lprTransactionId);
+        LprTransactionEntity lprTrans = lprTransactionDao.find(lprTransactionId);
         if (null != lprTrans) {
 
-            lprTransDao.remove(lprTrans);
+            lprTransactionDao.remove(lprTrans);
 
             status.setSuccess(Boolean.TRUE);
 
@@ -422,9 +426,9 @@ public class LprServiceImpl implements LprService {
         
         lprTransactionEntity.setEntityCreated(context);
 
-        lprTransDao.persist(lprTransactionEntity);
+        lprTransactionDao.persist(lprTransactionEntity);
 
-        LprTransactionEntity retrived = lprTransDao.find(lprTransactionEntity.getId());
+        LprTransactionEntity retrived = lprTransactionDao.find(lprTransactionEntity.getId());
 
         LprTransactionInfo info = null;
         if (retrived != null) {
@@ -441,7 +445,7 @@ public class LprServiceImpl implements LprService {
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        LprTransactionEntity existingLprTransactionEntity = lprTransDao.find(lprTransactionId);
+        LprTransactionEntity existingLprTransactionEntity = lprTransactionDao.find(lprTransactionId);
         LprTransactionEntity newLprTransactionEntity = new LprTransactionEntity();
         if (existingLprTransactionEntity != null) {
             newLprTransactionEntity.setId(UUIDHelper.genStringUUID());
@@ -465,12 +469,12 @@ public class LprServiceImpl implements LprService {
             newLprTransactionEntity.setLprTransState(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
             newLprTransactionEntity.setLprTransType(existingLprTransactionEntity.getLprTransType());
             newLprTransactionEntity.setRequestingPersonId(existingLprTransactionEntity.getRequestingPersonId());
-            lprTransDao.persist(newLprTransactionEntity);
+            lprTransactionDao.persist(newLprTransactionEntity);
 
         } else {
             throw new DoesNotExistException("Could not find any LPR Transaction for id : " + lprTransactionId);
         }
-        LprTransactionEntity retrived = lprTransDao.find(newLprTransactionEntity.getId());
+        LprTransactionEntity retrived = lprTransactionDao.find(newLprTransactionEntity.getId());
         LprTransactionInfo info = null;
         if (retrived != null) {
             info = retrived.toDto();
@@ -597,11 +601,11 @@ public class LprServiceImpl implements LprService {
     public List<LprTransactionItemInfo> getLprTransactionItemsByResultingLpr(String lprId, ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<LprTransactionItemEntity> lprTransItems = lprTransItemDao.getLprTransactionItemsByLpr(lprId);
+        List<LprTransactionItemEntity> lprTransItems = lprTransactionItemDao.getLprTransactionItemsByLpr(lprId);
         List<LprTransactionEntity> lprTrans = new ArrayList<LprTransactionEntity>();
         for (LprTransactionItemEntity lprTransItem : lprTransItems) {
 
-            lprTrans.add(lprTransDao.getByLprTransactionItemId(lprTransItem.getId()));
+            lprTrans.add(lprTransactionDao.getByLprTransactionItemId(lprTransItem.getId()));
         }
         List<LprTransactionInfo> lprTransInfos = new ArrayList<LprTransactionInfo>();
 
@@ -618,7 +622,7 @@ public class LprServiceImpl implements LprService {
     public LprTransactionInfo updateLprTransaction(String lprTransactionId, LprTransactionInfo lprTransactionInfo, ContextInfo context) throws
             DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        LprTransactionEntity lprTrans = lprTransDao.find(lprTransactionId);
+        LprTransactionEntity lprTrans = lprTransactionDao.find(lprTransactionId);
 
         if (null != lprTrans) {
         	
@@ -633,9 +637,9 @@ public class LprServiceImpl implements LprService {
 
             lprTrans.setEntityUpdated(context);
             
-            lprTransDao.merge(lprTrans);
+            lprTransactionDao.merge(lprTrans);
             
-            return lprTransDao.find(lprTransactionId).toDto();
+            return lprTransactionDao.find(lprTransactionId).toDto();
 
         } else {
             throw new DoesNotExistException(lprTransactionId);
@@ -672,7 +676,7 @@ public class LprServiceImpl implements LprService {
         }
 
         for (String id : deletedItems) {
-            lprTransItemDao.remove(lprTransItemDao.find(id));
+            lprTransactionItemDao.remove(lprTransactionItemDao.find(id));
         }
 
         return modifiedLprTransItemEntities;
@@ -692,7 +696,7 @@ public class LprServiceImpl implements LprService {
             modifiedLprItemEntity.setDescrFormatted(descr.getFormatted());
             modifiedLprItemEntity.setDescrPlain(descr.getPlain());
         }
-        lprTransItemDao.merge(modifiedLprItemEntity);
+        lprTransactionItemDao.merge(modifiedLprItemEntity);
         return modifiedLprItemEntity;
     }
 
@@ -721,9 +725,9 @@ public class LprServiceImpl implements LprService {
         lprTransItemEntity.setOwner(owner);
 
 
-        lprTransItemDao.persist(lprTransItemEntity);
+        lprTransactionItemDao.persist(lprTransItemEntity);
 
-        return lprTransItemDao.find(lprTransItemEntity.getId());
+        return lprTransactionItemDao.find(lprTransItemEntity.getId());
     }
 
     @Override

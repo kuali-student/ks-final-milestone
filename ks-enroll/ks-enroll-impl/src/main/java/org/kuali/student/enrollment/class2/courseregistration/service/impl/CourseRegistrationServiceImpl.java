@@ -64,18 +64,69 @@ public class CourseRegistrationServiceImpl
     implements CourseRegistrationService {
 
     private LprService lprService;
-    private LprRosterService lprRosterService;
     private CourseOfferingService courseOfferingService;
+//    private LprRosterService lprRosterService;
     /*    private RegRequestAssembler regRequestAssembler;
     private RegResponseAssembler regResponseAssembler;
     private CourseRegistrationAssembler courseRegistrationAssembler;*/
-    private StatementService statementService;
-    private CourseService courseService;
-    private PropositionBuilder propositionBuilder;
-    private RulesEvaluationUtil rulesEvaluationUtil;
-    private ProcessService processService;
-    private LRCService lrcService;
+//    private StatementService statementService;
+//    private CourseService courseService;
+//    private PropositionBuilder propositionBuilder;
+//    private RulesEvaluationUtil rulesEvaluationUtil;
+//    private ProcessService processService;
+//    private LRCService lrcService;
 
+    
+    public LprService getLprService() {
+        return lprService;
+    }
+
+    public void setLprService(LprService lprService) {
+        this.lprService = lprService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        return courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
+//
+//    
+//    public StatementService getStatementService() {
+//        return statementService;
+//    }
+//
+//    public void setStatementService(StatementService statementService) {
+//        this.statementService = statementService;
+//    }
+//
+//    public CourseService getCourseService() {
+//        return courseService;
+//    }
+//
+//    public void setCourseService(CourseService courseService) {
+//        this.courseService = courseService;
+//    }
+//
+//    public PropositionBuilder getPropositionBuilder() {
+//        return propositionBuilder;
+//    }
+//
+//    public void setPropositionBuilder(PropositionBuilder propositionBuilder) {
+//        this.propositionBuilder = propositionBuilder;
+//    }
+//
+//    public RulesEvaluationUtil getRulesEvaluationUtil() {
+//        return rulesEvaluationUtil;
+//    }
+//
+//    public void setRulesEvaluationUtil(RulesEvaluationUtil rulesEvaluationUtil) {
+//        this.rulesEvaluationUtil = rulesEvaluationUtil;
+//    }
+
+    
     /*************
      Core-slice code
 
@@ -93,22 +144,6 @@ public class CourseRegistrationServiceImpl
 
     public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
-    }
-
-    public LprService getLprService() {
-        return lprService;
-    }
-
-    public void setLprService(LprService lprService) {
-        this.lprService = lprService;
-    }
-
-    public CourseOfferingService getCourseOfferingService() {
-        return courseOfferingService;
-    }
-
-    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
     }
 
     public RegRequestAssembler getRegRequestAssembler() {
@@ -133,38 +168,6 @@ public class CourseRegistrationServiceImpl
 
     public void setCourseRegistrationAssembler(CourseRegistrationAssembler courseRegistrationAssembler) {
         this.courseRegistrationAssembler = courseRegistrationAssembler;
-    }
-
-    public StatementService getStatementService() {
-        return statementService;
-    }
-
-    public void setStatementService(StatementService statementService) {
-        this.statementService = statementService;
-    }
-
-    public CourseService getCourseService() {
-        return courseService;
-    }
-
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
-
-    public PropositionBuilder getPropositionBuilder() {
-        return propositionBuilder;
-    }
-
-    public void setPropositionBuilder(PropositionBuilder propositionBuilder) {
-        this.propositionBuilder = propositionBuilder;
-    }
-
-    public RulesEvaluationUtil getRulesEvaluationUtil() {
-        return rulesEvaluationUtil;
-    }
-
-    public void setRulesEvaluationUtil(RulesEvaluationUtil rulesEvaluationUtil) {
-        this.rulesEvaluationUtil = rulesEvaluationUtil;
     }
 
     private List<LprTransactionItemInfo> createModifiedLprTransactionItemsForNew(RegRequestItemInfo regRequestItem, ContextInfo context) throws DoesNotExistException, InvalidParameterException,

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:ws="http://jax-ws.dev.java.net/spring/core"
-  xmlns:wss="http://jax-ws.dev.java.net/spring/servlet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-  xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
-  xsi:schemaLocation="
+       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
           http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
@@ -43,7 +43,7 @@
     </bean>
 
     <bean id="AtomikosTxMgr" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init"
-    destroy-method="close" depends-on="systemPropertyConfigurer">
+          destroy-method="close" depends-on="systemPropertyConfigurer">
         <property name="forceShutdown" value="true" />
         <property name="startupTransactionService" value="true" />
         <property name="transactionTimeout" value="120" />
@@ -58,7 +58,7 @@
     </bean>
 
     <bean id="dataSource" class="org.kuali.student.common.test.spring.UniqueResourceAtomikosDataSourceBean"
-    init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer">
+          init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer">
         <property name="uniqueResourceName" value="dataSource" />
         <property name="xaDataSourceClassName" value="${jdbc.xaDataSourceClassName}" />
         <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}" />
@@ -73,7 +73,7 @@
 
   <!-- Default JPA EntityManagerFactory -->
     <bean id="defaultEntityManagerFactory" abstract="true"
-    class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="jpaVendorAdapter" ref="vendorAdapter" />
         <property name="dataSource" ref="dataSource" />
         <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}" />
@@ -204,13 +204,13 @@
 
 
     <bean id="coServiceValidationDecorator"
-    class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
+          class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
         <property name="nextDecorator" ref="coService" />
         <property name="validator" ref="validator" />
     </bean>
 
     <bean id="coServiceAuthDecorator"
-    class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceAuthorizationDecorator">
+          class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceAuthorizationDecorator">
         <property name="nextDecorator" ref="coServiceValidationDecorator" />
         <property name="permissionService" ref="permissionService" />
     </bean>
@@ -219,8 +219,8 @@
 
     <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
         <property name="lprDao" ref="lprDao" />
-        <property name="lprRosterDao" ref="lprRosterDao" />
-        <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
+        <property name="lprTransctionDao" ref="lprTransactionDao" />
+        <property name="lprTransactionItemDao" ref="lprTransactionItemDao" />
     </bean>
 
 
@@ -233,12 +233,11 @@
         <property name="em" ref="entityManager" />
     </bean>
 
-
-    <bean id="lprRosterDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao">
+    <bean id="lprTransactionDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao">
         <property name="em" ref="entityManager" />
     </bean>
 
-    <bean id="lprRosterEntryDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao">
+    <bean id="lprTransactionItemDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao">
         <property name="em" ref="entityManager" />
     </bean>
 

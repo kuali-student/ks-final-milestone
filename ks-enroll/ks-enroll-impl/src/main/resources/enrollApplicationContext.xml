@@ -29,10 +29,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- declare impls here -->
   <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
     <property name="lprDao" ref="lprDao" />
-    <property name="lprRosterDao" ref="lprRosterDao" />
-    <property name="lprTransDao" ref="lprTrasactionDao" />
-    <property name="lprTransItemDao" ref="lprTrasactionItemDao" />
-      <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
+    <property name="lprTransactionDao" ref="lprTrasactionDao" />
+    <property name="lprTransactionItemDao" ref="lprTrasactionItemDao" />
   </bean>
 
 
@@ -99,21 +97,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
  <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
 
-  <bean id="regRequestAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler">
-  </bean>
-
-
-  <bean id="regResponseAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler">
-  </bean>
-  <bean id="courseRegistrationAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler">
-  </bean>
-
   <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
     <property name="lprService" ref="lprServiceOnBus" />
     <property name="courseOfferingService" ref="courseOfferingServiceOnBus" />
-    <property name="regRequestAssembler" ref="regRequestAssembler" />
-    <property name="regResponseAssembler" ref="regResponseAssembler" />
-    <property name="courseRegistrationAssembler" ref="courseRegistrationAssembler" />
   </bean>
 
 

@@ -64,8 +64,8 @@ Read only object that holds the results of a rollover process
 				<ref bean="SocRolloverResultInfo.targetTermId"/>
 				<ref bean="SocRolloverResultInfo.itemsProcessed"/>
 				<ref bean="SocRolloverResultInfo.itemsExpected"/>
-				<ref bean="SocRolloverResultInfo.itemsCreated"/>
-				<ref bean="SocRolloverResultInfo.itemsSkipped"/>
+				<ref bean="SocRolloverResultInfo.courseOfferingsCreated"/>
+				<ref bean="SocRolloverResultInfo.courseOfferingsSkipped"/>
 				<ref bean="SocRolloverResultInfo.sourceTermId"/>
 			</list>
 		</property>
@@ -220,8 +220,8 @@ Number of items expected to be processed
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="SocRolloverResultInfo.itemsCreated-generated" abstract="true" parent="BaseKuali.integer">
-		<property name="name" value="itemsCreated"/>
+	<bean id="SocRolloverResultInfo.courseOfferingsCreated-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="courseOfferingsCreated"/>
 		<property name="shortLabel" value="Items Created"/>
 		<property name="summary">
 			<value>
@@ -242,8 +242,8 @@ Number of items created
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="SocRolloverResultInfo.itemsSkipped-generated" abstract="true" parent="BaseKuali.integer">
-		<property name="name" value="itemsSkipped"/>
+	<bean id="SocRolloverResultInfo.courseOfferingsSkipped-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="courseOfferingsSkipped"/>
 		<property name="shortLabel" value="Items Skipped"/>
 		<property name="summary">
 			<value>
