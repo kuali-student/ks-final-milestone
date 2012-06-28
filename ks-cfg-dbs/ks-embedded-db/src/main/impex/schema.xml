@@ -4687,6 +4687,7 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="HOLD_TYPE" required="true" size="255" type="VARCHAR"/>
         <column name="HOLD_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
         <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
         <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
         <column name="ISSUE_ID" required="true" size="55" type="VARCHAR"/>
@@ -4758,13 +4759,6 @@
         <index name="KSEN_HOLD_ISSUE_ATTR_IF1">
             <index-column name="OWNER_ID"/>
         </index>
-    </table>
-    <table name="KSEN_HOLD_RICH_TEXT">
-        <column name="ID" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="FORMATTED" size="2000" type="VARCHAR"/>
-        <column name="PLAIN" size="2000" type="VARCHAR"/>
     </table>
     <table name="KSEN_INSTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
