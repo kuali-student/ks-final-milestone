@@ -23,6 +23,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
@@ -168,7 +169,8 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
         if (addLine instanceof FormatOfferingWrapper){
             FormatOfferingWrapper newLine = (FormatOfferingWrapper)addLine;
             String formatId = newLine.getFormatOfferingInfo().getFormatId();
-            CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)getDataObject();
+            MaintenanceForm form = (MaintenanceForm)model;
+            CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             String formatTypeName = getFormatTypeName(coEditWrapper, formatId);
             newLine.setFormatType(formatTypeName);
         }
