@@ -485,4 +485,6 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     public void setLuiUnitsDeployment(List<LuiUnitsDeploymentEntity> luiUnitsDeployment) {
         this.luiUnitsDeployment = luiUnitsDeployment;
     }
+    
+    
 }

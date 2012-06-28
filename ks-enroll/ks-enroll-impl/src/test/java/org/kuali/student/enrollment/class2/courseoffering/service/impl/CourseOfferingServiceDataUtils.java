@@ -74,18 +74,23 @@ public final class CourseOfferingServiceDataUtils {
 	 */
 		// Copied from TestCourseOfferingServiceWithMocks
 		// and flushed out using the ActivityOfferingTransformer
-		public static ActivityOfferingInfo createActivityOffering(
-				String formatOfferingId, String scheduleId, String activityId, String activityName, String activityCode, List<OfferingInstructorInfo> instructors) {
+		public static ActivityOfferingInfo createActivityOffering(String termId,
+				String formatOfferingId, String scheduleId, String activityId, String activityName, String activityCode, String activityTypeKey, List<OfferingInstructorInfo> instructors) {
 			
 			ActivityOfferingInfo orig = new ActivityOfferingInfo();
 			
 			 orig.setId(UUIDHelper.genStringUUID());
 			 
-			 orig.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
+			orig.setTypeKey(activityTypeKey);
 			orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
 				
 			orig.setFormatOfferingId(formatOfferingId);
 			orig.setActivityId(activityId);
+			
+			orig.setTermId(termId);
+			
+			// TODO: find out an example of what this can be coded to.
+			orig.setTermCode(termId);
 			
 			orig.setActivityCode(activityCode);
 			
@@ -107,11 +112,16 @@ public final class CourseOfferingServiceDataUtils {
 			return orig;
 		}
 
+		public static FormatOfferingInfo createFormatOffering(String courseOfferingId,
+				String canonicalFormatId, String termId, String formatName, String activityOfferingTypeKeys) {
+			
+			return createFormatOffering(courseOfferingId, canonicalFormatId, termId, formatName, new String[] {activityOfferingTypeKeys});
+		}
 		/**
 		 * Create and initialize a FormatOffering using some base data aswell as the parameters given.
 		 * 		
 		 * @param courseOfferingId
-		 * @param formatId
+		 * @param canonicalFormatId
 		 * @param termId
 		 * @param formatName
 		 * @return
@@ -119,13 +129,14 @@ public final class CourseOfferingServiceDataUtils {
 		// Copied from TestCourseOfferingServiceWithMocks
 		// fleshed out with details from FormatOfferingTransformer
 		public static FormatOfferingInfo createFormatOffering(String courseOfferingId,
-				String formatId, String termId, String formatName) {
+				String canonicalFormatId, String termId, String formatName, String[] activityOfferingTypeKeys) {
 
 			FormatOfferingInfo orig = new FormatOfferingInfo();
 
 		    orig.setId(UUIDHelper.genStringUUID());
+		    
 		    orig.setCourseOfferingId(courseOfferingId);
-			orig.setFormatId(formatId);
+			orig.setFormatId(canonicalFormatId);
 			orig.setTermId(termId);
 			
 		    orig.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
@@ -139,8 +150,10 @@ public final class CourseOfferingServiceDataUtils {
 			orig.setFinalExamLevelTypeKey(CourseOfferingServiceConstants.FINAL_EXAM_LEVEL_TYPE_KEY_ATTR);
 			
 			orig.setActivityOfferingTypeKeys(Arrays
-					.asList(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY));
+					.asList(activityOfferingTypeKeys));
+			
 			orig.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
+			
 			orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
 			
 			return orig;
@@ -252,7 +265,7 @@ public final class CourseOfferingServiceDataUtils {
         instructor.setPercentageEffort(percentageEffort);
         
         instructor.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-        instructor.setStateKey(LprServiceConstants.INSTRUCTOR_COURSE_ASSIGNMENT_STATE_KEYS[0]);
+        instructor.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
 
         return instructor;
 	}

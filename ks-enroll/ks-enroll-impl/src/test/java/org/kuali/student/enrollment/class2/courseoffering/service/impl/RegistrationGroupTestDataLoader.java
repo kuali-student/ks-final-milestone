@@ -87,7 +87,7 @@ public class RegistrationGroupTestDataLoader {
 				courseOffering.getId(), formatId,
 				LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY,
 				CourseOfferingServiceDataUtils.createFormatOffering(
-						courseOffering.getId(), formatId, term.getId(), "FORMAT"), callContext);
+						courseOffering.getId(), formatId, term.getId(), "FORMAT", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY), callContext);
 
 		String activityId = "AO-1";
 		List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
@@ -98,8 +98,8 @@ public class RegistrationGroupTestDataLoader {
 						formatOffering.getId(),
 						activityId,
 						LuiServiceConstants.ACTIVITY_ACTIVITY_OFFERING_TYPE_KEY,
-						CourseOfferingServiceDataUtils.createActivityOffering(
-								formatOffering.getId(), "schedId", activityId, "Lecture", "A123", instructors),
+						CourseOfferingServiceDataUtils.createActivityOffering(term.getId(),
+								formatOffering.getId(), "schedId", activityId, "Lecture", "A123", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors),
 						callContext);
 	}
 

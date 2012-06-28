@@ -15,12 +15,17 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import groovy.util.logging.Log;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.LikePredicate;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
@@ -46,14 +51,20 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
+import javax.annotation.Resource;
 import javax.jws.WebParam;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
+	private static Logger log = Logger.getLogger(CourseOfferingServiceMockImpl.class);
+	
+	@Resource
     private CourseService courseService;
+	@Resource
     private AcademicCalendarService acalService;
+	@Resource
     private CourseOfferingServiceBusinessLogic businessLogic;
 
     public CourseOfferingServiceBusinessLogic getBusinessLogic() {
@@ -821,6 +832,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     @Override
     public List<CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	
         throw new OperationFailedException("searchForCourseOfferings has not been implemented");
     }
 

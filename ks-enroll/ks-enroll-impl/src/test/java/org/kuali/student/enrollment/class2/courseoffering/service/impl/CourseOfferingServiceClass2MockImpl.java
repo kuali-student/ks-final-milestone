@@ -15,11 +15,13 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingAdminDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingAdminDisplayInfo;
@@ -266,8 +268,17 @@ public class CourseOfferingServiceClass2MockImpl implements
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<CourseOfferingInfo> offerings = new ArrayList<CourseOfferingInfo>();
+		for (CourseOfferingInfo co : this.courseOfferingMap.values()) {
+			
+			if (co.getCourseId().equals(courseId)) {
+				offerings.add(co);
+			}
+		}
+		
+		
+		return offerings;
 	}
 
 	/*
@@ -430,11 +441,15 @@ public class CourseOfferingServiceClass2MockImpl implements
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, ReadOnlyException {
 
-		courseOfferingMap.put(courseId, courseOfferingInfo);
-
-		// should actually be the lui id here
-		courseOfferingInfo.setId(courseId);
+		validateParmater(courseId, courseOfferingInfo.getCourseId());
+		validateParmater(termId, courseOfferingInfo.getTermId());
+		validateParmater(courseOfferingTypeKey, courseOfferingInfo.getTypeKey());
 		
+		// should actually be the lui id here
+		courseOfferingInfo.setId(UUIDHelper.genStringUUID());
+		
+		courseOfferingMap.put(courseOfferingInfo.getId(), courseOfferingInfo);
+
 		// course id is the lui.cluId (canonical course id)
 		courseOfferingInfo.setCourseId(courseId);
 
@@ -446,6 +461,15 @@ public class CourseOfferingServiceClass2MockImpl implements
 		
 		
 		return courseOfferingInfo;
+	}
+
+	private void validateParmater(String parameterValue, String objectValue) throws InvalidParameterException {
+		
+		if (parameterValue == null)
+			throw new InvalidParameterException("parameter value is null.");
+		
+		if (!parameterValue.equals(objectValue))
+			throw new InvalidParameterException("parameter value("+parameterValue+") to object("+objectValue+") missmatch");
 	}
 
 	/*
