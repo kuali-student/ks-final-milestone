@@ -15,7 +15,9 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingAdminDisplayInfo;
@@ -40,17 +42,28 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 /**
  * 
- * A mock implementation of the course offering service that is mocked at the class 2 level.
+ * A mock implementation of the course offering service that is mocked at the
+ * class 2 level.
  * 
  * @author ocleirig
- *
+ * 
  */
 public class CourseOfferingServiceClass2MockImpl implements
 		CourseOfferingService {
+
+	private Map<String, CourseOfferingInfo> courseOfferingMap = new HashMap<String, CourseOfferingInfo>();
+	private Map<String, FormatOfferingInfo> formatOfferingMap = new HashMap<String, FormatOfferingInfo>();
+	private Map<String, ActivityOfferingInfo> activityOfferingMap = new HashMap<String, ActivityOfferingInfo>();
+
+	private Map<String, RegistrationGroupInfo> regFroupMap = new HashMap<String, RegistrationGroupInfo>();
+
+	private Map<String, SeatPoolDefinitionInfo> seatPoolMap = new HashMap<String, SeatPoolDefinitionInfo>();
 
 	/**
 	 * 
@@ -59,8 +72,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOfferingAdminDisplay(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOfferingAdminDisplay(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public CourseOfferingAdminDisplayInfo getCourseOfferingAdminDisplay(
@@ -72,8 +90,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOfferingAdminDisplaysByIds(java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOfferingAdminDisplaysByIds(java.util.List,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<CourseOfferingAdminDisplayInfo> getCourseOfferingAdminDisplaysByIds(
@@ -85,8 +108,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getActivityOfferingAdminDisplay(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getActivityOfferingAdminDisplay(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public ActivityOfferingAdminDisplayInfo getActivityOfferingAdminDisplay(
@@ -98,8 +126,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getActivityOfferingAdminDisplaysByIds(java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getActivityOfferingAdminDisplaysByIds(java.util.List,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ActivityOfferingAdminDisplayInfo> getActivityOfferingAdminDisplaysByIds(
@@ -111,8 +144,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getActivityOfferingAdminDisplaysForCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getActivityOfferingAdminDisplaysForCourseOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ActivityOfferingAdminDisplayInfo> getActivityOfferingAdminDisplaysForCourseOffering(
@@ -124,8 +162,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOfferingType(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOfferingType(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public TypeInfo getCourseOfferingType(String courseOfferingTypeKey,
@@ -136,8 +179,12 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOfferingTypes(org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOfferingTypes(org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<TypeInfo> getCourseOfferingTypes(ContextInfo context)
@@ -147,8 +194,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getInstructorTypesForCourseOfferingType(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getInstructorTypesForCourseOfferingType(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<TypeInfo> getInstructorTypesForCourseOfferingType(
@@ -160,20 +212,36 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public CourseOfferingInfo getCourseOffering(String courseOfferingId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		validateParameter(courseOfferingId);
+
+		CourseOfferingInfo co = courseOfferingMap.get(courseOfferingId);
+
+		validateDoesNotExist(co);
+
+		return co;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOfferingsByIds(java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOfferingsByIds(java.util.List,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<CourseOfferingInfo> getCourseOfferingsByIds(
@@ -185,8 +253,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOfferingsByCourse(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOfferingsByCourse(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<CourseOfferingInfo> getCourseOfferingsByCourse(String courseId,
@@ -197,8 +270,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOfferingsByCourseAndTerm(java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOfferingsByCourseAndTerm(java.lang.String, java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<CourseOfferingInfo> getCourseOfferingsByCourseAndTerm(
@@ -210,8 +288,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOfferingIdsByTerm(java.lang.String, java.lang.Boolean, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOfferingIdsByTerm(java.lang.String, java.lang.Boolean,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<String> getCourseOfferingIdsByTerm(String termId,
@@ -223,8 +306,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOfferingIdsByTermAndSubjectArea(java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOfferingIdsByTermAndSubjectArea(java.lang.String,
+	 * java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termId,
@@ -236,8 +324,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOfferingsByTermAndInstructor(java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOfferingsByTermAndInstructor(java.lang.String,
+	 * java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<CourseOfferingInfo> getCourseOfferingsByTermAndInstructor(
@@ -249,8 +342,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOfferingIdsByTermAndUnitsContentOwner(java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOfferingIdsByTermAndUnitsContentOwner(java.lang.String,
+	 * java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<String> getCourseOfferingIdsByTermAndUnitsContentOwner(
@@ -262,8 +360,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getCourseOfferingIdsByType(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getCourseOfferingIdsByType(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<String> getCourseOfferingIdsByType(String typeKey,
@@ -274,8 +377,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getValidCanonicalCourseToCourseOfferingOptionKeys(org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #
+	 * getValidCanonicalCourseToCourseOfferingOptionKeys(org.kuali.student.r2.common
+	 * .dto.ContextInfo)
 	 */
 	@Override
 	public List<String> getValidCanonicalCourseToCourseOfferingOptionKeys(
@@ -286,8 +395,12 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getValidRolloverOptionKeys(org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getValidRolloverOptionKeys(org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<String> getValidRolloverOptionKeys(ContextInfo context)
@@ -298,8 +411,15 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#createCourseOffering(java.lang.String, java.lang.String, java.lang.String, org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo, java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #createCourseOffering(java.lang.String, java.lang.String,
+	 * java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo,
+	 * java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public CourseOfferingInfo createCourseOffering(String courseId,
@@ -309,12 +429,32 @@ public class CourseOfferingServiceClass2MockImpl implements
 			DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, ReadOnlyException {
-		// TODO Auto-generated method stub
-		return null;
+
+		courseOfferingMap.put(courseId, courseOfferingInfo);
+
+		// should actually be the lui id here
+		courseOfferingInfo.setId(courseId);
+		
+		// course id is the lui.cluId (canonical course id)
+		courseOfferingInfo.setCourseId(courseId);
+
+		courseOfferingInfo.setTermId(termId);
+		
+		courseOfferingInfo.setTypeKey(courseOfferingTypeKey);
+		
+		courseOfferingInfo.setStateKey(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0]);
+		
+		
+		return courseOfferingInfo;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#rolloverCourseOffering(java.lang.String, java.lang.String, java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #rolloverCourseOffering(java.lang.String, java.lang.String,
+	 * java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public CourseOfferingInfo rolloverCourseOffering(
@@ -328,8 +468,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#updateCourseOffering(java.lang.String, org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #updateCourseOffering(java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public CourseOfferingInfo updateCourseOffering(String courseOfferingId,
@@ -338,12 +484,22 @@ public class CourseOfferingServiceClass2MockImpl implements
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException, VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		validateParameter(courseOfferingId);
+
+		getCourseOffering(courseOfferingId, context);
+
+		this.courseOfferingMap.put(courseOfferingId, courseOfferingInfo);
+		
+		return courseOfferingInfo;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#updateCourseOfferingFromCanonical(java.lang.String, java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #updateCourseOfferingFromCanonical(java.lang.String, java.util.List,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public CourseOfferingInfo updateCourseOfferingFromCanonical(
@@ -356,8 +512,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#deleteCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #deleteCourseOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public StatusInfo deleteCourseOffering(String courseOfferingId,
@@ -365,24 +526,47 @@ public class CourseOfferingServiceClass2MockImpl implements
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			DependentObjectsExistException {
-		// TODO Auto-generated method stub
-		return null;
+
+		StatusInfo status = new StatusInfo();
+
+		if (courseOfferingMap.remove(courseOfferingId) != null) {
+			status.setSuccess(true);
+		} else {
+			status.setSuccess(false);
+			status.setMessage("deleteActivityFailed");
+		}
+
+		return status;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#deleteCourseOfferingCascaded(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #deleteCourseOfferingCascaded(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return deleteCourseOffering(courseOfferingId, context);
+		} catch (DependentObjectsExistException e) {
+			throw new OperationFailedException("", e);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#validateCourseOffering(java.lang.String, org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #validateCourseOffering(java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ValidationResultInfo> validateCourseOffering(
@@ -394,8 +578,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#validateCourseOfferingFromCanonical(org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo, java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #validateCourseOfferingFromCanonical(org.kuali.student.enrollment.
+	 * courseoffering.dto.CourseOfferingInfo, java.util.List,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ValidationResultInfo> validateCourseOfferingFromCanonical(
@@ -407,20 +597,51 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getFormatOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getFormatOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public FormatOfferingInfo getFormatOffering(String formatOfferingId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		validateParameter(formatOfferingId);
+
+		FormatOfferingInfo fo = formatOfferingMap.get(formatOfferingId);
+
+		validateDoesNotExist(fo);
+
+		return fo;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getFormatOfferingsByCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	private void validateDoesNotExist(Object result)
+			throws DoesNotExistException {
+
+		if (result == null)
+			throw new DoesNotExistException();
+	}
+
+	private void validateParameter(String param)
+			throws InvalidParameterException {
+
+		if (param == null)
+			throw new InvalidParameterException();
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getFormatOfferingsByCourseOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<FormatOfferingInfo> getFormatOfferingsByCourseOffering(
@@ -432,8 +653,15 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#createFormatOffering(java.lang.String, java.lang.String, java.lang.String, org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #createFormatOffering(java.lang.String, java.lang.String,
+	 * java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public FormatOfferingInfo createFormatOffering(String courseOfferingId,
@@ -443,12 +671,20 @@ public class CourseOfferingServiceClass2MockImpl implements
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException {
-		// TODO Auto-generated method stub
-		return null;
+
+		formatOfferingMap.put(formatId, formatOfferingInfo);
+
+		return formatOfferingInfo;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#updateFormatOffering(java.lang.String, org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #updateFormatOffering(java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public FormatOfferingInfo updateFormatOffering(String formatOfferingId,
@@ -457,12 +693,23 @@ public class CourseOfferingServiceClass2MockImpl implements
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException, VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		validateParameter(formatOfferingId);
+
+		getFormatOffering(formatOfferingId, context);
+
+		this.formatOfferingMap.put(formatOfferingId, formatOfferingInfo);
+		
+		return formatOfferingInfo;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#validateFormatOffering(java.lang.String, org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #validateFormatOffering(java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ValidationResultInfo> validateFormatOffering(
@@ -474,8 +721,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#deleteFormatOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #deleteFormatOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public StatusInfo deleteFormatOffering(String formatOfferingId,
@@ -483,24 +735,47 @@ public class CourseOfferingServiceClass2MockImpl implements
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			DependentObjectsExistException {
-		// TODO Auto-generated method stub
-		return null;
+
+		StatusInfo status = new StatusInfo();
+
+		if (formatOfferingMap.remove(formatOfferingId) != null) {
+			status.setSuccess(true);
+		} else {
+			status.setSuccess(false);
+			status.setMessage("deleteFormatFailed");
+		}
+
+		return status;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#deleteFormatOfferingCascaded(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #deleteFormatOfferingCascaded(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public StatusInfo deleteFormatOfferingCascaded(String formatOfferingId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return deleteFormatOffering(formatOfferingId, context);
+		} catch (DependentObjectsExistException e) {
+			throw new OperationFailedException(
+					"deleteFormatOfferingCascaded Failed.", e);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getActivityOfferingType(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getActivityOfferingType(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public TypeInfo getActivityOfferingType(String activityOfferingTypeKey,
@@ -511,8 +786,12 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getActivityOfferingTypes(org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getActivityOfferingTypes(org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<TypeInfo> getActivityOfferingTypes(ContextInfo context)
@@ -522,8 +801,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getActivityOfferingTypesForActivityType(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getActivityOfferingTypesForActivityType(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<TypeInfo> getActivityOfferingTypesForActivityType(
@@ -535,8 +819,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getInstructorTypesForActivityOfferingType(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getInstructorTypesForActivityOfferingType(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<TypeInfo> getInstructorTypesForActivityOfferingType(
@@ -548,20 +837,35 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getActivityOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getActivityOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public ActivityOfferingInfo getActivityOffering(String activityOfferingId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		validateParameter(activityOfferingId);
+
+		ActivityOfferingInfo ao = activityOfferingMap.get(activityOfferingId);
+
+		validateDoesNotExist(ao);
+
+		return ao;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getActivityOfferingsByIds(java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getActivityOfferingsByIds(java.util.List,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ActivityOfferingInfo> getActivityOfferingsByIds(
@@ -573,8 +877,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getActivityOfferingsByCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getActivityOfferingsByCourseOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ActivityOfferingInfo> getActivityOfferingsByCourseOffering(
@@ -586,8 +895,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getActivityOfferingsByFormatOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getActivityOfferingsByFormatOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ActivityOfferingInfo> getActivityOfferingsByFormatOffering(
@@ -599,8 +913,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getActivityOfferingsByFormatOfferingWithoutRegGroup(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getActivityOfferingsByFormatOfferingWithoutRegGroup(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ActivityOfferingInfo> getActivityOfferingsByFormatOfferingWithoutRegGroup(
@@ -612,8 +931,15 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#createActivityOffering(java.lang.String, java.lang.String, java.lang.String, org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #createActivityOffering(java.lang.String, java.lang.String,
+	 * java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public ActivityOfferingInfo createActivityOffering(String formatOfferingId,
@@ -623,12 +949,19 @@ public class CourseOfferingServiceClass2MockImpl implements
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException {
-		// TODO Auto-generated method stub
-		return null;
+
+		activityOfferingMap.put(activityId, activityOfferingInfo);
+
+		return activityOfferingInfo;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#copyActivityOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #copyActivityOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public ActivityOfferingInfo copyActivityOffering(String activityOfferingId,
@@ -640,8 +973,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#generateActivityOfferings(java.lang.String, java.lang.String, java.lang.Integer, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #generateActivityOfferings(java.lang.String, java.lang.String,
+	 * java.lang.Integer, org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ActivityOfferingInfo> generateActivityOfferings(
@@ -653,8 +991,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#updateActivityOffering(java.lang.String, org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #updateActivityOffering(java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public ActivityOfferingInfo updateActivityOffering(
@@ -664,12 +1008,23 @@ public class CourseOfferingServiceClass2MockImpl implements
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException, ReadOnlyException {
-		// TODO Auto-generated method stub
-		return null;
+
+		validateParameter(activityOfferingId);
+
+		getActivityOffering(activityOfferingId, context);
+
+		this.activityOfferingMap.put(activityOfferingId, activityOfferingInfo);
+		
+		return activityOfferingInfo;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#deleteActivityOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #deleteActivityOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public StatusInfo deleteActivityOffering(String activityOfferingId,
@@ -677,12 +1032,27 @@ public class CourseOfferingServiceClass2MockImpl implements
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			DependentObjectsExistException {
-		// TODO Auto-generated method stub
-		return null;
+
+		StatusInfo status = new StatusInfo();
+
+		if (activityOfferingMap.remove(activityOfferingId) != null) {
+			status.setSuccess(true);
+		} else {
+			status.setSuccess(false);
+			status.setMessage("deleteActivityFailed");
+		}
+
+		return status;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#validateActivityOffering(java.lang.String, org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #validateActivityOffering(java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ValidationResultInfo> validateActivityOffering(
@@ -694,8 +1064,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#calculateInClassContactHoursForTerm(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #calculateInClassContactHoursForTerm(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public Float calculateInClassContactHoursForTerm(String activityOfferingId,
@@ -706,8 +1081,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#calculateOutofClassContactHoursForTerm(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #calculateOutofClassContactHoursForTerm(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public Float calculateOutofClassContactHoursForTerm(
@@ -719,8 +1099,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#calculateTotalContactHoursForTerm(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #calculateTotalContactHoursForTerm(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public Float calculateTotalContactHoursForTerm(String activityOfferingId,
@@ -731,8 +1116,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getRegistrationGroup(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getRegistrationGroup(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public RegistrationGroupInfo getRegistrationGroup(
@@ -740,12 +1130,23 @@ public class CourseOfferingServiceClass2MockImpl implements
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		validateParameter(registrationGroupId);
+
+		RegistrationGroupInfo rg = regFroupMap.get(registrationGroupId);
+
+		validateDoesNotExist(rg);
+
+		return rg;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getRegistrationGroupsByIds(java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getRegistrationGroupsByIds(java.util.List,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<RegistrationGroupInfo> getRegistrationGroupsByIds(
@@ -757,8 +1158,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getRegistrationGroupsForCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getRegistrationGroupsForCourseOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<RegistrationGroupInfo> getRegistrationGroupsForCourseOffering(
@@ -770,8 +1176,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getRegistrationGroupsWithActivityOfferings(java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getRegistrationGroupsWithActivityOfferings(java.util.List,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<RegistrationGroupInfo> getRegistrationGroupsWithActivityOfferings(
@@ -783,8 +1194,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getRegistrationGroupsByFormatOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getRegistrationGroupsByFormatOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<RegistrationGroupInfo> getRegistrationGroupsByFormatOffering(
@@ -796,8 +1212,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#createRegistrationGroup(java.lang.String, java.lang.String, org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #createRegistrationGroup(java.lang.String, java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public RegistrationGroupInfo createRegistrationGroup(
@@ -807,12 +1229,23 @@ public class CourseOfferingServiceClass2MockImpl implements
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException {
-		// TODO Auto-generated method stub
-		return null;
+
+		registrationGroupInfo.setId(formatOfferingId + "-"
+				+ registrationGroupType);
+
+		regFroupMap.put(registrationGroupInfo.getId(), registrationGroupInfo);
+
+		return registrationGroupInfo;
+
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#generateRegistrationGroupsForFormatOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #generateRegistrationGroupsForFormatOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(
@@ -824,8 +1257,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#generateRegistrationGroupsForTemplate(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #generateRegistrationGroupsForTemplate(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<RegistrationGroupInfo> generateRegistrationGroupsForTemplate(
@@ -837,8 +1275,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#updateRegistrationGroup(java.lang.String, org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #updateRegistrationGroup(java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public RegistrationGroupInfo updateRegistrationGroup(
@@ -848,24 +1292,50 @@ public class CourseOfferingServiceClass2MockImpl implements
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException, VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+		validateParameter(registrationGroupId);
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#deleteRegistrationGroup(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+		getRegistrationGroup(registrationGroupId, context);
+
+		this.regFroupMap.put(registrationGroupId, registrationGroupInfo);
+		
+		return registrationGroupInfo;
+	}
+	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #deleteRegistrationGroup(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public StatusInfo deleteRegistrationGroup(String registrationGroupId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		StatusInfo status = new StatusInfo();
+
+		if (regFroupMap.remove(registrationGroupId) != null)
+			status.setSuccess(true);
+		else {
+			status.setSuccess(false);
+			status.setMessage("deleteRegistrationGroup Failed");
+		}
+
+		return status;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#deleteRegistrationGroupsByFormatOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #deleteRegistrationGroupsByFormatOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public StatusInfo deleteRegistrationGroupsByFormatOffering(
@@ -876,8 +1346,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#deleteGeneratedRegistrationGroupsByFormatOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #deleteGeneratedRegistrationGroupsByFormatOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public StatusInfo deleteGeneratedRegistrationGroupsByFormatOffering(
@@ -888,8 +1363,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#deleteGeneratedRegistrationGroupsForTemplate(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #deleteGeneratedRegistrationGroupsForTemplate(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public StatusInfo deleteGeneratedRegistrationGroupsForTemplate(
@@ -900,8 +1380,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#validateRegistrationGroup(java.lang.String, org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #validateRegistrationGroup(java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ValidationResultInfo> validateRegistrationGroup(
@@ -913,8 +1399,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getRegistrationGroupTemplate(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getRegistrationGroupTemplate(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public RegistrationGroupTemplateInfo getRegistrationGroupTemplate(
@@ -926,8 +1417,15 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#validateRegistrationGroupTemplate(java.lang.String, org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupTemplateInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #validateRegistrationGroupTemplate(java.lang.String,
+	 * org.kuali.student.enrollment
+	 * .courseoffering.dto.RegistrationGroupTemplateInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ValidationResultInfo> validateRegistrationGroupTemplate(
@@ -940,8 +1438,15 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#createRegistrationGroupTemplate(org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupTemplateInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #
+	 * createRegistrationGroupTemplate(org.kuali.student.enrollment.courseoffering
+	 * .dto.RegistrationGroupTemplateInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public RegistrationGroupTemplateInfo createRegistrationGroupTemplate(
@@ -950,12 +1455,19 @@ public class CourseOfferingServiceClass2MockImpl implements
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#updateRegistrationGroupTemplate(java.lang.String, org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupTemplateInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #updateRegistrationGroupTemplate(java.lang.String,
+	 * org.kuali.student.enrollment
+	 * .courseoffering.dto.RegistrationGroupTemplateInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public RegistrationGroupTemplateInfo updateRegistrationGroupTemplate(
@@ -970,8 +1482,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#deleteRegistrationGroupTemplate(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #deleteRegistrationGroupTemplate(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public StatusInfo deleteRegistrationGroupTemplate(
@@ -983,8 +1500,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getSeatPoolDefinition(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getSeatPoolDefinition(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public SeatPoolDefinitionInfo getSeatPoolDefinition(
@@ -996,8 +1518,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#getSeatPoolDefinitionsForActivityOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #getSeatPoolDefinitionsForActivityOffering(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForActivityOffering(
@@ -1009,8 +1536,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#createSeatPoolDefinition(org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #
+	 * createSeatPoolDefinition(org.kuali.student.enrollment.courseoffering.dto.
+	 * SeatPoolDefinitionInfo, org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public SeatPoolDefinitionInfo createSeatPoolDefinition(
@@ -1022,8 +1555,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#updateSeatPoolDefinition(java.lang.String, org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #updateSeatPoolDefinition(java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public SeatPoolDefinitionInfo updateSeatPoolDefinition(
@@ -1033,12 +1572,23 @@ public class CourseOfferingServiceClass2MockImpl implements
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException, VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		validateParameter(seatPoolDefinitionId);
+
+		getSeatPoolDefinition(seatPoolDefinitionId, context);
+
+		this.seatPoolMap.put(seatPoolDefinitionId, seatPoolDefinitionInfo);
+		
+		return seatPoolDefinitionInfo;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#validateSeatPoolDefinition(java.lang.String, org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #validateSeatPoolDefinition(java.lang.String,
+	 * org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ValidationResultInfo> validateSeatPoolDefinition(
@@ -1052,20 +1602,40 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#deleteSeatPoolDefinition(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #deleteSeatPoolDefinition(java.lang.String,
+	 * org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public StatusInfo deleteSeatPoolDefinition(String seatPoolDefinitionId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		StatusInfo status = new StatusInfo();
+
+		if (seatPoolMap.remove(seatPoolDefinitionId) != null)
+			status.setSuccess(true);
+		else {
+			status.setSuccess(false);
+			status.setMessage("deleteSeatPoolDefinition Failed");
+		}
+
+		return status;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#searchForCourseOfferings(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #
+	 * searchForCourseOfferings(org.kuali.rice.core.api.criteria.QueryByCriteria
+	 * , org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<CourseOfferingInfo> searchForCourseOfferings(
@@ -1076,8 +1646,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#searchForCourseOfferingIds(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #
+	 * searchForCourseOfferingIds(org.kuali.rice.core.api.criteria.QueryByCriteria
+	 * , org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<String> searchForCourseOfferingIds(QueryByCriteria criteria,
@@ -1088,8 +1664,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#searchForActivityOfferings(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #
+	 * searchForActivityOfferings(org.kuali.rice.core.api.criteria.QueryByCriteria
+	 * , org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<ActivityOfferingInfo> searchForActivityOfferings(
@@ -1100,8 +1682,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#searchForActivityOfferingIds(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #
+	 * searchForActivityOfferingIds(org.kuali.rice.core.api.criteria.QueryByCriteria
+	 * , org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<String> searchForActivityOfferingIds(QueryByCriteria criteria,
@@ -1112,8 +1700,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#searchForRegistrationGroups(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #
+	 * searchForRegistrationGroups(org.kuali.rice.core.api.criteria.QueryByCriteria
+	 * , org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<RegistrationGroupInfo> searchForRegistrationGroups(
@@ -1124,8 +1718,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#searchForRegistrationGroupIds(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #searchForRegistrationGroupIds(org.kuali.rice.core.api.criteria.
+	 * QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<String> searchForRegistrationGroupIds(QueryByCriteria criteria,
@@ -1136,8 +1735,14 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#searchForSeatpoolDefinitions(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #
+	 * searchForSeatpoolDefinitions(org.kuali.rice.core.api.criteria.QueryByCriteria
+	 * , org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<SeatPoolDefinitionInfo> searchForSeatpoolDefinitions(
@@ -1148,8 +1753,13 @@ public class CourseOfferingServiceClass2MockImpl implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.courseoffering.service.CourseOfferingService#searchForSeatpoolDefinitionIds(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
+	 * #searchForSeatpoolDefinitionIds(org.kuali.rice.core.api.criteria.
+	 * QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
 	 */
 	@Override
 	public List<String> searchForSeatpoolDefinitionIds(
