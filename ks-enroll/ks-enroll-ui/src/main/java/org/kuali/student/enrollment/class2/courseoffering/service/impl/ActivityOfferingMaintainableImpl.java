@@ -11,6 +11,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
@@ -51,6 +52,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     public void saveDataObject() {
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
+            disassembleInstructorWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
             try {
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
             } catch (Exception e) {
@@ -70,6 +72,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID), getContextInfo());
             wrapper.setCoInfo(courseOfferingInfo);
 
+            //process instructor effort
+            assembleInstructorWrapper(info.getInstructors(), wrapper);
+
             boolean readOnlyView = Boolean.parseBoolean(dataObjectKeys.get("readOnlyView"));
             wrapper.setReadOnlyView(readOnlyView);
 
@@ -84,6 +89,26 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             return wrapper;
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void assembleInstructorWrapper(List<OfferingInstructorInfo> instructors, ActivityOfferingWrapper wrapper){
+        if(instructors!= null && !instructors.isEmpty()){
+            for(OfferingInstructorInfo instructor : instructors){
+                OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper(instructor);
+                instructorWrapper.setIntEffort((instructor.getPercentageEffort().intValue()));
+                wrapper.getInstructors().add(instructorWrapper);
+            }
+        }
+    }
+
+   private void disassembleInstructorWrapper(List<OfferingInstructorWrapper> instructors, ActivityOfferingInfo aoInfo){
+        if(instructors!= null && !instructors.isEmpty()){
+            for(OfferingInstructorWrapper instructor : instructors){
+                OfferingInstructorInfo instructorInfo = new OfferingInstructorInfo(instructor.getOfferingInstructorInfo());
+                instructorInfo.setPercentageEffort(instructor.getIntEffort().floatValue());
+                aoInfo.getInstructors().add(instructorInfo);
+            }
         }
     }
 
@@ -132,26 +157,13 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     }
 
      protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (addLine instanceof OfferingInstructorInfo){
-            OfferingInstructorInfo instuctor = (OfferingInstructorInfo) addLine;
+        if (addLine instanceof OfferingInstructorWrapper){
+            OfferingInstructorWrapper instuctor = (OfferingInstructorWrapper) addLine;
 
             //validate ID
-            List<Person> lstPerson = ViewHelperUtil.getInstructorByPersonId(instuctor.getPersonId());
+            List<Person> lstPerson = ViewHelperUtil.getInstructorByPersonId(instuctor.getOfferingInstructorInfo().getPersonId());
             if(lstPerson == null || lstPerson.isEmpty()){
-                GlobalVariables.getMessageMap().putErrorForSectionId("ao-personnelgroup", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_NOTFOUND, instuctor.getPersonId());
-                return false;
-            }
-
-           //validate effort
-            MaintenanceForm form = (MaintenanceForm)model;
-            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-            List<OfferingInstructorInfo> instructors = activityOfferingWrapper.getAoInfo().getInstructors();
-            float totalEffort = 0;
-            for(OfferingInstructorInfo thisInst : instructors){
-                totalEffort = totalEffort + thisInst.getPercentageEffort();
-            }
-            if( totalEffort + instuctor.getPercentageEffort() > 100){
-                GlobalVariables.getMessageMap().putErrorForSectionId("ao-personnelgroup", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_OVERFLOW);
+                GlobalVariables.getMessageMap().putErrorForSectionId("ao-personnelgroup", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_NOTFOUND, instuctor.getOfferingInstructorInfo().getPersonId());
                 return false;
             }
         }

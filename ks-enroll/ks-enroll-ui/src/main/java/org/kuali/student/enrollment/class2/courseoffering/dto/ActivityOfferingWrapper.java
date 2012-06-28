@@ -16,6 +16,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private ActivityOfferingInfo aoInfo;
     private FormatOfferingInfo formatOffering;
     private TermInfo term;
+    private List<OfferingInstructorWrapper> instructors;
     private List<ScheduleComponentWrapper> scheduleComponentWrappers;
     private boolean readOnlyView;
     private boolean isChecked;
@@ -29,6 +30,7 @@ public class ActivityOfferingWrapper implements Serializable{
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         coInfo = new CourseOfferingInfo();
+        instructors = new ArrayList<OfferingInstructorWrapper>();
         aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         formatOffering = new FormatOfferingInfo();
@@ -41,6 +43,7 @@ public class ActivityOfferingWrapper implements Serializable{
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
         super();
         aoInfo = info;
+        instructors = new ArrayList<OfferingInstructorWrapper>();
     }
 
     public FormatOfferingInfo getFormatOffering() {
@@ -121,5 +124,13 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setCoInfo(CourseOfferingInfo coInfo) {
         this.coInfo = coInfo;
+    }
+
+    public List<OfferingInstructorWrapper> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(List<OfferingInstructorWrapper> instructors) {
+        this.instructors = instructors;
     }
 }
