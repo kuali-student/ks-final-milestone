@@ -26,6 +26,55 @@ public class ActivityOfferingWrapper implements Serializable{
     private String stateName;
     private String typeName;
 
+    // Tanveer 06/27/2012
+
+    private String waitListLevelTypeKey;
+    private String waitListTypeKey;
+    private boolean hasWaitList;
+    private String waitListText = "";
+    private String toolTipText = "";
+
+    public String getToolTipText() {
+        return toolTipText;
+    }
+
+    public void setToolTipText(String toolTipText) {
+        this.toolTipText = toolTipText;
+    }
+
+    public String getWaitListText() {
+        return waitListText;
+    }
+
+    public void setWaitListText(String waitListText) {
+        this.waitListText = waitListText;
+    }
+
+
+
+    public boolean getHasWaitList() {
+        return hasWaitList;
+    }
+
+    public void setHasWaitList(boolean hasWaitList) {
+        this.hasWaitList = hasWaitList;
+    }
+
+    public String getWaitListLevelTypeKey() {
+        return waitListLevelTypeKey;
+    }
+    public void setWaitListLevelTypeKey(String waitListLevelTypeKey) {
+        this.waitListLevelTypeKey = waitListLevelTypeKey;
+    }
+    public String getWaitListTypeKey() {
+        return waitListTypeKey;
+    }
+    public void setWaitListTypeKey(String waitListTypeKey) {
+        this.waitListTypeKey = waitListTypeKey;
+    }
+
+
+
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
@@ -38,6 +87,7 @@ public class ActivityOfferingWrapper implements Serializable{
         scheduleComponentWrappers = new ArrayList<ScheduleComponentWrapper>();
         this.setReadOnlyView(false);
         this.setIsChecked(false);
+
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
