@@ -11,9 +11,7 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_SOC")
@@ -36,7 +34,7 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
     @Column(name = "UNITS_CONTENT_OWNER_ID")
     private String unitsContentOwnerId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private Set<SocAttributeEntity> attributes = new HashSet<SocAttributeEntity>();
+    private List<SocAttributeEntity> attributes = new ArrayList<SocAttributeEntity>();
 
     public SocEntity() {
     }
@@ -61,7 +59,7 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
         }
         this.setSubjectArea(soc.getSubjectArea());
         this.setUnitsContentOwnerId(soc.getUnitsContentOwnerId());
-        this.setAttributes(new HashSet<SocAttributeEntity>());
+        this.setAttributes(new ArrayList<SocAttributeEntity>());
         for (Attribute att : soc.getAttributes()) {
             this.getAttributes().add(new SocAttributeEntity(att, this));
         }
@@ -92,12 +90,12 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
         this.socState = socState;
     }
 
-    public void setAttributes(Set<SocAttributeEntity> attributes) {
+    public void setAttributes(List<SocAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-    public Set<SocAttributeEntity> getAttributes() {
+    public List<SocAttributeEntity> getAttributes() {
         return attributes;
     }
 

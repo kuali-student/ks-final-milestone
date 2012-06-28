@@ -27,8 +27,8 @@ import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 import org.kuali.student.r2.core.fee.infc.EnrollmentFee;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -70,7 +70,7 @@ public class EnrollmentFeeEntity extends MetaEntity implements AttributeOwner<En
     private String formatted;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private Set<EnrollmentFeeAttributeEntity> attributes = new HashSet<EnrollmentFeeAttributeEntity>();
+    private List<EnrollmentFeeAttributeEntity> attributes = new ArrayList<EnrollmentFeeAttributeEntity>();
 
     public EnrollmentFeeEntity() { // no-arg constructor expected in entity
     }
@@ -94,7 +94,7 @@ public class EnrollmentFeeEntity extends MetaEntity implements AttributeOwner<En
             this.setPlain(fee.getDescr().getPlain());
             this.setFormatted(fee.getDescr().getFormatted());
         }
-        this.setAttributes(new HashSet<EnrollmentFeeAttributeEntity>());
+        this.setAttributes(new ArrayList<EnrollmentFeeAttributeEntity>());
         for (Attribute att : fee.getAttributes()) {
             EnrollmentFeeAttributeEntity attEntity = new EnrollmentFeeAttributeEntity(att, this);
             this.getAttributes().add(attEntity);
@@ -207,11 +207,11 @@ public class EnrollmentFeeEntity extends MetaEntity implements AttributeOwner<En
         this.formatted = formatted;
     }
 
-    public Set<EnrollmentFeeAttributeEntity> getAttributes() {
+    public List<EnrollmentFeeAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(Set<EnrollmentFeeAttributeEntity> attributes) {
+    public void setAttributes(List<EnrollmentFeeAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
