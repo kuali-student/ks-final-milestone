@@ -48,7 +48,7 @@ public class TypeServiceMockImplTest {
     @Test
     public void testGetItLoads() throws Exception {
         System.out.println("testItLoads");
-        org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl instance = new org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl();
+        org.kuali.student.r2.common.service.impl.TypeServiceMockImpl instance = new org.kuali.student.r2.common.service.impl.TypeServiceMockImpl();
     }
 
 }
