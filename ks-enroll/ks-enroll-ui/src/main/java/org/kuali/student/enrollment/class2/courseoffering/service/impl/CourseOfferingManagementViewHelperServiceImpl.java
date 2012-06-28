@@ -22,8 +22,8 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -122,13 +122,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 
         List<FormatInfo> formatInfos;
         try {
-            formatInfos = getCourseService().getCourseFormats(selectedCourseOffering.getCourseId());
+            formatInfos = getCourseService().getCourseFormatsByCourse(selectedCourseOffering.getCourseId(), null);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         try {
             for (FormatInfo formatInfo : formatInfos) {
-                keyValues.add(new ConcreteKeyValue(formatInfo.getType(),formatInfo.getId()));
+                keyValues.add(new ConcreteKeyValue(formatInfo.getTypeKey(),formatInfo.getId()));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -145,9 +145,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         String formatId = coForm.getFormatIdForNewAO();
 
         try {
-            List<ActivityInfo> activityInfos = getCourseService().getCourseActivities(formatId);
+            List<ActivityInfo> activityInfos = getCourseService().getCourseActivitiesByCourseFormat(formatId, null);
             for (ActivityInfo activityInfo : activityInfos) {
-               keyValues.add(new ConcreteKeyValue(activityInfo.getActivityType(),activityInfo.getId()));
+               keyValues.add(new ConcreteKeyValue(activityInfo.getTypeKey(),activityInfo.getId()));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -167,7 +167,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         }
         ActivityInfo activity = null;
         try {
-            List<ActivityInfo> activityInfo = getCourseService().getCourseActivities(formatOfferingInfo.getFormatId());
+            List<ActivityInfo> activityInfo = getCourseService().getCourseActivitiesByCourseFormat(formatOfferingInfo.getFormatId(), null);
             for (ActivityInfo info : activityInfo) {
                 if (StringUtils.equals(activityId,info.getId())){
                     activity = info;
@@ -184,7 +184,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         for (int i=0;i<noOfActivityOfferings;i++){
             ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
             aoInfo.setFormatOfferingId(formatOfferingId);
-            aoInfo.setTypeKey(activity.getActivityType());
+            aoInfo.setTypeKey(activity.getTypeKey());
             aoInfo.setCourseOfferingId(courseOfferingInfo.getId());
             try {
                 return _getCourseOfferingService().createActivityOffering(formatOfferingId,activityId,"kuali.lui.type.grouping.activity",aoInfo,getContextInfo());
