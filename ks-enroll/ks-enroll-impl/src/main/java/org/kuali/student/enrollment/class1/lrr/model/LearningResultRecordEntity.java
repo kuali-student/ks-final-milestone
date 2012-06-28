@@ -18,9 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LRR")
@@ -50,7 +48,7 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
     private List<ResultSourceEntity> resultSourceList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LrrAttributeEntity> attributes;
+    private List<LrrAttributeEntity> attributes;
 
     public LearningResultRecordEntity() {
 
@@ -69,7 +67,7 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
 	        this.setDescr(new LrrRichTextEntity(dto.getDescr()));
         }
 
-        this.setAttributes(new HashSet<LrrAttributeEntity>());
+        this.setAttributes(new ArrayList<LrrAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 this.getAttributes().add(new LrrAttributeEntity(att));
@@ -126,14 +124,14 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
     }
 
     @Override
-    public void setAttributes(Set<LrrAttributeEntity> attributes) {
+    public void setAttributes(List<LrrAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public Set<LrrAttributeEntity> getAttributes() {
+    public List<LrrAttributeEntity> getAttributes() {
         if (attributes == null) {
-            attributes = new HashSet<LrrAttributeEntity>();
+            attributes = new ArrayList<LrrAttributeEntity>();
         }
         return attributes;
     }

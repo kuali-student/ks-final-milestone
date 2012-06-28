@@ -19,9 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LRC_RES_SCALE")
@@ -47,7 +45,7 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
     private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<ResultScaleAttributeEntity> attributes;
+    private List<ResultScaleAttributeEntity> attributes;
 
     @Column(name = "MIN_VALUE")
     private String minValue;
@@ -80,7 +78,7 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
             this.setIncrement(dto.getResultValueRange().getIncrement());
         }
 
-        this.setAttributes(new HashSet<ResultScaleAttributeEntity>());
+        this.setAttributes(new ArrayList<ResultScaleAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 ResultScaleAttributeEntity attEntity = new ResultScaleAttributeEntity(att);
@@ -162,12 +160,12 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
     }
 
     @Override
-    public void setAttributes(Set<ResultScaleAttributeEntity> attributes) {
+    public void setAttributes(List<ResultScaleAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public Set<ResultScaleAttributeEntity> getAttributes() {
+    public List<ResultScaleAttributeEntity> getAttributes() {
         return attributes;
     }
 

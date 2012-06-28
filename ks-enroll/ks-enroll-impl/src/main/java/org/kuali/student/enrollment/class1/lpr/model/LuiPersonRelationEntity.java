@@ -17,9 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Igor
@@ -52,7 +50,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LuiPersonRelationAttributeEntity> attributes;
+    private List<LuiPersonRelationAttributeEntity> attributes;
 
     public LuiPersonRelationEntity() {}
 
@@ -72,7 +70,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setPersonRelationStateId(dto.getStateKey());
-        this.setAttributes(new HashSet<LuiPersonRelationAttributeEntity>());
+        this.setAttributes(new ArrayList<LuiPersonRelationAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 this.getAttributes().add(new LuiPersonRelationAttributeEntity(att));
@@ -145,12 +143,12 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 //    }
 
     @Override
-    public Set<LuiPersonRelationAttributeEntity> getAttributes() {
+    public List<LuiPersonRelationAttributeEntity> getAttributes() {
         return attributes;
     }
 
     @Override
-    public void setAttributes(Set<LuiPersonRelationAttributeEntity> attributes) {
+    public void setAttributes(List<LuiPersonRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 

@@ -16,9 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI_EXPENDITURE")
@@ -29,7 +27,7 @@ public class LuiExpenditureEntity extends MetaEntity implements AttributeOwner<L
     private LuiEntity lui;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LuiExpenditureAttributeEntity> attributes;
+    private List<LuiExpenditureAttributeEntity> attributes;
 
     public LuiExpenditureEntity() {}
 
@@ -63,12 +61,12 @@ public class LuiExpenditureEntity extends MetaEntity implements AttributeOwner<L
     }
 
     @Override
-    public void setAttributes(Set<LuiExpenditureAttributeEntity> attributes) {
+    public void setAttributes(List<LuiExpenditureAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public Set<LuiExpenditureAttributeEntity> getAttributes() {
+    public List<LuiExpenditureAttributeEntity> getAttributes() {
         return attributes;
     }
 }

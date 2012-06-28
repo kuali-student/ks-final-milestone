@@ -18,9 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI_AFFILIATED_ORG")
@@ -53,7 +51,7 @@ public class LuiAffiliatedOrgEntity extends MetaEntity implements AttributeOwner
     private String revenueId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LuiAffiliatedOrgAttributeEntity> attributes;
+    private List<LuiAffiliatedOrgAttributeEntity> attributes;
     
     public LuiAffiliatedOrgEntity() {}
 
@@ -164,12 +162,12 @@ public class LuiAffiliatedOrgEntity extends MetaEntity implements AttributeOwner
     }
 
     @Override
-    public void setAttributes(Set<LuiAffiliatedOrgAttributeEntity> attributes) {
+    public void setAttributes(List<LuiAffiliatedOrgAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public Set<LuiAffiliatedOrgAttributeEntity> getAttributes() {
+    public List<LuiAffiliatedOrgAttributeEntity> getAttributes() {
         return attributes;
     }
 

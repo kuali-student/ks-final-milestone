@@ -10,8 +10,8 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "KSEN_SOC_ROR_ITEM")
@@ -32,7 +32,7 @@ public class SocRolloverResultItemEntity extends MetaEntity implements Attribute
     @Column(name = "MESG_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String mesgPlain;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private Set<SocRolloverResultItemAttributeEntity> attributes = new HashSet<SocRolloverResultItemAttributeEntity>();
+    private List<SocRolloverResultItemAttributeEntity> attributes = new ArrayList<SocRolloverResultItemAttributeEntity>();
 
     public SocRolloverResultItemEntity() {
     }
@@ -56,7 +56,7 @@ public class SocRolloverResultItemEntity extends MetaEntity implements Attribute
             this.setMesgFormatted(null);
             this.setMesgPlain(null);
         }
-        this.setAttributes(new HashSet<SocRolloverResultItemAttributeEntity>());
+        this.setAttributes(new ArrayList<SocRolloverResultItemAttributeEntity>());
         for (Attribute att : item.getAttributes()) {
             this.getAttributes().add(new SocRolloverResultItemAttributeEntity(att, this));
         }
@@ -141,11 +141,11 @@ public class SocRolloverResultItemEntity extends MetaEntity implements Attribute
         this.targetCourseOfferingId = targetCourseOfferingId;
     }
 
-    public Set<SocRolloverResultItemAttributeEntity> getAttributes() {
+    public List<SocRolloverResultItemAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(Set<SocRolloverResultItemAttributeEntity> attributes) {
+    public void setAttributes(List<SocRolloverResultItemAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 

@@ -1,9 +1,9 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -11,8 +11,23 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
 
-import javax.persistence.*;
-import java.util.*;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI")
@@ -67,7 +82,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     private List<LuCodeEntity> luiCodes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LuiAttributeEntity> attributes = new HashSet<LuiAttributeEntity>();
+    private List<LuiAttributeEntity> attributes = new ArrayList<LuiAttributeEntity>();
 
     public LuiEntity() {
     }
@@ -384,7 +399,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.referenceURL = referenceURL;
     }
 
-    public void setAttributes(Set<LuiAttributeEntity> attributes) {
+    public void setAttributes(List<LuiAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
@@ -396,7 +411,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.identifiers = identifiers;
     }
 
-    public Set<LuiAttributeEntity> getAttributes() {
+    public List<LuiAttributeEntity> getAttributes() {
         return attributes;
     }
 

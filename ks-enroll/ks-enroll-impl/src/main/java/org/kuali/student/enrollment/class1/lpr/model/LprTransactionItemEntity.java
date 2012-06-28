@@ -17,9 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS_ITEMS")
@@ -54,7 +52,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     private String lprTransactionItemState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LprTransItemAttributeEntity> attributes;
+    private List<LprTransItemAttributeEntity> attributes;
 
     public LprTransactionItemEntity() {}
 
@@ -68,7 +66,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
             this.setPersonId(lprTransactionItem.getPersonId());
             this.setGroupId(lprTransactionItem.getGroupId());
             this.setLprTransactionItemState(lprTransactionItem.getStateKey());
-            this.setAttributes(new HashSet<LprTransItemAttributeEntity>());
+            this.setAttributes(new ArrayList<LprTransItemAttributeEntity>());
             if (null != lprTransactionItem.getAttributes()) {
                 for (Attribute att : lprTransactionItem.getAttributes()) {
                     LprTransItemAttributeEntity attEntity = new LprTransItemAttributeEntity(att);
@@ -187,12 +185,12 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     }
 
     @Override
-    public Set<LprTransItemAttributeEntity> getAttributes() {
+    public List<LprTransItemAttributeEntity> getAttributes() {
         return attributes;
     }
 
     @Override
-    public void setAttributes(Set<LprTransItemAttributeEntity> attributes) {
+    public void setAttributes(List<LprTransItemAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 

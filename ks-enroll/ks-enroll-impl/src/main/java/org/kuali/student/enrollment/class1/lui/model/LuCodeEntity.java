@@ -20,9 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI_LU_CD")
@@ -40,7 +38,7 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
     @JoinColumn(name = "LUI_ID")
     private LuiEntity lui;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LuCodeAttributeEntity> attributes;
+    private List<LuCodeAttributeEntity> attributes;
 
     public LuCodeEntity() {
     }
@@ -128,12 +126,12 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
     }
 
     @Override
-    public void setAttributes(Set<LuCodeAttributeEntity> attributes) {
+    public void setAttributes(List<LuCodeAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public Set<LuCodeAttributeEntity> getAttributes() {
+    public List<LuCodeAttributeEntity> getAttributes() {
         return attributes;
     }
 

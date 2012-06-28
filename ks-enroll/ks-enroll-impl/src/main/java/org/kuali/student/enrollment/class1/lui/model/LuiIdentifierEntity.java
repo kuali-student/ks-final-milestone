@@ -3,16 +3,19 @@ package org.kuali.student.enrollment.class1.lui.model;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.r2.common.assembler.TransformUtility;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI_IDENT")
@@ -38,7 +41,7 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
     @JoinColumn(name = "LUI_ID")
     private LuiEntity lui;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LuiIdentifierAttributeEntity> attributes;
+    private List<LuiIdentifierAttributeEntity> attributes;
 
     public LuiIdentifierEntity() {
     }
@@ -150,12 +153,12 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
         this.state = state;
     }
 
-    public void setAttributes(Set<LuiIdentifierAttributeEntity> attributes) {
+    public void setAttributes(List<LuiIdentifierAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-    public Set<LuiIdentifierAttributeEntity> getAttributes() {
+    public List<LuiIdentifierAttributeEntity> getAttributes() {
         return attributes;
 
         //This is bad, never change the collection in the getter/setter it will cause jpa problems

@@ -16,9 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LPR_ROSTER_ENTRY")
@@ -46,7 +44,7 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
     private String lprEntryRelationState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LprRosterEntryAttributeEntity> attributes;
+    private List<LprRosterEntryAttributeEntity> attributes;
 
     public LprRosterEntryEntity() {}
 
@@ -61,7 +59,7 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
             if (dto.getStateKey() != null) {
                 this.setLprEntryRelationState(dto.getStateKey());
             }
-            this.setAttributes(new HashSet<LprRosterEntryAttributeEntity>());
+            this.setAttributes(new ArrayList<LprRosterEntryAttributeEntity>());
             if (null != dto.getAttributes()) {
                 for (Attribute att : dto.getAttributes()) {
                     LprRosterEntryAttributeEntity attEntity = new LprRosterEntryAttributeEntity(att);
@@ -112,12 +110,12 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
     }
 
     @Override
-    public Set<LprRosterEntryAttributeEntity> getAttributes() {
+    public List<LprRosterEntryAttributeEntity> getAttributes() {
         return attributes;
     }
 
     @Override
-    public void setAttributes(Set<LprRosterEntryAttributeEntity> attributes) {
+    public void setAttributes(List<LprRosterEntryAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 

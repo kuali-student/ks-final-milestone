@@ -18,9 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LRC_RES_VALUE")
@@ -55,7 +53,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<ResultValueAttributeEntity> attributes;
+    private List<ResultValueAttributeEntity> attributes;
 
     public ResultValueEntity() {}
 
@@ -74,7 +72,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         setValue(dto.getValue());
         this.setState(dto.getStateKey());
 
-        this.setAttributes(new HashSet<ResultValueAttributeEntity>());
+        this.setAttributes(new ArrayList<ResultValueAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 ResultValueAttributeEntity attEntity = new ResultValueAttributeEntity(att);
@@ -157,12 +155,12 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     }
 
     @Override
-    public void setAttributes(Set<ResultValueAttributeEntity> attributes) {
+    public void setAttributes(List<ResultValueAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public Set<ResultValueAttributeEntity> getAttributes() {
+    public List<ResultValueAttributeEntity> getAttributes() {
         return attributes;
     }
 
@@ -180,7 +178,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         info.setName(getName());
         info.setNumericValue(getNumericValue());
         info.setValue(getValue());
-        info.setScaleKey(getResultScaleId());
+        info.setResultScaleKey(getResultScaleId());
 
         if (getState() != null) {
             info.setStateKey(getState());

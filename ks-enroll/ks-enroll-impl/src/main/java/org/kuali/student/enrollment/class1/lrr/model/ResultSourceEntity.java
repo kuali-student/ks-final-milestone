@@ -15,9 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LRR_RES_SOURCE")
@@ -40,7 +38,7 @@ public class ResultSourceEntity extends MetaEntity implements AttributeOwner<Res
     private String resultTransformationId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<ResultSourceAttributeEntity> attributes;
+    private List<ResultSourceAttributeEntity> attributes;
 
     public ResultSourceEntity(){
 
@@ -56,7 +54,7 @@ public class ResultSourceEntity extends MetaEntity implements AttributeOwner<Res
 	        this.setDescr(new ResultSourceRichTextEntity(dto.getDescr()));
         }
 
-        this.setAttributes(new HashSet<ResultSourceAttributeEntity>());
+        this.setAttributes(new ArrayList<ResultSourceAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 this.getAttributes().add(new ResultSourceAttributeEntity(att));
@@ -106,12 +104,12 @@ public class ResultSourceEntity extends MetaEntity implements AttributeOwner<Res
     }
 
     @Override
-    public void setAttributes(Set<ResultSourceAttributeEntity> attributes) {
+    public void setAttributes(List<ResultSourceAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public Set<ResultSourceAttributeEntity> getAttributes() {
+    public List<ResultSourceAttributeEntity> getAttributes() {
         return attributes;
     }
 

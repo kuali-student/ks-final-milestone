@@ -30,8 +30,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is a description of what this class does - andy don't forget to fill this in.
@@ -58,7 +58,7 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
     private String descrFormatted;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<HoldIssueAttributeEntity> attributes;
+    private List<HoldIssueAttributeEntity> attributes;
 
     @Column(name = "HOLD_ISSUE_STATE", nullable = false)
     private String holdIssueState;
@@ -82,7 +82,7 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
             setDescrFormatted(issue.getDescr().getFormatted());
             setDescrPlain(issue.getDescr().getPlain());
         }
-        this.setAttributes(new HashSet<HoldIssueAttributeEntity>());
+        this.setAttributes(new ArrayList<HoldIssueAttributeEntity>());
         for (Attribute att : issue.getAttributes()) {
             HoldIssueAttributeEntity attEntity = new HoldIssueAttributeEntity(att);
             this.getAttributes().add(attEntity);
@@ -90,12 +90,12 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
     }
 
     @Override
-    public void setAttributes(Set<HoldIssueAttributeEntity> attributes) {
+    public void setAttributes(List<HoldIssueAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public Set<HoldIssueAttributeEntity> getAttributes() {
+    public List<HoldIssueAttributeEntity> getAttributes() {
         return attributes;
     }
 

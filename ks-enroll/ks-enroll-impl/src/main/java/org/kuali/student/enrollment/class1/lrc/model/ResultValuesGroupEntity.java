@@ -10,16 +10,13 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LRC_RES_VAL_GRP")
@@ -60,8 +57,8 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<ResultValuesGroupAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<ResultValuesGroupAttributeEntity> attributes;
 
     public ResultValuesGroupEntity() {}
 
@@ -84,7 +81,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
             this.setIncrement(dto.getResultValueRange().getIncrement());
         }
 
-        this.setAttributes(new HashSet<ResultValuesGroupAttributeEntity>());
+        this.setAttributes(new ArrayList<ResultValuesGroupAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 ResultValuesGroupAttributeEntity attEntity = new ResultValuesGroupAttributeEntity(att);
@@ -182,12 +179,12 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     }
 
     @Override
-    public void setAttributes(Set<ResultValuesGroupAttributeEntity> attributes) {
+    public void setAttributes(List<ResultValuesGroupAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public Set<ResultValuesGroupAttributeEntity> getAttributes() {
+    public List<ResultValuesGroupAttributeEntity> getAttributes() {
         return attributes;
     }
 

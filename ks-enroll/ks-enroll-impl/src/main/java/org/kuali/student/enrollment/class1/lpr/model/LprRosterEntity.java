@@ -16,9 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LPR_ROSTER")
@@ -54,7 +52,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
     private Integer timeQuantity;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LprRosterAttributeEntity> attributes;
+    private List<LprRosterAttributeEntity> attributes;
 
     public LprRosterEntity() {
 
@@ -79,7 +77,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
             this.setDescr(entityDesc);
         }
 
-        this.setAttributes(new HashSet<LprRosterAttributeEntity>());
+        this.setAttributes(new ArrayList<LprRosterAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 LprRosterAttributeEntity attEntity = new LprRosterAttributeEntity(att);
@@ -149,12 +147,12 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
     }
 
     @Override
-    public Set<LprRosterAttributeEntity> getAttributes() {
+    public List<LprRosterAttributeEntity> getAttributes() {
         return attributes;
     }
 
     @Override
-    public void setAttributes(Set<LprRosterAttributeEntity> attributes) {
+    public void setAttributes(List<LprRosterAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
