@@ -63,7 +63,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     @Column(name = "LPR_TRANS_TYPE", nullable=false)
     private String lprTransType;
 
-    @Column(name = "LRP_TRANS_STATE", nullable=false)
+    @Column(name = "LPR_TRANS_STATE", nullable=false)
     private String lprTransState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
