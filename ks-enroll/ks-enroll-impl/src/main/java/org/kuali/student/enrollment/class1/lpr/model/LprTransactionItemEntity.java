@@ -83,10 +83,10 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 	@Column(name = "LPR_TRANS_ITEM_STATE")
 	private String lprTransactionItemState;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval=true)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval=true, fetch=FetchType.EAGER)
 	private final Set<LprTransactionItemAttributeEntity> attributes = new HashSet<LprTransactionItemAttributeEntity>();
 	
-	@OneToMany (cascade = CascadeType.ALL, mappedBy = "lprTransactionItem", orphanRemoval=true)
+	@OneToMany (cascade = CascadeType.ALL, mappedBy = "lprTransactionItem", orphanRemoval=true, fetch=FetchType.EAGER)
 	private final Set<LprTransactionItemRequestOptionEntity>requestOptions = new HashSet<LprTransactionItemRequestOptionEntity>();
 	
 	@ElementCollection(fetch=FetchType.EAGER)

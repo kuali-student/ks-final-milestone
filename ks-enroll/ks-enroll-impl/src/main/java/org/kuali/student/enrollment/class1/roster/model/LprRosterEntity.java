@@ -54,7 +54,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
     @Column(name = "TM_QUANTITY")
     private Integer timeQuantity;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch=FetchType.EAGER, orphanRemoval=true)
     private Set<LprRosterAttributeEntity> attributes;
 
     public LprRosterEntity() {

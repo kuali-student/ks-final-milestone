@@ -46,7 +46,7 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
     @Column(name = "RELATION_STATE_ID")
     private String lprEntryRelationState;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<LprRosterEntryAttributeEntity> attributes;
 
     public LprRosterEntryEntity() {}

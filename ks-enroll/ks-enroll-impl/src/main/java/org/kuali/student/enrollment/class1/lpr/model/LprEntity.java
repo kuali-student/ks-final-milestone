@@ -59,7 +59,7 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
 	@Column(name = "LPR_STATE")
 	private String personRelationStateId;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval=true)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval=true, fetch=FetchType.EAGER)
 	private final Set<LprAttributeEntity> attributes = new HashSet<LprAttributeEntity>();
 
 	@ElementCollection(fetch = FetchType.EAGER)
