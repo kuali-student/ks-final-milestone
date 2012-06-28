@@ -16,13 +16,9 @@
 package org.kuali.student.enrollment.class1.hold.service.decorators;
 
 import java.util.List;
-
-
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -31,54 +27,44 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
-import org.kuali.student.r2.common.infc.HoldsValidator;
+import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;
 import org.kuali.student.r2.core.hold.dto.IssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldServiceDecorator;
-import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
-public class HoldServiceValidationDecorator extends HoldServiceDecorator 
-implements HoldsDataDictionaryService, HoldsValidator
-{
-	// validator property w/getter & setter
+public class HoldServiceValidationDecorator
+        extends HoldServiceDecorator {
+    // validator property w/getter & setter
+
     private DataDictionaryValidator validator;
-    @Override
+
     public DataDictionaryValidator getValidator() {
         return validator;
     }
-    @Override
+
     public void setValidator(DataDictionaryValidator validator) {
-        this.validator = validator;        
+        this.validator = validator;
     }
 
-    // dataDictionaryService property w/getter & setter
-    private DataDictionaryService dataDictionaryService;
     @Override
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-    @Override
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-    }
-    
-
-    @Override
-    public List<ValidationResultInfo> validateHold(String validationTypeKey, HoldInfo holdInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	List<ValidationResultInfo> errors;
-    	try {
-    		errors = ValidationUtils.validateInfo(validator, validationTypeKey, holdInfo, context);
-    		List<ValidationResultInfo> nextDecorationErrors =
-    				getNextDecorator().validateHold(validationTypeKey, holdInfo, context);
-    		if (null != nextDecorationErrors) {
-    			errors.addAll(nextDecorationErrors);
-    		}
-    	}
-    	catch (DoesNotExistException ex) {
-    		throw new OperationFailedException("Error validating hold", ex);
-    	}
-    	return errors;
+    public List<ValidationResultInfo> validateHold(String validationTypeKey,
+            HoldInfo holdInfo,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        // validate
+        List<ValidationResultInfo> errors;
+        try {
+            errors = ValidationUtils.validateInfo(validator, validationTypeKey, holdInfo, contextInfo);
+            List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateHold(validationTypeKey, holdInfo,
+                    contextInfo);
+            errors.addAll(nextDecoratorErrors);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating", ex);
+        }
+        return errors;
     }
 
     @Override
@@ -86,45 +72,126 @@ implements HoldsDataDictionaryService, HoldsValidator
             String issueId,
             String holdTypeKey,
             HoldInfo holdInfo,
-            ContextInfo context)
-            throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        _holdFullValidation(holdInfo, context);
-        return getNextDecorator().createHold(personId, issueId, holdTypeKey, holdInfo, context);
-
-    }
-
-    @Override
-    public HoldInfo updateHold(String holdId, HoldInfo holdInfo, ContextInfo context)
-    		throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, ReadOnlyException {
-    	_holdFullValidation(holdInfo, context);
-        return getNextDecorator().updateHold(holdId, holdInfo, context);
-    }
-
-    private void _holdFullValidation(HoldInfo holdInfo, ContextInfo context)
-    		throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException {
+        HoldInfo info = new HoldInfo(holdInfo);
+        info.setPersonId(personId);
+        info.setIssueId(issueId);
+        info.setTypeKey(holdTypeKey);
+        // create 
         try {
-            List<ValidationResultInfo> errors = this.validateHold(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), holdInfo, context);
+            List<ValidationResultInfo> errors =
+                    this.validateHold(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), info, contextInfo);
             if (!errors.isEmpty()) {
-                throw new DataValidationErrorException("Error(s) occurred validating hold", errors);
+                throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("Error validating hold", ex);
+            throw new OperationFailedException("Error validating", ex);
         }
+        return getNextDecorator().createHold(personId, issueId, holdTypeKey, holdInfo, contextInfo);
     }
 
     @Override
-    public IssueInfo createIssue(String issueTypeKey, IssueInfo issueInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        if(issueInfo.getDescr() == null || issueInfo.getDescr().getPlain() == null){
-                 throw new InvalidParameterException("Hold issue description cannot be null");
+    public HoldInfo updateHold(String holdId,
+            HoldInfo holdInfo,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
+        // update
+        try {
+            List<ValidationResultInfo> errors =
+                    this.validateHold(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), holdInfo,
+                    contextInfo);
+            if (!errors.isEmpty()) {
+                throw new DataValidationErrorException("Error(s) occurred validating", errors);
+            }
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating", ex);
         }
-        if(issueTypeKey == null || issueInfo.getTypeKey() == null){
-            throw new InvalidParameterException("Hold issue type cannot be null");
-        }
-        if(issueInfo.getStateKey() == null){
-            throw new InvalidParameterException("Hold issue state cannot be null");
-        }
-        return getNextDecorator().createIssue(issueTypeKey, issueInfo, context);
+        return getNextDecorator().updateHold(holdId, holdInfo, contextInfo);
     }
 
+    @Override
+    public List<ValidationResultInfo> validateIssue(String validationTypeKey,
+            IssueInfo issueInfo,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        // validate
+        List<ValidationResultInfo> errors;
+        try {
+            errors = ValidationUtils.validateInfo(validator, validationTypeKey, issueInfo, contextInfo);
+            List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateIssue(validationTypeKey, issueInfo,
+                    contextInfo);
+            errors.addAll(nextDecoratorErrors);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating", ex);
+        }
+        return errors;
+    }
+
+    @Override
+    public IssueInfo createIssue(String issueTypeKey,
+            IssueInfo issueInfo,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException {
+        IssueInfo info = new IssueInfo(issueInfo);
+        info.setTypeKey(issueTypeKey);
+        // create 
+        try {
+            List<ValidationResultInfo> errors =
+                    this.validateIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), info,
+                    contextInfo);
+            if (!errors.isEmpty()) {
+                throw new DataValidationErrorException("Error(s) occurred validating", errors);
+            }
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating", ex);
+        }
+        return getNextDecorator().createIssue(issueTypeKey, issueInfo, contextInfo);
+    }
+
+    @Override
+    public IssueInfo updateIssue(String issueId,
+            IssueInfo issueInfo,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
+        // update
+        try {
+            List<ValidationResultInfo> errors =
+                    this.validateIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), issueInfo,
+                    contextInfo);
+            if (!errors.isEmpty()) {
+                throw new DataValidationErrorException("Error(s) occurred validating", errors);
+            }
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating", ex);
+        }
+        return getNextDecorator().updateIssue(issueId, issueInfo, contextInfo);
+    }
 }
