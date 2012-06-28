@@ -14,16 +14,16 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.r2.core.state.service.StateService;
-import org.kuali.student.r2.core.type.service.TypeService;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.common.state.dto.StateInfo;
+import org.kuali.student.r2.common.state.service.StateService;
+import org.kuali.student.r2.common.type.service.TypeService;
+import org.kuali.student.r2.common.dto.TypeInfo;
 
 
 import javax.xml.namespace.QName;
@@ -64,7 +64,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 toSave.setCourseOfferingCode(coInfo.getCourseOfferingCode());
                 toSave.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
 
-                CourseInfo course = getCourseService().getCourse(coInfo.getCourseId());
+                CourseInfo course = getCourseService().getCourse(coInfo.getCourseId(), null);
 
                 // find the format that matches the offering we have
                 List<FormatInfo> formats = course.getFormats();

@@ -22,14 +22,14 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
-import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
+import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -62,7 +62,7 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
         String finalExamType = form.getCoInfo().getFinalExamType();
 
         try {
-            List<EnumeratedValueInfo> enumerationInfos = (List<EnumeratedValueInfo> ) getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null);
+            List<EnumeratedValueInfo> enumerationInfos = (List<EnumeratedValueInfo> ) getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null, null);
             Collections.sort(enumerationInfos, finalExamComparator);
 
             for(EnumeratedValueInfo enumerationInfo : enumerationInfos) {
@@ -77,6 +77,8 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
         } catch (DoesNotExistException e) {
             throw new RuntimeException("No subject areas found! There should be some in the database", e);
         } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
+        } catch (PermissionDeniedException e) {
             throw new RuntimeException(e);
         } catch (MissingParameterException e) {
             throw new RuntimeException(e);

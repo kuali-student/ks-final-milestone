@@ -34,7 +34,7 @@ import org.kuali.student.r2.core.fee.dto.EnrollmentFeeAmountInfo;
 import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 import org.kuali.student.r2.core.fee.infc.EnrollmentFeeAmount;
 import org.kuali.student.r2.core.fee.service.FeeService;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.common.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;

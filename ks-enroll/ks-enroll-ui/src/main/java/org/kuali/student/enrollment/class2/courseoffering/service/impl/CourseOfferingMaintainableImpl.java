@@ -29,17 +29,17 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.constants.StateServiceConstants;
+import org.kuali.student.r2.common.constants.StateServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.state.service.StateService;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.common.state.service.StateService;
+import org.kuali.student.r2.common.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.util.*;
@@ -111,7 +111,7 @@ public class CourseOfferingMaintainableImpl extends MaintainableImpl implements 
                 List<String> studentRegOptions = new ArrayList<String>();
                 String courseId = info.getCourseId();
                 if (courseId != null) {
-                    CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId);
+                    CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId, null);
                     List<String> gradingOptions = courseInfo.getGradingOptions();
                     Set<String> regOpts = new HashSet<String>(Arrays.asList(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS));
                     for(String regOpt: regOpts) {

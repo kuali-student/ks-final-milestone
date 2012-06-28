@@ -4,7 +4,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.common.state.dto.StateInfo;
 
 import java.io.Serializable;
 

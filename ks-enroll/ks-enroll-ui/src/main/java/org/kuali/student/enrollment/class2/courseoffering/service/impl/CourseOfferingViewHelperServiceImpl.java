@@ -36,7 +36,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -81,7 +81,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         CourseService courseService = _getCourseService();
         CourseInfo courseInfo = null;
         try {
-            courseInfo = courseService.getCourse("b509ad01-6ef3-44a4-8857-f5df8631f79e"); // Now CHEM 241
+            courseInfo = courseService.getCourse("b509ad01-6ef3-44a4-8857-f5df8631f79e", null); // Now CHEM 241
         } catch (Exception e) {
             e.printStackTrace();
             return null;

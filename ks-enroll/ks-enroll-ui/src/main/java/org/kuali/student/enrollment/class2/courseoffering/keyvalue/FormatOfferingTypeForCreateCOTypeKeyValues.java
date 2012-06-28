@@ -6,7 +6,7 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
-import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class FormatOfferingTypeForCreateCOTypeKeyValues  extends UifKeyValuesFin
             for (FormatInfo format : coWrapper.getCourse().getFormats()) {
                 ConcreteKeyValue keyValue = new ConcreteKeyValue();
                 keyValue.setKey(format.getId());
-                keyValue.setValue(format.getType());
+                keyValue.setValue(format.getTypeKey());
                 keyValues.add(keyValue);
             }
         }

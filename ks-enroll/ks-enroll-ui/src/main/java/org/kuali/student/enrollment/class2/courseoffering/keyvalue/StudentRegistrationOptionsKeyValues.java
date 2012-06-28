@@ -23,14 +23,14 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
-import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 //import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -64,7 +64,7 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
 
         if (courseId != null) {
             try {
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId);
+                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId, null);
                 gradingOptions = courseInfo.getGradingOptions();
             } catch (DoesNotExistException e) {
                 throw new RuntimeException("No subject areas found! There should be some in the database", e);
