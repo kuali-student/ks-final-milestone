@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.class1.hold.model;
 
-import java.util.ArrayList;
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -33,7 +32,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.EntityManager;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -50,25 +48,23 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "HoldIssueEntity.getByOrganization",
     query = "select ISSUE from HoldIssueEntity ISSUE where ISSUE.organizationId = :organizationId")
 })
-public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIssueAttributeEntity> {
+public class HoldIssueEntity
+        extends MetaEntity
+        implements AttributeOwner<HoldIssueAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;
-
     @Column(name = "ORG_ID")
     private String organizationId;
-
     @Column(name = "HOLD_ISSUE_TYPE", nullable = false)
     private String holdIssueType;
-
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
     private String descrPlain;
-
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
-    private Set<HoldIssueAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
+    private final Set<HoldIssueAttributeEntity> attributes = new HashSet<HoldIssueAttributeEntity>();
+    ;
 
     @Column(name = "HOLD_ISSUE_STATE", nullable = false)
     private String holdIssueState;
@@ -94,11 +90,8 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
             this.setDescrFormatted(null);
             this.setDescrPlain(null);
         }
-        
+
         // dynamic attributes
-        if (this.getAttributes() == null) {
-            this.setAttributes(new HashSet<HoldIssueAttributeEntity>());
-        }
         this.getAttributes().clear();
         for (Attribute att : dto.getAttributes()) {
             HoldIssueAttributeEntity attEntity = new HoldIssueAttributeEntity(att);
@@ -109,7 +102,10 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
 
     @Override
     public void setAttributes(Set<HoldIssueAttributeEntity> attributes) {
-        this.attributes = attributes;
+        this.attributes.clear();
+        if (attributes != null) {
+            this.attributes.addAll(attributes);
+        }
     }
 
     @Override

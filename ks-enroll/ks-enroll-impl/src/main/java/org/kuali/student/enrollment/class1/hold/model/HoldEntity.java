@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class1.hold.model;
 
-import java.util.ArrayList;
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
@@ -22,7 +21,6 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.EntityManager;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import org.kuali.student.r2.common.util.RichTextHelper;
@@ -43,43 +41,40 @@ import org.kuali.student.r2.common.util.RichTextHelper;
     @NamedQuery(name = "HoldEntity.getByIssuePersonAndState",
     query = "select H from HoldEntity H where H.holdIssue.id = :issueId and H.personId = :personId and h.holdState = :stateKey")
 })
-public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttributeEntity> {
+public class HoldEntity
+        extends MetaEntity
+        implements AttributeOwner<HoldAttributeEntity> {
+
     @Column(name = "NAME")
     private String name;
-
-    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
     private String descrPlain;
-
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
-
     @Column(name = "HOLD_STATE")
     private String holdState;
-
     @Column(name = "HOLD_TYPE")
     private String holdType;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "RELEASED_DT")
     private Date releasedDate;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "ISSUE_ID")
     private HoldIssueEntity holdIssue;
-
     @Column(name = "PERS_ID")
     private String personId;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
-    private Set<HoldAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
+    private final Set<HoldAttributeEntity> attributes = new HashSet<HoldAttributeEntity>();
 
     @Override
     public void setAttributes(Set<HoldAttributeEntity> attributes) {
-        this.attributes = attributes;
+        this.attributes.clear();
+        if (attributes != null) {
+            this.attributes.addAll(attributes);
+        }
     }
 
     public HoldEntity() {
@@ -95,9 +90,8 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         this.fromDto(hold);
     }
 
-    
     public void fromDto(Hold dto) {
-        this.setName (dto.getName());
+        this.setName(dto.getName());
         this.setHoldState(dto.getStateKey());
         if (dto.getDescr() != null) {
             this.setDescrFormatted(dto.getDescr().getFormatted());
@@ -108,11 +102,8 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         }
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setReleasedDate(dto.getReleasedDate());
-        
+
         // dynamic attributes
-        if (this.getAttributes() == null) {
-            this.setAttributes(new HashSet<HoldAttributeEntity>());
-        }
         this.attributes.clear();
         for (Attribute att : dto.getAttributes()) {
             HoldAttributeEntity attEntity = new HoldAttributeEntity(att);
@@ -150,8 +141,6 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     public void setName(String name) {
         this.name = name;
     }
-    
-    
 
     public String getDescrPlain() {
         return descrPlain;
