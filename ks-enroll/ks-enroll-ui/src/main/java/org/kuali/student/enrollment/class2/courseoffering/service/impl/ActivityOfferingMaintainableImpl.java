@@ -67,7 +67,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
             ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID),getContextInfo());
-            ViewHelperUtil.getInstructorNames(info.getInstructors());
             ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info);
 
             //get the course offering
@@ -198,8 +197,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof OfferingInstructorWrapper){
-            OfferingInstructorWrapper Instructor = (OfferingInstructorWrapper) addLine;
-            Instructor.setOfferingInstructorInfo(disassembleInstructorWrapper(Instructor));
+            OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
+            instructor.setOfferingInstructorInfo(disassembleInstructorWrapper(instructor));
         }
     }
 

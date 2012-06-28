@@ -33,6 +33,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private String waitListText = "";
     private String toolTipText = "";
 
+    private String firstInstructorDisplayName;
+
     public String getToolTipText() {
         return toolTipText;
     }
@@ -172,5 +174,13 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setInstructors(List<OfferingInstructorWrapper> instructors) {
         this.instructors = instructors;
+    }
+
+    public String getFirstInstructorDisplayName() {
+        return firstInstructorDisplayName;
+    }
+
+    public void setFirstInstructorDisplayName(String firstInstructorDisplayName) {
+        this.firstInstructorDisplayName = firstInstructorDisplayName;
     }
 }

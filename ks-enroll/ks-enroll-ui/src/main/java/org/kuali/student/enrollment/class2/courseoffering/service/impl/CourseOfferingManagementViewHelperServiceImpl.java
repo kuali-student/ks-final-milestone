@@ -10,6 +10,7 @@ import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConsta
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -17,6 +18,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -33,6 +35,8 @@ import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -213,6 +217,42 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 wrapper.setStateName(state.getName());
                 TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), getContextInfo());
                 wrapper.setTypeName(typeInfo.getName());
+
+                if(info.getInstructors() != null && !info.getInstructors().isEmpty()) {
+
+                    // Build the display name for the Instructor
+                    Collection<OfferingInstructorInfo> highestInstEffortInstructors = new ArrayList<OfferingInstructorInfo>();
+                    float highestInstEffortComparison = 0f;
+
+                    for (OfferingInstructorInfo instructor : info.getInstructors()) {
+                        // if this instructor has a higher percent effort than any previous instructors,
+                        // clear the list we are keeping track of and set the new comparison number to this instructor's percentage effort
+                        if(instructor.getPercentageEffort() > highestInstEffortComparison) {
+                            highestInstEffortInstructors.clear();
+                            highestInstEffortComparison = instructor.getPercentageEffort();
+                            highestInstEffortInstructors.add(instructor);
+                        }
+                        // if this instructor's percent effort is tied with the comparison number,
+                        // add this instructor to the list of highest effort instructors
+                        else if (instructor.getPercentageEffort() == highestInstEffortComparison) {
+                            highestInstEffortInstructors.add(instructor);
+                        }
+                    }
+
+                    if(highestInstEffortInstructors.size() == 1) {
+                        wrapper.setFirstInstructorDisplayName(highestInstEffortInstructors.iterator().next().getPersonName());
+                    }
+                    else {
+                        List<String> names = new ArrayList<String>(highestInstEffortInstructors.size());
+                        for(OfferingInstructorInfo oiInfo : highestInstEffortInstructors) {
+                            names.add(oiInfo.getPersonName());
+                        }
+
+                        Collections.sort(names);
+
+                        wrapper.setFirstInstructorDisplayName(names.get(0));
+                    }
+                }
 
                 activityOfferingWrapperList.add(wrapper);
             }

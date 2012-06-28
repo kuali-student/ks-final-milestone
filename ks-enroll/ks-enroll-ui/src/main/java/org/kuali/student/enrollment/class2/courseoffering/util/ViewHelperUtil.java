@@ -41,16 +41,6 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class ViewHelperUtil {
-    public static void getInstructorNames(List<OfferingInstructorInfo> instructors){
-        if(instructors != null && !instructors.isEmpty()){
-            for(OfferingInstructorInfo instructor : instructors){
-                List<Person> lstPerson = getInstructorByPersonId(instructor.getPersonId());
-                if(lstPerson != null && !lstPerson.isEmpty()){
-                    instructor.setPersonName(lstPerson.get(0).getName());
-                }
-            }
-        }
-    }
 
     public static List<Person> getInstructorByPersonId(String personId){
         Map<String, String> searchCriteria = new HashMap<String, String>();
