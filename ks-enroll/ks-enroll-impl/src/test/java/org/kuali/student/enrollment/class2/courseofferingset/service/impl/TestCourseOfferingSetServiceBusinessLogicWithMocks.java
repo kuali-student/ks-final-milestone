@@ -42,7 +42,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.lum.util.constants.LuServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -100,9 +100,9 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
 
         CourseR1TestDataLoader courseLoader = new CourseR1TestDataLoader(this.courseService);
         courseLoader.loadCourse("COURSE1", "2012FA", "CHEM", "CHEM123", "Chemistry 123", "description 1", "COURSE1-FORMAT1",
-                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY);
+                CluServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, CluServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY);
         courseLoader.loadCourse("COURSE2", "2012SP", "ENG", "ENG101", "Intro English", "description 2", "COURSE2-FORMAT1",
-                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, null);
+                CluServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, null);
         // get course
 
         TermInfo sourceTerm = acalService.getTerm("2012FA", callContext);
