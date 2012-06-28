@@ -226,7 +226,7 @@
                     <bean parent="Uif-VerticalRadioControl"/>
                 </property>
                 <property name="optionsFinder">
-                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" p:addBlankOption="false" />
+                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" />
                 </property>
             </bean>
         </property>
