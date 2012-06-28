@@ -22,10 +22,12 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.httpclient.util.IdleConnectionHandler;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -40,6 +42,8 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.test.util.AttributeTester;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -66,7 +70,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *         implementation of the class 2 course offering service.
  * 
  */
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:co-test-with-class2-mock-context.xml" })
 public class TestCourseOfferingServiceMockImpl {
@@ -176,10 +179,8 @@ public class TestCourseOfferingServiceMockImpl {
 	    }
 
 	    @Test
-	    @Ignore
 	    public void testGetCourseOfferingsByIds() throws DoesNotExistException, InvalidParameterException,
 	            MissingParameterException, OperationFailedException, PermissionDeniedException {
-	        /*********************************************************************
 	        List<String> idsList = new ArrayList<String>();
 	        idsList.add("test1");
 	        idsList.add("test2");
@@ -187,13 +188,18 @@ public class TestCourseOfferingServiceMockImpl {
 	        
 	        try {
 	        try {
-	        coServiceAuthDecorator.getCourseOfferingsByIds(idsList, contextInfo);
+	        coService.getCourseOfferingsByIds(idsList, callContext);
 	        fail("idsList should have thrown DoesNotExistException");
 	        } catch (DoesNotExistException enee) {
 	        // expected
 	        }
 	        
-	        List<CourseOfferingInfo> co = coServiceAuthDecorator.getCourseOfferingsByIds(idsList, contextInfo);
+	        idsList.clear();
+	        
+	        idsList.add("CO-1");
+	        idsList.add("CO-2");
+	        
+	        List<CourseOfferingInfo> co = coService.getCourseOfferingsByIds(idsList, callContext);
 	        
 	        assertNotNull(co);
 	        for (CourseOfferingInfo coItem : co) {
@@ -203,7 +209,6 @@ public class TestCourseOfferingServiceMockImpl {
 	        } catch (Exception ex) {
 	        fail(ex.getMessage());
 	        }
-	         *********************************************************************/
 	    }
 
 	    @Test
@@ -269,7 +274,7 @@ public class TestCourseOfferingServiceMockImpl {
 	            DoesNotExistException, InvalidParameterException, MissingParameterException,
 	            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 	        try {
-	            CourseOfferingInfo coi = coService.getCourseOffering("Lui-1", callContext);
+	            CourseOfferingInfo coi = coService.getCourseOffering("CO-2", callContext);
 	            assertNotNull(coi);
 
 	            coi.setTermId("testAtpId1");
@@ -285,11 +290,11 @@ public class TestCourseOfferingServiceMockImpl {
 	            instructors.add(instructor);
 	            coi.setInstructors(instructors);
 	            CourseOfferingInfo updated =
-	                    coService.updateCourseOffering("Lui-1", coi, callContext);
+	                    coService.updateCourseOffering("CO-2", coi, callContext);
 	            assertNotNull(updated);
 
 	            CourseOfferingInfo retrieved =
-	                    coService.getCourseOffering("Lui-1", callContext);
+	                    coService.getCourseOffering("CO-2", callContext);
 	            assertNotNull(retrieved);
 
 	            assertTrue(retrieved.getIsHonorsOffering());
@@ -313,11 +318,11 @@ public class TestCourseOfferingServiceMockImpl {
 	            instructors1.add(instructor2);
 	            retrieved.setInstructors(instructors1);
 	            CourseOfferingInfo updated1 =
-	                    coService.updateCourseOffering("Lui-1", retrieved, callContext);
+	                    coService.updateCourseOffering("CO-2", retrieved, callContext);
 	            assertNotNull(updated1);
 
 	            CourseOfferingInfo retrieved1 =
-	                    coService.getCourseOffering("Lui-1", callContext);
+	                    coService.getCourseOffering("CO-2", callContext);
 	            assertNotNull(retrieved1);
 	            assertEquals(2, retrieved1.getInstructors().size());
 	        } catch (Exception ex) {
@@ -331,18 +336,24 @@ public class TestCourseOfferingServiceMockImpl {
 	            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 	        try {
 	        	
-	        	 List<String> optionKeys = new ArrayList<String>();
-	 	        CourseOfferingInfo coInfo = CourseOfferingServiceDataUtils.createCourseOffering("CLU-1", "testAtpId1", "Chemistry 123", "CHEM123");
 	 	        
-	 	        CourseOfferingInfo created = coService.createCourseOffering("CLU-1", "testAtpId1", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, callContext);
 	 	        
-	            CourseOfferingInfo coi = coService.getCourseOffering(created.getId(), callContext);
+	            CourseOfferingInfo coi = coService.getCourseOffering("CO-2", callContext);
 	            assertNotNull(coi);
 
 	            coi.setTermId("atpId1");
 
 	            //dynamic attributes
+	            AttributeTester attributeTester = new AttributeTester();
+	            
+	            List<AttributeInfo> expectedList = new ArrayList<AttributeInfo>();
+	            
+				attributeTester.add2ForCreate(expectedList);
+				
+				coi.getAttributes().addAll(expectedList);
+	            
 	            coi.setFundingSource("state");
+	            
 	            CourseOfferingInfo updated =
 	                    coService.updateCourseOffering(coi.getId(), coi, callContext);
 	            assertNotNull(updated);
@@ -352,6 +363,9 @@ public class TestCourseOfferingServiceMockImpl {
 	            assertNotNull(retrieved);
 
 	            assertEquals("state", coi.getFundingSource());
+	            
+	            attributeTester.check(expectedList, coi.getAttributes());
+	            
 	            // TODO: fix once waitlists are implemented
 //	            assertEquals("WaitlistLevelType1", coi.getWaitlistLevelTypeKey());
 	        } catch (Exception ex) {
@@ -363,10 +377,9 @@ public class TestCourseOfferingServiceMockImpl {
 	            DataValidationErrorException, InvalidParameterException, MissingParameterException,
 	                                                  OperationFailedException, PermissionDeniedException, ReadOnlyException {
 	        // Create a CO
-	        String formatId = null;
-	        CourseOfferingInfo coInfo = new CourseOfferingInfo();
+	        CourseOfferingInfo coInfo = CourseOfferingServiceDataUtils.createCourseOffering("CLU-1", "testAtpId1", "Alternate chemistry", "ALT123");
 	        List<String> optionKeys = new ArrayList<String>();
-	        CourseOfferingInfo created = coService.createCourseOffering("CLU-1", "testAtpId1", formatId, coInfo, optionKeys, callContext);
+	        CourseOfferingInfo created = coService.createCourseOffering("CLU-1", "testAtpId1", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, callContext);
 
 	        // Verify that the CO was created
 	        assertNotNull(created);
@@ -377,7 +390,7 @@ public class TestCourseOfferingServiceMockImpl {
 
 	        try {
 	            // Delete the course offering and check that the status returned was a success
-	            StatusInfo delResult = coService.deleteCourseOffering("CLU-1", callContext);
+	            StatusInfo delResult = coService.deleteCourseOffering(created.getId(), callContext);
 	            assertTrue(delResult.getIsSuccess());
 	        } catch (Exception ex) {
 	            fail("Exception from service call :" + ex.getMessage());
@@ -414,11 +427,11 @@ public class TestCourseOfferingServiceMockImpl {
 	        try {
 
 
-	            FormatOfferingInfo fo = coService.getFormatOffering("luiFormat-1", callContext);
+	            FormatOfferingInfo fo = coService.getFormatOffering("CO-1:FO-1", callContext);
 	            assertNotNull(fo);
 	            assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, fo.getStateKey());
-	            assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, fo.getTypeKey());
-	            assertEquals("Lui Desc 101", fo.getDescr().getPlain());
+	            assertEquals(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, fo.getTypeKey());
+	            assertEquals("Lecture", fo.getDescr().getPlain());
 	        } catch (Exception ex) {
 	            fail(ex.getMessage());
 	        }
@@ -462,7 +475,7 @@ public class TestCourseOfferingServiceMockImpl {
 	            // in the future.
 	            assertEquals(4, activities.size());
 	            assertEquals(created.getActivityId(), activities.get(0).getActivityId());
-	            assertEquals(created.getId(), activities.get(0).getId());
+	            assertEquals("CO-1:FO-1:AO-1", activities.get(0).getId());
 	            assertEquals(1, activities.get(0).getInstructors().size());
 	        } catch (Exception ex) {
 	        	log.fatal("Exception from serviceCall", ex);

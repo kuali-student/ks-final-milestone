@@ -49,11 +49,14 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
+import org.springframework.transaction.annotation.Transactional;
 
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
@@ -66,8 +69,16 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     private AcademicCalendarService acalService;
 	@Resource
     private CourseOfferingServiceBusinessLogic businessLogic;
+	
+	@Resource
+	private TypeService typeService;
 
-    public CourseOfferingServiceBusinessLogic getBusinessLogic() {
+	
+    public void setTypeService(TypeService typeService) {
+		this.typeService = typeService;
+	}
+
+	public CourseOfferingServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
     }
 
@@ -433,28 +444,30 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public TypeInfo getActivityOfferingType(String activityOfferingTypeKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        throw new OperationFailedException("getActivityOfferingType has not been implemented");
+    public TypeInfo getActivityOfferingType(String activityOfferingTypeKey, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return typeService.getType(activityOfferingTypeKey, context);
     }
 
     @Override
-    public List<TypeInfo> getActivityOfferingTypes(ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("getActivityOfferingTypes has not been implemented");
+    public List<TypeInfo> getActivityOfferingTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        try {
+            return typeService.getTypesForGroupType(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, context);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("Invalid group type used to retrieve Activity Offering Types: " + LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY);
+        }
+    }
+
+    @Override
+    public List<TypeInfo> getActivityOfferingTypesForActivityType(String activityTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return typeService.getAllowedTypesForType(activityTypeKey, context);
     }
 
     @Override
     public List<TypeInfo> getInstructorTypesForActivityOfferingType(String activityOfferingTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("not implemented");
-    }
-
-    @Override
-    public List<TypeInfo> getActivityOfferingTypesForActivityType(String activityTypeKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        throw new OperationFailedException("getActivityOfferingTypesForActivityType has not been implemented");
     }
 
     @Override
