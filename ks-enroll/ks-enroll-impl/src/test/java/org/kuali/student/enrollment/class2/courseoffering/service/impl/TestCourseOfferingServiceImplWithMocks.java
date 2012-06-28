@@ -104,8 +104,8 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setWaitlistLevelTypeKey("waitlist key");
         orig.setHasWaitlist(true);
         orig.setFinalExamType(FinalExam.STANDARD.toString());
-        orig.setEvaluated(true);
-        orig.setFeeAtActivityOffering(false);
+        orig.setIsEvaluated(true);
+        orig.setIsFeeAtActivityOffering(false);
         orig.setFundingSource("funding source");
         orig.setCourseOfferingCode("CODE");
         orig.setCourseOfferingTitle("Title");

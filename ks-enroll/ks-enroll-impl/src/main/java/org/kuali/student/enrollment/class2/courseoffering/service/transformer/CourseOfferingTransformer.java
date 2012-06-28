@@ -45,9 +45,9 @@ public class CourseOfferingTransformer {
             } else if (CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR.equals(attr.getKey())){
                 co.setFinalExamType(attr.getValue());
             } else if(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
-                co.setEvaluated(Boolean.valueOf(attr.getValue()));
+                co.setIsEvaluated(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR.equals(attr.getKey())){
-                co.setFeeAtActivityOffering(Boolean.valueOf(attr.getValue()));
+                co.setIsFeeAtActivityOffering(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR.equals(attr.getKey())){
                 co.setFundingSource(attr.getValue());
             } else {

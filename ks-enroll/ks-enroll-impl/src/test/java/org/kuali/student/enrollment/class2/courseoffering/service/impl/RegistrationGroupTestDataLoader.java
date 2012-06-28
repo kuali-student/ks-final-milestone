@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -24,6 +25,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -78,23 +80,26 @@ public class RegistrationGroupTestDataLoader {
 				term.getId(),
 				LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
 				CourseOfferingServiceDataUtils.createCourseOffering("C1",
-						term.getId()), new ArrayList<String>(), callContext);
+						term.getId(), "Test Course C1", "TESTC1"), new ArrayList<String>(), callContext);
 
 		String formatId = "FMT-1";
 		formatOffering = coService.createFormatOffering(
 				courseOffering.getId(), formatId,
 				LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY,
 				CourseOfferingServiceDataUtils.createFormatOffering(
-						courseOffering.getId(), formatId), callContext);
+						courseOffering.getId(), formatId, term.getId(), "FORMAT"), callContext);
 
 		String activityId = "AO-1";
+		List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+		
+		instructors.add(CourseOfferingServiceDataUtils.createInstructor("person12", "Instructor", 100.00F));
 		activityOffering = coService
 				.createActivityOffering(
 						formatOffering.getId(),
 						activityId,
 						LuiServiceConstants.ACTIVITY_ACTIVITY_OFFERING_TYPE_KEY,
 						CourseOfferingServiceDataUtils.createActivityOffering(
-								formatOffering.getId(), activityId),
+								formatOffering.getId(), "schedId", activityId, "Lecture", "A123", instructors),
 						callContext);
 	}
 

@@ -105,7 +105,7 @@ public class TestCourseOfferingServiceMockImpl {
 		 try {
 	            coDataLoader = new CourseOfferingTestDataLoader(this.atpService, this.acalService, this.coService);
 	            
-	            coDataLoader.loadData();
+	            coDataLoader.loadData(callContext);
 	            
 	        } catch (Exception ex) {
 	            throw new RuntimeException(ex);

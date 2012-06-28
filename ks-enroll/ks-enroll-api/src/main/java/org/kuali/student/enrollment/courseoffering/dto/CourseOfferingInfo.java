@@ -475,20 +475,23 @@ public class CourseOfferingInfo
         return isEvaluated;
     }
 
-    public void setEvaluated(Boolean evaluated) {
-        isEvaluated = evaluated;
-    }
+   
+    public void setIsEvaluated(Boolean isEvaluated) {
+		this.isEvaluated = isEvaluated;
+	}
 
-    @Override
+	@Override
     public Boolean getIsFeeAtActivityOffering() {
         return isFeeAtActivityOffering;
     }
 
-    public void setFeeAtActivityOffering(Boolean feeAtActivityOffering) {
-        isFeeAtActivityOffering = feeAtActivityOffering;
-    }
+   
     
-     @Override
+     public void setIsFeeAtActivityOffering(Boolean isFeeAtActivityOffering) {
+		this.isFeeAtActivityOffering = isFeeAtActivityOffering;
+	}
+
+	@Override
     public String getCourseOfferingURL() {
         return courseOfferingURL;
     }
@@ -497,14 +500,16 @@ public class CourseOfferingInfo
         this.courseOfferingURL = courseOfferingURL;
     }
 
-    @Override
-    public String getFinalExamType() {
-        return this.finalExamType;
-    }
-    
-    public void setFinalExamType(String value) {		
-        this.finalExamType = value;
-    }
+	public void setFinalExamType(String value) {
+		
+		this.finalExamType = value;
+		
+	}
+
+	@Override
+	public String getFinalExamType() {
+		return this.finalExamType;
+	}
     
     @Override
     public String toString() {
