@@ -10,10 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 
@@ -86,24 +86,24 @@ public class CourseR1TestDataLoader {
         RichTextInfo rt = new RichTextInfo();
         rt.setPlain(description);
         info.setDescr(rt);
-        info.setType(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
-        info.setState("Active");
+        info.setTypeKey(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
+        info.setStateKey("Active");
         info.setFormats(new ArrayList<FormatInfo>());
         FormatInfo format = new FormatInfo();
         info.getFormats().add(format);
         format.setId(formatId);
-        format.setType(LuServiceConstants.COURSE_FORMAT_TYPE_KEY);
-        format.setState("Active");
+        format.setTypeKey(LuServiceConstants.COURSE_FORMAT_TYPE_KEY);
+        format.setStateKey("Active");
         format.setActivities(new ArrayList<ActivityInfo>());
         for (String activityTypeKey : activityTypeKeys) {
             ActivityInfo activity = new ActivityInfo();
             format.getActivities().add(activity);
             activity.setId(format.getId() + "-" + activityTypeKey);
-            activity.setActivityType(activityTypeKey);
-            activity.setState("Active");
+            activity.setTypeKey(activityTypeKey);
+            activity.setStateKey("Active");
         }
         try {
-            CourseInfo newInfo = this.courseService.createCourse(info);
+            CourseInfo newInfo = this.courseService.createCourse(info, null);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

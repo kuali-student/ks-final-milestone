@@ -1,8 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import java.util.Arrays;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -10,7 +10,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
@@ -90,7 +90,7 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
         // get course
         CourseInfo course;
         try {
-            course = courseService.getCourse("COURSE1");
+            course = courseService.getCourse("COURSE1", null);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

@@ -25,9 +25,9 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -111,7 +111,7 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         List<String> optionKeys = new ArrayList<String>();
         CourseInfo course1;
         try {
-            course1 = courseService.getCourse("COURSE1");
+            course1 = courseService.getCourse("COURSE1", null);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -167,7 +167,7 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         // now create data for the 2nd course
         CourseInfo course2;
         try {
-            course2 = courseService.getCourse("COURSE2");
+            course2 = courseService.getCourse("COURSE2", null);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
