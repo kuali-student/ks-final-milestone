@@ -72,8 +72,25 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID), getContextInfo());
             wrapper.setCoInfo(courseOfferingInfo);
 
+
+            // Added for WaitList Tanveer 06/27/2012
+            wrapper.setWaitListLevelTypeKey(courseOfferingInfo.getWaitlistLevelTypeKey());
+            wrapper.setWaitListTypeKey(courseOfferingInfo.getWaitlistTypeKey());
+            wrapper.setHasWaitList(courseOfferingInfo.getHasWaitlist());
+            if (!wrapper.getHasWaitList())
+                wrapper.setWaitListText("There is no wait list for this offering.");
+            if (wrapper.getWaitListLevelTypeKey().equals("Course Offering")){
+                wrapper.setWaitListText("This waitlist is managed at the Course Offering level.");
+                wrapper.setToolTipText("There is one waitlist for all Activity Offerings");
+            }
+            if (wrapper.getWaitListLevelTypeKey().equals("Activity Offering")){
+                wrapper.setWaitListText("This waitlist is managed at the Activity Offering level.");
+                wrapper.setToolTipText("Each Activity Offering has its own wait list.");
+            }
+
             //process instructor effort
             assembleInstructorWrapper(info.getInstructors(), wrapper);
+
 
             boolean readOnlyView = Boolean.parseBoolean(dataObjectKeys.get("readOnlyView"));
             wrapper.setReadOnlyView(readOnlyView);
@@ -102,7 +119,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
     }
 
-   private void disassembleInstructorWrapper(List<OfferingInstructorWrapper> instructors, ActivityOfferingInfo aoInfo){
+    private void disassembleInstructorWrapper(List<OfferingInstructorWrapper> instructors, ActivityOfferingInfo aoInfo){
         if(instructors!= null && !instructors.isEmpty()){
             for(OfferingInstructorWrapper instructor : instructors){
                 OfferingInstructorInfo instructorInfo = new OfferingInstructorInfo(instructor.getOfferingInstructorInfo());
@@ -156,7 +173,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
     }
 
-     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof OfferingInstructorWrapper){
             OfferingInstructorWrapper instuctor = (OfferingInstructorWrapper) addLine;
 
@@ -168,8 +185,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
         }
 
-       return super.performAddLineValidation(view, collectionGroup, model, addLine);
-     }
+        return super.performAddLineValidation(view, collectionGroup, model, addLine);
+    }
 
     public ContextInfo getContextInfo() {
         if (null == contextInfo) {
@@ -180,15 +197,15 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     }
 
     public TypeService getTypeService() {
-           if(typeService == null) {
-             typeService = CourseOfferingResourceLoader.loadTypeService();
+        if(typeService == null) {
+            typeService = CourseOfferingResourceLoader.loadTypeService();
         }
         return this.typeService;
     }
 
     public StateService getStateService() {
-           if(stateService == null) {
-             stateService = CourseOfferingResourceLoader.loadStateService();
+        if(stateService == null) {
+            stateService = CourseOfferingResourceLoader.loadStateService();
         }
         return stateService;
     }
