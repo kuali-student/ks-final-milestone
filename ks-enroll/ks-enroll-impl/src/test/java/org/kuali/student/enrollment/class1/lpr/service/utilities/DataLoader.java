@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constants.DA_KEY_1;
 import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constants.DA_KEY_2;
@@ -42,8 +42,8 @@ public class DataLoader {
         return personRelation;
     }
 
-    private Set<LuiPersonRelationAttributeEntity> createAttributes() {
-        Set<LuiPersonRelationAttributeEntity> attributes = new HashSet<LuiPersonRelationAttributeEntity>();
+    private List<LuiPersonRelationAttributeEntity> createAttributes() {
+        List<LuiPersonRelationAttributeEntity> attributes = new ArrayList<LuiPersonRelationAttributeEntity>();
         attributes.add(new LuiPersonRelationAttributeEntity(DA_KEY_1, DA_VALUE_1));
         attributes.add(new LuiPersonRelationAttributeEntity(DA_KEY_2, DA_VALUE_2));
         return attributes;
