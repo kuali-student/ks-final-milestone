@@ -113,7 +113,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         if(instructors!= null && !instructors.isEmpty()){
             for(OfferingInstructorInfo instructor : instructors){
                 OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper(instructor);
-                instructorWrapper.setIntEffort((instructor.getPercentageEffort().intValue()));
+                if(instructor.getPercentageEffort() != null){
+                    instructorWrapper.setIntEffort((instructor.getPercentageEffort().intValue()));
+                }
                 wrapper.getInstructors().add(instructorWrapper);
             }
         }
