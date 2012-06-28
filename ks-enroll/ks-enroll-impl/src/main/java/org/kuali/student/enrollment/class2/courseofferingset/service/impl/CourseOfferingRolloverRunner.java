@@ -8,8 +8,11 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfoExtended;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -165,13 +168,15 @@ public class CourseOfferingRolloverRunner implements Runnable {
 
         // Start processing
         int sourceCoIdsHandled = 0;
+        int aoRolledOver = 0;
         int errors = 0;
         List<SocRolloverResultItemInfo> items = new ArrayList<SocRolloverResultItemInfo>();
         for (String sourceCoId : sourceCoIds) {
             logger.info("Processing: " + sourceCoId);
             System.out.println("processing: " + sourceCoId);
             try {
-                SocRolloverResultItemInfo item = rolloverOneCourseOfferingReturningItem(sourceCoId);
+                Object[] result = rolloverOneCourseOfferingReturningItem(sourceCoId);
+                SocRolloverResultItemInfo item = (SocRolloverResultItemInfo) result[0];
                 items.add(item);
                 reportProgressIfModulo(items, sourceCoIdsHandled);
                 if (!item.getStateKey().equals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY)) {
@@ -182,6 +187,9 @@ public class CourseOfferingRolloverRunner implements Runnable {
                                     " out of " + sourceCoIdsHandled + " course offerings rolled over");
                         }
                     }
+                }
+                if (result.length > 1) {
+                    aoRolledOver += (Integer) result[1];
                 }
             } catch (Exception ex) {
                 // log some conetxt for the exception
@@ -197,6 +205,8 @@ public class CourseOfferingRolloverRunner implements Runnable {
         result.setDateCompleted(new Date());
         result.setCourseOfferingsCreated(sourceCoIdsHandled - errors);
         result.setCourseOfferingsSkipped(errors);
+        result.setActivityOfferingsCreated(aoRolledOver);
+        result.setActivityOfferingsSkipped(0); // For now, we have no "failed" AOs that didn't rollover.
         result.setStateKey(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY);
         this.socService.updateSocRolloverResult(result.getId(), result, context);
     }
@@ -236,7 +246,8 @@ public class CourseOfferingRolloverRunner implements Runnable {
         }
     }
 
-    private SocRolloverResultItemInfo rolloverOneCourseOfferingReturningItem(String sourceCoId) throws Exception {
+    // This is a hack, but I need more info out of this private method. cclin
+    private Object[] rolloverOneCourseOfferingReturningItem(String sourceCoId) throws Exception {
         CourseOfferingInfo targetCo = null;
         String error = null;
         try {
@@ -256,11 +267,31 @@ public class CourseOfferingRolloverRunner implements Runnable {
         if (error == null) {
             item.setStateKey(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY);
             item.setTargetCourseOfferingId(targetCo.getId());
-            return item;
+            // Compute AO count
+            CourseOfferingInfoExtended coExtended = null;
+            try {
+                coExtended = (CourseOfferingInfoExtended) targetCo;
+            } catch (ClassCastException e) {
+                Object[] result = new Object[1];
+                result[0] = item;
+                return result;
+            }
+            Integer aoCount = 0;
+            if (coExtended != null) {
+                Map<String, Object> properties = coExtended.getProperties();
+                aoCount = (Integer) properties.get(CourseOfferingInfoExtended.ACTIVITY_OFFERINGS_CREATED);
+            }
+            // Return back the item and the AO count
+            Object[] result = new Object[2];
+            result[0] = item;
+            result[1] = aoCount;
+            return result;
         }
         item.setStateKey(CourseOfferingSetServiceConstants.ERROR_RESULT_ITEM_STATE_KEY);
         item.setTargetCourseOfferingId(null);
         item.setMessage(new RichTextHelper().fromPlain(error));
-        return item;
+        Object[] result = new Object[1];
+        result[0] = item;
+        return result;
     }
 }

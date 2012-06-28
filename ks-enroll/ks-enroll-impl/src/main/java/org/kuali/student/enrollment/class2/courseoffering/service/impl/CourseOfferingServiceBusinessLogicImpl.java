@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -15,6 +16,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1C
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfoExtended;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -156,6 +158,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         targetCo = this._getCoService().createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(),
                 targetCo, optionKeys, context);
         List<FormatOfferingInfo> foInfos = this._getCoService().getFormatOfferingsByCourseOffering(sourceCo.getId(), context);
+        int aoCount = 0;
         for (FormatOfferingInfo sourceFo : foInfos) {
             FormatOfferingInfo targetFo = new FormatOfferingInfo(sourceFo);
             targetFo.setId(null);
@@ -171,7 +174,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             targetFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
             targetFo = locoService.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
                     targetFo.getTypeKey(), targetFo, context);
-            for (ActivityOfferingInfo sourceAo : locoService.getActivityOfferingsByFormatOffering(sourceFo.getId(), context)) {
+            List<ActivityOfferingInfo> aoInfoList = locoService.getActivityOfferingsByFormatOffering(sourceFo.getId(), context);
+            for (ActivityOfferingInfo sourceAo : aoInfoList) {
                 ActivityOfferingInfo targetAo = new ActivityOfferingInfo(sourceAo);
                 targetAo.setId(null);
                 // clear out the ids on the internal sub-objects
@@ -195,9 +199,15 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 targetAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                 targetAo = this._getCoService().createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
                         targetAo.getTypeKey(), targetAo, context);
+                aoCount++;
             }
         }
-        return targetCo;
+        // TODO: Need to get more info out of this method.  Services may need better way to allow for flexibility in
+        // TODO: returning content to adjust for changes in service calls
+        CourseOfferingInfoExtended targetCoX = new CourseOfferingInfoExtended(targetCo);
+        Map<String, Object> properties = targetCoX.getProperties();
+        properties.put(CourseOfferingInfoExtended.ACTIVITY_OFFERINGS_CREATED, new Integer(aoCount));
+        return targetCoX;
     }
     
     @Override

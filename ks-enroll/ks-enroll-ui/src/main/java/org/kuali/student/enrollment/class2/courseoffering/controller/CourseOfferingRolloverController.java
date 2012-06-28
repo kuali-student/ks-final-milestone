@@ -313,6 +313,10 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         return result;
     }
 
+    private String _createPlural(int count) {
+        return count == 1 ? "" : "s";
+    }
+            
     // This method displays rollover result Infos for specific target term.
     @RequestMapping(params = "methodToCall=showRolloverResults")
     public ModelAndView showRolloverResults(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
@@ -363,14 +367,17 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 // if items skipped is null, then below condition passes and items skipped is calculated
                 if (socRolloverResultInfo.getCourseOfferingsCreated() == null || socRolloverResultInfo.getCourseOfferingsCreated().toString().length() < 1) {
                     Integer temp = socRolloverResultInfo.getItemsExpected() - socRolloverResultInfo.getItemsProcessed();
-                    form.setCourseOfferingsAllowed(socRolloverResultInfo.getItemsProcessed() + " transitioned with " + temp + " exceptions");
+                    String plural = _createPlural(temp);
+                    form.setCourseOfferingsAllowed(socRolloverResultInfo.getItemsProcessed() + " transitioned with " + temp + " exception" + plural);
                 } else {
                     // This is the official way to compute this
+                    String plural = _createPlural(socRolloverResultInfo.getCourseOfferingsSkipped());
                     form.setCourseOfferingsAllowed(socRolloverResultInfo.getCourseOfferingsCreated() + " transitioned with " +
-                            socRolloverResultInfo.getCourseOfferingsSkipped() + " exceptions");
+                            socRolloverResultInfo.getCourseOfferingsSkipped() + " exception" + plural);
                 }
+                String plural = _createPlural(socRolloverResultInfo.getActivityOfferingsSkipped());
                 form.setActivityOfferingsAllowed(socRolloverResultInfo.getActivityOfferingsCreated() + " transitioned with " +
-                        socRolloverResultInfo.getActivityOfferingsSkipped() + " exceptions");
+                        socRolloverResultInfo.getActivityOfferingsSkipped() + " exception" + plural);
                 Date dateCompleted = socRolloverResultInfo.getDateCompleted();
                 String updatedDateStr = helper.formatDateAndTime(dateCompleted);
                 form.setDateCompleted(updatedDateStr);
