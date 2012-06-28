@@ -93,9 +93,14 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
 
             CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
             coInfo.setUnitsDeploymentOrgIds(unitDeploymentOrgIds);
-            coInfo.setStudentRegistrationOptionIds(coEditWrapper.getStudentRegOptions());
 
-            getCourseOfferingService().updateCourseOffering(coInfo.getId(),coInfo,getContextInfo());
+            // CO Info section
+            coInfo.setGradingOptionId(coEditWrapper.getCoInfo().getGradingOptionId());
+            if (!coEditWrapper.getStudentRegOptions().isEmpty()) {
+                coInfo.setStudentRegistrationOptionIds(coEditWrapper.getCoInfo().getStudentRegistrationOptionIds());
+            }
+
+            getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, getContextInfo());
         }   catch (Exception ex){
             throw new RuntimeException(ex);
         }
