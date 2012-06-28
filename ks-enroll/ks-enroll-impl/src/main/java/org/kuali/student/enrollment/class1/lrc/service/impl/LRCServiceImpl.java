@@ -13,8 +13,12 @@ import org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao;
 import org.kuali.student.enrollment.class1.lrc.model.ResultScaleEntity;
 import org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity;
 import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
+import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -24,7 +28,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.common.state.service.StateService;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -53,7 +57,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByKeys(
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByIds(
             @WebParam(name = "resultValuesGroupIds") List<String> resultValuesGroupIds,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -74,7 +78,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    public List<String> getResultValuesGroupKeysByType(
+    public List<String> getResultValuesGroupIdsByType(
             @WebParam(name = "resultValuesGroupTypeKey") String resultValuesGroupTypeKey,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -217,6 +221,11 @@ public class LRCServiceImpl implements LRCService {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 
+    @Override
+    public List<ResultComponentTypeInfo> getResultComponentTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     /*private StateEntity findState(String stateKey, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         StateEntity state = null;
@@ -265,62 +274,116 @@ public class LRCServiceImpl implements LRCService {
         this.stateService = stateService;
     }
 
+//    @Override
+//    public ResultValuesGroupInfo getCreateFixedCreditResultValuesGroup(String creditValue,
+//            String scaleId,
+//            ContextInfo context)
+//            throws InvalidParameterException,
+//            MissingParameterException,
+//            OperationFailedException,
+//            PermissionDeniedException {
+//        throw new UnsupportedOperationException("Not supported yet.");
+//    }
+//
+//    @Override
+//    public ResultValuesGroupInfo getCreateMultipleCreditResultValuesGroup(List<String> creditValues,
+//            String scaleId,
+//            ContextInfo context)
+//            throws InvalidParameterException,
+//            MissingParameterException,
+//            OperationFailedException,
+//            PermissionDeniedException {
+//        throw new UnsupportedOperationException("Not supported yet.");
+//    }
+//
+//    @Override
+//    public ResultValuesGroupInfo getCreateRangeCreditResultValuesGroup(String creditValueMin,
+//            String creditValueMax,
+//            String creditValueIncrement,
+//            String scaleId,
+//            ContextInfo context)
+//            throws InvalidParameterException,
+//            MissingParameterException,
+//            OperationFailedException,
+//            PermissionDeniedException {
+//        throw new UnsupportedOperationException("Not supported yet.");
+//    }
+//
+//    @Override
+//    public ResultValuesGroupInfo getCreateResultValueWithinRange(String resultValue,
+//            String resultValuesGroupKey,
+//            ContextInfo context)
+//            throws InvalidParameterException,
+//            MissingParameterException,
+//            OperationFailedException,
+//            PermissionDeniedException {
+//        throw new UnsupportedOperationException("Not supported yet.");
+//    }
+//
+//    @Override
+//    public List<ResultValueInfo> getResultValuesForResultValuesGroups(List<String> resultValuesGroupKeys,
+//            ContextInfo context)
+//            throws DoesNotExistException,
+//            InvalidParameterException,
+//            MissingParameterException,
+//            OperationFailedException,
+//            PermissionDeniedException {
+//        throw new UnsupportedOperationException("Not supported yet.");
+//    }
+
+
     @Override
-    public ResultValuesGroupInfo getCreateFixedCreditResultValuesGroup(String creditValue,
-            String scaleId,
-            ContextInfo context)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<String> getObjectTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public ResultValuesGroupInfo getCreateMultipleCreditResultValuesGroup(List<String> creditValues,
-            String scaleId,
-            ContextInfo context)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public ObjectStructureDefinition getObjectStructure(@WebParam(name = "objectTypeKey") String objectTypeKey) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public ResultValuesGroupInfo getCreateRangeCreditResultValuesGroup(String creditValueMin,
-            String creditValueMax,
-            String creditValueIncrement,
-            String scaleId,
-            ContextInfo context)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public ResultValuesGroupInfo getCreateResultValueWithinRange(String resultValue,
-            String resultValuesGroupKey,
-            ContextInfo context)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public SearchTypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<ResultValueInfo> getResultValuesForResultValuesGroups(List<String> resultValuesGroupKeys,
-            ContextInfo context)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public SearchResultTypeInfo getSearchResultType(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

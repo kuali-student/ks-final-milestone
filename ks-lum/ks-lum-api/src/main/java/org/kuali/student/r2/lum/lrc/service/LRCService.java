@@ -363,32 +363,6 @@ public interface LRCService extends SearchService, DictionaryService {
      */
     public List<ResultValueInfo> getResultValuesForScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-	/**
-     *
-     * @param scaleKey
-     * @param contextInfo
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     */
-    @Deprecated
-    public ScaleInfo getScale(@WebParam(name = "scaleKey") String scaleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,	OperationFailedException;
-
-	/**
-     *
-     * @param resultComponentTypeKey
-     * @param contextInfo
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     */
-    @Deprecated
-    public ResultComponentTypeInfo getResultComponentType(@WebParam(name = "resultComponentTypeKey") String resultComponentTypeKey, @WebParam(name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
     /**
      *
      * @param contextInfo

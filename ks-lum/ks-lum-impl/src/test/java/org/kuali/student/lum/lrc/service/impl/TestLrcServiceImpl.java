@@ -333,19 +333,20 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         assertEquals(7, rctis.size());
     }
 
-    @Test
-    public void testGetResultComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
-        ResultComponentTypeInfo rcti = client.getResultComponentType("resultComponentType.credential", contextInfo);
-        assertNotNull(rcti);
-
-        try {
-            rcti = client.getResultComponentType("resultComponentType.credentialYYY", contextInfo);
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-    }
+// TODO: CM2.0 MERGE :: no more getResultComponentType method
+//    @Test
+//    public void testGetResultComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+//        ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+//        ResultComponentTypeInfo rcti = client.getResultComponentType("resultComponentType.credential", contextInfo);
+//        assertNotNull(rcti);
+//
+//        try {
+//            rcti = client.getResultComponentType("resultComponentType.credentialYYY", contextInfo);
+//            assertTrue(false);
+//        } catch (DoesNotExistException e) {
+//            assertTrue(true);
+//        }
+//    }
 
     
     public void testBusinessCaseExample() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

@@ -244,20 +244,6 @@ public class LrcServiceImpl implements LRCService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentType(java.lang.String)
-	 */
-	@Override
-    @Transactional(readOnly=true)
-	public ResultComponentTypeInfo getResultComponentType(
-			String resultComponentTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
-		ResultComponentType entity = lrcDao.getResultComponentType(resultComponentTypeKey);
-		return LrcServiceAssembler.toResultComponentTypeInfo(entity);
-	}
-
-	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentTypes()
 	 */
 	@Override
@@ -268,19 +254,7 @@ public class LrcServiceImpl implements LRCService {
 		return LrcServiceAssembler.toResultComponentTypeInfos(rct);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#getScale(java.lang.String)
-	 */
-	@Override
-    @Transactional(readOnly=true)
-	public ScaleInfo getScale(String scaleKey, ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		checkForMissingParameter(scaleKey, "scaleKey");
-		Scale scale = lrcDao.fetch(Scale.class, scaleKey);
-		return LrcServiceAssembler.toScaleInfo(scale);
-	}
-	
+
 	public ResultScaleInfo getResultScale(String resultScaleKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		throw new UnsupportedOperationException("R2 Contract Method not yet implemented - replacing getScale!");
 	}
@@ -303,7 +277,7 @@ public class LrcServiceImpl implements LRCService {
      * Check for missing parameter and throw localized exception if missing
      *
      * @param param
-     * @param parameter name
+     * @param paramName name
      * @throws MissingParameterException
      */
     private void checkForMissingParameter(Object param, String paramName)
