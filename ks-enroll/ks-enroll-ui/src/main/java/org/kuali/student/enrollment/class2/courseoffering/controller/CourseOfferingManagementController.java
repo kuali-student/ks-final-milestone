@@ -109,7 +109,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 theForm.setCourseOfferingList(null);
                 return getUIFModelAndView(theForm);
             }
-        }        
+        }
     }
 
     @RequestMapping(params = "methodToCall=loadAOs")
@@ -208,16 +208,18 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView edit(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Properties urlParameters;
-        String controllerPath;
+        Properties urlParameters = new Properties();
+        String controllerPath = "maintenance";;
         Object selectedObject = _getSelectedObject(theForm, "edit");
         if(selectedObject instanceof CourseOfferingInfo){
             urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"maintenanceEdit",false,getContextInfo());
-            controllerPath = "maintenance";
         }
         else if(selectedObject instanceof ActivityOfferingWrapper) {
-            urlParameters = _buildAOURLParameters(((ActivityOfferingWrapper) selectedObject).getAoInfo(),"maintenanceEdit",false,getContextInfo(), theForm.getTheCourseOffering().getId());
-            controllerPath ="maintenance";
+            ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper)selectedObject;
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "maintenanceEdit");
+            urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, aoWrapper.getAoInfo().getId());
+            urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, theForm.getTheCourseOffering().getId());
+            urlParameters.put("dataObjectClassName", ActivityOfferingWrapper.class.getName());
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
@@ -233,17 +235,17 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView view(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Properties urlParameters;
-        String controllerPath;
+        Properties urlParameters = new Properties();
+        String controllerPath = "inquiry";
         Object selectedObject = _getSelectedObject(theForm, "view");
 
         if(selectedObject instanceof CourseOfferingInfo){
             urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"start",true,getContextInfo());
-            controllerPath = "inquiry";
-        }
-        else if(selectedObject instanceof ActivityOfferingWrapper) {
-            urlParameters = _buildAOURLParameters(((ActivityOfferingWrapper)selectedObject).getAoInfo(),"start",true,getContextInfo(), theForm.getTheCourseOffering().getId());
-            controllerPath ="inquiry";
+        } else if(selectedObject instanceof ActivityOfferingWrapper) {
+            ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper)selectedObject;
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+            urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_ID, aoWrapper.getAoInfo().getId());
+            urlParameters.put("dataObjectClassName", ActivityOfferingInfo.class.getName());
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
@@ -312,17 +314,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("coInfo.id", courseOfferingInfo.getId());
         props.put("dataObjectClassName", CourseOfferingEditWrapper.class.getName());
-        return props;
-    }
-
-   private Properties _buildAOURLParameters(ActivityOfferingInfo activityOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context, String courseOfferingId){
-        Properties props = new Properties();
-        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put("id", activityOfferingInfo.getId());
-        props.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, courseOfferingId);
-        //props.put("readOnlyView", readOnlyView);
-        props.put("dataObjectClassName", ActivityOfferingInfo.class.getName());
-        //props.put("viewId", "KS-ActivityOffering-InquiryView2");
         return props;
     }
 
