@@ -31,24 +31,16 @@ public class PopulationServiceConstants {
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "population";
     public static final String REF_OBJECT_URI_POPULATION = NAMESPACE + "/" + PopulationInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_POPULATION_RULE = NAMESPACE + "/" + PopulationRuleInfo.class.getSimpleName();
-    /**
-     * Population types
-     */
-    public static final String POPULATION_TYPE_KEY = "kuali.population.type.population";
+
+    //////////////////////////////////
+    // POPULATION RULE
+    //////////////////////////////////
+
     /**
      * PopulationRule types
      */
     public static final String POPULATION_RULE_TYPE_KEY = "kuali.population.type.population.rule";
-    /**
-     * States for Populations
-     */
-    public static final String POPULATION_LIFECYCLE_KEY = "kuali.population.population.lifecycle";
-    public static final String POPULATION_ACTIVE_STATE_KEY = "kuali.population.population.state.active";
-    public static final String POPULATION_INACTIVE_STATE_KEY = "kuali.population.population.state.inactive";
-    public static final String[] POPULATION_LIFECYCLE_KEYS = {
-        POPULATION_ACTIVE_STATE_KEY,
-        POPULATION_INACTIVE_STATE_KEY
-    };
+
     /**
      * States for Population Rule
      */
@@ -59,6 +51,47 @@ public class PopulationServiceConstants {
         POPULATION_RULE_ACTIVE_STATE_KEY,
         POPULATION_RULE_INACTIVE_STATE_KEY
     };
+
+    //////////////////////////////////
+    // POPULATION CATEGORY
+    //////////////////////////////////
+
+    /**
+     * PopulationCategory types
+     */
+    public static final String POPULATION_CATEGORY_TYPE_KEY = "kuali.population.type.population.category";
+
+    /**
+     * States for Population Category
+     */
+    public static final String POPULATION_CATEGORY_LIFECYCLE_KEY = "kuali.population.population.category.lifecycle";
+    public static final String POPULATION_CATEGORY_ACTIVE_STATE_KEY = "kuali.population.population.category.state.active";
+    public static final String POPULATION_CATEGORY_INACTIVE_STATE_KEY = "kuali.population.population.category.state.inactive";
+    public static final String[] POPULATION_CATEGORY_LIFECYCLE_KEYS = {
+            POPULATION_CATEGORY_ACTIVE_STATE_KEY,
+            POPULATION_CATEGORY_INACTIVE_STATE_KEY
+    };
+
+    //////////////////////////////////
+    // POPULATION
+    //////////////////////////////////
+
+    /**
+     * Population types
+     */
+    public static final String POPULATION_TYPE_KEY = "kuali.population.type.population";
+
+    /**
+     * States for Populations
+     */
+    public static final String POPULATION_LIFECYCLE_KEY = "kuali.population.population.lifecycle";
+    public static final String POPULATION_ACTIVE_STATE_KEY = "kuali.population.population.state.active";
+    public static final String POPULATION_INACTIVE_STATE_KEY = "kuali.population.population.state.inactive";
+    public static final String[] POPULATION_LIFECYCLE_KEYS = {
+            POPULATION_ACTIVE_STATE_KEY,
+            POPULATION_INACTIVE_STATE_KEY
+    };
+
     /**
      * known population keys
      */

@@ -11,6 +11,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.population.dto.PopulationCategoryInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
@@ -130,7 +131,6 @@ public class TestPopulationServiceMockImpl {
         }
     }
 
-
     @Test
     public void testCrudPopulationRule() throws Exception {
         // create
@@ -198,6 +198,79 @@ public class TestPopulationServiceMockImpl {
         try {
             actual = populationService.getPopulationRule(expected.getId(), contextInfo);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted PopulationRule");
+        } catch (DoesNotExistException dnee) {
+            // expected
+        }
+    }
+
+
+    @Test
+    public void testCrudPopulationCategory() throws Exception {
+        // create
+        PopulationCategoryInfo expected = new PopulationCategoryInfo();
+        expected.setId("popcategory");
+        expected.setName("cool people");
+        expected.setTypeKey(PopulationServiceConstants.POPULATION_CATEGORY_TYPE_KEY);
+        expected.setStateKey(PopulationServiceConstants.POPULATION_CATEGORY_ACTIVE_STATE_KEY);
+        new AttributeTester().add2ForCreate(expected.getAttributes());
+        PopulationCategoryInfo actual = populationService.createPopulationCategory(PopulationServiceConstants.POPULATION_CATEGORY_TYPE_KEY, expected, contextInfo);
+        assertNotNull(actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new IdEntityTester().check(expected, actual);
+        new MetaTester().checkAfterCreate(actual.getMeta());
+        assertEquals(expected.getId(), actual.getId());
+
+        // test read
+        expected = actual;
+        for (AttributeInfo itemInfo : expected.getAttributes()) {
+            // clear out any id's set during the persistence
+            // to let the checks work properly
+            itemInfo.setId(null);
+        }
+        actual = populationService.getPopulationCategory(actual.getId(), contextInfo);
+        assertEquals(expected.getId(), actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
+
+        // test update
+        expected = actual;
+        for (AttributeInfo itemInfo : expected.getAttributes()) {
+            // clear out any id's set during the persistence
+            // to let the checks work properly
+            itemInfo.setId(null);
+        }
+        expected.setName("How To Tell You Are Canadian");
+        new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
+        actual = populationService.updatePopulationCategory(expected.getId(), expected, contextInfo);
+        assertEquals(expected.getId(), actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
+
+        // test read
+        expected = actual;
+        for (AttributeInfo itemInfo : expected.getAttributes()) {
+            // clear out any id's set during the persistence
+            // to let the checks work properly
+            itemInfo.setId(null);
+        }
+        actual = populationService.getPopulationCategory(actual.getId(), contextInfo);
+        assertEquals(expected.getId(), actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterCreate(actual.getMeta());
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
+
+        // test delete
+        StatusInfo status = populationService.deletePopulationCategory(expected.getId(), contextInfo);
+        assertNotNull(status);
+        assertTrue(status.getIsSuccess());
+        try {
+            actual = populationService.getPopulationCategory(expected.getId(), contextInfo);
+            fail("Did not receive DoesNotExistException when attempting to get already-deleted PopulationCategory");
         } catch (DoesNotExistException dnee) {
             // expected
         }
