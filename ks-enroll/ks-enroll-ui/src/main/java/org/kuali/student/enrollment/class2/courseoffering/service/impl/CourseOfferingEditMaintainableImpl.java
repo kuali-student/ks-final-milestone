@@ -100,8 +100,24 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             if (!coEditWrapper.getStudentRegOptions().isEmpty()) {
                 coInfo.setStudentRegistrationOptionIds(coEditWrapper.getCoInfo().getStudentRegistrationOptionIds());
             }
+            if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) &&
+                    !coEditWrapper.getCreditOption().getMinCredits().equals("")) {
+                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(coEditWrapper.getCreditOption().getMinCredits(),
+                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_REMEDIAL, getContextInfo());
+                coInfo.setCreditOptionId(rvgInfo.getKey());
+            } else if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE) &&
+                    !coEditWrapper.getCreditOption().getMinCredits().equals("") && !coEditWrapper.getCreditOption().getMaxCredits().equals("")) {
+                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(coEditWrapper.getCreditOption().getMinCredits(),
+                        coEditWrapper.getCreditOption().getMaxCredits(), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_REMEDIAL, getContextInfo());
+                coInfo.setCreditOptionId(rvgInfo.getKey());
+            } else if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) &&
+                    !coEditWrapper.getCreditOption().getCredits().isEmpty()) {
+                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(coEditWrapper.getCreditOption().getCredits(),
+                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_REMEDIAL, getContextInfo());
+                coInfo.setCreditOptionId(rvgInfo.getKey());
+            }
 
-            getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, getContextInfo());
+                getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, getContextInfo());
         }   catch (Exception ex){
             throw new RuntimeException(ex);
         }
@@ -195,7 +211,6 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
 
                 //3. set formatOfferingWrapperList
                 List<FormatOfferingInfo> formats = getCourseOfferingService().getFormatOfferingsByCourseOffering(info.getId(), getContextInfo());
-//                System.out.println(">>> find "+formats.size()+" format(s):");
                 List<FormatOfferingWrapper> formatOfferingWrapperList = new ArrayList<FormatOfferingWrapper>();
                 for (FormatOfferingInfo formatOfferingInfo : formats){
                     FormatOfferingWrapper formatOfferingWrapper = new FormatOfferingWrapper(formatOfferingInfo);
@@ -205,20 +220,30 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 }
                 formObject.setFormatOfferingWrapperList(formatOfferingWrapperList);
 
-                // checking if there are any student registration options from CLU for screen display
+                //4. Checking if Grading Options should be disabled or not and assign default (if no value)
+                //5. Checking if there are any student registration options from CLU for screen display
                 List<String> studentRegOptions = new ArrayList<String>();
+                List<String> crsGradingOptions = new ArrayList<String>();
                 if (courseId != null && courseInfo != null) {
                     List<String> gradingOptions = courseInfo.getGradingOptions();
                     Set<String> regOpts = new HashSet<String>(Arrays.asList(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS));
-                    for(String regOpt: regOpts) {
-                        if (gradingOptions.contains(regOpt)) {
-                            studentRegOptions.add(regOpt);
+                    for (String gradingOption : gradingOptions) {
+                        if (regOpts.contains(gradingOption)) {
+                            studentRegOptions.add(gradingOption);
+                        } else {
+                            crsGradingOptions.add(gradingOption);
                         }
                     }
                 }
                 formObject.setStudentRegOptions(studentRegOptions);
+                if (info.getStudentRegistrationOptionIds().isEmpty() && !studentRegOptions.isEmpty()) {
+                    formObject.getCoInfo().setStudentRegistrationOptionIds(studentRegOptions);
+                }
+                if ((info.getGradingOptionId() == null || info.getGradingOptionId().equals("")) && !crsGradingOptions.isEmpty()) {
+                    formObject.getCoInfo().setGradingOptionId(crsGradingOptions.get(0));
+                }
 
-                // Defining Credit Option and if CLU is fixed (then it's disabled)
+                //6. Defining Credit Option and if CLU is fixed (then it's disabled)
                 boolean creditOptionFixed = false;
                 CreditOptionInfo creditOption = new CreditOptionInfo();
                 List<ResultComponentInfo> creditOptions = courseInfo.getCreditOptions();
