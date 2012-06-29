@@ -330,7 +330,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.formatId"  p:readOnly="@{!#isAddLine}"
-                                  p:label="FORMAT" p:labelPlacement="TOP" p:readOnlyDisplayReplacementPropertyName="formatType">
+                                  p:label="FORMAT" p:labelPlacement="TOP" p:readOnlyDisplayReplacementPropertyName="formatType" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -339,13 +339,13 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
-                                  p:label="GRADE ROSTER LEVEL" p:labelPlacement="TOP">
+                                  p:label="GRADE ROSTER LEVEL" p:labelPlacement="TOP" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:options-ref="gradeRosterLevel-options"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
-                                  p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP">
+                                  p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:options-ref="finalExamDriverActivity-options"/>
                                 </property>
