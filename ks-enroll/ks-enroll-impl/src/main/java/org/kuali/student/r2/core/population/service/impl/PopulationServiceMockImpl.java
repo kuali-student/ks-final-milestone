@@ -180,7 +180,7 @@ public class PopulationServiceMockImpl implements PopulationService {
         // create
         PopulationInfo copy = new PopulationInfo(populationInfo);
         if (copy.getId() == null) {
-            copy.setId(populationMap.size() + "");
+            copy.setId(populationMap.size() + 1 + "");
         }
         copy.setMeta(newMeta(contextInfo));
         populationMap.put(copy.getId(), copy);
@@ -329,7 +329,7 @@ public class PopulationServiceMockImpl implements PopulationService {
         // create
         PopulationRuleInfo copy = new PopulationRuleInfo(populationRuleInfo);
         if (copy.getId() == null) {
-            copy.setId(populationRuleMap.size() + "");
+            copy.setId(populationRuleMap.size() + 1 + "");
         }
         copy.setMeta(newMeta(contextInfo));
         populationRuleMap.put(copy.getId(), copy);
@@ -505,7 +505,7 @@ public class PopulationServiceMockImpl implements PopulationService {
         }
         PopulationCategoryInfo copy = new PopulationCategoryInfo(populationCategoryInfo);
         if (copy.getId() == null) {
-            copy.setId(populationCategoryMap.size() + "");
+            copy.setId(populationCategoryMap.size() + 1 + "");
         }
         copy.setMeta(newMeta(contextInfo));
         populationCategoryMap.put(copy.getId(), copy);

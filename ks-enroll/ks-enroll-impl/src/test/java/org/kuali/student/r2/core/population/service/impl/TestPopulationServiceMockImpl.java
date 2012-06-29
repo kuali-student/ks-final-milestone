@@ -1,175 +1,206 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.kuali.student.r2.core.population.service.impl;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.test.util.AttributeTester;
+import org.kuali.student.enrollment.test.util.IdEntityTester;
+import org.kuali.student.enrollment.test.util.MetaTester;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Date;
+import javax.annotation.Resource;
 
 import static org.junit.Assert.*;
 
-/**
- *
- * @author nwright
- */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:population-test-context.xml"})
 public class TestPopulationServiceMockImpl {
 
-    public TestPopulationServiceMockImpl() {
+    /////////////////////////////////
+    // DATA VARIABLES
+    /////////////////////////////////
+
+    @Resource
+    private PopulationService populationService;
+
+    public static String principalId = "123";
+    public ContextInfo contextInfo = null;
+
+    /////////////////////////////////
+    // GETTERS AND SETTERS
+    /////////////////////////////////
+    public PopulationService gePopulationService() {
+        return populationService;
     }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
+    public void setPopulationService(PopulationService populationService) {
+        this.populationService = populationService;
     }
 
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
+    ////////////////////////////
+    // FUNCTIONALS
+    ////////////////////////////
 
     @Before
     public void setUp() {
+        principalId = "123";
+        contextInfo = new ContextInfo();
+        contextInfo.setPrincipalId(principalId);
     }
 
-    @After
-    public void tearDown() {
-    }
-    private static final String TEST_PRINCIPAL_ID1 = "testPrincipalId1";
-    private static final String TEST_PRINCIPAL_ID2 = "testPrincipalId2";
-
-    private ContextInfo getContext() {
-        ContextInfo context = new ContextInfo();
-        context.setPrincipalId("testPrincipalId1");
-        return context;
-    }
-    private PopulationService instance = new PopulationServiceMockImpl();
-
-    /**
-     * Test of createPopulation method, of class PopulationServiceMockImpl.
-     */
     @Test
-    public void testPopulationCrud() throws Exception {
-        System.out.println("createPopulation");
-        ContextInfo context = getContext();
+    public void testCrudPopulation() throws Exception {
         // create
-        PopulationInfo info = new PopulationInfo();
-        info.setTypeKey(PopulationServiceConstants.POPULATION_TYPE_KEY);
-        info.setStateKey(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
-        info.setName("Summer Only Studetns");
-        Date before = new Date();
-        PopulationInfo result = instance.createPopulation(info, context);
-        Date after = new Date();
-        if (result == info) {
-            fail("returned object should not be the same as the one passed in");
-        }
-        assertEquals(info.getTypeKey(), result.getTypeKey());
-        assertEquals(info.getStateKey(), result.getStateKey());
-        assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
-        if (result.getMeta().getCreateTime().before(before)) {
-            fail("create time should not be before the call");
-        }
-        if (result.getMeta().getCreateTime().after(after)) {
-            fail("create time should not be after the call");
-        }
-        if (result.getMeta().getUpdateTime().before(before)) {
-            fail("update time should not be before the call");
-        }
-        if (result.getMeta().getUpdateTime().after(after)) {
-            fail("update time should not be after the call");
-        }
-        assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getUpdateId());
-        assertNotNull(result.getMeta().getVersionInd());
+        PopulationInfo expected = new PopulationInfo();
+        expected.setId("pop1");
+        expected.setName("mezba fan club");
+        expected.setTypeKey(PopulationServiceConstants.POPULATION_TYPE_KEY);
+        expected.setStateKey(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
+        new AttributeTester().add2ForCreate(expected.getAttributes());
+        PopulationInfo actual = populationService.createPopulation(expected, contextInfo);
+        assertNotNull(actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new IdEntityTester().check(expected, actual);
+        new MetaTester().checkAfterCreate(actual.getMeta());
+        assertEquals(expected.getId(), actual.getId());
 
-        // READ/get
-        info = new PopulationInfo(result);
+        // test read
+        expected = actual;
+        for (AttributeInfo itemInfo : expected.getAttributes()) {
+            // clear out any id's set during the persistence
+            // to let the checks work properly
+            itemInfo.setId(null);
+        }
+        actual = populationService.getPopulation(actual.getId(), contextInfo);
+        assertEquals(expected.getId(), actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
 
-        result = instance.getPopulation(info.getId(), context);
-        assertEquals(result.getTypeKey(), info.getTypeKey());
-        assertEquals(result.getStateKey(), info.getStateKey());
-        assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
-        assertEquals(result.getMeta().getUpdateId(), info.getMeta().getUpdateId());
-        assertEquals(result.getMeta().getCreateTime(), info.getMeta().getCreateTime());
-        assertEquals(result.getMeta().getUpdateTime(), info.getMeta().getUpdateTime());
-        assertEquals(result.getMeta().getVersionInd(), info.getMeta().getVersionInd());
-        assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
+        // test update
+        expected = actual;
+        for (AttributeInfo itemInfo : expected.getAttributes()) {
+            // clear out any id's set during the persistence
+            // to let the checks work properly
+            itemInfo.setId(null);
+        }
+        expected.setName("Mezba Official Fan Club");
+        new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
+        actual = populationService.updatePopulation(expected.getId(), expected, contextInfo);
+        assertEquals(expected.getId(), actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
 
-        // update
-        info = new PopulationInfo(result);
-        info.setName("new name");
-        context.setPrincipalId(TEST_PRINCIPAL_ID2);
-        before = new Date();
-        result = instance.updatePopulation(info.getId(), info, context);
-        after = new Date();
-        if (result == info) {
-            fail("returned object should not be the same as the one passed in");
-        }
-        assertEquals(info.getTypeKey(), result.getTypeKey());
-        assertEquals(info.getStateKey(), result.getStateKey());
-        assertEquals(info.getName(), result.getName());
-        assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
-        if (result.getMeta().getCreateTime().after(before)) {
-            fail("create time should be before the update call");
-        }
-        if (result.getMeta().getUpdateTime().before(before)) {
-            fail("update time should not be before the call");
-        }
-        if (result.getMeta().getUpdateTime().after(after)) {
-            fail("update time should not be after the call");
-        }
-        assertEquals(TEST_PRINCIPAL_ID2, result.getMeta().getUpdateId());
-        if (info.getMeta().getVersionInd().compareTo(result.getMeta().getVersionInd()) >= 0) {
-            fail("version ind should be lexically greater than the old version id");
-        }
+        // test read
+        expected = actual;
+        for (AttributeInfo itemInfo : expected.getAttributes()) {
 
-        // delete
+            // clear out any id's set during the persistence
+            // to let the checks work properly
+            itemInfo.setId(null);
+        }
+        actual = populationService.getPopulation(actual.getId(), contextInfo);
+        assertEquals(expected.getId(), actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterCreate(actual.getMeta());
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
+
+        // test delete
+        StatusInfo status = populationService.deletePopulation(expected.getId(), contextInfo);
+        assertNotNull(status);
+        assertTrue(status.getIsSuccess());
+        try {
+            actual = populationService.getPopulation(expected.getId(), contextInfo);
+            fail("Did not receive DoesNotExistException when attempting to get already-deleted Population");
+        } catch (DoesNotExistException dnee) {
+            // expected
+        }
     }
 
-    /**
-     * Test of createInstruction method, of class PopulationServiceMockImpl.
-     */
+
     @Test
-    public void testPopulationRuleCrud() throws Exception {
-        System.out.println("createPopulationRule");
-        PopulationRuleInfo populationRuleInfo = new PopulationRuleInfo();
-        populationRuleInfo.setTypeKey(PopulationServiceConstants.POPULATION_RULE_TYPE_KEY);
-        populationRuleInfo.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
-        ContextInfo context = getContext();
-        Date before = new Date();
-        PopulationRuleInfo result = instance.createPopulationRule(populationRuleInfo, context);
-        Date after = new Date();
-        if (result == populationRuleInfo) {
-            fail("returned object should not be the same as the one passed in");
+    public void testCrudPopulationRule() throws Exception {
+        // create
+        PopulationRuleInfo expected = new PopulationRuleInfo();
+        expected.setId("poprule1");
+        expected.setName("how to be a Canadian");
+        expected.setTypeKey(PopulationServiceConstants.POPULATION_RULE_TYPE_KEY);
+        expected.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
+        new AttributeTester().add2ForCreate(expected.getAttributes());
+        PopulationRuleInfo actual = populationService.createPopulationRule(expected, contextInfo);
+        assertNotNull(actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new IdEntityTester().check(expected, actual);
+        new MetaTester().checkAfterCreate(actual.getMeta());
+        assertEquals(expected.getId(), actual.getId());
+
+        // test read
+        expected = actual;
+        for (AttributeInfo itemInfo : expected.getAttributes()) {
+            // clear out any id's set during the persistence
+            // to let the checks work properly
+            itemInfo.setId(null);
         }
-        assertNotNull(result.getId());
-        assertEquals(populationRuleInfo.getTypeKey(), result.getTypeKey());
-        assertEquals(populationRuleInfo.getStateKey(), result.getStateKey());
-//        assertEquals(populationRuleInfo.getPersonId(), result.getPersonId());
-        assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
-        if (result.getMeta().getCreateTime().before(before)) {
-            fail("create time should not be before the call");
+        actual = populationService.getPopulationRule(actual.getId(), contextInfo);
+        assertEquals(expected.getId(), actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
+
+        // test update
+        expected = actual;
+        for (AttributeInfo itemInfo : expected.getAttributes()) {
+            // clear out any id's set during the persistence
+            // to let the checks work properly
+            itemInfo.setId(null);
         }
-        if (result.getMeta().getCreateTime().after(after)) {
-            fail("create time should not be after the call");
+        expected.setName("How To Tell You Are Canadian");
+        new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
+        actual = populationService.updatePopulationRule(expected.getId(), expected, contextInfo);
+        assertEquals(expected.getId(), actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
+
+        // test read
+        expected = actual;
+        for (AttributeInfo itemInfo : expected.getAttributes()) {
+            // clear out any id's set during the persistence
+            // to let the checks work properly
+            itemInfo.setId(null);
         }
-        if (result.getMeta().getUpdateTime().before(before)) {
-            fail("update time should not be before the call");
+        actual = populationService.getPopulationRule(actual.getId(), contextInfo);
+        assertEquals(expected.getId(), actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterCreate(actual.getMeta());
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
+
+        // test delete
+        StatusInfo status = populationService.deletePopulationRule(expected.getId(), contextInfo);
+        assertNotNull(status);
+        assertTrue(status.getIsSuccess());
+        try {
+            actual = populationService.getPopulationRule(expected.getId(), contextInfo);
+            fail("Did not receive DoesNotExistException when attempting to get already-deleted PopulationRule");
+        } catch (DoesNotExistException dnee) {
+            // expected
         }
-        if (result.getMeta().getUpdateTime().after(after)) {
-            fail("update time should not be after the call");
-        }
-        assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getUpdateId());
-        assertNotNull(result.getMeta().getVersionInd());
-        
-//        TODO: test attaching rule to a population
-        
     }
+
 }
