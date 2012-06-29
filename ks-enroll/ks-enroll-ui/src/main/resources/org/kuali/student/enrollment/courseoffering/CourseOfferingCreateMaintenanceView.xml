@@ -200,7 +200,7 @@
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
 		<property name="items">
            <list>
-               <bean parent="Uif-InputField" p:propertyName="typeKey"
+               <bean parent="Uif-InputField" p:propertyName="formatId"
                       p:label="FORMAT" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>

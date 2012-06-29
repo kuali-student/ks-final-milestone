@@ -7,6 +7,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
@@ -17,6 +18,7 @@ import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -46,11 +48,29 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
                 courseOffering.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
                 CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(courseInfo.getId(),wrapper.getTerm().getId(),LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,courseOffering,new ArrayList<String>(),getContextInfo());
                 wrapper.setCoInfo(info);
+                createFormatOffering(wrapper);
                 //FIXEM:create formatoffering relation
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    private void createFormatOffering(CourseOfferingCreateWrapper wrapper){
+        List<FormatOfferingInfo> formatOfferingInfos = new ArrayList();
+        for (FormatOfferingInfo formatOfferingInfo : wrapper.getFormatOfferingList()) {
+            formatOfferingInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
+            formatOfferingInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
+            formatOfferingInfo.setTermId(wrapper.getCoInfo().getTermId());
+            formatOfferingInfo.setCourseOfferingId(wrapper.getCoInfo().getId());
+            try {
+                FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(wrapper.getCoInfo().getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, getContextInfo());
+                formatOfferingInfos.add(createdFormatOffering);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        wrapper.setFormatOfferingList(formatOfferingInfos);
     }
 
     @Override
