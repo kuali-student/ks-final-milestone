@@ -22,12 +22,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.httpclient.util.IdleConnectionHandler;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -43,6 +41,7 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.test.util.AttributeTester;
+import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -111,26 +110,29 @@ public class TestCourseOfferingServiceMockImpl {
 	            throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException,
 	            InvalidParameterException, MissingParameterException, OperationFailedException,
 	            PermissionDeniedException {
-	        String formatOfferingId = "Lui-1";
-	        RegistrationGroupInfo rg = new RegistrationGroupInfo();
-	        rg.setFormatOfferingId("CLU-1");
-	        rg.setName("RegGroup-1");
-	        rg.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
-	        rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
+	        List<String> activityOfferingIds = new ArrayList<String>();
+	        
+	        activityOfferingIds.add("CO-1:LEC-ONLY:LEC-A");
+			
+	        String formatOfferingId = "CO-1:LEC-ONLY";
+			
+			RegistrationGroupInfo rgLecA = CourseOfferingServiceDataUtils.createRegistrationGroup("CO-1", formatOfferingId, "2012FA", activityOfferingIds, "RG-1", "RG-1", true, true, 10, LuiServiceConstants.REG_GROUP_OPEN_STATE_KEY);
+	        
+			
 
 	        try {
 	            RegistrationGroupInfo created =
-	                    coService.createRegistrationGroup(formatOfferingId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, callContext);
+	                    coService.createRegistrationGroup(formatOfferingId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rgLecA, callContext);
 	            assertNotNull(created);
 
 	            RegistrationGroupInfo retrieved =
 	                    coService.getRegistrationGroup(created.getId(), callContext);
 	            assertNotNull(retrieved);
 
-	            assertEquals(rg.getFormatOfferingId(), retrieved.getFormatOfferingId());
-	            assertEquals(rg.getName(), retrieved.getName());
-	            assertEquals(rg.getStateKey(), retrieved.getStateKey());
-	            assertEquals(rg.getTypeKey(), retrieved.getTypeKey());
+	            assertEquals(rgLecA.getFormatOfferingId(), retrieved.getFormatOfferingId());
+	            assertEquals(rgLecA.getName(), retrieved.getName());
+	            assertEquals(rgLecA.getStateKey(), retrieved.getStateKey());
+	            assertEquals(rgLecA.getTypeKey(), retrieved.getTypeKey());
 
 	            // test getRegistrationGroupsForCourseOffering
 
@@ -234,14 +236,15 @@ public class TestCourseOfferingServiceMockImpl {
 	    @Test
 	    public void testCreateCourseOffering() throws AlreadyExistsException, DoesNotExistException,
 	            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-	                                                  OperationFailedException, PermissionDeniedException, ReadOnlyException {
+	                                                  OperationFailedException, PermissionDeniedException, ReadOnlyException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
 	    	
 	    	List<CourseOfferingInfo> offerings = coService.getCourseOfferingsByCourse("CLU-1", callContext);
 	    	
 	    	int expectedOfferings = offerings.size() + 1;
 	    	
 	        List<String> optionKeys = new ArrayList<String>();
-	        CourseOfferingInfo coInfo = CourseOfferingServiceDataUtils.createCourseOffering("CLU-1", "2012FA", "Chemistry 123", "CHEM123");
+	        CourseInfo canonicalCourse = this.canonicalCourseService.getCourse("CLU-1");
+			CourseOfferingInfo coInfo = CourseOfferingServiceDataUtils.createCourseOffering(canonicalCourse , "2012FA");
 	        CourseOfferingInfo created = coService.createCourseOffering("CLU-1", "2012FA", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, callContext);
 
 	        assertNotNull(created);
@@ -375,16 +378,19 @@ public class TestCourseOfferingServiceMockImpl {
 	    @Test
 	    public void testDeleteCourseOffering() throws AlreadyExistsException, DoesNotExistException,
 	            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-	                                                  OperationFailedException, PermissionDeniedException, ReadOnlyException {
+	                                                  OperationFailedException, PermissionDeniedException, ReadOnlyException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
+	    	
+	    	CourseInfo canonicalCourse = canonicalCourseService.getCourse("CLU-1");
+	    	
 	        // Create a CO
-	        CourseOfferingInfo coInfo = CourseOfferingServiceDataUtils.createCourseOffering("CLU-1", "testAtpId1", "Alternate chemistry", "ALT123");
+	        CourseOfferingInfo coInfo = CourseOfferingServiceDataUtils.createCourseOffering(canonicalCourse, "2012SP");
 	        List<String> optionKeys = new ArrayList<String>();
-	        CourseOfferingInfo created = coService.createCourseOffering("CLU-1", "testAtpId1", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, callContext);
+	        CourseOfferingInfo created = coService.createCourseOffering("CLU-1", "2012SP", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, callContext);
 
 	        // Verify that the CO was created
 	        assertNotNull(created);
 	        assertEquals("CLU-1", created.getCourseId());
-	        assertEquals("testAtpId1", created.getTermId());
+	        assertEquals("2012SP", created.getTermId());
 	        assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, created.getStateKey());
 	        assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, created.getTypeKey());
 
@@ -427,7 +433,7 @@ public class TestCourseOfferingServiceMockImpl {
 	        try {
 
 
-	            FormatOfferingInfo fo = coService.getFormatOffering("CO-1:FO-1", callContext);
+	            FormatOfferingInfo fo = coService.getFormatOffering("CO-2:LEC-ONLY", callContext);
 	            assertNotNull(fo);
 	            assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, fo.getStateKey());
 	            assertEquals(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, fo.getTypeKey());
@@ -446,14 +452,14 @@ public class TestCourseOfferingServiceMockImpl {
 	    	  
 	    	  instructors.add(CourseOfferingServiceDataUtils.createInstructor("Pers-1", "Person One", 60.00F));
 	    	  
-	    	String formatId = "COURSE1-FORMAT1";
-			String activityId = formatId + "-" + LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY;
+	    	  String activityId = CourseOfferingServiceDataUtils.createCanonicalActivityId("CO-1:LEC-ONLY", LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
+	    	  
 			
-			ActivityOfferingInfo ao = CourseOfferingServiceDataUtils.createActivityOffering("2012FA", "CO-1", "CO-1:FO-1", "SCHED-ID", activityId, "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo ao = CourseOfferingServiceDataUtils.createActivityOffering("2012FA", "CO-1", "CO-1:LEC-ONLY", "SCHED-ID", activityId, "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 	    	
 	        try { 
 	            ActivityOfferingInfo created =
-	                    coService.createActivityOffering("CO-1:FO-1", activityId, LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, ao, callContext);
+	                    coService.createActivityOffering("CO-1:LEC-ONLY", activityId, LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, ao, callContext);
 	            assertNotNull(created);
 
 	            ActivityOfferingInfo retrieved =
@@ -473,9 +479,23 @@ public class TestCourseOfferingServiceMockImpl {
 	            // 3 existing plus this new one 
 	            // this one should probably not have been added so this test case may need to be adapted
 	            // in the future.
-	            assertEquals(4, activities.size());
-	            assertEquals(created.getActivityId(), activities.get(0).getActivityId());
-	            assertEquals("CO-1:FO-1:AO-1", activities.get(0).getId());
+	            assertEquals(8, activities.size());
+	            
+	            boolean foundActivityId = false;
+	            boolean foundId = false;
+	            
+	            for (ActivityOfferingInfo activityOfferingInfo : activities) {
+					
+	            	if (activityOfferingInfo.getActivityId().equals(created.getActivityId())) {
+	            		foundActivityId = true;
+	            	}
+	            	
+	            	if (activityOfferingInfo.getId().equals("CO-1:LEC-ONLY:LEC-B"))
+	            		foundId = true;
+				}
+	            assertTrue (foundActivityId);
+	            assertTrue (foundId);
+	            
 	            assertEquals(1, activities.get(0).getInstructors().size());
 	        } catch (Exception ex) {
 	        	log.fatal("Exception from serviceCall", ex);
@@ -505,32 +525,29 @@ public class TestCourseOfferingServiceMockImpl {
 
 	    @Test
 	    public void testUpdateRegistrationGroup() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, VersionMismatchException, PermissionDeniedException, OperationFailedException, ReadOnlyException {
-	        final String regGroupId = "LUI-RG-1";
-	        final String coId = "LUI-CO-1";
-	        final String aoId_1 = "LUI-ACT-1";
-	        final String aoId_2 = "LUI-ACT-2";
-	        RegistrationGroupInfo regGroup = coService.getRegistrationGroup(regGroupId, callContext);
-	        assertEquals(coId, regGroup.getCourseOfferingId());
+	        String registrationGroupId = "CO-2:LEC-ONLY:REG-GROUP-LEC-A";
+			RegistrationGroupInfo regGroup = coService.getRegistrationGroup(registrationGroupId, callContext);
+	        assertEquals("CO-2", regGroup.getCourseOfferingId());
 	        assertEquals(1, regGroup.getActivityOfferingIds().size());
-	        assertEquals(aoId_1, regGroup.getActivityOfferingIds().get(0));
+	        assertEquals("CO-2:LEC-ONLY:LEC-A", regGroup.getActivityOfferingIds().get(0));
 
 	        regGroup.getActivityOfferingIds().remove(0);
-	        regGroup.getActivityOfferingIds().add(aoId_2);
-	        RegistrationGroupInfo updatedRegGroup = coService.updateRegistrationGroup(regGroupId, regGroup, callContext);
-	        assertEquals(coId, updatedRegGroup.getCourseOfferingId());
+	        regGroup.getActivityOfferingIds().add("CO-2:LEC-ONLY:LEC-B");
+	        RegistrationGroupInfo updatedRegGroup = coService.updateRegistrationGroup(registrationGroupId, regGroup, callContext);
+	        assertEquals("CO-2", regGroup.getCourseOfferingId());
 	        assertEquals(1, updatedRegGroup.getActivityOfferingIds().size());
-	        assertEquals(aoId_2, updatedRegGroup.getActivityOfferingIds().get(0));
+	        assertEquals("CO-2:LEC-ONLY:LEC-B", regGroup.getActivityOfferingIds().get(0));
 	    }
 
 	    @Test
 	    public void testDeleteRegistrationGroup() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-	        final String regGroupId = "LUI-RG-1";
-	        RegistrationGroupInfo regGroup = coService.getRegistrationGroup(regGroupId, callContext);
+	    	 String registrationGroupId = "CO-2:LEC-ONLY:REG-GROUP-LEC-A";
+	    	RegistrationGroupInfo regGroup = coService.getRegistrationGroup(registrationGroupId, callContext);
 	        assertNotNull(regGroup);
-	        StatusInfo statusInfo = coService.deleteRegistrationGroup(regGroupId, callContext);
+	        StatusInfo statusInfo = coService.deleteRegistrationGroup(registrationGroupId, callContext);
 	        assertTrue(statusInfo.getIsSuccess());
 	        try {
-	            coService.getRegistrationGroup(regGroupId, callContext);
+	            coService.getRegistrationGroup(registrationGroupId, callContext);
 	            fail("Expected DoesNotExistException.");
 	        } catch (DoesNotExistException e) {
 	            // Expected. Do nothing.

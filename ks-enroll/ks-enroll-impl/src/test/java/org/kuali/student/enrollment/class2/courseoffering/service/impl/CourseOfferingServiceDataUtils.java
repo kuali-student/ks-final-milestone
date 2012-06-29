@@ -29,7 +29,9 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
+import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -53,17 +55,18 @@ import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
  * 
  * Helper methods for creating the CourseOfferingService class2 objects.
  * 
- * This was originally created to assist with unit testing the CourseOfferingServiceMockImpl
+ * This was originally created to assist with unit testing the
+ * CourseOfferingServiceMockImpl
  * 
  * @author ocleirig
  * 
- *
+ * 
  */
 public final class CourseOfferingServiceDataUtils {
 
-	
 	/**
-	 * Create and initialize an ActivityOffering using some base data aswell as the parameters given.
+	 * Create and initialize an ActivityOffering using some base data aswell as
+	 * the parameters given.
 	 * 
 	 * @param formatOfferingId
 	 * @param activityId
@@ -72,202 +75,254 @@ public final class CourseOfferingServiceDataUtils {
 	 * @param instructors
 	 * @return
 	 */
-		// Copied from TestCourseOfferingServiceWithMocks
-		// and flushed out using the ActivityOfferingTransformer
-		public static ActivityOfferingInfo createActivityOffering(String termId, String courseOfferingId,
-				String formatOfferingId, String scheduleId, String activityId, String activityName, String activityCode, String activityTypeKey, List<OfferingInstructorInfo> instructors) {
-			
-			ActivityOfferingInfo orig = new ActivityOfferingInfo();
-			
-			orig.setTypeKey(activityTypeKey);
-			orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
-				
-			orig.setCourseOfferingId(courseOfferingId);
-			orig.setFormatOfferingId(formatOfferingId);
-			
-			// TODO: maybe make this settable
-			orig.setFormatOfferingName(formatOfferingId);
-			
-			orig.setActivityId(activityId);
-			
-			orig.setTermId(termId);
-			
-			// TODO: find out an example of what this can be coded to.
-			orig.setTermCode(termId);
-			
-			orig.setActivityCode(activityCode);
-			
-			orig.setScheduleId(scheduleId);
-			orig.setActivityOfferingURL("http://activity.com");
-		
-			
-			orig.setDescr(new RichTextInfo(activityName, "<b>"+ activityName +"</b>"));
-			orig.setName(activityName);
-			orig.setMinimumEnrollment(100);
-			orig.setMaximumEnrollment(150);
-			
-			orig.setIsEvaluated(true);
-			orig.setIsMaxEnrollmentEstimate(false);
-			orig.setIsHonorsOffering(true);
-			
-			orig.setInstructors(instructors);
+	// Copied from TestCourseOfferingServiceWithMocks
+	// and flushed out using the ActivityOfferingTransformer
+	public static ActivityOfferingInfo createActivityOffering(String termId,
+			String courseOfferingId, String formatOfferingId,
+			String scheduleId, String activityId, String activityName,
+			String activityCode, String activityTypeKey,
+			List<OfferingInstructorInfo> instructors) {
 
-			return orig;
-		}
+		ActivityOfferingInfo orig = new ActivityOfferingInfo();
 
-		public static FormatOfferingInfo createFormatOffering(String courseOfferingId,
-				String canonicalFormatId, String termId, String formatName, String activityOfferingTypeKeys) {
-			
-			return createFormatOffering(courseOfferingId, canonicalFormatId, termId, formatName, new String[] {activityOfferingTypeKeys});
-		}
-		/**
-		 * Create and initialize a FormatOffering using some base data aswell as the parameters given.
-		 * 		
-		 * @param courseOfferingId
-		 * @param canonicalFormatId
-		 * @param termId
-		 * @param formatName
-		 * @return
-		 */
-		// Copied from TestCourseOfferingServiceWithMocks
-		// fleshed out with details from FormatOfferingTransformer
-		public static FormatOfferingInfo createFormatOffering(String courseOfferingId,
-				String canonicalFormatId, String termId, String formatName, String[] activityOfferingTypeKeys) {
+		orig.setTypeKey(activityTypeKey);
+		orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
 
-			FormatOfferingInfo orig = new FormatOfferingInfo();
+		orig.setCourseOfferingId(courseOfferingId);
+		orig.setFormatOfferingId(formatOfferingId);
 
-		    orig.setCourseOfferingId(courseOfferingId);
-			orig.setFormatId(canonicalFormatId);
-			orig.setTermId(termId);
-			
-		    orig.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-		    orig.setStateKey(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0]);
-		    
-		    orig.setName(formatName);
-		    
-		    orig.setDescr(new RichTextInfo(formatName, "<b>" + formatName + "</b>"));
-		    
-			orig.setGradeRosterLevelTypeKey(CourseOfferingServiceConstants.GRADE_ROSTER_LEVEL_TYPE_KEY_ATTR);
-			orig.setFinalExamLevelTypeKey(CourseOfferingServiceConstants.FINAL_EXAM_LEVEL_TYPE_KEY_ATTR);
-			
-			orig.setActivityOfferingTypeKeys(Arrays
-					.asList(activityOfferingTypeKeys));
-			
-			orig.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-			
-			orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
-			
-			return orig;
-		}
-		
-		/**
-		 * Create a CourseOfferingInfo object with some defaults and the parameter values provided.
-		 * 
-		 * @param courseId The unique database id for the course
-		 * @param termId The unique database id for the term
-		 * @param courseTitle The title of the course
-		 * @param courseCode The unique code that represents the course (ie ENGL101)
-		 * @return The initialized and configured CourseOfferingObject
-		 */
-		// copied from TestCourseOfferingServiceWithMocks
-		public static CourseOfferingInfo createCourseOffering(String courseId,
-				String termId, String courseTitle, String courseCode) {
-			CourseOfferingInfo orig = new CourseOfferingInfo();
-			
-			// this is the canonical course id
-			orig.setCourseId(courseId);
-			orig.setTermId(termId);
-			
-			orig.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-			orig.setStateKey(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0]);
-			
-			orig.setWaitlistLevelTypeKey("waitlist key");
-			orig.setHasWaitlist(true);
-			orig.setFinalExamType(FinalExam.STANDARD.toString());
-			orig.setIsEvaluated(true);
-			orig.setIsFeeAtActivityOffering(false);
-			orig.setFundingSource("funding source");
-			orig.setIsFinancialAidEligible(true);
-			
-			orig.setCourseOfferingCode(courseCode);
-			orig.setCourseOfferingTitle(courseTitle);
-			orig.setCourseOfferingURL("http://courseoffering.com");
-			
-			List<String> campusLocations = new ArrayList<String>();
-			
-			campusLocations.add("MAIN");
-			
-			orig.setCampusLocations(campusLocations);
-			
-			// TODO: add these methods and more parameters to the method
-//			orig.setCourseNumberSuffix(courseNumberSuffix);
-//			orig.setCreditOptionDisplay(creditOptionDisplay);
-//			orig.setCreditOptionId(creditOptionId);
-			
-			
-			orig.setDescr(new RichTextInfo(courseTitle, "<b>" + courseTitle + "<b>"));
-			
-			
-			
-			orig.getRegistrationGradingOptionIds().add(
-					LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
-			orig.getRegistrationGradingOptionIds().add(
-					LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE);
+		// TODO: maybe make this settable
+		orig.setFormatOfferingName(formatOfferingId);
 
-			return orig;
-		}
+		orig.setActivityId(activityId);
 
-		
+		orig.setTermId(termId);
 
-		// copied from TestAcademicCalendarServiceWithMocks
-		public static TermInfo createTerm(String termName, String plainName)
-				throws DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				ReadOnlyException {
-			TermInfo orig = new TermInfo();
-			orig.setName(termName);
-			orig.setDescr(new RichTextHelper().toRichTextInfo(plainName,
-					"formatted " + plainName));
-			orig.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
-			orig.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-			orig.setStartDate(new Date());
-			orig.setEndDate(new DateTime().plusDays(121).toDate());
+		// TODO: find out an example of what this can be coded to.
+		orig.setTermCode(termId);
 
-			return orig;
-		}
+		orig.setActivityCode(activityCode);
+
+		orig.setScheduleId(scheduleId);
+		orig.setActivityOfferingURL("http://activity.com");
+
+		orig.setDescr(new RichTextInfo(activityName, "<b>" + activityName
+				+ "</b>"));
+		orig.setName(activityName);
+		orig.setMinimumEnrollment(100);
+		orig.setMaximumEnrollment(150);
+
+		orig.setIsEvaluated(true);
+		orig.setIsMaxEnrollmentEstimate(false);
+		orig.setIsHonorsOffering(true);
+
+		orig.setInstructors(instructors);
+
+		return orig;
+	}
+
+	public static FormatOfferingInfo createFormatOffering(
+			String courseOfferingId, String canonicalFormatId, String termId,
+			String formatName, String activityOfferingTypeKeys) {
+
+		return createFormatOffering(courseOfferingId, canonicalFormatId,
+				termId, formatName, new String[] { activityOfferingTypeKeys });
+	}
+
+	/**
+	 * Create and initialize a FormatOffering using some base data aswell as the
+	 * parameters given.
+	 * 
+	 * @param courseOfferingId
+	 * @param canonicalFormatId
+	 * @param termId
+	 * @param formatName
+	 * @return
+	 */
+	// Copied from TestCourseOfferingServiceWithMocks
+	// fleshed out with details from FormatOfferingTransformer
+	public static FormatOfferingInfo createFormatOffering(
+			String courseOfferingId, String canonicalFormatId, String termId,
+			String formatName, String[] activityOfferingTypeKeys) {
+
+		FormatOfferingInfo orig = new FormatOfferingInfo();
+
+		orig.setCourseOfferingId(courseOfferingId);
+		orig.setFormatId(canonicalFormatId);
+		orig.setTermId(termId);
+
+		orig.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
+		orig.setStateKey(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0]);
+
+		orig.setName(formatName);
+
+		orig.setDescr(new RichTextInfo(formatName, "<b>" + formatName + "</b>"));
+
+		orig.setGradeRosterLevelTypeKey(CourseOfferingServiceConstants.GRADE_ROSTER_LEVEL_TYPE_KEY_ATTR);
+		orig.setFinalExamLevelTypeKey(CourseOfferingServiceConstants.FINAL_EXAM_LEVEL_TYPE_KEY_ATTR);
+
+		orig.setActivityOfferingTypeKeys(Arrays
+				.asList(activityOfferingTypeKeys));
+
+		orig.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
+
+		orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+
+		return orig;
+	}
+
+	// copied from TestAcademicCalendarServiceWithMocks
+	public static TermInfo createTerm(String termName, String plainName)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException {
+		TermInfo orig = new TermInfo();
+		orig.setName(termName);
+		orig.setDescr(new RichTextHelper().toRichTextInfo(plainName,
+				"formatted " + plainName));
+		orig.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+		orig.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+		orig.setStartDate(new Date());
+		orig.setEndDate(new DateTime().plusDays(121).toDate());
+
+		return orig;
+	}
 
 	// Copied from TestAcademicCalendarSerciceImplWithMocks
-	public static AcademicCalendarInfo createAcademicCalendar(String calendarName, String plainName) {
-		 AcademicCalendarInfo orig = new AcademicCalendarInfo();
-	        orig.setName(calendarName);
-	        orig.setDescr(new RichTextHelper().toRichTextInfo(plainName, "formatted " + plainName));
-	        orig.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
-	        orig.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-	        DateTime start = new DateTime();
-	        orig.setStartDate(start.toDate());
-	        orig.setEndDate(start.plusMonths(4).toDate());
-	        orig.setAdminOrgId("testOrgId1");
-	        
-	        return orig;
-	        
+	public static AcademicCalendarInfo createAcademicCalendar(
+			String calendarName, String plainName) {
+		AcademicCalendarInfo orig = new AcademicCalendarInfo();
+		orig.setName(calendarName);
+		orig.setDescr(new RichTextHelper().toRichTextInfo(plainName,
+				"formatted " + plainName));
+		orig.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+		orig.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+		DateTime start = new DateTime();
+		orig.setStartDate(start.toDate());
+		orig.setEndDate(start.plusMonths(4).toDate());
+		orig.setAdminOrgId("testOrgId1");
+
+		return orig;
+
 	}
 
-	public static OfferingInstructorInfo createInstructor(String personId, String personName, Float percentageEffort) {
+	public static OfferingInstructorInfo createInstructor(String personId,
+			String personName, Float percentageEffort) {
 
 		OfferingInstructorInfo instructor = new OfferingInstructorInfo();
-		
-        instructor.setPersonId(personId);
-        
-        instructor.setPersonName(personName);
-        
-        instructor.setPercentageEffort(percentageEffort);
-        
-        instructor.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-        instructor.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
 
-        return instructor;
+		instructor.setPersonId(personId);
+
+		instructor.setPersonName(personName);
+
+		instructor.setPercentageEffort(percentageEffort);
+
+		instructor.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+		instructor.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
+
+		return instructor;
 	}
+
+	public static RegistrationGroupInfo createRegistrationGroup(
+			String courseOfferingId, String formatOfferingId, String termId,
+			List<String> activityOfferingIds, String name,
+			String registrationCode, Integer maximumEnrollment) {
+		return createRegistrationGroup(courseOfferingId, formatOfferingId,
+				termId, activityOfferingIds, name, registrationCode, true,
+				true, maximumEnrollment,
+				LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+
+	}
+
+	public static RegistrationGroupInfo createRegistrationGroup(
+			String courseOfferingId, String formatOfferingId, String termId,
+			List<String> activityOfferingIds, String name,
+			String registrationCode, boolean generated, Boolean honorsOffering,
+			Integer maximumEnrollment, String registrationGroupStateKey) {
+
+		RegistrationGroupInfo rg = new RegistrationGroupInfo();
+
+		rg.setActivityOfferingIds(activityOfferingIds);
+
+		rg.setCourseOfferingId(courseOfferingId);
+		rg.setDescr(new RichTextInfo(name, name));
+
+		rg.setFormatOfferingId(formatOfferingId);
+
+		rg.setIsGenerated(generated);
+		rg.setIsHonorsOffering(honorsOffering);
+		rg.setMaximumEnrollment(maximumEnrollment);
+		rg.setName(name);
+		rg.setRegistrationCode(registrationCode);
+
+		rg.setTermId(termId);
+
+		rg.setStateKey(registrationGroupStateKey);
+		rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
+
+		return rg;
+
+	}
+
 	
+	public static String createCanonicalActivityId (String formatId, String activityTypeKey) {
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append(formatId);
+		builder.append(":");
+		builder.append(activityTypeKey);
+		
+		return builder.toString();
+	}
+	public static CourseOfferingInfo createCourseOffering(
+			CourseInfo canonicalCourse, String termId) {
+
+		CourseOfferingInfo orig = new CourseOfferingInfo();
+		// this is the canonical course id
+		orig.setCourseId(canonicalCourse.getId());
+		orig.setTermId(termId);
+
+		orig.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
+		orig.setStateKey(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0]);
+
+		// FIXME: assign to a constant
+		orig.setWaitlistLevelTypeKey("waitlist key");
+		orig.setHasWaitlist(true);
+		orig.setFinalExamType(FinalExam.STANDARD.toString());
+		orig.setIsEvaluated(true);
+		orig.setIsFeeAtActivityOffering(false);
+
+		orig.setFundingSource("funding source");
+		orig.setIsFinancialAidEligible(true);
+
+		// reuse the code and title from the canonical course
+		orig.setCourseOfferingCode(canonicalCourse.getCode());
+		orig.setCourseOfferingTitle(canonicalCourse.getCourseTitle());
+		orig.setCourseNumberSuffix(canonicalCourse.getCourseNumberSuffix());
+
+		orig.setCourseOfferingURL("http://courseoffering.com");
+
+		List<String> campusLocations = new ArrayList<String>();
+
+		campusLocations.add("MAIN");
+
+		orig.setCampusLocations(campusLocations);
+
+		// TODO: add these methods and more parameters to the method
+		// orig.setCourseNumberSuffix(courseNumberSuffix);
+		// orig.setCreditOptionDisplay(creditOptionDisplay);
+		// orig.setCreditOptionId(creditOptionId);
+
+		orig.setDescr(new RichTextInfo(canonicalCourse.getCourseTitle(), "<b>" + canonicalCourse.getCourseTitle() + "<b>"));
+
+		orig.getRegistrationGradingOptionIds().add(
+				LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
+		orig.getRegistrationGradingOptionIds().add(
+				LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE);
+
+		return orig;
+
+	}
 
 }
