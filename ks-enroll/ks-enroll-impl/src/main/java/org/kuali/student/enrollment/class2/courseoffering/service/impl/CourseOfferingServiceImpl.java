@@ -1048,6 +1048,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ActivityOfferingInfo targetAO = new ActivityOfferingInfo(sourceAO);
         targetAO.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         targetAO.setId(null);
+        if(targetAO.getInstructors()!= null && !targetAO.getInstructors().isEmpty()){
+            for(OfferingInstructorInfo inst : targetAO.getInstructors()){
+                inst.setId(null);
+            }
+        }
         targetAO.setActivityCode(null);
         targetAO = createActivityOffering(sourceAO.getFormatOfferingId(), sourceAO.getActivityId(), sourceAO.getTypeKey(), targetAO, context);
 
