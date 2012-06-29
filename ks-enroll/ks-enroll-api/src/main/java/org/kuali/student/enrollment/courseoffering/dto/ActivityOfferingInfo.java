@@ -495,7 +495,9 @@ public class ActivityOfferingInfo
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("ActivityOfferingInfo [formatOfferingId=");
+        builder.append("ActivityOfferingInfo [id=");
+        builder.append(getId());
+        builder.append (", formatOfferingId=");
         builder.append(formatOfferingId);
         builder.append(", formatOfferingName=");
         builder.append(formatOfferingName);
