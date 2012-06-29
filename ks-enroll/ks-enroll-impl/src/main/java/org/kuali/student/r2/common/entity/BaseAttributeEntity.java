@@ -1,6 +1,8 @@
 package org.kuali.student.r2.common.entity;
 
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -19,18 +21,19 @@ public abstract class BaseAttributeEntity<T extends AttributeOwner<?>> extends B
     @Column(name = "ATTR_VALUE", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String value;
 
+    @ManyToOne 
+    @JoinColumn (name="OWNER_ID")
+    private T owner;
+    
     public BaseAttributeEntity() {}
 
-    public BaseAttributeEntity(String key, String value) {
-        this.key = key;
-        this.value = value;
-    }
 
-    public BaseAttributeEntity(Attribute att) {
+    public BaseAttributeEntity(Attribute att, T owner) {
         this.setId(att.getId());
-        this.key = att.getKey();
-        this.value = att.getValue();
-        // this.owner = att.getOwner();
+        
+        this.fromDto(att);
+        
+        this.owner = owner;
     }
 
     public String getKey() {
@@ -49,11 +52,19 @@ public abstract class BaseAttributeEntity<T extends AttributeOwner<?>> extends B
         this.value = value;
     }
 
-    public abstract void setOwner(T owner);
+    
 
-    public abstract T getOwner();
+    public T getOwner() {
+		return owner;
+	}
 
-    public AttributeInfo toDto() {
+
+	public void setOwner(T owner) {
+		this.owner = owner;
+	}
+
+
+	public AttributeInfo toDto() {
         AttributeInfo attributeInfo = new AttributeInfo();
         attributeInfo.setId(this.getId());
         attributeInfo.setKey(this.getKey());
@@ -76,6 +87,8 @@ public abstract class BaseAttributeEntity<T extends AttributeOwner<?>> extends B
 		builder.append(key);
 		builder.append(", value=");
 		builder.append(value);
+		builder.append(", owner=");
+		builder.append(owner);
 		builder.append("]");
 		return builder.toString();
 	}

@@ -12,29 +12,13 @@ import javax.persistence.Table;
 @Table(name = "KSEN_SOC_ATTR")
 public class SocAttributeEntity extends BaseAttributeEntity<SocEntity> {
 
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private SocEntity owner;
+	public SocAttributeEntity() {
+		super();
+	}
 
-    public SocAttributeEntity() {}
+	public SocAttributeEntity(Attribute att, SocEntity owner) {
+		super(att, owner);
+	}
 
-    public SocAttributeEntity(String key, String value) {
-        super(key, value);
-    }
-
-    public SocAttributeEntity(Attribute att, SocEntity owner) {
-        super(att);
-        setOwner(owner);
-    }
-
-    @Override
-    public void setOwner(SocEntity owner) {
-        this.owner = owner;
-
-    }
-
-    @Override
-    public SocEntity getOwner() {
-        return owner;
-    }
+   
 }

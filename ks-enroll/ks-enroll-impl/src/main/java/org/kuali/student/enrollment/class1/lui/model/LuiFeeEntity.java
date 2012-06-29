@@ -68,7 +68,7 @@ public class LuiFeeEntity extends MetaEntity implements AttributeOwner<LuiFeeAtt
         this.setAttributes(new HashSet<LuiFeeAttributeEntity>());
         if (null != fee.getAttributes()) {
             for (Attribute att : fee.getAttributes()) {
-                LuiFeeAttributeEntity attEntity = new LuiFeeAttributeEntity(att);
+                LuiFeeAttributeEntity attEntity = new LuiFeeAttributeEntity(att, this);
                 this.getAttributes().add(attEntity);
             }
         }

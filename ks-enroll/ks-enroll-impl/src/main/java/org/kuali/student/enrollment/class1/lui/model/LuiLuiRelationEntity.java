@@ -64,7 +64,7 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
         }
         this.setAttributes(new HashSet<LuiLuiRelationAttributeEntity>());
         for (Attribute att : luiLuiRelation.getAttributes()) {
-            this.getAttributes().add(new LuiLuiRelationAttributeEntity(att));
+            this.getAttributes().add(new LuiLuiRelationAttributeEntity(att, this));
         }
     }
 

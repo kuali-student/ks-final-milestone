@@ -12,40 +12,13 @@ import org.kuali.student.r2.common.infc.Attribute;
 @Table(name = "KSEN_PROCESS_CHECK_ATTR")
 public class CheckAttributeEntity extends BaseAttributeEntity<CheckEntity> {
 
-    ////////////////////
-    // DATA FIELDS
-    ////////////////////
+	public CheckAttributeEntity() {
+		super();
+	}
 
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private CheckEntity owner;
+	public CheckAttributeEntity(Attribute att, CheckEntity owner) {
+		super(att, owner);
+	}
 
-    //////////////////////////
-    // CONSTRUCTORS ETC.
-    //////////////////////////
-
-    public CheckAttributeEntity() {}
     
-    public CheckAttributeEntity(String key, String value) {
-        super(key, value);
-    }
-
-    public CheckAttributeEntity(Attribute att, CheckEntity owner) {
-        super(att);
-        setOwner(owner);
-    }
-     
-    ///////////////////////////
-    // GETTERS AND SETTERS
-    ///////////////////////////
-
-   @Override
-    public void setOwner(CheckEntity owner) {
-        this.owner = owner;
-    }
-
-    @Override
-    public CheckEntity getOwner() {
-        return owner;
-    } 
 }

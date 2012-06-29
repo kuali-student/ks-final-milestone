@@ -27,27 +27,13 @@ import javax.persistence.Table;
 @Table(name = "KSEN_ENUM_ATTR")
 public class EnumerationAttributeEntity extends BaseAttributeEntity<EnumerationEntity> {
 
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private EnumerationEntity owner;
+	public EnumerationAttributeEntity() {
+		super();
+	}
 
-    public EnumerationAttributeEntity () {
-    }
-    
-    public EnumerationAttributeEntity(Attribute att, EnumerationEntity owner) {
-        super(att);
-        setOwner(owner);
-    }
+	public EnumerationAttributeEntity(Attribute att, EnumerationEntity owner) {
+		super(att, owner);
+	}
 
-    @Override
-    public void setOwner(EnumerationEntity owner) {
-        this.owner = owner;
-        
-    }
-
-    @Override
-    public EnumerationEntity getOwner() {
-        return owner;
-    }
-
+   
 }

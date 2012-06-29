@@ -61,7 +61,7 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
         this.setAttributes(new HashSet<LuCodeAttributeEntity>());
         if (null != luCode.getAttributes()) {
             for (Attribute att : luCode.getAttributes()) {
-                LuCodeAttributeEntity attEntity = new LuCodeAttributeEntity(att);
+                LuCodeAttributeEntity attEntity = new LuCodeAttributeEntity(att, this);
                 this.getAttributes().add(attEntity);
             }
         }

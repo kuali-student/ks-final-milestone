@@ -72,7 +72,7 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
         this.setAttributes(new HashSet<LrrAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
-                this.getAttributes().add(new LrrAttributeEntity(att));
+                this.getAttributes().add(new LrrAttributeEntity(att, this));
             }
         }
     }

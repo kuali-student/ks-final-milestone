@@ -106,8 +106,7 @@ public class HoldEntity
         // dynamic attributes
         this.attributes.clear();
         for (Attribute att : dto.getAttributes()) {
-            HoldAttributeEntity attEntity = new HoldAttributeEntity(att);
-            attEntity.setOwner(this);
+            HoldAttributeEntity attEntity = new HoldAttributeEntity(att, this);
             this.getAttributes().add(attEntity);
         }
     }

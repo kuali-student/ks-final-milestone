@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 
 import org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity;
 import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,16 +42,16 @@ public class DataLoader {
         personRelation.setExpirationDate(Calendar.getInstance().getTime());
         personRelation.setPersonRelationStateId(TEST_VALUE_1);
         personRelation.setPersonRelationTypeId(TEST_VALUE_1);
-        personRelation.setAttributes(createAttributes());
+        personRelation.setAttributes(createAttributes(personRelation));
         return personRelation;
     }
 
 
-    private Set<LprAttributeEntity> createAttributes() {
+    private Set<LprAttributeEntity> createAttributes(LprEntity personRelation) {
         Set<LprAttributeEntity> attributes = new HashSet<LprAttributeEntity>();
         
-        attributes.add (new LprAttributeEntity(DA_KEY_1, DA_VALUE_1));
-        attributes.add (new LprAttributeEntity(DA_KEY_2, DA_VALUE_2));
+        attributes.add (new LprAttributeEntity(new AttributeInfo(DA_KEY_1, DA_VALUE_1), personRelation));
+        attributes.add (new LprAttributeEntity(new AttributeInfo(DA_KEY_2, DA_VALUE_2), personRelation));
         
         return attributes;
     }

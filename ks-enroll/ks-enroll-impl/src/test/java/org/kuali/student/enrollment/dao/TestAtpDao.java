@@ -24,6 +24,7 @@ import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -134,8 +135,7 @@ public class TestAtpDao {
     {
         AtpEntity atp = dao.find("testAtpId2");
         assertNotNull(atp);
-        AtpAttributeEntity attr = new AtpAttributeEntity("foo", "bar");
-        attr.setOwner(atp);
+        AtpAttributeEntity attr = new AtpAttributeEntity(new AttributeInfo("foo", "bar"), atp);
         atp.getAttributes().add(attr);
         dao.update(atp);
 

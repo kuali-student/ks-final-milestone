@@ -73,7 +73,7 @@ public class LuiAffiliatedOrgEntity extends MetaEntity implements AttributeOwner
         this.setAttributes(new HashSet<LuiAffiliatedOrgAttributeEntity>());
         if (null != affiliatedOrg.getAttributes()) {
             for (Attribute att : affiliatedOrg.getAttributes()) {
-                LuiAffiliatedOrgAttributeEntity attEntity = new LuiAffiliatedOrgAttributeEntity(att);
+                LuiAffiliatedOrgAttributeEntity attEntity = new LuiAffiliatedOrgAttributeEntity(att, this);
                 this.getAttributes().add(attEntity);
             }
         }

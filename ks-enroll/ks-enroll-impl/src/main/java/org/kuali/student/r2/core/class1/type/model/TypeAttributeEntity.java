@@ -12,31 +12,14 @@ import javax.persistence.Table;
 @Table(name = "KSEN_TYPE_ATTR")
 public class TypeAttributeEntity extends BaseAttributeEntity<TypeEntity> {
 
+	public TypeAttributeEntity() {
+		super();
+	}
+
+	public TypeAttributeEntity(Attribute att, TypeEntity owner) {
+		super(att, owner);
+	}
+
    
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private TypeEntity owner;
-
-    public TypeAttributeEntity() {
-    }
-
-    public TypeAttributeEntity(String key, String value) {
-        super(key, value);
-    }
-    
-    public TypeAttributeEntity(Attribute att, TypeEntity owner) {
-        super(att);
-        setOwner(owner);
-    }
-    
-    @Override
-    public void setOwner(TypeEntity owner) {
-        this.owner = owner;
-    }
-
-    @Override
-    public TypeEntity getOwner() {
-        return null;
-    }
-
+   
 }

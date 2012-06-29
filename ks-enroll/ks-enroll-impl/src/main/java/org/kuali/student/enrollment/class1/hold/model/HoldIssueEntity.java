@@ -94,8 +94,7 @@ public class HoldIssueEntity
         // dynamic attributes
         this.getAttributes().clear();
         for (Attribute att : dto.getAttributes()) {
-            HoldIssueAttributeEntity attEntity = new HoldIssueAttributeEntity(att);
-            attEntity.setOwner(this);
+            HoldIssueAttributeEntity attEntity = new HoldIssueAttributeEntity(att, this);
             this.getAttributes().add(attEntity);
         }
     }

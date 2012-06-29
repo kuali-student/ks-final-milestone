@@ -65,7 +65,7 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
             this.setAttributes(new HashSet<LprRosterEntryAttributeEntity>());
             if (null != dto.getAttributes()) {
                 for (Attribute att : dto.getAttributes()) {
-                    LprRosterEntryAttributeEntity attEntity = new LprRosterEntryAttributeEntity(att);
+                    LprRosterEntryAttributeEntity attEntity = new LprRosterEntryAttributeEntity(att, this);
                     this.getAttributes().add(attEntity);
                 }
             }

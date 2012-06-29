@@ -271,10 +271,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
 
 	public void addAttribute(String key, String value) {
 		
-		CheckAttributeEntity att;
-		this.attributes.add(att = new CheckAttributeEntity(key, value));
-		
-		att.setOwner(this);
+		this.attributes.add(new CheckAttributeEntity(new AttributeInfo(key, value), this));
 		
 		
 	}

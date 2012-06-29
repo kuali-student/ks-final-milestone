@@ -84,7 +84,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
-                LprRosterAttributeEntity attEntity = new LprRosterAttributeEntity(att);
+                LprRosterAttributeEntity attEntity = new LprRosterAttributeEntity(att, this);
                 this.getAttributes().add(attEntity);
             }
         }

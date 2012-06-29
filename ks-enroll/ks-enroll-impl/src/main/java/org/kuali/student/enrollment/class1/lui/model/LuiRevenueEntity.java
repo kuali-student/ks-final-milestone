@@ -45,7 +45,7 @@ public class LuiRevenueEntity extends MetaEntity implements AttributeOwner<LuiRe
         this.setAttributes(new HashSet<LuiRevenueAttributeEntity>());
         if (null != revenue.getAttributes()) {
             for (Attribute att : revenue.getAttributes()) {
-                LuiRevenueAttributeEntity attEntity = new LuiRevenueAttributeEntity(att);
+                LuiRevenueAttributeEntity attEntity = new LuiRevenueAttributeEntity(att, this);
                 this.getAttributes().add(attEntity);
             }
         }

@@ -57,7 +57,7 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
         this.setExpirationDate(atpAtpRelation.getExpirationDate());
         this.setAttributes(new HashSet<AtpAtpRelationAttributeEntity>());
         for (Attribute att : atpAtpRelation.getAttributes()) {
-            this.getAttributes().add(new AtpAtpRelationAttributeEntity(att));
+            this.getAttributes().add(new AtpAtpRelationAttributeEntity(att, this));
         }
     }
 

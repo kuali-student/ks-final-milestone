@@ -12,27 +12,13 @@ import javax.persistence.Table;
 @Table(name = "KSEN_LRC_RES_SCALE_ATTR")
 public class ResultScaleAttributeEntity extends BaseAttributeEntity<ResultScaleEntity> {
 
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private ResultScaleEntity owner;
+	public ResultScaleAttributeEntity() {
+		super();
+	}
 
-    public ResultScaleAttributeEntity() {}
+	public ResultScaleAttributeEntity(Attribute att, ResultScaleEntity owner) {
+		super(att, owner);
+	}
 
-    public ResultScaleAttributeEntity(String key, String value) {
-        super(key, value);
-    }
-
-    public ResultScaleAttributeEntity(Attribute att) {
-        super(att);
-    }
-
-    @Override
-    public void setOwner(ResultScaleEntity owner) {
-        this.owner = owner;
-    }
-
-    @Override
-    public ResultScaleEntity getOwner() {
-        return owner;
-    }
+   
 }

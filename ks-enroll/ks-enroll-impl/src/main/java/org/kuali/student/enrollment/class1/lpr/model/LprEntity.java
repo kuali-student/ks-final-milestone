@@ -91,10 +91,8 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
 		
 		for (Attribute attr : dto.getAttributes()) {
 
-			LprAttributeEntity lprAttr;
-			this.attributes.add(lprAttr = new LprAttributeEntity(attr.getKey(), attr.getValue()));
+			this.attributes.add(new LprAttributeEntity(attr, this));
 		
-			lprAttr.setOwner(this);
 		}
 
 		this.resultValueGroups.clear();

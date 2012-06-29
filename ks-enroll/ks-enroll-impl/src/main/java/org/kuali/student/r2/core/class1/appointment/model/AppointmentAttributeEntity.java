@@ -32,30 +32,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "KSEN_APPT_ATTR")
 public class AppointmentAttributeEntity extends BaseAttributeEntity<AppointmentEntity> {
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private AppointmentEntity owner;
 
     public AppointmentAttributeEntity() {
     }
 
-    public AppointmentAttributeEntity(String key, String value) {
-        super(key, value);
-    }
+	public AppointmentAttributeEntity(Attribute att, AppointmentEntity owner) {
+		super(att, owner);
+	}
 
-    public AppointmentAttributeEntity(Attribute att, AppointmentEntity owner) {
-        super(att);
-        setOwner(owner);
-    }
-
-    @Override
-    public void setOwner(AppointmentEntity owner) {
-        this.owner = owner;
-
-    }
-
-    @Override
-    public AppointmentEntity getOwner() {
-        return owner;
-    }
+    
 }

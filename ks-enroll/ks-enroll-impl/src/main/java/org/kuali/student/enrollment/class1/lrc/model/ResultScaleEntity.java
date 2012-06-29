@@ -83,7 +83,7 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
         this.setAttributes(new HashSet<ResultScaleAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
-                ResultScaleAttributeEntity attEntity = new ResultScaleAttributeEntity(att);
+                ResultScaleAttributeEntity attEntity = new ResultScaleAttributeEntity(att, this);
                 this.getAttributes().add(attEntity);
             }
         }

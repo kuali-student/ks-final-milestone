@@ -59,7 +59,7 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
         this.setAttributes(new HashSet<LuiIdentifierAttributeEntity>());
         //TODO This will cause all sorts of leftovers and duplicate data
         for (Attribute att : luiIdentifier.getAttributes()) {
-            LuiIdentifierAttributeEntity attEntity = new LuiIdentifierAttributeEntity(att);
+            LuiIdentifierAttributeEntity attEntity = new LuiIdentifierAttributeEntity(att, this);
             this.getAttributes().add(attEntity);
         }
     }

@@ -11,30 +11,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "KSEN_HOLD_ATTR")
 public class HoldAttributeEntity extends BaseAttributeEntity<HoldEntity> {
+
+	public HoldAttributeEntity() {
+		super();
+	}
+
+	public HoldAttributeEntity(Attribute att, HoldEntity owner) {
+		super(att, owner);
+	}
     
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private HoldEntity owner;
-
-    public HoldAttributeEntity () {
-
-    }
-    
-    public HoldAttributeEntity(String key, String value) {
-        super(key, value);
-    }
-
-    public HoldAttributeEntity(Attribute att) {
-        super(att);
-    }
-
-    @Override
-    public void setOwner(HoldEntity owner) {
-        this.owner = owner;
-    }
-
-    @Override
-    public HoldEntity getOwner() {
-        return owner;
-    }
+   
 }

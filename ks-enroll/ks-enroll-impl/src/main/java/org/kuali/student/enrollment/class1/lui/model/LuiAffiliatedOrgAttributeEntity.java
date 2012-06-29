@@ -11,29 +11,15 @@ import org.kuali.student.r2.common.infc.Attribute;
 @Entity
 @Table(name = "KSEN_LUI_AFFIL_ORG_ATTR")
 public class LuiAffiliatedOrgAttributeEntity extends BaseAttributeEntity<LuiAffiliatedOrgEntity> {
+
+	public LuiAffiliatedOrgAttributeEntity() {
+		super();
+	}
+
+	public LuiAffiliatedOrgAttributeEntity(Attribute att,
+			LuiAffiliatedOrgEntity owner) {
+		super(att, owner);
+	}
     
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private LuiAffiliatedOrgEntity owner;
-
-    public LuiAffiliatedOrgAttributeEntity () {
-    }
     
-    public LuiAffiliatedOrgAttributeEntity(String key, String value) {
-        super(key, value);
-    }
-
-    public LuiAffiliatedOrgAttributeEntity(Attribute att) {
-        super(att);
-    }
-
-    @Override
-    public void setOwner(LuiAffiliatedOrgEntity owner) {
-        this.owner = owner;
-    }
-
-    @Override
-    public LuiAffiliatedOrgEntity getOwner() {
-        return owner;
-    }
 }

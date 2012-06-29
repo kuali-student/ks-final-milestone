@@ -87,7 +87,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
         this.setAttributes(new HashSet<ResultValuesGroupAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
-                ResultValuesGroupAttributeEntity attEntity = new ResultValuesGroupAttributeEntity(att);
+                ResultValuesGroupAttributeEntity attEntity = new ResultValuesGroupAttributeEntity(att, this);
                 this.getAttributes().add(attEntity);
             }
         }

@@ -110,9 +110,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
          
          for (Attribute attr : lprTransaction.getAttributes()) {
 			
-        	 LprTransactionAttributeEntity lprAttr;
-			this.attributes.add(lprAttr = new LprTransactionAttributeEntity(attr));
-			lprAttr.setOwner(this);
+			this.attributes.add(new LprTransactionAttributeEntity(attr, this));
          }
 
          this.lprTransactionItems.clear();

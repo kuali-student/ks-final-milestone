@@ -93,7 +93,7 @@ public class LifecycleEntity extends MetaEntity implements AttributeOwner<Lifecy
         }
         this.setAttributes(new HashSet<LifecycleAttributeEntity>());
         for (Attribute att : lifecycle.getAttributes()) {
-            LifecycleAttributeEntity attEntity = new LifecycleAttributeEntity(att);
+            LifecycleAttributeEntity attEntity = new LifecycleAttributeEntity(att, this);
             this.getAttributes().add(attEntity);
         }
     }

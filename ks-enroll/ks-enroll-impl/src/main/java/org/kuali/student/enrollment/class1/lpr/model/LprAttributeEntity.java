@@ -23,50 +23,14 @@ import org.kuali.student.r2.common.infc.Attribute;
 @Table(name = "KSEN_LPR_ATTR")
 public class LprAttributeEntity extends BaseAttributeEntity<LprEntity> {
 
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private LprEntity owner;
-
-    public LprAttributeEntity() {}
-
-    public LprAttributeEntity(String key, String value) {
-        super(key, value);
-    }
-
-    public LprAttributeEntity(Attribute att) {
-        super(att);
-    }
-
-    @Override
-    public void setOwner(LprEntity owner) {
-        this.owner = owner;
-    }
-
-    @Override
-    public LprEntity getOwner() {
-        return owner;
-    }
-    
-    public void fromDto (Attribute att) {
-    	
-    	setKey(att.getKey());
-    	setValue(att.getValue());
-    }
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("LprAttributeEntity [owner=");
-		builder.append(owner);
-		builder.append(", id=");
-		builder.append(getId());
-		builder.append(", key=");
-		builder.append(getKey());
-		builder.append(", value=");
-		builder.append(getValue());
-		builder.append("]");
-		return builder.toString();
+	public LprAttributeEntity() {
+		super();
 	}
-    
+
+	public LprAttributeEntity(Attribute att, LprEntity owner) {
+		super(att, owner);
+	}
+
+   
     
 }

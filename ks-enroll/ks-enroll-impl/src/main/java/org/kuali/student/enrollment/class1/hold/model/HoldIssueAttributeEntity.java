@@ -11,30 +11,14 @@ import org.kuali.student.r2.common.infc.Attribute;
 @Entity
 @Table(name = "KSEN_HOLD_ISSUE_ATTR")
 public class HoldIssueAttributeEntity extends BaseAttributeEntity<HoldIssueEntity> {
+
+	public HoldIssueAttributeEntity() {
+		super();
+	}
+
+	public HoldIssueAttributeEntity(Attribute att, HoldIssueEntity owner) {
+		super(att, owner);
+	}
     
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private HoldIssueEntity owner;
-
-    public HoldIssueAttributeEntity() {
-
-    }
     
-    public HoldIssueAttributeEntity(String key, String value) {
-        super(key, value);
-    }
-
-    public HoldIssueAttributeEntity(Attribute att) {
-        super(att);
-    }
-
-    @Override
-    public void setOwner(HoldIssueEntity owner) {
-        this.owner = owner;
-    }
-
-    @Override
-    public HoldIssueEntity getOwner() {
-        return owner;
-    }
 }

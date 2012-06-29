@@ -77,7 +77,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         this.setAttributes(new HashSet<ResultValueAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
-                ResultValueAttributeEntity attEntity = new ResultValueAttributeEntity(att);
+                ResultValueAttributeEntity attEntity = new ResultValueAttributeEntity(att, this);
                 this.getAttributes().add(attEntity);
             }
         }

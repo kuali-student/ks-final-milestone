@@ -142,7 +142,7 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
         this.setRank(typeTypeRel.getRank());
         this.setAttributes(new HashSet<TypeTypeRelationAttributeEntity>());
         for (Attribute att : typeTypeRel.getAttributes()) {
-            this.getAttributes().add(new TypeTypeRelationAttributeEntity(att));
+            this.getAttributes().add(new TypeTypeRelationAttributeEntity(att, this));
         }
     }
 

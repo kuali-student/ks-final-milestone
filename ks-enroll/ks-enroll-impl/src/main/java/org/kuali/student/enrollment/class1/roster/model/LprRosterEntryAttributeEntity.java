@@ -12,27 +12,14 @@ import org.kuali.student.r2.common.infc.Attribute;
 @Table(name = "KSEN_LPR_ROSTER_ENTRY_ATTR")
 public class LprRosterEntryAttributeEntity extends BaseAttributeEntity<LprRosterEntryEntity> {
 
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private LprRosterEntryEntity owner;
+	public LprRosterEntryAttributeEntity() {
+		super();
+	}
 
-    public LprRosterEntryAttributeEntity() {}
+	public LprRosterEntryAttributeEntity(Attribute att,
+			LprRosterEntryEntity owner) {
+		super(att, owner);
+	}
 
-    public LprRosterEntryAttributeEntity(String key, String value) {
-        super(key, value);
-    }
-
-    public LprRosterEntryAttributeEntity(Attribute att) {
-        super(att);
-    }
-
-    @Override
-    public void setOwner(LprRosterEntryEntity owner) {
-        this.owner = owner;
-    }
-
-    @Override
-    public LprRosterEntryEntity getOwner() {
-        return owner;
-    }
+   
 }

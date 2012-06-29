@@ -11,29 +11,14 @@ import org.kuali.student.r2.common.infc.Attribute;
 @Entity
 @Table(name = "KSEN_LUI_FEE_ATTR")
 public class LuiFeeAttributeEntity extends BaseAttributeEntity<LuiFeeEntity> {
+
+	public LuiFeeAttributeEntity() {
+		super();
+	}
+
+	public LuiFeeAttributeEntity(Attribute att, LuiFeeEntity owner) {
+		super(att, owner);
+	}
     
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private LuiFeeEntity owner;
-
-    public LuiFeeAttributeEntity () {
-    }
-    
-    public LuiFeeAttributeEntity(String key, String value) {
-        super(key, value);
-    }
-
-    public LuiFeeAttributeEntity(Attribute att) {
-        super(att);
-    }
-
-    @Override
-    public void setOwner(LuiFeeEntity owner) {
-        this.owner = owner;
-    }
-
-    @Override
-    public LuiFeeEntity getOwner() {
-        return owner;
-    }
+   
 }

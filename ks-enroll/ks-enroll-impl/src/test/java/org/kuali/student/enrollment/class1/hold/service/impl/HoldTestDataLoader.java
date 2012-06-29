@@ -85,8 +85,8 @@ public class HoldTestDataLoader {
 
     public List<AttributeInfo> createAttributes() {
         List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
-        attributes.add((new HoldIssueAttributeEntity(HoldTestConstants.TEST_KEY_2,HoldTestConstants.TEST_VALUE_2)).toDto());
-        attributes.add((new HoldIssueAttributeEntity(HoldTestConstants.TEST_KEY_2,HoldTestConstants.TEST_VALUE_2)).toDto());
+        attributes.add((new AttributeInfo(HoldTestConstants.TEST_KEY_2,HoldTestConstants.TEST_VALUE_2)));
+        attributes.add((new AttributeInfo(HoldTestConstants.TEST_KEY_2,HoldTestConstants.TEST_VALUE_2)));
         return attributes;
     }
 

@@ -40,7 +40,7 @@ public class LuiExpenditureEntity extends MetaEntity implements AttributeOwner<L
         this.setAttributes(new HashSet<LuiExpenditureAttributeEntity>());
         if (null != expenditure.getAttributes()) {
             for (Attribute att : expenditure.getAttributes()) {
-                LuiExpenditureAttributeEntity attEntity = new LuiExpenditureAttributeEntity(att);
+                LuiExpenditureAttributeEntity attEntity = new LuiExpenditureAttributeEntity(att, this);
                 this.getAttributes().add(attEntity);
             }
         }
