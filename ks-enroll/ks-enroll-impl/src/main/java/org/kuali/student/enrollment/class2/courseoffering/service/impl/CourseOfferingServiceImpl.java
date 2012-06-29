@@ -469,6 +469,59 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         CourseOfferingTransformer transformer = new CourseOfferingTransformer();
         // copy fields and update            
         transformer.courseOffering2Lui(coInfo, lui, context);
+
+        // Update lprs for offering instructors
+        List<OfferingInstructorInfo> existingLprs = ActivityOfferingTransformer.lprs2Instructors(lprService.getLprsByLui(lui.getId(), context));
+        // map existing lprs to their person id
+        Map<String, OfferingInstructorInfo> existingPersonMap = new HashMap<String, OfferingInstructorInfo>(existingLprs.size());
+        for(OfferingInstructorInfo info : existingLprs) {
+            existingPersonMap.put(info.getPersonId(), info);
+        }
+
+        List<OfferingInstructorInfo> createdInstructors = new ArrayList<OfferingInstructorInfo>();
+        List<OfferingInstructorInfo> updatedInstructors = new ArrayList<OfferingInstructorInfo>();
+
+        for (OfferingInstructorInfo instructor : coInfo.getInstructors()) {
+            // if there is no id, it's a new Lpr
+            if(instructor.getId() == null) {
+                createdInstructors.add(instructor);
+            }
+            // if the Lpr already exists, update it
+            else if (existingPersonMap.containsKey(instructor.getPersonId())) {
+                updatedInstructors.add(instructor);
+                // remove the found entry from the existing map, to build the list of existing lprs to delete
+                existingPersonMap.remove(instructor.getPersonId());
+            }
+        }
+
+        // the instructor objects remaining in the existing map should be marked for deletion,
+        // since they were not found in the current list of instructors
+        Collection<OfferingInstructorInfo> deletedInstructors = existingPersonMap.values();
+
+        // create the new lprs
+        List<LuiPersonRelationInfo> createdLprs = ActivityOfferingTransformer.instructors2Lprs(lui, createdInstructors);
+        for (LuiPersonRelationInfo lprInfo : createdLprs) {
+            try {
+                lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
+            } catch (AlreadyExistsException e) {
+                throw new OperationFailedException("Tried to create an already existing LPR", e);
+            } catch (DisabledIdentifierException e) {
+                throw new OperationFailedException("Unexpected", e);
+            }
+        }
+
+        // update existing lprs
+        List<LuiPersonRelationInfo> updatedLprs = ActivityOfferingTransformer.instructors2Lprs(lui, updatedInstructors);
+        for(LuiPersonRelationInfo lprInfo : updatedLprs) {
+            lprService.updateLpr(lprInfo.getId(), lprInfo, context);
+        }
+
+        // delete removed lprs
+        for(OfferingInstructorInfo instructorInfo : deletedInstructors) {
+            lprService.deleteLpr(instructorInfo.getId(), context);
+        }
+
+
         lui = luiService.updateLui(courseOfferingId, lui, context);
         // convert back to co and return
         CourseOfferingInfo co = new CourseOfferingInfo();
@@ -491,6 +544,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         List<String> currrentInstructors = lprService.getPersonIdsByLuiAndTypeAndState(courseOfferingId, LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY,
                 LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY, context);
+
+
 
         if (instructors != null && !instructors.isEmpty()) {
             for (OfferingInstructorInfo instructor : instructors) {
