@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SeatPoolDefinitionInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
-                "activityOfferingId", "expirationMilestoneTypeKey",
+                "expirationMilestoneTypeKey",
                 "isPercentage", "seatLimit", "processingPriority", 
                 "populationId",
                 "meta", "attributes", "_futureElements"})
@@ -42,9 +42,6 @@ public class SeatPoolDefinitionInfo
     implements SeatPoolDefinition {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private String activityOfferingId;
 
     @XmlElement    
     private String expirationMilestoneTypeKey;
@@ -83,7 +80,6 @@ public class SeatPoolDefinitionInfo
             return;
         }
         
-        this.activityOfferingId = pool.getActivityOfferingId();
         this.expirationMilestoneTypeKey = pool.getExpirationMilestoneTypeKey();
         this.isPercentage = pool.getIsPercentage();
         this.seatLimit = pool.getSeatLimit();
@@ -91,15 +87,6 @@ public class SeatPoolDefinitionInfo
         this.populationId = pool.getPopulationId();
     }
    
-        
-    @Override
-    public String getActivityOfferingId() {
-        return this.activityOfferingId;
-    }
-
-    public void setActivityOfferingId(String activityOfferingId) {
-        this.activityOfferingId = activityOfferingId;;
-    }
 
     @Override
     public String getExpirationMilestoneTypeKey() {

@@ -35,16 +35,6 @@ public interface SeatPoolDefinition
     extends IdEntity {
 
     /**
-     * Activity offering Id to which the seat pool is linked
-     * to. Activity Offering Id should be set only if the seat pool
-     * applies across all the registration group in the course
-     * offering.
-     *
-     * @name Activity Offering Id
-     */
-    public String getActivityOfferingId();
-
-    /**
      * When this seat pool definition expires. A seat pool whose state
      * is active is active once the registration period for the
      * related ActivityOffering begins. The restriction may expire

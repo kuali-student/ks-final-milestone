@@ -34,6 +34,7 @@ public interface RegistrationGroupTemplate
      * Gets the format offering Id to which this template applies.
      *
      * @name Format Offering Id
+     * @required
      */
     public String getFormatOfferingId();
 
@@ -45,7 +46,9 @@ public interface RegistrationGroupTemplate
      * activity offering Id from each and every list within the
      * activity offering combinations should be created.
      *
-     * @name Activity Offering Ids
+     * (needs an example)
+     *
+     * @name Activity Offering Templates
      */
-    public List<List<String>> getActivityOfferingIds();
+    public List<? extends ActivityOfferingTemplate> getActivityOfferingTemplates();
 }

@@ -24,10 +24,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroupTemplate;
-import org.kuali.student.enrollment.courseoffering.service.ListOfListOfStringXmlAdapter;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingTemplate;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import org.w3c.dom.Element;
@@ -38,7 +37,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationGroupTemplateInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
-                "formatOfferingId",  "activityOfferingIds",
+                "formatOfferingId",  "activityOfferingTemplates",
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationGroupTemplateInfo 
@@ -51,8 +50,7 @@ public class RegistrationGroupTemplateInfo
     private String formatOfferingId;
 
     @XmlElement
-    @XmlJavaTypeAdapter (value=ListOfListOfStringXmlAdapter.class)
-    private List<List<String>> activityOfferingIds;
+    private List<ActivityOfferingTemplateInfo> activityOfferingTemplates;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -78,10 +76,10 @@ public class RegistrationGroupTemplateInfo
         }
 
         this.formatOfferingId = template.getFormatOfferingId();
-        if (template.getActivityOfferingIds() != null) {
-            this.activityOfferingIds = new ArrayList<List<String>>(template.getActivityOfferingIds().size());
-            for (List<String> combos : template.getActivityOfferingIds()) {
-                this.activityOfferingIds.add(new ArrayList<String>(combos));
+        if (template.getActivityOfferingTemplates() != null) {
+            this.activityOfferingTemplates = new ArrayList<ActivityOfferingTemplateInfo>(template.getActivityOfferingTemplates().size());
+            for (ActivityOfferingTemplate aotemplate : template.getActivityOfferingTemplates()) {
+                this.activityOfferingTemplates.add(new ActivityOfferingTemplateInfo(aotemplate));
             }
         }
     }
@@ -96,15 +94,15 @@ public class RegistrationGroupTemplateInfo
     }
 
     @Override
-    public List<List<String>> getActivityOfferingIds() {
-        if (activityOfferingIds == null) {
-            activityOfferingIds = new ArrayList<List<String>>();
+    public List<ActivityOfferingTemplateInfo> getActivityOfferingTemplates() {
+        if (activityOfferingTemplates == null) {
+            activityOfferingTemplates = new ArrayList<ActivityOfferingTemplateInfo>();
         }
 
-        return activityOfferingIds;
+        return activityOfferingTemplates;
     }
 
-    public void setActivityOfferingIds(List<List<String>> activityOfferingids) {
-        this.activityOfferingIds = activityOfferingIds;
+    public void setActivityOfferingTemplates(List<ActivityOfferingTemplateInfo> activityOfferingTemplates) {
+        this.activityOfferingTemplates = activityOfferingTemplates;
     }
 }
