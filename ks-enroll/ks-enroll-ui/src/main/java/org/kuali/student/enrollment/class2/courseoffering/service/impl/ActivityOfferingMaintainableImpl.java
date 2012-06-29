@@ -115,6 +115,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     }
 
     private void disassembleInstructorsWrapper(List<OfferingInstructorWrapper> instructors, ActivityOfferingInfo aoInfo){
+        aoInfo.setInstructors(new ArrayList<OfferingInstructorInfo>());
         if(instructors!= null && !instructors.isEmpty()){
             for(OfferingInstructorWrapper instructor : instructors){
                 aoInfo.getInstructors().add(disassembleInstructorWrapper(instructor));
