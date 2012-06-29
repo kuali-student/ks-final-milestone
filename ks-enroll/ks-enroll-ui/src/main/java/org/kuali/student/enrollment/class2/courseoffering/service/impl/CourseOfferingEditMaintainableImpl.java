@@ -95,12 +95,8 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
             coInfo.setUnitsDeploymentOrgIds(unitDeploymentOrgIds);
 
-            // CO Info section
-            coInfo.setGradingOptionId(coEditWrapper.getCoInfo().getGradingOptionId());
-            if (!coEditWrapper.getStudentRegOptions().isEmpty()) {
-                coInfo.setStudentRegistrationOptionIds(coEditWrapper.getCoInfo().getStudentRegistrationOptionIds());
-            }
-/*            if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) &&
+            // Credit Options (also creates extra-line)
+            if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) &&
                     !coEditWrapper.getCreditOption().getMinCredits().equals("")) {
                 ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(coEditWrapper.getCreditOption().getMinCredits(),
                         LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_REMEDIAL, getContextInfo());
@@ -115,9 +111,9 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(coEditWrapper.getCreditOption().getCredits(),
                         LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_REMEDIAL, getContextInfo());
                 coInfo.setCreditOptionId(rvgInfo.getKey());
-            } */
+            }
 
-                getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, getContextInfo());
+            getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, getContextInfo());
         }   catch (Exception ex){
             throw new RuntimeException(ex);
         }
