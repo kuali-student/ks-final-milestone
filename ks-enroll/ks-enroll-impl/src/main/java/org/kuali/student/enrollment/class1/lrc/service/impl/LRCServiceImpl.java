@@ -41,15 +41,16 @@ public class LRCServiceImpl implements LRCService {
     private LrcServiceBusinessLogic lrcServiceBusinessLogic;
 
     public LrcServiceBusinessLogic getLrcServiceBusinessLogic() {
+        if(lrcServiceBusinessLogic == null){
+            LrcServiceBusinessLogicImpl impl = new LrcServiceBusinessLogicImpl();
+            impl.setLrcService(this);
+            lrcServiceBusinessLogic = impl;
+        }
         return lrcServiceBusinessLogic;
     }
 
     public void setLrcServiceBusinessLogic(LrcServiceBusinessLogic lrcServiceBusinessLogic) {
         this.lrcServiceBusinessLogic = lrcServiceBusinessLogic;
-        if (this.lrcServiceBusinessLogic instanceof LrcServiceBusinessLogic) {
-            LrcServiceBusinessLogicImpl impl = (LrcServiceBusinessLogicImpl) lrcServiceBusinessLogic;
-            impl.setLrcService(this);
-        }
     }
 
     public ResultScaleDao getResultScaleDao() {
@@ -227,7 +228,7 @@ public class LRCServiceImpl implements LRCService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        return this.lrcServiceBusinessLogic.getCreateFixedCreditResultValuesGroup(creditValue, scaleKey, context);
+        return this.getLrcServiceBusinessLogic().getCreateFixedCreditResultValuesGroup(creditValue, scaleKey, context);
     }
 
     @Override
@@ -241,7 +242,7 @@ public class LRCServiceImpl implements LRCService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        ResultValuesGroupInfo rvg = this.lrcServiceBusinessLogic.getCreateRangeCreditResultValuesGroup(creditValueMin,
+        ResultValuesGroupInfo rvg = this.getLrcServiceBusinessLogic().getCreateRangeCreditResultValuesGroup(creditValueMin,
                 creditValueMax,
                 creditValueIncrement, scaleKey, context);
         return rvg;
@@ -257,7 +258,7 @@ public class LRCServiceImpl implements LRCService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        return this.lrcServiceBusinessLogic.getCreateMultipleCreditResultValuesGroup(creditValues, scaleKey, context);
+        return this.getLrcServiceBusinessLogic().getCreateMultipleCreditResultValuesGroup(creditValues, scaleKey, context);
     }
 
     @Override
@@ -269,7 +270,7 @@ public class LRCServiceImpl implements LRCService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        return this.lrcServiceBusinessLogic.getCreateResultValueForScale(resultValue, scaleKey, context);
+        return this.getLrcServiceBusinessLogic().getCreateResultValueForScale(resultValue, scaleKey, context);
     }
 
     @Override
