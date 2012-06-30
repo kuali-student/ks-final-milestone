@@ -53,8 +53,9 @@
         <property name="page.header.lowerGroup.render" value="false"/>
         <property name="page.footer.items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Create Offering" p:performClientSideValidation="true"
-                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:id="createOfferingButton" p:actionLabel="Create Offering" p:performClientSideValidation="true"
+                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:disabled="@{!document.newMaintainableObject.dataObject.enableCreateButton}">
+                </bean>
             <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
@@ -198,6 +199,12 @@
 		<property name="propertyName" value="formatOfferingList" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="addLineActions">
+          <list>
+            <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
+                  p:actionEvent="addLine" p:onClickScript="jq('#createOfferingButton').removeAttr('disabled');"/>
+          </list>
+        </property>
 		<property name="items">
            <list>
                <bean parent="Uif-InputField" p:propertyName="formatId"

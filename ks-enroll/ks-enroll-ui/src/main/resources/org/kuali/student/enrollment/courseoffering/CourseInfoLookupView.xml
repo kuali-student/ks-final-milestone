@@ -135,7 +135,6 @@
             <list>
                 <bean parent="Uif-InputField" p:propertyName="code" />
                 <bean parent="Uif-InputField" p:propertyName="courseTitle" />
-                <bean parent="Uif-InputField" p:propertyName="subjectArea" />
                 <bean parent="Uif-InputField" p:propertyName="descr" />
             </list>
         </property>

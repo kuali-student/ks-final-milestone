@@ -113,6 +113,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             coWrapper.getExistingTermOfferings().clear();
             coWrapper.getExistingCourseOfferings().clear();
             coWrapper.setNoOfTermOfferings(0);
+            coWrapper.setEnableCreateButton(false);
         }
 
         return getUIFModelAndView(form);

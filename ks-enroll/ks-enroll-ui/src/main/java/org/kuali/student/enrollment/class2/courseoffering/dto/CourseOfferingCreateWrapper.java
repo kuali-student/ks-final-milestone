@@ -21,6 +21,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
     private boolean showTermOfferingLink;
     private boolean showCatalogLink;
     private boolean showAllSections;
+    private boolean enableCreateButton;
 
     private String addCourseOfferingSuffix;
 
@@ -39,6 +40,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
         showCatalogLink = false;
         showTermOfferingLink = true;
         showAllSections = false;
+        enableCreateButton = false;
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
         existingCourseOfferings = new ArrayList<ExistingCourseOffering>();
         existingTermOfferings = new ArrayList<ExistingCourseOffering>();
@@ -171,5 +173,14 @@ public class CourseOfferingCreateWrapper implements Serializable{
     public void setNoOfTermOfferings(int noOfTermOfferings) {
         this.noOfTermOfferings = noOfTermOfferings;
     }
+
+    public boolean isEnableCreateButton() {
+        return enableCreateButton;
+    }
+
+    public void setEnableCreateButton(boolean enableCreateButton) {
+        this.enableCreateButton = enableCreateButton;
+    }
+
 
 }
