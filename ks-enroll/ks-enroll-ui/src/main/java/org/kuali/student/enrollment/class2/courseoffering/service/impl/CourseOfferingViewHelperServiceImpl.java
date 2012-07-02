@@ -377,7 +377,8 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     public boolean performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
         CourseOfferingSetService socService = _getSocService();
         try {
-            List<String> socIds = socService.getSocIdsByTerm(sourceTermId, new ContextInfo());
+            ContextInfo context = ContextInfo.createDefaultContextInfo();
+            List<String> socIds = socService.getSocIdsByTerm(sourceTermId, context);
             SocInfo socInfo = _getUniqueMainSoc(socIds);
             if (socInfo == null) {
                 GlobalVariables.getMessageMap().putError("targetTermCode", "error.rollover.sourceTerm.noSoc");
@@ -387,7 +388,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
                 // TODO: Force rollover to run synchronously for now
                 options.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
                 options.add(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY);
-                SocInfo result = socService.rolloverSoc(sourceSocId, targetTermId, options, new ContextInfo());
+                SocInfo result = socService.rolloverSoc(sourceSocId, targetTermId, options, context);
                 return true;
             }
         } catch (Exception e) {
