@@ -26,6 +26,7 @@ import java.io.Serializable;
 public class SocRolloverResultItemWrapper implements Serializable {
     private String course;
     private String state;
+    private String stateName;
     private String message;
 
     public String getCourse() {
@@ -50,5 +51,13 @@ public class SocRolloverResultItemWrapper implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 }

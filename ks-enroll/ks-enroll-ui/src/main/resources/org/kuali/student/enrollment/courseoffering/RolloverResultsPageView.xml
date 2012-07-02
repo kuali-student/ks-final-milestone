@@ -144,7 +144,7 @@
                                        <list>
 
                                                  <bean parent="Uif-DataField" p:propertyName="course" p:label="Course"/>
-                                                 <bean parent="Uif-DataField" p:propertyName="state" p:label="Reason"/>
+                                                 <bean parent="Uif-DataField" p:propertyName="stateName" p:label="Reason"/>
                                                  <bean parent="Uif-DataField" p:propertyName="message" p:label="Details"/>
                                        </list>
                                    </property>

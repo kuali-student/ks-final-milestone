@@ -34,8 +34,14 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemI
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.StateServiceConstants;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -64,6 +70,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     private CourseOfferingViewHelperService viewHelperService;
     private CourseOfferingSetService socService;
     private CourseOfferingService coService;
+    private TypeService typeService;
+    private StateService stateService;
 
     final Logger logger = Logger.getLogger(CourseOfferingRolloverController.class);
     public static final String ROLLOVER_DETAILS_PAGEID = "selectTermForRolloverDetails";
@@ -445,6 +453,14 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                                 socRolloverResultItemWrapper.setMessage(socRolloverResultItemInfo.getMessage().getPlain());
                             }
                             socRolloverResultItemWrapper.setState(socRolloverResultItemInfo.getStateKey());
+                            try{
+                                StateInfo stateInfo = this._getStateService().getState(socRolloverResultItemInfo.getStateKey(), ContextUtils.getContextInfo());
+                                if(stateInfo != null){
+                                    socRolloverResultItemWrapper.setStateName((stateInfo.getName() != null) ? stateInfo.getName():socRolloverResultItemInfo.getStateKey());
+                                }
+                            }catch (DoesNotExistException ex){
+                                socRolloverResultItemWrapper.setStateName(socRolloverResultItemInfo.getStateKey());
+                            }
                             form.getSocRolloverResultItems().add(socRolloverResultItemWrapper);
                         }
                     }
@@ -530,5 +546,21 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                     CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return coService;
+    }
+
+    private TypeService _getTypeService() {
+        if (typeService == null) {
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE,
+                    TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return typeService;
+    }
+
+    private StateService _getStateService() {
+        if (stateService == null) {
+            stateService = (StateService) GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE,
+                    StateServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return stateService;
     }
 }
