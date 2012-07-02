@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import javax.jws.WebService;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao;
 import org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao;
 import org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao;
@@ -41,11 +42,6 @@ public class LRCServiceImpl implements LRCService {
     private LrcServiceBusinessLogic lrcServiceBusinessLogic;
 
     public LrcServiceBusinessLogic getLrcServiceBusinessLogic() {
-        if(lrcServiceBusinessLogic == null){
-            LrcServiceBusinessLogicImpl impl = new LrcServiceBusinessLogicImpl();
-            impl.setLrcService(this);
-            lrcServiceBusinessLogic = impl;
-        }
         return lrcServiceBusinessLogic;
     }
 

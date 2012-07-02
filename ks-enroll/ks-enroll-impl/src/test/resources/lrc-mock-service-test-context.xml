@@ -14,10 +14,12 @@
 
     <context:annotation-config />
 
-    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceBusinessLogicImpl" />
+    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceBusinessLogicImpl" >
+        <property name="lrcService" ref="lrcService"/>
+    </bean>
         
     <bean id="lrcService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceMockImpl" >
         <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
     </bean>
-    
+
 </beans>

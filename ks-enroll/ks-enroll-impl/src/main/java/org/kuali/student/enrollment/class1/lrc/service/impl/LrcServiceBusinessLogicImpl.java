@@ -7,6 +7,8 @@ package org.kuali.student.enrollment.class1.lrc.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -15,12 +17,15 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.lrc.service.LrcServiceBusinessLogic;
+
+import javax.xml.namespace.QName;
 
 /**
  *
@@ -31,6 +36,10 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
     private LRCService lrcService;
 
     public LRCService getLrcService() {
+        if(lrcService == null){
+            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,
+                    LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
         return lrcService;
     }
 
@@ -108,7 +117,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         String rvgKey = calcFixedCreditRvgKey(creditValue, scaleKey, contextInfo);
         String valueKey = this.calcCreditValueKey(creditValue, scaleKey, contextInfo);
         try {
-            ResultValuesGroupInfo rvg = lrcService.getResultValuesGroup(rvgKey, contextInfo);
+            ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(rvgKey, contextInfo);
             if (!rvg.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                 throw new OperationFailedException("Calculated key does not point to a FIXED RVG: " + rvgKey);
             }
@@ -129,7 +138,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
 //      find/create value
         ResultValueInfo value = null;
         try {
-            value = lrcService.getResultValue(valueKey, contextInfo);
+            value = getLrcService().getResultValue(valueKey, contextInfo);
         } catch (DoesNotExistException ex) {
             value = new ResultValueInfo();
             value.setKey(valueKey);
@@ -161,7 +170,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         rvg.setResultScaleKey(scaleKey);
         rvg.getResultValueKeys().add(valueKey);
         try {
-            rvg = lrcService.createResultValuesGroup(rvg.getResultScaleKey(), rvg.getTypeKey(), rvg, contextInfo);
+            rvg = getLrcService().createResultValuesGroup(rvg.getResultScaleKey(), rvg.getTypeKey(), rvg, contextInfo);
         } catch (AlreadyExistsException ex) {
             throw new OperationFailedException("unexpected", ex);
         } catch (DataValidationErrorException ex) {
@@ -238,7 +247,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
             PermissionDeniedException {
         String rvgKey = calcRangeCreditRvgKey(creditValueMin, creditValueMax, creditValueIncrement, scaleKey, contextInfo);
         try {
-            ResultValuesGroupInfo rvg = lrcService.getResultValuesGroup(rvgKey, contextInfo);
+            ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(rvgKey, contextInfo);
             if (!rvg.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                 throw new OperationFailedException("Calculated key does not point to a RANGE RVG: " + rvgKey);
             }
@@ -279,7 +288,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         range.setIncrement(creditValueIncrement);
         rvg.setResultValueRange(range);
         try {
-            rvg = lrcService.createResultValuesGroup(rvg.getResultScaleKey(), rvg.getTypeKey(), rvg, contextInfo);
+            rvg = getLrcService().createResultValuesGroup(rvg.getResultScaleKey(), rvg.getTypeKey(), rvg, contextInfo);
         } catch (AlreadyExistsException ex) {
             throw new OperationFailedException("unexpected", ex);
         } catch (DataValidationErrorException ex) {
@@ -372,7 +381,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         String rvgKey = calcMultipleCreditRvgKey(creditValues, scaleKey, contextInfo);
         List<String> valueKeys = this.calcMultipleCreditValueKey(creditValues, scaleKey, contextInfo);
         try {
-            ResultValuesGroupInfo rvg = lrcService.getResultValuesGroup(rvgKey, contextInfo);
+            ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(rvgKey, contextInfo);
             if (!rvg.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                 throw new OperationFailedException("Calculated key does not point to a MULTIPLE RVG: " + rvgKey);
             }
@@ -400,7 +409,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
             i++;
             ResultValueInfo value = null;
             try {
-                value = lrcService.getResultValue(valueKey, contextInfo);
+                value = getLrcService().getResultValue(valueKey, contextInfo);
             } catch (DoesNotExistException ex) {
                 value = new ResultValueInfo();
                 value.setKey(valueKey);
@@ -412,7 +421,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
                 value.setResultScaleKey(scaleKey);
                 value.setEffectiveDate(new Date());
                 try {
-                    value = lrcService.createResultValue(value.getResultScaleKey(), value.getTypeKey(), value, contextInfo);
+                    value = getLrcService().createResultValue(value.getResultScaleKey(), value.getTypeKey(), value, contextInfo);
                 } catch (AlreadyExistsException ex1) {
                     throw new OperationFailedException("unexpected", ex);
                 } catch (DataValidationErrorException ex1) {
@@ -433,7 +442,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         rvg.setResultScaleKey(scaleKey);
         rvg.getResultValueKeys().addAll(valueKeys);
         try {
-            rvg = lrcService.createResultValuesGroup(rvg.getResultScaleKey(), rvg.getTypeKey(), rvg, contextInfo);
+            rvg = getLrcService().createResultValuesGroup(rvg.getResultScaleKey(), rvg.getTypeKey(), rvg, contextInfo);
         } catch (AlreadyExistsException ex) {
             throw new OperationFailedException("unexpected", ex);
         } catch (DataValidationErrorException ex) {
@@ -469,7 +478,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
             PermissionDeniedException {
         String resultValueKey = this.calcResultValueKey(resultValue, scaleKey, contextInfo);
         try {
-            ResultValueInfo info = this.lrcService.getResultValue(resultValueKey, contextInfo);
+            ResultValueInfo info = this.getLrcService().getResultValue(resultValueKey, contextInfo);
             return info;
         } catch (DoesNotExistException ex) {
             // ok so we create it
@@ -490,7 +499,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         value.setResultScaleKey(scaleKey);
         value.setEffectiveDate(new Date());
         try {
-            value = lrcService.createResultValue(value.getResultScaleKey(), value.getTypeKey(), value, contextInfo);
+            value = getLrcService().createResultValue(value.getResultScaleKey(), value.getTypeKey(), value, contextInfo);
         } catch (AlreadyExistsException ex) {
             throw new OperationFailedException("unexpected", ex);
         } catch (DataValidationErrorException ex) {

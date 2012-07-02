@@ -89,6 +89,8 @@
         <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
     </bean>
 
+
+
     <bean id="resulsScaleDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao">
         <property name="em" ref="entityManager"/>
     </bean>
@@ -101,7 +103,9 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceBusinessLogicImpl" />
+    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceBusinessLogicImpl" >
+        <property name="lrcService" ref="lrcService"/>
+    </bean>
 
     <tx:annotation-driven transaction-manager="JtaTxManager"
                           order="1000" />

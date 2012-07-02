@@ -26,6 +26,7 @@ import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 public class LrcServiceConstants {
 
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "lrc";
+    public static final String SERVICE_NAME_LOCAL_PART = "LrcService";
     public static final String REF_OBJECT_URI_RESULT_VALUE = NAMESPACE + "/" + ResultValueInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_RESULT_SCALE = NAMESPACE + "/" + ResultScaleInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_RESULT_VALUES_GROUP = NAMESPACE + "/" + ResultValuesGroup.class.getSimpleName();
@@ -891,4 +892,5 @@ public class LrcServiceConstants {
     public static final String RESULT_GROUPS_STATE_DRAFT = "kuali.result.values.group.state.draft";
     public static final String RESULT_GROUPS_STATE_APPROVED = "kuali.result.values.group.state.approved";
     public static final String RESULT_GROUPS_STATE_RETIRED = "kuali.result.values.group.state.retired";
+
 }
