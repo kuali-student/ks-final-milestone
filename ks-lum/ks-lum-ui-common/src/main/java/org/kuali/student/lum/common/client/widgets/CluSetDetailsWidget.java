@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -361,7 +362,9 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
         List<CluInformation> items = this.cluSetInformation.getClus();
         ArrayList<ExportElement> subItems = new ArrayList<ExportElement>();
         for (int i = 0; i < items.size(); i++) {
-            ExportElement subelement = new ExportElement(parent.getViewName(), parent.getSectionName());
+            ExportElement subelement = GWT.create(ExportElement.class);
+            subelement.setViewName(parent.getViewName());
+            subelement.setSectionName(parent.getSectionName());
             subelement.setFieldValue("<b>" + items.get(i).getCode() + " " + items.get(i).getTitle() + "</b>");
             subelement.setFieldValue2(items.get(i).getCredits() + " credits");
             subelement.setPrintType(ExportElement.PROPOSAL);

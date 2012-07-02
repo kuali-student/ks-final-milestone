@@ -8,6 +8,8 @@
 
 package org.kuali.student.common.ui.client.widgets.dialog;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -26,16 +28,27 @@ import com.google.gwt.core.client.GWT;
 
 public class ReportExportDialog {
 
-    private VerticalFlowPanel layout = new VerticalFlowPanel();
-    private KSLightBox dialog;
+    protected VerticalFlowPanel layout = new VerticalFlowPanel();
+    protected KSLightBox dialog;
 
-    private KSRadioButtonListImpl selectItemWidget = GWT.create(KSRadioButtonListImpl.class);
+    protected KSRadioButtonListImpl selectItemWidget = GWT.create(KSRadioButtonListImpl.class);
 
-    private ActionCancelGroup actionButtons = new ActionCancelGroup(ButtonEnumerations.ExportCancelEnum.EXPORT, ButtonEnumerations.ExportCancelEnum.CANCEL);
+    protected ActionCancelGroup actionButtons = new ActionCancelGroup(ButtonEnumerations.ExportCancelEnum.EXPORT, ButtonEnumerations.ExportCancelEnum.CANCEL);
 
+    protected List<String> exportFiles=null;
+    
     public ReportExportDialog() {
-
-        dialog = new KSLightBox();
+        init();
+    }
+    
+    public ReportExportDialog(List<String> fileTypes){
+    	exportFiles=fileTypes;
+    	init();   	
+    }
+    
+    public void init()
+    {
+    	dialog = new KSLightBox();
         layout.addStyleName("KS-Advanced-Search-Buttons");
         SectionTitle sectionTitle = SectionTitle.generateH2Title(this.getMessage("exportTitle"));
         //layout.add(sectionTitle);
@@ -48,20 +61,15 @@ public class ReportExportDialog {
         // Add radiobutton to layout panel.
         HorizontalBlockFlowPanel radioPanel = new HorizontalBlockFlowPanel();
         radioPanel.setHeight("90px");
-        SimpleListItems formatList = new SimpleListItems();
-        formatList.addItem(ExportUtils.PDF, this.getMessage("pdfFormat"));
-        formatList.addItem(ExportUtils.DOC, this.getMessage("docFormat"));
-        selectItemWidget.setListItems(formatList);
+        selectItemWidget.setListItems(addFileFormatButtons());
         selectItemWidget.selectItem(ExportUtils.PDF);
         radioPanel.add(selectItemWidget);
         layout.add(radioPanel);
 
         // Add buttons to layout panel.
         this.addCancelCompleteCallback();
-        layout.add(actionButtons);
-
-        dialog.setMaxHeight(200);
-        dialog.setMaxWidth(250);
+        dialog.addButtonGroup(actionButtons);
+        dialog.setSize(KSLightBox.Size.MEDIUM); 
     }
 
     public void show() {
@@ -100,8 +108,33 @@ public class ReportExportDialog {
         });
     }
 
-    private String getMessage(final String msgKey) {
+    protected String getMessage(final String msgKey) {
         return Application.getApplicationContext().getMessage(msgKey);
     }
-
+    
+    protected SimpleListItems addFileFormatButtons()
+    {
+    	SimpleListItems formatList = new SimpleListItems();
+    	if(exportFiles==null||exportFiles.isEmpty())
+    	{
+    		formatList.addItem(ExportUtils.PDF, this.getMessage("pdfFormat"));
+            formatList.addItem(ExportUtils.DOC, this.getMessage("docFormat"));
+    	}
+    	else{
+    		for(String str:exportFiles)
+    		{
+    			if(str==ExportUtils.DOC){
+    				formatList.addItem(ExportUtils.DOC, this.getMessage("docFormat"));
+    			}
+    			else if(str==ExportUtils.PDF){
+    				formatList.addItem(ExportUtils.PDF, this.getMessage("pdfFormat"));
+    			}
+    			else if(str==ExportUtils.XLS){
+    				formatList.addItem(ExportUtils.XLS, this.getMessage("xlsFormat"));
+    			}
+    		}
+    	}
+    	
+        return formatList;
+    }
 }

@@ -1,5 +1,8 @@
 package org.kuali.student.common.ui.client.widgets.headers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -27,35 +30,37 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class KSDocumentHeader extends Composite {
 
-    private static KSDocumentHeaderUiBinder uiBinder = GWT.create(KSDocumentHeaderUiBinder.class);
+    protected static KSDocumentHeaderUiBinder uiBinder = GWT.create(KSDocumentHeaderUiBinder.class);
 
-    private ReportExportDialog exportDialog = null;
+    protected ReportExportDialog exportDialog = null;
     
-    private PopupPanel hoverPopup = new PopupPanel();
+    protected PopupPanel hoverPopup = new PopupPanel();
     
-    private PopupPanel hoverPopup1 = new PopupPanel();
+    protected PopupPanel hoverPopup1 = new PopupPanel();
 
     interface KSDocumentHeaderUiBinder extends UiBinder<Widget, KSDocumentHeader> {}
 
     @UiField
-    HTML headerHTML;
+    protected HTML headerHTML;
 
     @UiField
-    HTML infoLabel;
+    protected HTML infoLabel;
 
     @UiField
-    SpanPanel widgetPanel;
+    protected SpanPanel widgetPanel;
 
     @UiField
-    Image printImage;
+    protected Image printImage;
 
     @UiField
-    Image exportImage;
+    protected Image exportImage;
     
-    private Widget printContent = null;  // Widget to be printed. 
+    protected Widget printContent = null;  // Widget to be printed. 
 
-    private boolean hasSeparator = true;
+    protected boolean hasSeparator = true;
 
+    List<String> exportTypes=new ArrayList<String>();
+    
     public KSDocumentHeader() {
         initWidget(uiBinder.createAndBindUi(this));
         setupPrint();
@@ -67,6 +72,18 @@ public class KSDocumentHeader extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
         setupPrint();
         setupExportPrint();
+    }
+    public KSDocumentHeader(List<String> fileTypes)
+    {
+    	initWidget(uiBinder.createAndBindUi(this));
+        setExportTypes(fileTypes);
+    	setupPrint();
+        setupExportPrint();
+    }
+    
+    public void setExportTypes(List<String> fileTypes)
+    {
+    	exportTypes=fileTypes;
     }
     
     /**
@@ -89,7 +106,7 @@ public class KSDocumentHeader extends Composite {
     	this.printContent = pContent;
     }
 
-    private void setupPrint() {
+    protected void setupPrint() {
     	
     	// Default to the old way of printing the entire page
     	if(this.printContent == null){
@@ -123,8 +140,13 @@ public class KSDocumentHeader extends Composite {
         });
     }
 
-    private void setupExportPrint() {
-        exportDialog = new ReportExportDialog();
+    protected void setupExportPrint() {
+    	if(exportTypes==null||exportTypes.isEmpty()){
+            exportDialog = new ReportExportDialog();
+    	}
+    	else{
+    		exportDialog = new ReportExportDialog(exportTypes);   
+    	}
         exportImage.setVisible(false);
         hoverPopup1.add(new HTMLPanel("Export Summary to File"));
 		hoverPopup1.setStyleName("ks-help-popup");

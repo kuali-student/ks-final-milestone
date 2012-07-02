@@ -13,6 +13,8 @@ import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.lu.ui.dependency.client.views.DependencyAnalysisView;
 
+import com.google.gwt.core.client.GWT;
+
 public class DependencyAnalysisController extends BasicLayout implements RequiresAuthorization{
 
     public enum DependencyViews {
@@ -47,7 +49,7 @@ public class DependencyAnalysisController extends BasicLayout implements Require
     @Override
     public List<ExportElement> getExportElementsFromView() {
         DependencyAnalysisView view = (DependencyAnalysisView) this.getCurrentView();
-        ExportElement element = new ExportElement();
+        ExportElement element = GWT.create(ExportElement.class);
         element.setViewName(view.getName());
         element.setSectionName("");
         return view.getDepResultPanel().getExportElementSubset(element);
