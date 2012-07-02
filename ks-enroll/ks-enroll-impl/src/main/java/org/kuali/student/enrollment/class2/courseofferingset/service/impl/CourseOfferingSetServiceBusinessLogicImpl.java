@@ -142,6 +142,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
             foundTargetSoc = false;
             targetSoc.setId(null);
             targetSoc.setTermId(targetTermId);
+            targetSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
             try {
                 targetSoc = this._getSocService().createSoc(targetSoc.getTermId(), targetSoc.getTypeKey(), targetSoc, context);
             } catch (DataValidationErrorException ex) {
@@ -149,9 +150,21 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
             } catch (ReadOnlyException ex) {
                 throw new OperationFailedException("Unexpected", ex);
             }
+        } else { // There is already a target SOC, so re-use it?
+            // TODO: if foundTargetSoc is true, should we do more cleanup?
+            targetSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY); // Make it draft in the new term
+            try {
+                // Persist the draft state
+                this._getSocService().updateSoc(targetSoc.getId(), targetSoc, context);
+            } catch (DataValidationErrorException ex) {
+                throw new OperationFailedException("Unexpected", ex);
+            } catch (ReadOnlyException ex) {
+                throw new OperationFailedException("Unexpected", ex);
+            } catch (VersionMismatchException ex) {
+                throw new OperationFailedException("Unexpected", ex);
+            }
         }
-        targetSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY); // Make it draft in the new term
-        // TODO: if foundTargetSoc is true, should we do more cleanup?
+
 
         // then build the result so we can track stuff
         SocRolloverResultInfo result = new SocRolloverResultInfo();

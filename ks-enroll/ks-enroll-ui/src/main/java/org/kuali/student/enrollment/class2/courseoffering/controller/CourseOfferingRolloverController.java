@@ -256,7 +256,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             form.setRolloverTargetTermCode(form.getTargetTermCode());
             showRolloverResults(form, result, request, response); // TODO: Factor out a common method?
             // Switch to rollover details page
-            return start(form,result,request,response);
+            return start(form, result, request, response);
             //return getUIFModelAndView(form, ROLLOVER_DETAILS_PAGEID);
         } else{
             // Had problems, stay in the same screen
