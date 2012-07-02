@@ -99,17 +99,17 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) &&
                     !coEditWrapper.getCreditOption().getMinCredits().equals("")) {
                 ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(coEditWrapper.getCreditOption().getMinCredits(),
-                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_REMEDIAL, getContextInfo());
+                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, getContextInfo());
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             } else if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE) &&
                     !coEditWrapper.getCreditOption().getMinCredits().equals("") && !coEditWrapper.getCreditOption().getMaxCredits().equals("")) {
                 ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(coEditWrapper.getCreditOption().getMinCredits(),
-                        coEditWrapper.getCreditOption().getMaxCredits(), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_REMEDIAL, getContextInfo());
+                        coEditWrapper.getCreditOption().getMaxCredits(), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, getContextInfo());
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             } else if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) &&
                     !coEditWrapper.getCreditOption().getCredits().isEmpty()) {
                 ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(coEditWrapper.getCreditOption().getCredits(),
-                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_REMEDIAL, getContextInfo());
+                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, getContextInfo());
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             }
 
