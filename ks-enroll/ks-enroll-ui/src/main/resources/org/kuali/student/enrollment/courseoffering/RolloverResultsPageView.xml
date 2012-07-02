@@ -135,6 +135,11 @@
                                      <property name="layoutManager.renderSequenceField" value="false" />
                                      <property name="layoutManager.applyDefaultCellWidths" value="true" />
                                      <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                     <property name="layoutManager.richTable.templateOptions">
+                                         <map merge="true">
+                                             <entry key="iDisplayLength" value="20"/>
+                                         </map>
+                                     </property>
                                      <property name="items">
                                        <list>
 
