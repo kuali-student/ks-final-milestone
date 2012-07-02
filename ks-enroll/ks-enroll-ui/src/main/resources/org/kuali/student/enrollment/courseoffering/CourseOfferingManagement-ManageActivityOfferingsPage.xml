@@ -125,6 +125,7 @@
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
                 <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+                <entry key="bPaginate" value="false"/>
             </map>
         </property>
         <property name="items">
