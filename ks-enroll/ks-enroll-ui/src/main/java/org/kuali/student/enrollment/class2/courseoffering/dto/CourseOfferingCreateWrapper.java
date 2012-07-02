@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
@@ -32,7 +31,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     private TermInfo term;
 
-    private List<FormatOfferingInfo> formatOfferingList;
+    private List<FormatOfferingWrapper> formatOfferingList;
     private List<ExistingCourseOffering> existingCourseOfferings;
     private List<ExistingCourseOffering> existingTermOfferings;
 
@@ -41,7 +40,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
         showTermOfferingLink = true;
         showAllSections = false;
         enableCreateButton = false;
-        formatOfferingList = new ArrayList<FormatOfferingInfo>();
+        formatOfferingList = new ArrayList<FormatOfferingWrapper>();
         existingCourseOfferings = new ArrayList<ExistingCourseOffering>();
         existingTermOfferings = new ArrayList<ExistingCourseOffering>();
     }
@@ -126,14 +125,6 @@ public class CourseOfferingCreateWrapper implements Serializable{
         this.addCourseOfferingSuffix = addCourseOfferingSuffix;
     }
 
-    public List<FormatOfferingInfo> getFormatOfferingList() {
-        return formatOfferingList;
-    }
-
-    public void setFormatOfferingList(List<FormatOfferingInfo> formatOfferingList) {
-        this.formatOfferingList = formatOfferingList;
-    }
-
     public boolean isShowAllSections() {
         return showAllSections;
     }
@@ -182,5 +173,11 @@ public class CourseOfferingCreateWrapper implements Serializable{
         this.enableCreateButton = enableCreateButton;
     }
 
+    public List<FormatOfferingWrapper> getFormatOfferingList() {
+        return formatOfferingList;
+    }
 
+    public void setFormatOfferingList(List<FormatOfferingWrapper> formatOfferingList) {
+        this.formatOfferingList = formatOfferingList;
+    }
 }
