@@ -39,7 +39,8 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-CriteriaSection" parent="Uif-HorizontalBoxSection">
+    <bean id="KS-CourseOfferingManagement-CriteriaSection" parent="Uif-HorizontalBoxSection"
+        p:id="courseOfferingManagementCriteriaSection">
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>

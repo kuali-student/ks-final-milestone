@@ -15,10 +15,13 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String subjectCode;
     private String radioSelection;
     private String inputCode;
+    private String activityActionType;
     private List<CourseOfferingInfo> courseOfferingList;
     private CourseOfferingInfo theCourseOffering;
 
     private List<ActivityOfferingWrapper> activityWrapperList;
+    private List<ActivityOfferingWrapper> selectedToDeleteList;
+
 
     //For Adding Activity
     private String formatIdForNewAO;
@@ -29,6 +32,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     public CourseOfferingManagementForm (){
         courseOfferingList = new ArrayList<CourseOfferingInfo>();
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
+        selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
 //        haveValidTerm = false;
     }
 
@@ -80,6 +84,14 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.inputCode = inputCode;
     }
 
+    public String getActivityActionType() {
+        return activityActionType;
+    }
+
+    public void setActivityActionType(String activityActionType) {
+        this.activityActionType = activityActionType;
+    }
+
     public List<CourseOfferingInfo> getCourseOfferingList(){
         return courseOfferingList;
     }
@@ -110,6 +122,14 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setActivityWrapperList(List<ActivityOfferingWrapper> activityWrapperList) {
         this.activityWrapperList = activityWrapperList;
+    }
+
+    public List<ActivityOfferingWrapper> getSelectedToDeleteList() {
+        return selectedToDeleteList;
+    }
+
+    public void setSelectedToDeleteList(List<ActivityOfferingWrapper> selectedToDeleteList) {
+        this.selectedToDeleteList = selectedToDeleteList;
     }
 
     public String getFormatIdForNewAO() {

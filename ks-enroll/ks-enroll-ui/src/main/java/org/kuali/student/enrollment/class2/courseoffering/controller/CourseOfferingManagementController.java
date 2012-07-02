@@ -180,16 +180,18 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     /**
-     * Method used to delete a activityOffering
+     * Method used to delete a list of selected Draft activity Offerings
      **/
-    @RequestMapping(params = "methodToCall=delete")
-    public ModelAndView delete(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+    @RequestMapping(params = "methodToCall=deleteSelectedAoList")
+    public ModelAndView deleteSelectedAoList(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
 
-        ActivityOfferingWrapper selectedObject = (ActivityOfferingWrapper)_getSelectedObject(theForm, "delete");
+        List<ActivityOfferingWrapper> selectedAolist = theForm.getSelectedToDeleteList();
 
         try{
-            CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOffering(selectedObject.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+            for(ActivityOfferingWrapper ao : selectedAolist)  {
+                CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOffering(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+            }
 
             //reload existing AOs
             getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
@@ -198,7 +200,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             throw new RuntimeException(e);
         }
 
-        return getUIFModelAndView(theForm);
+        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
     }
 
     /**
@@ -209,7 +211,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Properties urlParameters = new Properties();
-        String controllerPath = "maintenance";;
+        String controllerPath = "maintenance";
         Object selectedObject = _getSelectedObject(theForm, "edit");
         if(selectedObject instanceof CourseOfferingInfo){
             urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"maintenanceEdit",false,getContextInfo());
@@ -226,6 +228,83 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         return super.performRedirect(theForm,controllerPath, urlParameters);
 
+    }
+
+    /**
+     * Method used to pick the selected AO actions
+     */
+    @RequestMapping(params = "methodToCall=selectedAoActions")
+    public ModelAndView selectedAoActions(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        if(theForm.getActivityActionType().equals("Scheduling") || theForm.getActivityActionType().equals("Draft") ||
+                theForm.getActivityActionType().equals("ChangeActivityCodes") ) {
+            throw new RuntimeException("Invalid type. Does not support for now");
+        }
+
+        return confirmDelete(theForm,  result, request,  response);
+    }
+
+
+    /**
+     * Method used to confirm delete AOs
+     */
+    @RequestMapping(params = "methodToCall=confirmDelete")
+    public ModelAndView confirmDelete(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Collection<Object> collection;
+        Object selectedObject;
+        List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
+        List<ActivityOfferingWrapper> selectedIndexList = theForm.getSelectedToDeleteList();
+
+        // clear the list
+        selectedIndexList.clear();
+
+        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isNotBlank(selectedCollectionPath)) {
+            // select the single AO
+            int selectedLineIndex = -1;
+            String selectedLine = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+            if (StringUtils.isNotBlank(selectedLine)) {
+                selectedLineIndex = Integer.parseInt(selectedLine);
+            }
+
+            if (selectedLineIndex == -1) {
+                throw new RuntimeException("Selected line index was not set");
+            }
+
+            collection = ObjectPropertyUtils.getPropertyValue(theForm, selectedCollectionPath);
+
+            selectedObject = ((List<Object>) collection).get(selectedLineIndex);
+            // Record the selected AO IsChecked
+            selectedIndexList.add((ActivityOfferingWrapper)selectedObject);
+        }
+        else {
+            // check if there is Draft AO selected
+            selectedIndexList.clear();
+            for(ActivityOfferingWrapper ao : aoList) {
+                if(ao.getStateName().equals("Draft") && ao.getIsChecked()) {
+                    selectedIndexList.add(ao);
+                }
+            }
+            if(selectedIndexList.isEmpty() ) {
+                LOG.error("Error: No selected Draft Activity Offering");
+                GlobalVariables.getMessageMap().putErrorForSectionId("confirmationResultSection",
+                        CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED);
+            }
+        }
+
+        // GlobalVariables.getMessageMap().putErrorForSectionId("add_planned_course", PlanConstants.ERROR_KEY_UNKNOWN_COURSE);
+
+        Integer toBeDeleted = selectedIndexList.size();
+
+        if(selectedIndexList.size() >= 1) {
+            GlobalVariables.getMessageMap().putWarningForSectionId("confirmationResultSection",
+                    CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE, toBeDeleted.toString());
+        }
+
+        return getUIFModelAndView(theForm, "selectedAoDeleteConfirmationPage");
     }
 
     /**

@@ -107,6 +107,7 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageActivityOfferingsPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/SelectedAoDeleteConfirmationPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/PersonnelLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseInfoLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingEditMaintenanceView.xml</value>

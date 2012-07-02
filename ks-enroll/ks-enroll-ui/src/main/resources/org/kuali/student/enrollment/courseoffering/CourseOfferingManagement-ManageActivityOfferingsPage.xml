@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
     <!--
      Copyright 2007-2012 The Kuali Foundation
 
@@ -43,6 +43,7 @@
                 <ref bean="KS-CourseOfferingManagement-AddActivityOfferingSection"/>
                 <ref bean="KS-CourseOfferingManagement-SelectAll"/>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingListSection"/>
+                <ref bean="KS-CourseOfferingManagement-SelectedActivityOfferingSection"/>
             </list>
         </property>
     </bean>
@@ -161,9 +162,38 @@
                 <bean parent="Uif-ActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete this activity offering?')" p:methodToCall="delete" p:actionLabel="Delete" p:render = "@{#line.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.draft'}" />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="confirmDelete" p:actionLabel="Delete" p:render = "@{#line.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.draft'}" />
             </list>
         </property>
     </bean>
+
+    <bean id="KS-CourseOfferingManagement-SelectedActivityOfferingSection" parent="Uif-VerticalBoxSection">
+        <!--<property name="propertyName" value="activityWrapperList" />-->
+        <!--<property name="disclosure.render" value="false"/>-->
+        <property name="items">
+        <list>
+            <bean parent="Uif-HorizontalBoxSection">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-InputField" p:propertyName="activityActionType" p:label="Selected Offering Actions" p:labelPlacement="TOP">
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl" p:options-ref="coSelectedActivityOfferingActions-options"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go" p:methodToCall="selectedAoActions"/>
+                    </list>
+                </property>
+            </bean>
+        </list>
+        </property>
+    </bean>
+
+    <util:list id="coSelectedActivityOfferingActions-options">
+        <bean parent="Uif-KeyLabelPair" p:key="Scheduling" p:value="Set as Ready for Scheduling"/>
+        <bean parent="Uif-KeyLabelPair" p:key="Draft" p:value="Set as Draft"/>
+        <bean parent="Uif-KeyLabelPair" p:key="ChangeActivityCodes" p:value="Change Activity Codes"/>
+        <bean parent="Uif-KeyLabelPair" p:key="Delete" p:value="Delete"/>
+    </util:list>
+
 
 </beans>
