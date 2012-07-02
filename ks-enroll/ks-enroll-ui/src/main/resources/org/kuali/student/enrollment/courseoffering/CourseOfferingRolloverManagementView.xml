@@ -21,7 +21,7 @@
     -->
     <bean id="KS-CourseOfferingRolloverManagement-View" parent="KSFormView" p:applyDirtyCheck="true"
           p:id="courseOfferingRolloverManagementView" p:headerText="Rollover Management"
-          p:entryPageId="selectTermsForRollover"
+          p:entryPageId="selectTermForRolloverDetails"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm">
             <property name="header">

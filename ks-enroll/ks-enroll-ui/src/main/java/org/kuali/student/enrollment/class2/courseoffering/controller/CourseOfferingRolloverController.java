@@ -514,6 +514,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 form.setReleaseToDeptsDisabled(true);
                 form.setReleaseToDeptsAlreadyReleased(true);
             }
+            // Do a refresh of the data on rollover details
+            showRolloverResults(form, result, request, response);
         }
         return getUIFModelAndView(form, ROLLOVER_DETAILS_PAGEID);
     }
