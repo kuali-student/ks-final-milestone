@@ -91,7 +91,12 @@
                 <bean parent="Uif-LinkGroup"  p:linkSeparator="|">
                     <property name="items">
                         <list>
-                            <bean parent="KS-SubmitActionLink" p:methodToCall="viewTheCO" p:actionLabel="View Details" />
+                            <!-- This is a hack to get an inquiry screen to display -->
+                            <bean parent="Uif-DataField" p:propertyName="coViewLinkWrapper" p:defaultValue="View Details">
+                                <property name="inquiry">
+                                    <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="theCourseOffering.id" />
+                                </property>
+                            </bean>
                             <bean parent="KS-SubmitActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" />
                             <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete this Course Offering?')" p:methodToCall="delete" p:actionLabel="Delete" />
                         </list>

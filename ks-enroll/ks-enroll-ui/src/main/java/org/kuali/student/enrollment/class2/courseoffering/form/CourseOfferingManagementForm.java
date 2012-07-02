@@ -18,6 +18,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String activityActionType;
     private List<CourseOfferingInfo> courseOfferingList;
     private CourseOfferingInfo theCourseOffering;
+    private String coViewLinkWrapper = "View Details"; // temp var to hold/store the View Details Link
 
     private List<ActivityOfferingWrapper> activityWrapperList;
     private List<ActivityOfferingWrapper> selectedToDeleteList;
@@ -148,4 +149,11 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.activityIdForNewAO = activityIdForNewAO;
     }
 
+    public String getCoViewLinkWrapper() {
+        return coViewLinkWrapper;
+    }
+
+    public void setCoViewLinkWrapper(String coViewLinkWrapper) {
+        this.coViewLinkWrapper = coViewLinkWrapper;
+    }
 }
