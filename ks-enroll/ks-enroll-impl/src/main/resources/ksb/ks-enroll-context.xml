@@ -170,11 +170,16 @@
     <property name="typeTypeRelationDao" ref="typeTypeRelationDao" />
   </bean>
 
-  <bean id="ks.exp.typeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+  <bean id="typeServiceCacheDecorator" class="org.kuali.student.r2.core.class1.type.decorators.TypeServiceCacheDecorator">
+     <property name="nextDecorator" ref="typeService" />
+  </bean>
+
+
+    <bean id="ks.exp.typeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">
       <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
         <property name="jaxWsService" value="true" />
-        <property name="service" ref="typeService" />
+        <property name="service" ref="typeServiceCacheDecorator" />
         <property name="serviceInterface" value="org.kuali.student.r2.core.type.service.TypeService" />
         <property name="localServiceName" value="TypeService" />
         <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/type" />
