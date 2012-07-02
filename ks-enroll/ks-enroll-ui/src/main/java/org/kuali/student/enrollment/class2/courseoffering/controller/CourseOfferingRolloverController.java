@@ -177,6 +177,10 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.submit.sourceTerm");
             return getUIFModelAndView(form);
         }
+        if (form.getDisplayedSourceTermCode() == null || form.getDisplayedSourceTermCode().length() == 0) {
+            GlobalVariables.getMessageMap().putError("sourceTermCode", "error.courseoffering.sourceTerm.inValid");
+            return getUIFModelAndView(form);
+        }
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         
         // validation to check for like terms and target term year comes before source term year.
@@ -421,6 +425,10 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                     List<SocRolloverResultItemInfo> socRolloverResultItemInfos =
                             _getSocService().getSocRolloverResultItemsByResultId(socRolloverResultInfo.getId(), new ContextInfo());
                     List<SocRolloverResultItemInfo> socRolloverResultItemInfos1 = new CopyOnWriteArrayList<SocRolloverResultItemInfo>(socRolloverResultItemInfos);
+
+                    //Clear out the existing list of result items
+                    form.getSocRolloverResultItems().clear();
+
                     for (SocRolloverResultItemInfo socRolloverResultItemInfo : socRolloverResultItemInfos1) {
                         if (CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY.equalsIgnoreCase(socRolloverResultItemInfo.getStateKey())) {
                             socRolloverResultItemInfos.remove(socRolloverResultItemInfo);
