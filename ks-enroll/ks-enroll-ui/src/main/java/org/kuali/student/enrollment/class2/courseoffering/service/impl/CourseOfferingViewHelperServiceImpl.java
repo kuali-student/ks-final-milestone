@@ -385,8 +385,8 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
             } else {
                 String sourceSocId = socInfo.getId();
                 List<String> options = new ArrayList<String>();
-                // TODO: Force rollover to run synchronously for now
-                options.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
+                // Rollover now runs asynchronously. KSENROLL-1545
+                // options.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
                 options.add(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY);
                 SocInfo result = socService.rolloverSoc(sourceSocId, targetTermId, options, context);
                 return true;

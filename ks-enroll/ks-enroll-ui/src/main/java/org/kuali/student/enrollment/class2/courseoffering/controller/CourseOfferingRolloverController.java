@@ -181,11 +181,11 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     public ModelAndView goSourceTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         // validation to check for valid term.
-        if (form.getDisplayedTargetTermCode() == null || form.getDisplayedTargetTermCode().length() == 0) {
+        if (form.getTargetTermCode() == null || form.getTargetTermCode().length() == 0) {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.submit.sourceTerm");
             return getUIFModelAndView(form);
         }
-        if (form.getDisplayedSourceTermCode() == null || form.getDisplayedSourceTermCode().length() == 0) {
+        if (form.getSourceTermCode() == null || form.getSourceTermCode().length() == 0) {
             GlobalVariables.getMessageMap().putError("sourceTermCode", "error.courseoffering.sourceTerm.inValid");
             return getUIFModelAndView(form);
         }
@@ -425,7 +425,14 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 String updatedDateStr = helper.formatDateAndTime(dateCompleted);
                 // The status displays whether the time is in progress or aborted or nothing if it's completed.
                 String status = _createStatusString(socRolloverResultInfo);
-                form.setDateCompleted(updatedDateStr + status);
+                String stateKey = socRolloverResultInfo.getStateKey();
+                if ((CourseOfferingSetServiceConstants.SUBMITTED_RESULT_STATE_KEY.equals(stateKey) ||
+                        CourseOfferingSetServiceConstants.RUNNING_RESULT_STATE_KEY.equals(stateKey)) ) {
+                    form.setDateCompleted("Rollover in progress");  // DanS doesn't want a date completed if still in progress
+                } else {
+                    form.setDateCompleted(updatedDateStr + status);
+                }
+                // Set value on how long rollover has been running
                 String rolloverDuration = _computeRolloverDuration(dateInitiated, dateCompleted);
                 form.setRolloverDuration(rolloverDuration + status);
                 // CourseOfferingSet service to get Soc Rollover ResultItems by socResultItemInfo id
