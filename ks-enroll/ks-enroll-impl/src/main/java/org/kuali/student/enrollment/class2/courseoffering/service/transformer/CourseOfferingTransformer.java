@@ -220,6 +220,7 @@ public class CourseOfferingTransformer {
         newOptions.add(co.getGradingOptionId());
         newOptions.addAll(co.getStudentRegistrationOptionIds());
         lui.setResultValuesGroupKeys(newOptions);
+        lui.getResultValuesGroupKeys().add(co.getCreditOptionId());
 
         LuiIdentifierInfo oi = lui.getOfficialIdentifier();
         if (oi == null) {
