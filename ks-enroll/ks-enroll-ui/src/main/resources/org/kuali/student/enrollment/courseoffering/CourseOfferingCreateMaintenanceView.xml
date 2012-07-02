@@ -196,7 +196,7 @@
                         <bean parent="Uif-TextControl" p:size="10" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="addCourseOfferingSuffix"
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingSuffix"
                       p:label="Add Suffix" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" />
@@ -337,7 +337,7 @@
     <bean id="CourseOfferingCreateMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
         <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl"/>
-        <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.CourseOfferingEditRule" />
+        <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.CourseOfferingCreateRule" />
         <property name="documentTypeName" value="CourseOfferingCreateMaintenanceDocument"/>
         <property name="lockingKeys">
             <list>

@@ -10,12 +10,14 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.constants.*;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
 import java.util.ArrayList;
@@ -249,7 +251,14 @@ public class CourseOfferingTransformer {
          courseOfferingInfo.setCourseOfferingTitle(courseInfo.getCourseTitle());
         }
         courseOfferingInfo.setSubjectArea(courseInfo.getSubjectArea());
-        courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
+
+        if(optionKeys.contains(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY)) {
+            String codeSuffix = courseOfferingInfo.getCourseOfferingCode();
+            courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode() + codeSuffix);
+        } else {
+            courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
+        }
+
         courseOfferingInfo.setUnitsContentOwner(courseInfo.getUnitsContentOwner());
         courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
 

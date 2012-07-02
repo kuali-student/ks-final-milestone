@@ -19,6 +19,7 @@ import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.service.TypeService;
@@ -43,16 +44,24 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
             try {
                 CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)getDataObject();
                 CourseOfferingInfo courseOffering = new CourseOfferingInfo();
+                List<String> optionKeys = new ArrayList<String>();
+
                 CourseInfo courseInfo = wrapper.getCourse();
                 courseOffering.setTermId(wrapper.getTerm().getId());
                 courseOffering.setCourseOfferingTitle(courseInfo.getCourseTitle());
 //                  courseOffering.setCreditOptionId();
-                courseOffering.setCourseNumberSuffix(wrapper.getCourseCodeSuffix());
+
+                // if the course offering wrapper suffix is set, set the value in the CourseOfferingInfo
+                if (!StringUtils.isEmpty(wrapper.getCourseOfferingSuffix())) {
+                    courseOffering.setCourseOfferingCode(wrapper.getCourseOfferingSuffix());
+                    optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY);
+                }
                 courseOffering.setCourseId(courseInfo.getId());
                 courseOffering.setCourseCode(courseInfo.getCode());
                 courseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
                 courseOffering.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
-                CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(courseInfo.getId(),wrapper.getTerm().getId(),LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,courseOffering,new ArrayList<String>(),getContextInfo());
+
+                CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(courseInfo.getId(), wrapper.getTerm().getId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, getContextInfo());
                 wrapper.setCoInfo(info);
                 createFormatOffering(wrapper);
                 //FIXEM:create formatoffering relation

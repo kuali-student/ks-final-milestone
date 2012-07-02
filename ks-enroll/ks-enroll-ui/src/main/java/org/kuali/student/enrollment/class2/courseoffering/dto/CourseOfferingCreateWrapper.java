@@ -12,7 +12,6 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     private String targetTermCode;
     private String catalogCourseCode;
-    private String courseCodeSuffix;
     private boolean createFromCatalog;
 
     private String creditCount;
@@ -22,7 +21,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
     private boolean showAllSections;
     private boolean enableCreateButton;
 
-    private String addCourseOfferingSuffix;
+    private String courseOfferingSuffix;
 
     private int noOfTermOfferings;
 
@@ -59,14 +58,6 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     public void setCatalogCourseCode(String catalogCourseCode) {
         this.catalogCourseCode = catalogCourseCode;
-    }
-
-    public String getCourseCodeSuffix() {
-        return courseCodeSuffix;
-    }
-
-    public void setCourseCodeSuffix(String courseCodeSuffix) {
-        this.courseCodeSuffix = courseCodeSuffix;
     }
 
     public boolean isCreateFromCatalog() {
@@ -117,12 +108,12 @@ public class CourseOfferingCreateWrapper implements Serializable{
         this.showCatalogLink = showCatalogLink;
     }
 
-    public String getAddCourseOfferingSuffix() {
-        return addCourseOfferingSuffix;
+    public String getCourseOfferingSuffix() {
+        return courseOfferingSuffix;
     }
 
-    public void setAddCourseOfferingSuffix(String addCourseOfferingSuffix) {
-        this.addCourseOfferingSuffix = addCourseOfferingSuffix;
+    public void setCourseOfferingSuffix(String courseOfferingSuffix) {
+        this.courseOfferingSuffix = courseOfferingSuffix;
     }
 
     public boolean isShowAllSections() {
