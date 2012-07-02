@@ -83,7 +83,7 @@
         CREATETIME="20120613163833"
         ID="023b3ee1-25a9-46ec-91ea-be7e73c4bcd3"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="baa6eafb-5b54-487f-ab22-185686c8a9ff" UPDATEID="admin"
         UPDATETIME="20120613163833" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -207,7 +207,7 @@
         CREATETIME="20120613163724"
         ID="0865c012-3a34-48ac-9efd-19ccf51e97d2"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="a68384aa-7c7c-4008-925c-315e7dc9a0df" UPDATEID="admin"
         UPDATETIME="20120613163724" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -251,7 +251,7 @@
         CREATETIME="20120613163938"
         ID="090d6ccc-ba98-4def-bc61-00ad2cf90471"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="5240b567-4da6-4b90-8ec1-e5f32a10237b" UPDATEID="admin"
         UPDATETIME="20120613163938" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -283,7 +283,7 @@
         CREATETIME="20120613163823"
         ID="0a73ecbb-e689-4fc2-90b0-24ca5b9da1d2"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="49fe443a-86f8-453a-8cdc-df635cd1f5c7" UPDATEID="admin"
         UPDATETIME="20120613163823" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -307,7 +307,7 @@
         CREATETIME="20120613163947"
         ID="0bbc4608-7c65-4a08-98a2-680b1c224012"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="0bf43be7-7193-4b4e-af43-3b22d26e26f9" UPDATEID="admin"
         UPDATETIME="20120613163947" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -487,7 +487,7 @@
         CREATETIME="20120613163856"
         ID="13c3cae5-3b9b-4408-b009-2284e20718ac"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="f7814f6c-b1c0-4e20-8a6c-31a673ede93a" UPDATEID="admin"
         UPDATETIME="20120613163856" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -529,7 +529,7 @@
         CREATETIME="20120613163728"
         ID="15c76c0e-15be-4465-b2ee-7afa84187b9f"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="04366733-a856-431a-997b-08b1c7eb36c9" UPDATEID="admin"
         UPDATETIME="20120613163728" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -553,7 +553,7 @@
         CREATETIME="20120613164023"
         ID="1624cb14-cac8-4aa2-b833-9f376a69f562"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="bca34601-7ee5-4158-a1bf-1f73ced3a4ea" UPDATEID="admin"
         UPDATETIME="20120613164023" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -603,7 +603,7 @@
         CREATETIME="20120613164508"
         ID="17d06ca9-83b3-4c64-8046-1d7121b2bd8d"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="bc72ea40-9ae3-47c2-b2d3-6308fdbeaea6" UPDATEID="admin"
         UPDATETIME="20120613164508" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -629,7 +629,7 @@
         CREATETIME="20120613163817"
         ID="1804d442-7b49-4311-851f-43022fd5ade7"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="0a82be15-977c-40f4-a434-d13a8e451821" UPDATEID="admin"
         UPDATETIME="20120613163817" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -653,7 +653,7 @@
         CREATETIME="20120613163614"
         ID="1935b9e7-131b-48bc-b358-96e7c2554c4d"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="36bd9c1d-a276-43e6-8f47-b6a1eef782cb" UPDATEID="admin"
         UPDATETIME="20120613163614" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -737,7 +737,7 @@
         CREATETIME="20120613164323"
         ID="1dcde7da-b7c9-4363-abe6-9d817d48481e"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="a488fcc3-5885-49d9-9055-2ef9448802df" UPDATEID="admin"
         UPDATETIME="20120613164323" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -753,7 +753,7 @@
         CREATETIME="20120613163722"
         ID="1e115e3b-7792-4cb2-b1f3-707abae2d747"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="4386f95c-29d1-4790-a99e-61cbdb8ffe84" UPDATEID="admin"
         UPDATETIME="20120613163722" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -793,7 +793,7 @@
         CREATETIME="20120613163932"
         ID="20d37daf-e630-4dd6-ab56-d483a714bd1f"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="3639d5e3-32c9-4b9c-8dda-99040dd1b74d" UPDATEID="admin"
         UPDATETIME="20120613163932" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -801,7 +801,7 @@
         CREATETIME="20120613163956"
         ID="21275d2c-cb77-424e-b68e-21e110ece88e"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="a6e4d8d1-0a65-4f39-ad19-695a3ec94c57" UPDATEID="admin"
         UPDATETIME="20120613163956" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -809,7 +809,7 @@
         CREATETIME="20120613163844"
         ID="23927b7e-a47a-4e79-86ac-ef735c4461f9"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="00260c11-f1b8-47e0-831a-60c72f649316" UPDATEID="admin"
         UPDATETIME="20120613163844" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -939,7 +939,7 @@
         CREATETIME="20120613163742"
         ID="284bd8a5-3f19-4fa4-b2ea-9a87f505f82b"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="021b9398-1ad5-4afa-bb65-f714a7c94864" UPDATEID="admin"
         UPDATETIME="20120613163742" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -983,7 +983,7 @@
         CREATETIME="20120613164530"
         ID="29719198-46fd-49be-ab5d-28e45849874c"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="131088b0-3f28-4ccf-bd59-0ea05df71a41" UPDATEID="admin"
         UPDATETIME="20120613164530" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1017,7 +1017,7 @@
         CREATETIME="20120613163907"
         ID="2bac1975-b3b3-4ad4-9787-5052735565e4"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="403b0f69-60d5-4409-8447-e4c4eda0e429" UPDATEID="admin"
         UPDATETIME="20120613163907" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1041,7 +1041,7 @@
         CREATETIME="20120613163905"
         ID="2bdc4861-dd1e-4de5-ae9a-f900a2d3e0b2"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="0847042f-6ad3-451e-a3e1-f43011a393ca" UPDATEID="admin"
         UPDATETIME="20120613163905" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1155,7 +1155,7 @@
         CREATETIME="20120613164400"
         ID="2fa4b322-d62e-49b1-b282-53590129ceff"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="7e9b4b77-0746-467f-a775-b46f80a69393" UPDATEID="admin"
         UPDATETIME="20120613164400" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1209,7 +1209,7 @@
         CREATETIME="20120613164257"
         ID="31c134cd-2297-4eda-beb8-87c4c7e8ac8b"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="b73ee608-debc-4339-9ca0-492dffa24588" UPDATEID="admin"
         UPDATETIME="20120613164257" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1217,7 +1217,7 @@
         CREATETIME="20120613163759"
         ID="31ea19ad-b731-4ba2-a936-4aca324a4eda"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="aae5ec70-0745-4081-963c-5def693c22d5" UPDATEID="admin"
         UPDATETIME="20120613163759" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1249,7 +1249,7 @@
         CREATETIME="20120613163944"
         ID="32fc8a3e-0c1c-4636-b562-9707e55715f2"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="105d53b6-f02b-4722-ba69-ca1a008e7e65" UPDATEID="admin"
         UPDATETIME="20120613163944" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1257,7 +1257,7 @@
         CREATETIME="20120613164350"
         ID="33164144-847d-477e-be68-d0fd21c3bd6c"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="bdaf3086-3665-49ca-b2cd-090f3d838996" UPDATEID="admin"
         UPDATETIME="20120613164350" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1265,7 +1265,7 @@
         CREATETIME="20120613163743"
         ID="333e8379-1447-4918-921f-59a94ea35aa9"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="b5d1db23-d5cf-4a52-a3df-cbc7fe8285de" UPDATEID="admin"
         UPDATETIME="20120613163743" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1281,7 +1281,7 @@
         CREATETIME="20120613164203"
         ID="33bb497b-8a28-47e7-8918-90f4b0baa75c"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="5fb6de7a-23e4-4658-aa27-8dae2340a8cb" UPDATEID="admin"
         UPDATETIME="20120613164203" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1419,7 +1419,7 @@
         CREATETIME="20120613163935"
         ID="389c672f-d0ed-4cfa-991a-9783ff6db587"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="1661c6f9-d5e1-4a2e-b495-0b3901cc103e" UPDATEID="admin"
         UPDATETIME="20120613163935" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1491,7 +1491,7 @@
         CREATETIME="20120613164343"
         ID="3c544aff-614f-48f9-b170-9edee92d58c0"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="8682697c-4c35-4242-8a62-210eabae46f1" UPDATEID="admin"
         UPDATETIME="20120613164343" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1507,7 +1507,7 @@
         CREATETIME="20120613163946"
         ID="3c90314d-660a-40f5-93c8-7cda85f95bcd"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="1a5b378b-3af8-4d5e-8a3c-8d2e4062ffa5" UPDATEID="admin"
         UPDATETIME="20120613163946" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1523,7 +1523,7 @@
         CREATETIME="20120613164300"
         ID="3e0426d1-ac41-4d37-bff8-fc05c3074580"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="00c91900-c5e6-4b95-ad26-e9dc3974bcb1" UPDATEID="admin"
         UPDATETIME="20120613164300" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1591,7 +1591,7 @@
         CREATETIME="20120613163545"
         ID="427ca90a-4e1a-4473-9dad-8be80c53afa7"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="b8e6d817-a696-4fd2-847a-ef885fa03948" UPDATEID="admin"
         UPDATETIME="20120613163545" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1615,7 +1615,7 @@
         CREATETIME="20120613164545"
         ID="43a59dc4-b5cb-4003-8bb4-583caa85ea91"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="da50d176-bdd8-4fcd-a447-c2fcf54750b4" UPDATEID="admin"
         UPDATETIME="20120613164545" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1657,7 +1657,7 @@
         CREATETIME="20120613164345"
         ID="44a90b50-1cef-4d68-95dc-eea59e188ffb"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="2b3ef93c-8a19-4ee7-ab54-190c9c2136fe" UPDATEID="admin"
         UPDATETIME="20120613164345" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1743,7 +1743,7 @@
         CREATETIME="20120613163919"
         ID="476c509a-c176-4200-b29a-3ca09b58f83f"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="c221db58-bdf2-4f97-88b1-cb152361512a" UPDATEID="admin"
         UPDATETIME="20120613163919" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1801,7 +1801,7 @@
         CREATETIME="20120613164309"
         ID="4a01e3cc-0153-4f7b-a5b4-4b7dddcae82e"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="943bf783-ae90-4473-b4ec-71a5a42ecd88" UPDATEID="admin"
         UPDATETIME="20120613164309" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1825,7 +1825,7 @@
         CREATETIME="20120613164337"
         ID="4a712354-e6f8-4bd0-9a33-0e4fca09c294"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="1a13a5e9-560d-4b45-9f7e-a3739abf1fd8" UPDATEID="admin"
         UPDATETIME="20120613164337" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1917,7 +1917,7 @@
         CREATETIME="20120613164001"
         ID="4edfcc5f-4f00-4076-8763-7c564268e2e3"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="abea4577-1a24-4484-ad13-b66de3a5afe1" UPDATEID="admin"
         UPDATETIME="20120613164001" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -1933,7 +1933,7 @@
         CREATETIME="20120613163931"
         ID="4f41c129-9503-4079-b332-9779cb0cd4a2"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="82b4b7cc-6ca4-4173-90bd-2f5fd196c2f3" UPDATEID="admin"
         UPDATETIME="20120613163931" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2003,7 +2003,7 @@
         CREATETIME="20120613164006"
         ID="532ad7a5-2cbd-4d9c-82f1-abae125db8ec"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="79f4db92-2105-456f-8125-5c542195bee4" UPDATEID="admin"
         UPDATETIME="20120613164006" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2019,7 +2019,7 @@
         CREATETIME="20120613163848"
         ID="54cf7af9-3d54-4032-ab39-08b13585598e"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="9bef48e7-e369-4f3a-a33d-9eab9343dde7" UPDATEID="admin"
         UPDATETIME="20120613163848" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2043,7 +2043,7 @@
         CREATETIME="20120613163827"
         ID="5540f329-9e9e-48a5-bad3-51e5e94eaed1"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="d5d88804-a3f1-4b41-bdee-2b5946ad3c3b" UPDATEID="admin"
         UPDATETIME="20120613163827" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2061,7 +2061,7 @@
         CREATETIME="20120613163836"
         ID="565d8c3d-2dbc-43de-8e41-c888c36262d1"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="54ae5f5b-e766-45d6-821d-e2e615f62bb3" UPDATEID="admin"
         UPDATETIME="20120613163836" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2103,7 +2103,7 @@
         CREATETIME="20120613164006"
         ID="576e54e4-0477-4d6d-ba01-35847a6e9f69"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="9435c7db-35f3-4233-bab3-831b2550bfd8" UPDATEID="admin"
         UPDATETIME="20120613164006" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2163,7 +2163,7 @@
         CREATETIME="20120613164230"
         ID="5a1d07d2-761e-4a90-a4a0-034f0742d586"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="6d9a8ad2-85b4-4295-9751-94002fd9aa40" UPDATEID="admin"
         UPDATETIME="20120613164230" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2179,7 +2179,7 @@
         CREATETIME="20120613163901"
         ID="5ad926b3-351b-4221-b0ee-e93747c973ed"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="8a0943b6-085e-48d7-b01c-80b7d06f4636" UPDATEID="admin"
         UPDATETIME="20120613163901" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2211,7 +2211,7 @@
         CREATETIME="20120613164538"
         ID="5c228a41-986a-45ce-9338-78478fa8a998"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="e2c2ebcc-c2f0-409b-8bdc-b9e477f7843f" UPDATEID="admin"
         UPDATETIME="20120613164538" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2261,7 +2261,7 @@
         CREATETIME="20120613164531"
         ID="5f6a3270-197a-4170-80ec-7d41108d7669"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="950902c8-9656-4844-b43b-0ef8b13be898" UPDATEID="admin"
         UPDATETIME="20120613164531" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2269,7 +2269,7 @@
         CREATETIME="20120613164003"
         ID="5f72deee-8daf-4941-aae4-4e889ce77725"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="ae1bea46-e9f4-4175-9b56-691860c7cfd9" UPDATEID="admin"
         UPDATETIME="20120613164003" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2293,7 +2293,7 @@
         CREATETIME="20120613164249"
         ID="601e553e-b7c3-4057-8e04-cc197626ff89"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="cc6adf46-cb9b-44c0-8724-2be797c2782a" UPDATEID="admin"
         UPDATETIME="20120613164249" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2375,7 +2375,7 @@
         CREATETIME="20120613163555"
         ID="62ccb1c7-5885-4e7a-9acf-e4a1c8ccb59f"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="01c6586f-e24d-4354-bd33-fe9f98daba65" UPDATEID="admin"
         UPDATETIME="20120613163555" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2383,7 +2383,7 @@
         CREATETIME="20120613163903"
         ID="63d469b5-b785-4bd3-aaae-3dfa6e0aeb35"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="219b0c44-cd67-4257-9337-fbb92865b41c" UPDATEID="admin"
         UPDATETIME="20120613163903" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2461,7 +2461,7 @@
         CREATETIME="20120613164528"
         ID="6868ae31-2f5d-4088-9987-3dfca6c7ea8f"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="66418940-682e-475d-86ff-ee27166c13ae" UPDATEID="admin"
         UPDATETIME="20120613164528" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2493,7 +2493,7 @@
         CREATETIME="20120613164318"
         ID="68f7675c-0894-4e9a-b11e-391e2a3ac1e3"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="a9c20fae-deee-4ae1-b3cb-0a93dd683d58" UPDATEID="admin"
         UPDATETIME="20120613164318" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2517,7 +2517,7 @@
         CREATETIME="20120613164345"
         ID="6a3a92b2-0618-476e-800b-aca6c991252a"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="09ef4b60-aa44-48f0-b758-73637d4c3dfc" UPDATEID="admin"
         UPDATETIME="20120613164345" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2541,7 +2541,7 @@
         CREATETIME="20120613163600"
         ID="6b57015d-f5b0-401b-bba0-31d76cbb5a50"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="f8b7190d-b74a-465a-8d26-37a479c5ea4a" UPDATEID="admin"
         UPDATETIME="20120613163600" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2549,7 +2549,7 @@
         CREATETIME="20120613163859"
         ID="6b5715ed-6227-46bb-bff3-492caded0bed"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="6da28619-f985-4cbc-8e91-e1678d040970" UPDATEID="admin"
         UPDATETIME="20120613163859" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2575,7 +2575,7 @@
         CREATETIME="20120613164510"
         ID="6bc8c1c6-b137-4be1-bc95-856f099edd3e"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="a7bcad8e-c2a5-4f6c-924f-2aa8e3291ac9" UPDATEID="admin"
         UPDATETIME="20120613164510" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2743,7 +2743,7 @@
         CREATETIME="20120613163755"
         ID="75067d91-847c-4e4d-b565-a339eccf6a97"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="311e5754-b6db-4d30-b2a3-846b778be79a" UPDATEID="admin"
         UPDATETIME="20120613163755" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2751,7 +2751,7 @@
         CREATETIME="20120613163838"
         ID="7533a4bf-7eb1-4e73-985a-97a5b89c23be"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="33c80e1a-2126-4d5e-af5f-8d8ff2bc7c20" UPDATEID="admin"
         UPDATETIME="20120613163838" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2759,7 +2759,7 @@
         CREATETIME="20120613163551"
         ID="75401d56-ed7b-4f01-9f66-e3107305c87a"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="3c99ef56-8bca-4b3d-9700-b29755f08bf1" UPDATEID="admin"
         UPDATETIME="20120613163551" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2817,7 +2817,7 @@
         CREATETIME="20120613163925"
         ID="777ca025-9eea-4395-b737-7e9aa52b3b18"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="70e68bfd-d7aa-4e2f-a3b2-1c5087520d86" UPDATEID="admin"
         UPDATETIME="20120613163925" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2861,7 +2861,7 @@
         CREATETIME="20120613163937"
         ID="7875e4bd-39fc-4357-b070-631824f0c766"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="36cd3b87-ae30-4b32-8f58-15ddda96ac59" UPDATEID="admin"
         UPDATETIME="20120613163937" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2877,7 +2877,7 @@
         CREATETIME="20120613163636"
         ID="7964dacb-906e-4ec7-8e7f-bdb6fc5f7f5f"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="c116be00-12a3-4b66-90bd-d4f2b9a085e2" UPDATEID="admin"
         UPDATETIME="20120613163636" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2893,7 +2893,7 @@
         CREATETIME="20120613164243"
         ID="797c9c67-ecf4-494e-8b53-784abbd46cbb"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="36f0a1f2-1c47-499c-808a-368e53af5589" UPDATEID="admin"
         UPDATETIME="20120613164243" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -2971,7 +2971,7 @@
         CREATETIME="20120613164434"
         ID="7df91c6f-fb37-499b-9c58-660fa01cf591"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="b31aa0c4-53b4-4164-b919-a9a4ea9eed67" UPDATEID="admin"
         UPDATETIME="20120613164434" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3003,7 +3003,7 @@
         CREATETIME="20120613163854"
         ID="7ef58573-da77-4719-b322-f7961507c97c"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="7227f969-1f2b-4d86-b141-fab23dbeafb4" UPDATEID="admin"
         UPDATETIME="20120613163854" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3035,7 +3035,7 @@
         CREATETIME="20120613163954"
         ID="800e2606-1a5e-4564-8fec-7ef2b69564ab"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="230ecd43-4b8c-4b78-a8cb-8b22dd923e1c" UPDATEID="admin"
         UPDATETIME="20120613163954" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3051,7 +3051,7 @@
         CREATETIME="20120613163839"
         ID="803a11b6-8ce7-41be-b24b-b564b4143aa2"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="1714cbde-a9a2-45ea-a39e-9fef8631e4d2" UPDATEID="admin"
         UPDATETIME="20120613163839" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3117,7 +3117,7 @@
         CREATETIME="20120613163850"
         ID="8212a43f-1bb9-425a-80b5-ccf68e124728"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="0613ceb1-41a6-40e7-a5f5-52da66c7611c" UPDATEID="admin"
         UPDATETIME="20120613163850" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3133,7 +3133,7 @@
         CREATETIME="20120613164331"
         ID="83219924-4261-4992-bd34-b4a39fa76f09"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="53200ecb-d60a-426e-8433-d61da64feebc" UPDATEID="admin"
         UPDATETIME="20120613164331" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3331,7 +3331,7 @@
         CREATETIME="20120613163726"
         ID="8d20597e-600f-468b-96b6-c4926f315aab"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="abfac0da-e1ca-4391-a3cf-566ba3d55435" UPDATEID="admin"
         UPDATETIME="20120613163726" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3339,7 +3339,7 @@
         CREATETIME="20120613164000"
         ID="8d49955e-e5d3-4c4e-8fdd-2c16c92f7854"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="433d5ca7-bfe5-4099-bb91-10931903f0ce" UPDATEID="admin"
         UPDATETIME="20120613164000" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3381,7 +3381,7 @@
         CREATETIME="20120613163831"
         ID="8e801ba1-b9a5-47e0-9ba6-85585c10834c"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="afad82f4-ee40-43e1-bed2-c95fab2397a8" UPDATEID="admin"
         UPDATETIME="20120613163831" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3421,7 +3421,7 @@
         CREATETIME="20120613164519"
         ID="90599479-7c90-4dbc-9040-07d924aec988"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="ce15c173-df5d-4e66-975f-0d2c30ee1299" UPDATEID="admin"
         UPDATETIME="20120613164519" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3437,7 +3437,7 @@
         CREATETIME="20120613164333"
         ID="920dc2c9-ed4f-4d05-8fd5-1c55571fd493"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="ca372a98-8f4f-4f53-b347-86482e4909c2" UPDATEID="admin"
         UPDATETIME="20120613164333" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3479,7 +3479,7 @@
         CREATETIME="20120613164009"
         ID="93046c87-7e86-4fd0-9052-9c8c2178cf53"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="95bd0ccb-309f-41f7-95b4-0f7b66aa5dc8" UPDATEID="admin"
         UPDATETIME="20120613164009" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3487,7 +3487,7 @@
         CREATETIME="20120613163829"
         ID="930d180b-936d-46ed-9ea2-75f787e0fb8e"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="e8c5ce3c-ccc7-4bf7-9533-d4ba368a0caa" UPDATEID="admin"
         UPDATETIME="20120613163829" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3503,7 +3503,7 @@
         CREATETIME="20120613163951"
         ID="9362e409-bffc-4639-99c5-987506950b8e"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="c7293df8-2580-473c-9a5f-a19cac7dff65" UPDATEID="admin"
         UPDATETIME="20120613163951" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3529,7 +3529,7 @@
         CREATETIME="20120613164246"
         ID="94041b67-648d-48ce-aa30-9687e9c24fa2"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="ec98ccc9-de4f-4086-9cb2-8a9417708b6b" UPDATEID="admin"
         UPDATETIME="20120613164246" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3571,7 +3571,7 @@
         CREATETIME="20120613164008"
         ID="963830ff-ea29-44d2-ade3-dffd76ce159d"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="2a747f54-b4df-4ada-bab2-902ea04c0b2f" UPDATEID="admin"
         UPDATETIME="20120613164008" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3707,7 +3707,7 @@
         CREATETIME="20120613164212"
         ID="9aef7eff-9e81-4f0a-9826-b60e295c643e"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="0ecc77f0-798c-4595-bf24-39aee7d62f38" UPDATEID="admin"
         UPDATETIME="20120613164212" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3725,7 +3725,7 @@
         CREATETIME="20120613163953"
         ID="9c0f3c27-a5b7-4b79-86ff-f3746748f62f"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="5cca1ece-8ce3-46eb-99d0-e82eb9c0d88e" UPDATEID="admin"
         UPDATETIME="20120613163953" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3741,7 +3741,7 @@
         CREATETIME="20120613164215"
         ID="9c219972-01a1-49ca-8f90-44bc5e679e2b"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="916bf6de-83ca-4be7-ad76-aa2e2240e014" UPDATEID="admin"
         UPDATETIME="20120613164215" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3789,7 +3789,7 @@
         CREATETIME="20120613163714"
         ID="9eaad0b9-d6f0-4ead-b6d4-df072fcdc453"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="fcc035f3-7dab-489d-aaa6-6d4e767bc48a" UPDATEID="admin"
         UPDATETIME="20120613163714" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3813,7 +3813,7 @@
         CREATETIME="20120613163612"
         ID="9fd3447f-1561-4f97-a829-b16a5bb97d6f"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="65bcfbfb-5b18-4ec1-b074-22601d84397a" UPDATEID="admin"
         UPDATETIME="20120613163612" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3877,7 +3877,7 @@
         CREATETIME="20120613163751"
         ID="a2afd931-18dd-448a-b1ab-cbabe775af7e"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="f5a5fe07-a974-4b91-98f7-26a09d45c8df" UPDATEID="admin"
         UPDATETIME="20120613163751" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -3989,7 +3989,7 @@
         CREATETIME="20120613164355"
         ID="a7e63a5a-6306-458a-9f60-658c3f1ac5a8"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="6075edcc-f255-467f-a362-ba14d0558c36" UPDATEID="admin"
         UPDATETIME="20120613164355" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4005,7 +4005,7 @@
         CREATETIME="20120613164358"
         ID="a8a165cd-e12d-4809-82db-4ee1e17e140b"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="44f6770c-0b0b-49a4-a70e-d6efeb6a3fdd" UPDATEID="admin"
         UPDATETIME="20120613164358" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4099,7 +4099,7 @@
         CREATETIME="20120613163604"
         ID="af105087-4f86-49de-a9a4-c5ea754e216f"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="70fe8029-ed59-435e-be55-4a8b38dc2350" UPDATEID="admin"
         UPDATETIME="20120613163604" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4151,7 +4151,7 @@
         CREATETIME="20120613164005"
         ID="b02fc54c-03d6-412a-9e26-1707ef53be44"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="deaad9e8-8b6b-4365-b1ec-18e42eafe402" UPDATEID="admin"
         UPDATETIME="20120613164005" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4207,7 +4207,7 @@
         CREATETIME="20120613163807"
         ID="b1a3ae42-1172-45f5-a8bb-c68751c60937"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="068ffce1-a942-4a15-8148-a6600a52dcfb" UPDATEID="admin"
         UPDATETIME="20120613163807" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4215,7 +4215,7 @@
         CREATETIME="20120613164301"
         ID="b1b94a17-7307-4c13-8627-1d2b7ba8dbec"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="ce4d787c-08ac-4bb1-93d2-493590976efe" UPDATEID="admin"
         UPDATETIME="20120613164301" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4441,7 +4441,7 @@
         CREATETIME="20120613163834"
         ID="bb958109-74ac-4379-b9c3-7f8f62cff1f6"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="336d246e-b0e2-47be-ad50-f526c1d5a07a" UPDATEID="admin"
         UPDATETIME="20120613163834" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4457,7 +4457,7 @@
         CREATETIME="20120613164333"
         ID="bc22c4e1-4aef-4718-af62-e0643eeb64e9"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="111efb77-9e6f-4a21-bc9f-85901a3bdca0" UPDATEID="admin"
         UPDATETIME="20120613164333" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4493,7 +4493,7 @@
         CREATETIME="20120613163921"
         ID="bcbe2679-68c4-404c-ae65-e7faea4424b2"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="786131c7-134e-4e4b-af57-3bcae37b2dfe" UPDATEID="admin"
         UPDATETIME="20120613163921" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4501,7 +4501,7 @@
         CREATETIME="20120613164354"
         ID="bce44592-5c13-482a-a9c3-5d6e62569507"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="851032a2-96d8-4b67-9fdd-bc69b8d6eefc" UPDATEID="admin"
         UPDATETIME="20120613164354" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4583,7 +4583,7 @@
         CREATETIME="20120613163928"
         ID="c1cb7001-ddbe-4bf5-a453-aae05bc76887"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="dd5eef11-f3d4-4e5d-85e6-d54c4a337646" UPDATEID="admin"
         UPDATETIME="20120613163928" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4599,7 +4599,7 @@
         CREATETIME="20120613164010"
         ID="c2c43e50-484f-4b96-8a73-d9cfbaae0831"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="3a3e4299-3879-4d60-b7d0-4254a5933409" UPDATEID="admin"
         UPDATETIME="20120613164010" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4615,7 +4615,7 @@
         CREATETIME="20120613163940"
         ID="c34f574e-346b-45e6-8880-a57183466a2a"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="aa38338f-b243-49dc-a3ac-fb027c933a8f" UPDATEID="admin"
         UPDATETIME="20120613163940" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4679,7 +4679,7 @@
         CREATETIME="20120613164335"
         ID="c4aa100a-095c-4fcb-a302-256bdbaf6ccc"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="4964bc1b-561b-439e-a6f7-02b7c02c8b93" UPDATEID="admin"
         UPDATETIME="20120613164335" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4745,7 +4745,7 @@
         CREATETIME="20120613163825"
         ID="c8243e75-3c29-4243-adea-a35e3da10916"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="de924b02-27cf-4853-970e-df3a6d9d8381" UPDATEID="admin"
         UPDATETIME="20120613163825" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4803,7 +4803,7 @@
         CREATETIME="20120613163745"
         ID="ca24f751-e6bf-40b4-9c69-b271bf9e98f1"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="68a0d732-856e-408c-baf6-88981e3281fc" UPDATEID="admin"
         UPDATETIME="20120613163745" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4829,7 +4829,7 @@
         CREATETIME="20120613163841"
         ID="ccf01acf-f555-4e74-ad58-163ab55f1663"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="8b75ed39-0026-43b1-81be-641494f8a7af" UPDATEID="admin"
         UPDATETIME="20120613163841" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4901,7 +4901,7 @@
         CREATETIME="20120613163926"
         ID="cf677ab0-8d4c-4a7a-9ac5-52d920f76de3"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="b9287d9f-5917-4084-a7d5-3008763963ef" UPDATEID="admin"
         UPDATETIME="20120613163926" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4927,7 +4927,7 @@
         CREATETIME="20120613163932"
         ID="d0e41894-bdbd-4ba9-ae54-d5deb6f673df"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="66560f11-d50c-4feb-8257-15020656ba90" UPDATEID="admin"
         UPDATETIME="20120613163932" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -4969,7 +4969,7 @@
         CREATETIME="20120613164010"
         ID="d32829a1-f8bd-4f63-ab7e-09a122b1eee0"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="cd684a30-3c36-43f7-aacd-171c572232a2" UPDATEID="admin"
         UPDATETIME="20120613164010" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5009,7 +5009,7 @@
         CREATETIME="20120613163923"
         ID="d5a61c8e-5aa1-4e50-a106-97d105a11244"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="9b24c24e-fab9-43e0-851e-101b29c661c2" UPDATEID="admin"
         UPDATETIME="20120613163923" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5065,7 +5065,7 @@
         CREATETIME="20120613163917"
         ID="d90b8d3f-8f1b-4e98-b632-b56519b5d9ce"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="17374c1c-84f2-44fa-8885-3d51f800f37e" UPDATEID="admin"
         UPDATETIME="20120613163917" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5141,7 +5141,7 @@
         CREATETIME="20120613163815"
         ID="dc104bc5-dbba-4c00-ae00-9ba198f56bda"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="5aafddda-1af7-452c-ac0d-0ff862c02279" UPDATEID="admin"
         UPDATETIME="20120613163815" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5175,7 +5175,7 @@
         CREATETIME="20120613164340"
         ID="dcd104c1-fb03-45c0-a125-f2fd5358bad1"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="b3759917-a681-4683-ae3f-eef1d04c7e65" UPDATEID="admin"
         UPDATETIME="20120613164340" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5209,7 +5209,7 @@
         CREATETIME="20120613164308"
         ID="df0880f4-b6b0-48a3-be98-28dc2122d477"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="cb556af5-74f0-4435-9637-65ae300efa38" UPDATEID="admin"
         UPDATETIME="20120613164308" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5217,7 +5217,7 @@
         CREATETIME="20120613164255"
         ID="e08513ea-0b82-40cb-92e1-d55cb7096c6f"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="c7434f48-39ac-4e57-8629-53b400580db0" UPDATEID="admin"
         UPDATETIME="20120613164255" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5225,7 +5225,7 @@
         CREATETIME="20120613164107"
         ID="e08c6623-4eee-42b5-a7bd-bcf3cb836991"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="1a2b2bd2-a699-4fcb-bf85-84bc5eccf6b9" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5273,7 +5273,7 @@
         CREATETIME="20120613164407"
         ID="e38b36e2-c4db-48b8-bbf5-e6a14e3cb6f1"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="f763e229-3c7a-46b8-8e29-b8597309d515" UPDATEID="admin"
         UPDATETIME="20120613164407" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5377,7 +5377,7 @@
         CREATETIME="20120613163857"
         ID="e9df3b51-0136-4651-a166-9146d353172a"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="7263a280-f062-49e0-aff4-a8c5d987d156" UPDATEID="admin"
         UPDATETIME="20120613163857" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5421,7 +5421,7 @@
         CREATETIME="20120613164512"
         ID="eb549d62-59e9-40ea-a8de-47fb6ee77c77"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="861e7799-6a38-4a8e-88cc-6c5d333f7b80" UPDATEID="admin"
         UPDATETIME="20120613164512" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5439,7 +5439,7 @@
         CREATETIME="20120613163931"
         ID="ec6729b7-87ee-4d82-a21f-8e22df283248"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="2d0128b2-f4a3-4041-835c-a4e0cc7253df" UPDATEID="admin"
         UPDATETIME="20120613163931" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5447,7 +5447,7 @@
         CREATETIME="20120613164338"
         ID="ece3bffe-2752-4d91-8b75-f20ec17a9d19"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="b3e68f03-962f-4303-98a0-311ce430068a" UPDATEID="admin"
         UPDATETIME="20120613164338" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5489,7 +5489,7 @@
         CREATETIME="20120613163942"
         ID="ee39e730-0fba-428b-94e9-309797c6e444"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="892bef78-210d-434f-92f8-30765b2061ab" UPDATEID="admin"
         UPDATETIME="20120613163942" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5539,7 +5539,7 @@
         CREATETIME="20120613164010"
         ID="ef9f0a7a-144d-4698-b3ef-3a79abf5911d"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="e6fef6cd-a5ac-402d-bbb2-21a6e434f871" UPDATEID="admin"
         UPDATETIME="20120613164010" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5591,7 +5591,7 @@
         CREATETIME="20120613163949"
         ID="f1775e27-9c4e-42d2-be70-cc43199f2511"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="043b052d-d02e-4c6f-9e9a-c1b0c06c0233" UPDATEID="admin"
         UPDATETIME="20120613163949" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5627,7 +5627,7 @@
         CREATETIME="20120613163851"
         ID="f3186414-12be-4a75-b832-ea41b9a48f57"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="09ae90df-aa64-489f-ab03-f517b4fd889f" UPDATEID="admin"
         UPDATETIME="20120613163851" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5683,7 +5683,7 @@
         CREATETIME="20120613164356"
         ID="f469a738-b5a4-4677-87f2-db897023a843"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="c32f23cd-64a4-4055-baf4-71abc08a900d" UPDATEID="admin"
         UPDATETIME="20120613164356" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5733,7 +5733,7 @@
         CREATETIME="20120613163958"
         ID="f629208c-e320-47ef-ab20-1fd170528960"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="ec41df05-54aa-4719-8aa3-9ba93e8a31c7" UPDATEID="admin"
         UPDATETIME="20120613163958" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5773,7 +5773,7 @@
         CREATETIME="20120613163912"
         ID="f7723d96-6833-45de-bb5d-2b2857af7efe"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="18c6941f-170c-456e-8ce7-e555470d31fe" UPDATEID="admin"
         UPDATETIME="20120613163912" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5797,7 +5797,7 @@
         CREATETIME="20120613163644"
         ID="f83cf6a2-4fef-411c-b4c0-575357aaaa45"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="56cae7f0-71d8-4cba-bfcc-8535e5e454b5" UPDATEID="admin"
         UPDATETIME="20120613163644" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5881,7 +5881,7 @@
         CREATETIME="20120613164347"
         ID="fae840b0-1983-48a4-a464-49f2655d4d17"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="a55b7cb2-9c08-4f87-b4cd-7ee5b0fa0a21" UPDATEID="admin"
         UPDATETIME="20120613164347" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5915,7 +5915,7 @@
         CREATETIME="20120613164452"
         ID="fcf7fd30-1d3e-4289-afb0-563ed4ccb73c"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="7440a31b-c645-4911-9985-77ef462d2988" UPDATEID="admin"
         UPDATETIME="20120613164452" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
@@ -5941,7 +5941,7 @@
         CREATETIME="20120613164214"
         ID="fe1dd95c-28db-4c3a-a25a-82fd3e5c6b91"
         LUI_STATE="kuali.lui.format.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.course.format.offering "
+        LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="38fe53c7-efb3-425c-a5ea-bfe01a8fa0db" UPDATEID="admin"
         UPDATETIME="20120613164214" VER_NBR="0"/>
 </dataset>
