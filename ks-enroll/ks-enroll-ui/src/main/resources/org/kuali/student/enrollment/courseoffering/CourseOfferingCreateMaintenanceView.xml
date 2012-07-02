@@ -75,9 +75,17 @@
                 <value>ks-enroll/scripts/courseOffering.js</value>
             </list>
         </property>
+        <property name="expressionVariables">
+            <map merge="true">
+                <entry key="showCatalogLink" value="document.newMaintainableObject.dataObject.showCatalogLink"/>
+                <entry key="showAllSections" value="document.newMaintainableObject.dataObject.showAllSections"/>
+                <entry key="showTermOfferingLink" value="document.newMaintainableObject.dataObject.showTermOfferingLink"/>
+                <entry key="noOfTermOfferings" value="document.newMaintainableObject.dataObject.noOfTermOfferings"/>
+            </map>
+        </property>
     </bean>
 
-    <bean id="KS-CourseOffering-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{document.newMaintainableObject.dataObject.showAllSections}">
+    <bean id="KS-CourseOffering-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{#showAllSections}">
         <property name="disclosure.render" value="false"/>
         <property name="cssClasses">
           <list merge="true">
@@ -86,11 +94,11 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="createFromCatalog" p:style="font-weight:bold;" p:actionLabel="Create from Catalog" p:render="@{document.newMaintainableObject.dataObject.showCatalogLink}"/>
-                <bean parent="Uif-MessageField" p:messageText="Create from Catalog" p:style="font-weight:bold;" p:render="@{!document.newMaintainableObject.dataObject.showCatalogLink}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="createFromCatalog" p:style="font-weight:bold;" p:actionLabel="Create from Catalog" p:render="@{#showCatalogLink}"/>
+                <bean parent="Uif-MessageField" p:messageText="Create from Catalog" p:style="font-weight:bold;" p:render="@{!#showCatalogLink}"/>
                 <bean parent="Uif-MessageField" p:messageText="  |  " p:style="font-weight:bold;"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="createFromTermOffering" p:style="font-weight:bold;" p:actionLabel="Create from Term Offering (@{document.newMaintainableObject.dataObject.noOfTermOfferings})" p:render="@{document.newMaintainableObject.dataObject.showTermOfferingLink}"/>
-                <bean parent="Uif-MessageField" p:messageText="Create from Term Offering (@{document.newMaintainableObject.dataObject.noOfTermOfferings})" p:style="font-weight:bold;" p:render="@{!document.newMaintainableObject.dataObject.showTermOfferingLink}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="createFromTermOffering" p:style="font-weight:bold;" p:actionLabel="Create from Term Offering (@{#noOfTermOfferings})" p:render="@{#showTermOfferingLink}"/>
+                <bean parent="Uif-MessageField" p:messageText="Create from Term Offering (@{#noOfTermOfferings})" p:style="font-weight:bold;" p:render="@{!#showTermOfferingLink}"/>
             </list>
         </property>
     </bean>
@@ -159,7 +167,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CreateFromTermOffering" parent="Uif-VerticalBoxSection" p:render="@{!document.newMaintainableObject.dataObject.showTermOfferingLink and document.newMaintainableObject.dataObject.showAllSections}">
+    <bean id="KS-CreateFromTermOffering" parent="Uif-VerticalBoxSection" p:render="@{!#showTermOfferingLink and #showAllSections}">
          <property name="items">
             <list>
                  <ref bean="KS-ExistingTermOfferingsSubSection"/>
@@ -167,7 +175,7 @@
          </property>
     </bean>
 
-    <bean id="KS-CreateFromCatalog" parent="Uif-VerticalBoxSection" p:render="@{!document.newMaintainableObject.dataObject.showCatalogLink and document.newMaintainableObject.dataObject.showAllSections}">
+    <bean id="KS-CreateFromCatalog" parent="Uif-VerticalBoxSection" p:render="@{!#showCatalogLink and #showAllSections}">
          <property name="items">
             <list>
                  <ref bean="KS-CourseOfferingCodeSubSection"/>
