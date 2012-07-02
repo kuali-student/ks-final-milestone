@@ -381,7 +381,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
             List<String> socIds = socService.getSocIdsByTerm(sourceTermId, context);
             SocInfo socInfo = _getUniqueMainSoc(socIds);
             if (socInfo == null) {
-                GlobalVariables.getMessageMap().putError("targetTermCode", "error.rollover.sourceTerm.noSoc");
+                GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.sourceTerm.noSoc");
             } else {
                 String sourceSocId = socInfo.getId();
                 List<String> options = new ArrayList<String>();
@@ -520,6 +520,9 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
 
     @Override
     public String formatDateAndTime(Date date) {
+        if (date == null) {
+            return "";
+        }
         SimpleDateFormat format = new SimpleDateFormat("MMMMM d, yyyy, h:mm a");
         String startDateStr = format.format(date);
         return startDateStr;

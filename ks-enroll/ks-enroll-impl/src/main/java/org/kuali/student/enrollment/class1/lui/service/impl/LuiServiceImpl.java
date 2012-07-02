@@ -503,9 +503,11 @@ public class LuiServiceImpl
                                                             ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-
+        if (luiId == null) {
+            throw new MissingParameterException("luiId is null");
+        }
         List<LuiInfo> relatedLuis =  new ArrayList<LuiInfo>();
-        List<LuiEntity> relatedLuiEntities =  luiLuiRelationDao.getRelatedLuisByLuiIdAndRelationType(luiId,luiLuiRelationTypeKey ) ;
+        List<LuiEntity> relatedLuiEntities =  luiLuiRelationDao.getRelatedLuisByLuiIdAndRelationType(luiId, luiLuiRelationTypeKey);
         for(LuiEntity relatedLuiEntity : relatedLuiEntities) {
             relatedLuis.add(relatedLuiEntity.toDto());
         }

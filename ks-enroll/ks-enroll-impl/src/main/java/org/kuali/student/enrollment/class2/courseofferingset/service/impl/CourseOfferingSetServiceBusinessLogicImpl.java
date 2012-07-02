@@ -139,7 +139,6 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         if (targetSoc == null) {
             // Did not find target SOC, make a new one
             targetSoc = new SocInfo(sourceSoc);
-            targetSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY); // Make it draft in the new term
             foundTargetSoc = false;
             targetSoc.setId(null);
             targetSoc.setTermId(targetTermId);
@@ -151,6 +150,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
                 throw new OperationFailedException("Unexpected", ex);
             }
         }
+        targetSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY); // Make it draft in the new term
         // TODO: if foundTargetSoc is true, should we do more cleanup?
 
         // then build the result so we can track stuff
@@ -161,7 +161,12 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         result.setTargetTermId(targetTermId);
         result.setOptionKeys(optionKeys);
         result.setTargetSocId(targetSoc.getId());
-        result.setDateInitiated(new Date());
+        Date now = new Date();
+        result.setDateInitiated(now);
+        // Although it's not completed, as long as the SocRolloverResultInfo is either in the submitted or running
+        // state, the date completed field represents the current time.  It also prevents NPEs when computing
+        // duration.
+        result.setDateCompleted(now);
         try {
             result = this._getSocService().createSocRolloverResult(result.getTypeKey(), result, context);
         } catch (DataValidationErrorException ex) {
