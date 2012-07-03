@@ -443,6 +443,9 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                     socRolloverResultItemWrapper.setMessage(socRolloverResultItemInfo.getMessage().getPlain());
                 }
                 socRolloverResultItemWrapper.setState(socRolloverResultItemInfo.getStateKey());
+                socRolloverResultItemWrapper.setStateName(socRolloverResultItemInfo.getStateKey());           // should be replaced with what's below
+                /* The below should work, but because it throws an exception, the transaction rolls back so i have to remove.
+
                 try {
                     StateInfo stateInfo = this._getStateService().getState(socRolloverResultItemInfo.getStateKey(), ContextUtils.getContextInfo());
                     if (stateInfo != null){
@@ -451,6 +454,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 } catch (DoesNotExistException ex){
                     socRolloverResultItemWrapper.setStateName(socRolloverResultItemInfo.getStateKey());
                 }
+                */
+
                 form.getSocRolloverResultItems().add(socRolloverResultItemWrapper);
             }
         }
