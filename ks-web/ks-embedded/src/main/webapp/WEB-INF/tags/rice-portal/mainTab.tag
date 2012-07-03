@@ -29,4 +29,5 @@
 <td class="content" valign="top">
 	<mainChannel:workflow />
 	<mainChannel:notification />
+    <mainChannel:rules />
 </td>
