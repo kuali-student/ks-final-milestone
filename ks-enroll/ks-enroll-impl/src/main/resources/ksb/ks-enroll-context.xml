@@ -441,7 +441,10 @@
     <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
     <property name="resultValueDao" ref="resultValueDao" />
     <property name="resultScaleDao" ref="resultScaleDao" />
+    <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic"/>
   </bean>
+
+  <bean id="lrcServiceBusinessLogic" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceBusinessLogicImpl" />
 
   <bean id="ks.exp.LRCService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">
