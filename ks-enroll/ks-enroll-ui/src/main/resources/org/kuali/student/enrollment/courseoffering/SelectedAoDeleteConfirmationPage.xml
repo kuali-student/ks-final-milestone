@@ -41,9 +41,6 @@
           p:colSpan="3"
           p:style="underline"
           p:headerText="Delete Activity Offering(s)">
-        <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
-        </property>
         <property name="items">
             <list>
                 <bean id="KS-SelectedAoDeleteConfirmation-Message" parent="Uif-VerticalBoxSection">
@@ -53,15 +50,26 @@
                         <bean parent="Uif-HeaderFour"/>
                     </property>
                     <property name="disclosure.render" value="false"/>
-                    <property name="items">
+                    <property name="items" >
                         <list>
-                            <bean parent="Uif-Message" p:messageText="Term: @{theCourseOffering.termId}" p:colSpan="2"/>
+                            <bean parent="Uif-DataField" p:label="Term:" p:propertyName="theCourseOffering.termId" p:fieldLabel.renderColon="false" p:readOnly="true"/>
+                         </list>
+                    </property>
+                </bean>
+
+                <bean id="KS-SelectedAoDeleteConfirmation-WarningMessage" parent="Uif-VerticalBoxSection">
+                    <property name="headerText"
+                              value=""/>
+                    <property name="style" value="background-color:#FFEE99"/>
+                    <property name="disclosure.render" value="false"/>
+                    <property name="items" >
+                        <list>
                             <bean parent="Uif-Message"
                                   p:messageText="Warning: You are about to permanently delete the following activity offering(s) from this course offering."
-                                  p:style="background-color:yellow" p:colSpan="2"/>
+                                  p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2"/>
                             <bean parent="Uif-Message"
                                   p:messageText="Activity Offerings to be deleted: @{selectedToDeleteList.size()}"
-                                  p:style="background-color:yellow" p:colSpan="2"/>
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"/>
 
                         </list>
                     </property>
