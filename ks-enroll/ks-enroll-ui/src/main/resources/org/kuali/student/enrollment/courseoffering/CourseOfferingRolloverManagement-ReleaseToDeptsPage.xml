@@ -40,7 +40,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-Message" p:messageText="Can't release to departments without a valid term" p:style="font-style:italic" p:render="@{releaseToDeptsInvalidTerm}"/>
-                            <bean parent="Uif-Message" p:messageText="Already released to departments" p:style="font-style:italic" p:render="@{releaseToDeptsAlreadyReleased}"/>
+                            <bean parent="Uif-Message" p:messageText="Already released to departments" p:style="font-style:italic" p:render="@{socReleasedToDepts}"/>
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
                                     <list>

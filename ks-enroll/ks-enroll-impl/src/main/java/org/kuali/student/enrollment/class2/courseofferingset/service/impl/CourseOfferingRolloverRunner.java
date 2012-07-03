@@ -92,7 +92,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
         this.skipIfAlreadyExists = getBooleanOption(CourseOfferingSetServiceConstants.SKIP_IF_ALREADY_EXISTS_OPTION_KEY, false);
         this.logSuccesses = getBooleanOption(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY, false);
         this.progressFrequency = getIntOption(CourseOfferingSetServiceConstants.LOG_FREQUENCY_OPTION_KEY_PREFIX, 10);
-        this.haltErrorsMax = getIntOption(CourseOfferingSetServiceConstants.HALT_ERRORS_MAX_OPTION_KEY_PREFIX, 10);
+        this.haltErrorsMax = getIntOption(CourseOfferingSetServiceConstants.HALT_ERRORS_MAX_OPTION_KEY_PREFIX, -1);
 
     }
     // TODO: implement these options
@@ -133,7 +133,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
                 this.result = socService.getSocRolloverResult(result.getId(), context);
                 this.result.setStateKey(CourseOfferingSetServiceConstants.ABORTED_RESULT_STATE_KEY);
                 this.result.setDateCompleted(new Date());
-                this.result.setMessage(new RichTextHelper().fromPlain("Got an unexpected exception running rolloever:\n" +
+                this.result.setMessage(new RichTextHelper().fromPlain("Got an unexpected exception running rollover:\n" +
                         ex.toString()));
                 this.socService.updateSocRolloverResult(result.getId(), result, context);
             } catch (Exception ex1) {
@@ -173,7 +173,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
         List<SocRolloverResultItemInfo> items = new ArrayList<SocRolloverResultItemInfo>();
         for (String sourceCoId : sourceCoIds) {
             logger.info("Processing: " + sourceCoId);
-            System.out.println("processing: " + sourceCoId);
+            // System.out.println("processing: " + sourceCoId);
             try {
                 Object[] result = rolloverOneCourseOfferingReturningItem(sourceCoId);
                 SocRolloverResultItemInfo item = (SocRolloverResultItemInfo) result[0];
@@ -198,7 +198,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
             }
             sourceCoIdsHandled++;
         }
-        
+        logger.info("======= Finished processing rollover =======");
         reportProgress(items, sourceCoIdsHandled - errors);      // Items Processed = Items - Errors
         // mark finished
         result = socService.getSocRolloverResult(result.getId(), context);

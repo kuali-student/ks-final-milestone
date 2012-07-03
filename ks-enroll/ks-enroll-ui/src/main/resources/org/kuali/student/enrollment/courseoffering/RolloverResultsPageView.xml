@@ -63,9 +63,9 @@
                                             <bean parent="Uif-VerticalBoxSection" p:colSpan="3" p:width="20cm" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
                                                 <property name="items">
                                                     <list>
-                                                        <bean parent="Uif-Message" p:render="@{!isReleasedToDepts}"
+                                                        <bean parent="Uif-Message" p:render="@{!socReleasedToDepts}"
                                                               p:messageText="Currently, only central administrators are able to make changes to course offering information in this term's course schedule. To grant departmental administrators access to copy and edit functions, you must first release the term to departments. Doing so will disable future Rollovers to this term."/>
-                                                        <bean parent="Uif-Message" p:render="@{isReleasedToDepts}"
+                                                        <bean parent="Uif-Message" p:render="@{socReleasedToDepts}"
                                                               p:messageText="This term has already been released to departments." p:style="font-style:italic"/>
                                                         <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:render="@{!releaseToDeptsDisabled}">
                                                             <property name="items">

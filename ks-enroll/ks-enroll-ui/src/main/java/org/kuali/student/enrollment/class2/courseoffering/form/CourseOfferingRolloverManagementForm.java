@@ -60,8 +60,8 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     // release to depts fields
     private boolean releaseToDeptsDisabled = false;
     private boolean releaseToDeptsInvalidTerm = false;
-    private boolean releaseToDeptsAlreadyReleased = false;
-    private boolean isReleasedToDepts = false;
+    private boolean socReleasedToDepts = false;
+    private boolean rolloverCompleted = false; // Only true if finished or aborted
 
     public CourseOfferingRolloverManagementForm(){
         targetTermCode = "";
@@ -83,11 +83,21 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         rolloverDuration = "";
         socRolloverResultItems = new ArrayList<SocRolloverResultItemWrapper>();
         // release to depts fields
-        releaseToDeptsDisabled = false;
-        releaseToDeptsAlreadyReleased = false;
+        releaseToDeptsDisabled = false; // this is a dependent field so we don't let it be set externally
         releaseToDeptsInvalidTerm = false;
-        
+        socReleasedToDepts = false;
+
+        computeReleaseToDeptsDisabled();
      }
+
+    public boolean getRolloverCompleted() {
+        return rolloverCompleted;
+    }
+
+    public void setRolloverCompleted(boolean rolloverCompleted) {
+        this.rolloverCompleted = rolloverCompleted;
+        computeReleaseToDeptsDisabled();
+    }
 
     public String getTargetTermCode() {
         return targetTermCode;
@@ -95,6 +105,7 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
 
     public void setTargetTermCode(String targetTermCode) {
         this.targetTermCode = targetTermCode;
+        computeReleaseToDeptsDisabled();
     }
 
     public String getSourceTermCode() {
@@ -293,8 +304,16 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         return releaseToDeptsDisabled;
     }
 
-    public void setReleaseToDeptsDisabled(boolean releaseToDeptsDisabled) {
+    private void _setReleaseToDeptsDisabled(boolean releaseToDeptsDisabled) {
         this.releaseToDeptsDisabled = releaseToDeptsDisabled;
+    }
+
+    public boolean computeReleaseToDeptsDisabled() {
+        // Disable release to depts if it's an invalid term or if it's already released
+        this.releaseToDeptsDisabled =
+                releaseToDeptsInvalidTerm || socReleasedToDepts || targetTermCode == null
+                        || targetTermCode.trim().isEmpty() || !rolloverCompleted;
+        return this.releaseToDeptsDisabled;
     }
 
     public boolean getReleaseToDeptsInvalidTerm() {
@@ -303,22 +322,15 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
 
     public void setReleaseToDeptsInvalidTerm(boolean releaseToDeptsInvalidTerm) {
         this.releaseToDeptsInvalidTerm = releaseToDeptsInvalidTerm;
+        computeReleaseToDeptsDisabled();
     }
 
-    public boolean getReleaseToDeptsAlreadyReleased() {
-        return releaseToDeptsAlreadyReleased;
+    public boolean getSocReleasedToDepts() {
+        return socReleasedToDepts;
     }
 
-    public void setReleaseToDeptsAlreadyReleased(boolean releaseToDeptsAlreadyReleased) {
-        this.releaseToDeptsAlreadyReleased = releaseToDeptsAlreadyReleased;
-    }
-
-    public boolean getIsReleasedToDepts() {
-        return isReleasedToDepts;
-    }
-
-    public void setIsReleasedToDepts(boolean releasedToDepts) {
-        isReleasedToDepts = releasedToDepts;
+    public void setSocReleasedToDepts(boolean releasedToDepts) {
+        socReleasedToDepts = releasedToDepts;
     }
 
     public void resetForm(){
@@ -342,8 +354,8 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         isConfigurationOptionsDisabled = true;
         // release to depts fields
         releaseToDeptsDisabled = false;
-        releaseToDeptsAlreadyReleased = false;
         releaseToDeptsInvalidTerm = false;
-        isReleasedToDepts = false;
+        socReleasedToDepts = false;
+        computeReleaseToDeptsDisabled();
     }
  }

@@ -34,6 +34,10 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemI
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -132,10 +136,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     private ModelAndView _startReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) {
         System.err.println("startReleaseToDepts");
-        String targetTermCode = form.getRolloverTargetTermCode();
-        if (targetTermCode == null || targetTermCode.trim().isEmpty()) {
-            form.setReleaseToDeptsDisabled(true);
-        }
+        form.computeReleaseToDeptsDisabled();
         return getUIFModelAndView(form);
     }
 
@@ -318,14 +319,16 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         SocInfo socInfo = helper.getMainSoc(targetTermId);
         if (socInfo == null) { 
             // Disable if no term found
-            form.setReleaseToDeptsDisabled(true);
             form.setReleaseToDeptsInvalidTerm(true);
-        } else if (!socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY)) {
-            // Disable if not in draft state
-            form.setReleaseToDeptsDisabled(true);
-            form.setReleaseToDeptsAlreadyReleased(true);
-            form.setIsReleasedToDepts(true); // Assume it's been released if no longer in draft state
-        }
+        } else {
+            String stateKey = socInfo.getStateKey();
+            if (!CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY.equals(stateKey)) {
+                // Assume it's been released if no longer in draft state (TODO: may not be true--revisit)
+                form.setSocReleasedToDepts(true);
+            } else { // In draft state
+                form.setSocReleasedToDepts(false);
+            }
+        } 
     }
 
     private String _computeRolloverDuration(Date dateInitiated, Date dateCompleted) {
@@ -360,6 +363,98 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         }
         return status;
     }
+    
+    private void _setStatus(String stateKey, CourseOfferingRolloverManagementForm form) {
+        if (CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY.equals(stateKey)) {
+            form.setStatusField("Finished");
+            form.setRolloverCompleted(true);
+        } else if (CourseOfferingSetServiceConstants.RUNNING_RESULT_STATE_KEY.equals(stateKey) ||
+                CourseOfferingSetServiceConstants.SUBMITTED_RESULT_STATE_KEY.equals(stateKey)) {
+            form.setStatusField("In Progress");
+            form.setRolloverCompleted(false);
+        } else if (CourseOfferingSetServiceConstants.ABORTED_RESULT_STATE_KEY.equals(stateKey)) {
+            form.setRolloverCompleted(true);
+        }
+    }
+
+    private void _displayRolloverInfo(SocInfo socInfo, SocRolloverResultInfo socRolloverResultInfo,
+                                      CourseOfferingRolloverManagementForm form, CourseOfferingViewHelperService helper,
+                                      String stateKey, String targetTermId) {
+        if (socInfo != null) {
+            // Set some display fields that show friendly, human-readable term data
+            String friendlySourceTermDesc = helper.getTermDesc(socInfo.getTermId());
+            form.setRolloverSourceTermDesc(friendlySourceTermDesc);
+            String friendlyTargetTermDesc = helper.getTermDesc(targetTermId);
+            form.setRolloverTargetTermDesc(friendlyTargetTermDesc);
+        }
+        Date dateInitiated = socRolloverResultInfo.getDateInitiated();
+        String startDateStr = helper.formatDateAndTime(dateInitiated);
+        form.setDateInitiated(startDateStr);
+        // if items skipped is null, then below condition passes and items skipped is calculated
+        if (socRolloverResultInfo.getCourseOfferingsCreated() == null || socRolloverResultInfo.getCourseOfferingsCreated().toString().length() < 1) {
+            Integer temp = socRolloverResultInfo.getItemsExpected() - socRolloverResultInfo.getItemsProcessed();
+            String plural = _createPlural(temp);
+            form.setCourseOfferingsAllowed(socRolloverResultInfo.getItemsProcessed() + " transitioned with " + temp + " exception" + plural);
+        } else {
+            // This is the official way to compute this
+            String plural = _createPlural(socRolloverResultInfo.getCourseOfferingsSkipped());
+            form.setCourseOfferingsAllowed(socRolloverResultInfo.getCourseOfferingsCreated() + " transitioned with " +
+                    socRolloverResultInfo.getCourseOfferingsSkipped() + " exception" + plural);
+        }
+        String plural = _createPlural(socRolloverResultInfo.getActivityOfferingsSkipped());
+        form.setActivityOfferingsAllowed(socRolloverResultInfo.getActivityOfferingsCreated() + " transitioned with " +
+                socRolloverResultInfo.getActivityOfferingsSkipped() + " exception" + plural);
+        Date dateCompleted = socRolloverResultInfo.getDateCompleted();
+        String updatedDateStr = helper.formatDateAndTime(dateCompleted);
+        // The status displays whether the time is in progress or aborted or nothing if it's completed.
+        String status = _createStatusString(socRolloverResultInfo);
+        if ((CourseOfferingSetServiceConstants.SUBMITTED_RESULT_STATE_KEY.equals(stateKey) ||
+                CourseOfferingSetServiceConstants.RUNNING_RESULT_STATE_KEY.equals(stateKey)) ) {
+            form.setDateCompleted("Rollover in progress");  // DanS doesn't want a date completed if still in progress
+        } else {
+            form.setDateCompleted(updatedDateStr + status);
+        }
+        // Set value on how long rollover has been running
+        String rolloverDuration = _computeRolloverDuration(dateInitiated, dateCompleted);
+        form.setRolloverDuration(rolloverDuration + status);
+    }
+
+    private void _displayRolloverItems(CourseOfferingRolloverManagementForm form,
+                                       List<SocRolloverResultItemInfo> socRolloverResultItemInfos,
+                                       List<SocRolloverResultItemInfo> socRolloverResultItemInfosCopy)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException,
+            OperationFailedException {
+        // Clear out the existing list of result items
+        form.getSocRolloverResultItems().clear();
+
+        for (SocRolloverResultItemInfo socRolloverResultItemInfo : socRolloverResultItemInfosCopy) {
+            if (CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY.equalsIgnoreCase(socRolloverResultItemInfo.getStateKey())) {
+                socRolloverResultItemInfos.remove(socRolloverResultItemInfo);
+            } else {
+                String courseOfferingId = socRolloverResultItemInfo.getTargetCourseOfferingId();
+                if (courseOfferingId == null || courseOfferingId.isEmpty()){
+                    courseOfferingId = socRolloverResultItemInfo.getSourceCourseOfferingId();
+                }
+
+                CourseOfferingInfo courseOfferingInfo = _getCourseOfferingService().getCourseOffering(courseOfferingId, new ContextInfo());
+                SocRolloverResultItemWrapper socRolloverResultItemWrapper = new SocRolloverResultItemWrapper();
+                socRolloverResultItemWrapper.setCourse(courseOfferingInfo.getCourseOfferingCode());
+                if (socRolloverResultItemInfo.getMessage() != null) {
+                    socRolloverResultItemWrapper.setMessage(socRolloverResultItemInfo.getMessage().getPlain());
+                }
+                socRolloverResultItemWrapper.setState(socRolloverResultItemInfo.getStateKey());
+                try {
+                    StateInfo stateInfo = this._getStateService().getState(socRolloverResultItemInfo.getStateKey(), ContextUtils.getContextInfo());
+                    if (stateInfo != null){
+                        socRolloverResultItemWrapper.setStateName((stateInfo.getName() != null) ? stateInfo.getName() : socRolloverResultItemInfo.getStateKey());
+                    }
+                } catch (DoesNotExistException ex){
+                    socRolloverResultItemWrapper.setStateName(socRolloverResultItemInfo.getStateKey());
+                }
+                form.getSocRolloverResultItems().add(socRolloverResultItemWrapper);
+            }
+        }
+    }
     // This method displays rollover result Infos for specific target term.
     @RequestMapping(params = "methodToCall=showRolloverResults")
     public ModelAndView showRolloverResults(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
@@ -389,88 +484,21 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 }
                 _disableReleaseToDeptsIfNeeded(helper, targetTermId, form);
                 SocRolloverResultInfo socRolloverResultInfo = socRolloverResultInfos.get(0);
-                if (socRolloverResultInfo.getStateKey().equals(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY)) {
-                    form.setStatusField("Finished");
-                } else if (socRolloverResultInfo.getStateKey().equals(CourseOfferingSetServiceConstants.RUNNING_RESULT_STATE_KEY)) {
-                    form.setStatusField("In Progress");
-                }
+                String stateKey = socRolloverResultInfo.getStateKey();
+                _setStatus(stateKey, form);
                 // SocInfo service to get Source Term Id
                 SocInfo socInfo = _getSocService().getSoc(socRolloverResultInfo.getSourceSocId(), new ContextInfo());
-
-                if (socInfo != null) {
-                    // Set some display fields that show friendly, human-readable term data
-                    String friendlySourceTermDesc = helper.getTermDesc(socInfo.getTermId());
-                    form.setRolloverSourceTermDesc(friendlySourceTermDesc);
-                    String friendlyTargetTermDesc = helper.getTermDesc(targetTermId);
-                    form.setRolloverTargetTermDesc(friendlyTargetTermDesc);
-                }
-                Date dateInitiated = socRolloverResultInfo.getDateInitiated();
-                String startDateStr = helper.formatDateAndTime(dateInitiated);
-                form.setDateInitiated(startDateStr);
-                // if items skipped is null, then below condition passes and items skipped is calculated
-                if (socRolloverResultInfo.getCourseOfferingsCreated() == null || socRolloverResultInfo.getCourseOfferingsCreated().toString().length() < 1) {
-                    Integer temp = socRolloverResultInfo.getItemsExpected() - socRolloverResultInfo.getItemsProcessed();
-                    String plural = _createPlural(temp);
-                    form.setCourseOfferingsAllowed(socRolloverResultInfo.getItemsProcessed() + " transitioned with " + temp + " exception" + plural);
-                } else {
-                    // This is the official way to compute this
-                    String plural = _createPlural(socRolloverResultInfo.getCourseOfferingsSkipped());
-                    form.setCourseOfferingsAllowed(socRolloverResultInfo.getCourseOfferingsCreated() + " transitioned with " +
-                            socRolloverResultInfo.getCourseOfferingsSkipped() + " exception" + plural);
-                }
-                String plural = _createPlural(socRolloverResultInfo.getActivityOfferingsSkipped());
-                form.setActivityOfferingsAllowed(socRolloverResultInfo.getActivityOfferingsCreated() + " transitioned with " +
-                        socRolloverResultInfo.getActivityOfferingsSkipped() + " exception" + plural);
-                Date dateCompleted = socRolloverResultInfo.getDateCompleted();
-                String updatedDateStr = helper.formatDateAndTime(dateCompleted);
-                // The status displays whether the time is in progress or aborted or nothing if it's completed.
-                String status = _createStatusString(socRolloverResultInfo);
-                String stateKey = socRolloverResultInfo.getStateKey();
-                if ((CourseOfferingSetServiceConstants.SUBMITTED_RESULT_STATE_KEY.equals(stateKey) ||
-                        CourseOfferingSetServiceConstants.RUNNING_RESULT_STATE_KEY.equals(stateKey)) ) {
-                    form.setDateCompleted("Rollover in progress");  // DanS doesn't want a date completed if still in progress
-                } else {
-                    form.setDateCompleted(updatedDateStr + status);
-                }
-                // Set value on how long rollover has been running
-                String rolloverDuration = _computeRolloverDuration(dateInitiated, dateCompleted);
-                form.setRolloverDuration(rolloverDuration + status);
+                // Put info in the display fields on the left hand side
+                _displayRolloverInfo(socInfo, socRolloverResultInfo, form, helper, stateKey, targetTermId);
+              
                 // CourseOfferingSet service to get Soc Rollover ResultItems by socResultItemInfo id
                 try {
                     List<SocRolloverResultItemInfo> socRolloverResultItemInfos =
                             _getSocService().getSocRolloverResultItemsByResultId(socRolloverResultInfo.getId(), new ContextInfo());
-                    List<SocRolloverResultItemInfo> socRolloverResultItemInfos1 = new CopyOnWriteArrayList<SocRolloverResultItemInfo>(socRolloverResultItemInfos);
+                    List<SocRolloverResultItemInfo> socRolloverResultItemInfosCopy =
+                            new CopyOnWriteArrayList<SocRolloverResultItemInfo>(socRolloverResultItemInfos);
 
-                    //Clear out the existing list of result items
-                    form.getSocRolloverResultItems().clear();
-
-                    for (SocRolloverResultItemInfo socRolloverResultItemInfo : socRolloverResultItemInfos1) {
-                        if (CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY.equalsIgnoreCase(socRolloverResultItemInfo.getStateKey())) {
-                            socRolloverResultItemInfos.remove(socRolloverResultItemInfo);
-                        } else {
-                            String courseOfferingId = socRolloverResultItemInfo.getTargetCourseOfferingId();
-                            if (courseOfferingId == null || "".equals(courseOfferingId)){
-                                courseOfferingId = socRolloverResultItemInfo.getSourceCourseOfferingId();
-                            }
-
-                            CourseOfferingInfo courseOfferingInfo = _getCourseOfferingService().getCourseOffering(courseOfferingId, new ContextInfo());
-                            SocRolloverResultItemWrapper socRolloverResultItemWrapper = new SocRolloverResultItemWrapper();
-                            socRolloverResultItemWrapper.setCourse(courseOfferingInfo.getCourseOfferingCode());
-                            if (socRolloverResultItemInfo.getMessage() != null) {
-                                socRolloverResultItemWrapper.setMessage(socRolloverResultItemInfo.getMessage().getPlain());
-                            }
-                            socRolloverResultItemWrapper.setState(socRolloverResultItemInfo.getStateKey());
-                            try{
-                                StateInfo stateInfo = this._getStateService().getState(socRolloverResultItemInfo.getStateKey(), ContextUtils.getContextInfo());
-                                if(stateInfo != null){
-                                    socRolloverResultItemWrapper.setStateName((stateInfo.getName() != null) ? stateInfo.getName():socRolloverResultItemInfo.getStateKey());
-                                }
-                            }catch (DoesNotExistException ex){
-                                socRolloverResultItemWrapper.setStateName(socRolloverResultItemInfo.getStateKey());
-                            }
-                            form.getSocRolloverResultItems().add(socRolloverResultItemWrapper);
-                        }
-                    }
+                    _displayRolloverItems(form, socRolloverResultItemInfos, socRolloverResultItemInfosCopy);
                 } catch (UnhandledException ue) {
                     throw new RuntimeException(ue);
                 } catch (DoesNotExistException dne) {
@@ -504,15 +532,13 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             SocInfo socInfo = helper.getMainSoc(targetTerm.getId());
             if (!socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY)) {
                 // If it's not draft, then set variable to disable release to depts in the UI
-                form.setReleaseToDeptsDisabled(true);
-                form.setReleaseToDeptsAlreadyReleased(true);
+                form.setSocReleasedToDepts(true);
             } else {
                 // It's draft, so change to state to open
                 socInfo.setStateKey(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY);
                 // Persist the state change
                 _getSocService().updateSoc(socInfo.getId(), socInfo, new ContextInfo());
-                form.setReleaseToDeptsDisabled(true);
-                form.setReleaseToDeptsAlreadyReleased(true);
+                form.setSocReleasedToDepts(true);
             }
             // Do a refresh of the data on rollover details
             showRolloverResults(form, result, request, response);
