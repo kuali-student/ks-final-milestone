@@ -20,16 +20,20 @@
 
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="aoInfo.id" />
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="id" />
-                <bean parent="Uif-DataField" p:propertyName="name"/>
-                <bean parent="Uif-DataField" p:propertyName="typeKey" />
-                <bean parent="Uif-DataField" p:propertyName="stateKey" />
-                <bean parent="Uif-DataField" p:propertyName="termId" />
+                <bean parent="Uif-DataField" p:propertyName="aoInfo.id">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="aoInfo.name"/>
+                <bean parent="Uif-DataField" p:propertyName="aoInfo.typeKey" />
+                <bean parent="Uif-DataField" p:propertyName="aoInfo.stateKey" />
+                <bean parent="Uif-DataField" p:propertyName="aoInfo.termId" />
             </list>
         </property>
     </bean>

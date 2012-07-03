@@ -16,7 +16,7 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
     @Override
     public ActivityOfferingWrapper retrieveDataObject(Map<String, String> parameters) {
         try {
-            ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(parameters.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID), getContextInfo());
+            ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(parameters.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID), getContextInfo());
             ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(activityOfferingInfo);
             return aoWrapper;
         } catch (Exception e) {

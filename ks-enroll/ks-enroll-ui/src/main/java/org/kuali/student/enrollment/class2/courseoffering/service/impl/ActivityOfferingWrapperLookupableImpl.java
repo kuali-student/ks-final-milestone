@@ -61,7 +61,7 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
     }
 
     private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
-        String aoId = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID);
+        String aoId = fieldValues.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID);
 
         List<Predicate> predicates = new ArrayList<Predicate>();
         if (StringUtils.isNotBlank(aoId)) {
@@ -76,7 +76,7 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
     }
 
     private boolean hasCriteria(Map<String, String> fieldValues){
-        return StringUtils.isNotBlank(fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID));
+        return StringUtils.isNotBlank(fieldValues.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID));
     }
 
     public CourseOfferingService getCourseOfferingService() {
