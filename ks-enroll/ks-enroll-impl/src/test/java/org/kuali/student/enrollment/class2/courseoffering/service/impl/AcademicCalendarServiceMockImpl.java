@@ -4,10 +4,9 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
@@ -575,7 +574,14 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
     @Override
     public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<TermInfo> list = new ArrayList<TermInfo>();
+        if(criteria.getPredicate() instanceof EqualPredicate){
+            EqualPredicate p = (EqualPredicate) criteria.getPredicate();
+            if("atpCode".equals(p.getPropertyPath())){
+                list.add(this.terms.get(p.getValue().getValue()));
+            }
+        }
+        return list;
     }
 
     @Override

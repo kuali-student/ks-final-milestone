@@ -129,15 +129,12 @@
         <property name="atpRelDao" ref="atpAtpRelationDao" />
         <property name="milestoneDao" ref="milestoneDao" />
         <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
+        <property name="criteriaLookupService" ref="atpCriteriaLookupService" />
     </bean>
 
     <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
         <property name="em" ref="entityManager" />
     </bean>
-
-
-
-
 
     <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao">
         <property name="em" ref="entityManager" />
