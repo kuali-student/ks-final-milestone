@@ -18,7 +18,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String activityActionType;
     private List<CourseOfferingInfo> courseOfferingList;
     private CourseOfferingInfo theCourseOffering;
-    private String coViewLinkWrapper = "View Details"; // temp var to hold/store the View Details Link
+    private String coViewLinkWrapper = "View"; // temp var to hold/store the View Details Link
 
     private List<ActivityOfferingWrapper> activityWrapperList;
     private List<ActivityOfferingWrapper> selectedToDeleteList;

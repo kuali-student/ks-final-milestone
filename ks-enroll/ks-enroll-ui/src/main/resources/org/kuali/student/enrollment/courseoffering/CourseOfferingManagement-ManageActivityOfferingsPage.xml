@@ -92,7 +92,7 @@
                     <property name="items">
                         <list>
                             <!-- This is a hack to get an inquiry screen to display -->
-                            <bean parent="Uif-DataField" p:propertyName="coViewLinkWrapper" p:defaultValue="View Details">
+                            <bean parent="Uif-DataField" p:propertyName="coViewLinkWrapper" p:defaultValue="View">
                                 <property name="inquiry">
                                     <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="theCourseOffering.id" />
                                 </property>
