@@ -222,12 +222,12 @@ public class TestKRMSCreateTermSpecificationPhase1 extends KRMSTestCase {
 		termParameters.clear();
 		setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
 		setupTermParameters(termParameters, KSKRMSConstants.TERM_ID_TERM_PROPERTY, "???termParameterValue");
-		createKRMSTermDefinition(nameSpace, null, KSKRMSConstants.TERM_ENROLLED_COURSE, termParameters);
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.TERM_ENROLLED_COURSE, termParameters);
 		
 		termParameters.clear();
 		setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
 		setupTermParameters(termParameters, KSKRMSConstants.TERM_ID_TERM_PROPERTY, "???termParameterValue");
-		createKRMSTermDefinition(nameSpace, null, KSKRMSConstants.TERM_ENROLLED_COURSES, termParameters);
+		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.TERM_ENROLLED_COURSES, termParameters);
 		
 		termParameters.clear();
 		setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
@@ -278,11 +278,13 @@ public class TestKRMSCreateTermSpecificationPhase1 extends KRMSTestCase {
 		setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
 		setupTermParameters(termParameters, KSKRMSConstants.TERM_ID_TERM_PROPERTY, "???termParameterValue");		
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.TERM_NUMBER_OF_CREDITS, termParameters);
-		
+
+        // TODO KSENROLL-1630
 		termParameters.clear();
 		setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS, KSKRMSConstants.TERM_SCORE, termParameters);
-		
+
+        // TODO KSENROLL-1630
 		termParameters.clear();
 		setupTermParameters(termParameters, KSKRMSConstants.PERSON_ID_TERM_PROPERTY, "???termParameterValue");
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.TERM_TEST, termParameters);

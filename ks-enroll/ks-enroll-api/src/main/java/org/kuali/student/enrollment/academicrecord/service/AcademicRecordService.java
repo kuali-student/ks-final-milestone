@@ -50,6 +50,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 @WebService(name = "AcademicRecordService", serviceName = "AcademicRecordService", portName = "AcademicRecordService", targetNamespace = "http://student.kuali.org/wsdl/academicrecord")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
+// TODO KSENROLL-1630
 public interface AcademicRecordService {
 
     /**
