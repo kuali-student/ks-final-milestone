@@ -470,12 +470,17 @@ public class AppointmentServiceImpl implements AppointmentService {
                 throw new InvalidParameterException("End time should be 1 AM or after");
             }
 
-            if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY.equals(apptWinType) &&
-                    apptWin.getMaxAppointmentsPerSlot() <= 0) {
-                // Handle 0 or negative error case
-                int maxAppts = apptWin.getMaxAppointmentsPerSlot();
-                throw new InvalidParameterException("Invalid max: " + maxAppts + ". Max appointment slot allocation require positive max value");
+            if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY.equals(apptWinType)){
+                if(apptWin.getMaxAppointmentsPerSlot() == null){
+                    // Handle null case
+                    throw new InvalidParameterException("Null max. Max appointment slot allocation require positive max value");
+                }else if(apptWin.getMaxAppointmentsPerSlot() <= 0){
+                    // Handle 0 or negative error case
+                    int maxAppts = apptWin.getMaxAppointmentsPerSlot();
+                    throw new InvalidParameterException("Invalid max: " + maxAppts + ". Max appointment slot allocation require positive max value");
+                }
             }
+
             Object [] result = helper.createMultiSlots(apptWinInfo, contextInfo);
             slotList = (List<AppointmentSlotInfo>) result[0];
         } else {
