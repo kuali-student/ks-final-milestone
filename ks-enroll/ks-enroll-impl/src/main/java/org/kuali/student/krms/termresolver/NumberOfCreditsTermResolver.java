@@ -65,7 +65,7 @@ public class NumberOfCreditsTermResolver implements TermResolver<String> {
     public Set<String> getParameterNames() {
         Set<String> temp = new HashSet<String>(1);
         temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        temp.add(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
+        temp.add(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY);
         return Collections.unmodifiableSet(temp);
     }
 
@@ -79,11 +79,11 @@ public class NumberOfCreditsTermResolver implements TermResolver<String> {
     public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
         String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        String termId = parameters.get(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
+        String calcTypeKeyId = parameters.get(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY);
         
         String result = null;
         try {
-            result = academicRecordService.getEarnedCredits(personId, termId, context);
+            result = academicRecordService.getEarnedCredits(personId, calcTypeKeyId, context);
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
