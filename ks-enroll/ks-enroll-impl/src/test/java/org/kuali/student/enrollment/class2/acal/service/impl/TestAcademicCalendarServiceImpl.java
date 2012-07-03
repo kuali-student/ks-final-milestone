@@ -290,6 +290,7 @@ public class TestAcademicCalendarServiceImpl {
         term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
         populateRequiredFields(term);
+        term.setStartDate(new Date(term.getStartDate().getTime()));
 
         TermInfo created;
 
@@ -303,6 +304,8 @@ public class TestAcademicCalendarServiceImpl {
         assertEquals(expectedCode, created.getCode());
 
         term.setId(null);
+        term.setStartDate(new Date(term.getStartDate().getTime()));
+        term.setTypeKey(AtpServiceConstants.ATP_WINTER_TYPE_KEY);
         created = acalService.createTerm(AtpServiceConstants.ATP_WINTER_TYPE_KEY, term, callContext);
         assertNotNull(created);
         assertNotNull(created.getId());
