@@ -213,6 +213,8 @@
 		<property name="propertyName" value="formatOfferingList" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
         <property name="addLineActions">
           <list>
             <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
