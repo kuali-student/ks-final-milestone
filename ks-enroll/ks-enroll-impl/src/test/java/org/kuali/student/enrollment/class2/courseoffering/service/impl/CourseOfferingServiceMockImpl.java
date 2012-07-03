@@ -15,23 +15,37 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import groovy.util.logging.Log;
-
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.jws.WebParam;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.criteria.LikePredicate;
-import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingAdminDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingAdminDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupTemplateInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
+import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -48,15 +62,14 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
-import javax.annotation.Resource;
-import javax.jws.WebParam;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
-import org.springframework.transaction.annotation.Transactional;
+import edu.emory.mathcs.backport.java.util.Arrays;
+import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicInteger;
 
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
@@ -653,22 +666,51 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public List<RegistrationGroupInfo> getRegistrationGroupsForCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("getRegistrationGroupsForCourseOffering has not been implemented");
+        
+    	List<RegistrationGroupInfo>regGroupList = new ArrayList<RegistrationGroupInfo>();
+    	
+    	for (RegistrationGroupInfo rg : this.registrationGroupMap.values()) {
+			if (rg.getCourseOfferingId().equals(courseOfferingId))
+				regGroupList.add(rg);
+		}
+    	
+    	return regGroupList;
     }
 
+    
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsWithActivityOfferings(List<String> activityOfferingIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("getRegistrationGroupsWithActivityOfferings has not been implemented");
+    
+    	List<RegistrationGroupInfo>regGroupList = new ArrayList<RegistrationGroupInfo>();
+    	
+    	for (RegistrationGroupInfo rg : this.registrationGroupMap.values()) {
+    		
+    		if (CollectionUtils.isEqualCollection(activityOfferingIds, rg.getActivityOfferingIds()))
+    			regGroupList.add(rg);
+		}
+    	
+    	return regGroupList;
+    	
+
     }
 
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
+    	
+    	List<RegistrationGroupInfo>regGroupList = new ArrayList<RegistrationGroupInfo>();	
+    	
+    	for (RegistrationGroupInfo rg : this.registrationGroupMap.values()) {
+    		
+    		if (rg.getFormatOfferingId().equals(formatOfferingId))
+    			regGroupList.add(rg);
+		}
+    	
+    	return regGroupList;
 
-        throw new OperationFailedException("getActivityOfferingTypesForActivityType has not been implemented");
     }
 
     // cache variable
@@ -680,7 +722,59 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(String formatOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("generateRegistrationGroupsForFormatOffering has not been implemented");
+    	
+    	FormatOfferingInfo formatOffering = getFormatOffering(formatOfferingId, context);
+    	
+    	List<RegistrationGroupInfo>regGroupList = new ArrayList<RegistrationGroupInfo>();
+    	
+    	Map<String, List<String>>activityOfferingTypeToAvailableActivityOfferingMap = new HashMap<String, List<String>>();
+    	
+    	List<ActivityOfferingInfo> aoList = getActivityOfferingsByFormatOffering(formatOfferingId, context);
+    		
+    	
+    	for (ActivityOfferingInfo info : aoList) {
+    		
+    		String activityType = info.getTypeKey();
+    		
+    		List<String>activityList = activityOfferingTypeToAvailableActivityOfferingMap.get(activityType);
+    		
+    		if (activityList == null) {
+    			activityList = new ArrayList<String>();
+    			activityOfferingTypeToAvailableActivityOfferingMap.put(activityType, activityList);
+    		}
+    		
+    		activityList.add(info.getId());
+    		
+		}
+    	
+    	
+    	List<List<String>> generatedPermutations = new ArrayList<List<String>>();
+    	
+		PermutationUtils.generatePermutations(new ArrayList<String>(activityOfferingTypeToAvailableActivityOfferingMap.keySet()), new ArrayList<String>(), activityOfferingTypeToAvailableActivityOfferingMap, generatedPermutations );
+    	
+		
+		for (List<String> activityOfferingPermuation : generatedPermutations) {
+			
+			String registrationCode = StringUtils.join(new String[] { StringUtils.join(activityOfferingPermuation, "+"), "GENERATED"},  "+");
+			String name = registrationCode;
+			RegistrationGroupInfo rg = CourseOfferingServiceDataUtils.createRegistrationGroup(formatOffering.getCourseOfferingId(), formatOfferingId, formatOffering.getTermId(), activityOfferingPermuation, name, registrationCode, true, true, 100, LuiServiceConstants.REG_GROUP_OPEN_STATE_KEY);
+		
+			try {
+				// TODO: determine if this is an acceptable way to handle this stuff.
+				createRegistrationGroup(formatOfferingId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, context);
+				
+				regGroupList.add(rg);
+				
+			} catch (DataValidationErrorException e) {
+				throw new OperationFailedException("Failed to validate registration group", e);
+				
+			} catch (ReadOnlyException e) {
+				throw new OperationFailedException("Failed to write registration group", e);
+			}
+			
+		}
+    	
+    	return regGroupList;
     }
 
     @Override

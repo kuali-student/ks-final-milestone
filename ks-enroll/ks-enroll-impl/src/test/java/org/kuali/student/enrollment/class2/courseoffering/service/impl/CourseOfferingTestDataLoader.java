@@ -256,36 +256,36 @@ public class CourseOfferingTestDataLoader implements InitializingBean {
 			// Format 2:
 			
 			// Lecture A
-			ActivityOfferingInfo lectureAndLabFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureOnlyFormatOffering.getId(), "SCHED-3", canonicalLectureOnlyLectureActivity.getId(), "Lecture A", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureAndLabFormatOffering.getId(), "SCHED-3", canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture A", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLectureA.setId("CO-1:LEC-AND-LAB:LEC-A");
 			
-			coService.createActivityOffering(lectureOnlyFormatOffering.getId(), canonicalLectureOnlyLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLectureA, context);
+			coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLectureA, context);
 			
 			// Lecture B
-			ActivityOfferingInfo lectureAndLabFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureOnlyFormatOffering.getId(), "SCHED-4", canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture B", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureAndLabFormatOffering.getId(), "SCHED-4", canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture B", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLectureB.setId("CO-1:LEC-AND-LAB:LEC-B");
 			
-			coService.createActivityOffering(lectureOnlyFormatOffering.getId(), canonicalLectureAndLabFormatLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLectureB, context);
+			coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLectureB, context);
 		
 			
 			
 			
 			// Lab A
-			ActivityOfferingInfo lectureAndLabFormatLabA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureAndLabFormatOffering.getId(), "LAB-A", canonicalLectureAndLabFormatLectureActivity.getId(), "Lab A", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLabA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureAndLabFormatOffering.getId(), "LAB-A", canonicalLectureAndLabFormatLabActivity.getId(), "Lab A", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLabA.setId("CO-1:LEC-AND-LAB:LAB-A");
 			
-			coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLectureActivity.getId(), LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLabA, context);
+			coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLabActivity.getId(), LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLabA, context);
 			
 			
 			// Lab B
-			ActivityOfferingInfo lectureAndLabFormatLabB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureAndLabFormatOffering.getId(), "LAB-B", canonicalLectureAndLabFormatLectureActivity.getId(), "Lab B", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLabB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureAndLabFormatOffering.getId(), "LAB-B", canonicalLectureAndLabFormatLabActivity.getId(), "Lab B", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLabB.setId("CO-1:LEC-AND-LAB:LAB-B");
 			
-			coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLectureActivity.getId(), LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLabB, context);
+			coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLabActivity.getId(), LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLabB, context);
 			
 			// Lab C
 			
