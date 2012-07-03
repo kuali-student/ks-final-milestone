@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.r2.core.population.service;
+package org.kuali.student.r2.core.population.service.decorators;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -12,6 +12,7 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.population.dto.PopulationCategoryInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
+import org.kuali.student.r2.core.population.service.PopulationService;
 
 import java.util.Date;
 import java.util.List;
