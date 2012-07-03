@@ -103,7 +103,7 @@ public class FormatInfo implements Serializable, Idable, HasTypeState, HasAttrib
         return shortName;
     }
 
-    public void setShortShortName(String shortName) {
+    public void setShortName(String shortName) {
         this.shortName = shortName;
     }
 
