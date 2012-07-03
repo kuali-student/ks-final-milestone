@@ -7,9 +7,14 @@
         <bean id="KS-Personnel-LookupView" parent="PersonImpl-LookupView">
         <property name="headerText" value="Personnel Lookup " />
         <property name="viewName" value="ks_simplePersonLookup"/>
+            <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.KSPersonLookupableImpl" />
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalName" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalName" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:watermarkText="user1" p:minLength="3" />
+                    </property>
+                </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="entityId" p:label="ID" />
             </list>
         </property>
