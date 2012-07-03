@@ -2046,8 +2046,7 @@
         LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="d5d88804-a3f1-4b41-bdee-2b5946ad3c3b" UPDATEID="admin"
         UPDATETIME="20120613163827" VER_NBR="0"/>
-    <KSEN_LUI ATP_ID="20122"
-        CLU_ID="0810c79b-8296-408b-8501-39a9f7ca14cc" CREATEID="admin"
+    <KSEN_LUI ATP_ID="20122" CLU_ID="BAD_CLU_ID" CREATEID="admin"
         CREATETIME="20120613163921"
         DESCR_FORMATTED="An examination of books that form a part of the imaginative experience of children, as well as a part of a larger literary heritage, viewed in the light of their social, psychological, political, and moral implications."
         DESCR_PLAIN="An examination of books that form a part of the imaginative experience of children, as well as a part of a larger literary heritage, viewed in the light of their social, psychological, political, and moral implications."
