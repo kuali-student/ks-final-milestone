@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -222,6 +224,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, aoWrapper.getAoInfo().getId());
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, theForm.getTheCourseOffering().getId());
             urlParameters.put("dataObjectClassName", ActivityOfferingWrapper.class.getName());
+            urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
