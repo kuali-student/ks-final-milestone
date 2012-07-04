@@ -24,8 +24,6 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,6 +31,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -40,7 +39,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.kew.api.preferences.Preferences.KEYS;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -96,6 +94,9 @@ public class TestCourseOfferingServiceMockImpl {
 
 	@Resource
 	private org.kuali.student.lum.course.service.CourseService canonicalCourseService;
+	
+	@Resource
+	private CourseOfferingServiceTestDataLoader dataLoader;
 
 	/**
 	 * 
@@ -111,7 +112,15 @@ public class TestCourseOfferingServiceMockImpl {
 
 		callContext = new ContextInfo();
 		callContext.setPrincipalId(principalId);
+		
+		dataLoader.beforeTest();
 
+	}
+	
+	
+	@After
+	public void tearDown() {
+		dataLoader.afterTest();
 	}
 
 	@Test

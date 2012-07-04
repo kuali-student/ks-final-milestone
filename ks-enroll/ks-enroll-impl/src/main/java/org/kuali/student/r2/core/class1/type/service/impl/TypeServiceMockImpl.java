@@ -1,5 +1,6 @@
 package org.kuali.student.r2.core.class1.type.service.impl;
 
+import org.kuali.student.common.test.MockService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -25,7 +26,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 
-public class TypeServiceMockImpl implements TypeService {
+public class TypeServiceMockImpl implements TypeService, MockService {
 
     private Map<String, TypeInfo> allTypes = new HashMap<String, TypeInfo>();
     private Map<String, Map<String, TypeTypeRelationInfo>> relationOwners = new HashMap<String, Map<String, TypeTypeRelationInfo>>();
@@ -36,8 +37,22 @@ public class TypeServiceMockImpl implements TypeService {
     {
         init();
     }
+    
+    
 
     @Override
+	public void clear() {
+    	
+    	this.allowedTypes.clear();
+    	this.allTypes.clear();
+    	this.groupTypes.clear();
+    	this.relationOwners.clear();
+
+    	init();
+		
+	}
+
+	@Override
     public TypeInfo getType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         TypeInfo type = getType(typeKey);
         if (type == null) {

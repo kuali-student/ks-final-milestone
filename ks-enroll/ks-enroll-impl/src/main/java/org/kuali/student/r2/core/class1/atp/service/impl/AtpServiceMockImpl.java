@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.test.MockService;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -42,14 +43,25 @@ import org.kuali.student.r2.core.atp.service.AtpService;
  * 
  * @author Kuali Student Team (Kamal)
  */
-public class AtpServiceMockImpl implements AtpService {
+public class AtpServiceMockImpl implements AtpService, MockService {
 
     private Map<String, AtpInfo> atpCache = new HashMap<String, AtpInfo>();
     private Map<String, MilestoneInfo> milestoneCache = new HashMap<String, MilestoneInfo>();
     private Map<String, AtpAtpRelationInfo> atpAtpRltnCache = new HashMap<String, AtpAtpRelationInfo>();
     private Map<String, Set<String>> milestonesForAtp = new HashMap<String, Set<String>>();
 
+    
     @Override
+	public void clear() {
+    	
+    	this.atpCache.clear();
+    	this.milestoneCache.clear();
+    	this.atpAtpRltnCache.clear();
+    	this.milestonesForAtp.clear();
+		
+	}
+
+	@Override
     public AtpInfo getAtp(String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         AtpInfo atp = atpCache.get(atpId);
         if (null == atp) {

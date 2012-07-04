@@ -29,6 +29,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.test.MockService;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
@@ -72,7 +73,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicInteger;
 
 
-public class CourseOfferingServiceMockImpl implements CourseOfferingService {
+public class CourseOfferingServiceMockImpl implements CourseOfferingService, MockService {
 
 	private static Logger log = Logger.getLogger(CourseOfferingServiceMockImpl.class);
 	
@@ -87,7 +88,18 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 	private TypeService typeService;
 
 	
-    public void setTypeService(TypeService typeService) {
+	
+    @Override
+	public void clear() {
+    	
+    	this.activityOfferingMap.clear();
+    	this.courseOfferingMap.clear();
+    	this.formatOfferingMap.clear();
+    	this.registrationGroupMap.clear();
+    	this.seatPoolDefinitionMap.clear();
+	}
+
+	public void setTypeService(TypeService typeService) {
 		this.typeService = typeService;
 	}
 

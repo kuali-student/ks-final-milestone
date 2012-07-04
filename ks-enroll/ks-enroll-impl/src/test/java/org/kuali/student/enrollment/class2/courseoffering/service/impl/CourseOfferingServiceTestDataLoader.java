@@ -20,7 +20,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +33,8 @@ import org.kuali.student.common.exceptions.CircularRelationshipException;
 import org.kuali.student.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.common.exceptions.UnsupportedActionException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.test.MockService;
+import org.kuali.student.common.test.TestAwareDataLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
@@ -48,7 +49,6 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -59,13 +59,14 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 
@@ -79,7 +80,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
  * 
  *
  */
-public class CourseOfferingTestDataLoader implements InitializingBean {
+public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader, ApplicationContextAware {
 
 	@Resource
 	private AcademicCalendarService acalService;
@@ -95,6 +96,8 @@ public class CourseOfferingTestDataLoader implements InitializingBean {
 	
 	private AtpTestDataLoader atpDataLoader;
 	private AcalTestDataLoader acalDataLoader;
+
+	private ApplicationContext applicationContext;
 	
 
 	/**
@@ -103,12 +106,24 @@ public class CourseOfferingTestDataLoader implements InitializingBean {
 	 * @param canonicalCourseService 
 	 * 
 	 */
-	public CourseOfferingTestDataLoader() {
+	public CourseOfferingServiceTestDataLoader() {
 	}
 
 	
+	
+	
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
+				this.applicationContext = applicationContext;
+		
+	}
+
+
+
+
+	@Override
+	public void beforeTest() throws Exception {
 		this.atpDataLoader = new AtpTestDataLoader(atpService);
 		this.acalDataLoader = new AcalTestDataLoader(acalService);		
 		
@@ -154,8 +169,25 @@ public class CourseOfferingTestDataLoader implements InitializingBean {
 	     
 		// for registration groups
 		
-	        
-	    }
+	}
+
+
+
+	@Override
+	public void afterTest() {
+		// clear the state
+		
+		Map<String, MockService> map = applicationContext.getBeansOfType(MockService.class);
+		
+		for (MockService mock : map.values()) {
+			
+			mock.clear();
+		}
+		
+	}
+
+
+
 
 	    private TermInfo createTerm(String id, String name, String atpTypeKey, Date startDate, Date endDate, ContextInfo context) throws OperationFailedException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, ReadOnlyException {
 	    	

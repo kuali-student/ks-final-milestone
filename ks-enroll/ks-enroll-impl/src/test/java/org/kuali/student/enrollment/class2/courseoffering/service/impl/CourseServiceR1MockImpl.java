@@ -24,6 +24,7 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.UnsupportedActionException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.test.MockService;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionInfo;
@@ -39,11 +40,18 @@ import org.kuali.student.lum.lu.service.LuServiceConstants;
  *
  * @author nwright
  */
-public class CourseServiceR1MockImpl implements CourseService {
+public class CourseServiceR1MockImpl implements CourseService, MockService {
 
     private Map<String, CourseInfo> courses = new LinkedHashMap<String, CourseInfo>();
+    
+    
 
     @Override
+	public void clear() {
+    	this.courses.clear();
+	}
+
+	@Override
     public CourseInfo createCourse(CourseInfo courseInfo) 
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
         if (courseInfo.getId() == null) {
