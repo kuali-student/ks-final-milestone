@@ -18,7 +18,7 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 		
 		if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_COMPLETED_COURSE)) {
 			CompletedCourseTermResolver resolver = new CompletedCourseTermResolver();
-			resolver.setAcadRecordService(acadRecordService);
+			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;	
 		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_ENROLLED_COURSE_BY_TERM)) {
 			// TODO implement the Term resolvers by instantiating it and setting the required services...
