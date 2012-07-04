@@ -16,34 +16,20 @@
 package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
-import java.util.Calendar;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class CompletedCourseTermResolver implements TermResolver<StudentCourseRecordInfo> {	
+public class CompletedCourseTermResolver extends CompletedCoursesTermResolver {
 
-	private AcademicRecordService acadRecordService;
-	
-    @Override
-    public Set<String> getPrerequisites() {
-        return Collections.emptySet();
-    }
 
     @Override
     public String getOutput() {
@@ -52,7 +38,7 @@ public class CompletedCourseTermResolver implements TermResolver<StudentCourseRe
 
     @Override
     public Set<String> getParameterNames() {
-    	Set<String> temp = new HashSet<String>(2);
+        Set<String> temp = new HashSet<String>(2);
         temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
         temp.add(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
 
@@ -66,35 +52,20 @@ public class CompletedCourseTermResolver implements TermResolver<StudentCourseRe
     }
 
 
-
-	public AcademicRecordService getAcadRecordService() {
-		return acadRecordService;
-	}
-
-	public void setAcadRecordService(AcademicRecordService acadRecordService) {
-		this.acadRecordService = acadRecordService;
-	}
-
-	@Override
-	public StudentCourseRecordInfo resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters)
-			throws TermResolutionException {
-		// Get the parameters for the Term
-        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+    @Override
+    public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters)
+            throws TermResolutionException {
+        // Get the list of course records from the superclass and then just return the one we need. (in this case we know there will only be one)
+        List<StudentCourseRecordInfo> completedCourseRecords = super.resolve(resolvedPrereqs, parameters);
         String courseCode = parameters.get(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-		//
-		try {
-			List<StudentCourseRecordInfo> completedCourseRecords = getAcadRecordService().getCompletedCourseRecords(personId, context);
-			for (StudentCourseRecordInfo studentCourseRecordInfo : completedCourseRecords) {
-				if (studentCourseRecordInfo.getCourseCode().equals(courseCode)) {
-					return studentCourseRecordInfo;
-				}
-			}
-			
-		} catch (Exception e) {
-			KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
-		}
-		return null;
-	}
+
+        for (StudentCourseRecordInfo studentCourseRecordInfo : completedCourseRecords) {
+            if (studentCourseRecordInfo.getCourseCode().equals(courseCode)) {
+                return Arrays.asList(studentCourseRecordInfo);
+            }
+        }
+
+        return null; //TODO should we return null here or an empty list?
+    }
 
 }

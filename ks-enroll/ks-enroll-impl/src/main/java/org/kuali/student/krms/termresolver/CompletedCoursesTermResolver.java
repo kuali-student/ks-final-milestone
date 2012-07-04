@@ -58,7 +58,7 @@ public class CompletedCoursesTermResolver implements TermResolver<List<StudentCo
 
     @Override
     public String getOutput() {
-        return "CompletedCoursesTermResolver.getOutput()";
+        return "CompletedCoursesTermResolver";
     }
 
     @Override
@@ -71,7 +71,7 @@ public class CompletedCoursesTermResolver implements TermResolver<List<StudentCo
     @Override
     public int getCost() {
         // TODO Analyze, though probably not much to check here
-        return 5;
+        return 1;
     }
 
     @Override
