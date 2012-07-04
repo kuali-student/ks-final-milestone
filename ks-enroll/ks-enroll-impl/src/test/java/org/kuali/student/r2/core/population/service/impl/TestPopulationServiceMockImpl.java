@@ -62,17 +62,17 @@ public class TestPopulationServiceMockImpl {
     public void testCrudPopulation() throws Exception {
         // create
         PopulationInfo expected = new PopulationInfo();
-        expected.setId("pop1");
-        expected.setName("mezba fan club");
+        expected.setName("popname1");
         expected.setTypeKey(PopulationServiceConstants.POPULATION_TYPE_KEY);
         expected.setStateKey(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());
+        assertNull(expected.getId());
         PopulationInfo actual = populationService.createPopulation(expected, contextInfo);
         assertNotNull(actual.getId());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new IdEntityTester().check(expected, actual);
         new MetaTester().checkAfterCreate(actual.getMeta());
-        assertEquals(expected.getId(), actual.getId());
+
 
         // test read
         expected = actual;
@@ -95,7 +95,7 @@ public class TestPopulationServiceMockImpl {
             // to let the checks work properly
             itemInfo.setId(null);
         }
-        expected.setName("Mezba Official Fan Club");
+        expected.setName("popname2");
         new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
         actual = populationService.updatePopulation(expected.getId(), expected, contextInfo);
         assertEquals(expected.getId(), actual.getId());
@@ -135,17 +135,16 @@ public class TestPopulationServiceMockImpl {
     public void testCrudPopulationRule() throws Exception {
         // create
         PopulationRuleInfo expected = new PopulationRuleInfo();
-        expected.setId("poprule1");
-        expected.setName("how to be a Canadian");
-        expected.setTypeKey(PopulationServiceConstants.POPULATION_RULE_TYPE_KEY);
+        expected.setName("poprulename1");
+        expected.setTypeKey(PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY);
         expected.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());
+        assertNull(expected.getId());
         PopulationRuleInfo actual = populationService.createPopulationRule(expected, contextInfo);
         assertNotNull(actual.getId());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new IdEntityTester().check(expected, actual);
         new MetaTester().checkAfterCreate(actual.getMeta());
-        assertEquals(expected.getId(), actual.getId());
 
         // test read
         expected = actual;
@@ -168,7 +167,7 @@ public class TestPopulationServiceMockImpl {
             // to let the checks work properly
             itemInfo.setId(null);
         }
-        expected.setName("How To Tell You Are Canadian");
+        expected.setName("poprulename2");
         new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
         actual = populationService.updatePopulationRule(expected.getId(), expected, contextInfo);
         assertEquals(expected.getId(), actual.getId());
@@ -208,8 +207,7 @@ public class TestPopulationServiceMockImpl {
     public void testCrudPopulationCategory() throws Exception {
         // create
         PopulationCategoryInfo expected = new PopulationCategoryInfo();
-        expected.setId("popcategory");
-        expected.setName("cool people");
+        expected.setName("popcategoryname1");
         expected.setTypeKey(PopulationServiceConstants.POPULATION_CATEGORY_TYPE_KEY);
         expected.setStateKey(PopulationServiceConstants.POPULATION_CATEGORY_ACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());
@@ -218,7 +216,6 @@ public class TestPopulationServiceMockImpl {
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new IdEntityTester().check(expected, actual);
         new MetaTester().checkAfterCreate(actual.getMeta());
-        assertEquals(expected.getId(), actual.getId());
 
         // test read
         expected = actual;
@@ -241,7 +238,7 @@ public class TestPopulationServiceMockImpl {
             // to let the checks work properly
             itemInfo.setId(null);
         }
-        expected.setName("How To Tell You Are Canadian");
+        expected.setName("popcategoryname2");
         new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
         actual = populationService.updatePopulationCategory(expected.getId(), expected, contextInfo);
         assertEquals(expected.getId(), actual.getId());

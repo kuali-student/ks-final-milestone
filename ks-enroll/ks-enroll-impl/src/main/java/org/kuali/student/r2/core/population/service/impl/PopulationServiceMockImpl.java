@@ -455,7 +455,7 @@ public class PopulationServiceMockImpl implements PopulationService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("getPopulationCategoriesForPopulation has not been implemented");
+        return populationCategoriesForPopulationMap.get(populationId);
     }
 
     @Override

@@ -39,7 +39,12 @@ public class PopulationServiceConstants {
     /**
      * PopulationRule types
      */
-    public static final String POPULATION_RULE_TYPE_KEY = "kuali.population.type.population.rule";
+    public static final String POPULATION_RULE_TYPE_PERSON_KEY = "kuali.population.rule.type.person";
+    public static final String POPULATION_RULE_TYPE_RULE_KEY = "kuali.population.rule.type.rule";
+    public static final String POPULATION_RULE_TYPE_SEARCH_KEY = "kuali.population.rule.type.search";
+    public static final String POPULATION_RULE_TYPE_UNION_KEY = "kuali.population.rule.type.union";
+    public static final String POPULATION_RULE_TYPE_INTERSECTION_KEY = "kuali.population.rule.type.intersection";
+    public static final String POPULATION_RULE_TYPE_EXCLUSION_KEY = "kuali.population.rule.type.exclusion";
 
     /**
      * States for Population Rule
