@@ -1,17 +1,14 @@
 package org.kuali.student.krms.termresolver;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.collections.map.HashedMap;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
+import org.kuali.rice.test.BaselineTestCase;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-
-//import org.kuali.student.krms.KSKRMSTestCase;
+import org.kuali.student.krms.KSKRMSTestCase;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -19,18 +16,19 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class KSKRMSTestKRMSServices   {
+import java.util.HashMap;
+import java.util.Map;
+
+@Ignore
+public class KSKRMSTestKRMSServices extends KSKRMSTestCase {
 
 	org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler acalAssembler;
 	AcademicCalendarService acalService;
 	KSTermResolverTypeService ksKRMSTermResolverTypeService;
 
-
-    /*
-    TODO: This is a hack to get the compile to work. Please remove when fixed.
-     */
-    private TermResolverDefinition krmsTermResolverLookup(String termSpecResolverCourseNumberRange) {
-        return null;  //To change body of created methods use File | Settings | File Templates.
+    @Override
+    protected String getAdditionalSpringFile(){
+        return "ks-krms-test-context.xml";
     }
 
     protected ContextDefinition getKRMSContext(String context) {
@@ -46,7 +44,7 @@ public class KSKRMSTestKRMSServices   {
 	@Before
 	public void setupTypeService() {
 		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
-		        new String[] {"ks-krms-test-context.xml"});
+		        new String[] {"ckasspath:ks-krms-test-context.xml"});
 		BeanFactory factory = (BeanFactory) appContext;
 		ksKRMSTermResolverTypeService = (KSTermResolverTypeService) factory.getBean("ksKRMSTermResolverTypeService");
 	}
