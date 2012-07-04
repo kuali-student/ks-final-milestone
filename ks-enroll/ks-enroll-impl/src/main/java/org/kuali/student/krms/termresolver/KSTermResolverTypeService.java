@@ -6,11 +6,13 @@ import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.util.KSKRMSConstants;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 public class KSTermResolverTypeService implements TermResolverTypeService {
 
 	AcademicRecordService acadRecordService;
-	CourseRegistrationService courseRegistrationService;
+    CourseRegistrationService courseRegistrationService;
+    OrganizationService organizationService;
 	
 	@Override
 	public TermResolver<?> loadTermResolver(
@@ -91,11 +93,11 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_DEPT_NUMBER)) {
 			DeptNumberTermResolver resolver = new DeptNumberTermResolver();
-			resolver.setAcademicRecordService(acadRecordService);
+			resolver.setOrganizationService(organizationService);
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_ADMIN_ORG_NUMBER)) {
 			AdminOrgNumberTermResolver resolver = new AdminOrgNumberTermResolver();
-			resolver.setAcademicRecordService(acadRecordService);
+			resolver.setOrganizationService(organizationService);
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_COMPLETED_COURSE)) {
 			CompletedCourseNumberTermResolver resolver = new CompletedCourseNumberTermResolver();
