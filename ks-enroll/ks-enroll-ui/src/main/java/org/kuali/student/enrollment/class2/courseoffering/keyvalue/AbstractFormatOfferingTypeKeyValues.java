@@ -19,11 +19,10 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created with IntelliJ IDEA.
- * User: swedev
+ *
+ * @author: swedev
  * Date: 6/22/12
  * Time: 3:59 PM
- * To change this template use File | Settings | File Templates.
  */
 public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
@@ -35,18 +34,18 @@ public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFi
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         List<FormatInfo> formatOptions = getFormats(model);
-        List<String> availableFormatTypes;
+        List<String> existingFormatIds;
         try{
-            availableFormatTypes = getAvailableFormatTypes(model);
-        }catch(Exception e){
-            availableFormatTypes = new ArrayList<String>();
+            existingFormatIds = getExistingFormatIdsFromFormatOfferings(model);
+        } catch(Exception e) {
+            existingFormatIds = new ArrayList<String>();
         }
 
         for (FormatInfo format : formatOptions) {
             ConcreteKeyValue keyValue = new ConcreteKeyValue();
-            if(!availableFormatTypes.contains(format.getId())){
+            if(!existingFormatIds.contains(format.getId())){
                 keyValue.setKey(format.getId());
-                keyValue.setValue(format.getType());
+                keyValue.setValue(format.getName());
                 keyValues.add(keyValue);
             }
         }
@@ -74,7 +73,7 @@ public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFi
         return contextInfo;
     }
 
-    protected abstract List<String> getAvailableFormatTypes(ViewModel model) throws Exception ;
+    protected abstract List<String> getExistingFormatIdsFromFormatOfferings(ViewModel model) throws Exception ;
 
     protected abstract List<FormatInfo> getFormats(ViewModel model);
 }

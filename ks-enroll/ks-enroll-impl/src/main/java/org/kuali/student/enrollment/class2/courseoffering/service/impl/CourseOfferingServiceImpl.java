@@ -853,18 +853,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
         ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, context);
 
-        LuiInfo foLui = this.findFormatOfferingLui(activityOfferingId, context);
+        populateActivityOfferingRelationships(ao, context);
+        return ao;
+    }
+
+    private void populateActivityOfferingRelationships(ActivityOfferingInfo ao, ContextInfo context) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
+        LuiInfo foLui = this.findFormatOfferingLui(ao.getId(), context);
         LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(),context);
         ao.setFormatOfferingId(foLui.getId());
         ao.setCourseOfferingId(coLui.getId());
-        ao.setFormatOfferingName(foLui.getName());
+        ao.setFormatOfferingName(foLui.getOfficialIdentifier().getLongName());
         if(coLui.getOfficialIdentifier() != null) {
             ao.setCourseOfferingCode(coLui.getOfficialIdentifier().getCode());
             ao.setCourseOfferingTitle(coLui.getOfficialIdentifier().getLongName());
         }
         AtpInfo termAtp = getAtpService().getAtp(ao.getTermId(),context);
         ao.setTermCode(termAtp.getCode());
-        return ao;
     }
 
     @Override
@@ -916,7 +920,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             if (_isActivityType(lui.getTypeKey())) {
                 ActivityOfferingInfo activityOffering = new ActivityOfferingInfo();
                 ActivityOfferingTransformer.lui2Activity(activityOffering, lui, lprService, context);
-                activityOffering.setCourseOfferingId(formatOfferingId);
+                populateActivityOfferingRelationships(activityOffering, context);
                 activityOfferings.add(activityOffering);
             }
         }

@@ -55,10 +55,7 @@ public class FormatsForCreateAOKeyValues extends UifKeyValuesFinderBase implemen
         }
         try {
             for (FormatInfo formatInfo : formatInfos) {
-                String formatName = ViewHelperUtil.buildDerivedFormatName(helperService.getTypeService(), helperService.getContextInfo(), formatInfo);
-
-
-                keyValues.add(new ConcreteKeyValue(formatInfo.getId(), formatName));
+                keyValues.add(new ConcreteKeyValue(formatInfo.getId(), formatInfo.getName()));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

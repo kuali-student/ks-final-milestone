@@ -343,13 +343,19 @@
                             <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
                                   p:label="GRADE ROSTER LEVEL" p:labelPlacement="TOP" p:required="true">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:options-ref="gradeRosterLevel-options"/>
+                                    <bean parent="Uif-DropdownControl" />
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradeRosterLevelKeyValues"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
                                   p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:required="true">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:options-ref="finalExamDriverActivity-options"/>
+                                    <bean parent="Uif-DropdownControl" />
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriverKeyValues"/>
                                 </property>
                             </bean>
                         </list>

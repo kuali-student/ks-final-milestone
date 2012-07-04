@@ -235,14 +235,20 @@
                <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
                       p:label="GRADE ROSTER LEVEL" p:required="true" p:labelPlacement="TOP">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="gradeRosterLevel-options"/>
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradeRosterLevelKeyValues"/>
                     </property>
                 </bean>
                <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
                       p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:labelPlacement="TOP">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="finalExamDriverActivity-options"/>
+                        <bean parent="Uif-DropdownControl"/>
                     </property>
+                   <property name="optionsFinder">
+                       <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriverKeyValues"/>
+                   </property>
                 </bean>
            </list>
          </property>
@@ -321,17 +327,6 @@
            </list>
          </property>
     </bean>
-
-    <util:list id="gradeRosterLevel-options">
-        <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
-        <bean parent="Uif-KeyLabelPair" p:key="Course" p:value="Course"/>
-        <bean parent="Uif-KeyLabelPair" p:key="Lecture" p:value="Lecture"/>
-    </util:list>
-
-    <util:list id="finalExamDriverActivity-options">
-        <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
-        <bean parent="Uif-KeyLabelPair" p:key="Lecture" p:value="Lecture"/>
-    </util:list>
 
     <!-- MAINTENACE DOCUMENT DEFINITION -->
 

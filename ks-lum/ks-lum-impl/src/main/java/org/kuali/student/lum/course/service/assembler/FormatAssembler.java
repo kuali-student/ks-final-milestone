@@ -15,12 +15,6 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
@@ -35,8 +29,15 @@ import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
+import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Assembler for FormatInfo. Assembles/Disassemble FormatInfo from CluInfo and
@@ -70,6 +71,8 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		format.setAttributes(clu.getAttributes());
 	    format.setDuration(clu.getStdDuration());
 	    format.setTermsOffered(clu.getOfferedAtpTypes());
+        format.setName(clu.getOfficialIdentifier().getLongName());
+        format.setShortName(clu.getOfficialIdentifier().getShortName());
 		
 		// Don't make any changes to nested datastructures if this is
 		if (!shallowBuild) {
@@ -120,13 +123,24 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 															// already(important
 															// for creating
 															// relations)
-		clu.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
+		clu.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);   //kuali.lu.type.CreditCourseFormatShell.identifier
 		clu.setState(format.getState());
 		clu.setMetaInfo(format.getMetaInfo());
 		clu.setAttributes(format.getAttributes());
 		clu.setStdDuration(format.getDuration());
 		clu.setOfferedAtpTypes(format.getTermsOffered());
-		
+
+        // set name fields
+        if(clu.getOfficialIdentifier() == null) {
+            clu.setOfficialIdentifier(new CluIdentifierInfo());
+            clu.getOfficialIdentifier().setType(CourseAssemblerConstants.COURSE_FORMAT_OFFICIAL_IDENT_TYPE);
+            clu.getOfficialIdentifier().setState(CourseAssemblerConstants.ACTIVE);
+            clu.getOfficialIdentifier().setId(UUIDHelper.genStringUUID());
+        }
+
+        clu.getOfficialIdentifier().setLongName(format.getName());
+        clu.getOfficialIdentifier().setShortName(format.getShortName());
+
 		// Add the Clu to the result
 		result.setNodeData(clu);
 		result.setOperation(operation);
@@ -160,7 +174,6 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	 * If the Operation
 	 * 
 	 * @param format
-	 * @param result
 	 * @param operation
 	 * @return List of Assembly nodes
 	 * @throws AssemblyException

@@ -25,7 +25,7 @@ public class FormatOfferingTypeForCreateCOTypeKeyValues extends AbstractFormatOf
     }
 
     @Override
-    protected List<String> getAvailableFormatTypes(ViewModel model) throws Exception {
+    protected List<String> getExistingFormatIdsFromFormatOfferings(ViewModel model) throws Exception {
 
         MaintenanceForm form = (MaintenanceForm)model;
         CourseOfferingCreateWrapper coWrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();

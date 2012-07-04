@@ -16,6 +16,9 @@ public class CourseOfferingConstants {
     public final static String ATP_CODE = "atpCode";
     public final static String ATP_ID = "atpId";
 
+    // display name for 'Course' option in Grade Roster Level
+    public final static String FORMAT_OFFERING_GRADE_ROSTER_LEVEL_COURSE_DISPLAY = "Course";
+
     //Attributes defined in SocRolloverResultInfo
     public final static String SOCROLLOVERRESULTINFO_ID = "id";
     public final static String SOCROLLOVERRESULTINFO_SOURCE_TERM_ID = "sourceTermId";
