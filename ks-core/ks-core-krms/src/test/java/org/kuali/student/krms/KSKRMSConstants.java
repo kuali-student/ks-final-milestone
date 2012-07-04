@@ -88,6 +88,8 @@ public class KSKRMSConstants {
 	public static final String COURSE_CODE_TERM_PROPERTY = "courseCodeProperty";
 	public static final String TERM_ID_TERM_PROPERTY = "termIdProperty";
 	public static final String CALC_TYPE_KEY_TERM_PROPERTY = "calculationTypeKeyProperty";
+    public static final String ORG_ID_TERM_PROPERTY = "orgIdProperty";
+    public static final String ORG_KEY_TYPE_TERM_PROPERTY = "orgKeyTypeProperty";
 	//		
 	public static final String CONTEXT_INFO_TERM_NAME = "contextInfo";
 	

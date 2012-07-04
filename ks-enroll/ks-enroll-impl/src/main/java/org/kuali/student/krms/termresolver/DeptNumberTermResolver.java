@@ -19,7 +19,6 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -29,6 +28,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -38,17 +39,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class DeptNumberTermResolver implements TermResolver<List<StudentCourseRecordInfo>> {	
+public class DeptNumberTermResolver implements TermResolver<OrgInfo> {
 
-    private AcademicRecordService academicRecordService;
+    private OrganizationService organizationService;
     
     
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
+    public OrganizationService getOrganizationService() {
+        return organizationService;
     }
 
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
+    public void setOrganizationService(OrganizationService organizationService) {
+        this.organizationService = organizationService;
     }
 
     @Override
@@ -75,13 +76,13 @@ public class DeptNumberTermResolver implements TermResolver<List<StudentCourseRe
     }
 
     @Override
-    public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public OrgInfo resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        String orgId = parameters.get(KSKRMSExecutionConstants.ORG_ID_TERM_PROPERTY);
         
-        List<StudentCourseRecordInfo> result = null;
+        OrgInfo result = null;
         try {
-            result = academicRecordService.getCompletedCourseRecords(personId, context);
+            result = organizationService.getOrg(orgId, context);
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }

@@ -201,14 +201,12 @@ public class TestKRMSCreateTermSpecificationPhase2 extends KRMSTestCase {
 		//
 		List<TermParameterDefinition.Builder> termParameters = new ArrayList<TermParameterDefinition.Builder>();
 		
-        setupTermParameters(termParameters, null, "???termParameterValue");
-        setupTermParameters(termParameters, null, "???termParameterValue");
+        setupTermParameters(termParameters, KSKRMSConstants.ORG_ID_TERM_PROPERTY, "???termParameterValue");
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_ORG_NUMBER,
 				KSKRMSConstants.TERM_DEPT_NUMBER, null);
 		
 		termParameters.clear();
-        setupTermParameters(termParameters, null, "???termParameterValue");
-        setupTermParameters(termParameters, null, "???termParameterValue");
+        setupTermParameters(termParameters, KSKRMSConstants.ORG_KEY_TYPE_TERM_PROPERTY, "???termParameterValue");
 		createKRMSTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_ORG_NUMBER,
 				KSKRMSConstants.TERM_ADMIN_ORG_NUMBER, null);
 		
