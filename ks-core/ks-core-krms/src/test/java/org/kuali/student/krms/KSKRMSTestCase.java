@@ -103,23 +103,28 @@ public class KSKRMSTestCase extends KRMSTestCase {
 	protected TermBoService termBoService;
 	protected SpringResourceLoader krmsTestResourceLoader;
 
+    private static String KRMS_TEST_SPRING_BEANS = "classpath:KRMSTestHarnessSpringBeans.xml";
+
 	public KSKRMSTestCase() {
 		super();
 		this.setClearTables(false);
 	}
-	
-	@Before
-	public void setup() {
-		getLoadApplicationLifecycle();
-		termBoService = KrmsRepositoryServiceLocator.getTermBoService();
-		agendaBoService = KrmsRepositoryServiceLocator.getAgendaBoService();
-		contextRepository = KrmsRepositoryServiceLocator.getContextBoService();
-		ruleBoService = KrmsRepositoryServiceLocator.getRuleBoService();
-		krmsTypeRepository = KrmsRepositoryServiceLocator
-				.getKrmsTypeRepositoryService();
-	
 
-	}
+    /**
+     * Overridden to set dirty=true each time
+     * @see org.kuali.rice.test.RiceTestCase#setUp()
+     */
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        getLoadApplicationLifecycle();
+        termBoService = KrmsRepositoryServiceLocator.getTermBoService();
+        agendaBoService = KrmsRepositoryServiceLocator.getAgendaBoService();
+        contextRepository = KrmsRepositoryServiceLocator.getContextBoService();
+        ruleBoService = KrmsRepositoryServiceLocator.getRuleBoService();
+        krmsTypeRepository = KrmsRepositoryServiceLocator
+                .getKrmsTypeRepositoryService();
+    }
 
 	@Override
 	protected void loadSuiteTestData() throws Exception {
@@ -136,9 +141,14 @@ public class KSKRMSTestCase extends KRMSTestCase {
 	@Override
 	protected Lifecycle getLoadApplicationLifecycle() {
 		if (krmsTestResourceLoader == null) {
+            List<String> files = new ArrayList<String>();
+            files.add(KRMS_TEST_SPRING_BEANS);
+            if (this.getAdditionalSpringFile() != null){
+                files.add(getAdditionalSpringFile());
+            }
+            
 			krmsTestResourceLoader = new SpringResourceLoader(new QName(
-					"KRMSTestHarnessApplicationResourceLoader"),
-					"classpath:KRMSTestHarnessSpringBeans.xml", null);
+					"KRMSTestHarnessApplicationResourceLoader"), files, null);
 			krmsTestResourceLoader
 					.setParentSpringResourceLoader(getTestHarnessSpringResourceLoader());
 			getTestHarnessSpringResourceLoader().addResourceLoader(
@@ -146,20 +156,24 @@ public class KSKRMSTestCase extends KRMSTestCase {
 		}
 		return krmsTestResourceLoader;
 	}
+    
+    protected String getAdditionalSpringFile(){
+        return null;
+    }
 
 	protected BusinessObjectService getBoService() {
 		return KRADServiceLocator.getBusinessObjectService();
 	}
 	
-	@Test
-	public void testHello() {
+	//@Test
+	/*public void testHello() {
 			System.out.println("Test hello");
 			assertNotNull(termBoService);
 			assertNotNull(agendaBoService);
 			assertNotNull(contextRepository);
 			assertNotNull(ruleBoService);
 			assertNotNull(krmsTypeRepository);
-	}
+	}*/
 	
 	protected AgendaDefinition getKRMSAgenda(String agendaName, ContextDefinition contextDef) {
 		AgendaDefinition agendaDef = agendaBoService
@@ -168,15 +182,16 @@ public class KSKRMSTestCase extends KRMSTestCase {
 		return agendaDef;
 	}
 
-	@Test
-	public void testKRMSContext() {
+	//@Test
+	/*public void testKRMSContext() {
 		ContextDefinition cnt = getKRMSContext(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY);
 		assertNotNull(cnt);
 		System.out.println(cnt.getDescription());
 		AgendaDefinition adef = getKRMSAgenda(KSKRMSConstants.AGENDA1, cnt);
 		assertNotNull(adef);
 		System.out.println(adef.getName());
-	}
+	}*/
+
 	protected ContextDefinition getKRMSContext(String context) {
 		return contextRepository.getContextByNameAndNamespace(
 				context, KSKRMSConstants.KSNAMESPACE);
