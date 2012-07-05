@@ -183,8 +183,8 @@
 
             </list>
         </property>
-        <property name="footer.items">
-            <list/>
+        <property name="page.footer.items">
+            <ref bean="KSDocumentPageFooter_SubmitCancel" />
         </property>
     </bean>
 

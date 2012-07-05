@@ -87,6 +87,21 @@
         </property>
     </bean>
 
+    <!--Added by Bonnie-->
+    <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
+    <bean id="KSDocumentPageFooter_SubmitCancel" parent="KSDocumentPageFooter_SubmitCancel-parent"/>
+    <bean id="KSDocumentPageFooter_SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+
+            </list>
+        </property>
+    </bean>
+
     <bean id="KSGroup" abstract="true" parent="Uif-VerticalBoxSection">
       <property name="disclosure">
         <bean parent="KSDisclosure"/>
