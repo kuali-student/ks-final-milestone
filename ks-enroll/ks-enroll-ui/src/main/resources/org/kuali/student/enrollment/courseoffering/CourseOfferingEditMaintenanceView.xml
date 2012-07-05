@@ -438,11 +438,6 @@
                                     <bean parent="Uif-DropdownControl" p:options-ref="coInstructors-options" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="percentageEffort" p:label="INST.EFFORT">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="10" />
-                                </property>
-                            </bean>
                         </list>
                     </property>
 
