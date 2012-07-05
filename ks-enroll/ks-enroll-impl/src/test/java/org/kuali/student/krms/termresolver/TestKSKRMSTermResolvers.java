@@ -40,7 +40,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:ks-krms-test-context.xml"})
-// @Ignore
+@Ignore
 public class TestKSKRMSTermResolvers {
 	private KrmsTypeResolver typeResolver;
 	

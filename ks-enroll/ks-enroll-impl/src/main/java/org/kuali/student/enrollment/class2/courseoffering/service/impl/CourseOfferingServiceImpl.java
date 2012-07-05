@@ -862,7 +862,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(),context);
         ao.setFormatOfferingId(foLui.getId());
         ao.setCourseOfferingId(coLui.getId());
-        ao.setFormatOfferingName(foLui.getOfficialIdentifier().getLongName());
+        ao.setFormatOfferingName(foLui.getOfficialIdentifier()==null?null:foLui.getOfficialIdentifier().getLongName());
         if(coLui.getOfficialIdentifier() != null) {
             ao.setCourseOfferingCode(coLui.getOfficialIdentifier().getCode());
             ao.setCourseOfferingTitle(coLui.getOfficialIdentifier().getLongName());
