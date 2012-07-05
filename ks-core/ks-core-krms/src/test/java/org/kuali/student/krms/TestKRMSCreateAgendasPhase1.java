@@ -157,10 +157,10 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		// RuleDefinition ruleDefinition =
 		// createRuleDefinition1(contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY,
 		// KSNAMESPACE),
-		// AGENDA1, KSNAMESPACE, KSKRMSConstants.TERM_APPROVED_COURSE);
+		// AGENDA1, KSNAMESPACE, KSKRMSConstants.TERM_COMPLETED_COURSE);
 		Map<String, PropositionParameterType> propositionsMap = new HashMap<String, PropositionParameterType>();
 		propositionsMap.put(
-				krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSE).getId(),
+				krmsTermLookup(KSKRMSConstants.TERM_COMPLETED_COURSE).getId(),
 				PropositionParameterType.TERM);
 		propositionsMap.put("MATH111", PropositionParameterType.CONSTANT);
 		propositionsMap.put("=", PropositionParameterType.OPERATOR);
@@ -173,10 +173,10 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		// RuleDefinition ruleDefinition =
 		// createRuleDefinition1(contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY,
 		// KSNAMESPACE),
-		// AGENDA1, KSNAMESPACE, KSKRMSConstants.TERM_APPROVED_COURSE);
+		// AGENDA1, KSNAMESPACE, KSKRMSConstants.TERM_COMPLETED_COURSE);
 		Map<String, PropositionParameterType> propositionsMap = new HashMap<String, PropositionParameterType>();
 		propositionsMap.put(
-				krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSE).getId(),
+				krmsTermLookup(KSKRMSConstants.TERM_COMPLETED_COURSE).getId(),
 				PropositionParameterType.TERM);
 		propositionsMap.put("MATH111", PropositionParameterType.CONSTANT);
 		propositionsMap.put("=", PropositionParameterType.OPERATOR);
@@ -189,7 +189,7 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 
 		// Creating agenda 1 based on CCJS357
 		PropositionParametersBuilder proposition1 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSE, "CCJS100", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSE, "CCJS100", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA1,
 				contextRepository.getContextByNameAndNamespace(
 						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
@@ -197,9 +197,9 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 
 		// Creating agenda 2 based on CCJS300
 		PropositionParametersBuilder proposition2_1 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "CCJS100", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "CCJS100", "=");
 		PropositionParametersBuilder proposition2_2 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "CCJS105", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "CCJS105", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA2,
 				contextRepository.getContextByNameAndNamespace(
 						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
@@ -209,9 +209,9 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		PropositionParametersBuilder proposition3_1 = createProposition(
 				KSKRMSConstants.TERM_NUMBER_OF_COURSES, "1", ">");
 		PropositionParametersBuilder proposition3_2 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "EMGT230", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "EMGT230", "=");
 		PropositionParametersBuilder proposition3_3 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "CCJS200", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "CCJS200", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA3,
 				contextRepository.getContextByNameAndNamespace(
 						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
@@ -222,11 +222,11 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		PropositionParametersBuilder proposition4_1 = createProposition(
 				KSKRMSConstants.TERM_NUMBER_OF_CREDITS, "13", ">");
 		PropositionParametersBuilder proposition4_2 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "EMGT230", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "EMGT230", "=");
 		PropositionParametersBuilder proposition4_3 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "CCJS200", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "CCJS200", "=");
 		PropositionParametersBuilder proposition4_4 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "ECON321", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "ECON321", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA4,
 				contextRepository.getContextByNameAndNamespace(
 						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
@@ -237,9 +237,9 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		PropositionParametersBuilder proposition5_1 = createProposition(
 				KSKRMSConstants.TERM_GPA, "9", ">");
 		PropositionParametersBuilder proposition5_2 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "EMGT230", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "EMGT230", "=");
 		PropositionParametersBuilder proposition5_3 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "CCJS200", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "CCJS200", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA5,
 				contextRepository.getContextByNameAndNamespace(
 						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
@@ -252,9 +252,9 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		PropositionParametersBuilder proposition6_2 = createProposition(
 				KSKRMSConstants.TERM_GRADE, "C", ">");
 		PropositionParametersBuilder proposition6_3 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "EMGT230", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "EMGT230", "=");
 		PropositionParametersBuilder proposition6_4 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "CCJS200", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "CCJS200", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA6,
 				contextRepository.getContextByNameAndNamespace(
 						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
@@ -265,9 +265,9 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		PropositionParametersBuilder proposition7_1 = createProposition(
 				KSKRMSConstants.TERM_NUMBER_OF_COURSES, "1", ">");
 		PropositionParametersBuilder proposition7_2 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "PSYC200", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "PSYC200", "=");
 		PropositionParametersBuilder proposition7_3 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "SOCY201", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "SOCY201", "=");
 		PropositionParametersBuilder proposition7_4 = createProposition(
 				KSKRMSConstants.TERM_GRADE_TYPE, "Letter", "=");
 		PropositionParametersBuilder proposition7_5 = createProposition(
@@ -284,9 +284,9 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		PropositionParametersBuilder proposition8_2 = createProposition(
 				KSKRMSConstants.TERM_GRADE, "C", ">");
 		PropositionParametersBuilder proposition8_3 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "SOCY201", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "SOCY201", "=");
 		PropositionParametersBuilder proposition8_4 = createProposition(
-				KSKRMSConstants.TERM_APPROVED_COURSES, "PSYC200", "=");
+				KSKRMSConstants.TERM_COMPLETED_COURSES, "PSYC200", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA8,
 				contextRepository.getContextByNameAndNamespace(
 						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
