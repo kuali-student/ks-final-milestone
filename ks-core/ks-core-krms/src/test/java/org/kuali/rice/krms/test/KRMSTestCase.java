@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-@BaselineMode(Mode.ROLLBACK_CLEAR_DB)
+// @BaselineMode(Mode.ROLLBACK_CLEAR_DB)
 public abstract class KRMSTestCase extends BaselineTestCase {
 
 	private static final String KRMS_MODULE_NAME = "krms";
