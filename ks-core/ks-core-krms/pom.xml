@@ -109,7 +109,13 @@
             <version>${oracle.ojdbc.version}</version>
             <scope>test</scope>
         </dependency>
-<!-- 		<dependency> -->
+        <dependency>
+            <groupId>org.kuali.student.common</groupId>
+            <artifactId>ks-common-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- 		<dependency> -->
 <!-- 			<artifactId>rice-it</artifactId> -->
 <!-- 			<groupId>org.kuali.rice</groupId> -->
 <!-- 			<version>${kuali.rice.version}</version> -->
