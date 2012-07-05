@@ -43,7 +43,7 @@
         <property name="coService" ref="coService" />
     </bean>
     
-	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingTestDataLoader" autowire="byType" />
+	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader" autowire="byType" />
 	
 	 <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
 
