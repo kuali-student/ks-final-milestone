@@ -335,12 +335,12 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.formatId"  p:readOnly="@{!#isAddLine}"
-                                  p:label="FORMAT" p:labelPlacement="TOP" p:readOnlyDisplayReplacementPropertyName="formatType" p:required="true">
+                                  p:label="FORMAT" p:labelPlacement="TOP" p:readOnlyDisplayReplacementPropertyName="formatOfferingInfo.name" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForEditCOTypeKeyValues"/>
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForEditCOTypeKeyValues" p:addBlankOption="false"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
