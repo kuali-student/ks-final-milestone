@@ -192,6 +192,9 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                <bean parent="Uif-DataField"
+                      p:label="Term"
+                      p:propertyName="coInfo.termId"/>
                 <bean parent="Uif-HorizontalBoxSubSection">
                     <property name="items">
                         <list>
