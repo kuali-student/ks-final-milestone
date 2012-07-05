@@ -255,6 +255,33 @@ public class TestCourseOfferingServiceMockImpl {
 		Assert.assertEquals(6, rgList.size());
 
 	}
+	
+	@Test
+	public void testGenerateRegistrationGroupsAfterAddingNewActivityOffering() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException {
+		
+		List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsForCourseOffering("CO-1", callContext);
+		
+		assertEquals (0, rgList.size());
+		
+		rgList = coService
+				.generateRegistrationGroupsForFormatOffering(
+						"CO-1:LEC-AND-LAB", callContext);
+
+		Assert.assertEquals(6, rgList.size());
+		
+		FormatOfferingInfo fo = coService.getFormatOffering("CO-1:LEC-AND-LAB", callContext);
+		
+		fo.getActivityOfferingTypeKeys().add(LuiServiceConstants.DISCUSSION_ACTIVITY_OFFERING_TYPE_KEY);
+		
+		coService.updateFormatOffering(fo.getId(), fo, callContext);
+		
+		dataLoader.createLabActivityOfferingForCHEM123("LAB-F", callContext);
+		
+		List<ActivityOfferingInfo> ao = coService.getActivityOfferingsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
+		
+		Assert.assertEquals(6, ao.size());
+		
+	}
 
 	@Test
 	public void testServiceSetup() {

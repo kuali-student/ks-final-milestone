@@ -25,6 +25,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.codehaus.groovy.transform.CanonicalASTTransformation;
 import org.joda.time.DateTime;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
@@ -330,6 +331,44 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			
 			
 	}
+		
+
+		public void createLabActivityOfferingForCHEM123(String labCode, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
+			
+			
+			CourseOfferingInfo co = coService.getCourseOffering("CO-1", context);
+			
+			CourseInfo c = courseService.getCourse(co.getCourseId());
+			
+			// create the new activity offering
+			
+			FormatInfo targetFormat = null;
+			
+			for (FormatInfo format : c.getFormats()) {
+				
+				if (format.getId().equals("CHEM123:LEC-AND-LAB")) {
+					targetFormat = format;
+					break;
+				}
+			} 
+			
+			List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+			
+			instructors.add(CourseOfferingServiceDataUtils.createInstructor("p1", "Instructor", 100.00F));
+	
+			String canonicalActivityId = CourseOfferingServiceDataUtils.createCanonicalActivityId(targetFormat.getId(), LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY);
+			
+			ActivityOfferingInfo lectureAndLabFormatLabC = CourseOfferingServiceDataUtils.createActivityOffering(co.getTermId(), co.getId(), "CO-1:LEC-AND-LAB", labCode, canonicalActivityId, labCode, "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			
+			lectureAndLabFormatLabC.setId("CO-1:LEC-AND-LAB:" + labCode);
+		
+	
+			
+			coService.createActivityOffering("CO-1:LEC-AND-LAB", canonicalActivityId, LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLabC, context);
+			
+			
+		}
+
 		
 		private void createCourseENG101(TermInfo term, ContextInfo context) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 			
