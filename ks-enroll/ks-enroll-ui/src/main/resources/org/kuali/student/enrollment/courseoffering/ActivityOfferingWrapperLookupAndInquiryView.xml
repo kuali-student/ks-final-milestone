@@ -80,7 +80,6 @@
                             <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" />
                             <bean parent="Uif-DataField" p:propertyName="formatOfferingName" p:label="Format Offering"/>
                             <bean parent="Uif-DataField" p:propertyName="aoInfo.maximumEnrollment" p:label="Total Maximum Enrollment"/>
-                            <bean parent="Uif-DataField" p:propertyName="isMaxEnrollmentEstimateUI" p:label="Maximum Enrollment is an estimate"/>
                             <bean parent="Uif-DataField" p:propertyName="isEvaluatedUI" p:label="This course requires an evaluation"/>
                             <bean parent="Uif-DataField" p:propertyName="isHonorsOfferingUI" p:label="Honors Offering"/>
                             <bean parent="Uif-DataField" p:propertyName="aoInfo.activityOfferingURL"/>
