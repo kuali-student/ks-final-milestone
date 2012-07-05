@@ -31,6 +31,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -39,54 +40,40 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EnrolledCourseTermResolver implements TermResolver<List<CourseRegistrationInfo>> {	
-
-    private CourseRegistrationService courseRegistrationService;
-    
-    
-    public CourseRegistrationService getAcademicRecordService() {
-        return courseRegistrationService;
-    }
-
-    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
-        this.courseRegistrationService = courseRegistrationService;
-    }
-
-    @Override
-    public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
-    }
+public class EnrolledCourseTermResolver extends EnrolledCoursesTermResolver {
 
     @Override
     public String getOutput() {
-        return "EnrolledCourseTermResolver.getOutput()";
+        return this.getClass().getSimpleName();
     }
 
     @Override
     public Set<String> getParameterNames() {
         Set<String> temp = new HashSet<String>(1);
         temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        temp.add(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
+
         return Collections.unmodifiableSet(temp);
     }
 
     @Override
     public int getCost() {
         // TODO Analyze, though probably not much to check here
-        return 5;
+        return 0;
     }
 
     @Override
     public List<CourseRegistrationInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        // Get the list of course records from the superclass and then just return the one we need. (in this case we know there will only be one)
+        List<CourseRegistrationInfo> enrolledCourseRecords = super.resolve(resolvedPrereqs, parameters);
         String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        String termId = parameters.get(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
-        
-        List<CourseRegistrationInfo> result = null;
-        try {
-            result = courseRegistrationService.getCourseRegistrationsForStudentByTerm(personId, termId, context);
-        } catch (Exception e) {
-            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+
+        for (CourseRegistrationInfo courseRegistrationInfo : enrolledCourseRecords) {
+            if (courseRegistrationInfo.getStudentId().equals(personId)) {
+                return Arrays.asList(courseRegistrationInfo);
+            }
         }
-        return result;
+
+        return null;
     }
 }
