@@ -3,68 +3,68 @@
        xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
-<!--
- Copyright 2007-2009 The Kuali Foundation
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
 
- http://www.opensource.org/licenses/ecl2.php
+     http://www.opensource.org/licenses/ecl2.php
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
     <bean id="OfferingInstructorWrapper" parent="OfferingInstructorWrapper-parentBean"/>
 
-	<bean id="OfferingInstructorWrapper-parentBean" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="offeringInstructorWrapper"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper"/>
+    <bean id="OfferingInstructorWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="name" value="offeringInstructorWrapper"/>
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper"/>
         <property name="objectLabel" value="OfferingInstructor Wrapper"/>
-		<property name="titleAttribute" value="offeringInstructorInfo.personId"/>
-		<property name="primaryKeys">
-			<list>
-				<value>offeringInstructorInfo.personId</value>
-			</list>
-		</property>
-	</bean>
+        <property name="titleAttribute" value="offeringInstructorInfo.personId"/>
+        <property name="primaryKeys">
+            <list>
+                <value>offeringInstructorInfo.personId</value>
+            </list>
+        </property>
+    </bean>
 
-      <bean id="ActivityOfferingWrapper" parent="ActivityOfferingWrapper-parentBean"/>
+    <bean id="ActivityOfferingWrapper" parent="ActivityOfferingWrapper-parentBean"/>
 
-      <bean id="ActivityOfferingWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+    <bean id="ActivityOfferingWrapper-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="titleAttribute" value="aoInfo.id"/>
         <property name="attributes">
-          <list>
-          </list>
+            <list>
+            </list>
         </property>
         <property name="objectLabel" value="Activity Offering"/>
         <property name="primaryKeys">
-          <list>
-            <value>aoInfo.id</value>
-            <value>courseOfferingId</value>
-          </list>
+            <list>
+                <value>aoInfo.id</value>
+                <value>courseOfferingId</value>
+            </list>
         </property>
-      </bean>
+    </bean>
 
-        <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView}">
-            <property name="headerText" value="Activity Offering Maintenance"/>
-            <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
-            <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
-            <property name="additionalCssFiles">
-                <list merge="true">
-                    <value>ks-enroll/css/activityOffering.css</value>
-                </list>
-            </property>
-            <property name="additionalScriptFiles">
-                <list merge="true">
-                    <value>ks-enroll/scripts/activity-offering.js</value>
-                </list>
-            </property>
-            <property name="items">
+    <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView}">
+        <property name="headerText" value="Activity Offering Maintenance"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-enroll/css/activityOffering.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/activity-offering.js</value>
+            </list>
+        </property>
+        <property name="items">
             <list>
 
                 <bean parent="Uif-VerticalBoxSection">
@@ -116,9 +116,9 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment">
-                            <property name="control">
-                                <bean parent="Uif-TextControl" p:size="3"/>
-                            </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="3"/>
+                                </property>
                             </bean>
                         </list>
                     </property>
@@ -552,24 +552,30 @@
 
             </list>
         </property>
-        <property name="footer.items">
-            <list/>
+
+        <!-- <property name="footer.items">
+           <list/>
+       </property> -->
+        <!-- Updated the for Jira 1639 -->
+        <property name="page.footer.items">
+            <ref bean="KSDocumentPageFooter_SubmitCancel" />
         </property>
+
     </bean>
 
-      <bean id="ActivityOfferingMaintenanceDocument" parent="ActivityOfferingMaintenanceDocument-parentBean"/>
+    <bean id="ActivityOfferingMaintenanceDocument" parent="ActivityOfferingMaintenanceDocument-parentBean"/>
 
-      <bean id="ActivityOfferingMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+    <bean id="ActivityOfferingMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl"/>
         <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.ActivityOfferingRule" />
         <property name="documentTypeName" value="ActivityOfferingInfoMaintenanceDocument"/>
         <property name="lockingKeys">
-          <list>
-            <value>aoInfo.id</value>
-          </list>
+            <list>
+                <value>aoInfo.id</value>
+            </list>
         </property>
-      </bean>
+    </bean>
 
     <util:list id="aoInstructors-options">
         <bean parent="Uif-KeyLabelPair" p:key="" p:value="Select One..."/>
