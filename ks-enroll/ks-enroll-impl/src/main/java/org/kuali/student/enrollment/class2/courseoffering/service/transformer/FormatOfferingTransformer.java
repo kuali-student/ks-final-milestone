@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.util.List;
 
@@ -53,6 +54,8 @@ public class FormatOfferingTransformer {
             LuiIdentifierInfo luiIdent = lui.getOfficialIdentifier();
             if(luiIdent == null){
                 luiIdent = new LuiIdentifierInfo();
+                luiIdent.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+                luiIdent.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
                 lui.setOfficialIdentifier(luiIdent);
             }
             lui.setName(format.getName());
