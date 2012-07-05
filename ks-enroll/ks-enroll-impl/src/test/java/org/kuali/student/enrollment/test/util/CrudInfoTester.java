@@ -67,9 +67,14 @@ public class CrudInfoTester {
     private ListOfStringTester listOfStringTester;
 
     /**
-     * The IdEntityTester tester.
+     * The EntityInfoTester tester.
      */
     private EntityInfoTester entityInfoTester;
+
+    /**
+     * The IdEntityTester tester.
+     */
+    private IdEntityTester idEntityTester;
 
     ///////////////////////
     // CONSTRUCTORS
@@ -84,6 +89,7 @@ public class CrudInfoTester {
         metaTester = new MetaTester();
         listOfStringTester = new ListOfStringTester();
         entityInfoTester = new EntityInfoTester();
+        idEntityTester = new IdEntityTester();
     }
 
     public CrudInfoTester () {
@@ -148,6 +154,14 @@ public class CrudInfoTester {
 
     public void setEntityInfoTester(EntityInfoTester entityInfoTester) {
         this.entityInfoTester = entityInfoTester;
+    }
+
+    public IdEntityTester getIdEntityTester() {
+        return idEntityTester;
+    }
+
+    public void setIdEntityTester(IdEntityTester idEntityTester) {
+        this.idEntityTester = idEntityTester;
     }
 
     ///////////////////////

@@ -480,6 +480,9 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
+        if (!this.populationCategoriesForPopulationMap.containsKey(populationId)) {
+            return new ArrayList<PopulationCategoryInfo>();
+        }
         return populationCategoriesForPopulationMap.get(populationId);
     }
 

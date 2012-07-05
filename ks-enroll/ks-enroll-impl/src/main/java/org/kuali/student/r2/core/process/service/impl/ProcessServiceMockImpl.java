@@ -117,6 +117,9 @@ public class ProcessServiceMockImpl implements ProcessService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
+        if (!this.processCategoriesForProcessMap.containsKey(processKey)) {
+            return new ArrayList<ProcessCategoryInfo>();
+        }
         return processCategoriesForProcessMap.get(processKey);
     }
 
