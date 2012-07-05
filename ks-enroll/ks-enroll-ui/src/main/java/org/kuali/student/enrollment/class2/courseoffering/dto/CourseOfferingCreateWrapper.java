@@ -34,6 +34,8 @@ public class CourseOfferingCreateWrapper implements Serializable{
     private List<ExistingCourseOffering> existingCourseOfferings;
     private List<ExistingCourseOffering> existingTermOfferings;
 
+    private String createErrorMessage;
+
     public CourseOfferingCreateWrapper(){
         showCatalogLink = false;
         showTermOfferingLink = true;
@@ -170,5 +172,13 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     public void setFormatOfferingList(List<FormatOfferingWrapper> formatOfferingList) {
         this.formatOfferingList = formatOfferingList;
+    }
+
+    public String getCreateErrorMessage() {
+        return createErrorMessage;
+    }
+
+    public void setCreateErrorMessage(String createErrorMessage) {
+        this.createErrorMessage = createErrorMessage;
     }
 }

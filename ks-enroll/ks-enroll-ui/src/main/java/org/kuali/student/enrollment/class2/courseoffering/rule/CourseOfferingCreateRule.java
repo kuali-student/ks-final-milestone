@@ -21,6 +21,8 @@ public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
     private CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
 
+    private final static String EXISTING_CO_CODE_FOUND_ERROR = "That Course Offering Code is already in use.  Please enter a different, unique Course Offering Code for ";
+
     @Override
     protected boolean processGlobalSaveDocumentBusinessRules(MaintenanceDocument document) {
         if (document.getNewMaintainableObject().getDataObject() instanceof CourseOfferingCreateWrapper){
@@ -32,14 +34,21 @@ public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
                 for (CourseOfferingInfo courseOfferingInfo : wrapperList) {
 
                     if (StringUtils.equals(newCoCode, courseOfferingInfo.getCourseOfferingCode())) {
-                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Duplicate course offering code");
+                        StringBuilder sb = new StringBuilder(EXISTING_CO_CODE_FOUND_ERROR);
+                        sb.append(coWrapper.getCatalogCourseCode());
+                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, sb.toString());
+                        coWrapper.setCreateErrorMessage(sb.toString());
+                        coWrapper.setEnableCreateButton(true);
                         return false;
                     }
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
+            coWrapper.setCreateErrorMessage(null);
         }
+
         return true;
     }
 

@@ -91,11 +91,13 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
     @Override
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof FormatOfferingWrapper){
-            FormatOfferingWrapper formatOffering = (FormatOfferingWrapper)addLine;
+            FormatOfferingWrapper foWrapper = (FormatOfferingWrapper)addLine;
             CourseOfferingCreateWrapper coCreateWrapper = (CourseOfferingCreateWrapper)((MaintenanceForm)model).getDocument().getNewMaintainableObject().getDataObject();
             for( FormatInfo formatInfo : coCreateWrapper.getCourse().getFormats()){
-                if (StringUtils.equals(formatInfo.getId(),formatOffering.getFormatOfferingInfo().getFormatId())){
-                    formatOffering.setFormatType(formatInfo.getType());
+                if (StringUtils.equals(formatInfo.getId(), foWrapper.getFormatOfferingInfo().getFormatId())){
+                    foWrapper.setFormatType(formatInfo.getType());
+                    foWrapper.getFormatOfferingInfo().setName(formatInfo.getName());
+                    foWrapper.getFormatOfferingInfo().setShortName(formatInfo.getShortName());
                 }
             }
         }
