@@ -38,23 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GradeTermResolver implements TermResolver<List<StudentCourseRecordInfo>> {	
-
-    private AcademicRecordService academicRecordService;
-    
-    
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
-    }
-
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
-    }
-
-    @Override
-    public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
-    }
+public class GradeTermResolver extends CompletedCoursesTermResolver {
 
     @Override
     public String getOutput() {
@@ -71,20 +55,14 @@ public class GradeTermResolver implements TermResolver<List<StudentCourseRecordI
     @Override
     public int getCost() {
         // TODO Analyze, though probably not much to check here
-        return 5;
+        return 0;
     }
 
     @Override
     public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        
-        List<StudentCourseRecordInfo> result = null;
-        try {
-            result = academicRecordService.getCompletedCourseRecords(personId, context);
-        } catch (Exception e) {
-            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
-        }
-        return result;
+        // Get the list of course records from the superclass and then just return the one we need. (in this case we know there will only be one)
+        List<StudentCourseRecordInfo> gradeRecords = super.resolve(resolvedPrereqs, parameters);
+
+        return gradeRecords;
     }
 }
