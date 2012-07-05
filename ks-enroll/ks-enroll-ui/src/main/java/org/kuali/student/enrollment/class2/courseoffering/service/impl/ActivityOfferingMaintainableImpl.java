@@ -39,9 +39,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     private transient CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
-    private TypeService typeService;
-    private StateService stateService;
-    private CourseService courseService;
+    private transient TypeService typeService;
+    private transient StateService stateService;
+    private transient CourseService courseService;
 
 
 
