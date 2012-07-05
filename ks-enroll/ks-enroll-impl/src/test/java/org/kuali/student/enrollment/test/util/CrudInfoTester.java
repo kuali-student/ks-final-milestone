@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import static org.junit.Assert.*;
 
 /**
- * This class //TODO ...
+ * This class is a helper class for simplifying how CRUD tests can be written.
  *
  * @author Kuali Student Team
  */

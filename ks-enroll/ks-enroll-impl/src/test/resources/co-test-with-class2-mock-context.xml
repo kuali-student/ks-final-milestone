@@ -31,11 +31,7 @@
 		class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl">
 	</bean>
 
-    <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" >
-        <property name="courseService" ref="courseService" />
-        <property name="businessLogic" ref="coBusinessLogic" />
-        <property name="typeService" ref="typeService"/>
-    </bean>
+    <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" autowire="default"/>
 
     <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
@@ -46,6 +42,8 @@
 	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader" autowire="byType" />
 	
 	 <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
+	 
+	 <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
 
 </beans>
 

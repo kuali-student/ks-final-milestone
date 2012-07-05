@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
@@ -32,6 +33,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
+import org.kuali.student.enrollment.class2.courseoffering.service.strategy.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingAdminDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -67,6 +69,8 @@ import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.w3c.dom.css.RGBColor;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		MockService {
 
@@ -82,6 +86,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
 	@Resource
 	private TypeService typeService;
+	
+	@Resource
+	private RegistrationGroupCodeGenerator registrationCodeGenerator;
 
 	@Override
 	public void clear() {
@@ -924,6 +931,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	// The LinkedHashMap is just so the values come back in a predictable order
 	private Map<String, RegistrationGroupInfo> registrationGroupMap = new LinkedHashMap<String, RegistrationGroupInfo>();
 
+	/*
+	 * The core generation logic should work with in the impl aswell.
+	 */
 	@Override
 	public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(
 			String formatOfferingId, ContextInfo context)
@@ -931,6 +941,21 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 
+		// check for any existing registration groups
+		
+		List<RegistrationGroupInfo> existingRegistrationGroups = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
+		
+		Map<String, RegistrationGroupInfo>activityPermutationToRegistrationGroupMap = new HashMap<String, RegistrationGroupInfo>();
+		
+		for (RegistrationGroupInfo info : existingRegistrationGroups) {
+			
+			String key = createPermutationKey (info.getActivityOfferingIds());
+			
+			activityPermutationToRegistrationGroupMap.put(key, info);
+			
+		}
+		
+		
 		FormatOfferingInfo formatOffering = getFormatOffering(formatOfferingId,
 				context);
 
@@ -966,13 +991,28 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 				activityOfferingTypeToAvailableActivityOfferingMap,
 				generatedPermutations);
 
+		int skippedCounter = 0;
+		int generatedCounter = 0;
+		
 		for (List<String> activityOfferingPermuation : generatedPermutations) {
 
-			String registrationCode = StringUtils.join(new String[] {
-					StringUtils.join(activityOfferingPermuation, "+"),
-					"GENERATED" }, "+");
+			String key = createPermutationKey (activityOfferingPermuation);
+			
+			// check for an existing group
+			RegistrationGroupInfo rg = activityPermutationToRegistrationGroupMap.get(key);
+			
+			if (rg != null) {
+				// registration group exists so skip
+				log.info("skipping existing reg group for activity permutation = " + key);
+				skippedCounter++;
+				regGroupList.add(rg);
+				continue;
+			}
+			
+			String registrationCode = registrationCodeGenerator.generateRegistrationGroupCode(formatOffering, aoList);
+			
 			String name = registrationCode;
-			RegistrationGroupInfo rg = CourseOfferingServiceDataUtils
+			rg = CourseOfferingServiceDataUtils
 					.createRegistrationGroup(
 							formatOffering.getCourseOfferingId(),
 							formatOfferingId, formatOffering.getTermId(),
@@ -998,9 +1038,25 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 						"Failed to write registration group", e);
 			}
 
+			generatedCounter++;
+			
+			// this may not be needed
+			activityPermutationToRegistrationGroupMap.put(key, rg);
+
 		}
+		
+		log.warn("generateRegistrationGroups Complete (generated, skipped) = ("+generatedCounter+", " + skippedCounter + ")");
 
 		return regGroupList;
+	}
+
+	private String createPermutationKey(List<String>activityOfferingIds) {
+		
+		Collections.sort(activityOfferingIds);
+		
+		String key = StringUtils.join(activityOfferingIds, "-");
+		
+		return key;
 	}
 
 	@Override
