@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
@@ -24,7 +25,7 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.UnsupportedActionException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.test.MockService;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionInfo;

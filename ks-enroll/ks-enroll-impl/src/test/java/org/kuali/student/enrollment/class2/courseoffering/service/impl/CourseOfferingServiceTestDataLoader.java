@@ -25,7 +25,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.codehaus.groovy.transform.CanonicalASTTransformation;
 import org.joda.time.DateTime;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
@@ -34,7 +33,7 @@ import org.kuali.student.common.exceptions.CircularRelationshipException;
 import org.kuali.student.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.common.exceptions.UnsupportedActionException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.test.MockService;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.test.TestAwareDataLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;

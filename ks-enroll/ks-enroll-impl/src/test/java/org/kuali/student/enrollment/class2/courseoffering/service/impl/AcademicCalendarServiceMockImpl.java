@@ -8,8 +8,9 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.test.MockService;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
