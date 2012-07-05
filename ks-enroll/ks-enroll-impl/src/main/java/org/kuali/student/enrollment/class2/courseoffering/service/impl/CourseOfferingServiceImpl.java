@@ -216,7 +216,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         LuiInfo lui = luiService.getLui(courseOfferingId, context);
         CourseOfferingInfo co = new CourseOfferingInfo();
-        new CourseOfferingTransformer().lui2CourseOffering(lui, co, context);
+
+        //Associate instructors to the given CO
+        CourseOfferingTransformer courseOfferingTransformer = new CourseOfferingTransformer();
+        courseOfferingTransformer.lui2CourseOffering(lui, co, context);
+        courseOfferingTransformer.assembleInstructors(co, lui.getId(), context, getLprService());
+
         return co;
     }
 
@@ -475,6 +480,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // map existing lprs to their person id
         Map<String, OfferingInstructorInfo> existingPersonMap = new HashMap<String, OfferingInstructorInfo>(existingLprs.size());
         for(OfferingInstructorInfo info : existingLprs) {
+            if (info.getStateKey() != null && info.getStateKey().equals(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY))  {
+                continue;
+            }
             existingPersonMap.put(info.getPersonId(), info);
         }
 

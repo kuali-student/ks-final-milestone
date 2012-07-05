@@ -2,6 +2,10 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.entity.EntityDefault;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
@@ -24,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseOfferingTransformer {
-
+    private LuiPersonRelationService lprService;
     final Logger LOG = Logger.getLogger(CourseOfferingTransformer.class);
 
     public void lui2CourseOffering(LuiInfo lui, CourseOfferingInfo co, ContextInfo context) {
@@ -111,6 +115,19 @@ public class CourseOfferingTransformer {
         //LuiLuiRelation (to set jointOfferingIds, hasFinalExam)
 //        assembleLuiLuiRelations(co, lui.getId(), context);
         return;
+    }
+
+
+    public LuiPersonRelationService getLprService() {
+        return lprService;
+    }
+
+    public void setLprService(LuiPersonRelationService lprService) {
+        this.lprService = lprService;
+    }
+
+    public PersonService getPersonService() {
+        return KimApiServiceLocator.getPersonService();
     }
 
     private String boolean2String(Boolean bval) {
@@ -297,23 +314,31 @@ public class CourseOfferingTransformer {
     // this is not currently in use and needs to be revisited and plugged into the impl
     public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LuiPersonRelationService lprService)
             throws OperationFailedException {
-        List<LuiPersonRelationInfo> lprs = null;;
+        List<LuiPersonRelationInfo> lprs = null;
         try {
             lprs = lprService.getLprsByLui(luiId, context);
         } catch (Exception e) {
             throw new OperationFailedException("DoesNotExistException: " + e.getMessage());
         }
 
+        PersonService personService = getPersonService();
         for (LuiPersonRelationInfo lpr : lprs) {
-            if (lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
+            if (lpr.getStateKey() != null && lpr.getStateKey().equals(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY))  {
+                continue;
+            }
+
+            //if (lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
                 OfferingInstructorInfo instructor = new OfferingInstructorInfo();
                 instructor.setPersonId(lpr.getPersonId());
                 instructor.setPercentageEffort(lpr.getCommitmentPercent());
                 instructor.setId(lpr.getId());
                 instructor.setTypeKey(lpr.getTypeKey());
                 instructor.setStateKey(lpr.getStateKey());
+
+                Person person = personService.getPerson(lpr.getPersonId());
+                instructor.setPersonName(person.getName());
                 co.getInstructors().add(instructor);
-            }
+            //}
         }
     }
 }
