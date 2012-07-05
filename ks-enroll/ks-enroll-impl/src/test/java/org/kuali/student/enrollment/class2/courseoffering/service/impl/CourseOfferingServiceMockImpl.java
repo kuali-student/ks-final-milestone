@@ -65,6 +65,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.w3c.dom.css.RGBColor;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		MockService {
@@ -1158,8 +1159,24 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		throw new OperationFailedException(
-				"getSeatPoolDefinitionsForActivityOffering has not been implemented");
+		
+		// will throw does not exist exception if there is no matching activity id
+		ActivityOfferingInfo ao = getActivityOffering(activityOfferingId, context);
+	
+		List<String>seatPoolIds = activityOfferingToSeatPoolMap.get(activityOfferingId);
+		
+		List<SeatPoolDefinitionInfo>seatPoolInfos = new ArrayList <SeatPoolDefinitionInfo>(seatPoolIds.size());
+		
+		for (String spId : seatPoolIds) {
+			
+			SeatPoolDefinitionInfo sp = getSeatPoolDefinition(spId, context);
+		
+			seatPoolInfos.add(sp);
+		}
+		
+		return seatPoolInfos;
+		
+		
 	}
 
 	// cache variable
@@ -1416,4 +1433,62 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
 		return meta;
 	}
+
+	private Map<String, List<String>>activityOfferingToSeatPoolMap = new HashMap<String, List<String>>();
+	
+	@Override
+	public StatusInfo addSeatPoolDefinitionToActivityOffering(
+			String seatPoolDefinitionId, String activityOfferingId,
+			ContextInfo contextInfo) throws AlreadyExistsException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		// first check that both the reg group and seat pool exist
+		// these will throw does not exist exceptions
+		ActivityOfferingInfo ao = getActivityOffering(activityOfferingId, contextInfo);
+		
+		SeatPoolDefinitionInfo spd = getSeatPoolDefinition(seatPoolDefinitionId, contextInfo);
+		
+		// now check for an existing association
+		List<String> seatPoolIds = activityOfferingToSeatPoolMap.get(activityOfferingId);
+		
+		if (seatPoolIds == null) {
+			seatPoolIds = new ArrayList<String>();
+			activityOfferingToSeatPoolMap.put(activityOfferingId, seatPoolIds);
+		}
+		
+		if (seatPoolIds.contains(seatPoolDefinitionId))
+			throw new AlreadyExistsException("registration group (" + activityOfferingId + ") is already associated to seat pool definition ("+seatPoolDefinitionId+")");
+		
+		seatPoolIds.add(seatPoolDefinitionId);
+		
+		return newStatus();
+	}
+
+	@Override
+	public StatusInfo removeSeatPoolDefinitionFromActivityOffering(
+			String seatPoolDefinitionId, String activityOfferingId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		
+		// first check that both the reg group and seat pool exist
+		// these will throw does not exist exceptions
+		ActivityOfferingInfo ao = getActivityOffering(activityOfferingId, contextInfo);
+				
+		SeatPoolDefinitionInfo spd = getSeatPoolDefinition(seatPoolDefinitionId, contextInfo);
+				
+		getSeatPoolDefinitionsForActivityOffering(activityOfferingId, contextInfo);
+		
+		List<String>seatPoolIds = activityOfferingToSeatPoolMap.get(activityOfferingId);
+		
+		if (seatPoolIds.remove(seatPoolDefinitionId))
+			return newStatus();
+		else
+			throw new DoesNotExistException("no seatpool association for spId=" + seatPoolDefinitionId + " and activityOfferingId = " + activityOfferingId);
+		
+	}
+	
+	
 }

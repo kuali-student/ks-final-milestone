@@ -39,12 +39,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.test.util.AttributeTester;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -61,6 +63,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.permutation.PermutationUtils;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -842,4 +845,60 @@ public class TestCourseOfferingServiceMockImpl {
 				+ " type.", found);
 	}
 
+	
+	@Test
+	public void testCreateSeatPoolDefinition() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+		
+		SeatPoolDefinitionInfo mainPool = CourseOfferingServiceDataUtils.createSeatPoolDefinition ("EVERYONE", "Lab 123", AtpServiceConstants.MILESTONE_COURSE_SELECTION_PERIOD_END_TYPE_KEY, true, 85, 1);
+		
+		SeatPoolDefinitionInfo secondaryPool = CourseOfferingServiceDataUtils.createSeatPoolDefinition ("EVERYONE", "Lab 123B", AtpServiceConstants.MILESTONE_COURSE_SELECTION_PERIOD_END_TYPE_KEY, true, 15, 2);
+		
+		mainPool = coService.createSeatPoolDefinition(mainPool, callContext);
+		
+		secondaryPool = coService.createSeatPoolDefinition(secondaryPool, callContext);
+		
+		boolean exceptionEncountered = false;
+		try {
+			coService.addSeatPoolDefinitionToActivityOffering(mainPool.getId(), "CO-1:LEC-ONLY:LEC-A", callContext);
+			coService.addSeatPoolDefinitionToActivityOffering(secondaryPool.getId(), "CO-1:LEC-ONLY:LEC-A", callContext);
+		} catch (AlreadyExistsException e) {
+			exceptionEncountered = true;
+		} catch (DoesNotExistException e) {
+			exceptionEncountered = true;
+		}
+		
+		Assert.assertFalse (exceptionEncountered);
+		
+		try {
+			List<SeatPoolDefinitionInfo> spds = coService.getSeatPoolDefinitionsForActivityOffering("CO-1:LEC-ONLY:LEC-A", callContext);
+			
+			Assert.assertEquals(2, spds.size());
+			
+		} catch (DoesNotExistException e) {
+			// should not happen
+			Assert.assertFalse("Activity does not exist exception", true);
+		}
+		
+		exceptionEncountered = false;
+		
+		try {
+			coService.removeSeatPoolDefinitionFromActivityOffering(mainPool.getId(), "CO-1:LEC-ONLY:LEC-A", callContext);
+		} catch (DoesNotExistException e) {
+			
+			exceptionEncountered = true;
+		}
+		
+		Assert.assertFalse (exceptionEncountered);
+		
+		try {
+			List<SeatPoolDefinitionInfo> spds = coService.getSeatPoolDefinitionsForActivityOffering("CO-1:LEC-ONLY:LEC-A", callContext);
+			
+			Assert.assertEquals(1, spds.size());
+			
+		} catch (DoesNotExistException e) {
+			// should not happen
+			Assert.assertFalse("Activity does not exist exception", true);
+		}
+		
+	}
 }

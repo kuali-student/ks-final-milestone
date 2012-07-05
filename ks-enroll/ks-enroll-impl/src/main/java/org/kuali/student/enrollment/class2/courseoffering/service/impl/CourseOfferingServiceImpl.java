@@ -1531,5 +1531,26 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 		 throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public StatusInfo addSeatPoolDefinitionToActivityOffering(
+			String seatPoolDefinitionId, String activityOfferingId,
+			ContextInfo contextInfo) throws AlreadyExistsException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// should be supported by M4
+		 throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public StatusInfo removeSeatPoolDefinitionFromActivityOffering(
+			String seatPoolDefinitionId, String activityOfferingId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// should be supported in M4
+		 throw new UnsupportedOperationException();
+	}
+
     
 }

@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -323,6 +324,25 @@ public final class CourseOfferingServiceDataUtils {
 
 		return orig;
 
+	}
+
+	public static SeatPoolDefinitionInfo createSeatPoolDefinition(String populationId, String name, String expirationMilestoneTypeKey, Boolean percentage, Integer seatLimit, Integer processingPriority) {
+		
+		SeatPoolDefinitionInfo spd = new SeatPoolDefinitionInfo();
+	
+		spd.setExpirationMilestoneTypeKey(expirationMilestoneTypeKey);
+		spd.setDescr(new RichTextInfo(name, name));
+		
+		spd.setIsPercentage(percentage);
+		spd.setSeatLimit(seatLimit);
+		
+		spd.setPopulationId(populationId);
+		spd.setName(name);
+		
+		spd.setProcessingPriority(processingPriority);
+		
+		return spd;
+	
 	}
 
 }

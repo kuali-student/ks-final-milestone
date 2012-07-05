@@ -1354,17 +1354,17 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public SeatPoolDefinitionInfo getSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list of SeatPoolDefinitions records that belongs to a
-     * CourseOffering. This should return SeatPoolDefinitions that apply
-     * globally across all RegistrationGroup in the CourseOffering
+     * Retrieves a list of SeatPoolDefinitions records that belongs to an
+     * ActivityOffering. This should return SeatPoolDefinitions that apply
+     * globally across all RegistrationGroups in the ActivityOffering.
      *
-     * @param courseOfferingId Unique Id of the CourseOffering
+     * @param activityOfferingId Unique Id of the ActivityOffering
      * @param context          Context information containing the principalId and locale
      *                         information about the caller of service operation
      * @return List of SeatPoolDefinitions
-     * @throws DoesNotExistException     courseOfferingId not found
-     * @throws InvalidParameterException invalid courseOfferingId
-     * @throws MissingParameterException missing courseOfferingId
+     * @throws DoesNotExistException     activityOfferingId not found
+     * @throws InvalidParameterException invalid activityOfferingId
+     * @throws MissingParameterException missing activityOfferingId
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -1433,6 +1433,62 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      */
     public StatusInfo deleteSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Add a SeatPoolDefinition to an ActivityOffering
+     *
+     * @param seatPoolDefinitionId a unique identifier for a SeatPoolDefinition
+     * @param activityOfferingId a unique identifier for an ActivityOffering
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return status
+     * @throws AlreadyExistsException seatPoolDefinitionId already related to
+     *         activityOfferingId
+     * @throws DoesNotExistException seatPoolDefinitionId or
+     *         activityOfferingId not found
+     * @throws InvalidParameterException invalid seatPoolDefinitionId,
+     *         activityOfferingId, or contextInfo
+     * @throws MissingParameterException missing seatPoolDefinitionId,
+     *         activityOfferingId, or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo addSeatPoolDefinitionToActivityOffering(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
+                                                        @WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException; 
+    
+    /**
+     * Removes a SeatPoolDefinition from an ActivityOffering.
+     *
+     * @param seatPoolDefinitionId a unique identifier for a SeatPoolDefinition
+     * @param activityOffering a unique identifier for an ActivityOffering
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return status
+     * @throws DoesNotExistException seatPoolDefinitionId or
+     *         activityOfferingId not found
+     * @throws InvalidParameterException invalid seatPoolDefinitionId,
+     *         activityOfferingId, or contextInfo
+     * @throws MissingParameterException missing seatPoolDefinitionId,
+     *         activityOfferingId, or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo removeSeatPoolDefinitionFromActivityOffering(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
+                                                             @WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
     /**
      * Searches for course offerings using a free form search criteria
      *
