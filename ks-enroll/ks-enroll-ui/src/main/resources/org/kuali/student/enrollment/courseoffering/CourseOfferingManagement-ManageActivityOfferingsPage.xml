@@ -145,7 +145,11 @@
                       p:propertyName="stateName" />
                 <bean parent="Uif-DataField"
                       p:label="CODE"
-                      p:propertyName="aoInfo.activityCode"/>
+                      p:propertyName="aoInfo.activityCode">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField"
                       p:label="TYPE"
                       p:propertyName="typeName"/>
@@ -166,7 +170,6 @@
         <property name="lineActions">
             <list>
                 <bean parent="Uif-ActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="confirmDelete" p:actionLabel="Delete" p:render = "@{#line.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.draft'}" />
             </list>
