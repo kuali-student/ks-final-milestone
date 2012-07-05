@@ -69,7 +69,7 @@
                                     <bean parent="Uif-TextControl" p:size="10"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Show" p:methodToCall="show"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show"/>
                         </list>
                     </property>
                 </bean>
