@@ -1,3 +1,4 @@
+/*
 DELIMITER //
 DROP PROCEDURE IF EXISTS `riceserverdemo`.`test`//
 CREATE PROCEDURE `riceserverdemo`.`test`()
@@ -7,8 +8,8 @@ BEGIN
   DECLARE context_id VARCHAR(50);
   DECLARE CNTXT_TERM_SPEC_PREREQ_ID integer;
 
-  DECLARE term_spec_cursor CURSOR FOR  
-	select 
+  DECLARE term_spec_cursor CURSOR FOR
+	select
 	  krmst.term_spec_id
 	  , krmct.cntxt_id 
 	from 
@@ -75,4 +76,36 @@ set done = 0;
 
     END//
 
-DELIMITER 
+DELIMITER */
+
+CREATE OR REPLACE PROCEDURE KSEMBEDDED.TEST IS
+
+  cursor term_spec_cursor IS
+	select
+	  krmst.term_spec_id
+	  , krmct.cntxt_id
+	from
+	  krms_term_spec_t krmst
+	  , krms_cntxt_t krmct
+	where
+	  krmct.nm = 'Stud Eligibility and Prereq'
+	  and krmst.nm in (
+			   'Credits'
+			   ,'Org Number'
+			   ,'Course'
+			   ,'Course Number'
+			   , 'Date'
+			   , 'GPA'
+			   , 'Grade'
+			   , 'GradeType'
+			   , 'Learning Objectives'
+			   , 'Subject Code'
+			   , 'Text');
+
+BEGIN
+  for rec in term_spec_cursor loop
+    insert into krms_cntxt_vld_term_spec_t (cntxt_term_spec_prereq_id, cntxt_id, term_spec_id, prereq)
+      values (krms_cntxt_vld_term_spec_s.NEXTVAL, rec.cntxt_id, rec.term_spec_id, 'N');
+  end loop;
+  commit;
+END TEST;
