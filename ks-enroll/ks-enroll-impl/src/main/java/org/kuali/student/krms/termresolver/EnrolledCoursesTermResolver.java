@@ -59,20 +59,21 @@ public class EnrolledCoursesTermResolver implements TermResolver<List<CourseRegi
 
     @Override
     public String getOutput() {
-        return "EnrolledCoursesTermResolver.getOutput()";
+        return "EnrolledCoursesTermResolver";
     }
 
     @Override
     public Set<String> getParameterNames() {
         Set<String> temp = new HashSet<String>(1);
         temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        temp.add(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
         return Collections.unmodifiableSet(temp);
     }
 
     @Override
     public int getCost() {
         // TODO Analyze, though probably not much to check here
-        return 5;
+        return 1;
     }
 
     @Override
