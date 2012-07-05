@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.test;
+package org.kuali.student.common.mock;
 
 /**
  * Mock implementations that implement this interface can be cleared.  i.e. reset back to their initial conditions.
  * 
- * Typically this will occur and be coordinated by the data loader used by the testcase.
+ * Typically this will occur and be coordinated by the data loader used by the test case.
+ * 
+ * This needs to be here because some of the mock imnpl's are not located in the main code instead of the test code.
  * 
  * @author ocleirig
  *
