@@ -8,7 +8,6 @@ import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
@@ -27,8 +26,8 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
-import org.kuali.student.r2.core.type.service.TypeService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.type.service.TypeService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,8 +41,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient TypeService typeService;
     private transient StateService stateService;
     private transient CourseService courseService;
-
-
 
     @Override
     public void saveDataObject() {
@@ -65,7 +62,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info);
 
             //get the course offering
-            CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID), getContextInfo());
+            CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(info.getCourseOfferingId(), getContextInfo());
 
             // get the format offering
             FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(info.getFormatOfferingId(), getContextInfo());

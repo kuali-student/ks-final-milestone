@@ -1,11 +1,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.state.dto.StateInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ActivityOfferingWrapper implements Serializable{
 
-    private ActivityOfferingInfo aoInfo;
+    private transient ActivityOfferingInfo aoInfo;
     private FormatOfferingInfo formatOffering;
     private TermInfo term;
     private List<OfferingInstructorWrapper> instructors;
@@ -24,6 +24,10 @@ public class ActivityOfferingWrapper implements Serializable{
     // Tanveer 06/13/2012
     private String stateName;
     private String typeName;
+
+    private String termName;
+
+    private String formatOfferingName;
 
     // Tanveer 06/27/2012
 
@@ -182,5 +186,41 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setFirstInstructorDisplayName(String firstInstructorDisplayName) {
         this.firstInstructorDisplayName = firstInstructorDisplayName;
+    }
+
+    public String getId() {
+        return aoInfo.getId();
+    }
+
+    public void setId(String id) {
+        aoInfo.setId(id);
+    }
+
+    public String getTermName() {
+        return termName;
+    }
+
+    public void setTermName(String termName) {
+        this.termName = termName;
+    }
+
+    public String getFormatOfferingName() {
+        return formatOfferingName;
+    }
+
+    public void setFormatOfferingName(String formatOfferingName) {
+        this.formatOfferingName = formatOfferingName;
+    }
+
+    public String getIsMaxEnrollmentEstimateUI(){
+        return StringUtils.capitalize(BooleanUtils.toStringYesNo(aoInfo.getIsMaxEnrollmentEstimate()));
+    }
+
+    public String getIsEvaluatedUI(){
+        return StringUtils.capitalize(BooleanUtils.toStringYesNo(aoInfo.getIsEvaluated()));
+    }
+
+    public String getIsHonorsOfferingUI(){
+        return StringUtils.capitalize(BooleanUtils.toStringYesNo(aoInfo.getIsHonorsOffering()));
     }
 }
