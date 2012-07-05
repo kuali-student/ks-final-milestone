@@ -17,6 +17,7 @@ package org.kuali.student.r2.core.population.service.impl;
 
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class PopulationServiceMockImpl implements PopulationService {
+public class PopulationServiceMockImpl implements PopulationService, MockService {
 
     ///////////////////////////
     // Data Variables
@@ -133,7 +134,23 @@ public class PopulationServiceMockImpl implements PopulationService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("getPopulationsForPopulationRule has not been implemented");
+        try {
+            List<PopulationInfo> populationInfos = new ArrayList<PopulationInfo> ();
+            for (String id: getPopulationRule(populationRuleId, contextInfo).getChildPopulationIds()) {
+                try {
+                    populationInfos.add(getPopulation(id, contextInfo));
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException ("Unable to read population record for id : " + id + " due to error: " + e);
+                } catch (Exception e) {
+                    throw e;
+                }
+            }
+            return populationInfos;
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException ("Unable to read population rule record for id : " + populationRuleId + " due to error: " + e);
+        } catch (Exception e) {
+            throw new OperationFailedException ("Unable to carry out getPopulationsForPopulationRule due to: " + e);
+        }
     }
 
     @Override
@@ -383,7 +400,16 @@ public class PopulationServiceMockImpl implements PopulationService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("applyPopulationRuleToPopulation has not been implemented");
+        PopulationInfo populationInfo = getPopulation(populationId, contextInfo); // to check if population exists
+        PopulationRuleInfo populationRuleInfo = getPopulationRule(populationRuleId, contextInfo);
+        // go through all the population rules and check their child populations. If they contain this population, remove.
+        for (PopulationRuleInfo ruleInfo : populationRuleMap.values()) {
+            if (ruleInfo.getChildPopulationIds().contains(populationId)) {
+                ruleInfo.getChildPopulationIds().remove(populationId);
+            }
+        }
+        populationRuleInfo.getChildPopulationIds().add(populationId);
+        return newStatus();
     }
 
     @Override
@@ -394,13 +420,12 @@ public class PopulationServiceMockImpl implements PopulationService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-/*
-        if (this.populationRuleFromPopulationMap.remove(populationRuleId) == null) {
-            throw new DoesNotExistException(populationRuleId);
+        PopulationInfo populationInfo = getPopulation(populationId, contextInfo); // to check if population exists
+        PopulationRuleInfo populationRuleInfo = getPopulationRule(populationRuleId, contextInfo);
+        if (populationRuleInfo.getChildPopulationIds().contains(populationId)) {
+            populationRuleInfo.getChildPopulationIds().remove(populationId);
         }
         return newStatus();
-*/
-        throw new OperationFailedException ("removePopulationRuleFromPopulation has not been implemented");
     }
 
     @Override
@@ -613,5 +638,12 @@ public class PopulationServiceMockImpl implements PopulationService {
         return meta;
     }
 
+    @Override
+    public void clear() {
+        populationRuleMap.clear();
+        populationMap.clear();
+        populationCategoryMap.clear();
+        populationCategoriesForPopulationMap.clear();
+    }
 }
 

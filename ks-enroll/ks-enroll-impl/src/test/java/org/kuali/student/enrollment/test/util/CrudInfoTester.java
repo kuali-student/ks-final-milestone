@@ -177,6 +177,7 @@ public class CrudInfoTester {
 
     public void initializeInfoForTestUpdate (EntityInfo expected) throws Exception {
         clearAttributeIds(expected);
+        expected.setName("Name 2");
         getAttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
     }
 
@@ -196,12 +197,20 @@ public class CrudInfoTester {
 
     private void doCommonTests (EntityInfo expected, EntityInfo actual) throws Exception {
         if (actual instanceof IdEntityInfo) {
-            assertNotNull(((IdEntityInfo) actual).getId());
-            assertEquals(((IdEntityInfo) expected).getId(), ((IdEntityInfo) actual).getId());
+            IdEntityInfo expected_IEO = (IdEntityInfo) expected;
+            IdEntityInfo actual_IEO = (IdEntityInfo) actual;
+            assertNotNull(actual_IEO.getId());
+            if (expected_IEO.getId()!=null) {
+                assertEquals(expected_IEO.getId(), actual_IEO.getId());
+            }
         }
         else if (actual instanceof KeyEntityInfo) {
-            assertNotNull(((KeyEntityInfo) actual).getKey());
-            assertEquals(((KeyEntityInfo) expected).getKey(), ((KeyEntityInfo) actual).getKey());
+            KeyEntityInfo expected_KEO = (KeyEntityInfo) expected;
+            KeyEntityInfo actual_KEO = (KeyEntityInfo) actual;
+            assertNotNull(actual_KEO.getKey());
+            if (expected_KEO.getKey()!=null) {
+                assertEquals(expected_KEO.getKey(), actual_KEO.getKey());
+            }
         }
         getEntityInfoTester().check(expected, actual);
         getAttributeTester().check(expected.getAttributes(), actual.getAttributes());
