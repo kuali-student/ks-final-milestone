@@ -223,7 +223,7 @@
         </property>
 		<property name="items">
            <list>
-               <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.formatId" p:readOnlyDisplayReplacementPropertyName="formatType"
+               <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.formatId" p:readOnlyDisplayReplacementPropertyName="formatType"  p:required="true"
                       p:label="FORMAT" p:labelPlacement="TOP" p:readOnly="@{!#isAddLine}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
