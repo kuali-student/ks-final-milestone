@@ -169,7 +169,7 @@
 
     <!-- Edit a Course Offering MaintenanceView -->
     <bean id="KS-CourseOfferingEditWrapper-EditMaintenanceView" parent="KSMaintenanceView">
-        <property name="headerText" value="Edit @{document.oldMaintainableObject.dataObject.coInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.coInfo.courseOfferingTitle}"/>
+        <property name="headerText" value="Edit @{document.oldMaintainableObject.dataObject.coInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.coInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.coInfo.creditCnt} Credits)"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
 
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />

@@ -189,27 +189,26 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
             if (getDataObject() instanceof CourseOfferingEditWrapper){
-                CourseOfferingInfo info = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
+                //0. get credit count from CourseInfo
+                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
+                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
+                coInfo.setCreditCnt(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
+
                 //1. set CourseOfferingInfo
-                CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(info);
+                CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
 
                 //2. set CourseInfo
-                String courseId = info.getCourseId();
-                CourseInfo courseInfo = new CourseInfo();
-                if (courseId != null) {
-                    courseInfo = (CourseInfo) getCourseService().getCourse(courseId);
-                    formObject.setCourse(courseInfo);
-                }
+                formObject.setCourse(courseInfo);
 
                 //3. set formatOfferingList
-                List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(info.getId(), getContextInfo());
+                List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfo.getId(), getContextInfo());
                 formObject.setFormatOfferingList(formatOfferingList);
 
                 //4. Checking if Grading Options should be disabled or not and assign default (if no value)
                 //5. Checking if there are any student registration options from CLU for screen display
                 List<String> studentRegOptions = new ArrayList<String>();
                 List<String> crsGradingOptions = new ArrayList<String>();
-                if (courseId != null && courseInfo != null) {
+                if (coInfo.getCourseId() != null && courseInfo != null) {
                     List<String> gradingOptions = courseInfo.getGradingOptions();
                     Set<String> regOpts = new HashSet<String>(Arrays.asList(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS));
                     for (String gradingOption : gradingOptions) {
@@ -221,10 +220,10 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                     }
                 }
                 formObject.setStudentRegOptions(studentRegOptions);
-                if (info.getStudentRegistrationOptionIds().isEmpty() && !studentRegOptions.isEmpty()) {
+                if (coInfo.getStudentRegistrationOptionIds().isEmpty() && !studentRegOptions.isEmpty()) {
                     formObject.getCoInfo().setStudentRegistrationOptionIds(studentRegOptions);
                 }
-                if ((info.getGradingOptionId() == null || info.getGradingOptionId().equals("")) && !crsGradingOptions.isEmpty()) {
+                if ((coInfo.getGradingOptionId() == null || coInfo.getGradingOptionId().equals("")) && !crsGradingOptions.isEmpty()) {
                     formObject.getCoInfo().setGradingOptionId(crsGradingOptions.get(0));
                 }
 
@@ -232,7 +231,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 boolean creditOptionFixed = false;
                 CreditOptionInfo creditOption = new CreditOptionInfo();
                 List<ResultComponentInfo> creditOptions = courseInfo.getCreditOptions();
-                String creditOptionId = info.getCreditOptionId();
+                String creditOptionId = coInfo.getCreditOptionId();
                 if (creditOptionId != null) {
                     ResultValuesGroupInfo resultValuesGroupInfo = getLrcService().getResultValuesGroup(creditOptionId, getContextInfo());
                     String typeKey = resultValuesGroupInfo.getTypeKey();
@@ -260,7 +259,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                         }
                     }
                 }
-                if (courseId != null && courseInfo != null && !creditOptions.isEmpty()) {
+                if (coInfo.getCourseId() != null && courseInfo != null && !creditOptions.isEmpty()) {
                     ResultComponentInfo resultComponentInfo = creditOptions.get(0);
                     if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
@@ -296,8 +295,8 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
 
                 ArrayList<OrganizationInfoWrapper> orgList = new ArrayList<OrganizationInfoWrapper>();
 
-                if(info.getUnitsDeploymentOrgIds() != null){
-                    for(String orgId: info.getUnitsDeploymentOrgIds()){
+                if(coInfo.getUnitsDeploymentOrgIds() != null){
+                    for(String orgId: coInfo.getUnitsDeploymentOrgIds()){
                         OrgInfo orgInfo = getOrganizationService().getOrg(orgId,getContextInfo());
                         orgList.add(new OrganizationInfoWrapper(orgInfo));
                     }
@@ -306,7 +305,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
 
                 document.getNewMaintainableObject().setDataObject(formObject);
                 document.getOldMaintainableObject().setDataObject(formObject);
-                document.getDocumentHeader().setDocumentDescription("Edit CO - " + info.getCourseOfferingCode());
+                document.getDocumentHeader().setDocumentDescription("Edit CO - " + coInfo.getCourseOfferingCode());
 
                 //            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
     //            formObject.setStateName(state.getName());
