@@ -10,8 +10,8 @@ import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
@@ -69,9 +69,9 @@ public class FormatOfferingTypeForEditCOTypeKeyValues extends UifKeyValuesFinder
     
     private List<String> getAvailableFormatTypes(CourseOfferingEditWrapper coEditWrapper) throws Exception {
         List<String> availableFormatTypes = new ArrayList<String>();
-        List <FormatOfferingWrapper> formatOfferingWrapperList= coEditWrapper.getFormatOfferingWrapperList();
-        for (FormatOfferingWrapper foWrapper:formatOfferingWrapperList){
-            availableFormatTypes.add(foWrapper.getFormatOfferingInfo().getFormatId());
+        List <FormatOfferingInfo> formatOfferingList = coEditWrapper.getFormatOfferingList();
+        for (FormatOfferingInfo formatOfferingInfo:formatOfferingList){
+            availableFormatTypes.add(formatOfferingInfo.getFormatId());
         }
         return availableFormatTypes;
     }

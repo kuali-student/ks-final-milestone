@@ -25,7 +25,6 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
@@ -121,37 +120,33 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
     }
 
     private void updateFormatOfferings(CourseOfferingEditWrapper coEditWrapper) throws Exception{
-        List<FormatOfferingWrapper> updatedFormatOfferingWrapperList = new ArrayList<FormatOfferingWrapper>();
-        List<FormatOfferingWrapper> formatOfferingWrapperList = coEditWrapper.getFormatOfferingWrapperList();
+        List<FormatOfferingInfo> updatedFormatOfferingList = new ArrayList<FormatOfferingInfo>();
+        List<FormatOfferingInfo> formatOfferingList = coEditWrapper.getFormatOfferingList();
         CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
         List <String> currentFOIds = getExistingFormatOfferingIds(coInfo.getId());
-        if (formatOfferingWrapperList != null && !formatOfferingWrapperList.isEmpty())  {
-            for(FormatOfferingWrapper formatOfferingWrapper : formatOfferingWrapperList){
-                FormatOfferingInfo formatOfferingInfo = formatOfferingWrapper.getFormatOfferingInfo(); 
+        if (formatOfferingList != null && !formatOfferingList.isEmpty())  {
+            for(FormatOfferingInfo formatOfferingInfo : formatOfferingList){
                 if(formatOfferingInfo.getId()!=null &&
                         !formatOfferingInfo.getId().isEmpty() &&
                         currentFOIds.contains(formatOfferingInfo.getId())) {
                     //update FO
                     FormatOfferingInfo updatedFormatOffering = getCourseOfferingService().
                             updateFormatOffering(formatOfferingInfo.getId(),formatOfferingInfo, getContextInfo());
-                    formatOfferingWrapper.setFormatOfferingInfo(updatedFormatOffering);
-                    updatedFormatOfferingWrapperList.add(formatOfferingWrapper);
+                    updatedFormatOfferingList.add(updatedFormatOffering);
                     currentFOIds.remove(formatOfferingInfo.getId());
                 }
                 else{
                     //create a new FO
-                    formatOfferingInfo.setStateKey("kuali.lui.format.offering.state.planned");
-//                    formatOfferingInfo.setFormatId(formatOfferingInfo.getTypeKey());
-                    formatOfferingInfo.setTypeKey("kuali.lui.type.course.format.offering");
+                    formatOfferingInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
+                    formatOfferingInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
                     formatOfferingInfo.setTermId(coInfo.getTermId());
                     formatOfferingInfo.setCourseOfferingId(coInfo.getId());
                     FormatOfferingInfo createdFormatOffering = getCourseOfferingService().
                             createFormatOffering(coInfo.getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, getContextInfo());
-                    formatOfferingWrapper.setFormatOfferingInfo(createdFormatOffering);
-                    updatedFormatOfferingWrapperList.add(formatOfferingWrapper);
+                    updatedFormatOfferingList.add(createdFormatOffering);
                 }
             }
-            coEditWrapper.setFormatOfferingWrapperList(updatedFormatOfferingWrapperList);
+            coEditWrapper.setFormatOfferingList(updatedFormatOfferingList);
 
         }
         //delete FormatOfferings that have been removed by the user
@@ -178,33 +173,17 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
     }
 
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (addLine instanceof FormatOfferingWrapper){
-            FormatOfferingWrapper newLine = (FormatOfferingWrapper)addLine;
-            String formatId = newLine.getFormatOfferingInfo().getFormatId();
+        if (addLine instanceof FormatOfferingInfo){
+            FormatOfferingInfo newLine = (FormatOfferingInfo)addLine;
+            String formatId = newLine.getFormatId();
             MaintenanceForm form = (MaintenanceForm)model;
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-            String formatTypeName = getFormatTypeName(coEditWrapper, formatId);
-            newLine.setFormatType(formatTypeName);
-            newLine.getFormatOfferingInfo().setName(getFormatOfferingInfoName(coEditWrapper.getCourse(), formatId));
+            FormatInfo theFormat = getFormatInfo(coEditWrapper, formatId);
+            newLine.setName(theFormat.getName());
+            newLine.setShortName(theFormat.getShortName());
         }
     }
 
-    /**
-     *
-     * @param cInfo
-     * @param coFormId
-     * @return  The users want to see the format name displayed on the screen. Ie. "Independent Study" and not the type Name KSENROLL-1451
-     *
-     */
-    private String    getFormatOfferingInfoName(CourseInfo cInfo, String coFormId){
-        List<FormatInfo> formatInfoList = cInfo.getFormats();
-        for(FormatInfo formatInfo : formatInfoList) {
-            if(coFormId.equals(formatInfo.getId())){
-                return formatInfo.getName();
-            }
-        }
-        return null;
-    }
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -222,16 +201,10 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                     formObject.setCourse(courseInfo);
                 }
 
-                //3. set formatOfferingWrapperList
-                List<FormatOfferingInfo> formats = getCourseOfferingService().getFormatOfferingsByCourseOffering(info.getId(), getContextInfo());
-                List<FormatOfferingWrapper> formatOfferingWrapperList = new ArrayList<FormatOfferingWrapper>();
-                for (FormatOfferingInfo formatOfferingInfo : formats){
-                    FormatOfferingWrapper formatOfferingWrapper = new FormatOfferingWrapper(formatOfferingInfo);
-                    String formatTypeName = getFormatTypeName(formObject, formatOfferingInfo.getFormatId());
-                    formatOfferingWrapper.setFormatType(formatTypeName);
-                    formatOfferingWrapperList.add(formatOfferingWrapper);
-                }
-                formObject.setFormatOfferingWrapperList(formatOfferingWrapperList);
+                //3. set formatOfferingList
+                List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(info.getId(), getContextInfo());
+                System.out.println(">>>find formatOfferingList.size()="+formatOfferingList.size());
+                formObject.setFormatOfferingList(formatOfferingList);
 
                 //4. Checking if Grading Options should be disabled or not and assign default (if no value)
                 //5. Checking if there are any student registration options from CLU for screen display
@@ -346,11 +319,11 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
         return null;
     }
 
-    private String getFormatTypeName(CourseOfferingEditWrapper courseOfferingEditWrapper, String coFormId ){
+    private FormatInfo getFormatInfo(CourseOfferingEditWrapper courseOfferingEditWrapper, String coFormId ){
         List<FormatInfo> formatInfoList = courseOfferingEditWrapper.getCourse().getFormats();
         for(FormatInfo formatInfo : formatInfoList) {
             if(coFormId.equals(formatInfo.getId())){
-                return formatInfo.getType();
+                return formatInfo;
             }
         }
         return null;

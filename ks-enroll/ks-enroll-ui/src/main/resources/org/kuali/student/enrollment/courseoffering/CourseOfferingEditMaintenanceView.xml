@@ -326,16 +326,16 @@
 
                 <bean id="KS-CourseOfferingEdit-FormatOfferingSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false">
                     <property name="headerText" value="" />
-                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
-                    <property name="propertyName" value="formatOfferingWrapperList" />
+                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
+                    <property name="propertyName" value="formatOfferingList" />
                     <property name="layoutManager.renderSequenceField" value="false" />
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
                     <property name="layoutManager.richTable.render" value="false" />
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.formatId"  p:readOnly="@{!#isAddLine}"
-                                  p:label="FORMAT" p:labelPlacement="TOP" p:readOnlyDisplayReplacementPropertyName="formatOfferingInfo.name" p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="formatId"  p:readOnly="@{!#isAddLine}"
+                                  p:label="FORMAT" p:labelPlacement="TOP" p:readOnlyDisplayReplacementPropertyName="name" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -343,7 +343,7 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForEditCOTypeKeyValues" p:addBlankOption="false"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
+                            <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"
                                   p:label="GRADE ROSTER LEVEL" p:labelPlacement="TOP" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" />
@@ -352,7 +352,7 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradeRosterLevelKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
+                            <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"
                                   p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" />
