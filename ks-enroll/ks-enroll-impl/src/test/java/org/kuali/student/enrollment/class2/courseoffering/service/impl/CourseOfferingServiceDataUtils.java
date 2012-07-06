@@ -79,7 +79,7 @@ public final class CourseOfferingServiceDataUtils {
 	// Copied from TestCourseOfferingServiceWithMocks
 	// and flushed out using the ActivityOfferingTransformer
 	public static ActivityOfferingInfo createActivityOffering(String termId,
-			String courseOfferingId, String formatOfferingId,
+			CourseOfferingInfo courseOffering, String formatOfferingId,
 			String scheduleId, String activityId, String activityName,
 			String activityCode, String activityTypeKey,
 			List<OfferingInstructorInfo> instructors) {
@@ -89,7 +89,7 @@ public final class CourseOfferingServiceDataUtils {
 		orig.setTypeKey(activityTypeKey);
 		orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
 
-		orig.setCourseOfferingId(courseOfferingId);
+		orig.setCourseOfferingId(courseOffering.getId());
 		orig.setFormatOfferingId(formatOfferingId);
 
 		// TODO: maybe make this settable
@@ -116,9 +116,15 @@ public final class CourseOfferingServiceDataUtils {
 		orig.setIsEvaluated(true);
 		orig.setIsMaxEnrollmentEstimate(false);
 		orig.setIsHonorsOffering(true);
+		
+		orig.setHasWaitlist(false);
+		orig.setIsWaitlistCheckinRequired(false);
 
 		orig.setInstructors(instructors);
 
+		orig.setCourseOfferingCode(courseOffering.getCourseOfferingCode());
+		orig.setCourseOfferingTitle(courseOffering.getCourseOfferingTitle());
+		
 		return orig;
 	}
 
@@ -330,6 +336,9 @@ public final class CourseOfferingServiceDataUtils {
 		
 		SeatPoolDefinitionInfo spd = new SeatPoolDefinitionInfo();
 	
+		spd.setTypeKey(LuiServiceConstants.SEATPOOL_LUI_CAPACITY_TYPE_KEY);
+		spd.setStateKey(LuiServiceConstants.LUI_CAPACITY_ACTIVE_STATE_KEY);
+		
 		spd.setExpirationMilestoneTypeKey(expirationMilestoneTypeKey);
 		spd.setDescr(new RichTextInfo(name, name));
 		

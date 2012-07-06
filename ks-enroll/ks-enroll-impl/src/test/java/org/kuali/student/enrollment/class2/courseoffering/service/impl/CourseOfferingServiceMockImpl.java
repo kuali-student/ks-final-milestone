@@ -79,9 +79,11 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
 	@Resource
 	private CourseService courseService;
+	
 	@Resource
 	private AcademicCalendarService acalService;
-	@Resource
+	
+	@Resource(name="coBusinessLogic")
 	private CourseOfferingServiceBusinessLogic businessLogic;
 
 	@Resource
@@ -98,6 +100,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		this.formatOfferingMap.clear();
 		this.registrationGroupMap.clear();
 		this.seatPoolDefinitionMap.clear();
+		
 	}
 
 	public void setTypeService(TypeService typeService) {
@@ -412,7 +415,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 				optionKeys);
 		copy.setMeta(newMeta(context));
 		courseOfferingMap.put(copy.getId(), copy);
-		System.out.println("CourseOfferingMockImpl: created course offering: "
+		log.debug("CourseOfferingMockImpl: created course offering: "
 				+ copy.getId() + "term=" + copy.getTermId() + " for course ="
 				+ copy.getCourseId());
 		return new CourseOfferingInfo(copy);
@@ -546,7 +549,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		copy.setTermId(co.getTermId());
 		copy.setMeta(newMeta(context));
 		formatOfferingMap.put(copy.getId(), copy);
-		System.out.println("CourseOfferingMockImpl: created format offering: "
+		log.debug("CourseOfferingMockImpl: created format offering: "
 				+ copy.getId() + "term=" + copy.getTermId() + " for format ="
 				+ copy.getFormatId() + " and course offering="
 				+ copy.getCourseOfferingId());
@@ -743,8 +746,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		copy.setTermId(fo.getTermId());
 		copy.setMeta(newMeta(context));
 		activityOfferingMap.put(copy.getId(), copy);
-		System.out
-				.println("CourseOfferingMockImpl: created activity offering: "
+		log.debug("CourseOfferingMockImpl: created activity offering: "
 						+ copy.getId() + "term=" + copy.getTermId()
 						+ " for activity " + copy.getActivityId()
 						+ " and format offering=" + copy.getFormatOfferingId());

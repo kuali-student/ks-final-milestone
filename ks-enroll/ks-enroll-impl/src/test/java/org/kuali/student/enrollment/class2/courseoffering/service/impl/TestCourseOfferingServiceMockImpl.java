@@ -675,8 +675,10 @@ public class TestCourseOfferingServiceMockImpl {
 	public void testCreateAndGetActivityOffering()
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
+			OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
+		CourseOfferingInfo courseOffering = coService.getCourseOffering("CO-1", callContext);
+		
 		List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
 
 		instructors.add(CourseOfferingServiceDataUtils.createInstructor(
@@ -687,7 +689,7 @@ public class TestCourseOfferingServiceMockImpl {
 						LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
 
 		ActivityOfferingInfo ao = CourseOfferingServiceDataUtils
-				.createActivityOffering("2012FA", "CO-1", "CO-1:LEC-ONLY",
+				.createActivityOffering("2012FA", courseOffering, "CO-1:LEC-ONLY",
 						"SCHED-ID", activityId, "Lecture", "A",
 						LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
 						instructors);

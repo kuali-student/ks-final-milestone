@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
@@ -187,12 +188,16 @@ public class RegistrationGroupInfo
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("RegistrationGroupInfo [formatOfferingId=");
+        builder.append("RegistrationGroupInfo [id=");
+        builder.append(getId());
+        builder.append("formatOfferingId=");
         builder.append(formatOfferingId);
         builder.append(", courseOfferingId=");
         builder.append(courseOfferingId);
         builder.append(", termId=");
         builder.append(termId);
+        builder.append(", activityOfferingIds=");
+        builder.append(StringUtils.join(activityOfferingIds, ", "));
         builder.append(", registrationCode=");
         builder.append(registrationCode);
         builder.append(", maximumEnrollment=");

@@ -110,6 +110,9 @@
            <constructor-arg value="classpath:ks-RegistrationGroupInfo-dictionary.xml" />
        </bean>
 
+	<bean id="seatPoolDefinitionInfoDictionaryLocation" class="java.lang.String">
+           <constructor-arg value="classpath:ks-SeatPoolDefinitionInfo-dictionary.xml" />
+       </bean>
 
     <bean name="courseOfferingServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
@@ -117,7 +120,8 @@
                 <bean parent="courseOfferingInfoDictionaryLocation" />
                 <bean parent="formatOfferingInfoDictionaryLocation"/>
                 <bean parent="registrationGroupInfoDictionaryLocation"/>
-                <bean parent="activityOfferingInfoDictionaryLocation"/>
+                <bean parent="seatPoolDefinitionInfoDictionaryLocation"/>
+                
             </list>
         </constructor-arg>
      </bean>
@@ -143,6 +147,9 @@
                 <bean parent="courseOfferingInfoDictionaryLocation" />
                 <bean parent="activityOfferingInfoDictionaryLocation" />
                 <bean parent="formatOfferingInfoDictionaryLocation" />
+                <bean parent="registrationGroupInfoDictionaryLocation" />
+                <bean parent="seatPoolDefinitionInfoDictionaryLocation" />
+                
             </list>
         </constructor-arg>
     </bean>

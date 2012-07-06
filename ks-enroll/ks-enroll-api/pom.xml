@@ -145,7 +145,6 @@
                                 <inputFile>ks-LprRosterEntryInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprTransactionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprTransactionItemInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-RequestOptionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprTransactionItemResultInfo-dictionary.xml</inputFile>
                                 <!-- Hold -->        
                                 <inputFile>ks-HoldInfo-dictionary.xml</inputFile>
@@ -171,11 +170,10 @@
                                 <!-- Course Registration  -->
                                 <inputFile>ks-CourseRegistrationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ActivityRegistrationInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-RegGroupRegistrationInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-RegRequestInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-RegRequestItemInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-RegResponseInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-RegResponseItemInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RegistrationRequestInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RegistrationRequestItemInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RegistrationResponseInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RegistrationResponseItemInfo-dictionary.xml</inputFile>
                                 <!-- Course waitlist -->      
                                 <inputFile>ks-CourseWaitlistEntryInfo-dictionary.xml</inputFile>
                                 <!-- Exemption -->
@@ -273,11 +271,11 @@
 <!--                                Course registration -->
                                 <className>CourseRegistrationInfo</className>
                                 <className>ActivityRegistrationInfo</className>
-                                <className>RegGroupRegistrationInfo</className>
-                                <className>RegRequestInfo</className>
-                                <className>RegRequestItemInfo</className>
-                                <className>RegResponseInfo</className>
-                                <className>RegResponseItemInfo</className>
+                                <className>RegistrationGroupInfo</className>
+                                <className>RegistrationRequestInfo</className>
+                                <className>RegistrationRequestItemInfo</className>
+                                <className>RegistrationResponseInfo</className>
+                                <className>RegistrationResponseItemInfo</className>
 <!--                                Course waitlist -->
                                 <className>CourseWaitlistEntryInfo</className>
 <!--                                Exemption -->
@@ -297,7 +295,6 @@
                                 <className>LprRosterEntryInfo</className>
                                 <className>LprTransactionInfo</className>
                                 <className>LprTransactionItemInfo</className>
-                                <className>RequestOptionInfo</className>
                                 <className>LprTransactionItemResultInfo</className>                           
 <!--                                LUI                 -->
                                 <className>LuiInfo</className>
