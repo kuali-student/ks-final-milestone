@@ -901,17 +901,23 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return list;
     }
 
-    private boolean _isActivityType(String luiTypeKey) {
+    private boolean _isActivityType(String luiTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
         if (luiTypeKey == null) {
             return false;
         }
+
         if (luiTypeKey.startsWith(LuiServiceConstants.ACTIVITY_OFFERING_TYPE_KEY_PREFIX)) {
-            for (String s: LuiServiceConstants.ALL_ACTIVITY_TYPES) {
-                if (s.equals(luiTypeKey)) {
+
+            List<TypeInfo> aoTypes = typeService.getTypesForGroupType(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, context);
+
+            for (TypeInfo typeInfo: aoTypes) {
+                if (typeInfo.getKey().equals(luiTypeKey)) {
                     return true;
                 }
             }
         }
+
         return false;
     }
 
@@ -925,7 +931,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         for (LuiInfo lui:luis) {
 
             //Filter out only course offerings (the relation type seems to vague to only hold format offerings)
-            if (_isActivityType(lui.getTypeKey())) {
+            if (_isActivityType(lui.getTypeKey(), context)) {
                 ActivityOfferingInfo activityOffering = new ActivityOfferingInfo();
                 ActivityOfferingTransformer.lui2Activity(activityOffering, lui, lprService, context);
                 populateActivityOfferingRelationships(activityOffering, context);
