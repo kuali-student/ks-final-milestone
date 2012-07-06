@@ -32,6 +32,7 @@ public class TransformUtility {
 
         // Existing Attributes
         Map<String, A> existingAttributes = new HashMap<String, A>();
+        Map<String, Attribute> dtoAttributes = new HashMap<String, Attribute>();
 
         // Find all the old attributes and add to existing attributes map
         if(owner.getAttributes()!=null){
@@ -40,11 +41,16 @@ public class TransformUtility {
             }
         }
 
+        for (Attribute attribute : dto.getAttributes()) {
+            dtoAttributes.put(attribute.getKey(), attribute);
+        }
+
         //Clear out the attributes
         Set<A> attributes = new HashSet<A>();
 
         //Update anything that exists, or create a new attribute if it doesn't
-        for (Attribute attributeInfo: dto.getAttributes()) {
+        for (Map.Entry<String, Attribute> entry : dtoAttributes.entrySet()) {
+            Attribute attributeInfo = entry.getValue();
             A attribute;
             if (existingAttributes.containsKey(attributeInfo.getKey())) {
                 attribute = existingAttributes.remove(attributeInfo.getKey());
