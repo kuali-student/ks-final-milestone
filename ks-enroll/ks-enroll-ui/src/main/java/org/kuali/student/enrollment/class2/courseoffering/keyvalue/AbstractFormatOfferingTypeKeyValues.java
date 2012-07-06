@@ -25,7 +25,7 @@ import java.util.Locale;
  * Time: 3:59 PM
  */
 public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private ContextInfo contextInfo;
     private transient CourseOfferingService courseOfferingService;
 
@@ -33,6 +33,7 @@ public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFi
     public List<KeyValue> getKeyValues(ViewModel model) {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "Select Format Type"));
         List<FormatInfo> formatOptions = getFormats(model);
         List<String> existingFormatIds;
         try{

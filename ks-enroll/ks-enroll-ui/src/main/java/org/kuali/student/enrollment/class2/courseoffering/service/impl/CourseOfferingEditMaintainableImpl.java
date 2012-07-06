@@ -203,7 +203,6 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
 
                 //3. set formatOfferingList
                 List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(info.getId(), getContextInfo());
-                System.out.println(">>>find formatOfferingList.size()="+formatOfferingList.size());
                 formObject.setFormatOfferingList(formatOfferingList);
 
                 //4. Checking if Grading Options should be disabled or not and assign default (if no value)
