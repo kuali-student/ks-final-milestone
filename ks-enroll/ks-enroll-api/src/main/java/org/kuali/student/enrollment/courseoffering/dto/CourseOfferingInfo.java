@@ -40,7 +40,8 @@ import org.w3c.dom.Element;
                 "courseNumberSuffix", "courseOfferingTitle", "isHonorsOffering",
                 "instructors", "subjectArea", "unitsDeploymentOrgIds", 
                 "unitsContentOwnerOrgIds",  "maximumEnrollment",
-                "minimumEnrollment", "jointOfferingIds", "creditOptionId", "gradingOptionId",
+                "minimumEnrollment", "jointOfferingIds",
+                "creditOptionId", "creditCnt", "gradingOptionId", "gradingOption",
                 "studentRegistrationOptionIds", "waitlistLevelTypeKey", "hasWaitlist", "waitlistTypeKey",
                 "campusLocations", "finalExamType", "isEvaluated", "fundingSource", "isFeeAtActivityOffering",
                 "isFinancialAidEligible", "courseOfferingURL", "meta", "attributes", "_futureElements"})
@@ -91,8 +92,14 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     @XmlElement
     private String creditOptionId;
 
+    @XmlAnyElement
+    private String creditCnt;
+
     @XmlElement
     private String gradingOptionId;
+
+    @XmlAnyElement
+    private String gradingOption;
 
     @XmlElement
     private List<String> studentRegistrationOptionIds;
@@ -136,7 +143,6 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     @XmlAnyElement
     private List<Element> _futureElements;
 
-
     /**
      * Constructs a new CourseOfferingInfo.
      */
@@ -177,7 +183,8 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         this.unitsDeploymentOrgIds = offering.getUnitsDeploymentOrgIds();
         this.unitsContentOwnerOrgIds = offering.getUnitsContentOwnerOrgIds();
         this.creditOptionId = offering.getCreditOptionId();
-        this.gradingOptionId = offering.getGradingOptionId();
+        this.creditCnt = offering.getCreditCnt();
+        this.gradingOption = offering.getGradingOption();
         this.studentRegistrationOptionIds = (null != offering.getStudentRegistrationOptionIds()) ? new ArrayList<String>(
                 offering.getStudentRegistrationOptionIds()) : null;
 
@@ -509,4 +516,23 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     public void setCourseOfferingURL(String courseOfferingURL) {
         this.courseOfferingURL = courseOfferingURL;
     }
+
+    @Override
+    public String getGradingOption() {
+        return gradingOption;
+    }
+
+    public void setGradingOption(String gradingOption) {
+       this.gradingOption = gradingOption;
+    }
+
+    @Override
+    public String getCreditCnt() {
+        return creditCnt;
+    }
+
+    public void setCreditCnt(String creditCnt) {
+        this.creditCnt = creditCnt;
+    }
+
 }

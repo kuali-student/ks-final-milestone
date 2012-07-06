@@ -72,7 +72,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         if(courseOfferingIds.size()>0){
             List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>(courseOfferingIds.size());
             for(String coId : courseOfferingIds) {
-                courseOfferings.add(_getCourseOfferingService().getCourseOffering(coId, getContextInfo()));
+                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coId, getContextInfo());
+                //get credit count from CourseInfo
+                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
+                coInfo.setCreditCnt(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
+                courseOfferings.add(coInfo);
             }
             form.setCourseOfferingList(courseOfferings);
         } else {

@@ -87,6 +87,9 @@ public class CourseOfferingTransformer {
             }
         }
 
+        if ( co.getGradingOptionId() != null ) {
+            co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
+        }
 
         LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
         if (identifier == null) {
@@ -108,7 +111,6 @@ public class CourseOfferingTransformer {
         } else {
             co.setIsHonorsOffering(string2Boolean(luCode.getValue()));
         }
-
 
         //below undecided
         //lui.getAlternateIdentifiers() -- where to map?

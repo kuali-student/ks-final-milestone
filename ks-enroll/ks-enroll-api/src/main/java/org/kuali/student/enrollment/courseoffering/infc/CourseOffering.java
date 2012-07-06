@@ -202,6 +202,14 @@ public interface CourseOffering extends IdNamelessEntity{
     public String getGradingOptionId();
 
     /**
+     * Gets the Grading Name
+     *
+     * @name Grading
+     * @impl this is the grading name - last word in gradingOptionId
+     */
+    public String getGradingOption();
+
+    /**
      * The options/scales that indicate the allowable grades that can be
      * awarded. Typically the values here are constrained by the values on the
      * canonical course. If the value is set here then the Clu must have a
@@ -236,6 +244,13 @@ public interface CourseOffering extends IdNamelessEntity{
      */
     public String getCreditOptionId();
 
+    /**
+     * Gets the Credit Count
+     *
+     * @name Credit Count
+     * @impl this is the number of credits
+     */
+    public String getCreditCnt();
 
 
     /******** Personnel Information *****************/
@@ -397,4 +412,5 @@ public interface CourseOffering extends IdNamelessEntity{
      * @name Course Offering URL
      */
     public String getCourseOfferingURL();
+
 }

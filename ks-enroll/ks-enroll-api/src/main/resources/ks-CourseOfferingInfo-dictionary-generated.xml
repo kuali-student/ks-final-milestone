@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Fri Jun 08 11:35:04 EDT 2012
+		This dictionary file was automatically generated on Thu Jul 05 08:31:03 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -62,6 +62,7 @@ plus any of its dependencies -->
 				<ref bean="CourseOfferingInfo.stateKey"/>
 				<ref bean="CourseOfferingInfo.courseId"/>
 				<ref bean="CourseOfferingInfo.termId"/>
+				<ref bean="CourseOfferingInfo.courseCode"/>
 				<ref bean="CourseOfferingInfo.courseOfferingCode"/>
 				<ref bean="CourseOfferingInfo.courseNumberSuffix"/>
 				<ref bean="CourseOfferingInfo.courseOfferingTitle"/>
@@ -70,7 +71,9 @@ plus any of its dependencies -->
 				<ref bean="CourseOfferingInfo.maximumEnrollment"/>
 				<ref bean="CourseOfferingInfo.minimumEnrollment"/>
 				<ref bean="CourseOfferingInfo.creditOptionId"/>
+				<ref bean="CourseOfferingInfo.creditCnt"/>
 				<ref bean="CourseOfferingInfo.gradingOptionId"/>
+				<ref bean="CourseOfferingInfo.gradingOption"/>
 				<ref bean="CourseOfferingInfo.waitlistLevelTypeKey"/>
 				<ref bean="CourseOfferingInfo.hasWaitlist"/>
 				<ref bean="CourseOfferingInfo.waitlistTypeKey"/>
@@ -207,6 +210,43 @@ Academic term of course offering
 		</property>
 		-->
 		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.courseCode-generated" abstract="true" parent="BaseKuali.code">
+		<property name="name" value="courseCode"/>
+		<property name="shortLabel" value="Course Code"/>
+		<property name="summary">
+			<value>
+Identifies the number of a course as reflected in the course catalog.
+
+			</value>
+		</property>
+		<property name="label" value="Course Code"/>
+		<property name="description">
+			<value>
+Identifies the number of a course as reflected in the course catalog.
+This typically must be unique across all courses offered during that
+term. If the user wants to create two separate offerings for the same
+course they must modify this code to make it unique. For example: An
+on-line offering of the course might have an &quot;O&quot; appended to it to
+distinguish it from the face to face offering, i.e. ENG101 and ENG101O
+Initially copied from the course catalog but then, depending on the
+configuration it may be updatable. Often this field is configured so that
+it is not not directly updatable but rather is calculated from it's two
+constituent parts, the subject area and the course number suffix. For
+example: Subject Area = &quot;ENG&quot; and Suffix = &quot;101&quot; then code = &quot;ENG101&quot;
+
+This field is differentiated from the Couurse Offering Code in
+that the Course Offering Code can updated while the Course Code
+always indicates the official canonical code.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="CourseOfferingInfo.courseOfferingCode-generated" abstract="true" parent="BaseKuali.code">
@@ -486,6 +526,23 @@ It is possible that the canonical has more than one!
 		<property name="required" value="false"/>
 	</bean>
 
+	<bean id="CourseOfferingInfo.creditCnt-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="creditCnt"/>
+		<property name="shortLabel" value="Credit Cnt"/>
+		<property name="summary">
+			<value>
+Gets the Credit Count
+			</value>
+		</property>
+		<property name="label" value="Credit Count"/>
+		<property name="description">
+			<value>
+Gets the Credit Count
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
 	<bean id="CourseOfferingInfo.gradingOptionId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="gradingOptionId"/>
 		<property name="shortLabel" value="Grading Option Id"/>
@@ -503,6 +560,23 @@ awarded. Typically the value here are constrained by the values on the
 canonical course. If the value is set here then the Clu must have a
 grading option set on the canonical activity. For example: an id might
 point to Pass/Fail or Letter Graded option.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.gradingOption-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="gradingOption"/>
+		<property name="shortLabel" value="Grading Option"/>
+		<property name="summary">
+			<value>
+Gets the Grading Name
+			</value>
+		</property>
+		<property name="label" value="Grading"/>
+		<property name="description">
+			<value>
+Gets the Grading Name
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -628,13 +702,15 @@ Places where this Course offering is offered.
 		<property name="shortLabel" value="Final Exam Type"/>
 		<property name="summary">
 			<value>
-Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
+Indicates the type of final exam ('STANDARD', 'ALTERNATE',
+'NONE') to be given for this format Offering, if any.
 			</value>
 		</property>
 		<property name="label" value="Final Exam Type"/>
 		<property name="description">
 			<value>
-Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
+Indicates the type of final exam ('STANDARD', 'ALTERNATE',
+'NONE') to be given for this format Offering, if any.
 			</value>
 		</property>
 		<property name="required" value="false"/>
