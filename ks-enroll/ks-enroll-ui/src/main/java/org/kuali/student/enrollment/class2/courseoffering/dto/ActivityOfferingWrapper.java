@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ActivityOfferingWrapper implements Serializable{
 
-    private transient ActivityOfferingInfo aoInfo;
+    private ActivityOfferingInfo aoInfo;
     private FormatOfferingInfo formatOffering;
     private TermInfo term;
     private List<OfferingInstructorWrapper> instructors;
