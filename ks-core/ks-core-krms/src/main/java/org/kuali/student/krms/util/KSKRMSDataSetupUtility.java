@@ -86,61 +86,6 @@ public class KSKRMSDataSetupUtility {
 
     }
 
-    public void createAllKRMSTermSpecificationsPhase1() {
-       
-        // Create all the terms specifications...
-        TermSpecificationDefinition termSpec = null;
-        termSpec = createKRMSTermSpecification(namespace,
-                KSKRMSReplaceWithPropertyFile.TERM_SPEC_CREDITS,
-                KSKRMSReplaceWithPropertyFile.CREDITS_DESCR, String.class.getCanonicalName());
-        // NOTE the term resolver must be defined as a spring bean under the name given here.
-        createKRMSTermResolver(KSKRMSReplaceWithPropertyFile.TERM_SPEC_RESOLVER_CREDITS, termSpec);
-        termSpec = createKRMSTermSpecification(namespace,
-                KSKRMSReplaceWithPropertyFile.TERM_SPEC_ORG_NUMBER,
-                KSKRMSReplaceWithPropertyFile.ORG_NUMBER_DESCR,
-                String.class.getCanonicalName());
-        createKRMSTermResolver(KSKRMSReplaceWithPropertyFile.TERM_SPEC_RESOLVER_ORG_NUMBER, termSpec);
-        termSpec = createKRMSTermSpecification(namespace,
-                KSKRMSReplaceWithPropertyFile.TERM_SPEC_COURSE, KSKRMSReplaceWithPropertyFile.COURSE_DESCR,
-                String.class.getCanonicalName());
-        createKRMSTermResolver(KSKRMSReplaceWithPropertyFile.TERM_SPEC_RESOLVER_COURSE, termSpec);
-        termSpec = createKRMSTermSpecification(namespace,
-                KSKRMSReplaceWithPropertyFile.TERM_SPEC_COURSE_NUMBER,
-                KSKRMSReplaceWithPropertyFile.COURSE_NUMBER_DESCR, "int");
-        createKRMSTermResolver(KSKRMSReplaceWithPropertyFile.TERM_SPEC_RESOLVER_COURSE_NUMBER, termSpec);
-        termSpec = createKRMSTermSpecification(namespace,
-                KSKRMSReplaceWithPropertyFile.TERM_SPEC_DATE, KSKRMSReplaceWithPropertyFile.DATE_DESCR,
-                "Java.util.Date");
-        createKRMSTermResolver(KSKRMSReplaceWithPropertyFile.TERM_SPEC_RESOLVER_DATE, termSpec);
-        termSpec = createKRMSTermSpecification(namespace,
-                KSKRMSReplaceWithPropertyFile.TERM_SPEC_GPA, KSKRMSReplaceWithPropertyFile.GPA_DESCR,
-                String.class.getCanonicalName());
-        createKRMSTermResolver(KSKRMSReplaceWithPropertyFile.TERM_SPEC_RESOLVER_GPA, termSpec);
-        termSpec = createKRMSTermSpecification(namespace,
-                KSKRMSReplaceWithPropertyFile.TERM_SPEC_GRADE, KSKRMSReplaceWithPropertyFile.GRADE_DESCR,
-                String.class.getCanonicalName());
-        createKRMSTermResolver(KSKRMSReplaceWithPropertyFile.TERM_SPEC_RESOLVER_GRADE, termSpec);
-        termSpec = createKRMSTermSpecification(namespace,
-                KSKRMSReplaceWithPropertyFile.TERM_SPEC_GRADE_TYPE,
-                KSKRMSReplaceWithPropertyFile.GRADE_TYPE_DESCR,
-                String.class.getCanonicalName());
-        createKRMSTermResolver(KSKRMSReplaceWithPropertyFile.TERM_SPEC_RESOLVER_GRADE_TYPE, termSpec);
-        termSpec = createKRMSTermSpecification(namespace,
-                KSKRMSReplaceWithPropertyFile.TERM_SPEC_LEARNING_OBJECTIVES,
-                KSKRMSReplaceWithPropertyFile.LEARNING_OBJECTIVES_DESCR,
-                String.class.getCanonicalName());
-        createKRMSTermResolver(KSKRMSReplaceWithPropertyFile.TERM_SPEC_RESOLVER_LEARNING_OBJECTIVES, termSpec);
-        termSpec = createKRMSTermSpecification(namespace,
-                KSKRMSReplaceWithPropertyFile.TERM_SPEC_SUBJECT_CODE,
-                KSKRMSReplaceWithPropertyFile.SUBJECT_CODE_DESCR,
-                String.class.getCanonicalName());
-        createKRMSTermResolver(KSKRMSReplaceWithPropertyFile.TERM_SPEC_RESOLVER_SUBJECT_CODE, termSpec);
-        termSpec = createKRMSTermSpecification(namespace,
-                KSKRMSReplaceWithPropertyFile.TERM_SPEC_TEXT, KSKRMSReplaceWithPropertyFile.TEXT_DESCR,
-                String.class.getCanonicalName());
-        createKRMSTermResolver(KSKRMSReplaceWithPropertyFile.TERM_SPEC_RESOLVER_TEXT, termSpec);
-    }
-
     public void createKRMSTermResolver(String termResolverName, TermSpecificationDefinition termSpecDefinition) {
         // KrmsType for TermResolver
         KrmsTypeDefinition krmsTermResolverTypeDefinition = getKSKRMSType(KSKRMSReplaceWithPropertyFile.KSNAMESPACE, KSKRMSReplaceWithPropertyFile.KS_TERM_RESOLVER_TYPE, "ksKRMSTermResolverTypeService");
