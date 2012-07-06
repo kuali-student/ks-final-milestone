@@ -45,7 +45,7 @@
 	<inherits name="org.kuali.student.r1.core.comment.Comment" />
 	<inherits name="org.kuali.student.r1.core.document.Document" />
 	<inherits name="org.kuali.student.r1.core.statement.Statement" />
-	<inherits name="org.kuali.student.r2.core.statement.Statement" />
+	<inherits name="org.kuali.student.r1.core.statement.Statement" />
 
   	<inherits name="com.google.gwt.visualization.Visualization"/>
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />

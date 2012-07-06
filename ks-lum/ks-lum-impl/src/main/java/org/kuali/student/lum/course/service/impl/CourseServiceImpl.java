@@ -39,7 +39,7 @@ import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
-import org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -231,8 +231,8 @@ public class CourseServiceImpl implements CourseService {
             relation.setRefObjectId(courseId);
             relation.setRefObjectTypeKey(CourseAssemblerConstants.COURSE_TYPE);
             relation.setStatementId(tree.getId());
-            relation.setTypeKey(CourseAssemblerConstants.COURSE_REFERENCE_TYPE);
-            relation.setStateKey(CourseAssemblerConstants.ACTIVE);
+            relation.setType(CourseAssemblerConstants.COURSE_REFERENCE_TYPE);
+            relation.setState(CourseAssemblerConstants.ACTIVE);
             statementService.createRefStatementRelation(R1R2ConverterUtil.convert(relation, org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo.class));
         } catch (Exception e) {
             throw new OperationFailedException("Unable to create clu/tree relation", e);

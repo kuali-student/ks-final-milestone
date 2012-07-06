@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- ReqComponentInfo-->
 	<bean id="ReqComponentInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="reqComponentInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.statement.dto.ReqComponentInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r1.core.statement.dto.ReqComponentInfo"/>
 		<property name="objectLabel" value="Req Component"/>
 		<property name="objectDescription">
 			<value>
@@ -106,7 +106,7 @@ Detailed information about a requirement component field value.
 			</value>
 		</property>
 		<property name="minOccurs" value="1"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo"/>
 	</bean>
 
 	<bean id="ReqComponentInfo.naturalLanguageTranslation-generated" abstract="true" parent="BaseKuali.string">

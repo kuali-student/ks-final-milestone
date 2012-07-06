@@ -54,9 +54,9 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
-import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -277,14 +277,14 @@ public class ProgramServiceImpl implements ProgramService{
         */
         
         // Set the state on the statement tree itself
-        statementTreeViewInfo.setStateKey(state);
+        statementTreeViewInfo.setState(state);
          
         // Get all the requirements components for this statement
         List<ReqComponentInfo> reqComponents = statementTreeViewInfo.getReqComponents();
         
         // Loop over requirements and set the state for each requirement
         for(Iterator<ReqComponentInfo> it = reqComponents.iterator(); it.hasNext();)
-            it.next().setStateKey(state);
+            it.next().setState(state);
         
         // Loop over each statement and set the state for each statement (recursively calling this method)
         for(Iterator<StatementTreeViewInfo> itr = statementTreeViewInfo.getStatements().iterator(); itr.hasNext();)
@@ -307,9 +307,9 @@ public class ProgramServiceImpl implements ProgramService{
 				for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
 					field.setId(null);
 					//copy any clusets that are adhoc'd and set the field value to the new cluset
-					if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId().equals(field.getTypeKey())||
-					   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getTypeKey())||
-					   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getTypeKey())){
+					if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId().equals(field.getType())||
+					   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
+					   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
 						try {
 							CluSetInfo cluSet = cluService.getCluSet(field.getValue(),contextInfo);
 							cluSet.setId(null);

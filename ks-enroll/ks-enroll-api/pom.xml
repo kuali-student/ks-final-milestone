@@ -639,7 +639,7 @@
                         <id>statementService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.r2.core.statement.service.StatementService</className>
+                            <className>org.kuali.student.r1.core.statement.service.StatementService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>

@@ -3,12 +3,13 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.common.search.dto.*;
-import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.course.service.CourseServiceConstants;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseServiceConstants;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.common.util.constants.CluServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import static org.apache.commons.lang.StringUtils.isEmpty;
 public class CourseInfoLookupableImpl extends LookupableImpl {
 	private static final long serialVersionUID = 1L;	
 	
-    private transient LuService luService;
+    private transient CluService luService;
     private transient CourseService courseService;
 
     public enum QueryParamEnum {
@@ -70,7 +71,7 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
         searchRequest.setSearchKey("lu.search.mostCurrent.union");
 
         try {
-            SearchResult searchResult = getLuService().search(searchRequest);
+            SearchResult searchResult = getCluService().search(searchRequest);
 
             if (searchResult.getRows().size() > 0) {
                 for(SearchResultRow srrow : searchResult.getRows()){
@@ -79,7 +80,7 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
                         for(SearchResultCell srcell : srCells){
                             if (srcell.getKey().equals("lu.resultColumn.cluId")) {
                                 courseId = srcell.getValue();
-                                CourseInfo course = getCourseService().getCourse(courseId);
+                                CourseInfo course = getCourseService().getCourse(courseId, new ContextInfo());
                                 courseInfoList.add(course);
                             }
                         }
@@ -93,17 +94,17 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
         }
     }
 
-    //Note: here I am using r1 LuService implementation!!!
-    protected LuService getLuService() {
+    //Note: here I am using r1 CluService implementation!!!
+    protected CluService getCluService() {
         if(luService == null) {
-            luService = (LuService)GlobalResourceLoader.getService(new QName(LuServiceConstants.LU_NAMESPACE,"LuService"));
+            luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.NAMESPACE,"CluService"));
         }
         return this.luService;
     }
 
     protected CourseService getCourseService() {
         if(courseService == null) {
-            courseService = (CourseService)GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE,"CourseService"));
+            courseService = (CourseService)GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE,"CourseService"));
         }
         return this.courseService;
     }

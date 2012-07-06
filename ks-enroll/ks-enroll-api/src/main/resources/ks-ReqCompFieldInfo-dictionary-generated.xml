@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- ReqCompFieldInfo-->
 	<bean id="ReqCompFieldInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="reqCompFieldInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo"/>
 		<property name="objectLabel" value="Req Comp Field"/>
 		<property name="objectDescription">
 			<value>

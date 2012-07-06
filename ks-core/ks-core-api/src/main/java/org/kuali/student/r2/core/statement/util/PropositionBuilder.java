@@ -18,11 +18,11 @@ import org.kuali.student.common.util.krms.proposition.MaxCourseCompletionProposi
 import org.kuali.student.common.util.krms.proposition.SingleCourseCompletionProposition;
 import org.kuali.student.common.util.krms.proposition.SingleCourseEnrollmentProposition;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.core.constants.StatementServiceConstants;
-import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementOperator;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.constants.StatementServiceConstants;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,7 +99,7 @@ public class PropositionBuilder {
     }
 
     private Proposition buildPropositionFromComponents(StatementTreeViewInfo statementTreeView, Map<Proposition, ReqComponentInfo> reqComponentPropositionMap) throws InvalidParameterException {
-        if (statementTreeView.getTypeKey().equals(StatementServiceConstants.PREREQUISITE_STATEMENT_TYPE)) {
+        if (statementTreeView.getType().equals(StatementServiceConstants.PREREQUISITE_STATEMENT_TYPE)) {
             if (statementTreeView.getStatements().isEmpty()) {
                 // if no sub-statements, there are only one or two req components
 
@@ -129,7 +129,7 @@ public class PropositionBuilder {
     }
 
 
-    private Proposition translateReqComponents(List<ReqComponentInfo> reqComponents, StatementOperator operator, Map<Proposition, ReqComponentInfo> reqComponentPropositionMap) throws InvalidParameterException {
+    private Proposition translateReqComponents(List<ReqComponentInfo> reqComponents, StatementOperatorTypeKey operator, Map<Proposition, ReqComponentInfo> reqComponentPropositionMap) throws InvalidParameterException {
 
         ReqComponentInfo req1 = null, req2 = null;
 
@@ -160,7 +160,7 @@ public class PropositionBuilder {
         }
     }
 
-    private LogicalOperator translateOperator(StatementOperator statementOperator) throws InvalidParameterException {
+    private LogicalOperator translateOperator(StatementOperatorTypeKey statementOperator) throws InvalidParameterException {
 
         if (statementOperator == null) {
             return null;
@@ -174,7 +174,7 @@ public class PropositionBuilder {
                 return LogicalOperator.OR;
             }
             default: {
-                throw new InvalidParameterException("StatementOperator is an unrecognized value: " + statementOperator.toString());
+                throw new InvalidParameterException("StatementOperatorTypeKey is an unrecognized value: " + statementOperator.toString());
             }
         }
 
@@ -182,7 +182,7 @@ public class PropositionBuilder {
 
     private Proposition buildPropositionForRequirementComponent(ReqComponentInfo requirementComponent) throws InvalidParameterException {
 
-        String componentType = requirementComponent.getTypeKey();
+        String componentType = requirementComponent.getType();
 
         if (!validRequirementComponentTypes.contains(componentType)) {
             throw new InvalidParameterException("Requirement component type is not handled");
@@ -253,7 +253,7 @@ public class PropositionBuilder {
         Map<String, ReqCompFieldInfo> fieldMap = buildFieldMap(requirementComponent.getReqCompFields());
 
         Proposition result = null;
-        if (requirementComponent.getTypeKey().equals(StatementServiceConstants.NOT_COMPLETED_COURSE_REQ_COM_TYPE)) {
+        if (requirementComponent.getType().equals(StatementServiceConstants.NOT_COMPLETED_COURSE_REQ_COM_TYPE)) {
             // Single course to check for non-completion
             String courseId = fieldMap.get(StatementServiceConstants.COURSE_ID_REQ_COM_FIELD_TYPE).getValue();
 
@@ -282,7 +282,7 @@ public class PropositionBuilder {
         Map<String, ReqCompFieldInfo> fieldMap = buildFieldMap(requirementComponent.getReqCompFields());
 
         Proposition result = null;
-        if (requirementComponent.getTypeKey().equals(StatementServiceConstants.ENROLLED_COURSE_REQ_COM_TYPE)) {
+        if (requirementComponent.getType().equals(StatementServiceConstants.ENROLLED_COURSE_REQ_COM_TYPE)) {
             // only checking one course
             String courseId = fieldMap.get(StatementServiceConstants.COURSE_ID_REQ_COM_FIELD_TYPE).getValue();
 
@@ -312,7 +312,7 @@ public class PropositionBuilder {
 
         Proposition result = null;
 
-        if (requirementComponent.getTypeKey().equals(StatementServiceConstants.COMPLETED_COURSE_REQ_COM_TYPE)) {
+        if (requirementComponent.getType().equals(StatementServiceConstants.COMPLETED_COURSE_REQ_COM_TYPE)) {
             // only checking one course
             String courseId = fieldMap.get(StatementServiceConstants.COURSE_ID_REQ_COM_FIELD_TYPE).getValue();
 
@@ -341,7 +341,7 @@ public class PropositionBuilder {
         Map<String, ReqCompFieldInfo> result = new HashMap<String, ReqCompFieldInfo>(reqCompFields.size());
 
         for (ReqCompFieldInfo field : reqCompFields) {
-            result.put(field.getTypeKey(), field);
+            result.put(field.getType(), field);
         }
 
         return result;
@@ -350,7 +350,7 @@ public class PropositionBuilder {
     private Proposition buildPermissionProposition(ReqComponentInfo requirementComponent) {
         Proposition result = null;
 
-        if (requirementComponent.getTypeKey().equals("kuali.reqComponent.type.course.permission.org.required")) {
+        if (requirementComponent.getType().equals("kuali.reqComponent.type.course.permission.org.required")) {
             // if the type is permission from an org, get the org id
             Map<String, ReqCompFieldInfo> fieldMap = buildFieldMap(requirementComponent.getReqCompFields());
             String orgId = fieldMap.get("kuali.reqComponent.field.type.org.id").getValue();
@@ -392,7 +392,7 @@ public class PropositionBuilder {
         String courseSetId = fieldMap.get(StatementServiceConstants.COURSE_SET_ID_REQ_COM_FIELD_TYPE).getValue();
 
         ComparisonOperator operator = null;
-        if (requirementComponent.getTypeKey().endsWith("min")) {
+        if (requirementComponent.getType().endsWith("min")) {
             operator = ComparisonOperator.GREATER_THAN_EQUAL;
         } else {
             operator = ComparisonOperator.LESS_THAN;

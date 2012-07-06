@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- StatementTreeViewInfo-->
 	<bean id="StatementTreeViewInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="statementTreeViewInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo"/>
 		<property name="objectLabel" value="Statement Tree View"/>
 		<property name="objectDescription">
 			<value>
@@ -194,7 +194,7 @@ Statement operator
 			</value>
 		</property>
 		<property name="minOccurs" value="1"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo"/>
 	</bean>
 
 	<bean id="StatementTreeViewInfo.reqComponents-generated" abstract="true" parent="CollectionDefinition">
@@ -213,7 +213,7 @@ Required components
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.statement.dto.ReqComponentInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r1.core.statement.dto.ReqComponentInfo"/>
 	</bean>
 
 	<bean id="StatementTreeViewInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

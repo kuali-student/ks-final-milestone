@@ -19,16 +19,16 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.r2.common.constants.StateServiceConstants;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.common.util.constants.CluServiceConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.StateServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.state.service.StateService;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.common.state.service.StateService;
+import org.kuali.student.r2.common.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 
@@ -65,9 +65,9 @@ public class CourseOfferingResourceLoader {
         return courseService;
     }
 
-    public static LuService loadLuService() {
-        LuService luService = (LuService)GlobalResourceLoader.getService(new QName(LuServiceConstants.LU_NAMESPACE,"LuService"));
-        return luService;
+    public static CluService loadCluService() {
+        CluService cluService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.NAMESPACE,"CluService"));
+        return cluService;
     }
 
 }
