@@ -345,6 +345,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         getViewHelperService(theForm).createActivityOfferings(formatId, activityId, aoCount, theForm);
 
+        theForm.setFormatIdForNewAO(null);
+        theForm.setActivityIdForNewAO(null);
+        theForm.setNoOfActivityOfferings(null);
+
         return getUIFModelAndView(theForm);
 
     }
