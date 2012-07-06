@@ -25,7 +25,9 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CourseOfferingTransformer {
     private LuiPersonRelationService lprService;
@@ -180,45 +182,53 @@ public class CourseOfferingTransformer {
         lui.setName(coCode + " CO");
 
         //Dynamic Attributes
-        List<AttributeInfo> attributes = lui.getAttributes();
-        for (Attribute attr : co.getAttributes()) {
-            attributes.add(new AttributeInfo(attr));
+        HashMap<String, AttributeInfo> attributesMap = new HashMap<String, AttributeInfo>();
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+        for (AttributeInfo attr : lui.getAttributes()) {
+            attributesMap.put(attr.getKey(), attr) ;
+        }
+        for (AttributeInfo attr : co.getAttributes()) {
+            attributesMap.put(attr.getKey(), attr) ;
         }
 
         AttributeInfo waitlistLevelTypeKey = new AttributeInfo();
         waitlistLevelTypeKey.setKey(CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY_ATTR);
         waitlistLevelTypeKey.setValue(String.valueOf(co.getWaitlistLevelTypeKey()));
-        attributes.add(waitlistLevelTypeKey);
+        attributesMap.put(CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY_ATTR, waitlistLevelTypeKey);
 
         AttributeInfo waitlistTypeKey = new AttributeInfo();
         waitlistTypeKey.setKey(CourseOfferingServiceConstants.WAIT_LIST_TYPE_KEY_ATTR);
         waitlistTypeKey.setValue(String.valueOf(co.getWaitlistTypeKey()));
-        attributes.add(waitlistTypeKey);
+        attributesMap.put(CourseOfferingServiceConstants.WAIT_LIST_TYPE_KEY_ATTR, waitlistTypeKey);
 
         AttributeInfo waitlistIndicator = new AttributeInfo();
         waitlistIndicator.setKey(CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR);
         waitlistIndicator.setValue(String.valueOf(co.getHasWaitlist()));
-        attributes.add(waitlistIndicator);
+        attributesMap.put(CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR, waitlistIndicator);
 
         AttributeInfo finalExamIndicator = new AttributeInfo();
         finalExamIndicator.setKey(CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR);
         finalExamIndicator.setValue(co.getFinalExamType());
-        attributes.add(finalExamIndicator);
+        attributesMap.put(CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR, finalExamIndicator);
 
         AttributeInfo courseEvaluationIndicator = new AttributeInfo();
         courseEvaluationIndicator.setKey(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR);
         courseEvaluationIndicator.setValue(String.valueOf(co.getIsEvaluated()));
-        attributes.add(courseEvaluationIndicator);
+        attributesMap.put(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR, courseEvaluationIndicator);
 
         AttributeInfo whereFeesAttachedFlag = new AttributeInfo();
         whereFeesAttachedFlag.setKey(CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR);
         whereFeesAttachedFlag.setValue(String.valueOf(co.getIsFeeAtActivityOffering()));
-        attributes.add(whereFeesAttachedFlag);
+        attributesMap.put(CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR, whereFeesAttachedFlag);
 
         AttributeInfo fundingSource = new AttributeInfo();
         fundingSource.setKey(CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR);
         fundingSource.setValue(co.getFundingSource());
-        attributes.add(fundingSource);
+        attributesMap.put(CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR, fundingSource);
+
+        for (Map.Entry<String, AttributeInfo> entry : attributesMap.entrySet()) {
+            attributes.add(entry.getValue());
+        }
 
         lui.setAttributes(attributes);
 
