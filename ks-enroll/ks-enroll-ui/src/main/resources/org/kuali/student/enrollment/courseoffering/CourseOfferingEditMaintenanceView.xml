@@ -175,6 +175,16 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="items">
             <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                            <bean parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                        </list>
+                    </property>
+                </bean>
                 <ref bean="KS-CourseOfferingEdit-CourseOfferingInformation"/>
                 <ref bean="KS-CourseOfferingEdit-DeliveryAndAssessment"/>
                 <ref bean="KS-CourseOfferingEdit-Waitlist"/>
