@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import java.util.List;
 
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.enrollment.class2.courseoffering.service.strategy.RegistrationGroupCodeGenerator;
+import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
 
