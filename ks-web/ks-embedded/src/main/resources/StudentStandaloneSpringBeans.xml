@@ -93,7 +93,7 @@
 
                 <!-- Course Offering -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagementView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingLookupAndInquiryView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/KSPersonMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SocRolloverResultInfoLookpAndInquiryView.xml</value>
