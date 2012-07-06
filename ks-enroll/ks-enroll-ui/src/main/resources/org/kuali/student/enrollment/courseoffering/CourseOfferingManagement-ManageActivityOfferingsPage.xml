@@ -141,15 +141,15 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField"
-                      p:label="STATUS"
-                      p:propertyName="stateName" />
-                <bean parent="Uif-DataField"
                       p:label="CODE"
                       p:propertyName="aoInfo.activityCode">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
                     </property>
                 </bean>
+               <bean parent="Uif-DataField"
+                      p:label="STATUS"
+                      p:propertyName="stateName" />
                 <bean parent="Uif-DataField"
                       p:label="TYPE"
                       p:propertyName="typeName"/>
