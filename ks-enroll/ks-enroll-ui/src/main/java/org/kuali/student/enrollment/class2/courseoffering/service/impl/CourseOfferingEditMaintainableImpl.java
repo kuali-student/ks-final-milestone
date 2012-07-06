@@ -96,12 +96,12 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
 
             // Credit Options (also creates extra-line)
             if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) &&
-                    !coEditWrapper.getCreditOption().getMinCredits().equals("")) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(coEditWrapper.getCreditOption().getMinCredits(),
+                    !coEditWrapper.getCreditOption().getFixedCredit().isEmpty()) {
+                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(coEditWrapper.getCreditOption().getFixedCredit(),
                         LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, getContextInfo());
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             } else if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE) &&
-                    !coEditWrapper.getCreditOption().getMinCredits().equals("") && !coEditWrapper.getCreditOption().getMaxCredits().equals("")) {
+                    !coEditWrapper.getCreditOption().getMinCredits().isEmpty() && !coEditWrapper.getCreditOption().getMaxCredits().isEmpty()) {
                 ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(coEditWrapper.getCreditOption().getMinCredits(),
                         coEditWrapper.getCreditOption().getMaxCredits(), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, getContextInfo());
                 coInfo.setCreditOptionId(rvgInfo.getKey());
@@ -241,13 +241,13 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                     if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
                         if (!resultValueInfos.isEmpty()) {
-                            creditOption.setMinCredits(resultValueInfos.get(0).getValue());
+                            creditOption.setFixedCredit(resultValueInfos.get(0).getValue());
                         }
                     } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
                         if (!resultValueInfos.isEmpty()) {
-                            creditOption.setMinCredits(resultValueInfos.get(0).getValue());
-                            creditOption.setMaxCredits(resultValueInfos.get(1).getValue());
+                            creditOption.setMinCredits(resultValuesGroupInfo.getResultValueRange().getMinValue());
+                            creditOption.setMaxCredits(resultValuesGroupInfo.getResultValueRange().getMaxValue());
                         }
                     } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
@@ -265,7 +265,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                     if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
                         if (!resultComponentInfo.getResultValues().isEmpty()) {
-                            creditOption.setMinCredits(resultComponentInfo.getResultValues().get(0));
+                            creditOption.setFixedCredit(resultComponentInfo.getResultValues().get(0));
                         }
                         creditOptionFixed = true;
                     } else {
@@ -273,8 +273,8 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                             if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE)) {
                                 creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
                                 if (!resultComponentInfo.getResultValues().isEmpty()) {
-                                    creditOption.setMinCredits(resultComponentInfo.getResultValues().get(0));
-                                    creditOption.setMaxCredits(resultComponentInfo.getResultValues().get(1));
+                                    creditOption.setMinCredits(resultComponentInfo.getAttributes().get("minCreditValue"));
+                                    creditOption.setMaxCredits(resultComponentInfo.getAttributes().get("maxCreditValue"));
                                 }
                             } else if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE)) {
                                 creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);

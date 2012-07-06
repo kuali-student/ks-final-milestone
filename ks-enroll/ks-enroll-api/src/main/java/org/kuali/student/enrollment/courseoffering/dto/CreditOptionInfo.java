@@ -33,7 +33,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CreditOptions", propOrder = {"id", "typeKey", "credits", "minCredits", "maxCredits"})
-
+//TODO Refactor this out of the API, it belongs in enroll ui dto
 public class CreditOptionInfo extends IdEntityInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,6 +50,8 @@ public class CreditOptionInfo extends IdEntityInfo implements Serializable {
     @XmlElement
     String maxCredits;
 
+
+    String fixedCredit;
     /**
      * Constructs a new CreditOptions.
      */
@@ -89,5 +91,13 @@ public class CreditOptionInfo extends IdEntityInfo implements Serializable {
 
     public void setMaxCredits(String maxCredits) {
         this.maxCredits = maxCredits;
+    }
+
+    public String getFixedCredit() {
+        return fixedCredit;
+    }
+
+    public void setFixedCredit(String fixedCredit) {
+        this.fixedCredit = fixedCredit;
     }
 }
