@@ -165,9 +165,13 @@
     <property name="businessLogic" ref="businessLogic" />
     <property name="typeService" ref="typeService"/>
     <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
+    <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
   </bean>
 
     <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
+        <property name="lprService" ref="lprPersistenceService" />
+    </bean>
 
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
     <property name="courseService" ref="courseServiceImpl" />
@@ -218,8 +222,6 @@
     <property name="lprRosterDao" ref="lprRosterDao" />
     <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
   </bean>
-
-
 
   <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
     <property name="em" ref="entityManager" />

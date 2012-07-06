@@ -50,6 +50,7 @@
   <bean id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler"></bean>
   <bean id="gradeRosterEntryAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler"></bean>
 
+
   <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl"
     scope="singleton">
     <property name="lprService" ref="lprServiceValidation" />
@@ -309,9 +310,13 @@
         <property name="typeService" ref="typeService" />
         <property name="businessLogic" ref="coBusinessLogic" />
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator" />
+        <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
   </bean>
 
    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+   <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
+       <property name="lprService" ref="lprPersistenceService" />
+   </bean>
 
    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseServiceImpl" />
@@ -333,6 +338,7 @@
 
   <bean id="coMockService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
     <property name="courseService" ref="courseServiceImpl" />
+    <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
   </bean>
 
   <bean id="ks.exp.courseOfferingMockService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

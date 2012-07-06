@@ -85,6 +85,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private CourseOfferingServiceBusinessLogic businessLogic;
 
     private CourseOfferingCodeGenerator offeringCodeGenerator;
+    private CourseOfferingTransformer courseOfferingTransformer;
 
     // TODO - remove when KSENROLL-247 is resolved
     private static final Integer TEMP_MAX_ENROLLMENT_DEFAULT = 50;
@@ -218,7 +219,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         CourseOfferingInfo co = new CourseOfferingInfo();
 
         //Associate instructors to the given CO
-        CourseOfferingTransformer courseOfferingTransformer = new CourseOfferingTransformer();
         courseOfferingTransformer.lui2CourseOffering(lui, co, context);
         courseOfferingTransformer.assembleInstructors(co, lui.getId(), context, getLprService());
 
@@ -440,16 +440,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         TermInfo term = acalService.getTerm(termId, context);
         CourseInfo courseInfo = getCourse(courseId);
         // copy from canonical
-        CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-        coTransformer.copyFromCanonical(courseInfo, coInfo, optionKeys);
+        courseOfferingTransformer.copyFromCanonical(courseInfo, coInfo, optionKeys);
         // copy to lui
         LuiInfo lui = new LuiInfo();
-        coTransformer.courseOffering2Lui(coInfo, lui, context);
+        courseOfferingTransformer.courseOffering2Lui(coInfo, lui, context);
         // create it
         lui = luiService.createLui(courseId, termId, lui.getTypeKey(), lui, context);
         // transform it back to a course offering
         CourseOfferingInfo createdCo = new CourseOfferingInfo();
-        new CourseOfferingTransformer().lui2CourseOffering(lui, createdCo, context);
+        courseOfferingTransformer.lui2CourseOffering(lui, createdCo, context);
         return createdCo;
     }
 
@@ -471,9 +470,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // get the backing lui
         LuiInfo lui = luiService.getLui(courseOfferingId, context);
-        CourseOfferingTransformer transformer = new CourseOfferingTransformer();
-        // copy fields and update            
-        transformer.courseOffering2Lui(coInfo, lui, context);
+        // copy fields and update
+        courseOfferingTransformer.courseOffering2Lui(coInfo, lui, context);
 
         // Update lprs for offering instructors
         List<OfferingInstructorInfo> existingLprs = ActivityOfferingTransformer.lprs2Instructors(lprService.getLprsByLui(lui.getId(), context));
@@ -533,7 +531,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         lui = luiService.updateLui(courseOfferingId, lui, context);
         // convert back to co and return
         CourseOfferingInfo co = new CourseOfferingInfo();
-        transformer.lui2CourseOffering(lui, co, context);
+        courseOfferingTransformer.lui2CourseOffering(lui, co, context);
         return co;
     }
 
@@ -1594,6 +1592,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return atpService;
     }
 
+    public CourseOfferingTransformer getCourseOfferingTransformer() {
+        return courseOfferingTransformer;
+    }
+
+    public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
+        this.courseOfferingTransformer = courseOfferingTransformer;
+    }
+
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
     }
@@ -1601,5 +1607,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public void setOfferingCodeGenerator(CourseOfferingCodeGenerator offeringCodeGenerator) {
         this.offeringCodeGenerator = offeringCodeGenerator;
     }
+
+
 
 }

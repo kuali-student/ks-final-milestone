@@ -445,7 +445,10 @@
     <property name="coService" ref="courseOfferingService" />
   </bean>
   
-  <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
+        <property name="lprService" ref="lprService" />
+    </bean>
     
     <bean id="courseOfferingService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="luiService" ref="luiService"/>
@@ -458,6 +461,7 @@
     <property name="lprService" ref="lprService"/>
     <property name="businessLogic" ref="businessLogic"/>
     <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
+    <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
     </bean>
 
 	<bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
@@ -581,5 +585,7 @@
         <property name="statementAssembler" ref="statementAssembler"/>
 		<property name="validatorFactory" ref="validatorFactory"/>
 	</bean>
+
+
 	
 </beans>
