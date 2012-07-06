@@ -42,6 +42,8 @@ import java.util.Locale;
 
 
 public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementViewHelperServiceImpl.class);
+
     private transient AcademicCalendarService acalService = null;
     private transient CourseOfferingService coService = null;
 
@@ -74,6 +76,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             }
             form.setCourseOfferingList(courseOfferings);
         } else {
+            LOG.error("Error: Can't find any Course Offering for a Subject Code: "+subjectCode+" in term: "+termId);
+            GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Subject", subjectCode,termId);
             form.setCourseOfferingList(null);
         }
     }

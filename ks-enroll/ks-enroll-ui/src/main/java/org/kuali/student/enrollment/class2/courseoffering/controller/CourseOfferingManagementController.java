@@ -107,7 +107,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 return getUIFModelAndView(theForm);
             } else {
                 LOG.error("Error: Can't find any Course Offering for a Course Offering Code: "+courseOfferingCode+" in term: "+termCode);
-                GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, courseOfferingCode, termCode);
+                GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", courseOfferingCode, termCode);
                 theForm.setCourseOfferingList(null);
                 return getUIFModelAndView(theForm);
             }
