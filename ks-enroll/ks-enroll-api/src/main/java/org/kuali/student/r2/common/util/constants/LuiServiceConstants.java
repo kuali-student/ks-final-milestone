@@ -76,6 +76,7 @@ public class LuiServiceConstants {
     public static final String SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.selfpaced";
     public static final String COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.compbased";
     public static final String VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.videoconf";
+    public static final String SEMINAR_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.seminar";
     public static final String ACTIVITY_OFFERING_TYPE_KEY_PREFIX = "kuali.lui.type.activity.offering.";
     public static final String[] ALL_ACTIVITY_TYPES = {
         LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
@@ -99,7 +100,8 @@ public class LuiServiceConstants {
         RESEARCH_ACTIVITY_OFFERING_TYPE_KEY,
         SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY,
         COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY,
-        VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY};
+        VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY,
+        SEMINAR_ACTIVITY_OFFERING_TYPE_KEY};
 
     // TODO: May want to do this for other groupings
     private static HashSet<String> ACTIVITY_TYPES_HASH_SET = null;
