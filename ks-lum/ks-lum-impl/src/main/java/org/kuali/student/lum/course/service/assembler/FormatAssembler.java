@@ -71,8 +71,10 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		format.setAttributes(clu.getAttributes());
 	    format.setDuration(clu.getStdDuration());
 	    format.setTermsOffered(clu.getOfferedAtpTypes());
-        format.setName(clu.getOfficialIdentifier().getLongName());
-        format.setShortName(clu.getOfficialIdentifier().getShortName());
+        if(clu.getOfficialIdentifier() != null) {
+            format.setName(clu.getOfficialIdentifier().getLongName());
+            format.setShortName(clu.getOfficialIdentifier().getShortName());
+        }
 		
 		// Don't make any changes to nested datastructures if this is
 		if (!shallowBuild) {
