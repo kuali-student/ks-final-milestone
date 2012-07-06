@@ -297,7 +297,10 @@
                 <!-- Multiple -->
                 <bean parent="Uif-InputField" p:propertyName="creditOption.credits" p:label="Credits" p:fieldLabel.renderColon="false" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.multiple'}">
                     <property name="control">
-                        <bean parent="Uif-HorizontalCheckboxesControl" p:options-ref="creditOptionCredits-options"/>
+                        <bean parent="Uif-HorizontalCheckboxesControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.MultipleCreditOptionsKeyValues" />
                     </property>
                 </bean>
             </list>

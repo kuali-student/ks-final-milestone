@@ -436,7 +436,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValuesGroupInfo getResultValuesGroup(String key,
             ContextInfo contextInfo)
             throws DoesNotExistException,

@@ -84,10 +84,12 @@ public class CourseOfferingTransformer {
                     throw new RuntimeException("This course offering has multiple grading options in the data. It should only have at most one.");
                 }
                 co.setGradingOptionId(resultValueGroupKey);
+            }else if(resultValueGroupKey!=null && resultValueGroupKey.startsWith("kuali.creditType.credit")){//There should be a better way of distinguishing credits from other results
+                co.setCreditOptionId(resultValueGroupKey);
             }
         }
 
-        if ( co.getGradingOptionId() != null ) {
+        if ( co.getGradingOptionId() != null ) {//TODO why are we doing substrings of keys?
             co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
         }
 

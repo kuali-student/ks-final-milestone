@@ -229,14 +229,59 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
 
                 //6. Defining Credit Option and if CLU is fixed (then it's disabled)
                 boolean creditOptionFixed = false;
-                CreditOptionInfo creditOption = new CreditOptionInfo();
-                List<ResultComponentInfo> creditOptions = courseInfo.getCreditOptions();
                 String creditOptionId = coInfo.getCreditOptionId();
+
+                CreditOptionInfo creditOption = new CreditOptionInfo();
+
+                //Grab the Course's credit constraints
+                List<ResultComponentInfo> courseCreditOptions = courseInfo.getCreditOptions();
+
+                //Lookup the related course's credit constraints and set them on the creditOption
+                if (coInfo.getCourseId() != null && courseInfo != null && !courseCreditOptions.isEmpty()) {
+                    ResultComponentInfo resultComponentInfo = courseCreditOptions.get(0);
+                    //Check for fixed
+                    if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
+                        if (!resultComponentInfo.getResultValues().isEmpty()) {
+                            creditOption.setCourseFixedCredits(resultComponentInfo.getResultValues().get(0));
+                        }
+                        //Set the flag
+                        creditOptionFixed = true;
+
+                        //Default the value
+                        creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
+                        creditOption.setFixedCredit(creditOption.getCourseFixedCredits());
+                    } else {
+                        //This is either range or multiple
+
+                        //Copy all the allowed credits and sort so that the multiple checkboxes can be properly displayed
+                        creditOption.setAllowedCredits(resultComponentInfo.getResultValues());
+                        Collections.sort(creditOption.getAllowedCredits());
+
+                        if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE)) {
+                            creditOption.setCourseMinCredits(resultComponentInfo.getAttributes().get("minCreditValue"));
+                            creditOption.setCourseMaxCredits(resultComponentInfo.getAttributes().get("maxCreditValue"));
+
+                            //Default the value
+                            creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
+                            creditOption.setMinCredits(creditOption.getCourseMinCredits());
+                            creditOption.setMaxCredits(creditOption.getCourseMaxCredits());
+                        } else if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE)) {
+                            //Default the value
+                            creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
+                            creditOption.getCredits().addAll(creditOption.getAllowedCredits());
+                        }
+                    }
+                }
+
+                //Lookup the selected credit option and set from persisted values
                 if (creditOptionId != null) {
+                    //Lookup the resultValueGroup Information
                     ResultValuesGroupInfo resultValuesGroupInfo = getLrcService().getResultValuesGroup(creditOptionId, getContextInfo());
                     String typeKey = resultValuesGroupInfo.getTypeKey();
-                    List<String> resultValueKeys = resultValuesGroupInfo.getResultValueKeys();
-                    List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValueKeys, getContextInfo());
+
+                    //Get the actual values
+                    List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), getContextInfo());
+
                     if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
                         if (!resultValueInfos.isEmpty()) {
@@ -244,10 +289,8 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                         }
                     } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
-                        if (!resultValueInfos.isEmpty()) {
-                            creditOption.setMinCredits(resultValuesGroupInfo.getResultValueRange().getMinValue());
-                            creditOption.setMaxCredits(resultValuesGroupInfo.getResultValueRange().getMaxValue());
-                        }
+                        creditOption.setMinCredits(resultValuesGroupInfo.getResultValueRange().getMinValue());
+                        creditOption.setMaxCredits(resultValuesGroupInfo.getResultValueRange().getMaxValue());
                     } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
                         if (!resultValueInfos.isEmpty()) {
@@ -259,35 +302,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                         }
                     }
                 }
-                if (coInfo.getCourseId() != null && courseInfo != null && !creditOptions.isEmpty()) {
-                    ResultComponentInfo resultComponentInfo = creditOptions.get(0);
-                    if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
-                        creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
-                        if (!resultComponentInfo.getResultValues().isEmpty()) {
-                            creditOption.setFixedCredit(resultComponentInfo.getResultValues().get(0));
-                        }
-                        creditOptionFixed = true;
-                    } else {
-                        if (creditOptionId == null || creditOptionId.equals("")) {
-                            if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE)) {
-                                creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
-                                if (!resultComponentInfo.getResultValues().isEmpty()) {
-                                    creditOption.setMinCredits(resultComponentInfo.getAttributes().get("minCreditValue"));
-                                    creditOption.setMaxCredits(resultComponentInfo.getAttributes().get("maxCreditValue"));
-                                }
-                            } else if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE)) {
-                                creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
-                                if (!resultComponentInfo.getResultValues().isEmpty()) {
-                                    List<String> credits = new ArrayList<String>();
-                                    for (String credit : resultComponentInfo.getResultValues()) {
-                                        credits.add(credit);
-                                    }
-                                    creditOption.setCredits(credits);
-                                }
-                            }
-                        }
-                    }
-                }
+
                 formObject.setCreditOption(creditOption);
                 formObject.setCreditOptionFixed(creditOptionFixed);
 

@@ -44,14 +44,20 @@ public class CreditOptionInfo extends IdEntityInfo implements Serializable {
     @XmlElement
     List<String> credits;
 
+    List<String> allowedCredits;
+
     @XmlElement
     String minCredits;
 
     @XmlElement
     String maxCredits;
 
-
     String fixedCredit;
+
+    String courseMinCredits;
+    String courseMaxCredits;
+    String courseFixedCredits;
+
     /**
      * Constructs a new CreditOptions.
      */
@@ -71,6 +77,17 @@ public class CreditOptionInfo extends IdEntityInfo implements Serializable {
             credits = new ArrayList<String>();
         }
         return credits;
+    }
+
+    public List<String> getAllowedCredits() {
+        if (null == allowedCredits) {
+            allowedCredits = new ArrayList<String>();
+        }
+        return allowedCredits;
+    }
+
+    public void setAllowedCredits(List<String> allowedCredits) {
+        this.allowedCredits = allowedCredits;
     }
 
     public void setCredits(List<String> credits) {
@@ -99,5 +116,30 @@ public class CreditOptionInfo extends IdEntityInfo implements Serializable {
 
     public void setFixedCredit(String fixedCredit) {
         this.fixedCredit = fixedCredit;
+    }
+
+
+    public String getCourseFixedCredits() {
+        return courseFixedCredits;
+    }
+
+    public void setCourseFixedCredits(String courseFixedCredits) {
+        this.courseFixedCredits = courseFixedCredits;
+    }
+
+    public String getCourseMaxCredits() {
+        return courseMaxCredits;
+    }
+
+    public void setCourseMaxCredits(String courseMaxCredits) {
+        this.courseMaxCredits = courseMaxCredits;
+    }
+
+    public String getCourseMinCredits() {
+        return courseMinCredits;
+    }
+
+    public void setCourseMinCredits(String courseMinCredits) {
+        this.courseMinCredits = courseMinCredits;
     }
 }
