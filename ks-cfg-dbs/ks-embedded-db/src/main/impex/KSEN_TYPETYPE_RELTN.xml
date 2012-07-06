@@ -393,6 +393,13 @@
         TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
     <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
+        ID="kuali.type.type.relation.type.group.kuali.lui.type.grouping.activity.kuali.lui.type.activity.offering.conference"
+        OWNER_TYPE_ID="kuali.lui.type.grouping.activity" RANK="0"
+        RELATED_TYPE_ID="kuali.lui.type.activity.offering.conference"
+        TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
+        TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
+    <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
         ID="kuali.type.type.relation.type.group.kuali.lui.type.grouping.activity.kuali.lui.type.activity.offering.correspond"
         OWNER_TYPE_ID="kuali.lui.type.grouping.activity" RANK="0"
         RELATED_TYPE_ID="kuali.lui.type.activity.offering.correspond"
@@ -466,6 +473,13 @@
         ID="kuali.type.type.relation.type.group.kuali.lui.type.grouping.activity.kuali.lui.type.activity.offering.private"
         OWNER_TYPE_ID="kuali.lui.type.grouping.activity" RANK="0"
         RELATED_TYPE_ID="kuali.lui.type.activity.offering.private"
+        TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
+        TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
+    <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
+        ID="kuali.type.type.relation.type.group.kuali.lui.type.grouping.activity.kuali.lui.type.activity.offering.quiz"
+        OWNER_TYPE_ID="kuali.lui.type.grouping.activity" RANK="0"
+        RELATED_TYPE_ID="kuali.lui.type.activity.offering.quiz"
         TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
         TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
     <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
