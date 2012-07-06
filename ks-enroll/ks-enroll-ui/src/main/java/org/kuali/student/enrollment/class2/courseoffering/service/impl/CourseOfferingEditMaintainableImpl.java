@@ -185,9 +185,26 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             String formatTypeName = getFormatTypeName(coEditWrapper, formatId);
             newLine.setFormatType(formatTypeName);
+            newLine.getFormatOfferingInfo().setName(getFormatOfferingInfoName(coEditWrapper.getCourse(), formatId));
         }
     }
 
+    /**
+     *
+     * @param cInfo
+     * @param coFormId
+     * @return  The users want to see the format name displayed on the screen. Ie. "Independent Study" and not the type Name KSENROLL-1451
+     *
+     */
+    private String    getFormatOfferingInfoName(CourseInfo cInfo, String coFormId){
+        List<FormatInfo> formatInfoList = cInfo.getFormats();
+        for(FormatInfo formatInfo : formatInfoList) {
+            if(coFormId.equals(formatInfo.getId())){
+                return formatInfo.getName();
+            }
+        }
+        return null;
+    }
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -338,6 +355,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
         }
         return null;
     }
+
     public ContextInfo getContextInfo() {
         if (null == contextInfo) {
             contextInfo = new ContextInfo();
