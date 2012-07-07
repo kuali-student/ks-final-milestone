@@ -151,7 +151,7 @@
                   value="{http://student.kuali.org/wsdl/proposal}ProposalService"/>
     </bean>
 
-    <bean id="luServiceImpl" class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
+    <bean id="luServiceImpl" class="org.kuali.student.lum.lu.service.impl.CluServiceImpl">
         <property name="luDao" ref="luDao"/>
         <property name="searchManager" ref="luSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
@@ -566,7 +566,7 @@
     <aop:config>
         <aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.lum.lu.service.impl.LuServiceImpl.*(..))"
+                    pointcut="execution(* org.kuali.student.lum.lu.service.impl.CluServiceImpl.*(..))"
                     method="afterThrowing" throwing="ex"/>
             <aop:after-throwing
                     pointcut="execution(* org.kuali.student.lum.lrc.service.impl.LrcServiceImpl.*(..))"

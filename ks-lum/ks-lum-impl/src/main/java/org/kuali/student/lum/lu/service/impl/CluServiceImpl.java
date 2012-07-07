@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.class1.lu.service.impl;
+package org.kuali.student.lum.lu.service.impl;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.lum.lu.dao.LuDao;

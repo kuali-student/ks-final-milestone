@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.enrollment.class1.lu.service.impl;
+package org.kuali.student.lum.lu.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
