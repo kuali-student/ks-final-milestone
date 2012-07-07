@@ -33,7 +33,7 @@ import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
+import org.kuali.student.r2.common.versionmanagement.service.VersionManagementService;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;

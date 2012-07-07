@@ -2344,7 +2344,7 @@
 		parent="baseComplex">
 		<property name="name" value="version" />
 		<property name="dataObjectStructure"
-			ref="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo" />
+			ref="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo" />
 	</bean>
 	<bean id="majorDisciplineInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent" />
 	<bean id="coreProgramInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent" />

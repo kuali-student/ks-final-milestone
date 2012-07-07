@@ -13,10 +13,11 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.constants;
+package org.kuali.student.r2.common.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 
 /**
  * This class holds the constants used by the Version Management service

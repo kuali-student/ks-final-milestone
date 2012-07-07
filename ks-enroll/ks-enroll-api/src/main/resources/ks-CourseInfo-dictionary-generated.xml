@@ -1066,7 +1066,7 @@ Version of this course
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="versionInfo"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo"/>
 				<property name="objectLabel" value="Version"/>
 				<property name="objectDescription">
 					<value>

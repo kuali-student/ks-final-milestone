@@ -1269,7 +1269,7 @@
 
  <bean id="courseInfo.versionInfo-parent" abstract="true" parent="baseComplex">
   <property name="name" value="versionInfo"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo"/>
  </bean>
  <bean id="courseInfo.versionInfo" parent="courseInfo.versionInfo-parent"/>
 
@@ -2286,8 +2286,8 @@
  <bean id="resultValuesGroupInfo.credit.fixedAndRange-constraint" parent="resultValuesGroupInfo.credit.fixedAndRange-constraint-parent" />
  
  <!-- VersionInfo-->
- <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
+ <bean id="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo"/>
   <property name="attributes">
    <list>
     <ref bean="versionInfo.currentVersionEnd"/>
@@ -2299,7 +2299,7 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo" parent="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo-parent"/>
+ <bean id="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo" parent="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo-parent"/>
 
  <bean id="versionInfo.currentVersionEnd-parent" abstract="true" parent="baseDate">
   <property name="name" value="currentVersionEnd"/>

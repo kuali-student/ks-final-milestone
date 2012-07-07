@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.kuali.student.r1.common.entity.Amount;
 import org.kuali.student.r1.common.entity.CurrencyAmount;
 import org.kuali.student.r1.common.entity.TimeAmount;
@@ -78,9 +76,6 @@ import org.kuali.student.lum.lu.entity.LuLuRelationType;
 import org.kuali.student.lum.lu.entity.LuPublicationType;
 import org.kuali.student.lum.lu.entity.LuRichText;
 import org.kuali.student.lum.lu.entity.LuType;
-import org.kuali.student.lum.lu.entity.Lui;
-import org.kuali.student.lum.lu.entity.LuiAttribute;
-import org.kuali.student.lum.lu.entity.LuiLuiRelation;
 import org.kuali.student.lum.lu.entity.MembershipQuery;
 import org.kuali.student.lum.lu.entity.ResultOption;
 import org.kuali.student.lum.lu.entity.ResultUsageType;
