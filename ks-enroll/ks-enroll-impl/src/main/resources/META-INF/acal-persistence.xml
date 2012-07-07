@@ -19,10 +19,10 @@
         <class>org.kuali.student.r2.core.class1.atp.model.MilestoneEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.MilestoneAttributeEntity</class>
     
-        <class>org.kuali.student.r2.core.class1.state.model.StateEntity</class>
-        <class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
-        <class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
-        <class>org.kuali.student.r2.core.class1.state.model.LifecycleAttributeEntity</class>
+        <class>org.kuali.student.r2.common.class1.state.model.StateEntity</class>
+        <class>org.kuali.student.r2.common.class1.state.model.StateAttributeEntity</class>
+        <class>org.kuali.student.r2.common.class1.state.model.LifecycleEntity</class>
+        <class>org.kuali.student.r2.common.class1.state.model.LifecycleAttributeEntity</class>
         
         <class>org.kuali.student.r2.core.class1.type.model.TypeEntity</class>
         <class>org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity</class>
@@ -30,30 +30,30 @@
         <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationAttributeEntity</class>
 
     <!-- Statement Persistence -->
-        <class>org.kuali.student.core.statement.entity.RefStatementRelation</class>
-        <class>org.kuali.student.core.statement.entity.RefStatementRelationAttribute</class>
-        <class>org.kuali.student.core.statement.entity.RefStatementRelationType</class>
-        <class>org.kuali.student.core.statement.entity.RefStatementRelationTypeAttribute</class>
-        <class>org.kuali.student.core.statement.entity.ObjectType</class>
-        <class>org.kuali.student.core.statement.entity.ObjectTypeAttribute</class>
-        <class>org.kuali.student.core.statement.entity.ObjectSubType</class>
-        <class>org.kuali.student.core.statement.entity.ObjectSubTypeAttribute</class>
-        <class>org.kuali.student.core.statement.entity.NlUsageType</class>
-        <class>org.kuali.student.core.statement.entity.NlUsageTypeAttribute</class>
-        <class>org.kuali.student.core.statement.entity.Statement</class>
-        <class>org.kuali.student.core.statement.entity.StatementAttribute</class>
-        <class>org.kuali.student.core.statement.entity.StatementRichText</class>
-        <class>org.kuali.student.core.statement.entity.StatementType</class>
-        <class>org.kuali.student.core.statement.entity.OrderedStatementType</class>
-        <class>org.kuali.student.core.statement.entity.StatementTypeAttribute</class>
-    <!--class>org.kuali.student.core.statement.entity.StatementTypeHeaderTemplate</class-->
-        <class>org.kuali.student.core.statement.entity.ReqComponent</class>
-        <class>org.kuali.student.core.statement.entity.ReqComponentField</class>
-        <class>org.kuali.student.core.statement.entity.ReqComponentFieldType</class>
-        <class>org.kuali.student.core.statement.entity.ReqComponentType</class>
-        <class>org.kuali.student.core.statement.entity.OrderedReqComponentType</class>
-        <class>org.kuali.student.core.statement.entity.ReqComponentTypeAttribute</class>
-        <class>org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate</class>
+        <class>org.kuali.student.r1.core.statement.entity.RefStatementRelation</class>
+        <class>org.kuali.student.r1.core.statement.entity.RefStatementRelationAttribute</class>
+        <class>org.kuali.student.r1.core.statement.entity.RefStatementRelationType</class>
+        <class>org.kuali.student.r1.core.statement.entity.RefStatementRelationTypeAttribute</class>
+        <class>org.kuali.student.r1.core.statement.entity.ObjectType</class>
+        <class>org.kuali.student.r1.core.statement.entity.ObjectTypeAttribute</class>
+        <class>org.kuali.student.r1.core.statement.entity.ObjectSubType</class>
+        <class>org.kuali.student.r1.core.statement.entity.ObjectSubTypeAttribute</class>
+        <class>org.kuali.student.r1.core.statement.entity.NlUsageType</class>
+        <class>org.kuali.student.r1.core.statement.entity.NlUsageTypeAttribute</class>
+        <class>org.kuali.student.r1.core.statement.entity.Statement</class>
+        <class>org.kuali.student.r1.core.statement.entity.StatementAttribute</class>
+        <class>org.kuali.student.r1.core.statement.entity.StatementRichText</class>
+        <class>org.kuali.student.r1.core.statement.entity.StatementType</class>
+        <class>org.kuali.student.r1.core.statement.entity.OrderedStatementType</class>
+        <class>org.kuali.student.r1.core.statement.entity.StatementTypeAttribute</class>
+        <!--class>org.kuali.student.core.statement.entity.StatementTypeHeaderTemplate</class-->
+        <class>org.kuali.student.r1.core.statement.entity.ReqComponent</class>
+        <class>org.kuali.student.r1.core.statement.entity.ReqComponentField</class>
+        <class>org.kuali.student.r1.core.statement.entity.ReqComponentFieldType</class>
+        <class>org.kuali.student.r1.core.statement.entity.ReqComponentType</class>
+        <class>org.kuali.student.r1.core.statement.entity.OrderedReqComponentType</class>
+        <class>org.kuali.student.r1.core.statement.entity.ReqComponentTypeAttribute</class>
+        <class>org.kuali.student.r1.core.statement.entity.ReqComponentTypeNLTemplate</class>
 
 
         <class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
@@ -68,7 +68,7 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>  
+        <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
 <!--  
