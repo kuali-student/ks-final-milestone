@@ -21,7 +21,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_HOLD")
@@ -55,10 +56,10 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     private String personId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private List<HoldAttributeEntity> attributes;
+    private Set<HoldAttributeEntity> attributes;
 
     @Override
-    public void setAttributes(List<HoldAttributeEntity> attributes) {
+    public void setAttributes(Set<HoldAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
@@ -79,7 +80,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         this.setReleasedDate(hold.getReleasedDate());
         this.setDescrPlain(hold.getDescr().getPlain());
         this.setDescrFormatted(hold.getDescr().getFormatted());
-        this.setAttributes(new ArrayList<HoldAttributeEntity>());
+        this.setAttributes(new HashSet<HoldAttributeEntity>());
         for (Attribute att : hold.getAttributes()) {
             HoldAttributeEntity attEntity = new HoldAttributeEntity(att);
             this.getAttributes().add(attEntity);
@@ -174,7 +175,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     }
 
     @Override
-    public List<HoldAttributeEntity> getAttributes() {
+    public Set<HoldAttributeEntity> getAttributes() {
         return attributes;
     }
 }

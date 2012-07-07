@@ -314,8 +314,8 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public StatusInfo deleteLpr(String luiPersonRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         _checkForMissingParameter(luiPersonRelationId, "luiPersonRelationId");
         LuiPersonRelationEntity lprEntity = lprDao.find(luiPersonRelationId);
-        lprEntity.setPersonRelationStateId(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY);
-        lprDao.merge(lprEntity);
+        lprDao.remove(lprEntity);
+
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
@@ -324,12 +324,12 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     @Override
     @Transactional(readOnly = true)
     public List<LuiPersonRelationInfo> searchForLprs(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-            throw new UnsupportedOperationException();
-   }
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * This overridden method ...
-     * 
+     *
      * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLprTransaction(java.lang.String,
      *      org.kuali.student.r2.common.dto.ContextInfo)
      */
@@ -344,7 +344,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     /**
      * This overridden method ...
-     * 
+     *
      * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#deleteLprTransaction(java.lang.String,
      *      org.kuali.student.r2.common.dto.ContextInfo)
      */
@@ -370,7 +370,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     /**
      * This overridden method ...
-     * 
+     *
      * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLprsByPersonForAtp(java.lang.String,
      *      java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
@@ -816,7 +816,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     @Override
     @Transactional(readOnly = true)
     public List<LprTransactionInfo> getLprTransactionsByRequestingPersonAndAtp(String personId,
-            String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+                                                                               String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // TODO: Rewrite this so it searches on requesting person NOT person in item and on ATP that is now in the transaction
         List<LprTransactionItemEntity> lprTransItems = lprTransItemDao.getLprTransactionItemByPerson(personId);
@@ -832,10 +832,10 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 //            LuiInfo lui = luiDao.find(luiId).toDto();
 //            if (lui.getAtpId().equals(atpId)) {
 
-                LprTransactionEntity lprTransEntity = lprTransDao.getByLprTransactionItemId(lprTransItem.getId());
+            LprTransactionEntity lprTransEntity = lprTransDao.getByLprTransactionItemId(lprTransItem.getId());
 //              commented out because of inconsistency with name of method -- app can do this filtering
 //                if (lprTransactionStates.contains(lprTransEntity.getLprTransState()))
-                lprTransInfos.add(lprTransEntity.toDto());
+            lprTransInfos.add(lprTransEntity.toDto());
 //            }
         }
 
@@ -1000,7 +1000,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             // TODO: inject this impl with a lui service impl to get the atp to check
 //            LuiEntity lui = luiDao.find(entity.getLuiId());
 //            if (StringUtils.equals(lui.getAtpId(), atpId)) {
-                infoList.add(entity.toDto());
+            infoList.add(entity.toDto());
 //            }
         }
 
@@ -1016,7 +1016,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         for (LuiPersonRelationEntity entity : entityList) {
 //            LuiEntity lui = luiDao.find(entity.getLuiId());
 //            if ((lui.getAtpId().equals(atpId)) && (lui.getLuiType().equals(luiTypeKey))) {
-                infoList.add(entity.toDto());
+            infoList.add(entity.toDto());
 //            }
         }
 
@@ -1039,7 +1039,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         for (LuiPersonRelationEntity entity : entityList) {
 //            LuiEntity lui = luiDao.find(entity.getLuiId());
 //            if ((lui.getLuiType().equals(luiTypeKey))) {
-                infoList.add(entity.toDto());
+            infoList.add(entity.toDto());
 //            }
         }
 

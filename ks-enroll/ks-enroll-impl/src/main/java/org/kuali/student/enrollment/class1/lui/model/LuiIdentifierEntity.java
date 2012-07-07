@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI_IDENT")
@@ -41,7 +42,7 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
     @JoinColumn(name = "LUI_ID")
     private LuiEntity lui;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private List<LuiIdentifierAttributeEntity> attributes;
+    private Set<LuiIdentifierAttributeEntity> attributes;
 
     public LuiIdentifierEntity() {
     }
@@ -153,12 +154,12 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
         this.state = state;
     }
 
-    public void setAttributes(List<LuiIdentifierAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiIdentifierAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-    public List<LuiIdentifierAttributeEntity> getAttributes() {
+    public Set<LuiIdentifierAttributeEntity> getAttributes() {
         return attributes;
 
         //This is bad, never change the collection in the getter/setter it will cause jpa problems

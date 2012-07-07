@@ -22,12 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "KSEN_LUI")
@@ -82,7 +77,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     private List<LuCodeEntity> luiCodes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private List<LuiAttributeEntity> attributes = new ArrayList<LuiAttributeEntity>();
+    private Set<LuiAttributeEntity> attributes = new HashSet<LuiAttributeEntity>();
 
     public LuiEntity() {
     }
@@ -399,7 +394,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.referenceURL = referenceURL;
     }
 
-    public void setAttributes(List<LuiAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
@@ -411,7 +406,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.identifiers = identifiers;
     }
 
-    public List<LuiAttributeEntity> getAttributes() {
+    public Set<LuiAttributeEntity> getAttributes() {
         return attributes;
     }
 

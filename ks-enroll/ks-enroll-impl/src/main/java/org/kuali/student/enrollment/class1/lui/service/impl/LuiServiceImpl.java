@@ -28,7 +28,6 @@ import org.kuali.student.enrollment.class1.lui.model.*;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
-import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.enrollment.lui.service.LuiService;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -48,9 +47,6 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
 
 
 public class LuiServiceImpl 

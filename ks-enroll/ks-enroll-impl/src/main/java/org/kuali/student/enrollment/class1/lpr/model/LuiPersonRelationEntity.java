@@ -15,9 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Igor
@@ -50,7 +48,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private List<LuiPersonRelationAttributeEntity> attributes;
+    private Set<LuiPersonRelationAttributeEntity> attributes;
 
     public LuiPersonRelationEntity() {}
 
@@ -70,7 +68,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setPersonRelationStateId(dto.getStateKey());
-        this.setAttributes(new ArrayList<LuiPersonRelationAttributeEntity>());
+        this.setAttributes(new HashSet<LuiPersonRelationAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 this.getAttributes().add(new LuiPersonRelationAttributeEntity(att));
@@ -143,12 +141,12 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 //    }
 
     @Override
-    public List<LuiPersonRelationAttributeEntity> getAttributes() {
+    public Set<LuiPersonRelationAttributeEntity> getAttributes() {
         return attributes;
     }
 
     @Override
-    public void setAttributes(List<LuiPersonRelationAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiPersonRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 

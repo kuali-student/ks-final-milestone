@@ -16,9 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "KSEN_LRC_RES_VALUE")
@@ -53,7 +51,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private List<ResultValueAttributeEntity> attributes;
+    private Set<ResultValueAttributeEntity> attributes;
 
     public ResultValueEntity() {}
 
@@ -72,7 +70,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         setValue(dto.getValue());
         this.setState(dto.getStateKey());
 
-        this.setAttributes(new ArrayList<ResultValueAttributeEntity>());
+        this.setAttributes(new HashSet<ResultValueAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 ResultValueAttributeEntity attEntity = new ResultValueAttributeEntity(att);
@@ -155,12 +153,12 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     }
 
     @Override
-    public void setAttributes(List<ResultValueAttributeEntity> attributes) {
+    public void setAttributes(Set<ResultValueAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<ResultValueAttributeEntity> getAttributes() {
+    public Set<ResultValueAttributeEntity> getAttributes() {
         return attributes;
     }
 

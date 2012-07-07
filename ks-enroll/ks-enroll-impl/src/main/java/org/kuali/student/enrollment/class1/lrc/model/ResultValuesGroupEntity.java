@@ -14,9 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "KSEN_LRC_RES_VAL_GRP")
@@ -58,7 +56,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<ResultValuesGroupAttributeEntity> attributes;
+    private Set<ResultValuesGroupAttributeEntity> attributes;
 
     public ResultValuesGroupEntity() {}
 
@@ -81,7 +79,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
             this.setIncrement(dto.getResultValueRange().getIncrement());
         }
 
-        this.setAttributes(new ArrayList<ResultValuesGroupAttributeEntity>());
+        this.setAttributes(new HashSet<ResultValuesGroupAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 ResultValuesGroupAttributeEntity attEntity = new ResultValuesGroupAttributeEntity(att);
@@ -179,12 +177,12 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     }
 
     @Override
-    public void setAttributes(List<ResultValuesGroupAttributeEntity> attributes) {
+    public void setAttributes(Set<ResultValuesGroupAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<ResultValuesGroupAttributeEntity> getAttributes() {
+    public Set<ResultValuesGroupAttributeEntity> getAttributes() {
         return attributes;
     }
 

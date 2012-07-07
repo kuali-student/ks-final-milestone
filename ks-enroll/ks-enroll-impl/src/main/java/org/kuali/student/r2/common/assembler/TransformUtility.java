@@ -39,7 +39,7 @@ public class TransformUtility {
         }
 
         //Clear out the attributes
-        List<A> attributes = new ArrayList<A>();
+        Set<A> attributes = new HashSet<A>();
 
         //Update anything that exists, or create a new attribute if it doesn't
         for (Attribute attributeInfo: dto.getAttributes()) {

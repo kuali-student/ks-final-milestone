@@ -1,10 +1,8 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
 import org.kuali.student.r2.common.assembler.TransformUtility;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.infc.AffiliatedOrg;
 
@@ -19,6 +17,7 @@ import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI_AFFILIATED_ORG")
@@ -51,7 +50,7 @@ public class LuiAffiliatedOrgEntity extends MetaEntity implements AttributeOwner
     private String revenueId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private List<LuiAffiliatedOrgAttributeEntity> attributes;
+    private Set<LuiAffiliatedOrgAttributeEntity> attributes;
     
     public LuiAffiliatedOrgEntity() {}
 
@@ -162,12 +161,12 @@ public class LuiAffiliatedOrgEntity extends MetaEntity implements AttributeOwner
     }
 
     @Override
-    public void setAttributes(List<LuiAffiliatedOrgAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiAffiliatedOrgAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<LuiAffiliatedOrgAttributeEntity> getAttributes() {
+    public Set<LuiAffiliatedOrgAttributeEntity> getAttributes() {
         return attributes;
     }
 

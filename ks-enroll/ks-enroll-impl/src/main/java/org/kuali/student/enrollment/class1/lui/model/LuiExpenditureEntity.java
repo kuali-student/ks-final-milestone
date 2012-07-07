@@ -1,10 +1,8 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
 import org.kuali.student.r2.common.assembler.TransformUtility;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.clu.infc.Expenditure;
 
@@ -15,8 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI_EXPENDITURE")
@@ -27,7 +24,7 @@ public class LuiExpenditureEntity extends MetaEntity implements AttributeOwner<L
     private LuiEntity lui;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private List<LuiExpenditureAttributeEntity> attributes;
+    private Set<LuiExpenditureAttributeEntity> attributes;
 
     public LuiExpenditureEntity() {}
 
@@ -61,12 +58,12 @@ public class LuiExpenditureEntity extends MetaEntity implements AttributeOwner<L
     }
 
     @Override
-    public void setAttributes(List<LuiExpenditureAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiExpenditureAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<LuiExpenditureAttributeEntity> getAttributes() {
+    public Set<LuiExpenditureAttributeEntity> getAttributes() {
         return attributes;
     }
 }

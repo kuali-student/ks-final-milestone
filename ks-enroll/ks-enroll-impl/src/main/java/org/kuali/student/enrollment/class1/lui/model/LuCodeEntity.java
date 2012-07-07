@@ -2,11 +2,9 @@ package org.kuali.student.enrollment.class1.lui.model;
 
 import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.assembler.TransformUtility;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
@@ -21,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI_LU_CD")
@@ -38,7 +37,7 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
     @JoinColumn(name = "LUI_ID")
     private LuiEntity lui;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private List<LuCodeAttributeEntity> attributes;
+    private Set<LuCodeAttributeEntity> attributes;
 
     public LuCodeEntity() {
     }
@@ -126,12 +125,12 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
     }
 
     @Override
-    public void setAttributes(List<LuCodeAttributeEntity> attributes) {
+    public void setAttributes(Set<LuCodeAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<LuCodeAttributeEntity> getAttributes() {
+    public Set<LuCodeAttributeEntity> getAttributes() {
         return attributes;
     }
 

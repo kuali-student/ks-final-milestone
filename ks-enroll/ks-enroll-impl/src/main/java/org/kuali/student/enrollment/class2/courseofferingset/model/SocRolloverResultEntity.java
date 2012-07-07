@@ -11,7 +11,9 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_SOC_ROR")
@@ -38,7 +40,7 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "socRolloverResult")
     private List<SocRolloverResultOptionEntity> options = new ArrayList<SocRolloverResultOptionEntity>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<SocRolloverResultAttributeEntity> attributes = new ArrayList<SocRolloverResultAttributeEntity>();
+    private Set<SocRolloverResultAttributeEntity> attributes = new HashSet<SocRolloverResultAttributeEntity>();
 
     public SocRolloverResultEntity() {
     }
@@ -72,7 +74,7 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
                 this.getOptions().add(new SocRolloverResultOptionEntity(optionKey, this));
             }
         }
-        this.setAttributes(new ArrayList<SocRolloverResultAttributeEntity>());
+        this.setAttributes(new HashSet<SocRolloverResultAttributeEntity>());
         for (Attribute att : socRolloverResult.getAttributes()) {
             this.getAttributes().add(new SocRolloverResultAttributeEntity(att, this));
         }
@@ -115,11 +117,11 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
         return socRolloverResult;
     }
 
-    public List<SocRolloverResultAttributeEntity> getAttributes() {
+    public Set<SocRolloverResultAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<SocRolloverResultAttributeEntity> attributes) {
+    public void setAttributes(Set<SocRolloverResultAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 

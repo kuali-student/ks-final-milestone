@@ -49,7 +49,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     private String lprTransState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private List<LprTransAttributeEntity> attributes;
+    private Set<LprTransAttributeEntity> attributes;
 
     public LprTransactionEntity() {}
 
@@ -166,12 +166,12 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     }
 
     @Override
-    public void setAttributes(List<LprTransAttributeEntity> attributes) {
+    public void setAttributes(Set<LprTransAttributeEntity> attributes) {
         this.setAttributes(attributes);
     }
 
     @Override
-    public List<LprTransAttributeEntity> getAttributes() {
+    public Set<LprTransAttributeEntity> getAttributes() {
         return this.attributes;
     }
 

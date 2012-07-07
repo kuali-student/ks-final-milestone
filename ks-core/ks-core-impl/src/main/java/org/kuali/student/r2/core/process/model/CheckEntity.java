@@ -15,7 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_CHECK")
@@ -52,10 +54,10 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     private String agendaId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<CheckAttributeEntity> attributes;
+    private Set<CheckAttributeEntity>attributes;
 
 	@Override
-	public void setAttributes(List<CheckAttributeEntity> attributes) {
+	public void setAttributes(Set<CheckAttributeEntity>attributes) {
 		this.attributes = attributes;
 	}
 
@@ -71,7 +73,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         if (check.getStateKey() != null) {
             this.setCheckState(check.getStateKey());
         }
-        this.setAttributes(new ArrayList<CheckAttributeEntity>());
+        this.setAttributes(new HashSet<CheckAttributeEntity>());
         if (null != check.getAttributes()) {
             for (Attribute att : check.getAttributes()) {
                 CheckAttributeEntity attEntity = new CheckAttributeEntity(att);
@@ -188,7 +190,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     }
 
     @Override
-	public List<CheckAttributeEntity> getAttributes() {
+	public Set<CheckAttributeEntity>getAttributes() {
 		 return attributes;
 	}
 }

@@ -17,9 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "KSEN_LUILUI_RELTN")
@@ -48,7 +46,7 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LuiLuiRelationAttributeEntity> attributes = new ArrayList<LuiLuiRelationAttributeEntity>();
+    private Set<LuiLuiRelationAttributeEntity> attributes = new HashSet<LuiLuiRelationAttributeEntity>();
 
     public LuiLuiRelationEntity() {
     }
@@ -174,12 +172,12 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
         this.expirationDate = expirationDate;
     }
 
-    public void setAttributes(List<LuiLuiRelationAttributeEntity> attributes) {
+    public void setAttributes(Set<LuiLuiRelationAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-    public List<LuiLuiRelationAttributeEntity> getAttributes() {
+    public Set<LuiLuiRelationAttributeEntity> getAttributes() {
         return attributes;
     }
 }

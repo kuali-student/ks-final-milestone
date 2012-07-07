@@ -17,6 +17,7 @@ package org.kuali.student.r2.core.class1.type.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,7 +36,7 @@ import org.kuali.student.r2.common.dto.TypeInfo;
 public abstract class TypeEntity<T extends BaseAttributeEntity<?>> extends BaseTypeEntity implements AttributeOwner<T>  {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<T> attributes;
+	private Set<T> attributes;
 
     @Column(name = "REF_OBJECT_URI")
     private String refObjectURI;
@@ -43,10 +44,10 @@ public abstract class TypeEntity<T extends BaseAttributeEntity<?>> extends BaseT
 	/**
 	 * This overridden method ...
 	 * 
-	 * @see org.kuali.student.r2.common.entity.AttributeOwner#setAttributes(java.util.List)
+	 * @see org.kuali.student.r2.common.entity.AttributeOwner#setAttributes(java.util.Set
 	 */
 	@Override
-	public void setAttributes(List<T> attributes) { 
+	public void setAttributes(Set<T> attributes) {
 		this.attributes = attributes;
 	}
 
@@ -56,7 +57,7 @@ public abstract class TypeEntity<T extends BaseAttributeEntity<?>> extends BaseT
 	 * @see org.kuali.student.r2.common.entity.AttributeOwner#getAttributes()
 	 */
 	@Override
-	public List<T> getAttributes() {
+	public Set<T> getAttributes() {
 		return attributes;
 	}
 
@@ -81,7 +82,7 @@ public abstract class TypeEntity<T extends BaseAttributeEntity<?>> extends BaseT
 
 		// TODO - refactor this into a central place; probably Igor's Converter
 		List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-		for (BaseAttributeEntity<?> att : this.getAttributes()) {
+		for (BaseAttributeEntity<? extends AttributeOwner<?>> att : this.getAttributes()) {
 			atts.add(att.toDto());
 		}
 		// end refactor
