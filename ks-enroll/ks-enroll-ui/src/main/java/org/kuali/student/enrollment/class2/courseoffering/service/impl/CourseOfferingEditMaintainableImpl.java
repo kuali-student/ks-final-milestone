@@ -130,6 +130,9 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                         !formatOfferingInfo.getId().isEmpty() &&
                         currentFOIds.contains(formatOfferingInfo.getId())) {
                     //update FO
+                    if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals("STANDARD")) {
+                        formatOfferingInfo.setFinalExamLevelTypeKey(null);
+                    }
                     FormatOfferingInfo updatedFormatOffering = getCourseOfferingService().
                             updateFormatOffering(formatOfferingInfo.getId(),formatOfferingInfo, getContextInfo());
                     updatedFormatOfferingList.add(updatedFormatOffering);
@@ -141,6 +144,9 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                     formatOfferingInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
                     formatOfferingInfo.setTermId(coInfo.getTermId());
                     formatOfferingInfo.setCourseOfferingId(coInfo.getId());
+                    if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals("STANDARD")) {
+                        formatOfferingInfo.setFinalExamLevelTypeKey(null);
+                    }
                     FormatOfferingInfo createdFormatOffering = getCourseOfferingService().
                             createFormatOffering(coInfo.getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, getContextInfo());
                     updatedFormatOfferingList.add(createdFormatOffering);
