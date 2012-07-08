@@ -369,8 +369,8 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradeRosterLevelKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"
-                                  p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey" p:label="FINAL EXAM DRIVER ACTIVITY"
+                                  p:labelPlacement="TOP" p:required="true" p:progressiveRender="@{#dp.coInfo.finalExamType eq 'STANDARD'}">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" />
                                 </property>
@@ -378,6 +378,8 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriverKeyValues"/>
                                 </property>
                             </bean>
+                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:progressiveRender="@{#dp.coInfo.finalExamType eq 'ALTERNATE'}" />
+                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:progressiveRender="@{#dp.coInfo.finalExamType eq 'NONE'}" />
                         </list>
                     </property>
                 </bean>
