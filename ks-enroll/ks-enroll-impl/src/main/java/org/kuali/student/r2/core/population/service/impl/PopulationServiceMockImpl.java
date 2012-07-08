@@ -138,6 +138,7 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
+        if (!populationRuleMap.containsKey(populationRuleId)) throw new InvalidParameterException("Could not find population rule with id: " + populationRuleId);
         List<PopulationInfo> popsForRule = populationsPerRuleForAllRules.get(populationRuleId);
         if (popsForRule==null) { return new ArrayList<PopulationInfo>(); }
         return popsForRule;
@@ -396,6 +397,7 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
             ,PermissionDeniedException
     {
         PopulationInfo populationInfo = getPopulation(populationId, contextInfo); // to check if population exists
+        PopulationRuleInfo populationRuleInfo = getPopulationRule(populationRuleId, contextInfo); // to check if population rule exists
         // go through all the population rules and check their populations. If they contain this population, remove.
         for (String ruleId : populationsPerRuleForAllRules.keySet()) {
             ArrayList<PopulationInfo> popsForRule = populationsPerRuleForAllRules.get(ruleId);
@@ -423,12 +425,16 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
+        PopulationInfo populationInfo = getPopulation(populationId, contextInfo); // to check if population exists
+        PopulationRuleInfo populationRuleInfo = getPopulationRule(populationRuleId, contextInfo); // to check if population rule exists
         ArrayList<PopulationInfo> popsForRule = populationsPerRuleForAllRules.get(populationRuleId);
-        for (PopulationInfo info: popsForRule) {
-            if (info.getId().equals(populationId)) {
-                popsForRule.remove(info);
-                populationsPerRuleForAllRules.put(populationRuleId, popsForRule);
-                return newStatus();
+        if (popsForRule!=null) {
+            for (PopulationInfo info: popsForRule) {
+                if (info.getId().equals(populationId)) {
+                    popsForRule.remove(info);
+                    populationsPerRuleForAllRules.put(populationRuleId, popsForRule);
+                    return newStatus();
+                }
             }
         }
         throw new DoesNotExistException("Could not find association of population rule with id: " + populationRuleId + " and population with id: " + populationId);
