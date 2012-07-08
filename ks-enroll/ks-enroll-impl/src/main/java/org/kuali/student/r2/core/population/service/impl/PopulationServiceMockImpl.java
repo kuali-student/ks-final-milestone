@@ -53,7 +53,11 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, PopulationCategoryInfo> populationCategoryMap = new LinkedHashMap<String, PopulationCategoryInfo>();
 
-    // stores mapping betweeen population and population category. the key is the population id, the list is the population categories for that population id
+    // stores the mapping between population rule id and population infos (one to many) - the key is population rule
+    // id, and value is the list of population infos
+    private Map<String, ArrayList<PopulationInfo>> populationsPerRuleForAllRules = new LinkedHashMap<String, ArrayList<PopulationInfo>> ();
+
+    // stores the mapping between population and population category. the key is the population id, the list is the population categories for that population id
     private Map<String, ArrayList<PopulationCategoryInfo>> populationCategoriesForPopulationMap = new LinkedHashMap<String, ArrayList<PopulationCategoryInfo>> ();
 
     ////////////////////////////////
@@ -134,23 +138,9 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        try {
-            List<PopulationInfo> populationInfos = new ArrayList<PopulationInfo> ();
-            for (String id: getPopulationRule(populationRuleId, contextInfo).getChildPopulationIds()) {
-                try {
-                    populationInfos.add(getPopulation(id, contextInfo));
-                } catch (DoesNotExistException e) {
-                    throw new OperationFailedException ("Unable to read population record for id : " + id + " due to error: " + e);
-                } catch (Exception e) {
-                    throw e;
-                }
-            }
-            return populationInfos;
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException ("Unable to read population rule record for id : " + populationRuleId + " due to error: " + e);
-        } catch (Exception e) {
-            throw new OperationFailedException ("Unable to carry out getPopulationsForPopulationRule due to: " + e);
-        }
+        List<PopulationInfo> popsForRule = populationsPerRuleForAllRules.get(populationRuleId);
+        if (popsForRule==null) { return new ArrayList<PopulationInfo>(); }
+        return popsForRule;
     }
 
     @Override
@@ -296,10 +286,15 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        if (!this.populationRuleMap.containsKey(populationId)) {
-            throw new DoesNotExistException(populationId);
+        // go through each population info for each population rule.
+        for (String ruleId : populationsPerRuleForAllRules.keySet()) {
+            List<PopulationInfo> popsForRule = populationsPerRuleForAllRules.get(ruleId);
+            for (PopulationInfo populationInfo : popsForRule) {
+                if (populationInfo.getId().equals(populationId))
+                    return getPopulationRule(ruleId, contextInfo);
+            }
         }
-        return this.populationRuleMap.get (populationId);
+        throw new DoesNotExistException("Could not find rule for population with id: " + populationId);
     }
 
     @Override
@@ -401,14 +396,22 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
             ,PermissionDeniedException
     {
         PopulationInfo populationInfo = getPopulation(populationId, contextInfo); // to check if population exists
-        PopulationRuleInfo populationRuleInfo = getPopulationRule(populationRuleId, contextInfo);
-        // go through all the population rules and check their child populations. If they contain this population, remove.
-        for (PopulationRuleInfo ruleInfo : populationRuleMap.values()) {
-            if (ruleInfo.getChildPopulationIds().contains(populationId)) {
-                ruleInfo.getChildPopulationIds().remove(populationId);
+        // go through all the population rules and check their populations. If they contain this population, remove.
+        for (String ruleId : populationsPerRuleForAllRules.keySet()) {
+            ArrayList<PopulationInfo> popsForRule = populationsPerRuleForAllRules.get(ruleId);
+            for (PopulationInfo info: popsForRule) {
+                if (info.getId().equals(populationId)) {
+                    // remove the population
+                    popsForRule.remove(info);
+                    populationsPerRuleForAllRules.put(ruleId, popsForRule);
+                }
             }
         }
-        populationRuleInfo.getChildPopulationIds().add(populationId);
+        // add this rule to this population
+        ArrayList<PopulationInfo> popsForRule = populationsPerRuleForAllRules.get(populationRuleId);
+        if (popsForRule==null) { popsForRule = new ArrayList<PopulationInfo>(); }
+        popsForRule.add(populationInfo);
+        populationsPerRuleForAllRules.put(populationRuleId, popsForRule);
         return newStatus();
     }
 
@@ -420,12 +423,15 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        PopulationInfo populationInfo = getPopulation(populationId, contextInfo); // to check if population exists
-        PopulationRuleInfo populationRuleInfo = getPopulationRule(populationRuleId, contextInfo);
-        if (populationRuleInfo.getChildPopulationIds().contains(populationId)) {
-            populationRuleInfo.getChildPopulationIds().remove(populationId);
+        ArrayList<PopulationInfo> popsForRule = populationsPerRuleForAllRules.get(populationRuleId);
+        for (PopulationInfo info: popsForRule) {
+            if (info.getId().equals(populationId)) {
+                popsForRule.remove(info);
+                populationsPerRuleForAllRules.put(populationRuleId, popsForRule);
+                return newStatus();
+            }
         }
-        return newStatus();
+        throw new DoesNotExistException("Could not find association of population rule with id: " + populationRuleId + " and population with id: " + populationId);
     }
 
     @Override
