@@ -658,6 +658,7 @@ public class ProcessServiceMockImpl implements ProcessService {
                 }
             }
         }
+        if (list.size()==0) throw new DoesNotExistException("No instructions found for process / check relation.");
         return list;
     }
 

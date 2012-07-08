@@ -1009,6 +1009,7 @@ public interface ProcessService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of Instructions
+     * @throws DoesNotExistException process and check and instruction relation does not exist
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException processKey, checkId, or
      *         contextInfo is missing or null
