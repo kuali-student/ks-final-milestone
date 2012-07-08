@@ -18,11 +18,13 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffe
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -35,7 +37,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
@@ -47,6 +48,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     private CourseService courseService;
     private AcademicCalendarService academicCalendarService;
     private CourseOfferingService courseOfferingService;
+    private CourseOfferingSetService socService;
     private ContextInfo contextInfo;
     private TypeService typeService;
 
@@ -73,15 +75,32 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             coWrapper.setShowTermOfferingLink(true);
 
             //Get all the course offerings in a term
-            List<String> courseOfferingIds = getCourseOfferingService().getCourseOfferingIdsByTerm(term.getId(),false,getContextInfo());
             List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(),term.getId(),getContextInfo());
 
             coWrapper.getExistingTermOfferings().clear();
             coWrapper.getExistingCourseOfferings().clear();
 
+            List<String> courseOfferingsInSOC = new ArrayList<String>();
+            TermInfo targetTermInfo = getTerm(term.getCode());
+            List<String> socIdList = getSOCService().getSocIdsByTerm(targetTermInfo.getId(),getContextInfo());
+
+            TermInfo sourceTerm = null;
+
+            if (!socIdList.isEmpty()) {
+                courseOfferingsInSOC = getSOCService().getCourseOfferingIdsBySoc(socIdList.get(0),getContextInfo());
+
+                List<String> socResultIds = getSOCService().getSocRolloverResultIdsByTargetSoc(socIdList.get(0),getContextInfo());
+                if (!socResultIds.isEmpty()){
+                    SocRolloverResultInfo socResult = getSOCService().getSocRolloverResult(socResultIds.get(0),getContextInfo());
+                    sourceTerm = getAcademicCalendarService().getTerm(socResult.getSourceTermId(),getContextInfo());
+                }
+            }
+
             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
                 ExistingCourseOffering co = new ExistingCourseOffering();
-                co.setTermCode(getTerm(term.getCode()).getName());
+                if (sourceTerm != null && courseOfferingsInSOC.contains(courseOfferingInfo.getId())){
+                    co.setTermCode(sourceTerm.getName());
+                }
                 co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                 co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
                 co.setCredits(courseOfferingInfo.getCreditOptionId());
@@ -172,13 +191,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
     public ContextInfo getContextInfo() {
         if (null == contextInfo) {
-            contextInfo = new ContextInfo();
-            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            LocaleInfo localeInfo = new LocaleInfo();
-            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-            contextInfo.setLocale(localeInfo);
+            contextInfo = ContextUtils.getContextInfo();
         }
         return contextInfo;
     }
@@ -271,6 +284,13 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             luService = CourseOfferingResourceLoader.loadLuService();
         }
         return luService;
+    }
+
+    private CourseOfferingSetService getSOCService() {
+        if(socService == null) {
+            socService = CourseOfferingResourceLoader.loadCourseOfferingSetService();
+        }
+        return socService;
     }
 
 }
