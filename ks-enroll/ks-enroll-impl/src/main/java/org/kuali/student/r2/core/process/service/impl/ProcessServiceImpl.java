@@ -27,7 +27,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProcessServiceImpl implements ProcessService {
 
@@ -702,6 +704,49 @@ public class ProcessServiceImpl implements ProcessService {
 
     }
 
+    
+    @Override
+    @Transactional(readOnly = false)
+    public StatusInfo reorderInstructions(String processKey,
+            List<String> instructionIds,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
+        List<InstructionInfo> list = this.getInstructionsByProcess(processKey, contextInfo);
+        Set<String> origIds = new LinkedHashSet<String>();
+        for (InstructionInfo instr : list) {
+            origIds.add(instr.getId());
+        }
+        for (String id : instructionIds) {
+            if (!origIds.remove(id)) {
+                throw new InvalidParameterException(id + " is not an instruction for the specified process");
+            }
+        }
+        // update the position 
+        for (int i = 0; i < instructionIds.size(); i++) {
+            String instructionId = instructionIds.get(i);
+            InstructionInfo instr = this.getInstruction(instructionId, contextInfo);
+            instr.setPosition(i);
+            this.updateInstruction(instructionId, instr, contextInfo);
+        }
+        int pos = instructionIds.size();
+        for (InstructionInfo instr : list) {
+            instr.setPosition(pos);
+            this.updateInstruction(instr.getId(), instr, contextInfo);
+            pos++;
+        }
+
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(true);
+        return status;
+    }
+    
     @Override
     @Transactional(readOnly = false)
     public StatusInfo deleteInstruction(@WebParam(name = "instructionId") String instructionId,

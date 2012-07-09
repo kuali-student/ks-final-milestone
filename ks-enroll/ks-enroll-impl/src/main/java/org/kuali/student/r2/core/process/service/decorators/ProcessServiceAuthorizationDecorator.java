@@ -99,4 +99,24 @@ public class ProcessServiceAuthorizationDecorator extends ProcessServiceDecorato
         }
         return getNextDecorator().getInstructionsForEvaluation(processKey, contextInfo);
     }
+
+    @Override
+    public StatusInfo reorderInstructions(String processKey,
+            List<String> instructionIds,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException { 
+        if (!permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "reorderInstructions", null)) {
+            throw new PermissionDeniedException();
+        }
+        return getNextDecorator().reorderInstructions(processKey, instructionIds, contextInfo);
+    }
+    
+    
 }

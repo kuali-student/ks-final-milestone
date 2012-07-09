@@ -744,7 +744,42 @@ public class ProcessServiceMockImpl implements ProcessService {
         this.instructionMap .put(instructionInfo.getId(), copy);
         return new InstructionInfo(copy);
     }
-
+    
+    @Override
+    public StatusInfo reorderInstructions(String processKey,
+            List<String> instructionIds,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
+        List<InstructionInfo> allInstructions = this.getInstructionsByProcess(processKey, contextInfo);
+        Set<String> remainingInstructionIds = new LinkedHashSet<String>();
+        for (InstructionInfo instr : allInstructions) {
+            remainingInstructionIds.add(instr.getId());
+        }
+        // copy so we don't modify the list
+        List<String> orderedInstructionIds = new ArrayList (instructionIds);
+        for (String id : instructionIds) {
+            if (!remainingInstructionIds.remove(id)) {
+                throw new InvalidParameterException(id + " is not an instruction for the specified process");
+            }
+        }
+        orderedInstructionIds.addAll(remainingInstructionIds);
+        // update the position 
+        for (int i = 0; i < orderedInstructionIds.size(); i++) {
+            String instructionId = orderedInstructionIds.get(i);
+            InstructionInfo instr = this.getInstruction(instructionId, contextInfo);
+            instr.setPosition(i);
+            this.updateInstruction(instructionId, instr, contextInfo);
+        }
+        return newStatus();
+    }
+    
     @Override
     public StatusInfo deleteInstruction(String instructionId, ContextInfo contextInfo)
             throws DoesNotExistException

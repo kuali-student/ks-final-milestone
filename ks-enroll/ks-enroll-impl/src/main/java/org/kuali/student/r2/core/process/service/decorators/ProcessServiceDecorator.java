@@ -246,4 +246,20 @@ public abstract class ProcessServiceDecorator implements ProcessService {
     public List<InstructionInfo> getInstructionsForEvaluation(String processKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getInstructionsForEvaluation(processKey, contextInfo);
     }
+
+    @Override
+    public StatusInfo reorderInstructions(String processKey,
+            List<String> instructionIds,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
+        return getNextDecorator ().reorderInstructions(processKey, instructionIds, contextInfo);
+    }
+    
 }

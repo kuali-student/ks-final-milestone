@@ -41,6 +41,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import org.kuali.student.r2.common.dto.StatusInfo;
 
 /**
  * This class tests ProcessServiceMockImpl
@@ -588,7 +589,16 @@ public class TestProcessServiceMockImpl {
         assertEquals(1, instructionByProcessAndCheck.size());
         assertTrue(instructionByProcessAndCheck.contains(processService.getInstruction("8", contextInfo)));
 
-
+        instructionIds = new ArrayList<String> ();
+        instructionIds.add("13");
+        instructionIds.add("11");        
+        instructionIds.add("14"); 
+        
+        StatusInfo status = processService.reorderInstructions (ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED, instructionIds, contextInfo);
+        assertEquals(new Integer (0), processService.getInstruction("13", contextInfo).getPosition());
+        assertEquals(new Integer (1), processService.getInstruction("11", contextInfo).getPosition());
+        assertEquals(new Integer (2), processService.getInstruction("14", contextInfo).getPosition());
+        assertEquals(new Integer (3), processService.getInstruction("12", contextInfo).getPosition());
     }
 
 }
