@@ -31,6 +31,8 @@ import java.util.Map;
 
 public class CourseOfferingTransformer {
     private LuiPersonRelationService lprService;
+    private PersonService personService;
+
     final Logger LOG = Logger.getLogger(CourseOfferingTransformer.class);
 
     public void lui2CourseOffering(LuiInfo lui, CourseOfferingInfo co, ContextInfo context) {
@@ -132,8 +134,15 @@ public class CourseOfferingTransformer {
         this.lprService = lprService;
     }
 
+    public void setPersonService(PersonService personService){
+        this.personService = personService;
+    }
+
     public PersonService getPersonService() {
-        return KimApiServiceLocator.getPersonService();
+        if(personService == null){
+            personService = KimApiServiceLocator.getPersonService();
+        }
+        return personService;
     }
 
     private String boolean2String(Boolean bval) {

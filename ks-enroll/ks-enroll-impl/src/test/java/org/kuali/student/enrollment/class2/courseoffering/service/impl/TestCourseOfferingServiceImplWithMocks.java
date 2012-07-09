@@ -108,6 +108,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setFeeAtActivityOffering(false);
         orig.setFundingSource("funding source");
         orig.setCourseOfferingCode("CODE");
+        orig.setCourseNumberSuffix("ABC");
         orig.setCourseOfferingTitle("Title");
         orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
         orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
@@ -128,7 +129,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(orig.getIsFeeAtActivityOffering(), info.getIsFeeAtActivityOffering());
         assertEquals(orig.getFundingSource(), info.getFundingSource());
         assertEquals(course.getCode(), info.getCourseOfferingCode());
-        assertEquals(course.getCourseNumberSuffix(), info.getCourseNumberSuffix());
+        assertEquals(orig.getCourseNumberSuffix(), info.getCourseNumberSuffix());
         assertEquals(course.getSubjectArea(), info.getSubjectArea());
         if (course.getDescr() != null) {
             assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getPlain(), info.getDescr().getPlain());
