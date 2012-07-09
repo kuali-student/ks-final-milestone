@@ -57,6 +57,7 @@ import java.util.*;
  * @author Kuali Student Team
  */
 public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingEditMaintainableImpl.class);
 
     private transient CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
@@ -198,7 +199,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 //0. get credit count from CourseInfo
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
                 CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
-                coInfo.setCreditCnt(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
+                coInfo.setCreditCnt(getCreditCount(coInfo));
 
                 //1. set CourseOfferingInfo
                 CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
@@ -346,6 +347,44 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             }
         }
         return null;
+    }
+
+    //get credit count from CourseInfo that is backed for the CourseOfferingInfo
+    private String getCreditCount(CourseOfferingInfo coInfo) throws Exception{
+        CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
+        String creditOpt = courseInfo.getCreditOptions().get(0).getType();
+        if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED) ){              //fixed
+            return trimTrailing0(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
+        } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE) ){    //range
+            //minCreditValue - maxCreditValue
+            return trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get("minCreditValue"))
+                    +" - "+trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get("maxCreditValue")) ;
+        } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE) ){    //multiple
+            List<String> creditValuesS = courseInfo.getCreditOptions().get(0).getResultValues();
+            List<Float> creditValuesF = new ArrayList();
+            String creditMultiple = "";
+            for (String creditS : creditValuesS ) {  //convert String to Float for sorting
+                creditValuesF.add(Float.valueOf(creditS));
+            }
+            Collections.sort(creditValuesF);
+            for (Float creditF : creditValuesF ){
+                creditMultiple = creditMultiple + ", " + trimTrailing0(String.valueOf(creditF));
+            }
+            return creditMultiple.substring(2);  //trim leading ", "
+        } else {                                                                                                      //no credit option
+            LOG.info("Credit is missing for subject course " + coInfo.getCourseCode());
+            return "N/A";
+        }
+
+    }
+
+    public String trimTrailing0(String creditValue){
+        if (creditValue.indexOf(".0") > 0) {
+            return creditValue.substring(0, creditValue.length( )- 2);
+        } else {
+            return creditValue;
+        }
+
     }
 
     public ContextInfo getContextInfo() {
