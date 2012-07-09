@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -434,6 +435,17 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     public List<String> getValidCanonicalCourseToCourseOfferingOptionKeys(ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().getValidCanonicalCourseToCourseOfferingOptionKeys(context);
-    } 
-    
+    }
+
+
+    @Override
+    public TermInfo getTerm(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getTerm(termId, context);
+    }
+
+    @Override
+    public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getTermTypes(context);
+    }
+
 }

@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.courseoffering.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -1383,4 +1384,35 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException
      */
     public List<String> searchForSeatpoolDefinitionIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a single Term by a Term Id.
+     *
+     * @param termId      the identifier for the Term to be retrieved
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return the Term requested
+     * @throws DoesNotExistException     termIs is not found
+     * @throws InvalidParameterException contextInfo isnot valid
+     * @throws MissingParameterException termId or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public TermInfo getTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Gets the valid Term types.
+     *
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return a list of valid Term Types
+     * @throws InvalidParameterException contextInfo is not value
+     * @throws MissingParameterException contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TypeInfo> getTermTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
 }

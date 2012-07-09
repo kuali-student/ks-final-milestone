@@ -8,6 +8,7 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
@@ -33,6 +34,7 @@ import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -53,10 +55,12 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,7 +87,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private StateService stateService;
     private LuiPersonRelationService lprService;
     private CourseOfferingServiceBusinessLogic businessLogic;
-
+    private TermAssembler termAssembler = null;
     private CourseOfferingCodeGenerator offeringCodeGenerator;
     private CourseOfferingTransformer courseOfferingTransformer;
 
@@ -440,15 +444,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         TermInfo term = acalService.getTerm(termId, context);
         CourseInfo courseInfo = getCourse(courseId);
         // copy from canonical
-        courseOfferingTransformer.copyFromCanonical(courseInfo, coInfo, optionKeys);
+        CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
+        coTransformer.copyFromCanonical(courseInfo, coInfo, optionKeys);
         // copy to lui
         LuiInfo lui = new LuiInfo();
-        courseOfferingTransformer.courseOffering2Lui(coInfo, lui, context);
+        coTransformer.courseOffering2Lui(coInfo, lui, context);
         // create it
         lui = luiService.createLui(courseId, termId, lui.getTypeKey(), lui, context);
         // transform it back to a course offering
         CourseOfferingInfo createdCo = new CourseOfferingInfo();
-        courseOfferingTransformer.lui2CourseOffering(lui, createdCo, context);
+        new CourseOfferingTransformer().lui2CourseOffering(lui, createdCo, context);
         return createdCo;
     }
 
@@ -1608,6 +1613,69 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         this.offeringCodeGenerator = offeringCodeGenerator;
     }
 
+    @Override
+    public TermInfo getTerm(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        AtpInfo atp = atpService.getAtp(termId, context);
+        TermInfo term = null;
+        TermAssembler termAssembler = getTermAssembler();
+        if (termAssembler == null) {
+            setTermAssembler(new TermAssembler());
+        }
+
+        if (atp != null && checkTypeForTermType(atp.getTypeKey(), context)) {
+            try {
+                term = getTermAssembler().assemble(atp, context);
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+        } else {
+            throw new DoesNotExistException("This is either not valid Atp or not valid Term. " + termId);
+        }
+
+        return term;
+    }
+
+    private boolean checkTypeForTermType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<TypeInfo> types = getTermTypes(context);
+        return checkTypeInTypes(typeKey, types);
+    }
+
+    @Override
+    public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<TypeTypeRelationInfo> relations = null;
+        try {
+            relations = typeService.getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException(e.getMessage(), e);
+        }
+
+        if (relations != null) {
+            List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
+            for (TypeTypeRelationInfo rel : relations) {
+                try {
+                    results.add(typeService.getType(rel.getRelatedTypeKey(), context));
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException(e.getMessage(), e);
+                }
+            }
+
+            return results;
+        }
+
+        return null;
+    }
+
+    public TermAssembler getTermAssembler() {
+        if (termAssembler == null) {
+            setTermAssembler(new TermAssembler());
+        }
+        return termAssembler;
+    }
+
+    public void setTermAssembler(TermAssembler termAssembler) {
+        this.termAssembler = termAssembler;
+    }
 
 
 }

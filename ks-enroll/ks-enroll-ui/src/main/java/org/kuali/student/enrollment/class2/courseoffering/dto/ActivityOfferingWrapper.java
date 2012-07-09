@@ -8,6 +8,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,16 @@ public class ActivityOfferingWrapper implements Serializable{
     private String toolTipText = "";
 
     private String firstInstructorDisplayName;
+
+    private String termDisplayString = "";
+
+    public String getTermDisplayString() {
+        return termDisplayString;
+    }
+
+    public void setTermDisplayString(String termDisplayString) {
+        this.termDisplayString = termDisplayString;
+    }
 
     public String getToolTipText() {
         return toolTipText;

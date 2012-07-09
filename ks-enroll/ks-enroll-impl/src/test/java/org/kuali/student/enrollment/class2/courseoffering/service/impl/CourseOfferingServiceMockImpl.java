@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
@@ -30,6 +32,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingAdminDispla
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -44,11 +47,15 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import javax.jws.WebParam;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
+import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
@@ -904,4 +911,18 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
     }
+
+    @Override
+    public TermInfo getTerm(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        TermInfo termInfo = new TermInfo();
+        termInfo.setCode("20122");
+        return termInfo;
+    }
+
+    @Override
+    public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+
 }

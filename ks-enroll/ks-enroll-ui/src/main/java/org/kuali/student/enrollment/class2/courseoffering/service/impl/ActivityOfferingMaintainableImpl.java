@@ -9,6 +9,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
@@ -29,10 +30,8 @@ import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
 
@@ -83,6 +82,14 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 wrapper.setToolTipText("Each Activity Offering has its own wait list.");
             }
 
+            // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
+            TermInfo term = getCourseOfferingService().getTerm(info.getTermId(), getContextInfo());
+            if (term != null) {
+                wrapper.setTermName(term.getName());
+            }
+            wrapper.setTermDisplayString(getTermDisplayString(info.getTermId(), term));
+
+
             //process instructor effort
             assembleInstructorWrapper(info.getInstructors(), wrapper);
 
@@ -102,6 +109,22 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String getTermDisplayString(String termId, TermInfo term) {
+        // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
+        StringBuilder    stringBuilder = new StringBuilder();
+        Formatter        formatter     = new Formatter(stringBuilder, Locale.US);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+        String           displayString = termId; // use termId as a default.
+        if (term != null) {
+            String           startDate = dateFormatter.format(term.getStartDate());
+            String           endDate   = dateFormatter.format(term.getEndDate());
+            String           termType  = term.getName();
+            formatter.format("%s (%s to %s)", termType, startDate, endDate);
+            displayString = stringBuilder.toString();
+        }
+        return displayString;
     }
 
     private void assembleInstructorWrapper(List<OfferingInstructorInfo> instructors, ActivityOfferingWrapper wrapper){

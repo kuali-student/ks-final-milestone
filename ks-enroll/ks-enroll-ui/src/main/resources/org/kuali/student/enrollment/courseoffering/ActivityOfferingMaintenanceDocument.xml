@@ -83,7 +83,7 @@
                             </bean>
 
                             <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName"/>
-                            <bean parent="Uif-DataField" p:label="Term" p:propertyName="aoInfo.termId" p:readOnly="true" />
+                            <bean parent="Uif-DataField" p:label="Term" p:propertyName="termDisplayString" p:readOnly="true" />
 
 
                             <bean parent="Uif-HorizontalBoxSection">
