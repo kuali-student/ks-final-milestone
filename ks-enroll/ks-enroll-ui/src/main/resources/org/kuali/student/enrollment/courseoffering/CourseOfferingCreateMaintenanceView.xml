@@ -228,7 +228,7 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="addLineActions">
           <list>
-            <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
+            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
                   p:actionEvent="addLine" p:onClickScript=" enableCreateOffering(); "/>
           </list>
         </property>

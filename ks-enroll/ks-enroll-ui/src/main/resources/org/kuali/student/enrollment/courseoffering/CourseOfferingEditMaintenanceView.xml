@@ -349,6 +349,12 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
                     <property name="layoutManager.richTable.render" value="false" />
+                    <property name="addLineActions">
+                      <list>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
+                              p:actionEvent="addLine"/>
+                      </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="formatId"  p:readOnly="@{!#isAddLine}"

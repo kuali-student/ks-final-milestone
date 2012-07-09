@@ -72,14 +72,14 @@
                       p:layoutManager.applyDefaultCellWidths="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="typeName" p:label="Type"/>
-                            <bean parent="Uif-DataField" p:propertyName="stateName" p:label="State"/>
-                            <bean parent="Uif-DataField" p:propertyName="termName" p:label="Term"/>
-                            <bean parent="Uif-DataField" p:propertyName="aoInfo.courseOfferingTitle" />
                             <bean parent="Uif-DataField" p:propertyName="aoInfo.courseOfferingCode" />
                             <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" />
+                            <bean parent="Uif-DataField" p:propertyName="aoInfo.courseOfferingTitle" />
+                            <bean parent="Uif-DataField" p:propertyName="termName" p:label="Term"/>
+                            <bean parent="Uif-DataField" p:propertyName="typeName" p:label="Type"/>
                             <bean parent="Uif-DataField" p:propertyName="formatOfferingName" p:label="Format Offering"/>
                             <bean parent="Uif-DataField" p:propertyName="aoInfo.maximumEnrollment" p:label="Total Maximum Enrollment"/>
+                            <bean parent="Uif-DataField" p:propertyName="stateName" p:label="State"/>
                             <bean parent="Uif-DataField" p:propertyName="isEvaluatedUI" p:label="This course requires an evaluation"/>
                             <bean parent="Uif-DataField" p:propertyName="isHonorsOfferingUI" p:label="Honors Offering"/>
                             <bean parent="Uif-DataField" p:propertyName="aoInfo.activityOfferingURL"/>
