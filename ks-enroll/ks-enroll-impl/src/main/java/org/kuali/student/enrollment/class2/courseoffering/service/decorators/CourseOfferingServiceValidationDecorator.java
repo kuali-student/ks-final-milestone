@@ -242,7 +242,7 @@ public class CourseOfferingServiceValidationDecorator
         return errors;
     }
 
-    // RegGroupTemplates were supposed to have been removed from the contract
+    // RegGroupTemplates are out of scope for M4
 //	@Override
 //	public RegistrationGroupTemplateInfo updateRegistrationGroupTemplate(String registrationGroupTemplateId, RegistrationGroupTemplateInfo registrationGroupTemplateInfo, ContextInfo context)
 //		throws DataValidationErrorException

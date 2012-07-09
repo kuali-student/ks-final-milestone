@@ -208,7 +208,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			throw new OperationFailedException("failed to delete format offering for id = " + formatOfferingId, e);
 		}
 		
-		return newStatus();
+		return successStatus();
 	}
 
 	@Override
@@ -464,7 +464,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		if (this.courseOfferingMap.remove(courseOfferingId) == null) {
 			throw new DoesNotExistException(courseOfferingId);
 		}
-		return newStatus();
+		return successStatus();
 	}
 
 	@Override
@@ -599,7 +599,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		if (this.formatOfferingMap.remove(formatOfferingId) == null) {
 			throw new DoesNotExistException(formatOfferingId);
 		}
-		return newStatus();
+		return successStatus();
 	}
 
 	@Override
@@ -807,7 +807,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		if (this.activityOfferingMap.remove(activityOfferingId) == null) {
 			throw new DoesNotExistException(activityOfferingId);
 		}
-		return newStatus();
+		return successStatus();
 	}
 
 	@Override
@@ -1105,7 +1105,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		if (this.registrationGroupMap.remove(registrationGroupId) == null) {
 			throw new DoesNotExistException(registrationGroupId);
 		}
-		return newStatus();
+		return successStatus();
 	}
 
 	@Override
@@ -1113,7 +1113,28 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			String formatOfferingId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		throw new OperationFailedException("unsupported");
+		
+		List<RegistrationGroupInfo> rgs;
+		try {
+			rgs = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
+			
+			for (RegistrationGroupInfo rg : rgs) {
+				
+				try {
+					deleteRegistrationGroup(rg.getId(), context);
+				} catch (DoesNotExistException e) {
+					return failStatus();
+				}
+				
+			}
+			
+		} catch (DoesNotExistException e1) {
+			return failStatus();
+		}
+		
+	
+		
+		return successStatus();
 	}
 
 	@Override
@@ -1121,7 +1142,30 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			String formatOfferingId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		throw new OperationFailedException("unsupported");
+		
+		List<RegistrationGroupInfo> rgs;
+		try {
+			rgs = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
+			
+			for (RegistrationGroupInfo rg : rgs) {
+
+				if (rg.getIsGenerated()) {
+					try {
+						deleteRegistrationGroup(rg.getId(), context);
+					} catch (DoesNotExistException e) {
+						return failStatus();
+					}
+				}
+
+			}
+			
+		} catch (DoesNotExistException e1) {
+			return failStatus();
+		}
+		
+	
+		
+		return successStatus();
 	}
 
 	@Override
@@ -1139,6 +1183,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// validate
+		// this is actually done at the ValidationDecorator layer
 		return new ArrayList<ValidationResultInfo>();
 	}
 
@@ -1148,6 +1193,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
+		// Registration Group Templates are out of scope for M4.
 		throw new OperationFailedException(
 				"getActivityOfferingTypesForActivityType has not been implemented");
 	}
@@ -1304,7 +1350,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		if (this.seatPoolDefinitionMap.remove(seatPoolDefinitionId) == null) {
 			throw new DoesNotExistException(seatPoolDefinitionId);
 		}
-		return newStatus();
+		return successStatus();
 	}
 
 	@Override
@@ -1478,9 +1524,16 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		return meta;
 	}
 
-	private StatusInfo newStatus() {
+	private StatusInfo successStatus() {
 		StatusInfo status = new StatusInfo();
 		status.setSuccess(Boolean.TRUE);
+		return status;
+	}
+	
+	private StatusInfo failStatus() {
+		StatusInfo status = new StatusInfo();
+		status.setMessage("Operation Failed");
+		status.setSuccess(Boolean.FALSE);
 		return status;
 	}
 
@@ -1521,7 +1574,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		
 		seatPoolIds.add(seatPoolDefinitionId);
 		
-		return newStatus();
+		return successStatus();
 	}
 
 	@Override
@@ -1542,7 +1595,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		List<String>seatPoolIds = activityOfferingToSeatPoolMap.get(activityOfferingId);
 		
 		if (seatPoolIds.remove(seatPoolDefinitionId))
-			return newStatus();
+			return successStatus();
 		else
 			throw new DoesNotExistException("no seatpool association for spId=" + seatPoolDefinitionId + " and activityOfferingId = " + activityOfferingId);
 		
