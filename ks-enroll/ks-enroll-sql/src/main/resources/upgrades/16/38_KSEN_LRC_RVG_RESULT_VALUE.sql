@@ -190,33 +190,33 @@ insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.r
 /
 insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.result.group.student.year.lockstep.med', 'kuali.result.value.student.year.lockstep.4')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.1.0', 'kuali.result.value.credit.degree.1.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.1.0', 'kuali.result.value.credit.degree.1.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.1.3.5.7.9', 'kuali.result.value.credit.degree.1.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.1.3.5.7.9', 'kuali.result.value.credit.degree.1.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.1.3.5.7.9', 'kuali.result.value.credit.degree.3.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.1.3.5.7.9', 'kuali.result.value.credit.degree.3.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.1.3.5.7.9', 'kuali.result.value.credit.degree.5.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.1.3.5.7.9', 'kuali.result.value.credit.degree.5.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.1.3.5.7.9', 'kuali.result.value.credit.degree.7.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.1.3.5.7.9', 'kuali.result.value.credit.degree.7.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.1.3.5.7.9', 'kuali.result.value.credit.degree.9.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.1.3.5.7.9', 'kuali.result.value.credit.degree.9.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.10.0', 'kuali.result.value.credit.degree.10.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.10.0', 'kuali.result.value.credit.degree.10.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.2.0', 'kuali.result.value.credit.degree.2.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.2.0', 'kuali.result.value.credit.degree.2.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.3.0', 'kuali.result.value.credit.degree.3.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.3.0', 'kuali.result.value.credit.degree.3.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.4.0', 'kuali.result.value.credit.degree.4.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.4.0', 'kuali.result.value.credit.degree.4.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.5.0', 'kuali.result.value.credit.degree.5.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.5.0', 'kuali.result.value.credit.degree.5.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.6.0', 'kuali.result.value.credit.degree.6.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.6.0', 'kuali.result.value.credit.degree.6.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.7.0', 'kuali.result.value.credit.degree.7.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.7.0', 'kuali.result.value.credit.degree.7.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.8.0', 'kuali.result.value.credit.degree.8.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.8.0', 'kuali.result.value.credit.degree.8.0')
 /
-insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.9.0', 'kuali.result.value.credit.degree.9.0')
+insert into KSEN_LRC_RVG_RESULT_VALUE (RVG_ID, RESULT_VALUE_ID) values ('kuali.creditType.credit.degree.9.0', 'kuali.result.value.credit.degree.9.0')
 /
