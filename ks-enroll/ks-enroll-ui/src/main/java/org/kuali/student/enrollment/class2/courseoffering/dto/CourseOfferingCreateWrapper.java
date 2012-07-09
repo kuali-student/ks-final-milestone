@@ -37,7 +37,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     private String createErrorMessage;
 
-    private String errorText = "";
+    private String invalidCatalogCourseCodeError = "";
 
     public CourseOfferingCreateWrapper(){
         showCatalogLink = false;
@@ -184,12 +184,11 @@ public class CourseOfferingCreateWrapper implements Serializable{
     public void setCreateErrorMessage(String createErrorMessage) {
         this.createErrorMessage = createErrorMessage;
     }
-
-    public String getErrorText() {
-        return errorText;
+    public String getInvalidCatalogCourseCodeError() {
+        return invalidCatalogCourseCodeError;
     }
 
-    public void setErrorText(String errorText) {
-        this.errorText = errorText;
+    public void setInvalidCatalogCourseCodeError(String invalidCatalogCourseCodeError) {
+        this.invalidCatalogCourseCodeError = invalidCatalogCourseCodeError;
     }
 }
