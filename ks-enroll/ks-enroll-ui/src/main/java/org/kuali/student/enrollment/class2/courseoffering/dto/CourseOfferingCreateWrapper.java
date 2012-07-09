@@ -37,6 +37,8 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     private String createErrorMessage;
 
+    private String errorText = "";
+
     public CourseOfferingCreateWrapper(){
         showCatalogLink = false;
         showTermOfferingLink = true;
@@ -181,5 +183,13 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     public void setCreateErrorMessage(String createErrorMessage) {
         this.createErrorMessage = createErrorMessage;
+    }
+
+    public String getErrorText() {
+        return errorText;
+    }
+
+    public void setErrorText(String errorText) {
+        this.errorText = errorText;
     }
 }
