@@ -6665,5 +6665,3 @@ INSERT INTO KSEN_LUI_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)
 INSERT INTO KSEN_LUI_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)
   VALUES ('kuali.attribute.final.exam.indicator','NONE','ffe5caa2-9409-4ff4-a7c3-cb41928096a7','5fe34abd-b9d9-4be3-b352-9ae79cc0ed97','59837daf-e9f8-4850-9f79-3cfa1fa63a17')
 /
-insert into KSEN_LUI_ATTR (ID, OBJ_ID, ATTR_KEY, ATTR_VALUE, OWNER_ID) values ('9645e040-b9f8-4469-bf07-76248cba8f2d', '9f6e7e7f-48da-4300-ad79-ce94c231b3a0', 'kuali.attribute.final.exam.indicator', 'STANDARD', '93755708-c2c1-42ae-a9ba-25dd5d849673')
-/
