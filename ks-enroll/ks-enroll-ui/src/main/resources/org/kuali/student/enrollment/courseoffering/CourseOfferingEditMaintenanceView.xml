@@ -208,7 +208,7 @@
                 <bean parent="Uif-HorizontalBoxSubSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode" p:label="Course Offering Code" p:fieldLabel.renderColon="false" p:labelPlacement="TOP" />
+                            <bean parent="Uif-DataField" p:propertyName="course.code" p:label="Course Offering Code" p:fieldLabel.renderColon="false" p:labelPlacement="TOP" />
                             <bean parent="Uif-InputField" p:propertyName="coInfo.courseNumberSuffix" p:label="Change Suffix" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="5" />

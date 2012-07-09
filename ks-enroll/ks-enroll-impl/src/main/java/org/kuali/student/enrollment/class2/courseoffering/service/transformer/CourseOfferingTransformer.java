@@ -278,7 +278,6 @@ public class CourseOfferingTransformer {
 
     public void copyFromCanonical(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo, List<String> optionKeys) {
         courseOfferingInfo.setCourseId(courseInfo.getId());
-        courseOfferingInfo.setCourseNumberSuffix(courseInfo.getCourseNumberSuffix());
         if (!optionKeys.contains(CourseOfferingSetServiceConstants.NOT_COURSE_TITLE_OPTION_KEY)) {
          courseOfferingInfo.setCourseOfferingTitle(courseInfo.getCourseTitle());
         }
