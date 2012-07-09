@@ -60,37 +60,17 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
         MaintenanceForm form1 = (MaintenanceForm)model;
         CourseOfferingEditWrapper form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
 
-        String courseId = form.getCoInfo().getCourseId();
-
-        if (courseId != null) {
-            try {
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId);
-                gradingOptions = courseInfo.getGradingOptions();
-            } catch (DoesNotExistException e) {
-                throw new RuntimeException("No subject areas found! There should be some in the database", e);
-            } catch (InvalidParameterException e) {
-                throw new RuntimeException(e);
-            } catch (MissingParameterException e) {
-                throw new RuntimeException(e);
-            } catch (OperationFailedException e) {
-                throw new RuntimeException(e);
-            } catch (PermissionDeniedException e) {
-                throw new RuntimeException(e);
-            }
-
-            Set<String> studentRegOpts  = new HashSet<String>(Arrays.asList(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS));
-            for(String gradingOption: gradingOptions) {
-                if (studentRegOpts.contains(gradingOption)) {
-                    // TODO: need to retrieve the value based on key gradingOption, however there is no table yet
-                    // (need enroll alternative of KSLR_RESCOMP that we can call with LRCService)
-                    // So for time-being putting "manual" logic
-                    if (gradingOption.equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-                        keyValues.add(new ConcreteKeyValue(gradingOption, "Audit"));
-                    } else if (gradingOption.equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
-                        keyValues.add(new ConcreteKeyValue(gradingOption, "Pass / Fail"));
-                    } else {
-                        keyValues.add(new ConcreteKeyValue(gradingOption, gradingOption));
-                    }
+        if (form.getStudentRegOptions() != null) {
+            for(String studentGradingOption : form.getStudentRegOptions()) {
+                // TODO: need to retrieve the value based on key gradingOption, however there is no table yet
+                // (need enroll alternative of KSLR_RESCOMP that we can call with LRCService)
+                // So for time-being putting "manual" logic
+                if (LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT.equals(studentGradingOption)) {
+                    keyValues.add(new ConcreteKeyValue(studentGradingOption, "Audit"));
+                } else if (LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL.equals(studentGradingOption)) {
+                    keyValues.add(new ConcreteKeyValue(studentGradingOption, "Pass / Fail"));
+                } else {
+                    keyValues.add(new ConcreteKeyValue(studentGradingOption, studentGradingOption));
                 }
             }
         }

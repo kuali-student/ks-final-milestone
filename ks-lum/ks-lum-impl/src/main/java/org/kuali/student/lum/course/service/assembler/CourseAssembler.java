@@ -265,7 +265,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 
 		//Remove special cases for grading options
-		course.getGradingOptions().remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
+        if(course.getGradingOptions().remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT)){
+            course.getAttributes().put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT,"true");
+        }
 		
 		return course;
 	}

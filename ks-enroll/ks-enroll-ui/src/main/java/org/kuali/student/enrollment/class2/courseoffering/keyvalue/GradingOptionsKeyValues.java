@@ -60,52 +60,22 @@ public class GradingOptionsKeyValues extends UifKeyValuesFinderBase implements S
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
-        List<ResultValuesGroupInfo> gradingOptions = new ArrayList<ResultValuesGroupInfo>();
-        List<String> crsGradingOptions = new ArrayList<String>();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         ContextInfo context = TestHelper.getContext1();
 
         MaintenanceForm form1 = (MaintenanceForm)model;
         CourseOfferingEditWrapper form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
 
-        String courseId = form.getCoInfo().getCourseId();
+        if (form.getCrsGradingOptions() != null) {
+           for(String crsGradingOption : form.getCrsGradingOptions()) {
+               try {
+                   ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(crsGradingOption, context);  // gradingOption = LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER || LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL
+                   keyValues.add(new ConcreteKeyValue(rvg.getKey(), rvg.getName()));
+               } catch (Exception e) {
+                   throw new RuntimeException("Error looking up grading option",e);
+               }
 
-        if (courseId != null) {
-            try {
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId);
-                crsGradingOptions = courseInfo.getGradingOptions();
-
-                Set<String> studentRegOpts  = new HashSet<String>(Arrays.asList(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS));
-                for(String crsGradingOption: crsGradingOptions) {
-                    if (!studentRegOpts.contains(crsGradingOption)) {
-                        gradingOptions.add(getLrcService().getResultValuesGroup(crsGradingOption, context));  // gradingOption = LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER || LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL
-                    }
-                }
-            } catch (DoesNotExistException e) {
-                throw new RuntimeException("No subject areas found! There should be some in the database", e);
-            } catch (InvalidParameterException e) {
-                throw new RuntimeException(e);
-            } catch (MissingParameterException e) {
-                throw new RuntimeException(e);
-            } catch (OperationFailedException e) {
-                throw new RuntimeException(e);
-            } catch (PermissionDeniedException e) {
-                throw new RuntimeException(e);
-            } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
-                throw new RuntimeException("No subject areas found! There should be some in the database", e);
-            } catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
-                throw new RuntimeException(e);
-            } catch (org.kuali.student.common.exceptions.MissingParameterException e) {
-                throw new RuntimeException(e);
-            } catch (org.kuali.student.common.exceptions.OperationFailedException e) {
-                throw new RuntimeException(e);
-            } catch (org.kuali.student.common.exceptions.PermissionDeniedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        for (ResultValuesGroupInfo gradingOption: gradingOptions) {
-            keyValues.add(new ConcreteKeyValue(gradingOption.getKey(), gradingOption.getName()));
+           }
         }
 
         return keyValues;

@@ -35,6 +35,7 @@ public class CourseOfferingEditWrapper implements Serializable {
     private CourseOfferingInfo coInfo;
     private List<FormatOfferingInfo> formatOfferingList;
     private List<String> studentRegOptions;
+    private List<String> crsGradingOptions;
     private List<OrganizationInfoWrapper> organizationNames;
     private CourseInfo course;
 
@@ -83,6 +84,17 @@ public class CourseOfferingEditWrapper implements Serializable {
             studentRegOptions = new ArrayList<String>();
         }
         this.studentRegOptions = studentRegOptions;
+    }
+
+    public List<String> getCrsGradingOptions() {
+        if (crsGradingOptions == null) {
+            crsGradingOptions = new ArrayList<String>();
+        }
+        return crsGradingOptions;
+    }
+
+    public void setCrsGradingOptions(List<String> crsGradingOptions) {
+        this.crsGradingOptions = crsGradingOptions;
     }
 
     public List<OrganizationInfoWrapper> getOrganizationNames() {

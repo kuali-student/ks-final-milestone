@@ -57,7 +57,7 @@
                             <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode" />
                             <bean parent="Uif-DataField" p:label="Grading Option" p:propertyName="selectedGradingOptionName" />
 
-                            <bean parent="Uif-DataField" p:label="Student Registration Options" p:propertyName="selectedstudentRegOpts" />
+                            <bean parent="Uif-DataField" p:label="Student Registration Options" p:propertyName="coInfo.studentRegistrationOptionIds" />
 
                         </list>
                     </property>

@@ -46,16 +46,10 @@ public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
         //Perform Search with Service Call
         try{
             socRolloverResultInfos = getCourseOfferingSetService().searchForSocRolloverResults(criteria, null);
-
-        }catch (InvalidParameterException e){
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }catch (MissingParameterException e){
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }catch (OperationFailedException e){
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }catch (PermissionDeniedException e){
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }catch (Exception e){
+            throw new RuntimeException("Error searching for terms",e);
         }
+
        return socRolloverResultInfos;
 
     }

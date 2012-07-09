@@ -224,14 +224,14 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                             crsGradingOptions.add(gradingOption);
                         }
                     }
+                    //Audit is pulled out into a dynamic attribute on course so map it back
+                    if("true".equals(courseInfo.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
+                        studentRegOptions.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+                    }
                 }
+
                 formObject.setStudentRegOptions(studentRegOptions);
-                if (coInfo.getStudentRegistrationOptionIds().isEmpty() && !studentRegOptions.isEmpty()) {
-                    formObject.getCoInfo().setStudentRegistrationOptionIds(studentRegOptions);
-                }
-                if ((coInfo.getGradingOptionId() == null || coInfo.getGradingOptionId().equals("")) && !crsGradingOptions.isEmpty()) {
-                    formObject.getCoInfo().setGradingOptionId(crsGradingOptions.get(0));
-                }
+                formObject.setCrsGradingOptions(crsGradingOptions);
 
                 //6. Defining Credit Option and if CLU is fixed (then it's disabled)
                 boolean creditOptionFixed = false;

@@ -3933,7 +3933,7 @@ INSERT INTO KSEN_LUI_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)
   VALUES ('kuali.attribute.max.enrollment.is.estimate','null','964561c7-9345-45af-b211-c980a3fa6115','1f581737-6861-4854-85cb-74e1c9091549','019d4690-6787-4af6-9b5c-72e6c36fd6f2')
 /
 INSERT INTO KSEN_LUI_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)
-  VALUES ('kuali.attribute.final.exam.indicator','NONE','9645e040-b9f8-4469-bf07-76248cba8f2d','9f6e7e7f-48da-4300-ad79-ce94c231b3a0','93755708-c2c1-42ae-a9ba-25dd5d849673')
+  VALUES ('kuali.attribute.final.exam.indicator','STANDARD','9645e040-b9f8-4469-bf07-76248cba8f2d','9f6e7e7f-48da-4300-ad79-ce94c231b3a0','93755708-c2c1-42ae-a9ba-25dd5d849673')
 /
 INSERT INTO KSEN_LUI_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)
   VALUES ('kuali.attribute.wait.list.level.type.key','kuali.lui.type.course.offering','96541017-56b3-491e-9bfd-4982b68e705c','28757bc2-bad6-4579-8223-007fbe84047b','efe8c784-b760-484f-aee1-5dda81b15a58')
@@ -6664,4 +6664,6 @@ INSERT INTO KSEN_LUI_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)
 /
 INSERT INTO KSEN_LUI_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)
   VALUES ('kuali.attribute.final.exam.indicator','NONE','ffe5caa2-9409-4ff4-a7c3-cb41928096a7','5fe34abd-b9d9-4be3-b352-9ae79cc0ed97','59837daf-e9f8-4850-9f79-3cfa1fa63a17')
+/
+insert into KSEN_LUI_ATTR (ID, OBJ_ID, ATTR_KEY, ATTR_VALUE, OWNER_ID) values ('9645e040-b9f8-4469-bf07-76248cba8f2d', '9f6e7e7f-48da-4300-ad79-ce94c231b3a0', 'kuali.attribute.final.exam.indicator', 'STANDARD', '93755708-c2c1-42ae-a9ba-25dd5d849673')
 /
