@@ -69,13 +69,12 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         // Added for Jira 1598 Tanveer 07/03/2012
         if (course == null) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "No match found for this catalog course code");
-            coWrapper.setErrorText("No match found for this catalog course code");
-            return null;
+            coWrapper.setInvalidCatalogCourseCodeError("No match found for this catalog course code");
+            return getUIFModelAndView(form);
         }
 
         if (course != null && term != null) {
-
-            coWrapper.setErrorText("");
+            coWrapper.setInvalidCatalogCourseCodeError("");
             coWrapper.setCourse(course);
             coWrapper.setCreditCount(course.getCreditOptions().get(0).getResultValues().get(0));
             coWrapper.setShowAllSections(true);
