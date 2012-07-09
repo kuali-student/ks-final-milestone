@@ -24,6 +24,7 @@ import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -75,8 +76,31 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coId, getContextInfo());
                 //get credit count from CourseInfo
                 CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
-                coInfo.setCreditCnt(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
-                courseOfferings.add(coInfo);
+                String creditOpt = courseInfo.getCreditOptions().get(0).getType();
+                if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED) ){              //fixed
+                    coInfo.setCreditCnt(trimTrailing0(courseInfo.getCreditOptions().get(0).getResultValues().get(0)));
+                } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE) ){    //range
+                    //minCreditValue - maxCreditValue
+                    coInfo.setCreditCnt(trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get("minCreditValue"))
+                                        +" - "+trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get("maxCreditValue")) );
+                } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE) ){    //multiple
+                    List<String> creditValuesS = courseInfo.getCreditOptions().get(0).getResultValues();
+                    List<Float> creditValuesF = new ArrayList();
+                    String creditMultiple = "";
+                    for (String creditS : creditValuesS ) {  //convert String to Float for sorting
+                        creditValuesF.add(Float.valueOf(creditS));
+                    }
+                    Collections.sort(creditValuesF);
+                    for (Float creditF : creditValuesF ){
+                        creditMultiple = creditMultiple + ", " + trimTrailing0(String.valueOf(creditF));
+                    }
+                    coInfo.setCreditCnt(creditMultiple.substring(2));  //trim leading ", "
+                } else {                                                                                                      //no credit option
+                    LOG.info("Credit is missing for subject course " + coInfo.getCourseCode());
+                    coInfo.setCreditCnt("N/A");
+                }
+
+            courseOfferings.add(coInfo);
             }
             form.setCourseOfferingList(courseOfferings);
         } else {
@@ -324,4 +348,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         return stateService;
     }
 
+    public String trimTrailing0(String creditValue){
+        if (creditValue.indexOf(".0") > 0) {
+            return creditValue.substring(0, creditValue.length( )- 2);
+        } else {
+            return creditValue;
+        }
+
+    }
 }
