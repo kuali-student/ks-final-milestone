@@ -25,6 +25,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEdit
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,11 +43,17 @@ public class MultipleCreditOptionsKeyValues extends UifKeyValuesFinderBase imple
         CourseOfferingEditWrapper form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        for(String creditOption:form.getCreditOption().getAllowedCredits()){
-            keyValues.add(new ConcreteKeyValue(creditOption, creditOption));
 
+        List<Float> creditOptionsF = new ArrayList();
+        for(String creditOption : form.getCreditOption().getAllowedCredits()){
+            creditOptionsF.add(Float.valueOf(creditOption));
+        }
+        Collections.sort(creditOptionsF);
+        for(Float creditOption : creditOptionsF){
+            keyValues.add(new ConcreteKeyValue(String.valueOf(creditOption), String.valueOf(creditOption)));
         }
 
         return keyValues;
     }
+
 }
