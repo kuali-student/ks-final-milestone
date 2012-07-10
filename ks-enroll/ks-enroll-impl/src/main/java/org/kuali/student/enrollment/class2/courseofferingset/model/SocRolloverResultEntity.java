@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseofferingset.model;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResult;
@@ -48,6 +49,8 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<SocRolloverResultAttributeEntity> attributes = new HashSet<SocRolloverResultAttributeEntity>();
 
+    private static Logger LOGGER = Logger.getLogger(SocRolloverResultEntity.class);
+
     public SocRolloverResultEntity() {
     }
 
@@ -66,7 +69,19 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
         }
         return keyAttributeMap;
     }
-    
+
+    private Set<SocRolloverResultAttributeEntity> _filterForDynAttrs(SocRolloverResultEntity entity) {
+        Set<SocRolloverResultAttributeEntity> filtered = new HashSet<SocRolloverResultAttributeEntity>();
+        for (SocRolloverResultAttributeEntity attrEntity: this.getAttributes()) {
+            if (CourseOfferingSetServiceConstants.ALL_RESULT_DYNATTR_KEYS.contains(attrEntity.getKey())) {
+                filtered.add(attrEntity);
+            }
+        }
+        // Remove the dynamic attributes from this
+        this.getAttributes().removeAll(filtered);
+        return filtered;
+    }
+
     public void fromDTO(SocRolloverResult socRolloverResult) {
         this.setSocRorState(socRolloverResult.getStateKey());
         this.setSourceSocId(socRolloverResult.getSourceSocId());
@@ -89,73 +104,19 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
                 this.getOptions().add(new SocRolloverResultOptionEntity(optionKey, this));
             }
         }
-        Map<String, SocRolloverResultAttributeEntity> keyAttributeMap =
-                _computeKeyAttributeMap(this.getAttributes());
-        this.setAttributes(new HashSet<SocRolloverResultAttributeEntity>());
-        for (Attribute att : socRolloverResult.getAttributes()) {
-            SocRolloverResultAttributeEntity attr = new SocRolloverResultAttributeEntity(att, this);
-            if (keyAttributeMap.containsKey(attr.getKey())) {
-                SocRolloverResultAttributeEntity ref = keyAttributeMap.get(attr.getKey());
-                attr.setId(ref.getId());
-            }
-            this.getAttributes().add(attr);
+        // Handle copying SocRolloverResult attributes to SocRolloverResultEntity attributes
+        // TODO: Could be made more generic
+        Set<SocRolloverResultAttributeEntity> dynamicAttrSet = _filterForDynAttrs(this);
+        // Merge the non-dynamic attributes
+        List<Object> toDelete =
+                TransformUtility.mergeToEntityAttributes(SocRolloverResultAttributeEntity.class, socRolloverResult, this);
+        if (!toDelete.isEmpty()) {
+            LOGGER.warn("Unexpected attributes--should handle by deleting orphans");
         }
-
-        _setDynamicAttributes(socRolloverResult, keyAttributeMap);
-    }
-
-    private void _setIdIfKeyMatches(SocRolloverResultAttributeEntity entity, Map<String, SocRolloverResultAttributeEntity> keyAttributeMap) {
-        SocRolloverResultAttributeEntity ref = keyAttributeMap.get(entity.getKey());
-        if (ref != null) {
-            entity.setId(ref.getId());
-        }
-    }
-
-    private void _setDynamicAttributes(SocRolloverResult socRolloverResult, Map<String, SocRolloverResultAttributeEntity> keyAttributeMap) {
-        if (this.getAttributes().size() > 0) {
-            System.err.println("What?");
-        }
-        // Date initiated
-        String dateInitiatedValue = TransformUtility.dateTimeToDynamicAttributeString(socRolloverResult.getDateInitiated());
-        SocRolloverResultAttributeEntity dateInitiatedAttr
-                = new SocRolloverResultAttributeEntity(CourseOfferingSetServiceConstants.DATE_INITIATED_RESULT_DYNATTR_KEY, dateInitiatedValue, this);
-        _setIdIfKeyMatches(dateInitiatedAttr, keyAttributeMap);
-        this.getAttributes().add(dateInitiatedAttr);
-
-        // Date completed
-        String dateCompletedValue = TransformUtility.dateTimeToDynamicAttributeString(socRolloverResult.getDateCompleted());
-        SocRolloverResultAttributeEntity dateCompletedAttr
-                = new SocRolloverResultAttributeEntity(CourseOfferingSetServiceConstants.DATE_COMPLETED_RESULT_DYNATTR_KEY, dateCompletedValue, this);
-        _setIdIfKeyMatches(dateCompletedAttr, keyAttributeMap);
-        this.getAttributes().add(dateCompletedAttr);
-
-        // Course offerings created
-        String courseOfferingsCreatedValue = socRolloverResult.getCourseOfferingsCreated().toString();
-        SocRolloverResultAttributeEntity courseOfferingsCreatedAttr
-                = new SocRolloverResultAttributeEntity(CourseOfferingSetServiceConstants.CO_CREATED_RESULT_DYNATTR_KEY, courseOfferingsCreatedValue, this);
-        _setIdIfKeyMatches(courseOfferingsCreatedAttr, keyAttributeMap);
-        this.getAttributes().add(courseOfferingsCreatedAttr);
-
-        // Course offerings skipped
-        String courseOfferingsSkippedValue = socRolloverResult.getCourseOfferingsSkipped().toString();
-        SocRolloverResultAttributeEntity courseOfferingsSkippedAttr
-                = new SocRolloverResultAttributeEntity(CourseOfferingSetServiceConstants.CO_SKIPPED_RESULT_DYNATTR_KEY, courseOfferingsSkippedValue, this);
-        _setIdIfKeyMatches(courseOfferingsSkippedAttr, keyAttributeMap);
-        this.getAttributes().add(courseOfferingsSkippedAttr);
-
-        // Activity offerings created
-        String activityOfferingsCreatedValue = socRolloverResult.getActivityOfferingsCreated().toString();
-        SocRolloverResultAttributeEntity activityOfferingsCreatedAttr
-                = new SocRolloverResultAttributeEntity(CourseOfferingSetServiceConstants.AO_CREATED_RESULT_DYNATTR_KEY, activityOfferingsCreatedValue, this);
-        _setIdIfKeyMatches(activityOfferingsCreatedAttr, keyAttributeMap);
-        this.getAttributes().add(activityOfferingsCreatedAttr);
-
-        // Activity offerings skipped
-        String activityOfferingsSkippedValue = socRolloverResult.getActivityOfferingsSkipped().toString();
-        SocRolloverResultAttributeEntity activityOfferingsSkippedAttr
-                = new SocRolloverResultAttributeEntity(CourseOfferingSetServiceConstants.AO_SKIPPED_RESULT_DYNATTR_KEY, activityOfferingsSkippedValue, this);
-        _setIdIfKeyMatches(activityOfferingsSkippedAttr, keyAttributeMap);
-        this.getAttributes().add(activityOfferingsSkippedAttr);
+        // Then, copy the dynamic attributes in
+        this.getAttributes().addAll(dynamicAttrSet);
+        // Then update the entity attribute values
+        SocRolloverResultDynAttrConverter.copyDtoDynAttrsToEntity(socRolloverResult, this);
     }
 
     private boolean alreadyExists(String optionKey) {
@@ -178,41 +139,7 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
         }
         return null;
     }
-    
-    private void _convertDynamicAttribute(AttributeInfo attInfo, SocRolloverResultInfo socRolloverResult) {
-        String dynAttrKey = attInfo.getKey();
-        String dynAttrValue = attInfo.getValue();
-        if (CourseOfferingSetServiceConstants.DATE_INITIATED_RESULT_DYNATTR_KEY.equals(dynAttrKey)) {
-            Date dateInitiated = null;
-            try {
-                dateInitiated = TransformUtility.dynamicAttributeStringToDateTime(dynAttrValue);
-            } catch (ParseException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-            socRolloverResult.setDateInitiated(dateInitiated);
-        } else if (CourseOfferingSetServiceConstants.DATE_COMPLETED_RESULT_DYNATTR_KEY.equals(dynAttrKey)) {
-            Date dateCompleted = null;
-            try {
-                dateCompleted = TransformUtility.dynamicAttributeStringToDateTime(dynAttrValue);
-            } catch (ParseException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-            socRolloverResult.setDateCompleted(dateCompleted);
-        } else if (CourseOfferingSetServiceConstants.CO_CREATED_RESULT_DYNATTR_KEY.equals(dynAttrKey)) {
-            Integer cosCreated = _parseInt(dynAttrValue);
-            socRolloverResult.setCourseOfferingsCreated(cosCreated);
-        } else if (CourseOfferingSetServiceConstants.CO_SKIPPED_RESULT_DYNATTR_KEY.equals(dynAttrKey)) {
-            Integer cosSkipped = _parseInt(dynAttrValue);
-            socRolloverResult.setCourseOfferingsSkipped(cosSkipped);
-        } else if (CourseOfferingSetServiceConstants.AO_CREATED_RESULT_DYNATTR_KEY.equals(dynAttrKey)) {
-            Integer aosCreated = _parseInt(dynAttrValue);
-            socRolloverResult.setActivityOfferingsCreated(aosCreated);
-        } else if (CourseOfferingSetServiceConstants.AO_SKIPPED_RESULT_DYNATTR_KEY.equals(dynAttrKey)) {
-            Integer aosSkipped = _parseInt(dynAttrValue);
-            socRolloverResult.setActivityOfferingsSkipped(aosSkipped);
-        }
-    }
-    
+
     public SocRolloverResultInfo toDto() {
         SocRolloverResultInfo socRolloverResult = new SocRolloverResultInfo();
         socRolloverResult.setId(getId());
@@ -233,15 +160,15 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
         }
         socRolloverResult.setMeta(super.toDTO());
         if (getAttributes() != null) {
+            // Handle standard attributes
             for (SocRolloverResultAttributeEntity att : getAttributes()) {
                 AttributeInfo attInfo = att.toDto();
-                if (CourseOfferingSetServiceConstants.ALL_RESULT_DYNATTR_KEYS.contains(attInfo.getKey())) {
-                    // Handle dynamic attributes separately
-                    _convertDynamicAttribute(attInfo, socRolloverResult);
-                } else {
+                if (!CourseOfferingSetServiceConstants.ALL_RESULT_DYNATTR_KEYS.contains(attInfo.getKey())) {
                     socRolloverResult.getAttributes().add(attInfo);
                 }
             }
+            // Handle dynamic attributes
+            SocRolloverResultDynAttrConverter.copyEntityAttrsToDtoDynAttrs(this, socRolloverResult);
         }
         return socRolloverResult;
     }

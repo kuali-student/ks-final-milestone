@@ -94,6 +94,7 @@ public class TransformUtility {
 
         return attributes;
     }
+    // ======================================================================================================
     // Pick a format that is human readable.  Year-month-day is kinda neutral way to represent a date
     // so that it isn't the US month-day-year, nor other places day-month-year.  The advantage of using this over
     // a more agnostic UTC representation (i.e., milliseconds since Jan 1, 1970) is that
@@ -130,4 +131,69 @@ public class TransformUtility {
         Date date = formatter.parse(formattedDateStr);
         return date;
     }
+    // ------------------------ For Dynamic Attributes ---------------------------------
+    private static Map<Class, DynAttrConverter<? extends Object>> dynAttrConverterMap =
+            new HashMap<Class, DynAttrConverter<? extends Object>>();
+
+    private static DynAttrConverter<Date> dateDynAttrConverter = null;
+    private static DynAttrConverter<Date> _getDateDynamicAttributeConverter() {
+        if (dateDynAttrConverter == null) {
+            dateDynAttrConverter = new DynAttrConverter<Date>() {
+                @Override
+                public String convertNativeValueToString(Date date) {
+                    return dateTimeToDynamicAttributeString(date);
+                }
+
+                @Override
+                public Date convertStringValueToNative(String formattedDateStr) {
+                    try {
+                        return dynamicAttributeStringToDateTime(formattedDateStr);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+            };
+        }
+        return dateDynAttrConverter;
+    }
+
+    private static DynAttrConverter<Integer> intDynAttrConverter = null;
+    private static DynAttrConverter<Integer> _getIntegerDynamicAttributeConverter() {
+        if (intDynAttrConverter == null) {
+            intDynAttrConverter = new DynAttrConverter<Integer>() {
+                @Override
+                public String convertNativeValueToString(Integer val) {
+                    if (val == null) {
+                        return null;
+                    }
+
+                    return val.toString();
+                }
+
+                @Override
+                public Integer convertStringValueToNative(String intStr) {
+                    if (intStr == null) {
+                        return null;
+                    }
+                    try {
+                        Integer intVal = Integer.parseInt(intStr);
+                        return intVal;
+                    } catch (Exception e) {
+                        return null;
+                    }
+                }
+            };
+        }
+        return intDynAttrConverter;
+    }
+   static {
+       dynAttrConverterMap.put(Date.class, _getDateDynamicAttributeConverter());
+       dynAttrConverterMap.put(Integer.class, _getIntegerDynamicAttributeConverter());
+   }
+
+   public static DynAttrConverter<? extends Object> getConverterByClass(Class clazz) {
+       return dynAttrConverterMap.get(clazz);
+   }
 }
+
