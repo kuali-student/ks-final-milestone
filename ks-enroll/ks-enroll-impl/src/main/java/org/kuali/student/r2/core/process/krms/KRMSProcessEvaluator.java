@@ -225,13 +225,13 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             if (check.getTypeKey().equals(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY)) {
 
                 CourseRegistrationProcessContextInfo checkContext = CourseRegistrationProcessContextInfo.createForRegistrationEligibility(processContext.getStudentId(), processContext.getTermKey());
-                checkContext.setProcessKey(check.getProcessKey());
+                checkContext.setProcessKey(check.getChildProcessKey());
 
                 propositions.put(new SubProcessProposition(checkContext, this), instruction);
             }
 
             if (check.getTypeKey().equals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY)) {
-                propositions.put(new RegistrationHoldProposition(check.getIssueId()), instruction);
+                propositions.put(new RegistrationHoldProposition(check.getHoldIssueId()), instruction);
 
                 
                 /*

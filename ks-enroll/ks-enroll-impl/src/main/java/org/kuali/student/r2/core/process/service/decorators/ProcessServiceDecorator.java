@@ -73,7 +73,7 @@ public abstract class ProcessServiceDecorator implements ProcessService {
     }
 
     @Override
-    public StatusInfo deleteProcessCategory(String processCategoryId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteProcessCategory(String processCategoryId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException{
         return getNextDecorator().deleteProcessCategory(processCategoryId, contextInfo);
     }
 
@@ -256,9 +256,7 @@ public abstract class ProcessServiceDecorator implements ProcessService {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException {
+            PermissionDeniedException {
         return getNextDecorator ().reorderInstructions(processKey, instructionIds, contextInfo);
     }
     

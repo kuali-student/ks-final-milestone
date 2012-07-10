@@ -30,6 +30,8 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ProcessServiceImpl implements ProcessService {
 
@@ -157,7 +159,8 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public StatusInfo deleteProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
+            DependentObjectsExistException {
         throw new OperationFailedException("Method not implemented."); // TODO
                                                                        // implement
     }
@@ -426,8 +429,8 @@ public class ProcessServiceImpl implements ProcessService {
         checkEntity.setCheckType(checkTypeKey);
         checkEntity.setCheckState(ProcessServiceConstants.CHECK_LIFECYCLE_KEY);
 
-        if (StringUtils.isNotBlank(checkInfo.getProcessKey())) {
-            ProcessEntity process = processDao.find(checkInfo.getProcessKey());
+        if (StringUtils.isNotBlank(checkInfo.getChildProcessKey())) {
+            ProcessEntity process = processDao.find(checkInfo.getChildProcessKey());
             if (null == process) {
                 throw new InvalidParameterException("Check processKey not valid.");
             }
@@ -460,8 +463,8 @@ public class ProcessServiceImpl implements ProcessService {
         toUpdate.setCheckType(checkInfo.getTypeKey());
         toUpdate.setCheckState(ProcessServiceConstants.CHECK_LIFECYCLE_KEY);
 
-        if (StringUtils.isNotBlank(checkInfo.getProcessKey())) {
-            ProcessEntity process = processDao.find(checkInfo.getProcessKey());
+        if (StringUtils.isNotBlank(checkInfo.getChildProcessKey())) {
+            ProcessEntity process = processDao.find(checkInfo.getChildProcessKey());
             if (null == process) {
                 throw new InvalidParameterException("Check processKey not valid.");
             }
@@ -715,9 +718,7 @@ public class ProcessServiceImpl implements ProcessService {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException {
+            PermissionDeniedException {
         List<InstructionInfo> allInstructions = this.getInstructionsByProcess(processKey, contextInfo);
         Set<String> remainingInstructionIds = new LinkedHashSet<String>();
         for (InstructionInfo instr : allInstructions) {
@@ -736,7 +737,13 @@ public class ProcessServiceImpl implements ProcessService {
             String instructionId = orderedInstructionIds.get(i);
             InstructionInfo instr = this.getInstruction(instructionId, contextInfo);
             instr.setPosition(i);
-            this.updateInstruction(instructionId, instr, contextInfo);
+            try {
+                this.updateInstruction(instructionId, instr, contextInfo);
+            } catch (ReadOnlyException ex) {
+               throw new OperationFailedException ("unexpected", ex);
+            } catch (VersionMismatchException ex) {
+               throw new OperationFailedException ("unexpected", ex);
+            }
         } 
         StatusInfo status = new StatusInfo();
         status.setSuccess(true);
@@ -770,7 +777,7 @@ public class ProcessServiceImpl implements ProcessService {
             PermissionDeniedException {
         List<InstructionInfo> instructions = getInstructionsByProcess(processKey, contextInfo);
         for (InstructionInfo instruction : instructions) {
-            if (!ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY.equals(instruction.getStateKey())) {
+            if (!ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY.equals(instruction.getStateKey())) {
                 // remove non-active
                 instructions.remove(instruction);
             } else if (!isInstructionCurrent(instruction, contextInfo)) {

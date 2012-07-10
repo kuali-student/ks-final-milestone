@@ -101,7 +101,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
             ContextInfo context) {
 
         InstructionInfo info = new InstructionInfo();
-        info.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
+        info.setStateKey(ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY);
         info.setProcessKey(processKey);
         // info.setAppliedPopulationKeys(Arrays.asList(populationKey));
         info.setAppliedPopulationId(populationKey);
@@ -122,7 +122,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
     private ProcessInfo _createProcess(String key, String name, String descr, ContextInfo context) {
         ProcessInfo info = new ProcessInfo();
         info.setKey(key);
-        info.setStateKey(ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY);
+        info.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
         info.setName(name);
         info.setDescr(new RichTextHelper().fromPlain(descr));
         try {
@@ -137,12 +137,12 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         CheckInfo info = new CheckInfo();
 
         info.setTypeKey(type);
-        info.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ENABLED);
+        info.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE);
         info.setName(name);
-        info.setIssueId(_toNull(issueId));
+        info.setHoldIssueId(_toNull(issueId));
         info.setMilestoneTypeKey(_toNull(milestoneTypeKey));
         info.setAgendaId(_toNull(agendaId));
-        info.setProcessKey(_toNull(processKey));
+        info.setChildProcessKey(_toNull(processKey));
         info.setDescr(new RichTextHelper().fromPlain(descr));
 
         try {
@@ -169,9 +169,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException {
+            PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

@@ -91,12 +91,12 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
             this.setDescrFormatted(null);
             this.setDescrPlain(null);
         }
-        this.setIssueId(check.getIssueId());
+        this.setIssueId(check.getHoldIssueId());
         this.setMilestoneType(check.getMilestoneTypeKey());
         this.setAgendaId(check.getAgendaId());
         this.setRightAgendaId(check.getRightComparisonValue());
         this.setLeftAgendaId(check.getLeftComparisonAgendaId());
-        this.setChildProcessId(check.getProcessKey());
+        this.setChildProcessId(check.getChildProcessKey());
         
         this.attributes.clear();
         
@@ -116,7 +116,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         checkInfo.setTypeKey(checkType);
         checkInfo.setStateKey(checkState);
         checkInfo.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
-        checkInfo.setIssueId(issueId);
+        checkInfo.setHoldIssueId(issueId);
         checkInfo.setMilestoneTypeKey(milestoneType);
         checkInfo.setAgendaId(agendaId);
         checkInfo.setRightComparisonAgendaId(rightAgendaId);

@@ -286,8 +286,8 @@
                                 <className>GradeRosterEntryInfo</className>
                                 <className>GradeValuesGroupInfo</className>-->
 <!--                                Hold         -->
-                                <className>AppliedHoldInfo</className>
-                                <className>HoldIssueInfo</className>
+<!--                                <className>AppliedHoldInfo</className>
+                                <className>HoldIssueInfo</className>-->
 <!--                                LPR 
                                 <className>LuiPersonRelationInfo</className>
                                 <className>LPRInfo</className>
@@ -322,10 +322,10 @@
                                 <className>ProgramRequirementInfo</className>  
                                 <className>ProgramVariationInfo</className>
                                 Process 
-                                <className>CheckInfo</className>
+-->                                <className>CheckInfo</className>
                                 <className>InstructionInfo</className>
                                 <className>ProcessCategoryInfo</className>
-                                <className>ProcessInfo</className>
+                                <className>ProcessInfo</className><!--
                                 State 
                                 <className>StateInfo</className>
                                 <className>LifecycleInfo</className>

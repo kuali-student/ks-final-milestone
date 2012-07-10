@@ -297,7 +297,8 @@ public interface ProcessService {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException;
+            PermissionDeniedException,
+            DependentObjectsExistException;
 
     /**
      * Adds Process to a ProcessCategory.
@@ -1134,10 +1135,6 @@ public interface ProcessService {
      * or contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws ReadOnlyException an attempt at supplying information designated
-     * as read-only
-     * @throws VersionMismatchException The action was attempted on an out of
-     * date version.
      */
     public StatusInfo reorderInstructions(@WebParam(name = "processKey") String processKey,
             @WebParam(name = "instructionIds") List<String> instructionIds,
@@ -1147,9 +1144,7 @@ public interface ProcessService {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException;
+            PermissionDeniedException;
 
     /**
      * Deletes an existing Instruction.

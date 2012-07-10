@@ -103,14 +103,14 @@ public class TestHoldServiceMockImpl {
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
 
-        // test read
+        // test read after update
         expected = actual;
         actual = holdService.getHoldIssue(actual.getId(), callContext);
         assertEquals(expected.getId(), actual.getId());
         new IdEntityTester().check(expected, actual);
         assertEquals(expected.getOrganizationId(), actual.getOrganizationId());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
-        new MetaTester().checkAfterCreate(actual.getMeta());
+        new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
 
         HoldIssueInfo acadIssue = actual;
 
@@ -200,7 +200,7 @@ public class TestHoldServiceMockImpl {
 
     }
 
-    public AppliedHoldInfo testCrudHold(HoldIssueInfo acadIssue,
+    private AppliedHoldInfo testCrudHold(HoldIssueInfo acadIssue,
             HoldIssueInfo finAidIssue)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -370,7 +370,9 @@ public class TestHoldServiceMockImpl {
         expIds = new ArrayList<String>();
         expIds.add(finAidHoldStudent1.getId());
         expIds.add(acadHoldActiveStudent1.getId());
+        System.out.println (holds.size() + " active applied holds found for student1");
         for (AppliedHoldInfo hold : holds) {
+            System.out.println ("active applied hold id=" + hold.getId());
             if (!expIds.remove(hold.getId())) {
                 fail(hold.getId());
             }

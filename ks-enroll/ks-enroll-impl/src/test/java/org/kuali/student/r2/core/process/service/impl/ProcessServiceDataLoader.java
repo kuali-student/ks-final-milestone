@@ -47,122 +47,122 @@ public class ProcessServiceDataLoader {
     /**
      * known process category ids / names
      */
-    public static final String PROCESS_CATEGORY_ID_ADMISSIONS = "2";
+    public static final String PROCESS_CATEGORY_ID_ADMISSIONS = "TESTID.2";
     public static final String PROCESS_CATEGORY_NAME_ADMISSIONS = "kuali.process.type.admissions";
-    public static final String PROCESS_CATEGORY_ID_COURSE_REGISTRATION = "3";
+    public static final String PROCESS_CATEGORY_ID_COURSE_REGISTRATION = "TESTID.3";
     public static final String PROCESS_CATEGORY_NAME_COURSE_REGISTRATION = "kuali.process.type.registration";
-    public static final String PROCESS_CATEGORY_ID_PROGRAM_ENROLLMENT = "4";
+    public static final String PROCESS_CATEGORY_ID_PROGRAM_ENROLLMENT = "TESTID.4";
     public static final String PROCESS_CATEGORY_NAME_PROGRAM_ENROLLMENT = "kuali.process.type.enrollment";
-    public static final String PROCESS_CATEGORY_ID_ACADEMIC_RECORD = "5";
+    public static final String PROCESS_CATEGORY_ID_ACADEMIC_RECORD = "TESTID.5";
     public static final String PROCESS_CATEGORY_NAME_ACADEMIC_RECORD = "kuali.process.type.acad.record";
     public static final String PROCESS_CATEGORY_NAME_GRADUATION = "kuali.process.type.graduation";
-    public static final String PROCESS_CATEGORY_ID_STUDENT_ACCOUNTS = "7";
+    public static final String PROCESS_CATEGORY_ID_STUDENT_ACCOUNTS = "TESTID.7";
     public static final String PROCESS_CATEGORY_NAME_STUDENT_ACCOUNTS = "kuali.process.type.student.accounts";
-    public static final String PROCESS_CATEGORY_ID_LIBRARY = "8";
+    public static final String PROCESS_CATEGORY_ID_LIBRARY = "TESTID.8";
     public static final String PROCESS_CATEGORY_NAME_LIBRARY = "kuali.process.type.library";
-    public static final String PROCESS_CATEGORY_ID_HOUSING = "9";
+    public static final String PROCESS_CATEGORY_ID_HOUSING = "TESTID.9";
     public static final String PROCESS_CATEGORY_NAME_HOUSING = "kuali.process.type.housing";
 
     /**
      * known check ids / names
      */
-    public static final String CHECK_ID_IS_ALIVE = "2";
+    public static final String CHECK_ID_IS_ALIVE = "TESTID.2";
     public static final String CHECK_NAME_IS_ALIVE = "kuali.check.is.alive";
-    public static final String CHECK_ID_HAS_BEEN_ADMITTED = "3";
+    public static final String CHECK_ID_HAS_BEEN_ADMITTED = "TESTID.3";
     public static final String CHECK_NAME_HAS_BEEN_ADMITTED = "kuali.check.has.been.admitted";
-    public static final String CHECK_ID_HAS_CONFIRMED_INTEND_TO_ATTEND = "4";
+    public static final String CHECK_ID_HAS_CONFIRMED_INTEND_TO_ATTEND = "TESTID.4";
     public static final String CHECK_NAME_HAS_CONFIRMED_INTEND_TO_ATTEND = "kuali.check.has.confirmed.intend.to.attend";
-    public static final String CHECK_ID_HAS_NOT_BEEN_EXPELLED = "5";
+    public static final String CHECK_ID_HAS_NOT_BEEN_EXPELLED = "TESTID.5";
     public static final String CHECK_NAME_HAS_NOT_BEEN_EXPELLED = "kuali.check.has.not.been.expelled";
-    public static final String CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK = "7";
+    public static final String CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK = "TESTID.7";
     public static final String CHECK_NAME_HAS_OVERDUE_LIBRARY_BOOK = "kuali.check.has.overdue.library.book";
-    public static final String CHECK_ID_HAS_UNPAID_LIBRARY_FINE = "8";
+    public static final String CHECK_ID_HAS_UNPAID_LIBRARY_FINE = "TESTID.8";
     public static final String CHECK_NAME_HAS_UNPAID_LIBRARY_FINE = "kuali.check.has.unpaid.library.fine";
-    public static final String CHECK_ID_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM = "9";
+    public static final String CHECK_ID_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM = "TESTID.9";
     public static final String CHECK_NAME_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM = "kuali.check.has.not.paid.bill.from.prior.term";
-    public static final String CHECK_ID_HAS_ACKNOWLEDGED_RIAA = "11";
+    public static final String CHECK_ID_HAS_ACKNOWLEDGED_RIAA = "TESTID.11";
     public static final String CHECK_NAME_HAS_ACKNOWLEDGED_RIAA = "kuali.check.has.acknowledged.riaa";
-    public static final String CHECK_ID_HAS_ACKNOWLEDGED_HONOR_CODE = "12";
+    public static final String CHECK_ID_HAS_ACKNOWLEDGED_HONOR_CODE = "TESTID.12";
     public static final String CHECK_NAME_HAS_ACKNOWLEDGED_HONOR_CODE = "kuali.check.has.acknowledged.honor.code";
-    public static final String CHECK_ID_HAS_VERIFIED_EMERGENCY_CONTACT_DATA = "13";
+    public static final String CHECK_ID_HAS_VERIFIED_EMERGENCY_CONTACT_DATA = "TESTID.13";
     public static final String CHECK_NAME_HAS_VERIFIED_EMERGENCY_CONTACT_DATA = "kuali.check.has.verified.emergency.contact.data";
-    public static final String CHECK_ID_HAS_APPLIED_TO_GRADUATE = "14";
+    public static final String CHECK_ID_HAS_APPLIED_TO_GRADUATE = "TESTID.14";
     public static final String CHECK_NAME_HAS_APPLIED_TO_GRADUATE = "kuali.check.has.applied.to.graduate";
-    public static final String CHECK_ID_STUDENT_HAS_BASIC_ELIGIBILITY = "16";
+    public static final String CHECK_ID_STUDENT_HAS_BASIC_ELIGIBILITY = "TESTID.16";
     public static final String CHECK_NAME_STUDENT_HAS_BASIC_ELIGIBILITY = "kuali.check.student.has.basic.eligibility";
-    public static final String CHECK_ID_IS_STUDENT_EXPECTED_IN_TERM = "17";
+    public static final String CHECK_ID_IS_STUDENT_EXPECTED_IN_TERM = "TESTID.17";
     public static final String CHECK_NAME_IS_STUDENT_EXPECTED_IN_TERM = "kuali.check.is.student.expected.in.term";
     public static final String CHECK_ID_REGISTRATION_PERIOD_IS_OPEN = ProcessPocConstants.CHECK_ID_REGISTRATION_PERIOD_IS_OPEN;
     public static final String CHECK_NAME_REGISTRATION_PERIOD_IS_OPEN = "kuali.check.registration.period.is.open";
     public static final String CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED = ProcessPocConstants.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED;
     public static final String CHECK_NAME_REGISTRATION_PERIOD_IS_NOT_CLOSED = "kuali.check.registration.period.is.not.closed";
-    public static final String CHECK_ID_REGISTRATION_HOLDS_CLEARED = "20";
+    public static final String CHECK_ID_REGISTRATION_HOLDS_CLEARED = "TESTID.20";
     public static final String CHECK_NAME_REGISTRATION_HOLDS_CLEARED = "kuali.check.registration.holds.cleared";
-    public static final String CHECK_ID_ACKNOWLEDGEMENTS_CONFIRMED = "21";
+    public static final String CHECK_ID_ACKNOWLEDGEMENTS_CONFIRMED = "TESTID.21";
     public static final String CHECK_NAME_ACKNOWLEDGEMENTS_CONFIRMED = "kuali.check.acknowledgements.confirmed";
-    public static final String CHECK_ID_MAX_TOTAL_CREDITS_ALLOWED = "22";
+    public static final String CHECK_ID_MAX_TOTAL_CREDITS_ALLOWED = "TESTID.22";
     public static final String CHECK_NAME_MAX_TOTAL_CREDITS_ALLOWED = "kuali.check.max.total.credits.allowed";
-    public static final String CHECK_ID_INTERNATIONAL_STUDENT_CHECK_IN = "23";
+    public static final String CHECK_ID_INTERNATIONAL_STUDENT_CHECK_IN = "TESTID.23";
     public static final String CHECK_NAME_INTERNATIONAL_STUDENT_CHECK_IN = "kuali.check.international.student.check.in";
-    public static final String CHECK_ID_IS_NOT_SUMMER_TERM = "24";
+    public static final String CHECK_ID_IS_NOT_SUMMER_TERM = "TESTID.24";
     public static final String CHECK_NAME_IS_NOT_SUMMER_TERM = "kuali.check.is.not.summer.term";
-    public static final String CHECK_ID_MANDATORY_ADVISING_CHECK = "25";
+    public static final String CHECK_ID_MANDATORY_ADVISING_CHECK = "TESTID.25";
     public static final String CHECK_NAME_MANDATORY_ADVISING_CHECK = "kuali.check.mandatory.advising.check";
-    public static final String CHECK_ID_UNRESOLVED_INCOMPLETE_GRADES = "26";
+    public static final String CHECK_ID_UNRESOLVED_INCOMPLETE_GRADES = "TESTID.26";
     public static final String CHECK_NAME_UNRESOLVED_INCOMPLETE_GRADES = "kuali.check.unresolved.incomplete.grades";
-    public static final String CHECK_ID_ELIGIBILITY_FOR_TERM = "28";
+    public static final String CHECK_ID_ELIGIBILITY_FOR_TERM = "TESTID.28";
     public static final String CHECK_NAME_ELIGIBILITY_FOR_TERM = "kuali.check.eligibility.for.term";
-    public static final String CHECK_ID_HAS_THE_NECESSARY_PREREQ = "29";
+    public static final String CHECK_ID_HAS_THE_NECESSARY_PREREQ = "TESTID.29";
     public static final String CHECK_NAME_HAS_THE_NECESSARY_PREREQ = "kuali.check.has.the.necessary.prereq";
-    public static final String CHECK_ID_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING = "30";
+    public static final String CHECK_ID_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING = "TESTID.30";
     public static final String CHECK_NAME_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING = "kuali.check.is.eligible.for.the.course.offering";
-    public static final String CHECK_ID_NORTH_STUDENTS_MAX_SOUTH_CREDITS = "31";
+    public static final String CHECK_ID_NORTH_STUDENTS_MAX_SOUTH_CREDITS = "TESTID.31";
     public static final String CHECK_NAME_NORTH_STUDENTS_MAX_SOUTH_CREDITS = "kuali.check.north.students.max.south.credits";
-    public static final String CHECK_ID_SOUTH_STUDENTS_MAX_NORTH_CREDITS = "32";
+    public static final String CHECK_ID_SOUTH_STUDENTS_MAX_NORTH_CREDITS = "TESTID.32";
     public static final String CHECK_NAME_SOUTH_STUDENTS_MAX_NORTH_CREDITS = "kuali.check.south.students.max.north.credits";
-    public static final String CHECK_ID_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE = "34";
+    public static final String CHECK_ID_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE = "TESTID.34";
     public static final String CHECK_NAME_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE = "kuali.check.student.has.eligibility.for.each.course";
-    public static final String CHECK_ID_DOES_NOT_EXCEED_CREDIT_LIMIT = "35";
+    public static final String CHECK_ID_DOES_NOT_EXCEED_CREDIT_LIMIT = "TESTID.35";
     public static final String CHECK_NAME_DOES_NOT_EXCEED_CREDIT_LIMIT = "kuali.check.does.not.exceed.credit.limit";
-    public static final String CHECK_ID_DOES_NOT_MEET_CREDIT_MINIMUM = "36";
+    public static final String CHECK_ID_DOES_NOT_MEET_CREDIT_MINIMUM = "TESTID.36";
     public static final String CHECK_NAME_DOES_NOT_MEET_CREDIT_MINIMUM = "kuali.check.does.not.meet.credit.minimum";
-    public static final String CHECK_ID_DOES_NOT_HAVE_A_TIME_CONFLICT = "37";
+    public static final String CHECK_ID_DOES_NOT_HAVE_A_TIME_CONFLICT = "TESTID.37";
     public static final String CHECK_NAME_DOES_NOT_HAVE_A_TIME_CONFLICT = "kuali.check.does.not.have.a.time.conflict";
-    public static final String CHECK_ID_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD = "38";
+    public static final String CHECK_ID_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD = "TESTID.38";
     public static final String CHECK_NAME_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD = "kuali.check.too.many.courses.during.initial.registration.period";
-    public static final String CHECK_ID_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES = "40";
+    public static final String CHECK_ID_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES = "TESTID.40";
     public static final String CHECK_NAME_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES = "kuali.check.student.is.eligible.for.the.courses";
-    public static final String CHECK_ID_IS_STUDENTS_REGISTRATION_WINDOW = "41";
+    public static final String CHECK_ID_IS_STUDENTS_REGISTRATION_WINDOW = "TESTID.41";
     public static final String CHECK_NAME_IS_STUDENTS_REGISTRATION_WINDOW = "kuali.check.is.students.registration.window";
-    public static final String CHECK_ID_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL = "42";
+    public static final String CHECK_ID_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL = "TESTID.42";
     public static final String CHECK_NAME_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL = "kuali.check.course.has.room.for.student.in.a.seatpool";
-    public static final String CHECK_ID_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE = "44";
+    public static final String CHECK_ID_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE = "TESTID.44";
     public static final String CHECK_NAME_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE = "kuali.check.grades.have.been.submitted.for.course";
-    public static final String CHECK_ID_HAS_COMPLETED_COURSE_EVALUATION = "45";
+    public static final String CHECK_ID_HAS_COMPLETED_COURSE_EVALUATION = "TESTID.45";
     public static final String CHECK_NAME_HAS_COMPLETED_COURSE_EVALUATION = "kuali.check.has.completed.course.evaluation";
 
     /**
      * known population ids / names
      */
-    public static final String POPULATION_ID_EVERYONE = "2";
+    public static final String POPULATION_ID_EVERYONE = "TESTID.2";
     public static final String POPULATION_NAME_EVERYONE = "kuali.population.everyone";
-    public static final String POPULATION_ID_FINAL_TERM_SENIORS = "3";
+    public static final String POPULATION_ID_FINAL_TERM_SENIORS = "TESTID.3";
     public static final String POPULATION_NAME_FINAL_TERM_SENIORS = "kuali.population.final.term.seniors";
-    public static final String POPULATION_ID_NOT_IN_A_DEGREE_GRANTING_PROGRAM = "4";
+    public static final String POPULATION_ID_NOT_IN_A_DEGREE_GRANTING_PROGRAM = "TESTID.4";
     public static final String POPULATION_NAME_NOT_IN_A_DEGREE_GRANTING_PROGRAM = "kuali.population.not.in.a.degree.granting.program";
-    public static final String POPULATION_ID_INTERNATIONAL_STUDENTS = "6";
+    public static final String POPULATION_ID_INTERNATIONAL_STUDENTS = "TESTID.6";
     public static final String POPULATION_NAME_INTERNATIONAL_STUDENTS = "kuali.population.international.student";
-    public static final String POPULATION_ID_SUMMER_ONLY_STUDENT = "7";
+    public static final String POPULATION_ID_SUMMER_ONLY_STUDENT = "TESTID.7";
     public static final String POPULATION_NAME_SUMMER_ONLY_STUDENT = "kuali.population.summer.only.student";
-    public static final String POPULATION_ID_FRESHMAN = "8";
+    public static final String POPULATION_ID_FRESHMAN = "TESTID.8";
     public static final String POPULATION_NAME_FRESHMAN = "kuali.population.freshman";
-    public static final String POPULATION_ID_SOPHOMORE = "9";
+    public static final String POPULATION_ID_SOPHOMORE = "TESTID.9";
     public static final String POPULATION_NAME_SOPHOMORE = "kuali.population.sophomore";
-    public static final String POPULATION_ID_UNDERGRADUATE = "11";
+    public static final String POPULATION_ID_UNDERGRADUATE = "TESTID.11";
     public static final String POPULATION_NAME_UNDERGRADUATE = "kuali.population.undergraduate";
-    public static final String POPULATION_ID_NORTH_CAMPUS_STUDENTS = "12";
+    public static final String POPULATION_ID_NORTH_CAMPUS_STUDENTS = "TESTID.12";
     public static final String POPULATION_NAME_NORTH_CAMPUS_STUDENTS = "kuali.population.north.campus.students";
-    public static final String POPULATION_ID_SOUTH_CAMPUS_STUDENTS = "13";
+    public static final String POPULATION_ID_SOUTH_CAMPUS_STUDENTS = "TESTID.13";
     public static final String POPULATION_NAME_SOUTH_CAMPUS_STUDENTS = "kuali.population.south.campus.students";
 
     ///////////////////
@@ -623,52 +623,52 @@ public class ProcessServiceDataLoader {
             // ------------------
             if (debugMode) { logger.warn("loading processes"); }
             loadProcess(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, ProcessServiceConstants.PROCESS_TYPE_KEY,
-                    ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Basic Eligibility",
+                    ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY, "Basic Eligibility",
                     "The process of checking a student's basic eligibility to register for courses",
                     "The process of checking a student's basic eligibility to register for courses",
                     PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, ProcessServiceConstants.PROCESS_TYPE_KEY,
-                    ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Eligibility for Term",
+                    ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY, "Eligibility for Term",
                     "The process of checking a student's eligibility to register for a particular term",
                     "The process of checking a student's eligibility to register for a particular ter.",
                     PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, ProcessServiceConstants.PROCESS_TYPE_KEY,
-                    ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Holds Cleared",
+                    ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY, "Holds Cleared",
                     "The process of checking a student's eligibility to register for a particular term",
                     "The process of checking a student's eligibility to register for a particular term",
                     PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, ProcessServiceConstants.PROCESS_TYPE_KEY,
-                    ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Eligible for Course",
+                    ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY, "Eligible for Course",
                     "The process of checking a student's eligibility to register for a particular course",
                     "The process of checking a student's eligibility to register for a particular course",
                     PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, ProcessServiceConstants.PROCESS_TYPE_KEY,
-                    ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Eligible for Courses",
+                    ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY, "Eligible for Courses",
                     "The process of checking a student's eligibility and ability to register for a proposed set of courses",
                     "The process of checking a student's eligibility and ability to register for a proposed set of courses",
                     PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED, ProcessServiceConstants.PROCESS_TYPE_KEY,
-                    ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Acknowledgements Confirmed",
+                    ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY, "Acknowledgements Confirmed",
                     "The process of checking a student's eligibility to register for a particular term",
                     "The process of checking a student's eligibility to register for a particular term",
                     PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_REGISTER_FOR_COURSES, ProcessServiceConstants.PROCESS_TYPE_KEY,
-                    ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "Register for Courses",
+                    ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY, "Register for Courses",
                     "The process of checking a student's eligibility and actually register for a proposed set of courses",
                     "The process of checking a student's eligibility and actually register for a proposed set of courses",
                     PROCESS_CATEGORY_ID_COURSE_REGISTRATION, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES, ProcessServiceConstants.PROCESS_TYPE_KEY,
-                    ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "View Grades",
+                    ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY, "View Grades",
                     "The process of checking a student's basic ability to view grades",
                     "The process of checking a student's basic ability to view grades",
                     PROCESS_CATEGORY_ID_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, ProcessServiceConstants.PROCESS_TYPE_KEY,
-                    ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "View Grades for Term",
+                    ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY, "View Grades for Term",
                     "The process of checking a student's basic ability to view grades for a particular term",
                     "The process of checking a student's basic ability to view grades for a particular term",
                     PROCESS_CATEGORY_ID_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
             loadProcess(ProcessServiceConstants.PROCESS_KEY_VIEW_COURSE_GRADE, ProcessServiceConstants.PROCESS_TYPE_KEY,
-                    ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, "View Course Grade",
+                    ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY, "View Course Grade",
                     "The process of checking if a student can actually view a grade in a particular course",
                     "The process of checking if a student can actually view a grade in a particular course",
                     PROCESS_CATEGORY_ID_ACADEMIC_RECORD, ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL, contextInfo);
@@ -676,7 +676,7 @@ public class ProcessServiceDataLoader {
             // load instructions
             // -------------------
             if (debugMode) { logger.warn("loading instructions"); }
-            loadInstruction("2",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+            loadInstruction("TESTID.2",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, null, null,
                     ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,CHECK_ID_IS_ALIVE,POPULATION_ID_EVERYONE,
                     "A key piece of data is wrong on your biographic record, please come to the Registrar's office to clear it up",
                     "A key piece of data is wrong on your biographic record, please come to the Registrar's office to clear it up",1,
@@ -684,7 +684,7 @@ public class ProcessServiceDataLoader {
                     false, // continue on fail
                     false, // exemptible
                     null, contextInfo);
-            loadInstruction("3",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+            loadInstruction("TESTID.3",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, null, null,
                     ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,CHECK_ID_HAS_BEEN_ADMITTED,POPULATION_ID_EVERYONE,
                     "According to our records you have not (yet) been admitted to this school",
                     "According to our records you have not (yet) been admitted to this school", 2,
@@ -692,7 +692,7 @@ public class ProcessServiceDataLoader {
                     false, // continue on fail
                     false, // exemptible
                     null, contextInfo);
-            loadInstruction("4",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+            loadInstruction("TESTID.4",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, null, null,
                     ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,CHECK_ID_HAS_CONFIRMED_INTEND_TO_ATTEND,POPULATION_ID_EVERYONE,
                     "According to our records you have never confirmed your intent to attend",
                     "According to our records you have never confirmed your intent to attend",3,
@@ -700,7 +700,7 @@ public class ProcessServiceDataLoader {
                     false, // continue on fail
                     true, // exemptible
                     null, contextInfo);
-            loadInstruction("5",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+            loadInstruction("TESTID.5",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, null, null,
                     ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,CHECK_ID_HAS_NOT_BEEN_EXPELLED,POPULATION_ID_EVERYONE,
                     "You are not allowed to continue at this university",
                     "You are not allowed to continue at this university",4,
@@ -708,7 +708,7 @@ public class ProcessServiceDataLoader {
                     false, // continue on fail
                     false, // exemptible
                     null, contextInfo);
-            loadInstruction("7",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+            loadInstruction("TESTID.7",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, null, null,
                     ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED,CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK,POPULATION_ID_EVERYONE,
                     "Please note: you have an overdue library book",
                     "Please note: you have an overdue library book",3,
@@ -716,7 +716,7 @@ public class ProcessServiceDataLoader {
                     true, // continue on fail
                     true, // exemptible
                     null, contextInfo);
-            loadInstruction("8",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+            loadInstruction("TESTID.8",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, null, null,
                     ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED,CHECK_ID_HAS_UNPAID_LIBRARY_FINE,POPULATION_ID_EVERYONE,
                     "You have an unpaid library fine, please contact the library to resolve the matter",
                     "You have an unpaid library fine, please contact the library to resolve the matter",4,
@@ -724,7 +724,7 @@ public class ProcessServiceDataLoader {
                     false, // continue on fail
                     false, // exemptible
                     null, contextInfo);
-            loadInstruction("9",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+            loadInstruction("TESTID.9",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, null, null,
                     ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED,CHECK_ID_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM,POPULATION_ID_EVERYONE,
                     "You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter",
                     "You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter",5,
@@ -732,7 +732,7 @@ public class ProcessServiceDataLoader {
                     true, // continue on fail
                     true, // exemptible
                     null, contextInfo);
-            loadInstruction("11",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+            loadInstruction("TESTID.11",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, null, null,
                     ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,CHECK_ID_HAS_ACKNOWLEDGED_RIAA,POPULATION_ID_EVERYONE,
                     "Please acknowledge the RIAA",
                     "Please acknowledge the RIAA",5,
@@ -740,7 +740,7 @@ public class ProcessServiceDataLoader {
                     false, // continue on fail
                     false, // exemptible
                     null, contextInfo);
-            loadInstruction("12",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+            loadInstruction("TESTID.12",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, null, null,
                     ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,CHECK_ID_HAS_ACKNOWLEDGED_HONOR_CODE,POPULATION_ID_EVERYONE,
                     "Please acknowledge the honour code",
                     "Please acknowledge the honour code",6,
@@ -748,7 +748,7 @@ public class ProcessServiceDataLoader {
                     false, // continue on fail
                     false, // exemptible
                     null, contextInfo);
-            loadInstruction("13",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+            loadInstruction("TESTID.13",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, null, null,
                     ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,CHECK_ID_HAS_VERIFIED_EMERGENCY_CONTACT_DATA,POPULATION_ID_EVERYONE,
                     "Please verify your Emergency Contact info",
                     "Please verify your Emergency Contact info",7,
@@ -756,7 +756,7 @@ public class ProcessServiceDataLoader {
                     false, // continue on fail
                     false, // exemptible
                     null, contextInfo);
-            loadInstruction("14",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, null, null,
+            loadInstruction("TESTID.14",ProcessServiceConstants.INSTRUCTION_TYPE_KEY, ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, null, null,
                     ProcessServiceConstants.PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED,CHECK_ID_HAS_APPLIED_TO_GRADUATE,POPULATION_ID_FINAL_TERM_SENIORS,
                     "Since you have sufficient credits, please apply to graduate ",
                     "Since you have sufficient credits, please apply to graduate ",8,
@@ -807,7 +807,7 @@ public class ProcessServiceDataLoader {
         info.setStateKey(state);
         info.setName(name);
         info.setDescr(new RichTextInfo(descriptionPlain, descriptionFormatted));
-        info.setIssueId(issueId);
+        info.setHoldIssueId(issueId);
         info.setMilestoneTypeKey(milestoneType);
         info.setAgendaId(agendaId);
         info.setRightComparisonAgendaId(checkRightAgendaId);

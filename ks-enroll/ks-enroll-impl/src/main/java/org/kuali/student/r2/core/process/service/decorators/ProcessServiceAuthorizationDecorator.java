@@ -109,9 +109,7 @@ public class ProcessServiceAuthorizationDecorator extends ProcessServiceDecorato
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException { 
+            PermissionDeniedException { 
         if (!permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "reorderInstructions", null)) {
             throw new PermissionDeniedException();
         }

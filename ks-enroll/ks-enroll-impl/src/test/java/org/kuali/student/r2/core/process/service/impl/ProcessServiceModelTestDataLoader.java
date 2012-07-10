@@ -84,9 +84,9 @@ public class ProcessServiceModelTestDataLoader {
 
     public void loadData ()  {
         if (debugMode) { logger.warn("loadData called"); }
-        loadCheckEntity("kuali.check.is.alive", "kuali.process.check.type.rule.direct", "kuali.process.check.state.enabled", "is alive",
+        loadCheckEntity("kuali.check.is.alive", "kuali.process.check.type.rule.direct", "kuali.process.check.state.active", "is alive",
                 "Checks if student is actually alive", null, null, null, "kuali.agenda.is.alive", null, null, null, ATTR_SET_TERM_INFO);
-        loadCheckEntity("kuali.check.has.been.admitted", "kuali.process.check.type.rule.direct", "kuali.process.check.state.enabled", "has been admitted",
+        loadCheckEntity("kuali.check.has.been.admitted", "kuali.process.check.type.rule.direct", "kuali.process.check.state.active", "has been admitted",
                 "Checks if student has been admitted", null, null, null, "kuali.check.has.been.admitted", null, null, null, ATTR_SET_KEY_VALS);
     }
 
