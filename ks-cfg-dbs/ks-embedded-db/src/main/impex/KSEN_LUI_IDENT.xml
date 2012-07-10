@@ -949,12 +949,12 @@
         UPDATETIME="20120613163714" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613164301"
         DIVISION="CHEM" ID="2e261cbe-1eae-4da8-b17b-d4aa96e6ffe6"
-        LNG_NAME="UNDERGRADUATE RESEARCH" LUI_CD="CHEM399"
+        LNG_NAME="UNDERGRADUATE RESEARCH" LUI_CD="CHEM399A"
         LUI_ID="1a402ea2-cf09-45bc-bf93-82b715bdf7d6"
         LUI_ID_STATE="kuali.lui.identifier.state.active"
         LUI_ID_TYPE="kuali.lui.identifier.type.official"
-        OBJ_ID="b8fce44a-a276-457a-84a0-5fbe2c75eed0" UPDATEID="admin"
-        UPDATETIME="20120613164301" VER_NBR="0"/>
+        OBJ_ID="b8fce44a-a276-457a-84a0-5fbe2c75eed0" SUFX_CD="A"
+        UPDATEID="admin" UPDATETIME="20120613164301" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613163919"
         ID="2fbc652e-233a-4fa1-a9ac-a661c446dadf" LUI_CD="A"
         LUI_ID="9e06c246-6d4b-405d-a0f5-311bc95f6503"
