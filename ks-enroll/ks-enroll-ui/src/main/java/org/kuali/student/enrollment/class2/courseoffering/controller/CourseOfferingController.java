@@ -66,15 +66,26 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         CourseInfo course = getCourseInfo(courseCode);
         coWrapper.setCourse(course);
 
-        // Added for Jira 1598 Tanveer 07/03/2012
-        if (course == null) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "No match found for this catalog course code");
-            coWrapper.setInvalidCatalogCourseCodeError("No match found for this catalog course code");
+        // Added for Jira 1598 and 1648 Tanveer 07/10/2012
+        coWrapper.setInvalidCatalogCourseCodeError("");
+        coWrapper.setInvalidTargetTermError("");
+        if (course == null || term == null) {
+            if (term == null) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Target Term");
+                coWrapper.setInvalidTargetTermError("Invalid Target Term");
+            }
+            if (course == null) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Catalog Course Code");
+                coWrapper.setInvalidCatalogCourseCodeError("Invalid Catalog Course Code");
+            }
+
+            if (course == null && term == null){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Both Catalog Course Code and Target Term are invalid");
+            }
             return getUIFModelAndView(form);
-        }
+            }
 
         if (course != null && term != null) {
-            coWrapper.setInvalidCatalogCourseCodeError("");
             coWrapper.setCourse(course);
             coWrapper.setCreditCount(course.getCreditOptions().get(0).getResultValues().get(0));
             coWrapper.setShowAllSections(true);
