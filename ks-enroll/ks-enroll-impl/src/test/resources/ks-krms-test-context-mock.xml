@@ -226,7 +226,7 @@
     <bean id="currentDateResolver" class="org.kuali.student.r2.core.class1.process.krms.termresolver.CurrentDateResolver"/>
     
     <bean id="ksKRMSTermResolverTypeService" class="org.kuali.student.krms.termresolver.KSTermResolverTypeService">
-    	<property name="academicRecordService" ref="acadRecordServiceMock"/>
+    	<property name="academicRecordService" ref="acadRecordService"/>
     </bean>
     
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
@@ -506,7 +506,8 @@
 
     </bean>
 
-    <bean id="acadRecordServiceMock" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMockImpl">
+    <!-- Mock Impl -->
+    <bean id="acadRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMockImpl">
         <property name="courseRegService" ref="courseRegService"/>
         <property name="atpService" ref="atpService"/>
         <property name="courseRecordAssembler" ref="courseRecordAssembler"/>

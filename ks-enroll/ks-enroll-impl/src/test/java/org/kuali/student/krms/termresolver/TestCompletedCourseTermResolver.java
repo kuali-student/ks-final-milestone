@@ -31,7 +31,7 @@ public class TestCompletedCourseTermResolver {
 	private KrmsTypeResolver typeResolver;
 
     public ContextInfo callContext = null;
-    @Resource(name = "acadRecordServiceMock")
+    @Resource(name = "acadRecordService")
     private AcademicRecordService academicRecordService;
     private String studentID = "12020303";
 
