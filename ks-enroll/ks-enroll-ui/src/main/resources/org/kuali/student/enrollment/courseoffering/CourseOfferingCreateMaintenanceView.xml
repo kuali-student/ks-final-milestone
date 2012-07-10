@@ -206,7 +206,7 @@
                  <bean parent="Uif-HorizontalBoxSubSection">
                      <property name="items">
                          <list>
-                             <bean parent="Uif-InputField" p:propertyName="catalogCourseCode"
+                             <bean parent="Uif-InputField" p:propertyName="course.code"
                                    p:label="Catalog Course Code" p:labelPlacement="TOP" p:readOnly="true" p:fieldLabel.renderColon="false">
                                  <property name="control">
                                      <bean parent="Uif-TextControl" p:size="10" />
