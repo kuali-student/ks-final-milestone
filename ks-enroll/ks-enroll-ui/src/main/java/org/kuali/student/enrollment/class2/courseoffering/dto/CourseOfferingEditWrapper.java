@@ -38,6 +38,7 @@ public class CourseOfferingEditWrapper implements Serializable {
     private List<String> crsGradingOptions;
     private List<OrganizationInfoWrapper> organizationNames;
     private CourseInfo course;
+    private String termStartEnd;
 
     private String selectedGradingOptionName;
     private String selectedstudentRegOpts;
@@ -144,6 +145,14 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     public void setCreditOptionFixed(boolean creditOptionFixed) {
         this.creditOptionFixed = creditOptionFixed;
+    }
+
+    public String getTermStartEnd() {
+        return termStartEnd;
+    }
+
+    public void setTermStartEnd(String termStartEnd) {
+        this.termStartEnd = termStartEnd;
     }
 }
 
