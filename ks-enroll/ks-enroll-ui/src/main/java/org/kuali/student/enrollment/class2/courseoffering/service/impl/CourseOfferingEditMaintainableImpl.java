@@ -24,6 +24,9 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -49,6 +52,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -66,6 +70,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
     private transient CourseService courseService;
     private transient OrganizationService organizationService;
     private transient LRCService lrcService;
+    private transient AcademicCalendarService acalService;
 
     //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012).
 
@@ -325,6 +330,14 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 }
                 formObject.setOrganizationNames(orgList);
 
+                // Setting term string: Fall 2012 (09/28/2012 to 12/15/2012)
+                TermInfo termInfo = getAcalService().getTerm(coInfo.getTermId(), getContextInfo());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                StringBuilder termStartDate = new StringBuilder(dateFormat.format(termInfo.getStartDate()));
+                StringBuilder termEndDate = new StringBuilder(dateFormat.format(termInfo.getEndDate()));
+                String termStartEnd = termInfo.getName() + " (" + termStartDate + " to " +termEndDate + ")";
+                formObject.setTermStartEnd(termStartEnd);
+
                 document.getNewMaintainableObject().setDataObject(formObject);
                 document.getOldMaintainableObject().setDataObject(formObject);
                 document.getDocumentHeader().setDocumentDescription("Edit CO - " + coInfo.getCourseOfferingCode());
@@ -441,4 +454,12 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
         }
         return this.lrcService;
     }
+
+    protected AcademicCalendarService getAcalService() {
+        if(acalService == null) {
+            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal", "AcademicCalendarService"));
+        }
+        return this.acalService;
+    }
+
 }
