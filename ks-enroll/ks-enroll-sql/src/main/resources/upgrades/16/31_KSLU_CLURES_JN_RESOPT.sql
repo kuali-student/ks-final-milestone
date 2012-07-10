@@ -895,5 +895,5 @@ insert into KSLU_CLURES_JN_RESOPT (CLU_RES_ID, RES_OPT_ID) values ('85c89a1b-78b
 /
 insert into KSLU_CLURES_JN_RESOPT (CLU_RES_ID, RES_OPT_ID) values ('85c89a1b-78b4-487d-b187-24695049c333', '655df0ba-0e28-4db9-8b82-3efd68f5cc23')
 /
-insert into KSLU_CLURES_JN_RESOPT (CLU_RES_ID, RES_OPT_ID) values ('e596a1ae-8c44-4f03-8135-6e81323c549a', 'c2ea6e7f-8971-442c-89ca-3cda82bc1602')
+insert into KSLU_CLURES_JN_RESOPT (CLU_RES_ID, RES_OPT_ID) values ('15c96d9c-0495-4ef1-a63a-655d677fe192', 'c2ea6e7f-8971-442c-89ca-3cda82bc1602')
 /
