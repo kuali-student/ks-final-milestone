@@ -306,7 +306,7 @@
                         <bean parent="Uif-HorizontalCheckboxesControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.MultipleCreditOptionsKeyValues" />
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.MultipleCreditOptionsKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
             </list>
