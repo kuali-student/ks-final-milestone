@@ -175,6 +175,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="items">
             <list>
+                <ref bean="KS-CourseOfferingEdit-Term"/>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
@@ -198,13 +199,18 @@
         </property>
     </bean>
 
+    <bean id="KS-CourseOfferingEdit-Term" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Term" p:propertyName="termStartEnd"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KS-CourseOfferingEdit-CourseOfferingInformation" parent="Uif-VerticalBoxSection" p:headerText="Course Offering Information">
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
-                <bean parent="Uif-DataField"
-                      p:label="Term"
-                      p:propertyName="coInfo.termId"/>
                 <bean parent="Uif-HorizontalBoxSubSection">
                     <property name="items">
                         <list>
@@ -335,12 +341,11 @@
     </bean>
 
 
-    <bean id="KS-CourseOfferingEdit-DeliveryFormats" parent="Uif-HorizontalBoxSubSection">
+    <bean id="KS-CourseOfferingEdit-DeliveryFormats" parent="Uif-HorizontalBoxSubSection" p:refreshWhenChangedPropertyNames="#dp.coInfo.finalExamType">
         <property name="headerText" value="Delivery Formats"/>
         <property name="instructionalText" value="Add the delivery formats to be used for this course offering"/>
         <property name="items">
             <list>
-
                 <bean id="KS-CourseOfferingEdit-FormatOfferingSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false">
                     <property name="headerText" value="" />
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
@@ -376,7 +381,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey" p:label="FINAL EXAM DRIVER ACTIVITY"
-                                  p:labelPlacement="TOP" p:required="true" p:progressiveRender="@{#dp.coInfo.finalExamType eq 'STANDARD'}">
+                                  p:labelPlacement="TOP" p:required="true" p:render="@{#dp.coInfo.finalExamType eq 'STANDARD'}">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" />
                                 </property>
@@ -384,8 +389,8 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriverKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:progressiveRender="@{#dp.coInfo.finalExamType eq 'ALTERNATE'}" />
-                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:progressiveRender="@{#dp.coInfo.finalExamType eq 'NONE'}" />
+                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'ALTERNATE'}" />
+                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'NONE'}" />
                         </list>
                     </property>
                 </bean>
