@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:ws="http://jax-ws.dev.java.net/spring/core"
-    xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:jee="http://www.springframework.org/schema/jee"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-    xsi:schemaLocation="
-          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-          http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
-          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+
+
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <context:annotation-config/>
@@ -233,7 +226,7 @@
     <bean id="currentDateResolver" class="org.kuali.student.r2.core.class1.process.krms.termresolver.CurrentDateResolver"/>
     
     <bean id="ksKRMSTermResolverTypeService" class="org.kuali.student.krms.termresolver.KSTermResolverTypeService">
-    	<property name="academicRecordService" ref="acadRecordService"/>
+    	<property name="academicRecordService" ref="acadRecordServiceMock"/>
     </bean>
     
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
@@ -512,15 +505,16 @@
      	<property name="resultScaleDao" ref="resultScaleDao"/>
 
     </bean>
-    
-    <bean id="acadRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
+
+    <bean id="acadRecordServiceMock" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMockImpl">
         <property name="courseRegService" ref="courseRegService"/>
         <property name="atpService" ref="atpService"/>
         <property name="courseRecordAssembler" ref="courseRecordAssembler"/>
         <property name="lrcService" ref="lrcService"/>
         <property name="gradingService" ref="gradingService"/>
     </bean>
-    
+
+
     <bean id="courseRecordAssembler" class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler">
     	<property name="atpService" ref="atpService"/>
     	<property name="lrcService" ref="lrcService"/>
