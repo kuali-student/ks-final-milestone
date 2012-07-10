@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -38,11 +38,11 @@ plus any of its dependencies -->
 	<!-- ********************************************************************************************************** -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
-	<!-- IssueInfo-->
-	<bean id="IssueInfo-generated" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="issueInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.hold.dto.IssueInfo"/>
-		<property name="objectLabel" value="Issue"/>
+	<!-- HoldIssueInfo-->
+	<bean id="HoldIssueInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="holdIssueInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
+		<property name="objectLabel" value="Hold Issue"/>
 		<property name="objectDescription">
 			<value>
 Information about an Issue.
@@ -57,18 +57,18 @@ Information about an Issue.
 
 		<property name="attributes">
 			<list>
-				<ref bean="IssueInfo.id"/>
-				<ref bean="IssueInfo.typeKey"/>
-				<ref bean="IssueInfo.stateKey"/>
-				<ref bean="IssueInfo.name"/>
-				<ref bean="IssueInfo.organizationId"/>
+				<ref bean="HoldIssueInfo.id"/>
+				<ref bean="HoldIssueInfo.typeKey"/>
+				<ref bean="HoldIssueInfo.stateKey"/>
+				<ref bean="HoldIssueInfo.name"/>
+				<ref bean="HoldIssueInfo.organizationId"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
-				<ref bean="IssueInfo.descr"/>
-				<ref bean="IssueInfo.meta"/>
+				<ref bean="HoldIssueInfo.descr"/>
+				<ref bean="HoldIssueInfo.meta"/>
 			</list>
 		</property>
 
@@ -78,23 +78,23 @@ Information about an Issue.
 		</property>
 	</bean>
 
-	<bean id="IssueInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="HoldIssueInfo.id-generated" abstract="true" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 	</bean>
 
-	<bean id="IssueInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="HoldIssueInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 	</bean>
 
-	<bean id="IssueInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="HoldIssueInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
 	</bean>
 
-	<bean id="IssueInfo.name-generated" abstract="true" parent="BaseKuali.name">
+	<bean id="HoldIssueInfo.name-generated" abstract="true" parent="BaseKuali.name">
 		<property name="name" value="name"/>
 	</bean>
 
-	<bean id="IssueInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="HoldIssueInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="descr"/>
 		<property name="shortLabel" value="Descr"/>
 		<property name="summary">
@@ -122,8 +122,8 @@ A description of the entity.
 
 				<property name="attributes">
 					<list>
-						<ref bean="IssueInfo.descr.plain"/>
-						<ref bean="IssueInfo.descr.formatted"/>
+						<ref bean="HoldIssueInfo.descr.plain"/>
+						<ref bean="HoldIssueInfo.descr.formatted"/>
 					</list>
 				</property>
 
@@ -140,15 +140,15 @@ A description of the entity.
 		</property>
 	</bean>
 
-	<bean id="IssueInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+	<bean id="HoldIssueInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
 		<property name="name" value="plain"/>
 	</bean>
 
-	<bean id="IssueInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+	<bean id="HoldIssueInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted"/>
 	</bean>
 
-	<bean id="IssueInfo.organizationId-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="HoldIssueInfo.organizationId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="organizationId"/>
 		<property name="shortLabel" value="Organization Id"/>
 		<property name="summary">
@@ -165,7 +165,7 @@ The organization related to this hold category.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="IssueInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="HoldIssueInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -211,11 +211,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="IssueInfo.meta.versionInd"/>
-						<ref bean="IssueInfo.meta.createTime"/>
-						<ref bean="IssueInfo.meta.createId"/>
-						<ref bean="IssueInfo.meta.updateTime"/>
-						<ref bean="IssueInfo.meta.updateId"/>
+						<ref bean="HoldIssueInfo.meta.versionInd"/>
+						<ref bean="HoldIssueInfo.meta.createTime"/>
+						<ref bean="HoldIssueInfo.meta.createId"/>
+						<ref bean="HoldIssueInfo.meta.updateTime"/>
+						<ref bean="HoldIssueInfo.meta.updateId"/>
 					</list>
 				</property>
 
@@ -232,23 +232,23 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="IssueInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="HoldIssueInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="IssueInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="HoldIssueInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="IssueInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="HoldIssueInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="IssueInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="HoldIssueInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="IssueInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="HoldIssueInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 </beans>

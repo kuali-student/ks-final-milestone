@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -38,11 +38,11 @@ plus any of its dependencies -->
 	<!-- ********************************************************************************************************** -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
-	<!-- HoldInfo-->
-	<bean id="HoldInfo-generated" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="holdInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.hold.dto.HoldInfo"/>
-		<property name="objectLabel" value="Hold"/>
+	<!-- AppliedHoldInfo-->
+	<bean id="AppliedHoldInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="appliedHoldInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.hold.dto.AppliedHoldInfo"/>
+		<property name="objectLabel" value="Applied Hold"/>
 		<property name="objectDescription">
 			<value>
 Information about a Hold.
@@ -57,21 +57,21 @@ Information about a Hold.
 
 		<property name="attributes">
 			<list>
-				<ref bean="HoldInfo.id"/>
-				<ref bean="HoldInfo.typeKey"/>
-				<ref bean="HoldInfo.stateKey"/>
-				<ref bean="HoldInfo.name"/>
-				<ref bean="HoldInfo.issueId"/>
-				<ref bean="HoldInfo.personId"/>
-				<ref bean="HoldInfo.effectiveDate"/>
-				<ref bean="HoldInfo.releasedDate"/>
+				<ref bean="AppliedHoldInfo.id"/>
+				<ref bean="AppliedHoldInfo.typeKey"/>
+				<ref bean="AppliedHoldInfo.stateKey"/>
+				<ref bean="AppliedHoldInfo.name"/>
+				<ref bean="AppliedHoldInfo.holdIssueId"/>
+				<ref bean="AppliedHoldInfo.personId"/>
+				<ref bean="AppliedHoldInfo.effectiveDate"/>
+				<ref bean="AppliedHoldInfo.releasedDate"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
-				<ref bean="HoldInfo.descr"/>
-				<ref bean="HoldInfo.meta"/>
+				<ref bean="AppliedHoldInfo.descr"/>
+				<ref bean="AppliedHoldInfo.meta"/>
 			</list>
 		</property>
 
@@ -81,23 +81,23 @@ Information about a Hold.
 		</property>
 	</bean>
 
-	<bean id="HoldInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="AppliedHoldInfo.id-generated" abstract="true" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 	</bean>
 
-	<bean id="HoldInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="AppliedHoldInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 	</bean>
 
-	<bean id="HoldInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="AppliedHoldInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
 	</bean>
 
-	<bean id="HoldInfo.name-generated" abstract="true" parent="BaseKuali.name">
+	<bean id="AppliedHoldInfo.name-generated" abstract="true" parent="BaseKuali.name">
 		<property name="name" value="name"/>
 	</bean>
 
-	<bean id="HoldInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="AppliedHoldInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="descr"/>
 		<property name="shortLabel" value="Descr"/>
 		<property name="summary">
@@ -125,8 +125,8 @@ A description of the entity.
 
 				<property name="attributes">
 					<list>
-						<ref bean="HoldInfo.descr.plain"/>
-						<ref bean="HoldInfo.descr.formatted"/>
+						<ref bean="AppliedHoldInfo.descr.plain"/>
+						<ref bean="AppliedHoldInfo.descr.formatted"/>
 					</list>
 				</property>
 
@@ -143,26 +143,26 @@ A description of the entity.
 		</property>
 	</bean>
 
-	<bean id="HoldInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+	<bean id="AppliedHoldInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
 		<property name="name" value="plain"/>
 	</bean>
 
-	<bean id="HoldInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+	<bean id="AppliedHoldInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted"/>
 	</bean>
 
-	<bean id="HoldInfo.issueId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="issueId"/>
-		<property name="shortLabel" value="Issue Id"/>
+	<bean id="AppliedHoldInfo.holdIssueId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="holdIssueId"/>
+		<property name="shortLabel" value="Hold Issue Id"/>
 		<property name="summary">
 			<value>
-The Issue Id.
+The Hold Issue Id.
 			</value>
 		</property>
-		<property name="label" value="Issue Id"/>
+		<property name="label" value="Hold Issue Id"/>
 		<property name="description">
 			<value>
-The Issue Id.
+The Hold Issue Id.
 			</value>
 		</property>
 		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
@@ -173,7 +173,7 @@ The Issue Id.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="HoldInfo.personId-generated" abstract="true" parent="BaseKuali.personId">
+	<bean id="AppliedHoldInfo.personId-generated" abstract="true" parent="BaseKuali.personId">
 		<property name="name" value="personId"/>
 		<property name="shortLabel" value="Person Id"/>
 		<property name="summary">
@@ -195,11 +195,11 @@ The Id of the Person.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="HoldInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+	<bean id="AppliedHoldInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
 		<property name="name" value="effectiveDate"/>
 	</bean>
 
-	<bean id="HoldInfo.releasedDate-generated" abstract="true" parent="BaseKuali.date">
+	<bean id="AppliedHoldInfo.releasedDate-generated" abstract="true" parent="BaseKuali.date">
 		<property name="name" value="releasedDate"/>
 		<property name="shortLabel" value="Released Date"/>
 		<property name="summary">
@@ -216,7 +216,7 @@ The date this hold was released, of null if not yet released.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="HoldInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="AppliedHoldInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -262,11 +262,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="HoldInfo.meta.versionInd"/>
-						<ref bean="HoldInfo.meta.createTime"/>
-						<ref bean="HoldInfo.meta.createId"/>
-						<ref bean="HoldInfo.meta.updateTime"/>
-						<ref bean="HoldInfo.meta.updateId"/>
+						<ref bean="AppliedHoldInfo.meta.versionInd"/>
+						<ref bean="AppliedHoldInfo.meta.createTime"/>
+						<ref bean="AppliedHoldInfo.meta.createId"/>
+						<ref bean="AppliedHoldInfo.meta.updateTime"/>
+						<ref bean="AppliedHoldInfo.meta.updateId"/>
 					</list>
 				</property>
 
@@ -283,23 +283,23 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="HoldInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="AppliedHoldInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="HoldInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="AppliedHoldInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="HoldInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="AppliedHoldInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="HoldInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="AppliedHoldInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="HoldInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="AppliedHoldInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 </beans>

@@ -86,7 +86,7 @@
     
     <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
         <property name="holdIssueDao" ref="holdIssueDao"/>
-        <property name="holdDao" ref="holdDao"/>
+        <property name="appliedHoldDao" ref="appliedHoldDao"/>
     </bean>
 	
     <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">
@@ -101,7 +101,7 @@
             	
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
-    <bean id="holdDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldDao">
+    <bean id="appliedHoldDao" class="org.kuali.student.enrollment.class1.hold.dao.AppliedHoldDao">
         <property name="em" ref="entityManager"/>
     </bean>
     

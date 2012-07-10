@@ -1,16 +1,15 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.kuali.student.r2.core.hold.service;
 
@@ -18,8 +17,8 @@ import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -47,133 +46,127 @@ public class HoldServiceDecorator
     }
 
     @Override
-    public HoldInfo getHold(String holdId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getHold(holdId, contextInfo);
+    public List<ValidationResultInfo> validateAppliedHold(String validationTypeKey, AppliedHoldInfo holdInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().validateAppliedHold(validationTypeKey, holdInfo, contextInfo);
     }
 
     @Override
-    public List<HoldInfo> getHoldsByIds(List<String> holdIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getHoldsByIds(holdIds, contextInfo);
+    public List<ValidationResultInfo> validateHoldIssue(String validationTypeKey, HoldIssueInfo issueInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().validateHoldIssue(validationTypeKey, issueInfo, contextInfo);
     }
 
     @Override
-    public List<String> getHoldIdsByType(String holdTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getHoldIdsByType(holdTypeKey, contextInfo);
+    public AppliedHoldInfo updateAppliedHold(String holdId, AppliedHoldInfo holdInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return getNextDecorator().updateAppliedHold(holdId, holdInfo, contextInfo);
     }
 
     @Override
-    public List<String> getHoldIdsByIssue(String issueId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getHoldIdsByIssue(issueId, contextInfo);
+    public HoldIssueInfo updateHoldIssue(String issueId, HoldIssueInfo issueInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return getNextDecorator().updateHoldIssue(issueId, issueInfo, contextInfo);
     }
 
     @Override
-    public List<HoldInfo> getHoldsByPerson(String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getHoldsByPerson(personId, contextInfo);
+    public List<AppliedHoldInfo> searchForAppliedHolds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForAppliedHolds(criteria, contextInfo);
     }
 
     @Override
-    public List<HoldInfo> getActiveHoldsByPerson(String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getActiveHoldsByPerson(personId, contextInfo);
+    public List<String> searchForAppliedHoldIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForAppliedHoldIds(criteria, contextInfo);
     }
 
     @Override
-    public List<HoldInfo> getHoldsByIssueAndPerson(String issueId, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getHoldsByIssueAndPerson(issueId, personId, contextInfo);
+    public List<HoldIssueInfo> searchForHoldIssues(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForHoldIssues(criteria, contextInfo);
     }
 
     @Override
-    public List<HoldInfo> getActiveHoldsByIssueAndPerson(String issueId, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getActiveHoldsByIssueAndPerson(issueId, personId, contextInfo);
+    public List<String> searchForHoldIssueIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForHoldIssueIds(criteria, contextInfo);
     }
 
     @Override
-    public List<String> searchForHoldIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForHoldIds(criteria, contextInfo);
+    public AppliedHoldInfo releaseAppliedHold(String holdId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().releaseAppliedHold(holdId, contextInfo);
     }
 
     @Override
-    public List<HoldInfo> searchForHolds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForHolds(criteria, contextInfo);
+    public List<AppliedHoldInfo> getAppliedHoldsByPerson(String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAppliedHoldsByPerson(personId, contextInfo);
     }
 
     @Override
-    public List<ValidationResultInfo> validateHold(String validationTypeKey, HoldInfo holdInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateHold(validationTypeKey, holdInfo, contextInfo);
+    public List<AppliedHoldInfo> getAppliedHoldsByIssueAndPerson(String issueId, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAppliedHoldsByIssueAndPerson(issueId, personId, contextInfo);
     }
 
     @Override
-    public HoldInfo createHold(String personId,
-            String issueId,
-            String holdTypeKey,
-            HoldInfo holdInfo,
-            ContextInfo contextInfo)
-            throws DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createHold(personId, issueId, holdTypeKey, holdInfo, contextInfo);
+    public List<AppliedHoldInfo> getAppliedHoldsByIds(List<String> holdIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAppliedHoldsByIds(holdIds, contextInfo);
     }
 
     @Override
-    public HoldInfo updateHold(String holdId, HoldInfo holdInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator().updateHold(holdId, holdInfo, contextInfo);
+    public List<String> getAppliedHoldIdsByType(String holdTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAppliedHoldIdsByType(holdTypeKey, contextInfo);
     }
 
     @Override
-    public HoldInfo releaseHold(String holdId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().releaseHold(holdId, contextInfo);
+    public List<String> getAppliedHoldIdsByIssue(String issueId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAppliedHoldIdsByIssue(issueId, contextInfo);
     }
 
     @Override
-    public StatusInfo deleteHold(String holdId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteHold(holdId, contextInfo);
+    public AppliedHoldInfo getAppliedHold(String holdId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAppliedHold(holdId, contextInfo);
     }
 
     @Override
-    public IssueInfo getIssue(String issueId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getIssue(issueId, contextInfo);
+    public List<HoldIssueInfo> getHoldIssuesByOrg(String organizationId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getHoldIssuesByOrg(organizationId, contextInfo);
     }
 
     @Override
-    public List<IssueInfo> getIssuesByIds(List<String> issueIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getIssuesByIds(issueIds, contextInfo);
+    public List<HoldIssueInfo> getHoldIssuesByIds(List<String> issueIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getHoldIssuesByIds(issueIds, contextInfo);
     }
 
     @Override
-    public List<String> getIssueIdsByType(String issueTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getIssueIdsByType(issueTypeKey, contextInfo);
+    public List<String> getHoldIssueIdsByType(String issueTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getHoldIssueIdsByType(issueTypeKey, contextInfo);
     }
 
     @Override
-    public List<IssueInfo> getIssuesByOrg(String organizationId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getIssuesByOrg(organizationId, contextInfo);
+    public HoldIssueInfo getHoldIssue(String issueId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getHoldIssue(issueId, contextInfo);
     }
 
     @Override
-    public List<String> searchForIssueIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForIssueIds(criteria, contextInfo);
+    public List<AppliedHoldInfo> getActiveAppliedHoldsByPerson(String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getActiveAppliedHoldsByPerson(personId, contextInfo);
     }
 
     @Override
-    public List<IssueInfo> searchForIssues(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForIssues(criteria, contextInfo);
+    public List<AppliedHoldInfo> getActiveAppliedHoldsByIssueAndPerson(String issueId, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getActiveAppliedHoldsByIssueAndPerson(issueId, personId, contextInfo);
     }
 
     @Override
-    public List<ValidationResultInfo> validateIssue(String validationTypeKey, IssueInfo issueInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateIssue(validationTypeKey, issueInfo, contextInfo);
+    public StatusInfo deleteAppliedHold(String holdId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteAppliedHold(holdId, contextInfo);
     }
 
     @Override
-    public IssueInfo createIssue(String issueTypeKey, IssueInfo issueInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createIssue(issueTypeKey, issueInfo, contextInfo);
+    public StatusInfo deleteHoldIssue(String issueId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
+        return getNextDecorator().deleteHoldIssue(issueId, contextInfo);
     }
 
     @Override
-    public IssueInfo updateIssue(String issueId, IssueInfo issueInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator().updateIssue(issueId, issueInfo, contextInfo);
+    public AppliedHoldInfo createAppliedHold(String personId, String issueId, String holdTypeKey, AppliedHoldInfo holdInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createAppliedHold(personId, issueId, holdTypeKey, holdInfo, contextInfo);
     }
 
     @Override
-    public StatusInfo deleteIssue(String issueId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
-        return getNextDecorator().deleteIssue(issueId, contextInfo);
+    public HoldIssueInfo createHoldIssue(String issueTypeKey, HoldIssueInfo issueInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createHoldIssue(issueTypeKey, issueInfo, contextInfo);
     }
 }

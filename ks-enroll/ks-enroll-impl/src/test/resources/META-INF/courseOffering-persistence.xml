@@ -39,8 +39,8 @@
 
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldAttributeEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lui.model.LuiEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity</class>

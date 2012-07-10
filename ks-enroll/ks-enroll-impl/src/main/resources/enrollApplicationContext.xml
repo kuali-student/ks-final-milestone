@@ -24,6 +24,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="atpServiceOnBus" parent="atpServiceValidation" />
   <bean id="acalServiceOnBus" parent="acalServiceValidation" />
   <bean id="courseOfferingServiceOnBus" parent="courseOfferingValidation" />
+  <bean id="holdServiceOnBus" parent="holdValidation" />
 
   <!-- declare beans here -->
   <!-- declare impls here -->

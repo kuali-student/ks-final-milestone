@@ -83,8 +83,8 @@
                                 <inputFile>CourseInfoUI.xml</inputFile>
                                 <inputFile>CourseOfferingInfoUI.xml</inputFile>
                                 <inputFile>CourseOfferingWrapper.xml</inputFile>
-                                <inputFile>HoldInfo.xml</inputFile>
-                                <inputFile>IssueInfo.xml</inputFile>
+                                <inputFile>AppliedHoldInfo.xml</inputFile>
+                                <inputFile>HoldIssueInfo.xml</inputFile>
                                 <inputFile>KeyDateInfoUI.xml</inputFile>
                                 <inputFile>RegistrationGroupInfoUI.xml</inputFile>
                                 <inputFile>RegistrationGroupWrapper.xml</inputFile>

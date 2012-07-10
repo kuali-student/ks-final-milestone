@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.core.hold.infc.Issue;
+import org.kuali.student.r2.core.hold.infc.HoldIssue;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
     "id", "typeKey", "stateKey", "name",
     "descr", "organizationId", "meta",
     "attributes", "_futureElements"})
-public class IssueInfo extends IdEntityInfo implements Issue, Serializable {
+public class HoldIssueInfo extends IdEntityInfo implements HoldIssue, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
@@ -40,7 +40,7 @@ public class IssueInfo extends IdEntityInfo implements Issue, Serializable {
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public IssueInfo() {
+    public HoldIssueInfo() {
     }
 
     /**
@@ -48,7 +48,7 @@ public class IssueInfo extends IdEntityInfo implements Issue, Serializable {
      * 
      * @param issue the Issue to copy
      */
-    public IssueInfo(Issue issue) {
+    public HoldIssueInfo(HoldIssue issue) {
         super(issue);
         if (null != issue) {
             this.organizationId = issue.getOrganizationId();

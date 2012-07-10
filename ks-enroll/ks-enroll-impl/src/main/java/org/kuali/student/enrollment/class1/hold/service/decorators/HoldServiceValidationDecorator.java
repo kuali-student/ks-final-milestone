@@ -28,8 +28,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldServiceDecorator;
 
 public class HoldServiceValidationDecorator
@@ -47,8 +47,8 @@ public class HoldServiceValidationDecorator
     }
 
     @Override
-    public List<ValidationResultInfo> validateHold(String validationTypeKey,
-            HoldInfo holdInfo,
+    public List<ValidationResultInfo> validateAppliedHold(String validationTypeKey,
+            AppliedHoldInfo holdInfo,
             ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -58,7 +58,7 @@ public class HoldServiceValidationDecorator
         List<ValidationResultInfo> errors;
         try {
             errors = ValidationUtils.validateInfo(validator, validationTypeKey, holdInfo, contextInfo);
-            List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateHold(validationTypeKey, holdInfo,
+            List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateAppliedHold(validationTypeKey, holdInfo,
                     contextInfo);
             errors.addAll(nextDecoratorErrors);
         } catch (DoesNotExistException ex) {
@@ -68,10 +68,10 @@ public class HoldServiceValidationDecorator
     }
 
     @Override
-    public HoldInfo createHold(String personId,
+    public AppliedHoldInfo createAppliedHold(String personId,
             String issueId,
             String holdTypeKey,
-            HoldInfo holdInfo,
+            AppliedHoldInfo holdInfo,
             ContextInfo contextInfo)
             throws DataValidationErrorException,
             InvalidParameterException,
@@ -79,26 +79,26 @@ public class HoldServiceValidationDecorator
             OperationFailedException,
             PermissionDeniedException,
             ReadOnlyException {
-        HoldInfo info = new HoldInfo(holdInfo);
+        AppliedHoldInfo info = new AppliedHoldInfo(holdInfo);
         info.setPersonId(personId);
-        info.setIssueId(issueId);
+        info.setHoldIssueId(issueId);
         info.setTypeKey(holdTypeKey);
         // create 
         try {
             List<ValidationResultInfo> errors =
-                    this.validateHold(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), info, contextInfo);
+                    this.validateAppliedHold(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), info, contextInfo);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
-        return getNextDecorator().createHold(personId, issueId, holdTypeKey, holdInfo, contextInfo);
+        return getNextDecorator().createAppliedHold(personId, issueId, holdTypeKey, holdInfo, contextInfo);
     }
 
     @Override
-    public HoldInfo updateHold(String holdId,
-            HoldInfo holdInfo,
+    public AppliedHoldInfo updateAppliedHold(String holdId,
+            AppliedHoldInfo holdInfo,
             ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -111,7 +111,7 @@ public class HoldServiceValidationDecorator
         // update
         try {
             List<ValidationResultInfo> errors =
-                    this.validateHold(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), holdInfo,
+                    this.validateAppliedHold(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), holdInfo,
                     contextInfo);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
@@ -119,12 +119,12 @@ public class HoldServiceValidationDecorator
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
-        return getNextDecorator().updateHold(holdId, holdInfo, contextInfo);
+        return getNextDecorator().updateAppliedHold(holdId, holdInfo, contextInfo);
     }
 
     @Override
-    public List<ValidationResultInfo> validateIssue(String validationTypeKey,
-            IssueInfo issueInfo,
+    public List<ValidationResultInfo> validateHoldIssue(String validationTypeKey,
+            HoldIssueInfo issueInfo,
             ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -134,7 +134,7 @@ public class HoldServiceValidationDecorator
         List<ValidationResultInfo> errors;
         try {
             errors = ValidationUtils.validateInfo(validator, validationTypeKey, issueInfo, contextInfo);
-            List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateIssue(validationTypeKey, issueInfo,
+            List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateHoldIssue(validationTypeKey, issueInfo,
                     contextInfo);
             errors.addAll(nextDecoratorErrors);
         } catch (DoesNotExistException ex) {
@@ -144,8 +144,8 @@ public class HoldServiceValidationDecorator
     }
 
     @Override
-    public IssueInfo createIssue(String issueTypeKey,
-            IssueInfo issueInfo,
+    public HoldIssueInfo createHoldIssue(String issueTypeKey,
+            HoldIssueInfo issueInfo,
             ContextInfo contextInfo)
             throws DataValidationErrorException,
             InvalidParameterException,
@@ -153,12 +153,12 @@ public class HoldServiceValidationDecorator
             OperationFailedException,
             PermissionDeniedException,
             ReadOnlyException {
-        IssueInfo info = new IssueInfo(issueInfo);
+        HoldIssueInfo info = new HoldIssueInfo(issueInfo);
         info.setTypeKey(issueTypeKey);
         // create 
         try {
             List<ValidationResultInfo> errors =
-                    this.validateIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), info,
+                    this.validateHoldIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), info,
                     contextInfo);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
@@ -166,12 +166,12 @@ public class HoldServiceValidationDecorator
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
-        return getNextDecorator().createIssue(issueTypeKey, issueInfo, contextInfo);
+        return getNextDecorator().createHoldIssue(issueTypeKey, issueInfo, contextInfo);
     }
 
     @Override
-    public IssueInfo updateIssue(String issueId,
-            IssueInfo issueInfo,
+    public HoldIssueInfo updateHoldIssue(String issueId,
+            HoldIssueInfo issueInfo,
             ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -184,7 +184,7 @@ public class HoldServiceValidationDecorator
         // update
         try {
             List<ValidationResultInfo> errors =
-                    this.validateIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), issueInfo,
+                    this.validateHoldIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), issueInfo,
                     contextInfo);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
@@ -192,6 +192,6 @@ public class HoldServiceValidationDecorator
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
-        return getNextDecorator().updateIssue(issueId, issueInfo, contextInfo);
+        return getNextDecorator().updateHoldIssue(issueId, issueInfo, contextInfo);
     }
 }

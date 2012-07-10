@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @since Sun May 1 14:22:34 EDT 2011
  */ 
 
-public interface Issue 
+public interface HoldIssue 
     extends IdEntity {
 
     /**

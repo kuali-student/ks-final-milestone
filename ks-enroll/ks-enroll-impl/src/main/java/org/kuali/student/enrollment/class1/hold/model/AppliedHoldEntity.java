@@ -5,8 +5,8 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.infc.Hold;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.infc.AppliedHold;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,22 +28,22 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 @Entity
 @Table(name = "KSEN_HOLD")
 @NamedQueries({
-    @NamedQuery(name = "HoldEntity.getIdsByType",
-    query = "select id from HoldEntity where holdType = :type"),
-    @NamedQuery(name = "HoldEntity.getIdsByIssue",
-    query = "select H.id from HoldEntity H where H.holdIssue.id = :issueId"),
-    @NamedQuery(name = "HoldEntity.getByPerson",
-    query = "select H from HoldEntity H where H.personId = :personId"),
-    @NamedQuery(name = "HoldEntity.getByPersonAndState",
-    query = "select H from HoldEntity H where H.personId = :personId and h.holdState = :stateKey"),
-    @NamedQuery(name = "HoldEntity.getByIssueAndPerson",
-    query = "select H from HoldEntity H where H.holdIssue.id = :issueId and H.personId = :personId"),
-    @NamedQuery(name = "HoldEntity.getByIssuePersonAndState",
-    query = "select H from HoldEntity H where H.holdIssue.id = :issueId and H.personId = :personId and h.holdState = :stateKey")
+    @NamedQuery(name = "AppliedHoldEntity.getIdsByType",
+    query = "select id from AppliedHoldEntity where holdType = :type"),
+    @NamedQuery(name = "AppliedHoldEntity.getIdsByIssue",
+    query = "select AH.id from AppliedHoldEntity AH where AH.holdIssue.id = :holdIssueId"),
+    @NamedQuery(name = "AppliedHoldEntity.getByPerson",
+    query = "select AH from AppliedHoldEntity AH where AH.personId = :personId"),
+    @NamedQuery(name = "AppliedHoldEntity.getByPersonAndState",
+    query = "select AH from AppliedHoldEntity AH where AH.personId = :personId and AH.holdState = :stateKey"),
+    @NamedQuery(name = "AppliedHoldEntity.getByIssueAndPerson",
+    query = "select AH from AppliedHoldEntity AH where AH.holdIssue.id = :holdIssueId and AH.personId = :personId"),
+    @NamedQuery(name = "AppliedHoldEntity.getByIssuePersonAndState",
+    query = "select AH from AppliedHoldEntity AH where AH.holdIssue.id = :holdIssueId and AH.personId = :personId and AH.holdState = :stateKey")
 })
-public class HoldEntity
+public class AppliedHoldEntity
         extends MetaEntity
-        implements AttributeOwner<HoldAttributeEntity> {
+        implements AttributeOwner<AppliedHoldAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;
@@ -67,20 +67,20 @@ public class HoldEntity
     @Column(name = "PERS_ID")
     private String personId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
-    private final Set<HoldAttributeEntity> attributes = new HashSet<HoldAttributeEntity>();
+    private final Set<AppliedHoldAttributeEntity> attributes = new HashSet<AppliedHoldAttributeEntity>();
 
     @Override
-    public void setAttributes(Set<HoldAttributeEntity> attributes) {
+    public void setAttributes(Set<AppliedHoldAttributeEntity> attributes) {
         this.attributes.clear();
         if (attributes != null) {
             this.attributes.addAll(attributes);
         }
     }
 
-    public HoldEntity() {
+    public AppliedHoldEntity() {
     }
 
-    public HoldEntity(Hold hold) {
+    public AppliedHoldEntity(AppliedHold hold) {
         super(hold);
         this.setId(hold.getId());
         this.personId = hold.getPersonId();
@@ -90,7 +90,7 @@ public class HoldEntity
         this.fromDto(hold);
     }
 
-    public void fromDto(Hold dto) {
+    public void fromDto(AppliedHold dto) {
         this.setName(dto.getName());
         this.setHoldState(dto.getStateKey());
         if (dto.getDescr() != null) {
@@ -106,13 +106,13 @@ public class HoldEntity
         // dynamic attributes
         this.attributes.clear();
         for (Attribute att : dto.getAttributes()) {
-            HoldAttributeEntity attEntity = new HoldAttributeEntity(att, this);
+            AppliedHoldAttributeEntity attEntity = new AppliedHoldAttributeEntity(att, this);
             this.getAttributes().add(attEntity);
         }
     }
 
-    public HoldInfo toDto() {
-        HoldInfo info = new HoldInfo();
+    public AppliedHoldInfo toDto() {
+        AppliedHoldInfo info = new AppliedHoldInfo();
         info.setId(getId());
         info.setName(name);
         info.setEffectiveDate(effectiveDate);
@@ -121,12 +121,12 @@ public class HoldEntity
         info.setTypeKey(holdType);
         info.setStateKey(holdState);
         if (holdIssue != null) {
-            info.setIssueId(holdIssue.getId());
+            info.setHoldIssueId(holdIssue.getId());
         }
         info.setDescr(new RichTextHelper().toRichTextInfo(getDescrPlain(), getDescrFormatted()));
 
         info.setMeta(super.toDTO());
-        for (HoldAttributeEntity att : getAttributes()) {
+        for (AppliedHoldAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
             info.getAttributes().add(attInfo);
         }
@@ -206,7 +206,7 @@ public class HoldEntity
     }
 
     @Override
-    public Set<HoldAttributeEntity> getAttributes() {
+    public Set<AppliedHoldAttributeEntity> getAttributes() {
         return attributes;
     }
 }

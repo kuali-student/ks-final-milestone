@@ -13,7 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 
 import static org.junit.Assert.*;
@@ -50,14 +50,14 @@ public class ProcessPocHoldServiceDecoratorTest {
 
         HoldService holdService = new HoldServiceMockImpl();
         holdService = new ProcessPocHoldServiceDecorator(holdService);
-        List<HoldInfo> holds = null;
-            holds = holdService.getActiveHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE, 
+        List<AppliedHoldInfo> holds = null;
+            holds = holdService.getActiveAppliedHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE, 
                     ProcessPocConstants.PERSON_ID_BETTY_MARTIN_2005, context);
 
         assertEquals(1, holds.size());
 
         try {
-            holds = holdService.getActiveHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_UNPAID_TUITION_PRIOR_TERM, 
+            holds = holdService.getActiveAppliedHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_UNPAID_TUITION_PRIOR_TERM, 
                     ProcessPocConstants.PERSON_ID_CLIFFORD_RIDDLE_2397, context);
         } catch (Exception ex) {
             throw new RuntimeException("unexpected", ex);
@@ -65,7 +65,7 @@ public class ProcessPocHoldServiceDecoratorTest {
         assertEquals(1, holds.size());
 
         try {
-            holds = holdService.getActiveHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE, 
+            holds = holdService.getActiveAppliedHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE, 
                     ProcessPocConstants.PERSON_ID_NINA_WELCH_2166, context);
         } catch (Exception ex) {
             throw new RuntimeException("unexpected", ex);
@@ -73,7 +73,7 @@ public class ProcessPocHoldServiceDecoratorTest {
         assertEquals(1, holds.size());
 
         try {
-            holds = holdService.getActiveHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_UNPAID_TUITION_PRIOR_TERM,
+            holds = holdService.getActiveAppliedHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_UNPAID_TUITION_PRIOR_TERM,
                     ProcessPocConstants.PERSON_ID_NINA_WELCH_2166, context);
         } catch (Exception ex) {
             throw new RuntimeException("unexpected", ex);

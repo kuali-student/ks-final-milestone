@@ -10,13 +10,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "KSEN_HOLD_ATTR")
-public class HoldAttributeEntity extends BaseAttributeEntity<HoldEntity> {
+public class AppliedHoldAttributeEntity extends BaseAttributeEntity<AppliedHoldEntity> {
 
-	public HoldAttributeEntity() {
+	public AppliedHoldAttributeEntity() {
 		super();
 	}
 
-	public HoldAttributeEntity(Attribute att, HoldEntity owner) {
+	public AppliedHoldAttributeEntity(Attribute att, AppliedHoldEntity owner) {
 		super(att, owner);
 	}
     

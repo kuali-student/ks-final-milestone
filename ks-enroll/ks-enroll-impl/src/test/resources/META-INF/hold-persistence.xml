@@ -10,8 +10,8 @@
 
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldAttributeEntity</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

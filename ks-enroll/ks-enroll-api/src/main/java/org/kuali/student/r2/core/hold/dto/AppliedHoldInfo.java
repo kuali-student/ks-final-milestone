@@ -26,18 +26,18 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.core.hold.infc.Hold;
+import org.kuali.student.r2.core.hold.infc.AppliedHold;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name",
-                "descr", "issueId", "personId",  "effectiveDate", "releasedDate", 
+                "descr", "holdIssueId", "personId",  "effectiveDate", "releasedDate", 
                 "meta", "attributes", "_futureElements"})
 
-public class HoldInfo 
+public class AppliedHoldInfo 
     extends IdEntityInfo 
-    implements Hold, Serializable {
+    implements AppliedHold, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,7 +45,7 @@ public class HoldInfo
     private String personId;
 
     @XmlElement
-    private String issueId;
+    private String holdIssueId;
 
     @XmlElement
     private Date effectiveDate;
@@ -60,7 +60,7 @@ public class HoldInfo
     /**
      *  Constructs a new HoldInfo.
      */
-    public HoldInfo() {
+    public AppliedHoldInfo() {
     }
 
     /**
@@ -68,12 +68,12 @@ public class HoldInfo
      *
      *  @param hold the hold to copy
      */
-    public HoldInfo(Hold hold) {
+    public AppliedHoldInfo(AppliedHold hold) {
         super(hold);
 
         if (hold != null) {
             this.personId = hold.getPersonId();
-            this.issueId = hold.getIssueId();
+            this.holdIssueId = hold.getHoldIssueId();
 
             if (hold.getEffectiveDate() != null) {
                 this.effectiveDate = new Date(hold.getEffectiveDate().getTime());
@@ -94,12 +94,12 @@ public class HoldInfo
     }
 
     @Override
-    public String getIssueId() {
-        return issueId;
+    public String getHoldIssueId() {
+        return holdIssueId;
     }
 
-    public void setIssueId(String issueId) {
-        this.issueId = issueId;
+    public void setHoldIssueId(String holdIssueId) {
+        this.holdIssueId = holdIssueId;
     }
 
     @Override
