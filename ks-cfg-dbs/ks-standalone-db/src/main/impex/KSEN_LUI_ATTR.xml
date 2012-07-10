@@ -4740,7 +4740,7 @@
         ATTR_VALUE="null" ID="964561c7-9345-45af-b211-c980a3fa6115"
         OBJ_ID="1f581737-6861-4854-85cb-74e1c9091549" OWNER_ID="019d4690-6787-4af6-9b5c-72e6c36fd6f2"/>
     <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.final.exam.indicator"
-        ATTR_VALUE="NONE" ID="9645e040-b9f8-4469-bf07-76248cba8f2d"
+        ATTR_VALUE="STANDARD" ID="9645e040-b9f8-4469-bf07-76248cba8f2d"
         OBJ_ID="9f6e7e7f-48da-4300-ad79-ce94c231b3a0" OWNER_ID="93755708-c2c1-42ae-a9ba-25dd5d849673"/>
     <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.wait.list.level.type.key"
         ATTR_VALUE="COURSE_OFFERING"
