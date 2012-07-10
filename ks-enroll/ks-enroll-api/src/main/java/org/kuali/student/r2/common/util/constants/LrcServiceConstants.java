@@ -35,6 +35,15 @@ public class LrcServiceConstants {
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_FIXED = "kuali.result.values.group.type.fixed";
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_RANGE = "kuali.result.values.group.type.range";
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE = "kuali.result.values.group.type.multiple";
+
+    //R1 Result component types //todo get rid of these when r1 is refactored out
+    public static final String R1_RESULT_COMPONENT_TYPE_KEY_FIXED = "kuali.resultComponentType.credit.degree.fixed";
+    public static final String R1_RESULT_COMPONENT_TYPE_KEY_RANGE = "kuali.resultComponentType.credit.degree.range";
+    public static final String R1_RESULT_COMPONENT_TYPE_KEY_MULTIPLE = "kuali.resultComponentType.credit.degree.multiple";
+    public static final String R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS = "minCreditValue";
+    public static final String R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS = "maxCreditValue";
+    public static final String R1_DYN_ATTR_CREDIT_OPTION_FIXED_CREDITS = "fixedCreditValue";
+
     // scale types
     public static final String RESULT_SCALE_TYPE_KEY_GRADE = "kuali.result.scale.type.grade";
     public static final String RESULT_SCALE_TYPE_KEY_ADMIN_GRADE = "kuali.result.scale.type.grade.admin";

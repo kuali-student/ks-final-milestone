@@ -33,7 +33,6 @@ import org.kuali.student.r2.lum.lrc.service.LrcServiceBusinessLogic;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(name = "LrcService", serviceName = "LrcService", portName = "LrcService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class LRCServiceImpl implements LRCService {
 
     private ResultValuesGroupDao resultValuesGroupDao;
@@ -74,7 +73,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultScaleInfo createResultScale(String typeKey,
             ResultScaleInfo info,
             ContextInfo contextInfo)
@@ -96,7 +95,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValueInfo createResultValue(String resultScaleKey,
             String typeKey,
             ResultValueInfo info,
@@ -121,7 +120,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValuesGroupInfo createResultValuesGroup(String resultScaleKey,
             String typeKey,
             ResultValuesGroupInfo info,
@@ -145,7 +144,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteResultScale(String key,
             ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -173,7 +172,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteResultValue(String key,
             ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -197,7 +196,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteResultValuesGroup(String key,
             ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -216,7 +215,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValuesGroupInfo getCreateFixedCreditResultValuesGroup(String creditValue,
             String scaleKey,
             ContextInfo context)
@@ -228,7 +227,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValuesGroupInfo getCreateRangeCreditResultValuesGroup(String creditValueMin,
             String creditValueMax,
             String creditValueIncrement,
@@ -246,7 +245,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValuesGroupInfo getCreateMultipleCreditResultValuesGroup(List<String> creditValues,
             String scaleKey,
             ContextInfo context)
@@ -258,7 +257,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValueInfo getCreateResultValueForScale(String resultValue,
             String scaleKey,
             ContextInfo context)
@@ -436,7 +435,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    @Transactional(readOnly = true)
     public ResultValuesGroupInfo getResultValuesGroup(String key,
             ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -534,7 +533,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultScaleInfo updateResultScale(String key,
             ResultScaleInfo info,
             ContextInfo contextInfo)
@@ -560,7 +559,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValueInfo updateResultValue(String key,
             ResultValueInfo info,
             ContextInfo contextInfo)
@@ -586,7 +585,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValuesGroupInfo updateResultValuesGroup(String key,
             ResultValuesGroupInfo info,
             ContextInfo contextInfo)

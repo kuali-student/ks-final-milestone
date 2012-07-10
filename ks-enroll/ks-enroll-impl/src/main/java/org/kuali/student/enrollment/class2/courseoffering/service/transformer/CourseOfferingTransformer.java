@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
@@ -14,16 +15,21 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.*;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +38,7 @@ import java.util.Map;
 public class CourseOfferingTransformer {
     private LuiPersonRelationService lprService;
     private PersonService personService;
+    private LRCService lrcService;
 
     final Logger LOG = Logger.getLogger(CourseOfferingTransformer.class);
 
@@ -285,7 +292,7 @@ public class CourseOfferingTransformer {
 
     }
 
-    public void copyFromCanonical(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo, List<String> optionKeys) {
+    public void copyFromCanonical(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo, List<String> optionKeys, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         courseOfferingInfo.setCourseId(courseInfo.getId());
         if (!optionKeys.contains(CourseOfferingSetServiceConstants.NOT_COURSE_TITLE_OPTION_KEY)) {
          courseOfferingInfo.setCourseOfferingTitle(courseInfo.getCourseTitle());
@@ -319,7 +326,23 @@ public class CourseOfferingTransformer {
 
         //Set the credit options as the first option from the clu
         if (courseInfo.getCreditOptions() != null && !courseInfo.getCreditOptions().isEmpty()) {
-            courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getId());
+            //Convert R1 to R2 LRC data
+            ResultComponentInfo resultComponent = courseInfo.getCreditOptions().get(0);
+
+            // Credit Options (also creates extra-line)
+            if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED.equals(resultComponent.getType())) {
+                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_FIXED_CREDITS),
+                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
+                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
+            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_RANGE.equals(resultComponent.getType())) {
+                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS),
+                        resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
+                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
+            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_MULTIPLE.equals(resultComponent.getType())) {
+                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(resultComponent.getResultValues(),
+                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
+                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
+            }
         }else{
             courseOfferingInfo.setCreditOptionId(null);
         }
@@ -362,5 +385,17 @@ public class CourseOfferingTransformer {
                 co.getInstructors().add(instructor);
             //}
         }
+    }
+
+
+    public LRCService getLrcService() {
+        if(lrcService == null){
+            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return lrcService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
     }
 }

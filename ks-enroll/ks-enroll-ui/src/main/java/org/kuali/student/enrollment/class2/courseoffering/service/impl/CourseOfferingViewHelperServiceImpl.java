@@ -43,6 +43,11 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -81,7 +86,9 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         return terms;
     }
 
-    private CourseOfferingInfo _createCourseOffering(String termId) {
+    private CourseOfferingInfo _createCourseOffering(String termId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ContextInfo contextInfo = ContextUtils.getContextInfo();
+
         CourseOfferingService coService = _getCourseOfferingService();
         CourseOfferingTransformer coTrans = new CourseOfferingTransformer();
         CourseService courseService = _getCourseService();
@@ -97,7 +104,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         List<String> copyOptions = new ArrayList<String>();
         copyOptions.add(CourseOfferingSetServiceConstants.NOT_GRADING_CREDIT_OPTION_KEY);
         // At this point
-        coTrans.copyFromCanonical(courseInfo, coInfo, copyOptions);
+        coTrans.copyFromCanonical(courseInfo, coInfo, copyOptions, contextInfo);
         coInfo.setCourseOfferingTitle("Intro to Finite Math");
         coInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         coInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
@@ -118,7 +125,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
             String infoTermId = coInfo.getTermId();
             String typeKey = coInfo.getTypeKey();
             List<String> options = new ArrayList<String>();
-            ContextInfo contextInfo = new ContextInfo();
+
             CourseOfferingInfo result = coService.createCourseOffering(courseId, infoTermId, typeKey, coInfo,
                                                                        options, contextInfo);
             return result;
@@ -212,7 +219,13 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     }
     @Override
     public SocInfo createSocCoFoAoForTerm(String termId, CourseOfferingRolloverManagementForm form) {
-        CourseOfferingInfo coOffering = _createCourseOffering(termId);
+        CourseOfferingInfo coOffering;
+
+        try{
+            coOffering = _createCourseOffering(termId);
+        }catch(Exception e){
+            throw new RuntimeException("Failed to create Course Offering from Course",e);
+        }
 
         if (coOffering == null) {
             form.setStatusField("createSocCoFoAoForTerm: Course offering not created");

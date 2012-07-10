@@ -151,7 +151,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         if (optionKeys.contains(CourseOfferingSetServiceConstants.USE_CANONICAL_OPTION_KEY)) {
             // copy from cannonical
             CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-            coTransformer.copyFromCanonical(targetCourse, targetCo, optionKeys);
+            coTransformer.copyFromCanonical(targetCourse, targetCo, optionKeys, context);
         }
         // Rolled over CO should be in planned state
         targetCo.setStateKey(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY);
@@ -219,7 +219,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         CourseInfo course = new R1CourseServiceHelper(courseService, acalService).getCourse(co.getCourseId());
         // copy from cannonical
         CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-        coTransformer.copyFromCanonical(course, co, optionKeys);
+        coTransformer.copyFromCanonical(course, co, optionKeys, context);
         try {
             return this._getCoService().updateCourseOffering(courseOfferingId, co, context);
         } catch (ReadOnlyException ex) {

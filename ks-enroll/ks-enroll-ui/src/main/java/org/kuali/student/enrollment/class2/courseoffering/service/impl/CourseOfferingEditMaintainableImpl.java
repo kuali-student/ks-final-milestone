@@ -277,8 +277,8 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                         Collections.sort(creditOption.getAllowedCredits());
 
                         if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE)) {
-                            creditOption.setCourseMinCredits(resultComponentInfo.getAttributes().get("minCreditValue"));
-                            creditOption.setCourseMaxCredits(resultComponentInfo.getAttributes().get("maxCreditValue"));
+                            creditOption.setCourseMinCredits(resultComponentInfo.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS));
+                            creditOption.setCourseMaxCredits(resultComponentInfo.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS));
 
                             //Default the value
                             creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);

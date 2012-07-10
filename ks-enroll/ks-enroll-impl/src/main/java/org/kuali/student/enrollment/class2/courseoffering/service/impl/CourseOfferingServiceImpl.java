@@ -445,7 +445,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         CourseInfo courseInfo = getCourse(courseId);
         // copy from canonical
         CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-        coTransformer.copyFromCanonical(courseInfo, coInfo, optionKeys);
+        coTransformer.copyFromCanonical(courseInfo, coInfo, optionKeys, context);
         // copy to lui
         LuiInfo lui = new LuiInfo();
         coTransformer.courseOffering2Lui(coInfo, lui, context);

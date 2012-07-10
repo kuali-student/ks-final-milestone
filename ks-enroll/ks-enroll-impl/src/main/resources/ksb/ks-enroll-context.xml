@@ -32,7 +32,7 @@
   <import resource="classpath:statement-context.xml" />
 
   <!-- JTA -->
-  <tx:annotation-driven transaction-manager="transactionManager" />
+ <!-- <tx:annotation-driven transaction-manager="transactionManager" />-->
 
 
   <bean id="enrollDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
@@ -220,7 +220,7 @@
     </property>
   </bean>
 
-  <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
+  <tx:annotation-driven transaction-manager="transactionManager" order="1000" />
 
 
   <!-- Exception mapping. This is needed because many operations are proxied and do not throw exceptions until a later time -->
@@ -316,6 +316,7 @@
    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
        <property name="lprService" ref="lprPersistenceService" />
+       <property name="lrcService" ref="lrcPersistenceService" />
    </bean>
 
    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
