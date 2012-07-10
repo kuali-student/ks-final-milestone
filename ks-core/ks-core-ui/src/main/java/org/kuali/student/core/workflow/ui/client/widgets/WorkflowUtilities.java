@@ -790,15 +790,14 @@ public class WorkflowUtilities{
 				
 //				final ActionCancelGroup approveCancelButtons = new ActionCancelGroup(ButtonEnumerations.ApproveCancelEnum.APPROVE, ButtonEnumerations.ApproveCancelEnum.CANCEL);  				
 				                  
-				approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(false);
+				approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(true);
 				
 				approveCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>() {
                     @Override
                     public void exec(ButtonEnumerations.ButtonEnum result) {
                         if (result != ButtonEnumerations.ApproveCancelEnum.CANCEL) {
-                            if (rationaleEditor.getText().trim().equals("")) {
-                                required.setText("Please enter the decision rationale");
-                            } else {
+                        	{
+                        		// - Removed check here to make Rational for Approvals not required.
                                 if (approveDialogView != null) {
                                     // Validate all the fields on the current section (the additional required fields)
                                     parentController.requestModel(new ModelRequestCallback<DataModel>() {
@@ -922,7 +921,7 @@ public class WorkflowUtilities{
 				SectionTitle headerTitle = SectionTitle.generateH3Title("Approve Proposal");
 				SectionTitle dialogLabel = SectionTitle.generateH4Title("You are approving the " + proposalName +" proposal");
 				SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");				
-				required = new AbbrPanel("Required", "ks-form-module-elements-required", " * ");
+				required = new AbbrPanel("Required", "ks-form-module-elements-required", "  ");
 				required.setVisible(true);				
                 HorizontalPanel rationalePanel = new HorizontalPanel();                
                 rationalePanel.add(fieldLabel);
