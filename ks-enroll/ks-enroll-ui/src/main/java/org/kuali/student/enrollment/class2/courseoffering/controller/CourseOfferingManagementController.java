@@ -104,11 +104,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             } else if (courseOfferingList.size()>1) {
                 LOG.error("Error: Found more than one Course Offering for a Course Offering Code: "+courseOfferingCode+" in term: "+termCode);
                 GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_COURSE_OFFERING, courseOfferingCode, termCode);
+                theForm.setCourseOfferingList(null);
+                theForm.setActivityWrapperList(null);
                 return getUIFModelAndView(theForm);
             } else {
                 LOG.error("Error: Can't find any Course Offering for a Course Offering Code: "+courseOfferingCode+" in term: "+termCode);
                 GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", courseOfferingCode, termCode);
                 theForm.setCourseOfferingList(null);
+                theForm.setActivityWrapperList(null);
                 return getUIFModelAndView(theForm);
             }
         }
