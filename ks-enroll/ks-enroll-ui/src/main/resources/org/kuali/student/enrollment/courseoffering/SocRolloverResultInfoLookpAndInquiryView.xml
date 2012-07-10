@@ -29,7 +29,7 @@
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="targetTermId" p:required="true"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="sourceTermId" />
+                <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="sourceTermId" />-->
                 <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />-->
             </list>
         </property>
