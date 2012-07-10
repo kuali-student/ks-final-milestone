@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -116,6 +117,12 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(coEditWrapper.getCreditOption().getCredits(),
                         LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, getContextInfo());
                 coInfo.setCreditOptionId(rvgInfo.getKey());
+            }
+
+            // CO code
+            if (!StringUtils.isEmpty(coInfo.getCourseNumberSuffix())) {
+                String courseOfferingCode = coEditWrapper.getCourse().getCode() + coInfo.getCourseNumberSuffix();
+                coInfo.setCourseOfferingCode(courseOfferingCode);
             }
 
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, getContextInfo());
