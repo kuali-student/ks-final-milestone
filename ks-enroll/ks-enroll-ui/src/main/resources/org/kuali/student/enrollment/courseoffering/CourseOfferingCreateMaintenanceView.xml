@@ -140,6 +140,12 @@
                     </property>
                 </bean>
 
+                <bean parent="Uif-InputField" p:propertyName="invalidTargetTermError" p:readOnly="true" p:fieldLabel.renderColon="false" p:style="color:red">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
                               p:performClientSideValidation="true" p:style="margin-top:15px;" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
 
