@@ -76,8 +76,8 @@ public class PopulationEntity extends MetaEntity implements AttributeOwner<Popul
             this.setDescrFormatted(null);
             this.setDescrPlain(null);
         }
-        // TODO: clear it with Tom
-        // this.setPopulationRuleId(infc.getRuleId());
+        // the rule id is thrown away when creating the dto
+
         this.attributes.clear();
         for (Attribute att : infc.getAttributes()) {
             this.attributes.add(new PopulationAttributeEntity(att, this));
@@ -94,8 +94,8 @@ public class PopulationEntity extends MetaEntity implements AttributeOwner<Popul
         populationInfo.setTypeKey(populationType);
         populationInfo.setStateKey(populationState);
         populationInfo.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
-        // TODO: Clear it with Tom
-        // populationInfo.setRuleId(populationRuleId);
+
+        // this rule id is thrown away when creating the dto
 
         List<AttributeInfo> dtoAttributes = populationInfo.getAttributes();
         dtoAttributes.clear();
