@@ -40,6 +40,7 @@ import java.util.Set;
  *
  * @author Mezba Mahtab
  */
+
 @Entity
 @Table(name = "KSEN_POPULATION_CAT")
 public class PopulationCategoryEntity extends MetaEntity implements AttributeOwner<PopulationCategoryAttributeEntity> {

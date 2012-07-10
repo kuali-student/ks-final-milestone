@@ -27,6 +27,7 @@ import javax.persistence.Table;
  *
  * @author Kuali Student Team
  */
+
 @Entity
 @Table(name = "KSEN_POPULATION_ATTR")
 public class PopulationAttributeEntity extends BaseAttributeEntity<PopulationEntity>{

@@ -27,12 +27,15 @@ import javax.persistence.Table;
  *
  * @author Kuali Student Team
  */
+
 @Entity
 @Table(name = "KSEN_POPULATION_RULE_ATTR")
 public class PopulationRuleAttributeEntity extends BaseAttributeEntity<PopulationRuleEntity> {
+
     ///////////////////////////
     // CONSTRUCTORS
     ///////////////////////////
+
     public PopulationRuleAttributeEntity() {
         super();
     }

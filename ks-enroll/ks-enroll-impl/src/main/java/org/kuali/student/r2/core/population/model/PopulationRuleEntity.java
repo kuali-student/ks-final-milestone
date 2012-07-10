@@ -40,6 +40,7 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
+
 @Entity
 @Table(name = "KSEN_POPULATION_RULE")
 public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<PopulationRuleAttributeEntity> {
