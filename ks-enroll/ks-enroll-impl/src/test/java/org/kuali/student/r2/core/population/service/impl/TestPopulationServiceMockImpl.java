@@ -24,6 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -32,6 +33,53 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:population-test-context.xml"})
 public class TestPopulationServiceMockImpl {
+
+    /////////////////////////////////
+    // CONSTANTS
+    /////////////////////////////////
+
+    // some test data constants
+    private static final List<String> POP_RULE_AGENDA_IDS_1 = new ArrayList<String>(
+            Arrays.asList("7", "8", "6")
+    );
+
+    private static final List<String> POP_RULE_AGENDA_IDS_2 = new ArrayList<String>(
+            Arrays.asList("1", "2", "3")
+    );
+
+    private static final List<String> POP_RULE_GROUP_IDS_1 = new ArrayList<String>(
+            Arrays.asList("2", "4", "6", "8")
+    );
+    private static final List<String> POP_RULE_GROUP_IDS_2 = new ArrayList<String>(
+            Arrays.asList("1", "3", "5", "7")
+    );
+
+    private static final List<String> POP_RULE_PERSON_IDS_1 = new ArrayList<String>(
+            Arrays.asList("2", "4")
+    );
+    private static final List<String> POP_RULE_PERSON_IDS_2 = new ArrayList<String>(
+            Arrays.asList("1", "3")
+    );
+
+    private static final List<String> POP_RULE_CHILD_POP_IDS_1 = new ArrayList<String>(
+            Arrays.asList("2", "5")
+    );
+    private static final List<String> POP_RULE_CHILD_POP_IDS_2 = new ArrayList<String>(
+            Arrays.asList("0", "5")
+    );
+
+    private static final String POP_RULE_REF_CHILD_POP_ID_1 = "99";
+    private static final String POP_RULE_REF_CHILD_POP_ID_2 = "101";
+
+    private static final List<String> POP_RULE_SORT_ORDER_TYPE_KEYS_1 = new ArrayList<String>(
+            Arrays.asList("key1", "key2")
+    );
+    private static final List<String> POP_RULE_SORT_ORDER_TYPE_KEYS_2 = new ArrayList<String>(
+            Arrays.asList("key3", "key4")
+    );
+
+    private static final boolean POP_RULE_VARIES_BY_TIME = true;
+    private static final boolean POP_RULE_SUPPORTS_GET_MEMBERS = false;
 
     /////////////////////////////////
     // DATA VARIABLES
@@ -78,9 +126,18 @@ public class TestPopulationServiceMockImpl {
         PopulationInfo expected = new PopulationInfo();
         crudInfoTester.initializeInfoForTestCreate(expected, PopulationServiceConstants.POPULATION_TYPE_KEY, PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
         assertNull(expected.getId());
+        expected.setVariesByTime(!POP_RULE_VARIES_BY_TIME); // the apply Rule will flip it, will test for that
+        expected.setSupportsGetMembers(!POP_RULE_SUPPORTS_GET_MEMBERS); // the apply Rule will flip it, will test for that
         PopulationInfo actual = populationService.createPopulation(expected, contextInfo);
         assertNotNull(actual.getId());
         crudInfoTester.testCreate(expected, actual);
+        assertEquals(0, expected.getSortOrderTypeKeys().size()); // no sort order type key is initialized
+        assertEquals(0, actual.getSortOrderTypeKeys().size());
+        crudInfoTester.getListOfStringTester().check(expected.getSortOrderTypeKeys(), actual.getSortOrderTypeKeys()); // not really necessary as both are empty
+        assertEquals(expected.getVariesByTime(), !POP_RULE_VARIES_BY_TIME);
+        assertEquals(expected.getVariesByTime(), actual.getVariesByTime());
+        assertEquals(expected.getSupportsGetMembers(), !POP_RULE_SUPPORTS_GET_MEMBERS);
+        assertEquals(expected.getSupportsGetMembers(), actual.getSupportsGetMembers());
 
         // test read
         expected = actual;
@@ -90,15 +147,29 @@ public class TestPopulationServiceMockImpl {
 
         // test update
         expected = actual;
-        crudInfoTester.initializeInfoForTestUpdate(expected);
+        crudInfoTester.initializeInfoForTestUpdate(expected, PopulationServiceConstants.POPULATION_INACTIVE_STATE_KEY);
         actual = populationService.updatePopulation(expected.getId(), expected, contextInfo);
         crudInfoTester.testUpdate(expected, actual);
+        assertEquals(0, expected.getSortOrderTypeKeys().size()); // no sort order type key is initialized
+        assertEquals(0, actual.getSortOrderTypeKeys().size());
+        crudInfoTester.getListOfStringTester().check(expected.getSortOrderTypeKeys(), actual.getSortOrderTypeKeys()); // not really necessary as both are empty
+        assertEquals(expected.getVariesByTime(), !POP_RULE_VARIES_BY_TIME);
+        assertEquals(expected.getVariesByTime(), actual.getVariesByTime());
+        assertEquals(expected.getSupportsGetMembers(), !POP_RULE_SUPPORTS_GET_MEMBERS);
+        assertEquals(expected.getSupportsGetMembers(), actual.getSupportsGetMembers());
 
         // test read again
         expected = actual;
         crudInfoTester.initializeInfoForTestRead(expected);
         actual = populationService.getPopulation(actual.getId(), contextInfo);
         crudInfoTester.testRead(expected, actual);
+        assertEquals(0, expected.getSortOrderTypeKeys().size()); // no sort order type key is initialized
+        assertEquals(0, actual.getSortOrderTypeKeys().size());
+        crudInfoTester.getListOfStringTester().check(expected.getSortOrderTypeKeys(), actual.getSortOrderTypeKeys()); // not really necessary as both are empty
+        assertEquals(expected.getVariesByTime(), !POP_RULE_VARIES_BY_TIME);
+        assertEquals(expected.getVariesByTime(), actual.getVariesByTime());
+        assertEquals(expected.getSupportsGetMembers(), !POP_RULE_SUPPORTS_GET_MEMBERS);
+        assertEquals(expected.getSupportsGetMembers(), actual.getSupportsGetMembers());
 
         // test delete
         StatusInfo status = populationService.deletePopulation(expected.getId(), contextInfo);
@@ -113,31 +184,112 @@ public class TestPopulationServiceMockImpl {
 
     @Test
     public void testCrudPopulationRule() throws Exception {
+
         // create
         PopulationRuleInfo expected = new PopulationRuleInfo();
         crudInfoTester.initializeInfoForTestCreate(expected, PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
         assertNull(expected.getId());
+        expected.setAgendaIds(POP_RULE_AGENDA_IDS_1);
+        expected.setGroupIds(POP_RULE_GROUP_IDS_1);
+        expected.setPersonIds(POP_RULE_PERSON_IDS_1);
+        expected.setChildPopulationIds(POP_RULE_CHILD_POP_IDS_1);
+        expected.setReferencePopulationId(POP_RULE_REF_CHILD_POP_ID_1);
+        expected.setSortOrderTypeKeys(POP_RULE_SORT_ORDER_TYPE_KEYS_1);
+        expected.setVariesByTime(POP_RULE_VARIES_BY_TIME);
+        expected.setSupportsGetMembers(POP_RULE_SUPPORTS_GET_MEMBERS);
         PopulationRuleInfo actual = populationService.createPopulationRule(expected, contextInfo);
         assertNotNull(actual.getId());
         crudInfoTester.testCreate(expected, actual);
+        crudInfoTester.getListOfStringTester().check(expected.getAgendaIds(), POP_RULE_AGENDA_IDS_1);
+        crudInfoTester.getListOfStringTester().check(expected.getAgendaIds(), actual.getAgendaIds());
+        crudInfoTester.getListOfStringTester().check(expected.getGroupIds(), POP_RULE_GROUP_IDS_1);
+        crudInfoTester.getListOfStringTester().check(expected.getGroupIds(), actual.getGroupIds());
+        crudInfoTester.getListOfStringTester().check(expected.getPersonIds(), POP_RULE_PERSON_IDS_1);
+        crudInfoTester.getListOfStringTester().check(expected.getPersonIds(), actual.getPersonIds());
+        crudInfoTester.getListOfStringTester().check(expected.getChildPopulationIds(), POP_RULE_CHILD_POP_IDS_1);
+        crudInfoTester.getListOfStringTester().check(expected.getChildPopulationIds(), actual.getChildPopulationIds());
+        assertEquals(POP_RULE_REF_CHILD_POP_ID_1, expected.getReferencePopulationId());
+        assertEquals(expected.getReferencePopulationId(), actual.getReferencePopulationId());
+        crudInfoTester.getListOfStringTester().check(expected.getSortOrderTypeKeys(), POP_RULE_SORT_ORDER_TYPE_KEYS_1);
+        crudInfoTester.getListOfStringTester().check(expected.getSortOrderTypeKeys(), actual.getSortOrderTypeKeys());
+        assertEquals(expected.getVariesByTime(), POP_RULE_VARIES_BY_TIME);
+        assertEquals(expected.getVariesByTime(), actual.getVariesByTime());
+        assertEquals(expected.getSupportsGetMembers(), POP_RULE_SUPPORTS_GET_MEMBERS);
+        assertEquals(expected.getSupportsGetMembers(), actual.getSupportsGetMembers());
 
         // test read
         expected = actual;
         crudInfoTester.initializeInfoForTestRead(expected);
         actual = populationService.getPopulationRule(actual.getId(), contextInfo);
         crudInfoTester.testRead(expected, actual);
+        crudInfoTester.getListOfStringTester().check(expected.getAgendaIds(), POP_RULE_AGENDA_IDS_1);
+        crudInfoTester.getListOfStringTester().check(expected.getAgendaIds(), actual.getAgendaIds());
+        crudInfoTester.getListOfStringTester().check(expected.getGroupIds(), POP_RULE_GROUP_IDS_1);
+        crudInfoTester.getListOfStringTester().check(expected.getGroupIds(), actual.getGroupIds());
+        crudInfoTester.getListOfStringTester().check(expected.getPersonIds(), POP_RULE_PERSON_IDS_1);
+        crudInfoTester.getListOfStringTester().check(expected.getPersonIds(), actual.getPersonIds());
+        crudInfoTester.getListOfStringTester().check(expected.getChildPopulationIds(), POP_RULE_CHILD_POP_IDS_1);
+        crudInfoTester.getListOfStringTester().check(expected.getChildPopulationIds(), actual.getChildPopulationIds());
+        assertEquals(POP_RULE_REF_CHILD_POP_ID_1, expected.getReferencePopulationId());
+        assertEquals(expected.getReferencePopulationId(), actual.getReferencePopulationId());
+        crudInfoTester.getListOfStringTester().check(expected.getSortOrderTypeKeys(), POP_RULE_SORT_ORDER_TYPE_KEYS_1);
+        crudInfoTester.getListOfStringTester().check(expected.getSortOrderTypeKeys(), actual.getSortOrderTypeKeys());
+        assertEquals(expected.getVariesByTime(), POP_RULE_VARIES_BY_TIME);
+        assertEquals(expected.getVariesByTime(), actual.getVariesByTime());
+        assertEquals(expected.getSupportsGetMembers(), POP_RULE_SUPPORTS_GET_MEMBERS);
+        assertEquals(expected.getSupportsGetMembers(), actual.getSupportsGetMembers());
 
         // test update
         expected = actual;
-        crudInfoTester.initializeInfoForTestUpdate(expected);
+        crudInfoTester.initializeInfoForTestUpdate(expected, PopulationServiceConstants.POPULATION_RULE_INACTIVE_STATE_KEY);
+        expected.setAgendaIds(POP_RULE_AGENDA_IDS_2);
+        expected.setGroupIds(POP_RULE_GROUP_IDS_2);
+        expected.setPersonIds(POP_RULE_PERSON_IDS_2);
+        expected.setChildPopulationIds(POP_RULE_CHILD_POP_IDS_2);
+        expected.setReferencePopulationId(POP_RULE_REF_CHILD_POP_ID_2);
+        expected.setSortOrderTypeKeys(POP_RULE_SORT_ORDER_TYPE_KEYS_2);
+        expected.setVariesByTime(!POP_RULE_VARIES_BY_TIME);
+        expected.setSupportsGetMembers(!POP_RULE_SUPPORTS_GET_MEMBERS);
         actual = populationService.updatePopulationRule(expected.getId(), expected, contextInfo);
         crudInfoTester.testUpdate(expected, actual);
+        crudInfoTester.getListOfStringTester().check(expected.getAgendaIds(), POP_RULE_AGENDA_IDS_2);
+        crudInfoTester.getListOfStringTester().check(expected.getAgendaIds(), actual.getAgendaIds());
+        crudInfoTester.getListOfStringTester().check(expected.getGroupIds(), POP_RULE_GROUP_IDS_2);
+        crudInfoTester.getListOfStringTester().check(expected.getGroupIds(), actual.getGroupIds());
+        crudInfoTester.getListOfStringTester().check(expected.getPersonIds(), POP_RULE_PERSON_IDS_2);
+        crudInfoTester.getListOfStringTester().check(expected.getPersonIds(), actual.getPersonIds());
+        crudInfoTester.getListOfStringTester().check(expected.getChildPopulationIds(), POP_RULE_CHILD_POP_IDS_2);
+        crudInfoTester.getListOfStringTester().check(expected.getChildPopulationIds(), actual.getChildPopulationIds());
+        assertEquals(POP_RULE_REF_CHILD_POP_ID_2, expected.getReferencePopulationId());
+        assertEquals(expected.getReferencePopulationId(), actual.getReferencePopulationId());
+        crudInfoTester.getListOfStringTester().check(expected.getSortOrderTypeKeys(), POP_RULE_SORT_ORDER_TYPE_KEYS_2);
+        crudInfoTester.getListOfStringTester().check(expected.getSortOrderTypeKeys(), actual.getSortOrderTypeKeys());
+        assertEquals(expected.getVariesByTime(), !POP_RULE_VARIES_BY_TIME);
+        assertEquals(expected.getVariesByTime(), actual.getVariesByTime());
+        assertEquals(expected.getSupportsGetMembers(), !POP_RULE_SUPPORTS_GET_MEMBERS);
+        assertEquals(expected.getSupportsGetMembers(), actual.getSupportsGetMembers());
 
         // test read again
         expected = actual;
         crudInfoTester.initializeInfoForTestRead(expected);
         actual = populationService.getPopulationRule(actual.getId(), contextInfo);
         crudInfoTester.testRead(expected, actual);
+        crudInfoTester.getListOfStringTester().check(expected.getAgendaIds(), POP_RULE_AGENDA_IDS_2);
+        crudInfoTester.getListOfStringTester().check(expected.getAgendaIds(), actual.getAgendaIds());
+        crudInfoTester.getListOfStringTester().check(expected.getGroupIds(), POP_RULE_GROUP_IDS_2);
+        crudInfoTester.getListOfStringTester().check(expected.getGroupIds(), actual.getGroupIds());
+        crudInfoTester.getListOfStringTester().check(expected.getPersonIds(), POP_RULE_PERSON_IDS_2);
+        crudInfoTester.getListOfStringTester().check(expected.getPersonIds(), actual.getPersonIds());
+        crudInfoTester.getListOfStringTester().check(expected.getChildPopulationIds(), POP_RULE_CHILD_POP_IDS_2);
+        crudInfoTester.getListOfStringTester().check(expected.getChildPopulationIds(), actual.getChildPopulationIds());
+        assertEquals(POP_RULE_REF_CHILD_POP_ID_2, expected.getReferencePopulationId());
+        assertEquals(expected.getReferencePopulationId(), actual.getReferencePopulationId());
+        crudInfoTester.getListOfStringTester().check(expected.getSortOrderTypeKeys(), POP_RULE_SORT_ORDER_TYPE_KEYS_2);
+        crudInfoTester.getListOfStringTester().check(expected.getSortOrderTypeKeys(), actual.getSortOrderTypeKeys());
+        assertEquals(expected.getVariesByTime(), !POP_RULE_VARIES_BY_TIME);
+        assertEquals(expected.getVariesByTime(), actual.getVariesByTime());
+        assertEquals(expected.getSupportsGetMembers(), !POP_RULE_SUPPORTS_GET_MEMBERS);
+        assertEquals(expected.getSupportsGetMembers(), actual.getSupportsGetMembers());
 
         // test delete
         StatusInfo status = populationService.deletePopulationRule(expected.getId(), contextInfo);
@@ -303,6 +455,8 @@ public class TestPopulationServiceMockImpl {
             PopulationInfo populationInfo = new PopulationInfo();
             crudInfoTester.initializeInfoForTestCreate(populationInfo, PopulationServiceConstants.POPULATION_TYPE_KEY, PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
             populationInfo.setName("pop" + i);
+            populationInfo.setVariesByTime(!POP_RULE_VARIES_BY_TIME); // the apply Rule will flip it, will test for that
+            populationInfo.setSupportsGetMembers(!POP_RULE_SUPPORTS_GET_MEMBERS); // the apply Rule will flip it, will test for that
             populationInfo = populationService.createPopulation(populationInfo, contextInfo);
             populationIds.add(populationInfo.getId());
         }
@@ -338,6 +492,9 @@ public class TestPopulationServiceMockImpl {
             PopulationRuleInfo populationRuleInfo = new PopulationRuleInfo();
             crudInfoTester.initializeInfoForTestCreate(populationRuleInfo, POPULATION_RULE_TYPES[i], PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
             populationRuleInfo.setName("popRule" + i);
+            populationRuleInfo.setSortOrderTypeKeys(POP_RULE_SORT_ORDER_TYPE_KEYS_1);
+            populationRuleInfo.setVariesByTime(POP_RULE_VARIES_BY_TIME);
+            populationRuleInfo.setSupportsGetMembers(POP_RULE_SUPPORTS_GET_MEMBERS);
             populationRuleInfo = populationService.createPopulationRule(populationRuleInfo, contextInfo);
             populationRuleIds.add(populationRuleInfo.getId());
         }
@@ -367,6 +524,16 @@ public class TestPopulationServiceMockImpl {
         assertNotNull(status_applyPopulationRuleToPopulation);
         populationInfosForRule = populationService.getPopulationsForPopulationRule(populationRuleIds.get(0), contextInfo);
         assertEquals(1, populationInfosForRule.size());
+        for (PopulationInfo info : populationInfosForRule) {
+            // check that the sort order type, varies by time and supports member is now that of the population rule
+            crudInfoTester.getListOfStringTester().check(info.getSortOrderTypeKeys(), POP_RULE_SORT_ORDER_TYPE_KEYS_1);
+            crudInfoTester.getListOfStringTester().check(info.getSortOrderTypeKeys(), populationRuleInfos.get(0).getSortOrderTypeKeys());
+            assertEquals(info.getVariesByTime(), POP_RULE_VARIES_BY_TIME);
+            assertEquals(info.getVariesByTime(), populationRuleInfos.get(0).getVariesByTime());
+            assertEquals(info.getSupportsGetMembers(), POP_RULE_SUPPORTS_GET_MEMBERS);
+            assertEquals(info.getSupportsGetMembers(), populationRuleInfos.get(0).getSupportsGetMembers());
+        }
+
         status_applyPopulationRuleToPopulation = populationService.applyPopulationRuleToPopulation(populationRuleIds.get(0), populationIds.get(1), contextInfo); // add another population
         assertNotNull(status_applyPopulationRuleToPopulation);
         populationInfosForRule = populationService.getPopulationsForPopulationRule(populationRuleIds.get(0), contextInfo);

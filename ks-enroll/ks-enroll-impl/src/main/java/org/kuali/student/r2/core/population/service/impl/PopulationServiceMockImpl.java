@@ -409,6 +409,12 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
                 }
             }
         }
+
+        // change all underlying population properties to match population rule properties
+        populationInfo.setSortOrderTypeKeys(populationRuleInfo.getSortOrderTypeKeys());
+        populationInfo.setSupportsGetMembers(populationRuleInfo.getSupportsGetMembers());
+        populationInfo.setVariesByTime(populationRuleInfo.getVariesByTime());
+
         // add this rule to this population
         ArrayList<PopulationInfo> popsForRule = populationsPerRuleForAllRules.get(populationRuleId);
         if (popsForRule==null) { popsForRule = new ArrayList<PopulationInfo>(); }
