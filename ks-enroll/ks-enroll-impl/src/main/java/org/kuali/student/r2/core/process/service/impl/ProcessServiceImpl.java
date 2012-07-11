@@ -249,8 +249,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<ProcessInfo> searchForProcesss(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<ProcessInfo> searchForProcess(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                              @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO
                                                                        // implement

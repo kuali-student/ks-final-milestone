@@ -471,8 +471,8 @@ public interface ProcessService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ProcessInfo> searchForProcesss(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<ProcessInfo> searchForProcess(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,

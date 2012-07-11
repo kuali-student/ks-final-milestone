@@ -113,8 +113,8 @@ public abstract class ProcessServiceDecorator implements ProcessService {
     }
 
     @Override
-    public List<ProcessInfo> searchForProcesss(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForProcesss(criteria, contextInfo);
+    public List<ProcessInfo> searchForProcess(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForProcess(criteria, contextInfo);
     }
 
     @Override
