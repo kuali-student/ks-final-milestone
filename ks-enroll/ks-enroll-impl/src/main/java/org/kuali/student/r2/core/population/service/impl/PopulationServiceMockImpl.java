@@ -690,6 +690,7 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
         populationRuleMap.clear();
         populationMap.clear();
         populationCategoryMap.clear();
+        populationsPerRuleForAllRules.clear();
         populationCategoriesForPopulationMap.clear();
     }
 }
