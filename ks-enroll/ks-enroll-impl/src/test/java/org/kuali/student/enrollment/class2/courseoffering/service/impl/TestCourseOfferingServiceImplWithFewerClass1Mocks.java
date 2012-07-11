@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"classpath:co-test-with-fewer-mocks-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-public class TestCourseOfferingServiceImplWithFewerMocks extends TestCourseOfferingServiceImplWithMocks {
+public class TestCourseOfferingServiceImplWithFewerClass1Mocks extends TestCourseOfferingServiceImplWithClass1Mocks {
 
     public void setUp() {
         callContext = new ContextInfo();

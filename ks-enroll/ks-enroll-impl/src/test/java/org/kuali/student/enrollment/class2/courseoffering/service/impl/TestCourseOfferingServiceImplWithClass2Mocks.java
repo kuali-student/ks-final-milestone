@@ -76,10 +76,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:co-test-with-class2-mock-context.xml" })
-public class TestCourseOfferingServiceMockImpl {
+public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 	private static final Logger log = Logger
-			.getLogger(TestCourseOfferingServiceMockImpl.class);
+			.getLogger(TestCourseOfferingServiceImplWithClass2Mocks.class);
 
 	@Resource
 	protected CourseOfferingService coService;
@@ -101,13 +101,13 @@ public class TestCourseOfferingServiceMockImpl {
 	/**
 	 * 
 	 */
-	public TestCourseOfferingServiceMockImpl() {
+	public TestCourseOfferingServiceImplWithClass2Mocks() {
 		this(true);
 	}
 	
 	
 
-	public TestCourseOfferingServiceMockImpl(boolean testAwareDataLoader) {
+	public TestCourseOfferingServiceImplWithClass2Mocks(boolean testAwareDataLoader) {
 		this.testAwareDataLoader = testAwareDataLoader;
 		
 	}

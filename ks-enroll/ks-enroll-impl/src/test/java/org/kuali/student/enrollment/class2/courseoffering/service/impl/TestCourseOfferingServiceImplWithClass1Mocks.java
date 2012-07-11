@@ -43,7 +43,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-with-mocks-context.xml"})
-public class TestCourseOfferingServiceImplWithMocks {
+public class TestCourseOfferingServiceImplWithClass1Mocks {
 
     @Resource(name = "coService")
     protected CourseOfferingService courseOfferingService;
@@ -83,7 +83,8 @@ public class TestCourseOfferingServiceImplWithMocks {
         ActivityOfferingInfo ao = this.testCRUDActivityOffering(fo);
         this.testDeletes(co, fo, ao);
     }
-    public CourseOfferingInfo testCRUDCourseOffering() throws DoesNotExistException,
+    
+    private CourseOfferingInfo testCRUDCourseOffering() throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         // get course
@@ -243,7 +244,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         }
     }
 
-    public FormatOfferingInfo testCRUDFormatOffering(CourseOfferingInfo co)
+    private FormatOfferingInfo testCRUDFormatOffering(CourseOfferingInfo co)
             throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DataValidationErrorException,
