@@ -147,7 +147,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 		RegistrationGroupInfo rgLecA = CourseOfferingServiceDataUtils
 				.createRegistrationGroup("CO-1", formatOfferingId, "2012FA",
 						activityOfferingIds, "RG-1", "RG-1", true, true, 10,
-						LuiServiceConstants.REG_GROUP_OPEN_STATE_KEY);
+						LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
 
 		try {
 			RegistrationGroupInfo created = coService.createRegistrationGroup(

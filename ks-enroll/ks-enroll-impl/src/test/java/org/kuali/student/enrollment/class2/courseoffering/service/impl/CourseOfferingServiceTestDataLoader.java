@@ -431,7 +431,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			
 			// Create a Registration Group
 			List activities;
-			RegistrationGroupInfo regGroupA = CourseOfferingServiceDataUtils.createRegistrationGroup(co.getId(), fo1.getId(), "2012SP", activities = Arrays.asList(new String[] {lectureOnlyFormatLectureA.getId()}), "Reg Group for Lecture A", "REG:LEC-A", false, false,50, LuiServiceConstants.REG_GROUP_OPEN_STATE_KEY);
+			RegistrationGroupInfo regGroupA = CourseOfferingServiceDataUtils.createRegistrationGroup(co.getId(), fo1.getId(), "2012SP", activities = Arrays.asList(new String[] {lectureOnlyFormatLectureA.getId()}), "Reg Group for Lecture A", "REG:LEC-A", false, false,50, LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
 			
 			regGroupA.setId("CO-2:LEC-ONLY:REG-GROUP-LEC-A");
 			

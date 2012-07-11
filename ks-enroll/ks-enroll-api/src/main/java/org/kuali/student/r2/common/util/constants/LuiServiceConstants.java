@@ -193,9 +193,9 @@ public class LuiServiceConstants {
     /**
      * Registration Group States
      */
-    public static final String REG_GROUP_OPEN_STATE_KEY = " kuali.lui.reggroup.state.open";
-    public static final String REG_GROUP_CLOSED_STATE_KEY = " kuali.lui.reggroup.state.closed";
-    public static final String REG_GROUP_SUSPENDED_STATE_KEY = " kuali.lui.reggroup.state.suspended";
+    public static final String REGISTRATION_GROUP_OPEN_STATE_KEY = " kuali.lui.registration.group.state.open";
+    public static final String REGISTRATION_GROUP_CLOSED_STATE_KEY = " kuali.lui.registration.group.state.closed";
+    public static final String REGISTRATION_GROUP_SUSPENDED_STATE_KEY = " kuali.lui.registration.group.state.suspended";
     
     /**
      * known lu codes
