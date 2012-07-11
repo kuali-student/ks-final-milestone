@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
@@ -62,12 +61,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
-import org.w3c.dom.css.RGBColor;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -89,9 +86,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	@Resource
 	private TypeService typeService;
 	
-	@Resource
-	private RegistrationGroupCodeGenerator registrationCodeGenerator;
-
 	@Override
 	public void clear() {
 
@@ -933,133 +927,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	// The LinkedHashMap is just so the values come back in a predictable order
 	private Map<String, RegistrationGroupInfo> registrationGroupMap = new LinkedHashMap<String, RegistrationGroupInfo>();
 
-	/*
-	 * The core generation logic should work with in the impl aswell.
-	 */
-	@Override
-	public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(
-			String formatOfferingId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-
-		// check for any existing registration groups
-		
-		List<RegistrationGroupInfo> existingRegistrationGroups = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
-		
-		Map<String, RegistrationGroupInfo>activityPermutationToRegistrationGroupMap = new HashMap<String, RegistrationGroupInfo>();
-		
-		for (RegistrationGroupInfo info : existingRegistrationGroups) {
-			
-			String key = createPermutationKey (info.getActivityOfferingIds());
-			
-			activityPermutationToRegistrationGroupMap.put(key, info);
-			
-		}
-		
-		
-		FormatOfferingInfo formatOffering = getFormatOffering(formatOfferingId,
-				context);
-
-		List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
-
-		Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap = new HashMap<String, List<String>>();
-
-		List<ActivityOfferingInfo> aoList = getActivityOfferingsByFormatOffering(
-				formatOfferingId, context);
-
-		for (ActivityOfferingInfo info : aoList) {
-
-			String activityType = info.getTypeKey();
-
-			List<String> activityList = activityOfferingTypeToAvailableActivityOfferingMap
-					.get(activityType);
-
-			if (activityList == null) {
-				activityList = new ArrayList<String>();
-				activityOfferingTypeToAvailableActivityOfferingMap.put(
-						activityType, activityList);
-			}
-
-			activityList.add(info.getId());
-
-		}
-
-		List<List<String>> generatedPermutations = new ArrayList<List<String>>();
-
-		PermutationUtils.generatePermutations(new ArrayList<String>(
-				activityOfferingTypeToAvailableActivityOfferingMap.keySet()),
-				new ArrayList<String>(),
-				activityOfferingTypeToAvailableActivityOfferingMap,
-				generatedPermutations);
-
-		int skippedCounter = 0;
-		int generatedCounter = 0;
-		
-		for (List<String> activityOfferingPermuation : generatedPermutations) {
-
-			String key = createPermutationKey (activityOfferingPermuation);
-			
-			// check for an existing group
-			RegistrationGroupInfo rg = activityPermutationToRegistrationGroupMap.get(key);
-			
-			if (rg != null) {
-				// registration group exists so skip
-				log.info("skipping existing reg group for activity permutation = " + key);
-				skippedCounter++;
-				regGroupList.add(rg);
-				continue;
-			}
-			
-			String registrationCode = registrationCodeGenerator.generateRegistrationGroupCode(formatOffering, aoList);
-			
-			String name = registrationCode;
-			rg = CourseOfferingServiceDataUtils
-					.createRegistrationGroup(
-							formatOffering.getCourseOfferingId(),
-							formatOfferingId, formatOffering.getTermId(),
-							activityOfferingPermuation, name, registrationCode,
-							true, true, 100,
-							LuiServiceConstants.REG_GROUP_OPEN_STATE_KEY);
-
-			try {
-				// TODO: determine if this is an acceptable way to handle this
-				// stuff.
-				createRegistrationGroup(formatOfferingId,
-						LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg,
-						context);
-
-				regGroupList.add(rg);
-
-			} catch (DataValidationErrorException e) {
-				throw new OperationFailedException(
-						"Failed to validate registration group", e);
-
-			} catch (ReadOnlyException e) {
-				throw new OperationFailedException(
-						"Failed to write registration group", e);
-			}
-
-			generatedCounter++;
-			
-			// this may not be needed
-			activityPermutationToRegistrationGroupMap.put(key, rg);
-
-		}
-		
-		log.warn("generateRegistrationGroups Complete (generated, skipped) = ("+generatedCounter+", " + skippedCounter + ")");
-
-		return regGroupList;
-	}
-
-	private String createPermutationKey(List<String>activityOfferingIds) {
-		
-		Collections.sort(activityOfferingIds);
-		
-		String key = StringUtils.join(activityOfferingIds, "-");
-		
-		return key;
-	}
+	
 
 	@Override
 	public List<RegistrationGroupInfo> generateRegistrationGroupsForTemplate(
@@ -1600,6 +1468,18 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			throw new DoesNotExistException("no seatpool association for spId=" + seatPoolDefinitionId + " and activityOfferingId = " + activityOfferingId);
 		
 	}
+
+	@Override
+	public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(
+			String formatOfferingId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		return businessLogic.generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
+	}
+	
+	
 	
 	
 }

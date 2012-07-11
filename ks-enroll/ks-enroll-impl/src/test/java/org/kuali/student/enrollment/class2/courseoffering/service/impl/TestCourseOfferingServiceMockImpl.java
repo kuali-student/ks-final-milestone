@@ -22,11 +22,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -39,7 +35,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -62,7 +57,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
@@ -167,81 +161,7 @@ public class TestCourseOfferingServiceMockImpl {
 		}
 	}
 
-	@Test
-	public void testGeneratePermutations() throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-
-		/*
-		 * This tests the permutation generation logic that is used when generating registration groups.
-		 * 
-		 * We want to make a group of each ao for each activity type.
-		 * 
-		 */
-		Map<String, List<String>> typeToListMap = new HashMap<String, List<String>>();
-
-		List<String> lecList = new ArrayList<String>(2);
-
-		lecList.add("A");
-		lecList.add("B");
-
-		typeToListMap.put("LEC", lecList);
-
-		List<String> labList = new ArrayList<String>(3);
-
-		labList.add("X");
-		labList.add("Y");
-		labList.add("Z");
-
-		typeToListMap.put("LAB", labList);
-
-		Set<String> nextStateSet = new HashSet<String>();
-
-		nextStateSet.addAll(typeToListMap.keySet());
-
-		int expectedPermutations = 0;
-
-		for (String key : typeToListMap.keySet()) {
-
-			int length = typeToListMap.get(key).size();
-
-			if (expectedPermutations == 0)
-				expectedPermutations = length;
-			else
-				expectedPermutations *= length;
-		}
-
-		assertEquals(6, expectedPermutations);
-
-		List<List<String>> permutations = new ArrayList<List<String>>();
-
-		ArrayList<String> keyList = new ArrayList<String>(
-				typeToListMap.keySet());
-
-		PermutationUtils.generatePermutations(keyList, new ArrayList<String>(), typeToListMap,
-				permutations);
-
-		assertEquals(6, permutations.size());
-
-		List<String> discussionList = new ArrayList<String>();
-
-		discussionList.add("Q");
-		discussionList.add("R");
-		discussionList.add("S");
-		discussionList.add("T");
-
-		typeToListMap.put("DIS", discussionList);
-
-		permutations.clear();
-
-		keyList = new ArrayList<String>(typeToListMap.keySet());
-
-		PermutationUtils.generatePermutations(keyList, new ArrayList<String>(), typeToListMap,
-				permutations);
-
-		assertEquals(24, permutations.size());
-
-	}
+	
 
 
 	

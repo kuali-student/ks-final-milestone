@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -70,16 +71,19 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
- * When testing CourseOfferingService it was a problem to have all the base data be reloaded before each test.
+ * This class is expected to be configured as a spring bean in order to have the resources loaded.  
+ * <p/>
+ * The {@link TestAwareDataLoader}  api is used by the TestCourseOfferingServiceMockImpl to coordinate the data clear and load operations. 
  * 
- * So this class is now intended to be a spring bean so that it can configure itself once and then the data will
- * be available for all of the test cases.
+ * The data modeled here probably should have come from this picture in the CourseOfferingService documentation : 
+ * <p/>
+ * {@link https://wiki.kuali.org/display/STUDENT/KS+ENR+HLDS+-+Seat+Pools+-+Reg+Groups#KSENRHLDS-SeatPools-RegGroups-DiagramofSeatPoolandRegGroupExamples}
+ * 
+ * We also define some methods that can be used to insert specific kinds of data into various spots for each example CourseOffering.
  * 
  * @author ocleirig
- * 
  *
  */
 public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader, ApplicationContextAware {

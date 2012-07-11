@@ -7,25 +7,36 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.xml.namespace.QName;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -34,10 +45,10 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-
-import javax.xml.namespace.QName;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 /**
  *
@@ -45,10 +56,20 @@ import javax.xml.namespace.QName;
  */
 public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingServiceBusinessLogic  {
 
+	private static final Logger log = Logger.getLogger(CourseOfferingServiceBusinessLogicImpl.class);
+	
+	@Resource
     private CourseService courseService;
-    private AcademicCalendarService acalService;
-    private CourseOfferingService coService;
-
+    
+	@Resource
+	private AcademicCalendarService acalService;
+    
+	@Resource
+	private CourseOfferingService coService;
+    
+    @Resource
+	private RegistrationGroupCodeGenerator registrationCodeGenerator;
+    
     public CourseOfferingService getCoService() {
         return coService;
     }
@@ -264,6 +285,130 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
         return list.get(0).getId();
     }
+    
+
+    /*
+     * Used to create a unique string for each activity offering id permutation.
+     */
+	private String createPermutationKey(List<String>activityOfferingIds) {
+		
+		Collections.sort(activityOfferingIds);
+		
+		String key = StringUtils.join(activityOfferingIds, "-");
+		
+		return key;
+	}
+
+    /*
+	 * The core generation logic should work with in the impl aswell.
+	 */
+	@Override
+	public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(
+			String formatOfferingId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, AlreadyExistsException {
+
+		// check for any existing registration groups
+		
+		List<RegistrationGroupInfo> existingRegistrationGroups = coService.getRegistrationGroupsByFormatOffering(formatOfferingId, context);
+		
+		if (existingRegistrationGroups.size() > 0)
+			throw new AlreadyExistsException("Registration groups already exist for formatOfferingId=" + formatOfferingId);
+		
+		
+		FormatOfferingInfo formatOffering = coService.getFormatOffering(formatOfferingId,
+				context);
+
+		
+		List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
+
+		Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap = new HashMap<String, List<String>>();
+
+		List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByFormatOffering(
+				formatOfferingId, context);
+
+		for (ActivityOfferingInfo info : aoList) {
+
+			String activityType = info.getTypeKey();
+
+			List<String> activityList = activityOfferingTypeToAvailableActivityOfferingMap
+					.get(activityType);
+
+			if (activityList == null) {
+				activityList = new ArrayList<String>();
+				activityOfferingTypeToAvailableActivityOfferingMap.put(
+						activityType, activityList);
+			}
+
+			activityList.add(info.getId());
+
+		}
+
+		List<List<String>> generatedPermutations = new ArrayList<List<String>>();
+
+		PermutationUtils.generatePermutations(new ArrayList<String>(
+				activityOfferingTypeToAvailableActivityOfferingMap.keySet()),
+				new ArrayList<String>(),
+				activityOfferingTypeToAvailableActivityOfferingMap,
+				generatedPermutations);
+
+		CourseOfferingInfo courseOffering = coService.getCourseOffering(formatOffering.getCourseOfferingId(), context);
+		
+		
+		for (List<String> activityOfferingPermuation : generatedPermutations) {
+
+			String registrationCode = registrationCodeGenerator.generateRegistrationGroupCode(formatOffering, aoList);
+			
+			// Honours Offering and max enrollment is out of scope for M4 so this hard set is ok.
+			String name = registrationCode;
+			
+			RegistrationGroupInfo rg = new RegistrationGroupInfo();
+
+			rg.setActivityOfferingIds(activityOfferingPermuation);
+
+			rg.setCourseOfferingId(formatOfferingId);
+			rg.setDescr(new RichTextInfo(name, name));
+
+			rg.setFormatOfferingId(formatOfferingId);
+
+			rg.setIsGenerated(true);
+			
+			rg.setName(name);
+			rg.setRegistrationCode(registrationCode);
+
+			rg.setTermId(formatOffering.getTermId());
+
+			rg.setStateKey(LuiServiceConstants.REG_GROUP_OPEN_STATE_KEY);
+			
+			rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
+			
+			// out of scope for M4.  Defined for the purposes of satisfying the dictionary
+			rg.setIsHonorsOffering(false);
+			rg.setMaximumEnrollment(100);
+			
+
+			try {
+				coService.createRegistrationGroup(formatOfferingId,
+						LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg,
+						context);
+
+				regGroupList.add(rg);
+
+			} catch (DataValidationErrorException e) {
+				throw new OperationFailedException(
+						"Failed to validate registration group", e);
+
+			} catch (ReadOnlyException e) {
+				throw new OperationFailedException(
+						"Failed to write registration group", e);
+			}
+
+
+		}
+		
+		return regGroupList;
+	}
 
    
 }
