@@ -59,6 +59,13 @@ import static org.junit.Assert.*;
 public class TestCourseOfferingServiceImpl extends TestCourseOfferingServiceMockImpl {
 
 
+	public TestCourseOfferingServiceImpl() {
+		/*
+		 * The tx for each transaction rollsback so we don't need to reload data at the end of each test.
+		 */
+		super(false);
+	}
+
 	public void simpleTest() {
 		assertTrue(false);
 	}

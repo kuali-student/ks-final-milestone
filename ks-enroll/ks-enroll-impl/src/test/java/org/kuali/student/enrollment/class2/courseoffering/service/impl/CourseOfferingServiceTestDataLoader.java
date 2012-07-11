@@ -110,6 +110,8 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	private AcalTestDataLoader acalDataLoader;
 
 	private ApplicationContext applicationContext;
+
+	private boolean initialized;
 	
 
 	/**
@@ -157,6 +159,8 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 		createCourseCHEM123(fall2012, context);
 		
 		createCourseENG101(spring2012, context);
+		
+		this.initialized = true;
 		
 		
 		// activity
@@ -574,5 +578,12 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	            throw new IllegalArgumentException("Bad date " + str + " in " + context);
 	        }
 	    }
+
+
+
+
+		public boolean isInitialized() {
+			return initialized;
+		}
 
 }

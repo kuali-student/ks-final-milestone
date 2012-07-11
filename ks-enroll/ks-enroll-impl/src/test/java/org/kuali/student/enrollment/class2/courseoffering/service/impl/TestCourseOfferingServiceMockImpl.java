@@ -50,6 +50,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -95,11 +96,23 @@ public class TestCourseOfferingServiceMockImpl {
 	@Resource
 	protected CourseOfferingServiceTestDataLoader dataLoader;
 
+	private final boolean testAwareDataLoader;
+
 	/**
 	 * 
 	 */
 	public TestCourseOfferingServiceMockImpl() {
+		this(true);
 	}
+	
+	
+
+	public TestCourseOfferingServiceMockImpl(boolean testAwareDataLoader) {
+		this.testAwareDataLoader = testAwareDataLoader;
+		
+	}
+
+
 
 	public static String principalId = "123";
 	public ContextInfo callContext = null;
@@ -110,14 +123,16 @@ public class TestCourseOfferingServiceMockImpl {
 		callContext = new ContextInfo();
 		callContext.setPrincipalId(principalId);
 		
-		dataLoader.beforeTest();
+		if (testAwareDataLoader || !dataLoader.isInitialized())
+			dataLoader.beforeTest();
 
 	}
 	
 	
 	@After
 	public void tearDown() {
-		dataLoader.afterTest();
+		if (testAwareDataLoader)
+			dataLoader.afterTest();
 	}
 
 	@Test
@@ -564,6 +579,29 @@ public class TestCourseOfferingServiceMockImpl {
 		}
 	}
 
+	@Test
+	public void testDeleteCourseOfferingCascaded() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		
+		boolean dependantObjects = false;
+		
+		try {
+			coService.deleteCourseOffering("CO-1", callContext);
+		} catch (DependentObjectsExistException e) {
+			dependantObjects = true;
+		}
+		
+		assertTrue("No dependent objects exist for CO-1", dependantObjects);
+		
+		StatusInfo status = coService.deleteCourseOfferingCascaded("CO-1", callContext);
+		
+		assertTrue(status.getIsSuccess());
+		
+		List<FormatOfferingInfo> formats = coService.getFormatOfferingsByCourseOffering("CO-1", callContext);
+		
+		assertEquals (0, formats.size());
+		
+		
+	}
 	@Test
 	public void testCreateFormatOffering() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
