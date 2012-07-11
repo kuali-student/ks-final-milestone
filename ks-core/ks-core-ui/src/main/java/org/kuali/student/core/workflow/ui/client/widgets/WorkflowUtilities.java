@@ -44,6 +44,7 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSLightBox.Size;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.buttongroups.AcknowledgeCancelGroup;
@@ -927,6 +928,7 @@ public class WorkflowUtilities{
                 rationalePanel.add(fieldLabel);
                 rationalePanel.add(required);				
 				rationaleEditor.addStyleName("KS-Comment-Create-Editor");
+				rationaleEditor.setPixelSize( 520,180);
 				dialogPanel.clear();
 				submitSuccessDialog.clearButtons();
 				submitSuccessDialog.setNonCaptionHeader(headerTitle);
@@ -936,9 +938,9 @@ public class WorkflowUtilities{
                 if(approveDialogView!=null && !approveDialogView.getFields().isEmpty()){
                 	dialogPanel.add(approveDialogView.asWidget());
                 }
-				submitSuccessDialog.addButtonGroup(approveCancelButtons);
-				//dialogPanel.setSize("580px", "450px");
-				dialogPanel.setHeight("380px");
+				submitSuccessDialog.addButtonGroup(approveCancelButtons);				
+				dialogPanel.setWidth("380px");				
+				submitSuccessDialog.setSize(Size.MEDIUM);
 				submitSuccessDialog.show();
 			}        
 		});
