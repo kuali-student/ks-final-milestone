@@ -1082,6 +1082,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional
+	public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException
+			 {
+    	throw new UnsupportedOperationException();
+	}
+
+	@Override
     public List<ValidationResultInfo> validateActivityOffering(String validationType,
                                                                ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
             throws DoesNotExistException,

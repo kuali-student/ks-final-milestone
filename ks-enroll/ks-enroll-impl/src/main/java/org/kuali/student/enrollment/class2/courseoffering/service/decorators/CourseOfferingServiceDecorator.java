@@ -495,6 +495,15 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		return getNextDecorator().removeSeatPoolDefinitionFromActivityOffering(seatPoolDefinitionId, activityOfferingId, contextInfo);
+	}
+
+	@Override
+	public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException
+			 {
+		return getNextDecorator().deleteActivityOfferingCascaded(activityOfferingId, context);
 	} 
     
     

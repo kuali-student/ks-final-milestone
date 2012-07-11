@@ -30,11 +30,8 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -107,7 +104,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 	
 	
 
-	public TestCourseOfferingServiceImplWithClass2Mocks(boolean testAwareDataLoader) {
+	protected TestCourseOfferingServiceImplWithClass2Mocks(boolean testAwareDataLoader) {
 		this.testAwareDataLoader = testAwareDataLoader;
 		
 	}
@@ -182,7 +179,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 	
 
 	@Test
-	public void testGenerateRegistrationGroups() throws DoesNotExistException,
+	public void testGenerateRegistrationGroupsSimple() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException, AlreadyExistsException {
 
@@ -195,7 +192,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 	}
 	
 	@Test
-	public void testGenerateRegistrationGroupsAfterAddingNewActivityOffering() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
+	public void testGenerateAndDeleteRegistrationGroups() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
 		
 		List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsForCourseOffering("CO-1", callContext);
 		
@@ -538,6 +535,91 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 	}
 
 	@Test
+	public void testDeleteFormatOffering() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException, DoesNotExistException {
+		
+		boolean exception = false;
+		
+		try {
+			coService.deleteFormatOffering("DOES NOT EXIST", callContext);
+		} catch (DoesNotExistException e) {
+			exception = true;
+		} 
+		
+		assertTrue ("Activity should not exist but seems to.", exception);
+		
+		exception = false;
+		
+		String formatOfferingId = "CO-1:LEC-ONLY";
+		try {
+			coService.deleteFormatOffering(formatOfferingId, callContext);
+		} catch (DependentObjectsExistException e) {
+			exception = true;
+		}
+		
+		assertTrue("Deleted a format that has activities", exception);
+		
+		StatusInfo status = coService.deleteFormatOfferingCascaded(formatOfferingId, callContext);
+		
+		assertTrue(status.getIsSuccess());
+		
+		// verify no activity offerings remain
+		 List<ActivityOfferingInfo> aos = coService.getActivityOfferingsByFormatOffering(formatOfferingId, callContext);
+	
+		 assertEquals (0, aos.size());
+	}
+	
+	
+	@Test
+	public void testDeleteActivityOffering() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException, DoesNotExistException {
+		
+		SeatPoolDefinitionInfo seatPoolDefinitionInfo = CourseOfferingServiceDataUtils.createSeatPoolDefinition("POP1", "Test Seat Pool", "expiration milestone", false, 12, 5);
+		
+		seatPoolDefinitionInfo = coService.createSeatPoolDefinition(seatPoolDefinitionInfo, callContext);
+		
+		String activityOfferingId = "CO-1:LEC-ONLY:LEC-A";
+		coService.addSeatPoolDefinitionToActivityOffering(seatPoolDefinitionInfo.getId(), activityOfferingId, callContext);
+		
+		boolean exception = false;
+		try {
+			coService.deleteActivityOffering(activityOfferingId, callContext);
+		} catch (DependentObjectsExistException e) {
+			exception = true;
+		}
+		
+		assertTrue("Failed to detect associated seat pool for activity offering and abort delete", exception);
+		
+		// now cascade the delete
+		
+		StatusInfo status = coService.deleteActivityOfferingCascaded(activityOfferingId, callContext);
+		
+		assertTrue (status.getIsSuccess());
+		
+		// check that the activity offering and seat pool are gone.
+		
+		exception = false;
+		
+		try {
+			coService.getActivityOffering(activityOfferingId, callContext);
+		} catch (DoesNotExistException e) {
+			exception = true;
+		}
+		
+		assertTrue("activity still exists after delete", exception);
+		
+		exception = false;
+		try {
+		List<SeatPoolDefinitionInfo> spls = coService.getSeatPoolDefinitionsForActivityOffering(activityOfferingId, callContext);
+		} catch (DoesNotExistException e) {
+			exception = true;
+		}
+		
+		assertTrue("activity still exists after delete", exception);
+		
+	}
+	
+	
+	
+	@Test
 	public void testDeleteCourseOffering() throws AlreadyExistsException,
 			DoesNotExistException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
@@ -577,10 +659,22 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 		} catch (Exception ex) {
 			fail("Exception from service call :" + ex.getMessage());
 		}
+		
+		boolean exception = false;
+		
+		try {
+			coService.deleteCourseOffering("CO-1", callContext);
+		} catch (DependentObjectsExistException e) {
+			exception = true;
+		}
+		
+		assertTrue("Failed to detect dependent objects", exception);
+		
+		
 	}
 
 	@Test
-	public void testDeleteCourseOfferingCascaded() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public void testDeleteCourseOfferingCascaded() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException {
 		
 		boolean dependantObjects = false;
 		
@@ -592,6 +686,10 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 		
 		assertTrue("No dependent objects exist for CO-1", dependantObjects);
 		
+		List<RegistrationGroupInfo> rgs = coService.generateRegistrationGroupsForFormatOffering("CO-1:LEC-ONLY", callContext);
+		
+		assertTrue(rgs.size() > 0);
+		
 		StatusInfo status = coService.deleteCourseOfferingCascaded("CO-1", callContext);
 		
 		assertTrue(status.getIsSuccess());
@@ -600,8 +698,13 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 		
 		assertEquals (0, formats.size());
 		
+		rgs = coService.getRegistrationGroupsForCourseOffering("CO-1", callContext);
+		
+		assertEquals (0, rgs.size());
 		
 	}
+	
+	
 	@Test
 	public void testCreateFormatOffering() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,

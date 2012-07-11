@@ -9,6 +9,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import org.kuali.student.r2.common.exceptions.*;
@@ -322,4 +323,95 @@ public class CourseOfferingServiceValidationDecorator
         }
         return errors;
     }
+
+	
+
+	@Override
+	public StatusInfo deleteFormatOffering(String formatOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			DependentObjectsExistException {
+		
+		// check for activities
+		List<ActivityOfferingInfo> activities = getActivityOfferingsByFormatOffering(formatOfferingId, context);
+		
+		if (activities.size() > 0)
+			throw new DependentObjectsExistException("Activity Offerings Exist that refer to FormatOfferingId = " + formatOfferingId);
+		
+		// check for reg groups
+		List<RegistrationGroupInfo> rgs = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
+		
+		if (rgs.size() > 0)
+			throw new DependentObjectsExistException("Registration Groups Exist that refer to Format Offering Id = " + formatOfferingId);
+		
+		// check for seat pools
+		for (ActivityOfferingInfo activityOfferingInfo : activities) {
+			
+			List<SeatPoolDefinitionInfo> spls = getSeatPoolDefinitionsForActivityOffering(activityOfferingInfo.getId(), context);
+			
+			if (spls.size() > 0) {
+				throw new DependentObjectsExistException("SeatPoolDefinitions Exist that refer to Format Offering Id = " + formatOfferingId);
+			}
+		
+					
+		}
+		
+		return super.deleteFormatOffering(formatOfferingId, context);
+	}
+
+	@Override
+	public StatusInfo deleteCourseOffering(String courseOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			DependentObjectsExistException {
+		
+		List<FormatOfferingInfo> formats = getFormatOfferingsByCourseOffering(courseOfferingId, context);
+		
+		if (formats.size() > 0)
+			throw new DependentObjectsExistException("Formats exist for course offering with id = "+ courseOfferingId);
+		
+		List<ActivityOfferingInfo> activities = getActivityOfferingsByCourseOffering(courseOfferingId, context);
+		
+		if (activities.size() > 0)
+			throw new DependentObjectsExistException("Activities exist for course offering with id = "+ courseOfferingId);
+		
+		List<RegistrationGroupInfo> registrationGroups = getRegistrationGroupsForCourseOffering(courseOfferingId, context);
+		
+		if (registrationGroups.size() > 0)
+			throw new DependentObjectsExistException("RegistrationGroups exist for course offering with id = "+ courseOfferingId);
+		
+		return getNextDecorator().deleteCourseOffering(courseOfferingId, context);
+	}
+
+	@Override
+	public StatusInfo deleteActivityOffering(String activityOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			DependentObjectsExistException {
+		
+		ActivityOfferingInfo offering = getActivityOffering(activityOfferingId, context);
+		
+		// check for reg groups
+		List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByFormatOffering(offering.getFormatOfferingId(), context);
+		
+		for (RegistrationGroupInfo rg : regGroups) {
+			
+			if (rg.getActivityOfferingIds().contains(activityOfferingId))
+				throw new DependentObjectsExistException("Registration Groups Exist that refer to ActivityOfferingId = " + activityOfferingId);
+			
+		}
+		
+		// check for seat pools
+		List<SeatPoolDefinitionInfo> seatPools = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
+		
+		if (seatPools.size() > 0)
+			throw new DependentObjectsExistException("Seat Pools Exist that refer to ActivityOfferingId = " + activityOfferingId);
+		
+		return getNextDecorator().deleteActivityOffering(activityOfferingId, context);
+	}
+    
+    
 }
