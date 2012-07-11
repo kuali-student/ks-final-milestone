@@ -81,19 +81,19 @@ public class TestCourseOfferingServiceMockImpl {
 			.getLogger(TestCourseOfferingServiceMockImpl.class);
 
 	@Resource
-	private CourseOfferingService coService;
+	protected CourseOfferingService coService;
 
 	@Resource
-	private AcademicCalendarService acalService;
+	protected AcademicCalendarService acalService;
 
 	@Resource
-	private AtpService atpService;
+	protected AtpService atpService;
 
 	@Resource
-	private org.kuali.student.lum.course.service.CourseService canonicalCourseService;
+	protected org.kuali.student.lum.course.service.CourseService canonicalCourseService;
 	
 	@Resource
-	private CourseOfferingServiceTestDataLoader dataLoader;
+	protected CourseOfferingServiceTestDataLoader dataLoader;
 
 	/**
 	 * 
@@ -169,7 +169,7 @@ public class TestCourseOfferingServiceMockImpl {
 	@Test
 	public void testGenerateRegistrationGroups() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
+			OperationFailedException, PermissionDeniedException, AlreadyExistsException {
 
 		List<RegistrationGroupInfo> rgList = coService
 				.generateRegistrationGroupsForFormatOffering(
@@ -180,7 +180,7 @@ public class TestCourseOfferingServiceMockImpl {
 	}
 	
 	@Test
-	public void testGenerateRegistrationGroupsAfterAddingNewActivityOffering() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException {
+	public void testGenerateRegistrationGroupsAfterAddingNewActivityOffering() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
 		
 		List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsForCourseOffering("CO-1", callContext);
 		
@@ -210,10 +210,33 @@ public class TestCourseOfferingServiceMockImpl {
 		
 		Assert.assertEquals(6, ao.size());
 		
-		rgList = coService
-				.generateRegistrationGroupsForFormatOffering(
-						"CO-1:LEC-AND-LAB", callContext);
+		boolean exception = false;
+		
+		try {
+			rgList = coService
+					.generateRegistrationGroupsForFormatOffering(
+							"CO-1:LEC-AND-LAB", callContext);
+		} catch (AlreadyExistsException e) {
+			exception = true;
+		}
+		
+		Assert.assertTrue("Exception should have occured when generating on top of existing reg groups.", exception);
 
+		StatusInfo status = coService.deleteGeneratedRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
+		
+		assertTrue("Failed to delete existing generated registration groups", status.getIsSuccess());
+
+		try {
+			rgList = coService
+					.generateRegistrationGroupsForFormatOffering(
+							"CO-1:LEC-AND-LAB", callContext);
+		} catch (AlreadyExistsException e) {
+			
+			// this case should not happen.
+			// but fail the test if it does.
+			Assert.assertTrue("Failed to generate registration groups", false);
+		}
+		
 		Assert.assertEquals(8, rgList.size());
 		
 		
@@ -668,28 +691,7 @@ public class TestCourseOfferingServiceMockImpl {
 		}
 	}
 
-	@Test
-	@Ignore
-	// there is name property on CourseOffering right now so this will have to
-	// be adjusted later.
-	public void testSearchForCourseOfferings()
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		try {
-			QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder
-					.create();
-			qbcBuilder.setPredicates(PredicateFactory.like("name", "*three*"));
-			QueryByCriteria qbc = qbcBuilder.build();
-			List<CourseOfferingInfo> coList = coService
-					.searchForCourseOfferings(qbc, callContext);
-			assertNotNull(coList);
-			assertEquals(1, coList.size());
-			CourseOfferingInfo coInfo = coList.get(0);
-			assertEquals("Lui-3", coInfo.getId());
-		} catch (Exception ex) {
-			fail("Exception from service call :" + ex.getMessage());
-		}
-	}
+	
 
 	@Test
 	public void testUpdateRegistrationGroup() throws InvalidParameterException,

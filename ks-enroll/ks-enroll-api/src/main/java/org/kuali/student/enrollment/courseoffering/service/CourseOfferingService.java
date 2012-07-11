@@ -1133,21 +1133,6 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Generates all possible registration groups needed (not already in a regGroup) for the given format
-     * Offering  if there are no reg group templates for the  Format Offering ;
-     * else generate by constraints in the reg group template.
-     *
-     * @param formatOfferingId    identifier of the activity offering
-     * @param context
-     * @return
-     * @throws InvalidParameterException    One or more parameters invalid
-     * @throws MissingParameterException    One or more parameters missing
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    authorization failure
-     */
     public List<RegistrationGroupInfo> generateRegistrationGroupsForTemplate(@WebParam(name = "registrationGroupTemplateId") String registrationGroupTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
                                                                                    

@@ -1474,7 +1474,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			String formatOfferingId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+			PermissionDeniedException, AlreadyExistsException {
 		
 		return businessLogic.generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
 	}

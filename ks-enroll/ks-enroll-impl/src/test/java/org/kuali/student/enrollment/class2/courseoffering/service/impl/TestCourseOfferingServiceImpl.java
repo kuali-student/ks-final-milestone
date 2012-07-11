@@ -43,31 +43,47 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-// TODO: delete this file this once all the tests have been moved over to the new mock framework
-@Ignore
+
+/*
+ * This class was used to test the class1 backed implementation of CourseOfferingService for CourseOffering, FormatOffering and ActivityOffering.
+ * 
+ * For M4 it has been refactored.  Most of the test are now in TestCourseOfferingServiceMockImpl and only db dependent tests go here.
+ * 
+ * See TestLprServiceImpl for an example.
+ * 
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestCourseOfferingServiceImpl extends TestCourseOfferingServiceMockImpl {
 
-    @Resource (name="coServiceAuthDecorator") 
-    private CourseOfferingService courseOfferingService;
-    @Resource (name="luiService") 
-    private LuiService luiService;
-    public static String principalId = "123";
-    public ContextInfo callContext = null;
 
-    @Before
-    public void setUp() {
-        callContext = new ContextInfo();
-        callContext.setPrincipalId(principalId);
-        try {
-            new LuiServiceDataLoader(this.luiService).loadData();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-    }
+	public void simpleTest() {
+		assertTrue(false);
+	}
 
+    @Test
+    @Ignore
+	// there is name property on CourseOffering right now so this will have to
+	// be adjusted later.
+	public void testSearchForCourseOfferings()
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		try {
+			QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder
+					.create();
+			qbcBuilder.setPredicates(PredicateFactory.like("name", "*three*"));
+			QueryByCriteria qbc = qbcBuilder.build();
+			List<CourseOfferingInfo> coList = coService
+					.searchForCourseOfferings(qbc, callContext);
+			assertNotNull(coList);
+			assertEquals(1, coList.size());
+			CourseOfferingInfo coInfo = coList.get(0);
+			assertEquals("Lui-3", coInfo.getId());
+		} catch (Exception ex) {
+			fail("Exception from service call :" + ex.getMessage());
+		}
+	}
    
 }

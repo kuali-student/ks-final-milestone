@@ -106,7 +106,9 @@ public class RegistrationGroupInfo
 
         this.isHonorsOffering = registrationGroup.getIsHonorsOffering();
         this.maximumEnrollment = registrationGroup.getMaximumEnrollment();
-        this.isHonorsOffering = registrationGroup.getIsHonorsOffering();
+        
+        this.isGenerated = registrationGroup.getIsGenerated();
+        
     }
 
     @Override
