@@ -381,7 +381,9 @@ public class CourseOfferingTransformer {
                 instructor.setStateKey(lpr.getStateKey());
 
                 Person person = personService.getPerson(lpr.getPersonId());
-                instructor.setPersonName(person.getName());
+                if (person != null) {
+                    instructor.setPersonName(person.getName());
+                }
                 co.getInstructors().add(instructor);
             //}
         }
