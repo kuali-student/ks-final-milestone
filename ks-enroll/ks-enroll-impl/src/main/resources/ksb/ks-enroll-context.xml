@@ -28,12 +28,8 @@
   <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
   <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
   <import resource="classpath:enrollDao.xml" />
-  <import resource="classpath:ksb/ks-lu-context.xml" />
+  <import resource="classpath:ksb/ks-lu-no-tx-context.xml" />
   <import resource="classpath:statement-context.xml" />
-
-  <!-- JTA -->
- <!-- <tx:annotation-driven transaction-manager="transactionManager" />-->
-
 
   <bean id="enrollDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
     <property name="transactionManager" ref="userTransaction" />
@@ -49,7 +45,6 @@
 
   <bean id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler"></bean>
   <bean id="gradeRosterEntryAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler"></bean>
-
 
   <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl"
     scope="singleton">
@@ -219,9 +214,6 @@
       </bean>
     </property>
   </bean>
-
-  <tx:annotation-driven transaction-manager="transactionManager" order="1000" />
-
 
   <!-- Exception mapping. This is needed because many operations are proxied and do not throw exceptions until a later time -->
   <bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
