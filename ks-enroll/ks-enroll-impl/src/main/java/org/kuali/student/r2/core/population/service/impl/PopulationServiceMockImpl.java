@@ -97,7 +97,10 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
         if (!this.populationMap.containsKey(populationId)) {
             throw new DoesNotExistException(populationId);
         }
-        return this.populationMap.get (populationId);
+        PopulationInfo populationInfo = this.populationMap.get (populationId);
+        // update the rule fields in population info object
+        try { setPopulationRuleFieldsForPopulation(populationInfo, contextInfo); } catch (Exception ignored) {}
+        return populationInfo;
     }
 
     @Override
@@ -110,7 +113,10 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
     {
         List<PopulationInfo> list = new ArrayList<PopulationInfo> ();
         for (String id: populationIds) {
-            list.add (this.getPopulation(id, contextInfo));
+            PopulationInfo populationInfo = this.getPopulation(id, contextInfo);
+            // update the rule fields in population info object
+            try { setPopulationRuleFieldsForPopulation(populationInfo, contextInfo); } catch (Exception ignored) {}
+            list.add (populationInfo);
         }
         return list;
     }
@@ -141,6 +147,10 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
         if (!populationRuleMap.containsKey(populationRuleId)) throw new InvalidParameterException("Could not find population rule with id: " + populationRuleId);
         List<PopulationInfo> popsForRule = populationsPerRuleForAllRules.get(populationRuleId);
         if (popsForRule==null) { return new ArrayList<PopulationInfo>(); }
+        // update the rule fields in population info objects
+        for (PopulationInfo populationInfo : popsForRule) {
+            try { setPopulationRuleFieldsForPopulation(populationInfo, contextInfo); } catch (Exception ignored) {}
+        }
         return popsForRule;
     }
 
@@ -192,7 +202,10 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
         }
         copy.setMeta(newMeta(contextInfo));
         populationMap.put(copy.getId(), copy);
-        return new PopulationInfo(copy);
+        PopulationInfo populationInfoToReturn = new PopulationInfo(copy);
+        // update the rule fields in population info object
+        try { setPopulationRuleFieldsForPopulation(populationInfoToReturn, contextInfo); } catch (Exception ignored) {}
+        return populationInfoToReturn;
     }
 
     @Override
@@ -217,7 +230,10 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
         }
         copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
         this.populationMap .put(populationInfo.getId(), copy);
-        return new PopulationInfo(copy);
+        PopulationInfo populationInfoToReturn = new PopulationInfo(copy);
+        // update the rule fields in population info object
+        try { setPopulationRuleFieldsForPopulation(populationInfoToReturn, contextInfo); } catch (Exception ignored) {}
+        return populationInfoToReturn;
     }
 
     @Override
@@ -409,11 +425,6 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
                 }
             }
         }
-
-        // change all underlying population properties to match population rule properties
-        populationInfo.setSortOrderTypeKeys(populationRuleInfo.getSortOrderTypeKeys());
-        populationInfo.setSupportsGetMembers(populationRuleInfo.getSupportsGetMembers());
-        populationInfo.setVariesByTime(populationRuleInfo.getVariesByTime());
 
         // add this rule to this population
         ArrayList<PopulationInfo> popsForRule = populationsPerRuleForAllRules.get(populationRuleId);
@@ -657,6 +668,21 @@ public class PopulationServiceMockImpl implements PopulationService, MockService
         meta.setUpdateTime(new Date());
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
+    }
+
+    private void setPopulationRuleFieldsForPopulation (PopulationInfo populationInfo, ContextInfo contextInfo)
+        throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException {
+        // look up the rule this Population is part of
+        PopulationRuleInfo populationRuleInfo = getPopulationRuleForPopulation(populationInfo.getId(), contextInfo);
+
+        // change all underlying population properties to match population rule properties
+        populationInfo.setSortOrderTypeKeys(populationRuleInfo.getSortOrderTypeKeys());
+        populationInfo.setSupportsGetMembers(populationRuleInfo.getSupportsGetMembers());
+        populationInfo.setVariesByTime(populationRuleInfo.getVariesByTime());
     }
 
     @Override

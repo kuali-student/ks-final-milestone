@@ -126,8 +126,8 @@ public class TestPopulationServiceMockImpl {
         PopulationInfo expected = new PopulationInfo();
         crudInfoTester.initializeInfoForTestCreate(expected, PopulationServiceConstants.POPULATION_TYPE_KEY, PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
         assertNull(expected.getId());
-        expected.setVariesByTime(!POP_RULE_VARIES_BY_TIME); // the apply Rule will flip it, will test for that
-        expected.setSupportsGetMembers(!POP_RULE_SUPPORTS_GET_MEMBERS); // the apply Rule will flip it, will test for that
+        expected.setVariesByTime(!POP_RULE_VARIES_BY_TIME);
+        expected.setSupportsGetMembers(!POP_RULE_SUPPORTS_GET_MEMBERS);
         PopulationInfo actual = populationService.createPopulation(expected, contextInfo);
         assertNotNull(actual.getId());
         crudInfoTester.testCreate(expected, actual);
@@ -455,8 +455,6 @@ public class TestPopulationServiceMockImpl {
             PopulationInfo populationInfo = new PopulationInfo();
             crudInfoTester.initializeInfoForTestCreate(populationInfo, PopulationServiceConstants.POPULATION_TYPE_KEY, PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
             populationInfo.setName("pop" + i);
-            populationInfo.setVariesByTime(!POP_RULE_VARIES_BY_TIME); // the apply Rule will flip it, will test for that
-            populationInfo.setSupportsGetMembers(!POP_RULE_SUPPORTS_GET_MEMBERS); // the apply Rule will flip it, will test for that
             populationInfo = populationService.createPopulation(populationInfo, contextInfo);
             populationIds.add(populationInfo.getId());
         }
