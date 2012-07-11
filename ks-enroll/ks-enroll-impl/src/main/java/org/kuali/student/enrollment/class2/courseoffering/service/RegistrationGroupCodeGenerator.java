@@ -30,10 +30,14 @@ import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
 public interface RegistrationGroupCodeGenerator {
 	
 	/**
+	 * Generate a Registration Group Code.  This is what the student will see when selecting a Registration Group.
+	 * 
+	 * Note: This was created before M4 and before the exact standard format for this code has been determined by the Analysis Team.
+	 * The parameters should be changed as needed to support easily generating that format.
 	 * 
 	 * @param fo the format Offering
 	 * @param activities The list of Activities in the registration group
-	 * @return the unique registration code that will shown to users during the registration process.
+	 * @return A registration code that is unique for the CourseOffering and is suitable for students to use during the registration process.
 	 * 
 	 */
 	public String generateRegistrationGroupCode(FormatOffering fo, List<ActivityOfferingInfo>activities);
