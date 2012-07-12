@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+//Needs to clean up the core slice codes
+@Deprecated
 public class CourseOfferingWrapper implements Serializable {
     private static final long serialVersionUID = 1L;
 

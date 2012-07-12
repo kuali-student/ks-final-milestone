@@ -23,10 +23,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
-import org.kuali.student.enrollment.class1.lui.model.LuCodeEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
+import org.kuali.student.enrollment.class1.lui.model.*;
 
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -51,6 +48,9 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 
 
 public class LuiServiceImpl 
@@ -344,14 +344,39 @@ public class LuiServiceImpl
         if (null == entity) {
             throw new DoesNotExistException(luiId);
         }
-        List<LuiLuiRelationEntity> rels = luiLuiRelationDao.getLuiLuiRelationsByLui(luiId);
-        for (LuiLuiRelationEntity rel : rels) {
+        //Delete relationships
+        for (LuiLuiRelationEntity rel : luiLuiRelationDao.getLuiLuiRelationsByLui(luiId)) {
             luiLuiRelationDao.remove(rel);
         }
+        //Delete attributes
+        if(entity.getAttributes()!=null){
+            for(LuiAttributeEntity attr:entity.getAttributes()){
+                luiDao.getEm().remove(attr); //TODO why is the dao strongly typed to a single entity?
+            }
+        }
+        //Delete identifiers
+        if(entity.getIdentifiers()!=null){
+            for(LuiIdentifierEntity ident:entity.getIdentifiers()){
+                luiDao.getEm().remove(ident);
+            }
+        }
+        //Delete units
+        if(entity.getLuiUnitsDeployment()!=null){
+            for(LuiUnitsDeploymentEntity units:entity.getLuiUnitsDeployment()){
+                luiDao.getEm().remove(units);
+            }
+        }
+        //Delete Codes
+        if(entity.getLuiCodes()!=null){
+            for(LuCodeEntity luiCode:entity.getLuiCodes()){
+                luiDao.getEm().remove(luiCode);
+            }
+        }
+
+        //Delete the actual Lui entity
         luiDao.remove(entity);
-        StatusInfo status = new StatusInfo();
-        status.setSuccess(Boolean.TRUE);
-        return status;
+
+        return new StatusInfo();
     }
 
     @Override
@@ -478,9 +503,11 @@ public class LuiServiceImpl
                                                             ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-
+        if (luiId == null) {
+            throw new MissingParameterException("luiId is null");
+        }
         List<LuiInfo> relatedLuis =  new ArrayList<LuiInfo>();
-        List<LuiEntity> relatedLuiEntities =  luiLuiRelationDao.getRelatedLuisByLuiIdAndRelationType(luiId,luiLuiRelationTypeKey ) ;
+        List<LuiEntity> relatedLuiEntities =  luiLuiRelationDao.getRelatedLuisByLuiIdAndRelationType(luiId, luiLuiRelationTypeKey);
         for(LuiEntity relatedLuiEntity : relatedLuiEntities) {
             relatedLuis.add(relatedLuiEntity.toDto());
         }
@@ -581,6 +608,7 @@ public class LuiServiceImpl
                OperationFailedException, PermissionDeniedException, 
                ReadOnlyException, VersionMismatchException {
 
+
         if (!luiLuiRelationId.equals(luiLuiRelationInfo.getId())) {
             throw new InvalidParameterException(luiLuiRelationId + " does not match the id on the object " + luiLuiRelationInfo.getId());
         }
@@ -590,11 +618,19 @@ public class LuiServiceImpl
             throw new DoesNotExistException(luiLuiRelationId);
         }
 
-        entity.fromDto(luiLuiRelationInfo);
+
+        //Transform the DTO to the entity
+        List<Object> orphans = entity.fromDto(luiLuiRelationInfo);
         
         entity.setEntityUpdated(context);
         
+
         luiLuiRelationDao.merge(entity);
+
+        //Delete any orphaned children
+        for(Object orphan : orphans){
+            luiLuiRelationDao.getEm().remove(orphan);
+        }
 
         return entity.toDto();
     }

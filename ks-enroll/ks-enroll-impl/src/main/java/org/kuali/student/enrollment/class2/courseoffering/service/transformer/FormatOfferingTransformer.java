@@ -1,10 +1,12 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.util.List;
 
@@ -15,6 +17,11 @@ public class FormatOfferingTransformer {
         format.setTypeKey(lui.getTypeKey());
         format.setStateKey(lui.getStateKey());
         format.setName(lui.getName());
+        //Pull the short and long name from the official identifier
+        if(lui.getOfficialIdentifier() != null){
+            format.setShortName(lui.getOfficialIdentifier().getShortName());
+            format.setName(lui.getOfficialIdentifier().getLongName());
+        }
         format.setFormatId(lui.getCluId());
         format.setTermId(lui.getAtpId());
         format.setDescr(lui.getDescr());
@@ -40,7 +47,21 @@ public class FormatOfferingTransformer {
         lui.setId(format.getId());
         lui.setTypeKey(format.getTypeKey());
         lui.setStateKey(format.getStateKey());
-        lui.setName(format.getName());
+        if (format.getName() == null) {
+            lui.setName("FO"); // Makes it easier to track in DB
+        } else {
+            //Set the format's name into the format offering lui official identifier
+            LuiIdentifierInfo luiIdent = lui.getOfficialIdentifier();
+            if(luiIdent == null){
+                luiIdent = new LuiIdentifierInfo();
+                luiIdent.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+                luiIdent.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
+                lui.setOfficialIdentifier(luiIdent);
+            }
+            lui.setName(format.getName());
+            lui.getOfficialIdentifier().setLongName(format.getName());
+            lui.getOfficialIdentifier().setShortName(format.getShortName());
+        }
         lui.setCluId(format.getFormatId());
         lui.setAtpId(format.getTermId());
         lui.setDescr(format.getDescr());

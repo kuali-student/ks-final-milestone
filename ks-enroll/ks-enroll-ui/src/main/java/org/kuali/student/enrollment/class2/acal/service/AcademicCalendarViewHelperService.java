@@ -92,6 +92,8 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
 
     public AcademicTermWrapper populateTermWrapper(TermInfo termInfo, boolean isCopy);
 
+    public List<TermInfo> getTermsByTypeAndCode(String type, String code) throws Exception;
+
     public AcademicCalendarService getAcalService();
 
     public ContextInfo getContextInfo();

@@ -26,39 +26,28 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResultValueInfo", propOrder = {"key", "typeKey", "stateKey",
-        "name", "descr", "resultScaleKey", "numericValue", "value",
-        "effectiveDate", "expirationDate", "meta", "attributes",
-        "_futureElements"})
+    "name", "descr", "resultScaleKey", "numericValue", "value",
+    "effectiveDate", "expirationDate", "meta", "attributes",
+    "_futureElements"})
 public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
         Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String resultScaleKey;
-
     @XmlElement
     private String numericValue;
-
     @XmlElement
     private String value;
-
     @XmlElement
     private Date effectiveDate;
-
     @XmlElement
     private Date expirationDate;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public ResultValueInfo() {
         super();
-        resultScaleKey = null;
-        numericValue = null;
-        value = null;
-        effectiveDate = null;
-        expirationDate = null;
     }
 
     public ResultValueInfo(ResultValue resultValueInfo) {
@@ -67,10 +56,12 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
             this.resultScaleKey = resultValueInfo.getResultScaleKey();
             this.numericValue = resultValueInfo.getNumericValue();
             this.value = resultValueInfo.getValue();
-            this.effectiveDate = new Date(resultValueInfo.getEffectiveDate()
-                    .getTime());
-            this.expirationDate = new Date(resultValueInfo.getExpirationDate()
-                    .getTime());
+            if (resultValueInfo.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(resultValueInfo.getEffectiveDate().getTime());
+            }
+            if (resultValueInfo.getExpirationDate() != null) {
+                this.expirationDate = new Date(resultValueInfo.getExpirationDate().getTime());
+            }
         }
     }
 
@@ -79,7 +70,7 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
         return resultScaleKey;
     }
 
-    public void setScaleKey(String resultScaleKey) {
+    public void setResultScaleKey(String resultScaleKey) {
         this.resultScaleKey = resultScaleKey;
     }
 

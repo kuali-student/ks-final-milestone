@@ -23,7 +23,7 @@
 
 
   <bean id="TermInfo" parent="TermInfo-parent">
-       <property name="titleAttribute" value="code"/>
+       <property name="titleAttribute" value="id"/>
   </bean>
 
   <bean id="AcademicTerm-LookupView" parent="KSLookupView">
@@ -31,28 +31,48 @@
     <property name="headerText" value="Academic Term Lookup" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicTermLookupableImpl" />
+    <property name="defaultSingleLookupResultAction" value="@{#Constants.PARAM_MAINTENANCE_VIEW_MODE_INQUIRY}"/>
+
     <property name="criteriaFields">
       <list>
-
-
           <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code"/>
           <bean parent="Uif-LookupCriteriaInputField" p:propertyName="startDate" p:label="Year"/>
-
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean parent="Uif-InputField" p:propertyName="id"/>
           <bean parent="Uif-DataField" p:propertyName="code"/>
-
-        <bean parent="Uif-InputField" p:propertyName="descr.plain" />
-        <bean parent="Uif-InputField" p:propertyName="typeKey" />
-        <bean parent="Uif-InputField" p:propertyName="stateKey" />
-        <bean parent="Uif-InputField" p:propertyName="startDate" />
-        <bean parent="Uif-InputField" p:propertyName="endDate" />
-
+          <bean parent="Uif-InputField" p:propertyName="descr.plain" />
+          <bean parent="Uif-InputField" p:propertyName="typeKey" />
+          <bean parent="Uif-InputField" p:propertyName="stateKey" />
+          <bean parent="Uif-InputField" p:propertyName="startDate" />
+          <bean parent="Uif-InputField" p:propertyName="endDate" />
       </list>
     </property>
   </bean>
+
+
+    <bean id="KS-AcademicTerm-InquiryView" parent="KSInquiryView">
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicTermInfoInquirableImpl" />
+        <property name="Items">
+            <list>
+                <bean parent="Uif-GridSection">
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="id"/>
+                            <bean parent="Uif-InputField" p:propertyName="code"/>
+                            <bean parent="Uif-InputField" p:propertyName="descr.plain"/>
+                            <bean parent="Uif-InputField" p:propertyName="typeKey"/>
+                            <bean parent="Uif-InputField" p:propertyName="stateKey"/>
+                            <bean parent="Uif-InputField" p:propertyName="startDate"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 </beans>

@@ -18,8 +18,8 @@ import javax.jws.WebService;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.common.dictionary.service.old.DictionaryService;
+
+import org.kuali.student.common.dictionary.service.DictionaryService;
 import org.kuali.student.common.validator.old.Validator;
 import org.kuali.student.core.organization.dao.OrganizationDao;
 import org.kuali.student.core.organization.entity.Org;
@@ -970,7 +970,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         return results;
     }
 
-    public ObjectStructure getObjectStructure(String objectTypeKey) {
+    public org.kuali.student.common.dictionary.dto.ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 }

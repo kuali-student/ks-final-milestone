@@ -27,32 +27,29 @@ public interface HasKey
     extends HasPrimaryKey {
 
     /**
-     * Unique key to this object. Unlike an Id this key can be
-     * explicitly set by the application and is intended to be
+     * Unique key to this object. 
+     * Unlike an Id this key is expected to be explicitly set by the application and is intended to be
      * "somewhat" readable by a human.
      *
      * A Key:<ul>
-
      *    <li>A Key is used when the actual value is important</li>
-     *    <li>A Key value might be kuali.org.School</li>
-     *    <li>A Key on occasion may be used or seen by an end
-     *        user.</li>
-     *    <li>Keys are assumed to have the same values in different KS
+     *    <li>A Key value might be something like kuali.org.School</li>
+     *    <li>A Key on occasion may be used or seen by an end user.</li>
+     *    <li>Some keys are assumed to have the same values in different KS
      *        implementations</li>
-     *    <li>Key values are defined in configuration</li>
-     *    <li>Key values have significance in that they are referenced
-     *        in Configuration</li>
-     *    <li>Key values are expected to be occasionally used in
-     *        application code</li>
+     *    <li>Key values are often defined in configuration</li>
+     *    <li>Key values are often directly referenced in rules</li>
+     *    <li>Key values are expected to be occasionally used in application code</li>
      * </ul>
-     * 
+     *
      * Once an object is created with the specified key it cannot be
      * changed. Instead the object must be deleted or in-activated and
      * a new object created with the right key.
      * 
      * @name Key
-     * @readOnly on updates
-     * @required on updates
+     * @readOnly
+     * @required
+     * @impl Although they are called keys in the contract the database still calls them ID fields.
      */
     public String getKey();
 }

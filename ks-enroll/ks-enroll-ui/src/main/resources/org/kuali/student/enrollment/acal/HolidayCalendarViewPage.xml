@@ -22,12 +22,16 @@
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>
-        <property name="header.items">
-            <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;"/>
-                <bean parent="Uif-ActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;"/>
-            </list>
+        <property name="header.rightGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;"/>
+                        <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;"/>
+                        <bean parent="Uif-ActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;"/>
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>

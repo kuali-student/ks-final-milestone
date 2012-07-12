@@ -1,5 +1,6 @@
 -----------------------------------------------------------------------------
--- KSEN_LRC_RES_VAL_GRP
+-- KSEN_LRC_RES_VAL_GRP 
+-- WARNING THIS SCHEMA IS OUT OF DATE SEE UPGRADE 16
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
 BEGIN

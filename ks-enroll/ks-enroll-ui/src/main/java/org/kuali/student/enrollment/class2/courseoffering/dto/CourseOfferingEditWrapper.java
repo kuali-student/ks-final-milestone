@@ -16,13 +16,10 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,24 +33,29 @@ import java.util.List;
 public class CourseOfferingEditWrapper implements Serializable {
 
     private CourseOfferingInfo coInfo;
-    private List<FormatOfferingInfo> formatOfferings;
-    // TODO: gradingOptionId should eventually come from CourseOfferingInfo - Service Team is working on making it singleton (it's a List currently)
-    private String gradingOptionId = "kuali.resultComponent.grade.letter";
+    private List<FormatOfferingInfo> formatOfferingList;
+    private List<String> studentRegOptions;
+    private List<String> crsGradingOptions;
+    private List<OrganizationInfoWrapper> organizationNames;
+    private List<OfferingInstructorWrapper> instructors;
+    private CourseInfo course;
+    private String termStartEnd;
+
+    private String selectedGradingOptionName;
+    private String selectedstudentRegOpts;
+
+    private CreditOptionInfo creditOption;
+    private boolean creditOptionFixed;
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
-        formatOfferings = new ArrayList<FormatOfferingInfo>();
+        formatOfferingList = new ArrayList<FormatOfferingInfo>();
+        studentRegOptions = new ArrayList<String>();
     }
 
     public CourseOfferingEditWrapper(CourseOfferingInfo info){
         super();
         coInfo = info;
-        // TODO: gradingOptionId should eventually come from CourseOfferingInfo, so no need for all this logic
-        List<String> gradingOptionIds = coInfo.getRegistrationGradingOptionIds();
-        if (gradingOptionIds.size() > 0) {
-            gradingOptionId = gradingOptionIds.get(0);
-        }
-        // end gradingOptionId
     }
 
     public CourseOfferingInfo getCoInfo() {
@@ -64,24 +66,105 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.coInfo = coInfo;
     }
 
-    public List<FormatOfferingInfo> getFormatOfferings() {
-        return formatOfferings;
+    public List<FormatOfferingInfo> getFormatOfferingList() {
+        return formatOfferingList;
     }
 
-    public void setFormatOfferings(List<FormatOfferingInfo> formatOfferings) {
-        if (formatOfferings == null) {
-            formatOfferings = new ArrayList<FormatOfferingInfo>();
+    public void setFormatOfferingList(List<FormatOfferingInfo> formatOfferingList) {
+        if (formatOfferingList == null) {
+            formatOfferingList = new ArrayList<FormatOfferingInfo>();
         }
-        this.formatOfferings = formatOfferings;
+        this.formatOfferingList = formatOfferingList;
     }
 
-    // TODO: Will have to be removed when gradingOptionId will be coming from Course Offering Info
-    public String getGradingOptionId() {
-        return gradingOptionId;
+    public List<String> getStudentRegOptions() {
+        return studentRegOptions;
     }
 
-    public void setGradingOptionId(String gradingOptionId) {
-        this.gradingOptionId = gradingOptionId;
+    public void setStudentRegOptions(List<String> studentRegOptions) {
+        if (studentRegOptions == null) {
+            studentRegOptions = new ArrayList<String>();
+        }
+        this.studentRegOptions = studentRegOptions;
     }
-    // gradingOptionId
+
+    public List<String> getCrsGradingOptions() {
+        if (crsGradingOptions == null) {
+            crsGradingOptions = new ArrayList<String>();
+        }
+        return crsGradingOptions;
+    }
+
+    public void setCrsGradingOptions(List<String> crsGradingOptions) {
+        this.crsGradingOptions = crsGradingOptions;
+    }
+
+    public List<OrganizationInfoWrapper> getOrganizationNames() {
+        return organizationNames;
+    }
+
+    public void setOrganizationNames(List<OrganizationInfoWrapper> organizationNames) {
+        this.organizationNames = organizationNames;
+    }
+
+
+    public String getSelectedGradingOptionName() {
+        return selectedGradingOptionName;
+    }
+
+    public void setSelectedGradingOptionName(String selectedGradingOptionName) {
+        this.selectedGradingOptionName = selectedGradingOptionName;
+    }
+
+    public String getSelectedstudentRegOpts() {
+        return selectedstudentRegOpts;
+    }
+
+    public void setSelectedstudentRegOpts(String selectedstudentRegOpts) {
+        this.selectedstudentRegOpts = selectedstudentRegOpts;
+    }
+
+    public CourseInfo getCourse() {
+        return course;
+    }
+
+    public void setCourse(CourseInfo course) {
+        this.course = course;
+    }
+
+    public CreditOptionInfo getCreditOption() {
+        return creditOption;
+    }
+
+    public void setCreditOption(CreditOptionInfo creditOption) {
+        this.creditOption = creditOption;
+    }
+
+    public boolean getCreditOptionFixed() {
+        return creditOptionFixed;
+    }
+
+    public void setCreditOptionFixed(boolean creditOptionFixed) {
+        this.creditOptionFixed = creditOptionFixed;
+    }
+
+    public String getTermStartEnd() {
+        return termStartEnd;
+    }
+
+    public void setTermStartEnd(String termStartEnd) {
+        this.termStartEnd = termStartEnd;
+    }
+
+    public List<OfferingInstructorWrapper> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(List<OfferingInstructorWrapper> instructors) {
+        this.instructors = instructors;
+    }
+
+
+
 }
+

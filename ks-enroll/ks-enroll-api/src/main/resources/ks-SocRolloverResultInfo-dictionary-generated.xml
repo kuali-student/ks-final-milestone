@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue May 01 14:33:17 EDT 2012
+		This dictionary file was automatically generated on Mon Jun 11 11:57:51 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -225,13 +225,13 @@ Number of items expected to be processed
 		<property name="shortLabel" value="Items Created"/>
 		<property name="summary">
 			<value>
-Number of items created
+Number of course offerings created
 			</value>
 		</property>
-		<property name="label" value="Items Expected"/>
+		<property name="label" value="Course Offerings Created"/>
 		<property name="description">
 			<value>
-Number of items created
+Number of course offerings created
 			</value>
 		</property>
 		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
@@ -247,13 +247,57 @@ Number of items created
 		<property name="shortLabel" value="Items Skipped"/>
 		<property name="summary">
 			<value>
-Number of items skipped (not rolled over)
+Number of course offerings skipped (not rolled over)
 			</value>
 		</property>
-		<property name="label" value="Items Expected"/>
+		<property name="label" value="Course Offerings Skipped"/>
 		<property name="description">
 			<value>
-Number of items skipped (not rolled over)
+Number of course offerings skipped (not rolled over)
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.activityOfferingsCreated-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="activityOfferingsCreated"/>
+		<property name="shortLabel" value="Activity Offerings Created"/>
+		<property name="summary">
+			<value>
+Number of activity offerings created
+			</value>
+		</property>
+		<property name="label" value="Activity Offerings Created"/>
+		<property name="description">
+			<value>
+Number of activity offerings created
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.activityOfferingsSkipped-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="activityOfferingsSkipped"/>
+		<property name="shortLabel" value="Activity Offerings Skipped"/>
+		<property name="summary">
+			<value>
+Number of activity offerings skipped (not rolled over)
+			</value>
+		</property>
+		<property name="label" value="Activity Offerings Skipped"/>
+		<property name="description">
+			<value>
+Number of activity offerings skipped (not rolled over)
 			</value>
 		</property>
 		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered

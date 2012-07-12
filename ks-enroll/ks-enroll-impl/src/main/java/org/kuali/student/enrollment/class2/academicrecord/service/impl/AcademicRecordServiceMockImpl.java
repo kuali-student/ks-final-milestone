@@ -20,71 +20,71 @@ import java.util.List;
 import java.util.Map;
 
 public class AcademicRecordServiceMockImpl implements AcademicRecordService{
-    
+
     private Map<String, StudentCourseRecordInfo> couseRecordMap = new LinkedHashMap<String, StudentCourseRecordInfo>();
 
-	@Override
-	public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(
-			String personId, String termId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    @Override
+    public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(
+            String personId, String termId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         throw new UnsupportedOperationException("Method not yet implemented!");
-	}
+    }
 
-	@Override
-	public List<StudentCourseRecordInfo> getCompletedCourseRecords(
-			String personId, ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
+    @Override
+    public List<StudentCourseRecordInfo> getCompletedCourseRecords(
+            String personId, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
 
-		return courseRecords;
-	}
+        return courseRecords;
+    }
 
-	@Override
-	public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(
-			String personId, String termId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
+    @Override
+    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(
+            String personId, String termId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
 
 
-		return courseRecords;
-	}
+        return courseRecords;
+    }
 
-	
-	@Override
-	public GPAInfo getGPAForTerm(String personId, String termId,
-			String calculationTypeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException("Method not yet implemented!");
-	}
 
-	@Override
-	public GPAInfo getCumulativeGPA(String personId, String calculationTypeKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		throw new UnsupportedOperationException("Method not yet implemented!");
-	}
+    @Override
+    public GPAInfo getGPAForTerm(String personId, String termId,
+                                 String calculationTypeKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
 
-	@Override
-	public String getEarnedCreditsForTerm(String personId, String termId,
-			String calculationTypeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException("Method not yet implemented!");
-	}
+    @Override
+    public GPAInfo getCumulativeGPA(String personId, String calculationTypeKey,
+                                    ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
 
-	@Override
-	public String getEarnedCredits(String personId, String calculationTypeKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		throw new UnsupportedOperationException("Method not yet implemented!");
-	}
+    @Override
+    public String getEarnedCreditsForTerm(String personId, String termId,
+                                          String calculationTypeKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
+
+    @Override
+    public String getEarnedCredits(String personId, String calculationTypeKey,
+                                   ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
 
     @Override
     public List<StudentCourseRecordInfo> getCompletedCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

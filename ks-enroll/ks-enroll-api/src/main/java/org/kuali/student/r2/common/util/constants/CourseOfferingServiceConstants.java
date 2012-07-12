@@ -55,8 +55,30 @@ public class CourseOfferingServiceConstants {
     // The type/states are defined in LuiServiceConstants.java
 
     //The list of all Student registration-specific grading options
-    public static final String[] ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS = {LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT,
+    public static final String[] ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS = {
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT,
             LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL};
+    // The list of all grading options
+    public static final String[] ALL_GRADING_OPTION_TYPE_KEYS = {
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER_PASSING_TRANSLATION,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER_GRADUATE,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PNP_STANDARD,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER_PLUS_MINUS_STANDARD,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE_0_59,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE_60_69,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE_70_79,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE_80_84,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE_85_89,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE_90_MINUS94,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE_95_100,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_ADMIN_STANDARD,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_ADMIN_IN_MINUSPROGRESS,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_COMPLETEDNOTATION,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_DESIGNREVIEW,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_RECITALREVIEW};
 
-
+    public static final String APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY = "kuali.course.offering.optionkey.append.course.offering.suffix";
 }

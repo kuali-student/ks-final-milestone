@@ -33,9 +33,7 @@ public class TimeTester {
 	}
 	
 	public void check (Date expected, Date actual) {
-		if (expected == null && actual == null) {
-                    return;
-                }
+		
 		Assert.assertNotNull(expected);
 		Assert.assertNotNull(actual);
 		

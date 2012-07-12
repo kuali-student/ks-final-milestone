@@ -70,6 +70,7 @@ public abstract class MetaEntity extends BaseVersionEntity {
     }
     
 
+    
     public void setEntityCreated(ContextInfo context) {
     	
     	if (context != null) {
@@ -87,7 +88,6 @@ public abstract class MetaEntity extends BaseVersionEntity {
     		this.setUpdateId(context.getPrincipalId());
     	}
     }
-    
     public Date getCreateTime() {
         return createTime;
     }

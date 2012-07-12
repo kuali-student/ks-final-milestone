@@ -41,15 +41,27 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private String statusField;
     private TermInfo sourceTerm;
     private TermInfo targetTerm;
-    
+    private boolean isGoSourceButtonDisabled = true;
+    private boolean isRolloverButtonDisabled = true;
+
     // rollover details fields
-    private String rolloverSourceTerm;
-    private String rolloverTargetTerm;
+    private String rolloverSourceTermDesc;
+    private String rolloverTargetTermCode;
+    private String rolloverTargetTermDesc;
     private String dateInitiated;
     private String dateCompleted;
+    private String rolloverDuration; // Printed in hours, minutes, seconds
     private String courseOfferingsAllowed;
     private String activityOfferingsAllowed;
     private List<SocRolloverResultItemWrapper> socRolloverResultItems;
+    private boolean isConfigurationOptionsDisabled = true;
+    private boolean acceptIndicator = false;
+
+    // release to depts fields
+    private boolean releaseToDeptsDisabled = false;
+    private boolean releaseToDeptsInvalidTerm = false;
+    private boolean socReleasedToDepts = false;
+    private boolean rolloverCompleted = false; // Only true if finished or aborted
 
     public CourseOfferingRolloverManagementForm(){
         targetTermCode = "";
@@ -63,12 +75,29 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         sourceTermEndDate = "";
         statusField = "";
         //rollover details fields
-        rolloverSourceTerm = "";
-        rolloverTargetTerm = "";
+        rolloverSourceTermDesc = "";
+        rolloverTargetTermCode = "";
+        rolloverTargetTermDesc = "";
         dateInitiated = "";
         dateCompleted = "";
+        rolloverDuration = "";
         socRolloverResultItems = new ArrayList<SocRolloverResultItemWrapper>();
+        // release to depts fields
+        releaseToDeptsDisabled = false; // this is a dependent field so we don't let it be set externally
+        releaseToDeptsInvalidTerm = false;
+        socReleasedToDepts = false;
+
+        computeReleaseToDeptsDisabled();
      }
+
+    public boolean getRolloverCompleted() {
+        return rolloverCompleted;
+    }
+
+    public void setRolloverCompleted(boolean rolloverCompleted) {
+        this.rolloverCompleted = rolloverCompleted;
+        computeReleaseToDeptsDisabled();
+    }
 
     public String getTargetTermCode() {
         return targetTermCode;
@@ -76,6 +105,7 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
 
     public void setTargetTermCode(String targetTermCode) {
         this.targetTermCode = targetTermCode;
+        computeReleaseToDeptsDisabled();
     }
 
     public String getSourceTermCode() {
@@ -142,13 +172,22 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         this.sourceTermEndDate = sourceTermEndDate;
     }
 
-    public String getRolloverSourceTerm() {
-        return rolloverSourceTerm;
+    public String getRolloverSourceTermDesc() {
+        return rolloverSourceTermDesc;
     }
 
-    public void setRolloverSourceTerm(String rolloverSourceTerm) {
-        this.rolloverSourceTerm = rolloverSourceTerm;
+    public void setRolloverSourceTermDesc(String rolloverSourceTermDesc) {
+        this.rolloverSourceTermDesc = rolloverSourceTermDesc;
     }
+
+    public String getRolloverTargetTermDesc() {
+        return rolloverTargetTermDesc;
+    }
+
+    public void setRolloverTargetTermDesc(String rolloverTargetTermDesc) {
+        this.rolloverTargetTermDesc = rolloverTargetTermDesc;
+    }
+
     public String getDateInitiated() {
         return dateInitiated;
     }
@@ -157,12 +196,20 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         this.dateInitiated = dateInitiated;
     }
 
-    public String getRolloverTargetTerm() {
-        return rolloverTargetTerm;
+    public String getRolloverDuration() {
+        return rolloverDuration;
     }
 
-    public void setRolloverTargetTerm(String rolloverTargetTerm) {
-        this.rolloverTargetTerm = rolloverTargetTerm;
+    public void setRolloverDuration(String rolloverDuration) {
+        this.rolloverDuration = rolloverDuration;
+    }
+
+    public String getRolloverTargetTermCode() {
+        return rolloverTargetTermCode;
+    }
+
+    public void setRolloverTargetTermCode(String rolloverTargetTermCode) {
+        this.rolloverTargetTermCode = rolloverTargetTermCode;
     }
 
     public String getDateCompleted() {
@@ -185,8 +232,8 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         return activityOfferingsAllowed;
     }
 
-    public void setActivityOfferingsNotAllowed(String activityOfferingsNotAllowed) {
-        this.activityOfferingsAllowed = activityOfferingsNotAllowed;
+    public void setActivityOfferingsAllowed(String activityOfferingsAllowed) {
+        this.activityOfferingsAllowed = activityOfferingsAllowed;
     }
     
     public List<SocRolloverResultItemWrapper> getSocRolloverResultItems(){
@@ -221,6 +268,71 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         this.targetTerm = targetTerm;
     }
 
+    public boolean getIsGoSourceButtonDisabled() {
+        return isGoSourceButtonDisabled;
+    }
+
+    public void setIsGoSourceButtonDisabled(boolean goSourceButtonDisabled) {
+        isGoSourceButtonDisabled = goSourceButtonDisabled;
+    }
+
+    public boolean getIsRolloverButtonDisabled() {
+        return isRolloverButtonDisabled;
+    }
+
+    public void setIsRolloverButtonDisabled(boolean rolloverButtonDisabled) {
+        isRolloverButtonDisabled = rolloverButtonDisabled;
+    }
+
+    public boolean getIsConfigurationOptionsDisabled() {
+        return isConfigurationOptionsDisabled;
+    }
+
+    public void setIsConfigurationOptionsDisabled(boolean isConfigurationOptionsDisabled) {
+        this.isConfigurationOptionsDisabled = isConfigurationOptionsDisabled;
+    }
+
+    public boolean getAcceptIndicator() {
+        return acceptIndicator;
+    }
+
+    public void setAcceptIndicator(boolean acceptIndicator) {
+        this.acceptIndicator = acceptIndicator;
+    }
+
+    public boolean getReleaseToDeptsDisabled() {
+        return releaseToDeptsDisabled;
+    }
+
+    private void _setReleaseToDeptsDisabled(boolean releaseToDeptsDisabled) {
+        this.releaseToDeptsDisabled = releaseToDeptsDisabled;
+    }
+
+    public boolean computeReleaseToDeptsDisabled() {
+        // Disable release to depts if it's an invalid term or if it's already released
+        this.releaseToDeptsDisabled =
+                releaseToDeptsInvalidTerm || socReleasedToDepts || targetTermCode == null
+                        || targetTermCode.trim().isEmpty() || !rolloverCompleted;
+        return this.releaseToDeptsDisabled;
+    }
+
+    public boolean getReleaseToDeptsInvalidTerm() {
+        return releaseToDeptsInvalidTerm;
+    }
+
+    public void setReleaseToDeptsInvalidTerm(boolean releaseToDeptsInvalidTerm) {
+        this.releaseToDeptsInvalidTerm = releaseToDeptsInvalidTerm;
+        computeReleaseToDeptsDisabled();
+    }
+
+    public boolean getSocReleasedToDepts() {
+        return socReleasedToDepts;
+    }
+
+    public void setSocReleasedToDepts(boolean releasedToDepts) {
+        socReleasedToDepts = releasedToDepts;
+    }
+
     public void resetForm(){
         displayedTargetTermCode = "";
         targetTermStartDate = "";
@@ -231,9 +343,19 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         sourceTermEndDate = "";
         statusField = "";
         //rollover details fields
-        rolloverSourceTerm = "";
+        rolloverSourceTermDesc = "";
+        rolloverTargetTermCode = "";
+        rolloverTargetTermDesc = "";
         dateInitiated = "";
         dateCompleted = "";
         socRolloverResultItems = new ArrayList<SocRolloverResultItemWrapper>();
+        isGoSourceButtonDisabled = true;
+        isRolloverButtonDisabled = true;
+        isConfigurationOptionsDisabled = true;
+        // release to depts fields
+        releaseToDeptsDisabled = false;
+        releaseToDeptsInvalidTerm = false;
+        socReleasedToDepts = false;
+        computeReleaseToDeptsDisabled();
     }
  }

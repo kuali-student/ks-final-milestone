@@ -34,7 +34,7 @@ public class ApprovedCourseTermResolver implements TermResolver<Date> {
 
     @Override
     public String getOutput() {
-        return null;
+    	return "ApprovedCourseTermResolver.getOutput()";
     }
 
     @Override

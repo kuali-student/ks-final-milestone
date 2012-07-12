@@ -79,9 +79,9 @@ public class AttributeTester {
     }
 
     public void dump(List<AttributeInfo> expectedList, List<AttributeInfo> actualList) {
-        System.out.println("Original List");
+        System.out.println("Expected List");
         this.dump(expectedList);
-        System.out.println("Updated List");
+        System.out.println("Actual List");
         this.dump(actualList);
     }
 

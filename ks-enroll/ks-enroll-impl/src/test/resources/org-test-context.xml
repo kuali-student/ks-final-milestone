@@ -113,10 +113,15 @@
         <property name="em" ref="entityManager" />
     </bean>
 
+    <bean id="dictionaryServiceNew" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
+    </bean>
+
+
     <bean id="orgServiceImpl" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao" />
         <property name="extendedOrgDao" ref="extendedOrgDao" />
-        <property name="dictionaryServiceDelegate" ref="dictionaryServiceDelegate"/>
+        <property name="dictionaryServiceDelegate" ref="dictionaryServiceNew"/>
         <property name="criteriaLookupService" ref="criteriaLookupService"/>
     </bean>
     

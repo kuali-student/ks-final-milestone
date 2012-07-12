@@ -1,9 +1,9 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -21,6 +21,12 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ActivityOfferingTransformer {
 
@@ -74,7 +80,15 @@ public class ActivityOfferingTransformer {
         lui.setId(ao.getId());
         lui.setTypeKey(ao.getTypeKey());
         lui.setStateKey(ao.getStateKey());
-        lui.setName(ao.getName());
+        if (ao.getName() == null) {
+            String coCode = ao.getCourseOfferingCode();
+            if (coCode == null) {
+                coCode = "NOCODE";
+            }
+            lui.setName(coCode + " AO"); // Makes it easier to track in DB
+        } else {
+            lui.setName(ao.getName());
+        }
         lui.setDescr(ao.getDescr());
         lui.setMeta(ao.getMeta());
         lui.setCluId(ao.getActivityId());
@@ -127,6 +141,12 @@ public class ActivityOfferingTransformer {
             instructor.setTypeKey(lpr.getTypeKey());
             instructor.setStateKey(lpr.getStateKey());
 
+            // Should be only one person found by person id
+            List<Person> personList = getInstructorByPersonId(instructor.getPersonId());
+            if(personList != null && !personList.isEmpty()){
+                instructor.setPersonName(personList.get(0).getName());
+            }
+
             results.add(instructor);
         }
 
@@ -134,7 +154,18 @@ public class ActivityOfferingTransformer {
 
     }
 
-    public static List<LprInfo> instructors2Lprs(LuiInfo luiInfo, List<OfferingInstructorInfo> instructors) {
+    public static List<Person> getInstructorByPersonId(String personId){
+        Map<String, String> searchCriteria = new HashMap<String, String>();
+        searchCriteria.put(KIMPropertyConstants.Person.ENTITY_ID, personId);
+        List<Person> lstPerson = getPersonService().findPeople(searchCriteria);
+        return lstPerson;
+    }
+
+    public static PersonService getPersonService() {
+        return KimApiServiceLocator.getPersonService();
+    }
+
+    public static List<LuiPersonRelationInfo> instructors2Lprs(LuiInfo luiInfo, List<OfferingInstructorInfo> instructors) {
 
         List<LprInfo> results = new ArrayList<LprInfo>(instructors.size());
 

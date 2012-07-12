@@ -15,15 +15,31 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.lum.course.dto.ActivityInfo;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.type.service.TypeService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class //TODO ...
@@ -31,20 +47,57 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class ViewHelperUtil {
-    public static void getInstructorNames(List<OfferingInstructorInfo> instructors){
-        if(instructors != null && !instructors.isEmpty()){
-            for(OfferingInstructorInfo instructor : instructors){
-                Map<String, String> searchCriteria = new HashMap<String, String>();
-                searchCriteria.put(KIMPropertyConstants.Person.ENTITY_ID, instructor.getPersonId());
-                List<Person> lstPerson = getPersonService().findPeople(searchCriteria);
-                if(lstPerson != null && !lstPerson.isEmpty()){
-                    instructor.setPersonName(lstPerson.get(0).getName());
-                }
-            }
-        }
+
+    public static List<Person> getInstructorByPersonId(String personId){
+        Map<String, String> searchCriteria = new HashMap<String, String>();
+        searchCriteria.put(KIMPropertyConstants.Person.ENTITY_ID, personId);
+        List<Person> lstPerson = getPersonService().findPeople(searchCriteria);
+        return lstPerson;
     }
 
     public static PersonService getPersonService() {
         return KimApiServiceLocator.getPersonService();
     }
+
+    public static String buildDerivedFormatName(TypeService typeService, ContextInfo contextInfo, FormatInfo formatInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StringBuilder formatNameBuilder = new StringBuilder();
+
+        // Create a derived name based on the activities, until https://jira.kuali.org/browse/KSENROLL-1518 is finished
+        List<ActivityInfo> activities = formatInfo.getActivities();
+        for (ActivityInfo activity : activities) {
+            if(formatNameBuilder.length() != 0) {
+                formatNameBuilder.append(" / ");
+            }
+            TypeInfo type = typeService.getType(activity.getActivityType(), contextInfo);
+            formatNameBuilder.append(type.getName());
+        }
+
+        if(formatInfo.getActivities().size() == 1) {
+            formatNameBuilder.append(" Only");
+        }
+
+        return formatNameBuilder.toString();
+    }
+
+    public static List<KeyValue> collectActivityTypeKeyValues(CourseInfo course, TypeService typeService, ContextInfo contextInfo) {
+        List<KeyValue> results = new ArrayList<KeyValue>();
+
+        Set<String> activityTypes = new HashSet<String>();
+        for(FormatInfo format : course.getFormats()) {
+            for (ActivityInfo activity : format.getActivities()) {
+                // if we haven't added a value for this activity type yet
+                if(activityTypes.add(activity.getActivityType())) {
+                    try {
+                        TypeInfo type = typeService.getType(activity.getActivityType(), contextInfo);
+                        results.add(new ConcreteKeyValue(type.getKey(), type.getName()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+
+        return results;
+    }
+
 }

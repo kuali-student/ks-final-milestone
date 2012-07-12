@@ -2,9 +2,8 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +15,26 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String subjectCode;
     private String radioSelection;
     private String inputCode;
-    private boolean haveValidTerm;
+    private String activityActionType;
     private List<CourseOfferingInfo> courseOfferingList;
-    private CourseOfferingInfo theCourseOffering;    
-    private List<ActivityOfferingInfo> activityOfferingList;
-    
+    private CourseOfferingInfo theCourseOffering;
+    private String coViewLinkWrapper = "View"; // temp var to hold/store the View Details Link
+
+    private List<ActivityOfferingWrapper> activityWrapperList;
+    private List<ActivityOfferingWrapper> selectedToDeleteList;
+
+
+    //For Adding Activity
+    private String formatIdForNewAO;
+
+    private String activityIdForNewAO;
+    private String noOfActivityOfferings;
+
     public CourseOfferingManagementForm (){
         courseOfferingList = new ArrayList<CourseOfferingInfo>();
-        activityOfferingList = new ArrayList<ActivityOfferingInfo>();
-        haveValidTerm = false;
+        activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
+        selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
+//        haveValidTerm = false;
     }
 
     public String getTermCode(){
@@ -74,15 +84,15 @@ public class CourseOfferingManagementForm extends UifFormBase {
     public void setInputCode(String inputCode){
         this.inputCode = inputCode;
     }
-    
-    public boolean isHaveValidTerm(){
-        return haveValidTerm;
+
+    public String getActivityActionType() {
+        return activityActionType;
     }
 
-    public void setHaveValidTerm(boolean haveValidTerm){
-        this.haveValidTerm = haveValidTerm;
+    public void setActivityActionType(String activityActionType) {
+        this.activityActionType = activityActionType;
     }
-    
+
     public List<CourseOfferingInfo> getCourseOfferingList(){
         return courseOfferingList;
     }
@@ -98,12 +108,52 @@ public class CourseOfferingManagementForm extends UifFormBase {
     public void setTheCourseOffering(CourseOfferingInfo theCourseOffering)  {
         this.theCourseOffering = theCourseOffering;
     }
-    
-    public List<ActivityOfferingInfo> getActivityOfferingList(){
-        return activityOfferingList;
+
+    public String getNoOfActivityOfferings() {
+        return noOfActivityOfferings;
     }
 
-    public void setActivityOfferingList (List<ActivityOfferingInfo> activityOfferingList) {
-        this.activityOfferingList = activityOfferingList;
+    public void setNoOfActivityOfferings(String noOfActivityOfferings) {
+        this.noOfActivityOfferings = noOfActivityOfferings;
+    }
+
+    public List<ActivityOfferingWrapper> getActivityWrapperList() {
+        return activityWrapperList;
+    }
+
+    public void setActivityWrapperList(List<ActivityOfferingWrapper> activityWrapperList) {
+        this.activityWrapperList = activityWrapperList;
+    }
+
+    public List<ActivityOfferingWrapper> getSelectedToDeleteList() {
+        return selectedToDeleteList;
+    }
+
+    public void setSelectedToDeleteList(List<ActivityOfferingWrapper> selectedToDeleteList) {
+        this.selectedToDeleteList = selectedToDeleteList;
+    }
+
+    public String getFormatIdForNewAO() {
+        return formatIdForNewAO;
+    }
+
+    public void setFormatIdForNewAO(String formatIdForNewAO) {
+        this.formatIdForNewAO = formatIdForNewAO;
+    }
+
+    public String getActivityIdForNewAO() {
+        return activityIdForNewAO;
+    }
+
+    public void setActivityIdForNewAO(String activityIdForNewAO) {
+        this.activityIdForNewAO = activityIdForNewAO;
+    }
+
+    public String getCoViewLinkWrapper() {
+        return coViewLinkWrapper;
+    }
+
+    public void setCoViewLinkWrapper(String coViewLinkWrapper) {
+        this.coViewLinkWrapper = coViewLinkWrapper;
     }
 }

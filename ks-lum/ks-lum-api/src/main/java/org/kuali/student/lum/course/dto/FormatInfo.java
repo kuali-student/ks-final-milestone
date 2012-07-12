@@ -48,6 +48,12 @@ public class FormatInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     private static final long serialVersionUID = 1L;
 
+    @XmlAttribute
+    private String name;
+
+    @XmlAttribute
+    private String shortName;
+
     @XmlElement
     private List<ActivityInfo> activities;
 
@@ -77,6 +83,30 @@ public class FormatInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * 
      */
+
+
+    /**
+     * The name of this format.
+     */
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * The short abbreviated name of this format.
+     */
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
     public List<ActivityInfo> getActivities() {
         if (activities == null) {
             activities = new ArrayList<ActivityInfo>(0);
@@ -119,7 +149,9 @@ public class FormatInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
+     * Create and last update info for the structure. This is optional
+     * and treated as read only since the data is set by the internals
+     * of the service during maintenance operations.
      */
     public MetaInfo getMetaInfo() {
         return metaInfo;
@@ -130,7 +162,8 @@ public class FormatInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
+     * Unique identifier for a learning unit type. Once set at create
+     * time, this field may not be updated.
      */
     public String getType() {
         return type;
@@ -141,7 +174,12 @@ public class FormatInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * The current status of the course. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value. This field may not be updated through updating this structure and must instead be updated through a dedicated operation.
+     * The current status of the course. The values for this field are
+     * constrained to those in the luState enumeration. A separate
+     * setup operation does not exist for retrieval of the meta data
+     * around this value. This field may not be updated through
+     * updating this structure and must instead be updated through a
+     * dedicated operation.
      */
     public String getState() {
         return state;
@@ -152,7 +190,10 @@ public class FormatInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * Unique identifier for a Canonical Learning Unit (CLU). This is optional, due to the identifier being set at the time of creation. Once the Format has been created, this should be seen as required.
+     * Unique identifier for a Canonical Learning Unit (CLU). This is
+     * optional, due to the identifier being set at the time of
+     * creation. Once the Format has been created, this should be seen
+     * as required.
      */
     public String getId() {
         return id;

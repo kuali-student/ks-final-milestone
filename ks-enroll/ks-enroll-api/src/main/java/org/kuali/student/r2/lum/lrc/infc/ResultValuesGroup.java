@@ -37,11 +37,15 @@ public interface ResultValuesGroup extends KeyEntity, HasEffectiveDates {
      * a Result Values Group belong to a single Result Scale.
      *
      * @name Result Scale Key
+     * @required
      */
     public String getResultScaleKey();
 
     /**
      * Contains the list of discrete results value keys in this group.
+     * 
+     * This list should be empty of the group is a RANGE (that is the whole point of a range).
+     * 
      * @name Result Value Keys
      */
     public List<String> getResultValueKeys();

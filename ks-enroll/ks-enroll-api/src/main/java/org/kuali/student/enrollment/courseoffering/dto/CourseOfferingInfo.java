@@ -66,6 +66,9 @@ public class CourseOfferingInfo
     private RichTextInfo descr;
 
     @XmlElement
+    private String courseCode;
+
+    @XmlElement
     private String courseOfferingCode;
 
     @XmlElement
@@ -92,8 +95,14 @@ public class CourseOfferingInfo
     @XmlElement
     private String gradingOptionId;
 
+    @XmlAnyElement
+    private String creditCnt;
+
     @XmlElement
     private List<String> registrationGradingOptionIds;
+
+    @XmlAnyElement
+    private String gradingOption;
 
     @XmlElement
     private String creditOptionDisplay;
@@ -143,7 +152,6 @@ public class CourseOfferingInfo
     @XmlAnyElement
     private List<Element> _futureElements;
 
-
     /**
      * Constructs a new CourseOfferingInfo.
      */
@@ -170,6 +178,7 @@ public class CourseOfferingInfo
         
 
         this.courseOfferingTitle = offering.getCourseOfferingTitle();
+        this.courseOfferingCode = offering.getCourseOfferingCode();
         this.courseOfferingCode = offering.getCourseOfferingCode();
         this.courseNumberSuffix = offering.getCourseNumberSuffix();
         this.subjectArea = offering.getSubjectArea();

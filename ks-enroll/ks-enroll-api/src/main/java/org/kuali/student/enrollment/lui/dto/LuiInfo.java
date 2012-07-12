@@ -305,6 +305,9 @@ public class LuiInfo
 
     @Override
     public List<String> getUnitsDeployment() {
+        if (unitsDeployment == null) {
+            unitsDeployment = new ArrayList<String>();
+        }
         return unitsDeployment;
     }
 
@@ -314,8 +317,8 @@ public class LuiInfo
 
     @Override
     public List<String> getUnitsContentOwner() {
-        if (unitsDeployment == null) {
-            unitsDeployment = new ArrayList<String>();
+        if (unitsContentOwner == null) {
+            unitsContentOwner = new ArrayList<String>();
         }
         return unitsContentOwner;
     }

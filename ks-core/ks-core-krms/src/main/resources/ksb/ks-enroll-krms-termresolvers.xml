@@ -275,7 +275,7 @@
     <property name="statementDao" ref="statementDao" />
   </bean>
 
-  <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
+  <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
     <property name="lprDao" ref="lprDao" />
     <property name="luiDao" ref="luiDao" />
     <property name="lprRosterDao" ref="lprRosterDao" />

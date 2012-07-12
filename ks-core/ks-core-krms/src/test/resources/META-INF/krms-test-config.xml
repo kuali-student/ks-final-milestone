@@ -55,7 +55,7 @@
 <!-- 	<param name="datasource.username">kulrice</param> -->
 <!-- 	<param name="datasource.password">rice174kul</param> -->
 
-    <param name="datasource.url">jdbc:mysql://localhost:3306/RICESERVERDEMO</param>
+<!--    <param name="datasource.url">jdbc:mysql://localhost:3306/RICESERVERDEMO</param>
 	<param name="datasource.username">RICESERVERDEMO</param>
 	<param name="datasource.password">RICESERVERDEMO</param>	
 	
@@ -63,15 +63,15 @@
 	<param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
 	<param name="datasource.driver.name">com.mysql.jdbc.Driver</param>
 	<param name="datasource.pool.validationQuery">select 1 from dual</param>
-	<param name="datasource.pool.maxWait">30000</param>
+	<param name="datasource.pool.maxWait">30000</param>-->
 	 
-<!-- 	<param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param> -->
-<!-- 	<param name="datasource.username">KSEMBEDDED</param> -->
-<!-- 	<param name="datasource.password">KSEMBEDDED</param> -->
-<!-- 	<param name="datasource.ojb.platform">Oracle9i</param> -->
-<!-- 	<param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform</param> -->
-<!-- 	<param name="datasource.driver.name">oracle.jdbc.OracleDriver</param> -->
-<!-- 	<param name="datasource.pool.validationQuery">select 1 from dual</param> -->
-<!-- 	<param name="datasource.pool.maxWait">30000</param> -->
+ 	<param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
+ 	<param name="datasource.username">KSEMBEDDED</param>
+ 	<param name="datasource.password">KSEMBEDDED</param>
+ 	<param name="datasource.ojb.platform">Oracle9i</param>
+ 	<param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform</param>
+ 	<param name="datasource.driver.name">oracle.jdbc.OracleDriver</param>
+ 	<param name="datasource.pool.validationQuery">select 1 from dual</param>
+ 	<param name="datasource.pool.maxWait">30000</param>
 	
 </config>

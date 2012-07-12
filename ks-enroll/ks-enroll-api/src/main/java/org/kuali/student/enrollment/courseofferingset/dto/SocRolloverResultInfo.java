@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.courseofferingset.dto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,29 +26,32 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResult;
+import org.kuali.student.r2.common.assembler.HasDynamicAttributes;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SocRolloverResultInfo", propOrder = {"id",
-    "typeKey",
-    "stateKey",
-    "sourceSocId",
-    "targetSocId",
-    "targetTermId",
-    "optionKeys",
-    "itemsProcessed",
-    "itemsExpected",
-    "courseOfferingsCreated",
-    "courseOfferingsSkipped",
-    "activityOfferingsCreated",
-    "activityOfferingsSkipped",
-    "sourceTermId",
-    "message",
-    "meta",
-    "attributes",
-    "_futureElements"})
+        "typeKey",
+        "stateKey",
+        "sourceSocId",
+        "targetSocId",
+        "targetTermId",
+        "optionKeys",
+        "itemsProcessed",
+        "itemsExpected",
+        "courseOfferingsCreated",
+        "courseOfferingsSkipped",
+        "activityOfferingsCreated",
+        "activityOfferingsSkipped",
+        "sourceTermId",
+        "message",
+        "dateInitiated",
+        "dateCompleted",
+        "meta",
+        "attributes",
+        "_futureElements"})
 public class SocRolloverResultInfo
         extends IdNamelessEntityInfo
         implements SocRolloverResult {
@@ -77,16 +81,25 @@ public class SocRolloverResultInfo
     private String sourceTermId;
     @XmlElement
     private RichTextInfo message;
+    @XmlElement
+    private Date dateInitiated;
+    @XmlElement
+    private Date dateCompleted;
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public SocRolloverResultInfo() {
+        // Might as well initialize this to something sensible
+        courseOfferingsCreated = 0;
+        courseOfferingsSkipped = 0;
+        activityOfferingsCreated = 0;
+        activityOfferingsSkipped = 0;
     }
 
     /**
      * Copies Soc rollover results
      *
-     * @param 
+     * @param
      */
     public SocRolloverResultInfo(SocRolloverResult orig) {
 
@@ -110,6 +123,8 @@ public class SocRolloverResultInfo
         if (orig.getMessage() != null) {
             this.message = new RichTextInfo (orig.getMessage());
         }
+        this.dateInitiated = orig.getDateInitiated();
+        this.dateCompleted = orig.getDateCompleted();
     }
 
     @Override
@@ -223,5 +238,21 @@ public class SocRolloverResultInfo
         this.sourceTermId = sourceTermId;
     }
 
-    
+    @Override
+    public Date getDateInitiated() {
+        return dateInitiated;
+    }
+
+    public void setDateInitiated(Date dateInitiated) {
+        this.dateInitiated = dateInitiated;
+    }
+
+    @Override
+    public Date getDateCompleted() {
+        return dateCompleted;
+    }
+
+    public void setDateCompleted(Date dateCompleted) {
+        this.dateCompleted = dateCompleted;
+    }
 }

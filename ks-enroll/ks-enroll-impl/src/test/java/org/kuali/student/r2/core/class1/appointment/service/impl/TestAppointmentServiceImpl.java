@@ -963,6 +963,7 @@ public class TestAppointmentServiceImpl {
         // This requires AppointmentWindow to be created so AppointmentSlot can refer to it
         try {
             apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY);
+            apptWindowInfo.setMaxAppointmentsPerSlot(100);
             AppointmentWindowInfo window = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY,
                     apptWindowInfo, contextInfo);
             List<AppointmentSlotInfo> slots =

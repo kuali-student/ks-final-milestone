@@ -30,6 +30,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
@@ -48,6 +50,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -62,12 +65,16 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 import edu.emory.mathcs.backport.java.util.Collections;
+import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		MockService {
@@ -299,22 +306,30 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		return list;
 	}
 
-	@Override
-	public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termId,
-			String subjectArea, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		List<String> list = new ArrayList<String>();
-		for (CourseOfferingInfo info : courseOfferingMap.values()) {
-			if (termId.equals(info.getTermId())) {
-				if (subjectArea.equals(info.getSubjectArea())) {
-					list.add(info.getId());
-				}
-			}
-		}
-		return list;
-	}
+    @Override
+    public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey, CourseOfferingInfo courseOfferingInfo, 
+    List<String> optionKeys, ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        // create 
+        if (!courseOfferingTypeKey.equals(courseOfferingInfo.getTypeKey())) {
+            throw new InvalidParameterException("The type parameter does not match the type on the info object");
+        }
+        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
+        CourseOfferingInfo copy = new CourseOfferingInfo(courseOfferingInfo);
+        if (copy.getId() == null) {
+            copy.setId(courseOfferingMap.size() + "");
+        }
+        // TODO: move this logic to the calculation decorator do the persistence layer doesn't have this logic mixed in with it
+        // copy from cannonical
+        CourseInfo courseInfo = new R1CourseServiceHelper (courseService, acalService).getCourse(courseId);
+        CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
+        coTransformer.copyFromCanonical(courseInfo, courseOfferingInfo, optionKeys, context);
+        copy.setMeta(newMeta(context));
+        courseOfferingMap.put(copy.getId(), copy);
+        System.out.println ("CourseOfferingMockImpl: created course offering: " + copy.getId () + "term=" + copy.getTermId() + " for course =" + copy.getCourseId());
+        return new CourseOfferingInfo(copy);
+    }
 
 	@Override
 	public List<CourseOfferingInfo> getCourseOfferingsByTermAndInstructor(
@@ -1536,4 +1551,18 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	
 	
 	
+
+    @Override
+    public TermInfo getTerm(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        TermInfo termInfo = new TermInfo();
+        termInfo.setCode("20122");
+        return termInfo;
+    }
+
+    @Override
+    public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+
 }

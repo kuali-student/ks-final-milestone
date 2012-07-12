@@ -20,19 +20,6 @@
                 </property>
             </bean>
         </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-SecondaryActionButton"
-                              p:methodToCall="copy"
-                              p:actionLabel="Copy Holiday Calendar"
-                              p:render="@{holidayCalendarInfo != null}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
         <property name="header.items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup">
@@ -62,6 +49,19 @@
                 </bean>
             </list>
         </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton"
+                              p:methodToCall="copy"
+                              p:actionLabel="Copy Holiday Calendar"
+                              p:render="@{holidayCalendarInfo != null}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
     <bean id="KS-HolidayCalendar-CopyPage-From" parent="Uif-VerticalBoxSubSection"
@@ -87,22 +87,21 @@
                                   p:propertyName="holidayCalendarInfo.endDate"
                                   p:label="End Date"
                                   p:required="false"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="A recent holiday calendar could not be found."
-                                  p:render="@{holidayCalendarInfo == null}"
-                                  p:style="font-size:125%;"/>
-                            <bean parent="Uif-ActionLink"
-                                  p:actionLabel="@{holidayCalendarInfo != null ? 'Choose a Different Calendar' : 'Choose a Calendar'}"
-                                  p:methodToCall="search"
-                                  p:style="margin-bottom:0; padding-top:7px;"/>
                         </list>
                     </property>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ks-hcal-copy-from</value>
+                            <value>ks-calendar-copy-from</value>
                         </list>
                     </property>
                 </bean>
+                <bean parent="Uif-Message"
+                      p:messageText="A recent holiday calendar could not be found."
+                      p:render="@{holidayCalendarInfo == null}"
+                      p:style="font-size:125%;"/>
+                <bean parent="Uif-ActionLink"
+                      p:actionLabel="@{holidayCalendarInfo != null ? 'Choose a Different Calendar' : 'Choose a Calendar'}"
+                      p:methodToCall="search"/>
             </list>
         </property>
     </bean>
@@ -110,7 +109,7 @@
     <bean id="KS-HolidayCalendar-CopyPage-To" parent="Uif-VerticalBoxSubSection"
           p:headerText="Copy To:"
           p:render="@{holidayCalendarInfo != null}"
-          p:style="margin-bottom:0; padding-bottom:0;">
+          p:style="margin-bottom:0;">
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>
@@ -165,12 +164,12 @@
                     </property>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ks-hcal-copy-to</value>
+                            <value>ks-calendar-copy-to</value>
                         </list>
                     </property>
                     <property name="layoutManager.cssClasses">
                         <list merge="true">
-                            <value>ks-hcal-copy-to-table</value>
+                            <value>ks-calendar-copy-to-table</value>
                         </list>
                     </property>
                 </bean>
