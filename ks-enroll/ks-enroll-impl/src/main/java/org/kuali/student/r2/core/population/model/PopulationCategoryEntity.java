@@ -42,7 +42,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "POPULATION_CAT")
+@Table(name = "KSEN_POPULATION_CAT")
 public class PopulationCategoryEntity extends MetaEntity implements AttributeOwner<PopulationCategoryAttributeEntity> {
 
     ////////////////////
