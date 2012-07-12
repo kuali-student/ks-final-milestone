@@ -414,7 +414,10 @@
                     </property>
                 </bean>
                 <!-- Fixed Type -->
-                <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed'}">
+                <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false"
+                      p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed'}"
+                      p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
+                      p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}"  >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="3" p:disabled="@{#dp.creditOptionFixed}" />
                     </property>
@@ -423,12 +426,14 @@
                 <bean parent="Uif-HorizontalBoxSection" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range'}">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Minimum Credits" p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"  p:propertyName="creditOption.minCredits" p:fieldLabel.renderColon="false">
+                            <bean parent="Uif-InputField" p:label="Minimum Credits" p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
+                                  p:propertyName="creditOption.minCredits" p:fieldLabel.renderColon="false" p:required="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range'}">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Maximum Credits" p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}" p:propertyName="creditOption.maxCredits" p:fieldLabel.renderColon="false">
+                            <bean parent="Uif-InputField" p:label="Maximum Credits" p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}"
+                                  p:propertyName="creditOption.maxCredits" p:fieldLabel.renderColon="false" p:required="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range'}">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3" />
                                 </property>
