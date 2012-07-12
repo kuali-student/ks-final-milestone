@@ -26,9 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class StatementDataService implements StatementRpcService{
 	final static Logger LOG = Logger.getLogger(StatementDataService.class);
     
-    
-    private StatementService statementService;
-    private LuService luService;
+    protected StatementService statementService;
+    protected LuService luService;
     
     private static final long serialVersionUID = 822326113643828855L;
     @Override
