@@ -56,7 +56,7 @@
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
     
-    <bean id="issueDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao">
+    <bean id="holdIssueDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
     

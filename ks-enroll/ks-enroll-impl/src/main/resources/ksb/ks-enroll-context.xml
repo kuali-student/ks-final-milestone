@@ -555,4 +555,24 @@
         </property>
     </bean>
 
+    <!-- Hold Service -->
+    <bean id="holdService" class="org.kuali.student.r2.core.class1.hold.service.impl.HoldServiceImpl">
+        <property name="holdIssueDao" ref="holdIssueDao"/>
+        <property name="appliedHoldDao" ref="appliedHoldDao"/>
+    </bean>
+
+    <bean id="ks.exp.holdService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="holdService" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.hold.service.HoldService" />
+                <property name="localServiceName" value="HoldService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/hold" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+
 </beans>
