@@ -21,7 +21,6 @@ import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.*;
-import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
