@@ -63,7 +63,7 @@
                 <bean parent="Uif-Link" p:linkText="Perform Rollover"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingRollover?viewId=courseOfferingRolloverManagementView&amp;pageId=selectTermsForRollover&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="View Rollover Details"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingRollover?viewId=rolloverResultsPageView&amp;pageId=selectTermForRolloverDetails&amp;methodToCall=start"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingRollover?viewId=courseOfferingRolloverManagementView&amp;pageId=selectTermForRolloverDetails&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Create Course Offerings"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOffering?methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper&amp;returnLocation=${ConfigProperties.application.url}/portal.do&amp;hideReturnLink=true"/>
                 <bean parent="Uif-Link" p:linkText="Manage Course Offerings"
@@ -81,19 +81,9 @@
         </property>
         <property name="items">
             <list>
-                <!--
-                <bean parent="Uif-Link" p:linkText="Manage General Environment"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/abc?viewId=xyz"/>
-                -->
                 <bean parent="Uif-MessageField" p:messageText="Manage General Environment" p:style="color:#777"/>
                 <bean parent="Uif-Link" p:linkText="Manage Registration Windows and Appointments"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/registrationWindows?viewId=registrationWindowsManagementView&amp;pageId=selectTermForRegWindows&amp;methodToCall=start"/>
-                <!--
-                <bean parent="Uif-Link" p:linkText="Assign Registration Appointments"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/abc?viewId=xyz"/>
-                <bean parent="Uif-Link" p:linkText="Manage Individual Student Appointments"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/abc?viewId=xyz"/>
-                -->
                 <bean parent="Uif-MessageField" p:messageText="Assign Registration Appointments" p:style="color:#777"/>
                 <bean parent="Uif-MessageField" p:messageText="Manage Individual Student Appointments" p:style="color:#777"/>
             </list>

@@ -25,7 +25,7 @@
   </ul>
   <ul class="chan">
     <li><portal:portalLink
-            title="Enrollment (in progress)" displayTitle="true"
+            title="Enrollment Home" displayTitle="true"
             url="${ConfigProperties.application.url}/kr-krad/launch?viewId=enrollmentHomeView&methodToCall=start" /></li>
   </ul>
 
