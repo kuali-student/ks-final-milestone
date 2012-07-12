@@ -10,6 +10,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
@@ -40,6 +41,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient TypeService typeService;
     private transient StateService stateService;
     private transient CourseService courseService;
+    private AcademicCalendarService academicCalendarService;
 
     @Override
     public void saveDataObject() {
@@ -83,7 +85,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
 
             // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
-            TermInfo term = getCourseOfferingService().getTerm(info.getTermId(), getContextInfo());
+            TermInfo term = getAcademicCalendarService().getTerm(info.getTermId(), getContextInfo());
             if (term != null) {
                 wrapper.setTermName(term.getName());
             }
@@ -272,6 +274,13 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         return courseService;
     }
 
+    private AcademicCalendarService getAcademicCalendarService() {
+        if(academicCalendarService == null) {
+            academicCalendarService = CourseOfferingResourceLoader.loadAcademicCalendarService();
+        }
+
+        return academicCalendarService;
+    }
 
     /**
      * Mock data that was being used in the Delivery Logistics section of Edit Activity Offering
