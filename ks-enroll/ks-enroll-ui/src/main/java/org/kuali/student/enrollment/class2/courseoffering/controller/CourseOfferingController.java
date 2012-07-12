@@ -18,7 +18,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffe
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
@@ -98,27 +97,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             coWrapper.getExistingTermOfferings().clear();
             coWrapper.getExistingCourseOfferings().clear();
 
-            List<String> courseOfferingsInSOC = new ArrayList<String>();
-            TermInfo targetTermInfo = getTerm(term.getCode());
-            List<String> socIdList = getSOCService().getSocIdsByTerm(targetTermInfo.getId(),getContextInfo());
-
-            TermInfo sourceTerm = null;
-
-            if (!socIdList.isEmpty()) {
-                courseOfferingsInSOC = getSOCService().getCourseOfferingIdsBySoc(socIdList.get(0),getContextInfo());
-
-                List<String> socResultIds = getSOCService().getSocRolloverResultIdsByTargetSoc(socIdList.get(0),getContextInfo());
-                if (!socResultIds.isEmpty()){
-                    SocRolloverResultInfo socResult = getSOCService().getSocRolloverResult(socResultIds.get(0),getContextInfo());
-                    sourceTerm = getAcademicCalendarService().getTerm(socResult.getSourceTermId(),getContextInfo());
-                }
-            }
-
             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
                 ExistingCourseOffering co = new ExistingCourseOffering();
-                if (sourceTerm != null && courseOfferingsInSOC.contains(courseOfferingInfo.getId())){
-                    co.setTermCode(sourceTerm.getName());
-                }
                 co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                 co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
                 co.setCredits(courseOfferingInfo.getCreditOptionId());
