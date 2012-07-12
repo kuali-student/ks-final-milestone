@@ -556,7 +556,7 @@
     </bean>
 
     <!-- Hold Service -->
-    <bean id="holdService" class="org.kuali.student.r2.core.class1.hold.service.impl.HoldServiceImpl">
+    <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
         <property name="holdIssueDao" ref="holdIssueDao"/>
         <property name="appliedHoldDao" ref="appliedHoldDao"/>
     </bean>
