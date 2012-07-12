@@ -26,7 +26,7 @@ public class ModelUtilities {
     /**
      * Converts a one-char Y/N String to Boolean.
      */
-    private Boolean toBoolean(String flag) throws IllegalArgumentException {
+    private static Boolean toBoolean(String flag) throws IllegalArgumentException {
         if ("Y".equals(flag)) { return true; }
         if ("N".equals(flag)) { return false; }
         throw new IllegalArgumentException("Flag should be Y/N");
@@ -35,7 +35,7 @@ public class ModelUtilities {
     /**
      * Converts a boolean to Y/N String.
      */
-    private String toYNString (Boolean flag) {
+    private static String toYNString (Boolean flag) {
         if (flag) return "Y";
         return "N";
     }
