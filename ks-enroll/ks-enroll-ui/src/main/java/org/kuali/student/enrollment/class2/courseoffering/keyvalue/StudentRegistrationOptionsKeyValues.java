@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -57,8 +58,15 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
         List<String> gradingOptions;
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        MaintenanceForm form1 = (MaintenanceForm)model;
-        CourseOfferingEditWrapper form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
+        Object dataObject = null;
+        CourseOfferingEditWrapper form = null;
+        if (model instanceof MaintenanceForm) {
+            MaintenanceForm form1 = (MaintenanceForm)model;
+            form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
+        } else if (model instanceof InquiryForm) {
+            InquiryForm form1 = (InquiryForm)model;
+            form = (CourseOfferingEditWrapper)form1.getDataObject();
+        }
 
         if (form.getStudentRegOptions() != null) {
             for(String studentGradingOption : form.getStudentRegOptions()) {

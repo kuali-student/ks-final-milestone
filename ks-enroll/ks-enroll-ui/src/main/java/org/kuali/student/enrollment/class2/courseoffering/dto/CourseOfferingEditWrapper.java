@@ -37,6 +37,7 @@ public class CourseOfferingEditWrapper implements Serializable {
     private List<String> studentRegOptions;
     private List<String> crsGradingOptions;
     private List<OrganizationInfoWrapper> organizationNames;
+    private List<OfferingInstructorWrapper> instructors;
     private CourseInfo course;
     private String termStartEnd;
 
@@ -154,5 +155,16 @@ public class CourseOfferingEditWrapper implements Serializable {
     public void setTermStartEnd(String termStartEnd) {
         this.termStartEnd = termStartEnd;
     }
+
+    public List<OfferingInstructorWrapper> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(List<OfferingInstructorWrapper> instructors) {
+        this.instructors = instructors;
+    }
+
+
+
 }
 
