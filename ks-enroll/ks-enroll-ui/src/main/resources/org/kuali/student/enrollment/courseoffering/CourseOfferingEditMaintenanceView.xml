@@ -550,25 +550,29 @@
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl">
                                         <property name="checkboxLabel" value="This course offering has a waitlist"/>
-
-
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="coInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
-                                <property name="control">
-                                    <bean parent="Uif-VerticalRadioControl"/>
-                                </property>
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues" />
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:label="Waitlist Type" p:propertyName="coInfo.waitlistTypeKey" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
-                                <property name="control">
-                                    <bean parent="Uif-DropdownControl"/>
-                                </property>
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" />
+                            <bean parent="Uif-HorizontalBoxSection" p:refreshWhenChangedPropertyNames="#dp.coInfo.hasWaitlist">
+                                <property name="items">
+                                    <list>
+                                       <bean parent="Uif-InputField" p:propertyName="coInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                            <property name="control">
+                                                <bean parent="Uif-VerticalRadioControl" p:disabled="@{!#dp.coInfo.hasWaitlist}"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:label="Waitlist Type" p:propertyName="coInfo.waitlistTypeKey" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:disabled="@{!#dp.coInfo.hasWaitlist}"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" />
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                         </list>
