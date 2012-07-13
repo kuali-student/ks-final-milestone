@@ -605,7 +605,7 @@
                                 <property name="quickfinder.fieldConversions">
                                     <map>
                                         <entry key="name" value="personName"/>
-                                        <entry key="principalId" value="personId"/>
+                                        <entry key="entityId" value="personId"/>
                                     </map>
                                 </property>
                                 <property name="quickfinder.viewName" value="ks_simplePersonLookup" />

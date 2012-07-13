@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -377,7 +376,6 @@ public class CourseOfferingTransformer {
             throw new RuntimeException("Error getting instructors for LuiId: " + luiId + " Permission Denied ", e);
         }
 
-                 PersonService personService = getPersonService();
         for (LuiPersonRelationInfo lpr : lprs) {
             if (lpr.getStateKey()==null || !lpr.getStateKey().equals(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY)) {
                 OfferingInstructorInfo instructor = new OfferingInstructorInfo();
@@ -387,9 +385,10 @@ public class CourseOfferingTransformer {
                 instructor.setTypeKey(lpr.getTypeKey());
                 instructor.setStateKey(lpr.getStateKey());
 
-                Person person = personService.getPerson(lpr.getPersonId());
-                if (person != null) {
-                    instructor.setPersonName(person.getName());
+                 // Should be only one person found by person id
+                List<Person> personList = OfferingInstructorTransformer.getInstructorByPersonId(instructor.getPersonId());
+                if(personList != null && !personList.isEmpty()){
+                    instructor.setPersonName(personList.get(0).getName());
                 }
                 co.getInstructors().add(instructor);
             }
