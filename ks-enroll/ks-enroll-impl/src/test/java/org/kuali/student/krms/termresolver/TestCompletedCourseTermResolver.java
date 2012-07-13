@@ -60,6 +60,7 @@ public class TestCompletedCourseTermResolver {
         resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME, context);
 
         parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC101");
         String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
 
         List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);

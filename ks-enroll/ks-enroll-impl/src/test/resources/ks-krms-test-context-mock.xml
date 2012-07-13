@@ -249,12 +249,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
-        <property name="lprDao" ref="lprDao"/>
-   		<property name="lprRosterDao" ref="lprRosterDao"/>
-    	<property name="lprTransDao" ref="lprTransDao"/>
-    	<property name="lprTransItemDao" ref="lprTransItemDao"/>
-    	<property name="lprRosterEntryDao" ref="lprRosterEntryDao"/>
+    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.mock.LuiPersonRelationServiceMockImpl">
     </bean>
     
      <bean id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
@@ -508,11 +503,7 @@
 
     <!-- Mock Impl -->
     <bean id="acadRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMockImpl">
-        <property name="courseRegService" ref="courseRegService"/>
-        <property name="atpService" ref="atpService"/>
-        <property name="courseRecordAssembler" ref="courseRecordAssembler"/>
-        <property name="lrcService" ref="lrcService"/>
-        <property name="gradingService" ref="gradingService"/>
+
     </bean>
 
 
