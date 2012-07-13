@@ -377,28 +377,3 @@ CREATE TABLE KSEN_INSTR_MESSAGE
     PLAIN VARCHAR2(2000)
 )
 /
-
-
------------------------------------------------------------------------------
--- KSEN_POPULATION
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_POPULATION';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_POPULATION CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_POPULATION
-(
-    ID VARCHAR2(255),
-    OBJ_ID VARCHAR2(36),
-    VER_NBR NUMBER(19,0),
-    CREATEID VARCHAR2(255),
-    CREATETIME TIMESTAMP (6),
-    UPDATEID VARCHAR2(255),
-    UPDATETIME TIMESTAMP (6),
-    STATE_ID VARCHAR2(255),
-    TYPE_ID VARCHAR2(255)
-)
-/
