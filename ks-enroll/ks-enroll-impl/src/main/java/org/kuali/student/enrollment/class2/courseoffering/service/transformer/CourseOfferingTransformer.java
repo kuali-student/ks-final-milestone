@@ -7,6 +7,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
@@ -356,23 +357,29 @@ public class CourseOfferingTransformer {
         courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
     }
 
-    // this is not currently in use and needs to be revisited and plugged into the impl
-    public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LuiPersonRelationService lprService)
-            throws OperationFailedException {
+    public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LuiPersonRelationService lprService) {
         List<LuiPersonRelationInfo> lprs = null;
         try {
             lprs = lprService.getLprsByLui(luiId, context);
-        } catch (Exception e) {
-            throw new OperationFailedException("DoesNotExistException: " + e.getMessage());
+        } catch (DoesNotExistException e) {
+            LOG.warn("Instructors do not exist for LuiId: " + luiId, e);
+        } catch (InvalidParameterException e) {
+            LOG.error("Error getting instructors for LuiId: " + luiId + " Invalid Parameter ", e);
+            throw new RuntimeException("Error getting instructors for LuiId: " + luiId + " Invalid Parameter ", e);
+        } catch (MissingParameterException e) {
+            LOG.error("Error getting instructors for LuiId: " + luiId + " Missing Parameter ", e);
+            throw new RuntimeException("Error getting instructors for LuiId: " + luiId + " Missing Parameter ", e);
+        } catch (OperationFailedException e) {
+            LOG.error("Error getting instructors for LuiId: " + luiId + " Operation Failed ", e);
+            throw new RuntimeException("Error getting instructors for LuiId: " + luiId + " Operation Failed ", e);
+        } catch (PermissionDeniedException e) {
+            LOG.error("Error getting instructors for LuiId: " + luiId + " Permission Denied ", e);
+            throw new RuntimeException("Error getting instructors for LuiId: " + luiId + " Permission Denied ", e);
         }
 
-        PersonService personService = getPersonService();
+                 PersonService personService = getPersonService();
         for (LuiPersonRelationInfo lpr : lprs) {
-            if (lpr.getStateKey() != null && lpr.getStateKey().equals(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY))  {
-                continue;
-            }
-
-            //if (lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
+            if (lpr.getStateKey()==null || !lpr.getStateKey().equals(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY)) {
                 OfferingInstructorInfo instructor = new OfferingInstructorInfo();
                 instructor.setPersonId(lpr.getPersonId());
                 instructor.setPercentageEffort(lpr.getCommitmentPercent());
@@ -385,7 +392,8 @@ public class CourseOfferingTransformer {
                     instructor.setPersonName(person.getName());
                 }
                 co.getInstructors().add(instructor);
-            //}
+            }
+
         }
     }
 
