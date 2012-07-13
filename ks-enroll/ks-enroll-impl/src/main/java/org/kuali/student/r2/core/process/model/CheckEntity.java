@@ -247,21 +247,35 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
 
     @Override
     public String toString() {
-        return "CheckEntity{" +
-                "id='" + getId() + '\'' +
-                ", checkType='" + checkType + '\'' +
-                ", checkState='" + checkState + '\'' +
-                ", name='" + name + '\'' +
-                ", descrPlain='" + descrPlain + '\'' +
-                ", descrFormatted='" + descrFormatted + '\'' +
-                ", issueId='" + issueId + '\'' +
-                ", milestoneType='" + milestoneType + '\'' +
-                ", agendaId='" + agendaId + '\'' +
-                ", rightAgendaId='" + rightAgendaId + '\'' +
-                ", leftAgendaId='" + leftAgendaId + '\'' +
-                ", childProcessId='" + childProcessId + '\'' +
-                ", attributes=" + attributes +
-                '}';
+        StringBuilder builder = new StringBuilder("CheckEntity {");
+        builder.append("id='" + getId() + '\'');
+        builder.append(", checkType='" + checkType + '\'');
+        builder.append(", checkState='" + checkState + '\'');
+        builder.append(", name='" + name + '\'');
+        builder.append(", descrPlain='" + descrPlain + '\'');
+        builder.append(", descrFormatted='" + descrFormatted + '\'');
+        builder.append(", issueId='" + issueId + '\'');
+        builder.append(", milestoneType='" + milestoneType + '\'');
+        builder.append(", agendaId='" + agendaId + '\'');
+        builder.append(", rightAgendaId='" + rightAgendaId + '\'');
+        builder.append(", leftAgendaId='" + leftAgendaId + '\'');
+        builder.append(", childProcessId='" + childProcessId + '\'');
+
+        if(!attributes.isEmpty()) {
+            builder.append(", attributes={");
+            for(CheckAttributeEntity attr : attributes) {
+                builder.append(" CheckAttributeEntity [id=");
+                builder.append(attr.getId());
+                builder.append(", key=");
+                builder.append(attr.getKey());
+                builder.append(", value=");
+                builder.append(attr.getValue());
+                builder.append("]");
+            }
+            builder.append(" }");
+        }
+
+        return builder.toString();
     }
 
 	public void addAttribute(String key, String value) {
