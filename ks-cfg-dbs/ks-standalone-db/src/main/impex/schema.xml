@@ -1900,15 +1900,172 @@
         </index>
     </table>
     <table name="KSEN_POPULATION">
-        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="POPULATION_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="POPULATION_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="POPULATION_RULE_ID" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="STATE_ID" size="255" type="VARCHAR"/>
-        <column name="TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_FK1">
+            <reference foreign="ID" local="POPULATION_RULE_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_I1">
+            <index-column name="POPULATION_TYPE"/>
+        </index>
+        <index name="KSEN_POP_IF1">
+            <index-column name="POPULATION_RULE_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION" name="KSEN_POPULATION_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_CAT">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="POPULATION_CAT_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="POPULATION_CAT_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <index name="KSEN_POP_CAT_I1">
+            <index-column name="POPULATION_CAT_TYPE"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_CAT_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_CAT" name="KSEN_POP_CAT_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_CAT_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_CAT_RELTN">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="POPULATION_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="POPULATION_CAT_ID" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_CAT" name="KSEN_POP_CAT_RELTN_FK2">
+            <reference foreign="ID" local="POPULATION_CAT_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_POPULATION" name="KSEN_POP_CAT_RELTN_FK1">
+            <reference foreign="ID" local="POPULATION_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_CAT_RELTN_IF1">
+            <index-column name="POPULATION_ID"/>
+        </index>
+        <index name="KSEN_POP_CAT_RELTN_IF2">
+            <index-column name="POPULATION_CAT_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="POPULATION_RULE_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="POPULATION_RULE_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="REF_POPULATION_ID" size="255" type="VARCHAR"/>
+        <column name="VARIES_BY_TIME_IND" size="1" type="VARCHAR"/>
+        <column name="SUPPORTS_GET_MBR_IND" size="1" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <index name="KSEN_POP_RULE_I1">
+            <index-column name="POPULATION_RULE_TYPE"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE_AGENDA">
+        <column name="AGENDA_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="POPULATION_RULE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_RULE_AGENDA_FK1">
+            <reference foreign="ID" local="POPULATION_RULE_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_RULE_AGENDA_IF1">
+            <index-column name="POPULATION_RULE_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_RULE_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_RULE_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE_CHILD_POP">
+        <column name="POPULATION_RULE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CHILD_POPULATION_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_RULE_CHILD_POP_FK1">
+            <reference foreign="ID" local="POPULATION_RULE_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_RULE_CHILD_POP_IF1">
+            <index-column name="POPULATION_RULE_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE_GRP">
+        <column name="POPULATION_RULE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="GROUP_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_RULE_GRP_FK1">
+            <reference foreign="ID" local="POPULATION_RULE_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_RULE_GRP_IF1">
+            <index-column name="POPULATION_RULE_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE_PERS">
+        <column name="POPULATION_RULE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="PERSON_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_RULE_PERS_FK1">
+            <reference foreign="ID" local="POPULATION_RULE_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_RULE_PERS_IF1">
+            <index-column name="POPULATION_RULE_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE_SOT">
+        <column name="POPULATION_RULE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="SORT_ORDER_TYPE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_RULE_SOT_FK1">
+            <reference foreign="ID" local="POPULATION_RULE_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_RULE_SOT_IF1">
+            <index-column name="POPULATION_RULE_ID"/>
+        </index>
     </table>
     <table name="KSEN_PROCESS">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
