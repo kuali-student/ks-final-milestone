@@ -122,10 +122,15 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             // CO code
             String courseOfferingCode = coEditWrapper.getCourse().getCode();
             if (!StringUtils.isEmpty(coInfo.getCourseNumberSuffix())) {
-                 courseOfferingCode += coInfo.getCourseNumberSuffix();
+                courseOfferingCode += coInfo.getCourseNumberSuffix();
             }
-
             coInfo.setCourseOfferingCode(courseOfferingCode);
+
+            // Waitlist
+            if (!coInfo.getHasWaitlist()) {
+                coInfo.setWaitlistTypeKey(null);
+                coInfo.setWaitlistLevelTypeKey(null);
+            }
 
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, getContextInfo());
         }   catch (Exception ex){
