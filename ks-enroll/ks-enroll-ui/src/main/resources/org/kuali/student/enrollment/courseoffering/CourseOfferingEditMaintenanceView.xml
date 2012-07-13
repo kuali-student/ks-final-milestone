@@ -598,9 +598,9 @@
                     <property name="layoutManager.richTable.render" value="false" />
                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-                    <property name="items">
+                    <property name="addLineItems">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID">
+                            <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID" >
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="quickfinder.fieldConversions">
                                     <map>
@@ -616,14 +616,18 @@
                                     <bean parent="Uif-DropdownControl" p:options-ref="coInstructors-options" />
                                 </property>
                             </bean>
-                            <!-- remove instructional effort column from edit CO page. It is for AO personnel -->
-                            <!--
-                            <bean parent="Uif-InputField" p:propertyName="percentageEffort" p:label="INST.EFFORT">
+                        </list>
+                    </property>
+
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="personId" p:label="ID" />
+                            <bean parent="Uif-DataField" p:propertyName="personName" p:label="Name" />
+                            <bean parent="Uif-InputField" p:propertyName="typeKey" p:label="AFFILIATION">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="10" />
+                                    <bean parent="Uif-DropdownControl" p:options-ref="coInstructors-options" />
                                 </property>
                             </bean>
-                            -->
                         </list>
                     </property>
 
