@@ -17,6 +17,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -28,11 +29,15 @@ import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -51,6 +56,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
     private CourseService courseService;
     private TypeService typeService;
     private StateService stateService;
+    private transient LRCService lrcService;
 
 
     public List<TermInfo> findTermByTermCode(String termCode) throws Exception {
@@ -74,7 +80,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>(courseOfferingIds.size());
             for(String coId : courseOfferingIds) {
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coId, getContextInfo());
-                coInfo.setCreditCnt(getCreditCount(coInfo));
+                coInfo.setCreditCnt(getCreditCount(coInfo, null));
                 courseOfferings.add(coInfo);
             }
             form.setCourseOfferingList(courseOfferings);
@@ -125,7 +131,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
                 if (courseOfferings.size()>0){
                     for (CourseOfferingInfo coInfo:courseOfferings){
-                        coInfo.setCreditCnt(getCreditCount(coInfo));
+                        coInfo.setCreditCnt(getCreditCount(coInfo, null));
                     }
                 }
             }
@@ -274,35 +280,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         form.setActivityWrapperList(activityOfferingWrapperList);
      }
 
-    //get credit count from CourseInfo that is backed for the CourseOfferingInfo
-    private String getCreditCount(CourseOfferingInfo coInfo) throws Exception{
-        CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
-        String creditOpt = courseInfo.getCreditOptions().get(0).getType();
-        if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED) ){              //fixed
-            return trimTrailing0(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
-        } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE) ){    //range
-            //minCreditValue - maxCreditValue
-            return trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get("minCreditValue"))
-                    +" - "+trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get("maxCreditValue")) ;
-        } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE) ){    //multiple
-            List<String> creditValuesS = courseInfo.getCreditOptions().get(0).getResultValues();
-            List<Float> creditValuesF = new ArrayList();
-            String creditMultiple = "";
-            for (String creditS : creditValuesS ) {  //convert String to Float for sorting
-                creditValuesF.add(Float.valueOf(creditS));
-            }
-            Collections.sort(creditValuesF);
-            for (Float creditF : creditValuesF ){
-                creditMultiple = creditMultiple + ", " + trimTrailing0(String.valueOf(creditF));
-            }
-            return creditMultiple.substring(2);  //trim leading ", "
-        } else {                                                                                                      //no credit option
-            LOG.info("Credit is missing for subject course " + coInfo.getCourseCode());
-            return "N/A";
-        }
-
-    }
-
     private CourseOfferingService _getCourseOfferingService() {
         if (coService == null) {
             coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
@@ -321,7 +298,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         contextInfo.setLocale(localeInfo);
         return contextInfo;
     }
-
 
     private AcademicCalendarService _getAcalService() {
         if (acalService == null) {
@@ -356,12 +332,78 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         return stateService;
     }
 
+    protected LRCService getLrcService() {
+        if(lrcService == null) {
+            lrcService = (LRCService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lrc", "LrcService"));
+        }
+        return this.lrcService;
+    }
+
+    //get credit count from persisted COInfo or from CourseInfo
+    private String getCreditCount(CourseOfferingInfo coInfo, CourseInfo courseInfo) throws Exception{
+        String creditOptionId = coInfo.getCreditOptionId();
+        String creditCount = "";
+        if (creditOptionId != null) { //Lookup persisted values
+            ResultValuesGroupInfo resultValuesGroupInfo = getLrcService().getResultValuesGroup(creditOptionId, getContextInfo());
+            String typeKey = resultValuesGroupInfo.getTypeKey();
+            //Get the actual values
+            List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), getContextInfo());
+            if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {                                 //fixed
+                if (!resultValueInfos.isEmpty()) {
+                    creditCount = resultValueInfos.get(0).getValue();
+                }
+            } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
+                creditCount = trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMinValue()) + " - " +
+                        trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMaxValue());
+            } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {                       //range
+                if (!resultValueInfos.isEmpty()) {
+                    List<Float> creditValuesF = new ArrayList();
+                    for (ResultValueInfo resultValueInfo : resultValueInfos ) {  //convert String to Float for sorting
+                        creditValuesF.add(Float.valueOf(resultValueInfo.getValue()));
+                    }
+                    Collections.sort(creditValuesF);
+                    for (Float creditF : creditValuesF ){
+                        creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
+                    }
+                creditCount =  creditCount.substring(2);  //trim leading ", "
+                }
+            }
+        } else { //Lookup original course values
+            if (courseInfo == null) {
+                courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
+            }
+            String creditOpt = courseInfo.getCreditOptions().get(0).getType();
+            if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED) ){              //fixed
+                creditCount = trimTrailing0(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
+            } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE) ){    //range
+                //minCreditValue - maxCreditValue
+                creditCount = trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS))
+                        +" - "+trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS));
+            } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE) ){    //multiple
+                List<String> creditValuesS = courseInfo.getCreditOptions().get(0).getResultValues();
+                List<Float> creditValuesF = new ArrayList();
+                for (String creditS : creditValuesS ) {  //convert String to Float for sorting
+                    creditValuesF.add(Float.valueOf(creditS));
+                }
+                Collections.sort(creditValuesF);
+                for (Float creditF : creditValuesF ){
+                    creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
+                }
+                creditCount =  creditCount.substring(2);  //trim leading ", "
+            } else {                                                                                                      //no credit option
+                LOG.info("Credit is missing for subject course " + coInfo.getCourseCode());
+                return "N/A";
+            }
+        }
+        return creditCount;
+    }
+
     public String trimTrailing0(String creditValue){
         if (creditValue.indexOf(".0") > 0) {
             return creditValue.substring(0, creditValue.length( )- 2);
         } else {
             return creditValue;
         }
-
     }
+
 }

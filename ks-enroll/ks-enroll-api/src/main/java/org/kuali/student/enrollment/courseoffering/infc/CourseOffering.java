@@ -205,6 +205,7 @@ public interface CourseOffering extends IdNamelessEntity{
      * Gets the Grading Name
      *
      * @name Grading
+     * @readOnly
      * @impl this is the grading name - last word in gradingOptionId
      */
     public String getGradingOption();
@@ -248,6 +249,7 @@ public interface CourseOffering extends IdNamelessEntity{
      * Gets the Credit Count
      *
      * @name Credit Count
+     * @readOnly
      * @impl this is the number of credits
      */
     public String getCreditCnt();
