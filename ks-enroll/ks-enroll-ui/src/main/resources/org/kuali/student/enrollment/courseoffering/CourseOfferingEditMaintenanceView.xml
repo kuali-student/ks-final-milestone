@@ -427,13 +427,13 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:label="Minimum Credits" p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
-                                  p:propertyName="creditOption.minCredits" p:fieldLabel.renderColon="false" p:required="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range'}">
+                                  p:propertyName="creditOption.minCredits" p:fieldLabel.renderColon="false" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3" />
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:label="Maximum Credits" p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}"
-                                  p:propertyName="creditOption.maxCredits" p:fieldLabel.renderColon="false" p:required="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range'}">
+                                  p:propertyName="creditOption.maxCredits" p:fieldLabel.renderColon="false" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3" />
                                 </property>
