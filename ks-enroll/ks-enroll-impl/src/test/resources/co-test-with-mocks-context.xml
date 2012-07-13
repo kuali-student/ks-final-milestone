@@ -64,7 +64,7 @@
         <property name="coService" ref="coService" />
     </bean>
 
-    
+
     <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
         <property name="luiService" ref="luiService" />
         <property name="regGroupTransformer" ref="regGroupTransformer"/>
@@ -79,7 +79,7 @@
     <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
     
     <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
-	 <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
+	<bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
 
 
 </beans>

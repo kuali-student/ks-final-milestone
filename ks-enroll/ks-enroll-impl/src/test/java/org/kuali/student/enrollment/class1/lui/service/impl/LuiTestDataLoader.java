@@ -102,6 +102,8 @@ public class LuiTestDataLoader {
         //Lu Code
         LuCodeEntity luCode = new LuCodeEntity();
         luCode.setId("Lu-Code-" + id);
+        luCode.setCreateId(principalId);
+        luCode.setCreateTime(new Date());
         ArrayList<LuCodeEntity> luCodes = new ArrayList<LuCodeEntity>();
         luCodes.add(luCode);
         luiEntity.setLuiCodes(luCodes);
