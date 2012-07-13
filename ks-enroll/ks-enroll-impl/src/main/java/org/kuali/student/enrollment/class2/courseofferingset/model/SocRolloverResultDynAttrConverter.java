@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.assembler.DynAttrConverter;
 import org.kuali.student.r2.common.assembler.DynamicAttrReadOnlyWrapper;
 import org.kuali.student.r2.common.assembler.DynamicAttrWrapper;
 import org.kuali.student.r2.common.assembler.TransformUtility;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 import java.util.Date;
@@ -246,8 +247,8 @@ public class SocRolloverResultDynAttrConverter {
             DynamicAttrReadOnlyWrapper<SocRolloverResult> wrapper = dynAttrMap.get(attrName);
             if (attrEntity == null) {
                 // Can't find this in the list of attributes, so create a new one
-                SocRolloverResultAttributeEntity newAttrEntity =
-                        new SocRolloverResultAttributeEntity(attrName, wrapper.writeOutStringValue(), entity);
+                AttributeInfo attr = new AttributeInfo(attrName, wrapper.writeOutStringValue());
+                SocRolloverResultAttributeEntity newAttrEntity = new SocRolloverResultAttributeEntity(attr, entity);
                 entity.getAttributes().add(newAttrEntity);
             } else {
                 // Reuse the attribute

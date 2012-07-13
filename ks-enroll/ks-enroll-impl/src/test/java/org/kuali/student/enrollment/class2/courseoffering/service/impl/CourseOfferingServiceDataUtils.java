@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -31,10 +30,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -43,14 +39,12 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
 /**
  * 
@@ -323,9 +317,9 @@ public final class CourseOfferingServiceDataUtils {
 
 		orig.setDescr(new RichTextInfo(canonicalCourse.getCourseTitle(), "<b>" + canonicalCourse.getCourseTitle() + "<b>"));
 
-		orig.getRegistrationGradingOptionIds().add(
+		orig.getStudentRegistrationGradingOptions().add(
 				LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
-		orig.getRegistrationGradingOptionIds().add(
+		orig.getStudentRegistrationGradingOptions().add(
 				LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE);
 
 		return orig;

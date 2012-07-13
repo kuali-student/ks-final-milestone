@@ -18,9 +18,10 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
-import org.kuali.student.enrollment.class2.courseoffering.dto.*;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -34,17 +35,20 @@ import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
-import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class //TODO ...
@@ -112,13 +116,13 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             for (OfferingInstructorInfo offeringInstructorInfo : offeringInstructorInfos) {
                 OfferingInstructorWrapper instructor = new OfferingInstructorWrapper();
                 instructor.setOfferingInstructorInfo(offeringInstructorInfo);
-                if (offeringInstructorInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
+                if (offeringInstructorInfo.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
                     //offeringInstructorInfo.setTypeKey("Instructor");
                     instructor.setTypeName("Instructor");
-                } else if (offeringInstructorInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_ASSISTANT_TYPE_KEY)) {
+                } else if (offeringInstructorInfo.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_ASSISTANT_TYPE_KEY)) {
                     //offeringInstructorInfo.setTypeKey("Teaching Assistant");
                     instructor.setTypeName("Teaching Assistant");
-                } else if (offeringInstructorInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_SUPPORT_TYPE_KEY)) {
+                } else if (offeringInstructorInfo.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_SUPPORT_TYPE_KEY)) {
                     //TO DO: set support here
                 }
                 instructorList.add(instructor);

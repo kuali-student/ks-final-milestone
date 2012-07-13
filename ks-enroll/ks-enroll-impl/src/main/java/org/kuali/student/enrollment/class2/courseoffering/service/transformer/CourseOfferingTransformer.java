@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -29,19 +28,18 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CourseOfferingTransformer {
-    private LuiPersonRelationService lprService;
+    private LprService lprService;
     private PersonService personService;
     private LRCService lrcService;
 
@@ -88,11 +86,11 @@ public class CourseOfferingTransformer {
         co.setUnitsContentOwner(lui.getUnitsContentOwner());
 
         //Split up the result keys for student registration options into a separate field.
-        co.getStudentRegistrationOptionIds().clear();
+        co.getStudentRegistrationGradingOptions().clear();
         co.setGradingOptionId(null);
         for(String resultValueGroupKey : lui.getResultValuesGroupKeys()){
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
-                co.getStudentRegistrationOptionIds().add(resultValueGroupKey);
+                co.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
             }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 if(co.getGradingOptionId()!=null){
                     throw new RuntimeException("This course offering has multiple grading options in the data. It should only have at most one.");
@@ -101,10 +99,6 @@ public class CourseOfferingTransformer {
             }else if(resultValueGroupKey!=null && resultValueGroupKey.startsWith("kuali.creditType.credit")){//There should be a better way of distinguishing credits from other results
                 co.setCreditOptionId(resultValueGroupKey);
             }
-        }
-
-        if ( co.getGradingOptionId() != null ) {//TODO why are we doing substrings of keys?
-            co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
         }
 
         LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
@@ -138,11 +132,11 @@ public class CourseOfferingTransformer {
     }
 
 
-    public LuiPersonRelationService getLprService() {
+    public LprService getLprService() {
         return lprService;
     }
 
-    public void setLprService(LuiPersonRelationService lprService) {
+    public void setLprService(LprService lprService) {
         this.lprService = lprService;
     }
 
@@ -270,7 +264,7 @@ public class CourseOfferingTransformer {
         // TODO: Shouldn't this be handled at the JPA level with some sort of merge?
         List<String> newOptions = new ArrayList<String>();
         newOptions.add(co.getGradingOptionId());
-        newOptions.addAll(co.getStudentRegistrationOptionIds());
+        newOptions.addAll(co.getStudentRegistrationGradingOptions());
         lui.setResultValuesGroupKeys(newOptions);
         lui.getResultValuesGroupKeys().add(co.getCreditOptionId());
 
@@ -315,11 +309,11 @@ public class CourseOfferingTransformer {
         courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
 
         //Split up the result keys for student registration options into a separate field.
-        courseOfferingInfo.getStudentRegistrationOptionIds().clear();
+        courseOfferingInfo.getStudentRegistrationGradingOptions().clear();
         courseOfferingInfo.setGradingOptionId(null);
         for(String resultValueGroupKey : courseInfo.getGradingOptions()){
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
-                courseOfferingInfo.getStudentRegistrationOptionIds().add(resultValueGroupKey);
+                courseOfferingInfo.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
             }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 if(courseOfferingInfo.getGradingOptionId()!=null){
                     //Log warning
@@ -364,7 +358,7 @@ public class CourseOfferingTransformer {
     // this is not currently in use and needs to be revisited and plugged into the impl
     public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LprService lprService)
             throws OperationFailedException {
-        List<LuiPersonRelationInfo> lprs = null;
+        List<LprInfo> lprs = null;
         try {
             lprs = lprService.getLprsByLui(luiId, context);
         } catch (Exception e) {
@@ -372,8 +366,8 @@ public class CourseOfferingTransformer {
         }
 
         PersonService personService = getPersonService();
-        for (LuiPersonRelationInfo lpr : lprs) {
-            if (lpr.getStateKey() != null && lpr.getStateKey().equals(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY))  {
+        for (LprInfo lpr : lprs) {
+            if (lpr.getStateKey() != null && lpr.getStateKey().equals(LprServiceConstants.DROPPED_STATE_KEY))  {
                 continue;
             }
 
@@ -401,7 +395,7 @@ public class CourseOfferingTransformer {
 
     public LRCService getLrcService() {
         if(lrcService == null){
-            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lrcService;
     }

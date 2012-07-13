@@ -40,8 +40,8 @@ import org.w3c.dom.Element;
         "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", 
         "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds", 
         "unitsContentOwnerOrgIds",  "maximumEnrollment", 
-        "minimumEnrollment", "jointOfferingIds", "gradingOptionId", 
-        "registrationGradingOptionIds", "creditOptionDisplay", "creditOptionId", 
+        "minimumEnrollment", "jointOfferingIds", "gradingOptionId",
+        "studentRegistrationGradingOptions", "creditOptionDisplay", "creditOptionId",
         "waitlistLevelTypeKey", "waitlistMaximum", "hasWaitlist", "waitlistTypeKey","campusLocations", 
         "isEvaluated", "fundingSource", "isFeeAtActivityOffering", 
         "isFinancialAidEligible", "courseOfferingURL", "finalExamType",
@@ -99,7 +99,7 @@ public class CourseOfferingInfo
     private String creditCnt;
 
     @XmlElement
-    private List<String> registrationGradingOptionIds;
+    private List<String> studentRegistrationGradingOptions;
 
     @XmlAnyElement
     private String gradingOption;
@@ -193,7 +193,7 @@ public class CourseOfferingInfo
         this.unitsContentOwnerOrgIds = offering.getUnitsContentOwnerOrgIds();
 
         this.gradingOptionId =  offering.getGradingOptionId();
-        this.registrationGradingOptionIds = (null != offering.getRegistrationGradingOptionIds()) ? new ArrayList<String>(offering.getRegistrationGradingOptionIds()) : null;
+        this.studentRegistrationGradingOptions = (null != offering.getStudentRegistrationGradingOptions()) ? new ArrayList<String>(offering.getStudentRegistrationGradingOptions()) : null;
         this.creditOptionDisplay = offering.getCreditOptionDisplay();
         this.creditOptionId = offering.getCreditOptionId();
 
@@ -364,16 +364,16 @@ public class CourseOfferingInfo
     }
 
     @Override
-    public List<String> getRegistrationGradingOptionIds() {
-        if (registrationGradingOptionIds == null) {
-            registrationGradingOptionIds = new ArrayList<String>();
+    public List<String> getStudentRegistrationGradingOptions() {
+        if (studentRegistrationGradingOptions == null) {
+            studentRegistrationGradingOptions = new ArrayList<String>();
         }
 
-        return this.registrationGradingOptionIds;
+        return this.studentRegistrationGradingOptions;
     }
 
-    public void setRegistrationGradingOptionIds(List<String> gradingOptionIds) {
-        this.registrationGradingOptionIds = gradingOptionIds;
+    public void setStudentRegistrationGradingOptions(List<String> gradingOptionIds) {
+        this.studentRegistrationGradingOptions = gradingOptionIds;
     }
 
     @Override
@@ -496,7 +496,7 @@ public class CourseOfferingInfo
 
    
     
-     public void setIsFeeAtActivityOffering(Boolean isFeeAtActivityOffering) {
+    public void setIsFeeAtActivityOffering(Boolean isFeeAtActivityOffering) {
 		this.isFeeAtActivityOffering = isFeeAtActivityOffering;
 	}
 
@@ -510,16 +510,32 @@ public class CourseOfferingInfo
     }
 
 	public void setFinalExamType(String value) {
-		
 		this.finalExamType = value;
-		
 	}
 
 	@Override
 	public String getFinalExamType() {
 		return this.finalExamType;
 	}
-    
+
+    @Override
+    public String getCreditCnt() {
+        return creditCnt;
+    }
+
+    public void setCreditCnt(String creditCnt) {
+        this.creditCnt = creditCnt;
+    }
+
+    @Override
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

@@ -758,7 +758,7 @@ public class GradingServiceImpl implements GradingService {
             gradingOptionIds.add(courseOfferingInfo.getGradingOptionId());
             lprToGradeOptions.put(lpr.getId(),gradingOptionIds);
 
-            lprToGradeOptions.put(lpr.getId(),courseOfferingInfo.getRegistrationGradingOptionIds());
+            lprToGradeOptions.put(lpr.getId(),courseOfferingInfo.getStudentRegistrationGradingOptions());
 
         }
 

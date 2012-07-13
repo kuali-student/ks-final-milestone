@@ -165,7 +165,7 @@ public class ActivityOfferingTransformer {
         return KimApiServiceLocator.getPersonService();
     }
 
-    public static List<LuiPersonRelationInfo> instructors2Lprs(LuiInfo luiInfo, List<OfferingInstructorInfo> instructors) {
+    public static List<LprInfo> instructors2Lprs(LuiInfo luiInfo, List<OfferingInstructorInfo> instructors) {
 
         List<LprInfo> results = new ArrayList<LprInfo>(instructors.size());
 

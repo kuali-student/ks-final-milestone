@@ -119,14 +119,14 @@ public class TestCourseOfferingSetServiceCalculationDecoratorWithMocks {
         sourceCo1.setCourseId(course1.getId());
         sourceCo1.setTermId(sourceTerm.getId());
         sourceCo1.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-        sourceCo1.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        sourceCo1.setStateKey(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY);
         sourceCo1 = coService.createCourseOffering(sourceCo1.getCourseId(), sourceCo1.getTermId(),
                 sourceCo1.getTypeKey(), sourceCo1, optionKeys, callContext);
 
         FormatInfo format1 = course1.getFormats().get(0);
         FormatOfferingInfo sourceFo1 = new FormatOfferingInfo();
         sourceFo1.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-        sourceFo1.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        sourceFo1.setStateKey(LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY);
         sourceFo1.setCourseOfferingId(sourceCo1.getId());
         sourceFo1.setDescr(new RichTextHelper().fromPlain("test format offering"));
         sourceFo1.setFormatId(format1.getId());
@@ -140,10 +140,9 @@ public class TestCourseOfferingSetServiceCalculationDecoratorWithMocks {
         sourceAo1A.setFormatOfferingId(sourceFo1.getId());
         sourceAo1A.setActivityId(activity1.getId());
         sourceAo1A.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-        sourceAo1A.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        sourceAo1A.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
         sourceAo1A.setActivityCode("A");
         sourceAo1A.setDescr(new RichTextHelper().fromPlain("test activity"));
-        sourceAo1A.setGradingOptionKeys(Arrays.asList("LetterGraded"));
         sourceAo1A.setIsHonorsOffering(Boolean.TRUE);
         sourceAo1A.setMaximumEnrollment(100);
         sourceAo1A.setMinimumEnrollment(90);
@@ -155,10 +154,9 @@ public class TestCourseOfferingSetServiceCalculationDecoratorWithMocks {
         sourceAo1B.setFormatOfferingId(sourceFo1.getId());
         sourceAo1B.setActivityId(activity1.getId());
         sourceAo1B.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-        sourceAo1B.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        sourceAo1B.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
         sourceAo1B.setActivityCode("B");
         sourceAo1B.setDescr(new RichTextHelper().fromPlain("test activity B"));
-        sourceAo1B.setGradingOptionKeys(Arrays.asList("LetterGraded"));
         sourceAo1B.setIsHonorsOffering(Boolean.TRUE);
         sourceAo1B.setMaximumEnrollment(100);
         sourceAo1B.setMinimumEnrollment(90);
@@ -177,14 +175,14 @@ public class TestCourseOfferingSetServiceCalculationDecoratorWithMocks {
         sourceCo2.setCourseId(course2.getId());
         sourceCo2.setTermId(sourceTerm.getId());
         sourceCo2.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-        sourceCo2.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        sourceCo2.setStateKey(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
         sourceCo2 = coService.createCourseOffering(sourceCo2.getCourseId(), sourceCo2.getTermId(),
                 sourceCo2.getTypeKey(), sourceCo2, optionKeys, callContext);
 
         FormatInfo format2 = course2.getFormats().get(0);
         FormatOfferingInfo sourceFo2 = new FormatOfferingInfo();
         sourceFo2.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-        sourceFo2.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        sourceFo2.setStateKey(LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY);
         sourceFo2.setCourseOfferingId(sourceCo2.getId());
         sourceFo2.setDescr(new RichTextHelper().fromPlain("test format offering"));
         sourceFo2.setFormatId(format2.getId());
@@ -198,10 +196,9 @@ public class TestCourseOfferingSetServiceCalculationDecoratorWithMocks {
         sourceAo2A.setFormatOfferingId(sourceFo2.getId());
         sourceAo2A.setActivityId(activity2.getId());
         sourceAo2A.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-        sourceAo2A.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        sourceAo2A.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
         sourceAo2A.setActivityCode("A");
         sourceAo2A.setDescr(new RichTextHelper().fromPlain("test activity"));
-        sourceAo2A.setGradingOptionKeys(Arrays.asList("LetterGraded"));
         sourceAo2A.setIsHonorsOffering(Boolean.TRUE);
         sourceAo2A.setMaximumEnrollment(100);
         sourceAo2A.setMinimumEnrollment(90);
@@ -213,10 +210,9 @@ public class TestCourseOfferingSetServiceCalculationDecoratorWithMocks {
         sourceAo2B.setFormatOfferingId(sourceFo2.getId());
         sourceAo2B.setActivityId(activity2.getId());
         sourceAo2B.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-        sourceAo2B.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        sourceAo2B.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
         sourceAo2B.setActivityCode("B");
         sourceAo2B.setDescr(new RichTextHelper().fromPlain("test activity B"));
-        sourceAo2B.setGradingOptionKeys(Arrays.asList("LetterGraded"));
         sourceAo2B.setIsHonorsOffering(Boolean.TRUE);
         sourceAo2B.setMaximumEnrollment(100);
         sourceAo2B.setMinimumEnrollment(90);

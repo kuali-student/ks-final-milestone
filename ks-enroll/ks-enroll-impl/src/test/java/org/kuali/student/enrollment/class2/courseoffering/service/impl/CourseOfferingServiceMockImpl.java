@@ -395,41 +395,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	private Map<String, CourseOfferingInfo> courseOfferingMap = new LinkedHashMap<String, CourseOfferingInfo>();
 
 	@Override
-	public CourseOfferingInfo createCourseOffering(String courseId,
-			String termId, String courseOfferingTypeKey,
-			CourseOfferingInfo courseOfferingInfo, List<String> optionKeys,
-			ContextInfo context) throws DoesNotExistException,
-			DataValidationErrorException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, ReadOnlyException {
-		// create
-		if (!courseOfferingTypeKey.equals(courseOfferingInfo.getTypeKey())) {
-			throw new InvalidParameterException(
-					"The type parameter does not match the type on the info object");
-		}
-		// TODO: check the rest of the readonly fields that are specified on the
-		// create to make sure they match the info object
-		CourseOfferingInfo copy = new CourseOfferingInfo(courseOfferingInfo);
-		if (copy.getId() == null) {
-			copy.setId(courseOfferingMap.size() + "");
-		}
-		// TODO: move this logic to the calculation decorator do the persistence
-		// layer doesn't have this logic mixed in with it
-		// copy from cannonical
-		CourseInfo courseInfo = new R1CourseServiceHelper(courseService,
-				acalService).getCourse(courseId);
-		CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-		coTransformer.copyFromCanonical(courseInfo, courseOfferingInfo,
-				optionKeys);
-		copy.setMeta(newMeta(context));
-		courseOfferingMap.put(copy.getId(), copy);
-		log.debug("CourseOfferingMockImpl: created course offering: "
-				+ copy.getId() + "term=" + copy.getTermId() + " for course ="
-				+ copy.getCourseId());
-		return new CourseOfferingInfo(copy);
-	}
-
-	@Override
 	public CourseOfferingInfo updateCourseOffering(String courseOfferingId,
 			CourseOfferingInfo courseOfferingInfo, ContextInfo context)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -1564,5 +1529,20 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         return null;
     }
 
-
+    @Override
+    public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termId,
+                                                                 String subjectArea, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        List<String> list = new ArrayList<String>();
+        for (CourseOfferingInfo info : courseOfferingMap.values()) {
+            if (termId.equals(info.getTermId())) {
+                if (subjectArea.equals(info.getSubjectArea())) {
+                    list.add(info.getId());
+                }
+            }
+        }
+        return list;
+    }
 }

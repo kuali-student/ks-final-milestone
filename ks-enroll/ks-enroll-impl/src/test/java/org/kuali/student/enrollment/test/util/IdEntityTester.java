@@ -5,6 +5,9 @@
 package org.kuali.student.enrollment.test.util;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -18,5 +21,11 @@ public class IdEntityTester {
         assertEquals(expected.getStateKey(), actual.getStateKey());
         assertEquals(expected.getName(), actual.getName());
         new RichTextTester().check(expected.getDescr(), actual.getDescr());
+    }
+
+    public void checkListOfInfoAgainstListOfIds (List<? extends IdEntityInfo> infos, List<String> ids) {
+        for (IdEntityInfo info: infos) {
+            assertTrue(ids.contains(info.getId()));
+        }
     }
 }

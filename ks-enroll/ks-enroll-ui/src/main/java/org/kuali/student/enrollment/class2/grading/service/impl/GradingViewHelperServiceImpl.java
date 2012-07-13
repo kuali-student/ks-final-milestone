@@ -105,7 +105,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
         if (rosterInfos != null) {
             for (GradeRosterInfo rosterInfo : rosterInfos) {
-                if (StringUtils.equals(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SUBMITTED_STATE_KEY,rosterInfo.getStateKey())){
+                if (StringUtils.equals(LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SUBMITTED_STATE_KEY,rosterInfo.getStateKey())){
                     gradingForm.setReadOnly(true);
                 }
 
@@ -176,7 +176,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
         if (updateRoster){
             for (GradeRosterInfo info : gradingForm.getRosterInfos()){
-                getGradingService().updateFinalGradeRosterState(info.getId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SAVED_STATE_KEY,context);
+                getGradingService().updateFinalGradeRosterState(info.getId(), LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SAVED_STATE_KEY,context);
             }
             return true;
         }
@@ -189,7 +189,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         ContextInfo context = TestHelper.getContext1();
 
         for (GradeRosterInfo info : gradingForm.getRosterInfos()){
-            getGradingService().updateFinalGradeRosterState(info.getId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SUBMITTED_STATE_KEY,context);
+            getGradingService().updateFinalGradeRosterState(info.getId(), LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SUBMITTED_STATE_KEY,context);
         }
 
         return true;
@@ -302,7 +302,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
     protected AcademicRecordService getAcademicRecordService() {
         if (academicRecordService == null){
-            academicRecordService = (AcademicRecordService) GlobalResourceLoader.getService(new QName(AcademicRecordServiceConstants.NAMESPACE, AcademicRecordServiceConstants.SERVICE_NAME));
+            academicRecordService = (AcademicRecordService) GlobalResourceLoader.getService(new QName(AcademicRecordServiceConstants.NAMESPACE, AcademicRecordServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return academicRecordService;
     }
