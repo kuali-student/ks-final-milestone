@@ -278,7 +278,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 			CourseOfferingInfo co = coService.getCourseOffering("CO-1",
 					callContext);
 			assertNotNull(co);
-			assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY,
+			assertEquals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY,
 					co.getStateKey());
 			assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
 					co.getTypeKey());
