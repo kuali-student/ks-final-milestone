@@ -298,6 +298,9 @@ public class CourseOfferingTransformer {
         }
         courseOfferingInfo.setSubjectArea(courseInfo.getSubjectArea());
 
+        // KS-1.3-SERVICES-MERGE: copy courseNumberSuffix
+        courseOfferingInfo.setCourseNumberSuffix(courseInfo.getCourseNumberSuffix());
+
         if(optionKeys.contains(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY)) {
             String codeSuffix = courseOfferingInfo.getCourseOfferingCode();
             courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode() + codeSuffix);
