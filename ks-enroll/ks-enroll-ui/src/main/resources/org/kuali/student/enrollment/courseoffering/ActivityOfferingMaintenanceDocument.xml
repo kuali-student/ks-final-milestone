@@ -73,11 +73,15 @@
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:label="Edit" p:propertyName="aoInfo.courseOfferingCode" p:fieldLabel.renderColon="false" p:readOnly="true"/>
+                                        <bean parent="Uif-DataField" p:propertyName="aoInfo.courseOfferingCode" p:fieldLabel.renderColon="false" p:readOnly="true"/>
                                         <bean parent="Uif-DataField" p:label="-" p:propertyName="aoInfo.courseOfferingTitle" p:fieldLabel.renderColon="false" p:readOnly="true"/>
-                                        <!--<bean parent="Uif-DataField" p:label="Edit" p:propertyName="aoInfo.courseOfferingCode" p:readOnly="true" p:defaultValue="ENGL293C"/>
-                                        <bean parent="Uif-DataField" p:label="-" p:propertyName="aoInfo.courseOfferingTitle" p:fieldLabel.renderColon="false" p:readOnly="true" p:defaultValue="Intro to English Literature in the Victorian Era (LEC)"/>-->
-
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:label="Edit" p:propertyName="codeTypeString" p:fieldLabel.renderColon="false" p:readOnly="true"/>
                                     </list>
                                 </property>
                             </bean>

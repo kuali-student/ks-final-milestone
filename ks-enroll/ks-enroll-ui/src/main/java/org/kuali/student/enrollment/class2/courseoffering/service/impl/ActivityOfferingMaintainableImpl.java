@@ -84,6 +84,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 wrapper.setToolTipText("Each Activity Offering has its own wait list.");
             }
 
+
             // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
             TermInfo term = getAcademicCalendarService().getTerm(info.getTermId(), getContextInfo());
             if (term != null) {
@@ -91,6 +92,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
             wrapper.setTermDisplayString(getTermDisplayString(info.getTermId(), term));
 
+            wrapper.setCodeTypeString(getCodeTypeString(info));
 
             //process instructor effort
             assembleInstructorWrapper(info.getInstructors(), wrapper);
@@ -111,6 +113,14 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String getCodeTypeString(ActivityOfferingInfo info) throws Exception {
+        String codeTypeString = "GHI(LEC)";
+        TypeInfo typeInfo = getTypeService().getType(info.getTypeKey(), getContextInfo());
+        String typeName = typeInfo.getName().toUpperCase().substring(0,3);
+        codeTypeString = info.getActivityCode() + "(" + typeName + ")";
+        return codeTypeString;
     }
 
     private String getTermDisplayString(String termId, TermInfo term) {
