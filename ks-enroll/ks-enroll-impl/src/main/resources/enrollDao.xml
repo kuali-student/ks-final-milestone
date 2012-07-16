@@ -151,6 +151,15 @@
         <property name="em" ref="enrollEntityManager" />
     </bean>
 
+    <!-- Population Dao -->
+    <bean id="populationDao" class="org.kuali.student.r2.core.population.dao.PopulationDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="populationRuleDao" class="org.kuali.student.r2.core.population.dao.PopulationRuleDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
     <!-- Search Dao needs an implementation at some point -->
     <bean id="searchDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao">
         <property name="em" ref="enrollEntityManager"/>
