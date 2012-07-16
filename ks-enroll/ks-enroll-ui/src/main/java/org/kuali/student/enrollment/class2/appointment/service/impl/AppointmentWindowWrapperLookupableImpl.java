@@ -200,7 +200,7 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
 
     public PopulationService getPopulationService() {
         if(populationService == null) {
-            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationService.class.getSimpleName()));
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationServiceMock")); // TODO: Fix with real service
         }
         return populationService;
     }

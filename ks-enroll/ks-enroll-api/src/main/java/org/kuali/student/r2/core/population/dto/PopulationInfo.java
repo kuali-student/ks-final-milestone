@@ -48,11 +48,11 @@ public class PopulationInfo
 
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private List<String> sortOrderTypeKeys;
+    private List<String> sortOrderTypeKeys; // readonly
     @XmlElement
-    private Boolean variesByTime;
+    private Boolean variesByTime; // readonly
     @XmlElement
-    private Boolean supportsGetMembers;
+    private Boolean supportsGetMembers; // readonly
     @XmlAnyElement
     private List<Element> _futureElements;
 

@@ -24,6 +24,7 @@ import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
@@ -85,9 +86,10 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
     }
 
     protected PopulationService getPopulationService() {
-        //populationService is retrieved using global resource loader which is wired in ks-enroll-context.xml
-        if(populationService == null) {
-            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX+"population", "PopulationService"));
+        // populationService is retrieved using global resource loader which is wired in ks-enroll-context.xml
+        if (populationService == null) {
+            // TODO: Fix with real service later on
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationServiceMock"));
 
         }
         return populationService;

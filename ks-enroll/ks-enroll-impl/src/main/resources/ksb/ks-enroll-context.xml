@@ -202,6 +202,7 @@
         </property>
     </bean>
 
+    <!--- Fee Service -->
     <bean id="feeService" class="org.kuali.student.r2.core.fee.service.impl.FeeServiceImpl">
     <property name="enrollmentFeeDao" ref="enrollmentFeeDao" />
   </bean>
@@ -554,7 +555,7 @@
         <property name="appointmentWindowDao" ref="appointmentWindowDao"/>
         <property name="appointmentSlotDao" ref="appointmentSlotDao"/>
         <property name="appointmentDao" ref="appointmentDao"/>
-        <property name="populationService" ref="populationService"/>
+        <property name="populationService" ref="populationServiceMock"/>
     </bean>
 
     <bean id="ks.exp.appointmentWindowService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -570,8 +571,28 @@
         </property>
     </bean>
 
-    <!-- Population service -->
-    <bean id="populationService" class="org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl">
+    <!-- Population Mock service (currently used by AppointmentService (see below for PopulationService) -->
+    <bean id="populationServiceMock" class="org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl">
+    </bean>
+
+    <bean id="ks.exp.populationServiceMock" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="populationServiceMock" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.population.service.PopulationService" />
+                <property name="localServiceName" value="PopulationServiceMock" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/population" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+
+    <!--- Population Service -->
+    <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.PopulationServiceImpl">
+        <property name="populationDao" ref="populationDao" />
+        <property name="populationRuleDao" ref="populationRuleDao" />
     </bean>
 
     <bean id="ks.exp.populationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
