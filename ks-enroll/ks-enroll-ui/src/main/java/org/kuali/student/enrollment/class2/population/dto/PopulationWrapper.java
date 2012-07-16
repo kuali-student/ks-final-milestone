@@ -32,6 +32,9 @@ public class PopulationWrapper implements Serializable {
     private PopulationInfo populationInfo; //The core info (name+description+meta)
     private PopulationRuleInfo  populationRuleInfo;
     private String keyword;
+    private boolean showByRuleLink;
+    private boolean showLinkSection;
+
 
     public PopulationInfo getPopulationInfo() {
         return populationInfo;
@@ -55,6 +58,22 @@ public class PopulationWrapper implements Serializable {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public boolean isShowByRuleLink() {
+        return showByRuleLink;
+    }
+
+    public void setShowByRuleLink(boolean showByRuleLink) {
+        this.showByRuleLink = showByRuleLink;
+    }
+
+    public boolean isShowLinkSection() {
+        return showLinkSection;
+    }
+
+    public void setShowLinkSection(boolean showLinkSection) {
+        this.showLinkSection = showLinkSection;
     }
 
 }
