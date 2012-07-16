@@ -16,6 +16,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
@@ -25,6 +26,7 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
@@ -101,8 +104,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 ExistingCourseOffering co = new ExistingCourseOffering();
                 co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                 co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
-                co.setCredits(courseOfferingInfo.getCreditOptionId());
-                co.setGrading(courseOfferingInfo.getGradingOptionId());
+                co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
+                co.setGrading(courseOfferingInfo.getGradingOption());
                 coWrapper.getExistingCourseOfferings().add(co);
             }
 
@@ -118,8 +121,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 co.setTermCode(termInfo.getName());
                 co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                 co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
-                co.setCredits(courseOfferingInfo.getCreditOptionId());
-                co.setGrading(courseOfferingInfo.getGradingOptionId());
+                co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
+                co.setGrading(courseOfferingInfo.getGradingOption());
                 coWrapper.getExistingTermOfferings().add(co);
             }
 

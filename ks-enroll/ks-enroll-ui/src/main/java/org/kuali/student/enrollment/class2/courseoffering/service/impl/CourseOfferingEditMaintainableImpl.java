@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -218,7 +219,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 //0. get credit count from CourseInfo
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
                 CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
-                coInfo.setCreditCnt(getCreditCount(coInfo, courseInfo)); //set for CO title
+                coInfo.setCreditCnt(ViewHelperUtil.getCreditCount(coInfo, courseInfo)); //set for CO title
 
                 //1. set CourseOfferingInfo
                 CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
@@ -436,73 +437,6 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal", "AcademicCalendarService"));
         }
         return this.acalService;
-    }
-
-    //get credit count from persisted COInfo or from CourseInfo
-    private String getCreditCount(CourseOfferingInfo coInfo, CourseInfo courseInfo) throws Exception{
-        String creditOptionId = coInfo.getCreditOptionId();
-        String creditCount = "";
-        if (creditOptionId != null) { //Lookup persisted values
-            ResultValuesGroupInfo resultValuesGroupInfo = getLrcService().getResultValuesGroup(creditOptionId, getContextInfo());
-            String typeKey = resultValuesGroupInfo.getTypeKey();
-            //Get the actual values
-            List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), getContextInfo());
-            if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {                                 //fixed
-                if (!resultValueInfos.isEmpty()) {
-                    creditCount = resultValueInfos.get(0).getValue();
-                }
-            } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
-                creditCount = trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMinValue()) + " - " +
-                        trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMaxValue());
-            } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {                       //range
-                if (!resultValueInfos.isEmpty()) {
-                    List<Float> creditValuesF = new ArrayList();
-                    for (ResultValueInfo resultValueInfo : resultValueInfos ) {  //convert String to Float for sorting
-                        creditValuesF.add(Float.valueOf(resultValueInfo.getValue()));
-                    }
-                    Collections.sort(creditValuesF);
-                    for (Float creditF : creditValuesF ){
-                        creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
-                    }
-                creditCount =  creditCount.substring(2);  //trim leading ", "
-                }
-            }
-        } else { //Lookup original course values
-            if (courseInfo == null) {
-                courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
-            }
-            String creditOpt = courseInfo.getCreditOptions().get(0).getType();
-            if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED) ){              //fixed
-                creditCount = trimTrailing0(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
-            } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE) ){    //range
-                //minCreditValue - maxCreditValue
-                creditCount = trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS))
-                        +" - "+trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS));
-            } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE) ){    //multiple
-                List<String> creditValuesS = courseInfo.getCreditOptions().get(0).getResultValues();
-                List<Float> creditValuesF = new ArrayList();
-                for (String creditS : creditValuesS ) {  //convert String to Float for sorting
-                    creditValuesF.add(Float.valueOf(creditS));
-                }
-                Collections.sort(creditValuesF);
-                for (Float creditF : creditValuesF ){
-                    creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
-                }
-                creditCount =  creditCount.substring(2);  //trim leading ", "
-            } else {                                                                                                      //no credit option
-                LOG.info("Credit is missing for subject course " + coInfo.getCourseCode());
-                return "N/A";
-            }
-        }
-        return creditCount;
-    }
-
-    public String trimTrailing0(String creditValue){
-        if (creditValue.indexOf(".0") > 0) {
-            return creditValue.substring(0, creditValue.length( )- 2);
-        } else {
-            return creditValue;
-        }
     }
 
 }
