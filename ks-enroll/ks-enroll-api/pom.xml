@@ -227,6 +227,9 @@
 <!--                                 State -->
                                 <inputFile>ks-StateInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LifecycleInfo-dictionary.xml</inputFile>
+                                <!-- Population -->
+                                <inputFile>ks-PopulationInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-PopulationRuleInfo-dictionary.xml</inputFile>
                             </inputFiles>
                         </configuration>                                    
                     </execution>
@@ -327,7 +330,11 @@
                                 <className>TypeTypeRelationInfo</className>
                                 <!-- State -->
                                 <className>StateInfo</className>
-                                <className>LifecycleInfo</className>                              
+                                <className>LifecycleInfo</className>
+
+                                <!-- Population -->
+                                <className>PopulationInfo</className>
+                                <className>PopulationRuleInfo</className>
                             </classNames>                     
                         </configuration>
                     </execution>                  
