@@ -674,6 +674,48 @@
         NAME="Registration"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_KEY="kuali.milestone.type.group.registration" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A list of populations (childPopulationIds) and the reference population (referencePopulationId) must be supplied; results of the reference populations (e.g., all students) less the populations represented in the list (not in) determine the membership"
+        DESCR_PLAIN="A list of populations (childPopulationIds) and the reference population (referencePopulationId) must be supplied; results of the reference populations (e.g., all students) less the populations represented in the list (not in) determine the membership"
+        NAME="Exclusion"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.exclusion" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A list of populations (childPopulationIds) must be supplied; results of the intersection of the populations determine the membership"
+        DESCR_PLAIN="A list of populations (childPopulationIds) must be supplied; results of the intersection of the populations determine the membership"
+        NAME="Intersection"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.intersection" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="Membership in the population is based entirely on someone manually inserting and removing people or groups (KIM) into and out of the population"
+        DESCR_PLAIN="Membership in the population is based entirely on someone manually inserting and removing people or groups (KIM) into and out of the population"
+        NAME="Explicitly defined"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.person" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="An agenda id must be supplied which calculates the membership"
+        DESCR_PLAIN="An agenda id must be supplied which calculates the membership"
+        NAME="Rule-based"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.rule" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A searchCriteria must be supplied; results of the search determine the membership"
+        DESCR_PLAIN="A searchCriteria must be supplied; results of the search determine the membership"
+        NAME="Search-based"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.search" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A list of populations (childPopulationIds) must be supplied; results of the union of the populations determine the membership"
+        DESCR_PLAIN="A list of populations (childPopulationIds) must be supplied; results of the union of the populations determine the membership"
+        NAME="Union"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.union" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="Membership in the population is comprised of people that are students"
+        DESCR_PLAIN="Membership in the population is comprised of people that are students"
+        NAME="Student"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationInfo"
+        TYPE_KEY="kuali.population.type.student" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="A certification that a student completed the requirements for a particular area of study that results in a paper certificate being awarded"
         DESCR_PLAIN="A certification that a student completed the requirements for a particular area of study that results in a paper certificate being awarded"
