@@ -116,7 +116,7 @@
   <!-- change id to "acalServiceImpl" if the above bean is used -->
   <bean id="acalServiceImpl" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     <property name="atpService" ref="atpEnrService" />
-    <property name="stateService" ref="stateService" />
+    <property name="stateService" ref="stateServiceCacheDecorator" />
     <property name="typeService" ref="typeService" />
     <property name="acalAssembler" ref="acalAssembler" />
     <property name="termAssembler" ref="termAssembler" />
@@ -161,7 +161,11 @@
     <property name="lifecycleDao" ref="lifecycleDao" />
   </bean>
 
-  <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+    <bean id="stateServiceCacheDecorator" class="org.kuali.student.r2.core.class1.state.decorators.StateServiceCacheDecorator">
+        <property name="nextDecorator" ref="stateService" />
+    </bean>
+
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
     <property name="typeDao" ref="typeDao" />
     <property name="typeTypeRelationDao" ref="typeTypeRelationDao" />
   </bean>
@@ -189,7 +193,7 @@
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="stateService" />
+                <property name="service" ref="stateServiceCacheDecorator" />
                 <property name="serviceInterface" value="org.kuali.student.r2.core.state.service.StateService" />
                 <property name="localServiceName" value="StateService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/state" />
@@ -296,7 +300,7 @@
         <property name="rgAssembler" ref="rgAssembler" />
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="acalService" />
-        <property name="stateService" ref="stateService" />
+        <property name="stateService" ref="stateServiceCacheDecorator" />
         <property name="lprService" ref="lprPersistenceService" />
         <property name="criteriaLookupService" ref="criteriaLookupService" />
         <property name="typeService" ref="typeService" />
@@ -542,7 +546,7 @@
       <property name="processDao" ref="processDao" />
       <property name="checkDao" ref="checkDao" />
       <property name="instructionDao" ref="instructionDao" />
-      <property name="stateService" ref="stateService" />
+      <property name="stateService" ref="stateServiceCacheDecorator" />
   </bean>
 
     <!-- Appointment Service -->
