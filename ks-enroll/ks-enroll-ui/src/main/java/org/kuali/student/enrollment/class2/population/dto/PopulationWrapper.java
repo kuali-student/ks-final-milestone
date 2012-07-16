@@ -17,10 +17,11 @@
 package org.kuali.student.enrollment.class2.population.dto;
 
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
+import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 /**
  * This class //TODO ...
@@ -28,9 +29,11 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class PopulationWrapper implements Serializable {
-    private PopulationInfo info; //The core info (name+description+meta)
+    private PopulationInfo populationInfo; //The core info (name+description+meta)
+    private PopulationRuleInfo  populationRuleInfo;
+    private String keyword;
 
-    private String populationRuleTypeKey; //Core/Union/Intersection
+/*    private String populationRuleTypeKey; //Core/Union/Intersection
 
     private String referencePopulationId; //For Exclusion type only
     private String referencePopulationName;//Read only - Can this be replaced with valueFinder?
@@ -71,53 +74,70 @@ public class PopulationWrapper implements Serializable {
     public void setChildPopulations(List<ChildPopulation> childPopulations) {
         this.childPopulations = childPopulations;
     }
-
-    public PopulationInfo getInfo() {
-        return info;
+ */
+    public PopulationInfo getPopulationInfo() {
+        return populationInfo;
     }
 
-    public void setInfo(PopulationInfo info) {
-        this.info = info;
+    public void setPopulationInfo(PopulationInfo populationInfo) {
+        this.populationInfo = populationInfo;
     }
 
-    public String getPopulationRuleId() {
-        return populationRuleId;
+    public PopulationRuleInfo getPopulationRuleInfo() {
+        return populationRuleInfo;
     }
 
-    public void setPopulationRuleId(String populationRuleId) {
-        this.populationRuleId = populationRuleId;
+    public void setPopulationRuleInfo(PopulationRuleInfo populationRuleInfo) {
+        this.populationRuleInfo = populationRuleInfo;
     }
 
-    public String getPopulationRuleName() {
-        return populationRuleName;
+    public String getKeyword() {
+        return keyword;
     }
 
-    public void setPopulationRuleName(String populationRuleName) {
-        this.populationRuleName = populationRuleName;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
-    public String getPopulationRuleTypeKey() {
-        return populationRuleTypeKey;
-    }
+    /*
+      public String getPopulationRuleId() {
+          return populationRuleId;
+      }
 
-    public void setPopulationRuleTypeKey(String populationRuleTypeKey) {
-        this.populationRuleTypeKey = populationRuleTypeKey;
-    }
+      public void setPopulationRuleId(String populationRuleId) {
+          this.populationRuleId = populationRuleId;
+      }
 
-    public String getReferencePopulationId() {
-        return referencePopulationId;
-    }
+      public String getPopulationRuleName() {
+          return populationRuleName;
+      }
 
-    public void setReferencePopulationId(String referencePopulationId) {
-        this.referencePopulationId = referencePopulationId;
-    }
+      public void setPopulationRuleName(String populationRuleName) {
+          this.populationRuleName = populationRuleName;
+      }
 
-    public String getReferencePopulationName() {
-        return referencePopulationName;
-    }
+      public String getPopulationRuleTypeKey() {
+          return populationRuleTypeKey;
+      }
 
-    public void setReferencePopulationName(String referencePopulationName) {
-        this.referencePopulationName = referencePopulationName;
-    }
+      public void setPopulationRuleTypeKey(String populationRuleTypeKey) {
+          this.populationRuleTypeKey = populationRuleTypeKey;
+      }
 
+      public String getReferencePopulationId() {
+          return referencePopulationId;
+      }
+
+      public void setReferencePopulationId(String referencePopulationId) {
+          this.referencePopulationId = referencePopulationId;
+      }
+
+      public String getReferencePopulationName() {
+          return referencePopulationName;
+      }
+
+      public void setReferencePopulationName(String referencePopulationName) {
+          this.referencePopulationName = referencePopulationName;
+      }
+    */
 }
