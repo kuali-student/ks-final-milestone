@@ -401,7 +401,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
     public PopulationService getPopulationService() {
         if(populationService == null) {
-            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationServiceMock")); // TODO: Refactor later with real PopService
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationMockService")); // TODO: Refactor later with real PopService
         }
         return populationService;
     }

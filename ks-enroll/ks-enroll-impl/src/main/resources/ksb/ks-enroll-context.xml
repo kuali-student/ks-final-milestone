@@ -581,7 +581,7 @@
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="populationServiceMock" />
                 <property name="serviceInterface" value="org.kuali.student.r2.core.population.service.PopulationService" />
-                <property name="localServiceName" value="PopulationServiceMock" />
+                <property name="localServiceName" value="PopulationMockService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/population" />
                 <property name="busSecurity" value="${ks.lum.bus.security}" />
             </bean>

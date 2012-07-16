@@ -89,7 +89,7 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
         // populationService is retrieved using global resource loader which is wired in ks-enroll-context.xml
         if (populationService == null) {
             // TODO: Fix with real service later on
-            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationServiceMock"));
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationMockService"));
 
         }
         return populationService;
