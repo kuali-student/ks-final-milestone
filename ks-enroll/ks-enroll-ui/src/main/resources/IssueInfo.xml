@@ -22,7 +22,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="IssueInfo" parent="IssueInfo-parent"/>
     <bean id="IssueInfo-parent" abstract="true" parent="DataObjectEntry">
     	<property name="dataObjectClass" value="org.kuali.student.enrollment.hold.dto.IssueInfo"/>
-        <property name="objectLabel" value="Issue"/>
+        <property name="objectLabel" value="Issue" />
         <property name="titleAttribute" value="id"/>
         <!-- 
         <property name="name" value="issueInfo"/>        
