@@ -769,6 +769,11 @@
         ID="590677d6-d5b3-4c10-99d5-754470662d67" LOCALE="en"
         MSG_ID="cluLOName" MSG_VALUE="Name"
         OBJ_ID="072fb9c0-279a-4fc0-a666-bcaa2c3660dd" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="5FED691B8514430D92EA64A38BCB7BE5" LOCALE="en"
+        MSG_ID="validation.validChars.positive.numeric.range"
+        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
+        OBJ_ID="59B31401CB3F46C0A47DB667ACFA6A33" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="5a61cb87-3f1a-4f26-834a-f5a619b1554b" LOCALE="en"
         MSG_ID="cluState" MSG_VALUE="State"
@@ -1369,15 +1374,10 @@
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
         OBJ_ID="3388D5EE-A5A0-4549-8974-9DB22E7DEEA2" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="C4A22F74A4ED9A0CE040760A2C236EAE" LOCALE="en"
+        ID="B64C9050BF4F45948898A1909B84D23A" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="C4A22F74A4EE9A0CE040760A2C236EAE" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="C4A22F74A4EF9A0CE040760A2C236EAE" LOCALE="en"
-        MSG_ID="validation.validChars.positive.numeric.range"
-        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="C4A22F74A4F09A0CE040760A2C236EAE" VER_NBR="1"/>
+        OBJ_ID="79AC99FCB3EE421193B53D961E2DBA92" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="F541324F-BD0D-A2CC-1874-E7F36B73D8FD" LOCALE="en"
         MSG_ID="reqActivate" MSG_VALUE="Required for Activate"
