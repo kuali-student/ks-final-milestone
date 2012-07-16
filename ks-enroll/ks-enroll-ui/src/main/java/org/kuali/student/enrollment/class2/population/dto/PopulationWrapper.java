@@ -33,48 +33,6 @@ public class PopulationWrapper implements Serializable {
     private PopulationRuleInfo  populationRuleInfo;
     private String keyword;
 
-/*    private String populationRuleTypeKey; //Core/Union/Intersection
-
-    private String referencePopulationId; //For Exclusion type only
-    private String referencePopulationName;//Read only - Can this be replaced with valueFinder?
-
-    private String populationRuleId; //For Core only - the id of the related Core population rule
-    private String populationRuleName; //Read only - Can this be replaced with valueFinder?
-
-    List<ChildPopulation> childPopulations; //List of child properties
-
-    public class ChildPopulation{
-        private String id;
-        private String name;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    public List<ChildPopulation> getChildPopulations() {
-        if(null == childPopulations){
-            childPopulations = new ArrayList<ChildPopulation>();
-        }
-        return childPopulations;
-    }
-
-    public void setChildPopulations(List<ChildPopulation> childPopulations) {
-        this.childPopulations = childPopulations;
-    }
- */
     public PopulationInfo getPopulationInfo() {
         return populationInfo;
     }
@@ -99,45 +57,4 @@ public class PopulationWrapper implements Serializable {
         this.keyword = keyword;
     }
 
-    /*
-      public String getPopulationRuleId() {
-          return populationRuleId;
-      }
-
-      public void setPopulationRuleId(String populationRuleId) {
-          this.populationRuleId = populationRuleId;
-      }
-
-      public String getPopulationRuleName() {
-          return populationRuleName;
-      }
-
-      public void setPopulationRuleName(String populationRuleName) {
-          this.populationRuleName = populationRuleName;
-      }
-
-      public String getPopulationRuleTypeKey() {
-          return populationRuleTypeKey;
-      }
-
-      public void setPopulationRuleTypeKey(String populationRuleTypeKey) {
-          this.populationRuleTypeKey = populationRuleTypeKey;
-      }
-
-      public String getReferencePopulationId() {
-          return referencePopulationId;
-      }
-
-      public void setReferencePopulationId(String referencePopulationId) {
-          this.referencePopulationId = referencePopulationId;
-      }
-
-      public String getReferencePopulationName() {
-          return referencePopulationName;
-      }
-
-      public void setReferencePopulationName(String referencePopulationName) {
-          this.referencePopulationName = referencePopulationName;
-      }
-    */
 }
