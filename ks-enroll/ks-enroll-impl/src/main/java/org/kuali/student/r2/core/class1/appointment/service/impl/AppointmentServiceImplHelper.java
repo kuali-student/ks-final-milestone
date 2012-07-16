@@ -424,7 +424,7 @@ public class AppointmentServiceImplHelper {
     }
     
     private int _computeTotalStudents(AppointmentWindowInfo apptWinInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        List<String> ids = populationService.getMembers(apptWinInfo.getAssignedPopulationId(), contextInfo);
+        List<String> ids = populationService.getMembersAsOfDate(apptWinInfo.getAssignedPopulationId(), new Date(), contextInfo);
         if (ids != null) {
             return ids.size();
         } else {

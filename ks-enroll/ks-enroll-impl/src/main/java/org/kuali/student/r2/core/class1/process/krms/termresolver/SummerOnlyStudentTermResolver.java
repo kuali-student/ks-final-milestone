@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -86,7 +87,7 @@ public class SummerOnlyStudentTermResolver implements TermResolver<Boolean> {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
 
         try {
-            result = populationService.isMember(studentId, summerPopulationKey, context);
+            result = populationService.isMemberAsOfDate(studentId, summerPopulationKey, new Date(), context);
         } catch (DoesNotExistException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (InvalidParameterException e) {

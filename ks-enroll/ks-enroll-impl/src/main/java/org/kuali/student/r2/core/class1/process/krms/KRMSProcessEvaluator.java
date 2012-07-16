@@ -71,6 +71,7 @@ import org.kuali.student.r2.core.process.service.ProcessService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -153,7 +154,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             boolean skipInstruction = true;
             for (String popKey : instruction.getAppliedPopulationKeys()) {
                 try {
-                    if (populationService.isMember(processContext.getStudentId(), popKey, context)) {
+                    if (populationService.isMemberAsOfDate(processContext.getStudentId(), popKey, new Date(), context)) {
                         skipInstruction = false;
                         break;
                     }
