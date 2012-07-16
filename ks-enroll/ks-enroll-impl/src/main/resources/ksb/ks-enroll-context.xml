@@ -117,7 +117,7 @@
   <bean id="acalServiceImpl" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     <property name="atpService" ref="atpEnrService" />
     <property name="stateService" ref="stateServiceCacheDecorator" />
-    <property name="typeService" ref="typeService" />
+    <property name="typeService" ref="typeServiceCacheDecorator" />
     <property name="acalAssembler" ref="acalAssembler" />
     <property name="termAssembler" ref="termAssembler" />
     <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
@@ -304,7 +304,7 @@
         <property name="stateService" ref="stateServiceCacheDecorator" />
         <property name="lprService" ref="lprPersistenceService" />
         <property name="criteriaLookupService" ref="criteriaLookupService" />
-        <property name="typeService" ref="typeService" />
+        <property name="typeService" ref="typeServiceCacheDecorator" />
         <property name="businessLogic" ref="coBusinessLogic" />
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator" />
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
