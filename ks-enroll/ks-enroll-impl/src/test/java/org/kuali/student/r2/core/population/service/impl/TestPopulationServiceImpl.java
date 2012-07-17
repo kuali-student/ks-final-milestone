@@ -29,7 +29,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-import junit.framework.Assert;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.format;
 
 /**
  * This class tests PopulationServiceImpl
@@ -57,6 +55,18 @@ public class TestPopulationServiceImpl {
     private void before() {
         contextInfo = new ContextInfo();
         contextInfo.setPrincipalId("admin");
+    }
+
+    private PopulationRuleInfo _createPopulationRuleInfoByType(String popRuleType, Integer n) {
+        PopulationRuleInfo populationRuleInfo = new PopulationRuleInfo();
+        populationRuleInfo.setName("TestPopRule-" + n);
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain("rule-plain-" + n);
+        richTextInfo.setFormatted("rule-formatted-" + n);
+        populationRuleInfo.setDescr(richTextInfo);
+        populationRuleInfo.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
+        populationRuleInfo.setTypeKey(popRuleType);
+        return populationRuleInfo;
     }
 
     private PopulationRuleInfo _createExclusionPopulationRuleInfo() {
@@ -83,7 +93,7 @@ public class TestPopulationServiceImpl {
         richTextInfo.setFormatted("formatted" + extension);
         populationInfo.setDescr(richTextInfo);
         populationInfo.setStateKey(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
-        populationInfo.setTypeKey(PopulationServiceConstants.POPULATION_TYPE_KEY);
+        populationInfo.setTypeKey(PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY);
         return populationInfo;
     }
 
@@ -114,12 +124,87 @@ public class TestPopulationServiceImpl {
         return popIdsList;
     }
 
-    private void checkSameChildIds(List<String> idsOne, List<String> idsTwo) {
-        for (String childId: idsOne) {
-            assert(idsTwo.contains(childId));
+    private void checkSameIds(List<String> idsOne, List<String> idsTwo) {
+        for (String id: idsOne) {
+            assert(idsTwo.contains(id));
         }
-        for (String childId: idsTwo) {
-            assert(idsOne.contains(childId));
+        for (String id: idsTwo) {
+            assert(idsOne.contains(id));
+        }
+    }
+    // ============================================== TESTS ======================================================
+    @Test
+    public void testGetPopulationsByPopulationRule() {
+        before();
+        List<PopulationInfo> popList = _createPopulationList();
+        try {
+            // Create ref population and child population IDs
+            PopulationInfo refCreated = populationService.createPopulation(popList.get(0), contextInfo);
+            PopulationInfo threeCreated = populationService.createPopulation(popList.get(1), contextInfo);
+            PopulationInfo fourCreated = populationService.createPopulation(popList.get(2), contextInfo);
+            // Now the pop rule
+            PopulationRuleInfo ruleInfo = _createExclusionPopulationRuleInfo();
+            ruleInfo.setReferencePopulationId(refCreated.getId());
+            List<String> childIds = new ArrayList<String>();
+            childIds.add(threeCreated.getId());
+            childIds.add(fourCreated.getId());
+            ruleInfo.setChildPopulationIds(childIds);
+            // Create the rule info
+            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo, contextInfo);
+            // Now fetch populations by population rule
+            List<PopulationInfo> childPopList =
+                    populationService.getPopulationsForPopulationRule(ruleInfoCreated.getId(), contextInfo);
+            assertEquals(3, childPopList.size());
+            // The first population should be the ref population (for exclusion type)
+            assertEquals(refCreated.getId(), childPopList.get(0).getId());
+            // The rest should be the child pops being excluded
+            List<String> fetchedChildPopIds = new ArrayList<String>();
+            fetchedChildPopIds.add(childPopList.get(1).getId());
+            fetchedChildPopIds.add(childPopList.get(2).getId());
+            assert(fetchedChildPopIds.contains(threeCreated.getId()));
+            assert(fetchedChildPopIds.contains(fourCreated.getId()));
+        } catch (Exception e) {
+            assert(false);
+        }
+    }
+
+    @Test
+    public void testGetPopulationRuleIdsByType() {
+        before();
+        List<PopulationRuleInfo> ruleInfos = new ArrayList<PopulationRuleInfo>();
+        PopulationRuleInfo one = _createPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, 1);
+        ruleInfos.add(one);
+        PopulationRuleInfo two = _createPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, 2);
+        ruleInfos.add(two);
+        PopulationRuleInfo three = _createPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY, 3);
+        ruleInfos.add(three);
+        try {
+            List<String> popRuleIds = new ArrayList<String>();
+            for (PopulationRuleInfo info: ruleInfos) {
+                PopulationRuleInfo result = populationService.createPopulationRule(info, contextInfo);
+                popRuleIds.add(result.getId());
+            }
+            // Check union types
+            List<String> unionIds = popRuleIds.subList(0, 2);
+            assertEquals(2, unionIds.size());
+            List<String> popRuleIdsFetched =
+                    populationService.getPopulationRuleIdsByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, contextInfo);
+            assertEquals(2, popRuleIdsFetched.size());
+            checkSameIds(unionIds, popRuleIdsFetched);
+            // Check intersection types
+            List<String> intersectionIds = popRuleIds.subList(2, 3);
+            assertEquals(1, intersectionIds.size());
+            popRuleIdsFetched =
+                    populationService.getPopulationRuleIdsByType(PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY, contextInfo);
+            assertEquals(1, popRuleIdsFetched.size());
+            checkSameIds(intersectionIds, popRuleIdsFetched);
+            // Check exclusion types
+            popRuleIdsFetched =
+                    populationService.getPopulationRuleIdsByType(PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY, contextInfo);
+            assert(popRuleIdsFetched.isEmpty());
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
         }
     }
 
@@ -152,7 +237,7 @@ public class TestPopulationServiceImpl {
             assertNotNull(ruleInfo.getReferencePopulationId());
             assertEquals(ruleInfo.getReferencePopulationId(), ruleInfoFetched.getReferencePopulationId());
             // Check child populations are same
-            checkSameChildIds(ruleInfo.getChildPopulationIds(), ruleInfoFetched.getChildPopulationIds());
+            checkSameIds(ruleInfo.getChildPopulationIds(), ruleInfoFetched.getChildPopulationIds());
         } catch (Exception e) {
             assert(false);
         }
@@ -176,7 +261,7 @@ public class TestPopulationServiceImpl {
             // Fetch it
             PopulationRuleInfo ruleInfoFetched = populationService.getPopulationRule(ruleInfoCreated.getId(), contextInfo);
             // Now check if they have the same child Ids
-            checkSameChildIds(ruleInfo.getChildPopulationIds(), ruleInfoFetched.getChildPopulationIds());
+            checkSameIds(ruleInfo.getChildPopulationIds(), ruleInfoFetched.getChildPopulationIds());
             // Now change child ids
             childIds = new ArrayList<String>();
             childIds.add(popIds.get(2));
@@ -187,7 +272,7 @@ public class TestPopulationServiceImpl {
             PopulationRuleInfo updatedFetched = populationService.getPopulationRule(ruleInfoCreated.getId(), contextInfo);
             // Now check if they have the same child Ids
             List<String> updatedFetchedIds = updatedFetched.getChildPopulationIds();
-            checkSameChildIds(childIds, updatedFetchedIds);
+            checkSameIds(childIds, updatedFetchedIds);
             // Test delete
             populationService.deletePopulationRule(ruleInfoCreated.getId(), contextInfo);
             // Now try to get

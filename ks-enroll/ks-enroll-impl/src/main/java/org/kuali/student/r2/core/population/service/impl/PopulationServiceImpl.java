@@ -29,7 +29,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.fee.model.EnrollmentFeeEntity;
+import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dao.PopulationDao;
 import org.kuali.student.r2.core.population.dao.PopulationRuleDao;
 import org.kuali.student.r2.core.population.dto.PopulationCategoryInfo;
@@ -40,22 +40,21 @@ import org.kuali.student.r2.core.population.model.PopulationRuleEntity;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import javax.jws.WebParam;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * Implementation of Population Service
  *
  * @author Kuali Student Team
  */
 public class PopulationServiceImpl implements PopulationService {
-    @Resource
+    // populationDao and populationRuleDao injected by Spring context files
     private PopulationDao populationDao;
-    @Resource
     private PopulationRuleDao populationRuleDao;
 
     // ============================= Population start =============================
@@ -117,18 +116,38 @@ public class PopulationServiceImpl implements PopulationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<PopulationInfo> getPopulationsByIds(@WebParam(name = "populationIds") List<String> populationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("getPopulationsByIds");
     }
 
     @Override
-    public List<String> getPopulationIdsByType(@WebParam(name = "populationTypeId") String populationTypeId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly = true)
+    public List<String> getPopulationIdsByType(String populationTypeId, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("getPopulationIdsByType");
     }
 
     @Override
-    public List<PopulationInfo> getPopulationsForPopulationRule(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("getPopulationsForPopulationRule");
+    public List<PopulationInfo> getPopulationsForPopulationRule(String populationRuleId, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // For now, do it the simple-minded way
+        PopulationRuleEntity ruleEntity = populationRuleDao.find(populationRuleId);
+        List<PopulationInfo> popList = new ArrayList<PopulationInfo>();
+        if (PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY.equals(ruleEntity.getPopulationRuleType())) {
+            String refPopId = ruleEntity.getRefPopulationId();
+            PopulationEntity entity = populationDao.find(refPopId);
+            PopulationInfo info = entity.toDto();
+            popList.add(info);
+        }
+        Set<PopulationEntity> childPopEntities = ruleEntity.getChildPopulations();
+        if (childPopEntities != null) {
+            for (PopulationEntity childEntity: childPopEntities) {
+                PopulationInfo info = childEntity.toDto();
+                popList.add(info);
+            }
+        }
+        return popList;
     }
     // ============================= PopulationRule end =============================
 
@@ -209,8 +228,8 @@ public class PopulationServiceImpl implements PopulationService {
     }
 
     @Override
-    public List<String> getPopulationRuleIdsByType(@WebParam(name = "populationTypeKey") String populationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("getPopulationRuleIdsByType");
+    public List<String> getPopulationRuleIdsByType(String populationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return populationRuleDao.getPopulationRuleIdsByType(populationTypeKey);
     }
 
     @Override
