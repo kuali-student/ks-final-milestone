@@ -129,6 +129,7 @@ public class PopulationServiceImpl implements PopulationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<PopulationInfo> getPopulationsForPopulationRule(String populationRuleId, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // For now, do it the simple-minded way
@@ -228,6 +229,7 @@ public class PopulationServiceImpl implements PopulationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getPopulationRuleIdsByType(String populationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return populationRuleDao.getPopulationRuleIdsByType(populationTypeKey);
     }
