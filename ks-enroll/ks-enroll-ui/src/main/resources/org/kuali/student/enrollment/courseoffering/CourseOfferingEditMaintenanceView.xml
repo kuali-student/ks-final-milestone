@@ -389,7 +389,7 @@
     <bean id="KS-CourseOfferingEdit-StudentRegOptions" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="coInfo.studentRegistrationOptionIds" p:label="Student Registration Options" p:labelPlacement="LEFT" p:render="@{!#dp.studentRegOptions.empty}">
+                <bean parent="Uif-InputField" p:propertyName="coInfo.studentRegistrationGradingOptions" p:label="Student Registration Options" p:labelPlacement="LEFT" p:render="@{!#dp.studentRegOptions.empty}">
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl"/>
                     </property>
