@@ -161,7 +161,6 @@
         <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
     </listener>
 
-    <!-- uncomment for jetty
     <servlet>
         <servlet-name>default</servlet-name>
         <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
@@ -170,7 +169,7 @@
             <param-value>false</param-value>
         </init-param>
         <load-on-startup>0</load-on-startup>
-    </servlet-->
+    </servlet>
 
     <servlet>
 		<servlet-name>action</servlet-name>

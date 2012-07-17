@@ -73,7 +73,6 @@ plus any of its dependencies -->
 				<ref bean="CourseOfferingInfo.creditOptionId"/>
 				<ref bean="CourseOfferingInfo.creditCnt"/>
 				<ref bean="CourseOfferingInfo.gradingOptionId"/>
-				<ref bean="CourseOfferingInfo.gradingOption"/>
 				<ref bean="CourseOfferingInfo.waitlistLevelTypeKey"/>
 				<ref bean="CourseOfferingInfo.hasWaitlist"/>
 				<ref bean="CourseOfferingInfo.waitlistTypeKey"/>
@@ -560,23 +559,6 @@ awarded. Typically the value here are constrained by the values on the
 canonical course. If the value is set here then the Clu must have a
 grading option set on the canonical activity. For example: an id might
 point to Pass/Fail or Letter Graded option.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="CourseOfferingInfo.gradingOption-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="gradingOption"/>
-		<property name="shortLabel" value="Grading Option"/>
-		<property name="summary">
-			<value>
-Gets the Grading Name
-			</value>
-		</property>
-		<property name="label" value="Grading"/>
-		<property name="description">
-			<value>
-Gets the Grading Name
 			</value>
 		</property>
 		<property name="required" value="false"/>
