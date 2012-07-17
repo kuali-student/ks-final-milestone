@@ -68,4 +68,16 @@
         DESCR_PLAIN="kuali.population.population.rule.lifecycle state lifecycle"
         ID="kuali.population.population.rule.lifecycle"
         NAME="kuali.population.population.rule.lifecycle" VER_NBR="0"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+                          CREATETIME="20120717000000"
+                          DESCR_FORMATTED="kuali.hold.issue.process state lifecycle"
+                          DESCR_PLAIN="kuali.hold.issue.process state lifecycle"
+                          ID="kuali.hold.issue.process"
+                          NAME="kuali.hold.issue.process" VER_NBR="0"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+                          CREATETIME="20120717000000"
+                          DESCR_FORMATTED="kuali.hold.process.student state lifecycle"
+                          DESCR_PLAIN="kuali.hold.process.student state lifecycle"
+                          ID="kuali.hold.process.student"
+                          NAME="kuali.hold.process.student" VER_NBR="0"/>
 </dataset>
