@@ -158,34 +158,4 @@
         ID="kuali.population.population.state.inactive"
         LIFECYCLE_KEY="kuali.population.population.lifecycle"
         NAME="Inactive" VER_NBR="0"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
-                DESCR_FORMATTED="The hold is active"
-                DESCR_PLAIN="The hold is active"
-                ID="kuali.hold.state.active"
-                LIFECYCLE_KEY="kuali.hold.process.student"
-                NAME="Active" VER_NBR="0"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
-                DESCR_FORMATTED="The hold was canceled or removed because it was originally put on in error"
-                DESCR_PLAIN="The hold was canceled or removed because it was originally put on in error"
-                ID="kuali.hold.state.canceled"
-                LIFECYCLE_KEY="kuali.hold.process.student"
-                NAME="Canceled" VER_NBR="0"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
-                DESCR_FORMATTED="The hold was active and the issue has been resolved"
-                DESCR_PLAIN="The hold was active and the issue has been resolved"
-                ID="kuali.hold.state.released"
-                LIFECYCLE_KEY="kuali.hold.process.student"
-                NAME="Released" VER_NBR="0"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
-                DESCR_FORMATTED="This issue is active and can be attached to holds"
-                DESCR_PLAIN="This issue is active and can be attached to holds"
-                ID="kuali.hold.issue.state.active"
-                LIFECYCLE_KEY="kuali.hold.issue.process"
-                NAME="Active" VER_NBR="0"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
-                DESCR_FORMATTED="The issue is inactive an cannot be attached to new holds"
-                DESCR_PLAIN="The issue is inactive an cannot be attached to new holds "
-                ID="kuali.hold.issue.state.inactive"
-                LIFECYCLE_KEY="kuali.hold.issue.process"
-                NAME="Inactive" VER_NBR="0"/>
 </dataset>
