@@ -40,6 +40,16 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private String firstInstructorDisplayName;
 
+    private String codeTypeString = "";
+
+    public String getCodeTypeString() {
+        return codeTypeString;
+    }
+
+    public void setCodeTypeString(String codeTypeString) {
+        this.codeTypeString = codeTypeString;
+    }
+
     private String termDisplayString = "";
 
     public String getTermDisplayString() {

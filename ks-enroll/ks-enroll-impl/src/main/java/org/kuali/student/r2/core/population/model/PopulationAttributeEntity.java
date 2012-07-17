@@ -20,6 +20,8 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -31,10 +33,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "KSEN_POPULATION_ATTR")
 public class PopulationAttributeEntity extends BaseAttributeEntity<PopulationEntity>{
-
+    @ManyToOne
+    @JoinColumn(name = "OWNER_ID")
+    private PopulationEntity owner;
     ///////////////////////////
     // CONSTRUCTORS
     ///////////////////////////
+
+    // TODO: This has been heavily refactored to get it to compile without changing everything else.
     public PopulationAttributeEntity() {
         super();
     }
@@ -42,4 +48,17 @@ public class PopulationAttributeEntity extends BaseAttributeEntity<PopulationEnt
     public PopulationAttributeEntity(Attribute att, PopulationEntity owner) {
         super (att, owner);
     }
+
+    @Override
+    public void setOwner(PopulationEntity owner) {
+        this.owner = owner;
+
+    }
+
+    @Override
+    public PopulationEntity getOwner() {
+        return owner;
+    }
 }
+
+

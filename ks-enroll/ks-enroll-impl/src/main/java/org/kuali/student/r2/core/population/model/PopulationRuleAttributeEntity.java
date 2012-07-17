@@ -20,6 +20,8 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -31,10 +33,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "KSEN_POPULATION_RULE_ATTR")
 public class PopulationRuleAttributeEntity extends BaseAttributeEntity<PopulationRuleEntity> {
-
+    @ManyToOne
+    @JoinColumn(name = "OWNER_ID")
+    private PopulationRuleEntity owner;
     ///////////////////////////
     // CONSTRUCTORS
     ///////////////////////////
+    // TODO: Heavily refactored to get past the change in BaseAttributeEntity
 
     public PopulationRuleAttributeEntity() {
         super();
@@ -42,5 +47,16 @@ public class PopulationRuleAttributeEntity extends BaseAttributeEntity<Populatio
 
     public PopulationRuleAttributeEntity(Attribute att, PopulationRuleEntity owner) {
         super (att, owner);
+    }
+
+    @Override
+    public void setOwner(PopulationRuleEntity owner) {
+        this.owner = owner;
+
+    }
+
+    @Override
+    public PopulationRuleEntity getOwner() {
+        return owner;
     }
 }

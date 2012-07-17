@@ -40,12 +40,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:ks-krms-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:ks-krms-test-context-mock.xml"})
 @Ignore
 public class TestNumberOfCreditsTermResolver {
         private KrmsTypeResolver typeResolver;
         private String studentID = "12020303";
-        private String CalcTypeID = "222";
+        private String CalcTypeID = "mockTypeKey1";
 
         public ContextInfo callContext = null;
         @Resource(name = "acadRecordService")

@@ -34,4 +34,11 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED = "error.courseoffering.no.selected.AO";
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE = "error.courseoffering.selected.AO.delete.confirmation";
 
+    public static final String ACTIVITY_OFFERING_SCHEDULING_ACTION = "Scheduling";
+    public static final String ACTIVITY_OFFERING_DRAFT_ACTION = "Draft";
+    public static final String ACTIVITY_OFFERING_CHANGE_CODE_ACTION = "ChangeActivityCodes";
+    public static final String ACTIVITY_OFFERING_DELETE_ACTION = "Delete";
+
+    public static final String MANAGE_AO_PAGE = "manageActivityOfferingsPage";
+
 }

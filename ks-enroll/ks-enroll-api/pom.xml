@@ -208,12 +208,12 @@
                                 <inputFile>ks-ActivityInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-LoDisplayInfo-dictionary.xml</inputFile>   
                                 <inputFile>ks-LoCategoryInfo-dictionary.xml</inputFile>
-                                 Process 
+                                 <!--Process -->
                                 <inputFile>ks-CheckInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-InstructionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ProcessCategoryInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-ProcessInfo-dictionary.xml</inputFile>-->
-<!--                                 Program 
+                                <inputFile>ks-ProcessInfo-dictionary.xml</inputFile>
+<!--                                 Program
                                 <inputFile>ks-CoreProgramInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-CredentialProgramInfo-dictionary.xml</inputFile> 
                                 <inputFile>ks-HonorsProgramInfo-dictionary.xml</inputFile>  
@@ -232,6 +232,9 @@
                                  State 
                                 <inputFile>ks-StateInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LifecycleInfo-dictionary.xml</inputFile>-->
+<!--                                Population
+                                <inputFile>ks-PopulationInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-PopulationRuleInfo-dictionary.xml</inputFile> -->
                             </inputFiles>
                         </configuration>                                    
                     </execution>
@@ -340,28 +343,32 @@
                                 <!-- LRR -->
                                 <className>LearningResultRecordInfo</className>
                                 <className>ResultSourceInfo</className>
-                                LRC 
+                                <!--LRC -->
                                 <className>ResultValuesGroupInfo</className>
                                 <className>ResultValueInfo</className>
                                 <className>ResultScaleInfo</className>      
-                                Program 
+                                <!--Program -->
                                 <className>CoreProgramInfo</className>
                                 <className>CredentialProgramInfo</className> 
                                 <className>HonorsProgramInfo</className>  
                                 <className>MajorDisciplineInfo</className>  
                                 <className>ProgramRequirementInfo</className>  
                                 <className>ProgramVariationInfo</className>
-                                Process 
--->                                <className>CheckInfo</className>
+                                <!--Process -->
+                                <className>CheckInfo</className>
                                 <className>InstructionInfo</className>
                                 <className>ProcessCategoryInfo</className>
-                                <className>ProcessInfo</className><!--
-                                State 
+                                <className>ProcessInfo</className>
+                                <!--State -->
                                 <className>StateInfo</className>
                                 <className>LifecycleInfo</className>
-                                Type 
+                                <!--Type -->
                                 <className>TypeInfo</className>
-                                <className>TypeTypeRelationInfo</className>-->
+                                <className>TypeTypeRelationInfo</className>
+
+                                <!-- Population -->
+                                <className>PopulationInfo</className>
+                                <className>PopulationRuleInfo</className>
                             </classNames>
                         </configuration>
                     </execution>                  

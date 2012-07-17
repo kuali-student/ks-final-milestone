@@ -34,15 +34,16 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:ks-krms-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:ks-krms-test-context-mock.xml"})
 @Ignore
 public class TestGPATermResolver {
         private KrmsTypeResolver typeResolver;
         private String studentID = "12020303";
-        private String CalcTypeID = "222";
+        private String CalcTypeID = "mockTypeKey3";
 
         public ContextInfo callContext = null;
         @Resource(name = "acadRecordService")
@@ -79,6 +80,10 @@ public class TestGPATermResolver {
             result = termResolver.resolve(resolvedPrereqs, parameters) ;
             // TODO Do some assert statements on the expected returned list.
             assertNotNull(result);
+            assertEquals(result.getCalculationTypeKey(), CalcTypeID );
+            assertEquals(result.getScaleKey(), "1" );
+            assertEquals(result.getValue(), "3.9" );
+
 
         }
 

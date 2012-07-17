@@ -27,6 +27,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1C
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.FormatOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.OfferingInstructorTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingAdminDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingAdminDisplayInfo;
@@ -56,6 +57,7 @@ import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -478,7 +480,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         courseOfferingTransformer.courseOffering2Lui(coInfo, lui, context);
 
         // Update lprs for offering instructors
-        List<OfferingInstructorInfo> existingLprs = ActivityOfferingTransformer.lprs2Instructors(lprService.getLprsByLui(lui.getId(), context));
+        List<OfferingInstructorInfo> existingLprs = OfferingInstructorTransformer.lprs2Instructors(lprService.getLprsByLui(lui.getId(), context));
         // map existing lprs to their person id
         Map<String, OfferingInstructorInfo> existingPersonMap = new HashMap<String, OfferingInstructorInfo>(existingLprs.size());
         for(OfferingInstructorInfo info : existingLprs) {
@@ -862,10 +864,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     private void populateActivityOfferingRelationships(ActivityOfferingInfo ao, ContextInfo context) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
         LuiInfo foLui = this.findFormatOfferingLui(ao.getId(), context);
-        LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(),context);
+        LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(), context);
         ao.setFormatOfferingId(foLui.getId());
         ao.setCourseOfferingId(coLui.getId());
-        ao.setFormatOfferingName(foLui.getOfficialIdentifier()==null?null:foLui.getOfficialIdentifier().getLongName());
+        ao.setFormatOfferingName(foLui.getOfficialIdentifier()==null?null:foLui.getOfficialIdentifier().getShortName());
         if(coLui.getOfficialIdentifier() != null) {
             ao.setCourseOfferingCode(coLui.getOfficialIdentifier().getCode());
             ao.setCourseOfferingTitle(coLui.getOfficialIdentifier().getLongName());
@@ -1111,7 +1113,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // Update lprs for offering instructors
 
-        List<OfferingInstructorInfo> existingLprs = ActivityOfferingTransformer.lprs2Instructors(lprService.getLprsByLui(lui.getId(), context));
+        List<OfferingInstructorInfo> existingLprs = OfferingInstructorTransformer.lprs2Instructors(lprService.getLprsByLui(lui.getId(), context));
         // map existing lprs to their person id
         Map<String, OfferingInstructorInfo> existingPersonMap = new HashMap<String, OfferingInstructorInfo>(existingLprs.size());
         for(OfferingInstructorInfo info : existingLprs) {

@@ -71,10 +71,10 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
     private String refPopulationId;
 
     @Column(name = "VARIES_BY_TIME_IND")
-    private boolean variesByTimeIndicator;
+    private Boolean variesByTimeIndicator;
 
     @Column(name = "SUPPORTS_GET_MBR_IND")
-    private boolean supportsGetMembersIndicator;
+    private Boolean supportsGetMembersIndicator;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private final Set<PopulationRuleAttributeEntity> attributes = new HashSet<PopulationRuleAttributeEntity>();
@@ -131,9 +131,8 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
         List<AttributeInfo> attributes = populationRuleInfo.getAttributes();
         if (getAttributes() != null) {
             for (PopulationRuleAttributeEntity att : getAttributes()) {
-                attributes.add(att.toDto());
-                /*AttributeInfo attInfo = att.toDto();
-                attributes.add(attInfo);*/
+                AttributeInfo attInfo = att.toDto();
+                attributes.add(attInfo);
             }
         }
         populationRuleInfo.setAttributes(attributes);
@@ -193,19 +192,19 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
         this.refPopulationId = refPopulationId;
     }
 
-    public boolean getVariesByTimeIndicator() {
+    public Boolean getVariesByTimeIndicator() {
         return variesByTimeIndicator;
     }
 
-    public void setVariesByTimeIndicator(boolean variesByTimeIndicator) {
+    public void setVariesByTimeIndicator(Boolean variesByTimeIndicator) {
         this.variesByTimeIndicator = variesByTimeIndicator;
     }
 
-    public boolean getSupportsGetMembersIndicator() {
+    public Boolean getSupportsGetMembersIndicator() {
         return supportsGetMembersIndicator;
     }
 
-    public void setSupportsGetMembersIndicator(boolean supportsGetMembersIndicator) {
+    public void setSupportsGetMembersIndicator(Boolean supportsGetMembersIndicator) {
         this.supportsGetMembersIndicator = supportsGetMembersIndicator;
     }
 

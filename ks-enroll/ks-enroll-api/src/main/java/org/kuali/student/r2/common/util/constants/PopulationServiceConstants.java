@@ -53,8 +53,8 @@ public class PopulationServiceConstants {
     public static final String POPULATION_RULE_ACTIVE_STATE_KEY = "kuali.population.population.rule.state.active";
     public static final String POPULATION_RULE_INACTIVE_STATE_KEY = "kuali.population.population.rule.state.inactive";
     public static final String[] POPULATION_RULE_LIFECYCLE_KEYS = {
-        POPULATION_RULE_ACTIVE_STATE_KEY,
-        POPULATION_RULE_INACTIVE_STATE_KEY
+            POPULATION_RULE_ACTIVE_STATE_KEY,
+            POPULATION_RULE_INACTIVE_STATE_KEY
     };
 
     //////////////////////////////////
@@ -85,6 +85,7 @@ public class PopulationServiceConstants {
      * Population types
      */
     public static final String POPULATION_TYPE_KEY = "kuali.population.type.population";
+    public static final String POPULATION_STUDENT_TYPE_KEY = "kuali.population.type.student";
 
     /**
      * States for Populations

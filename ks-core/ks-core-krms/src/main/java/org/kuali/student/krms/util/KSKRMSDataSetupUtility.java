@@ -3,6 +3,8 @@ package org.kuali.student.krms.util;
 import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
+import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
@@ -14,8 +16,10 @@ import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.rice.krms.impl.repository.TermSpecificationBo;
 import org.kuali.student.common.util.PropertiesFilterFactoryBean;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -32,6 +36,7 @@ public class KSKRMSDataSetupUtility {
     public static final String PROPERTY_namespace = "Namespace";
     public static final String PROPERTY_CONTEXT = "Context";
     public static final String PROPERTY_TERMSPEC = "TermSpec";
+    private static final String PROPERTY_TERMDEFINITION = "TermDefinition";
     KrmsTypeDefinition krmsTypeForContext;
 
     private ContextBoService contextRepository;
@@ -40,13 +45,12 @@ public class KSKRMSDataSetupUtility {
     private RuleBoService ruleBoService;
     private TermBoService termBoService;
     private SpringResourceLoader krmsTestResourceLoader;
-
-
-
     private BusinessObjectService boService;
 
     PropertiesFilterFactoryBean propertyUtil;
     private String namespace;
+
+
 
     public static void main(String [ ] args)
     {
@@ -58,10 +62,91 @@ public class KSKRMSDataSetupUtility {
     public void createKSKRMSData() {
         setupPropertyFile();
         namespace = getPropertyValue(PROPERTY_namespace);
-        createKRMSContextFromPropertyFile();
-        createKRMSTermSpecificationsFromPropertyFile();
+        // createKRMSContextFromPropertyFile();
+        // createKRMSTermSpecificationsFromPropertyFile();
+        createAllKRMSTermDefinitionsFromPropertyFile();
     }
 
+    //
+    private void createAllKRMSTermDefinitionsFromPropertyFile() {
+        {
+            Properties properties = getProperties(PROPERTY_TERMDEFINITION);
+            //
+            Enumeration elements = properties.elements();
+            int i = 0;
+
+            //
+            while (elements.hasMoreElements()) {
+                //
+                String termSpecValues =  (String) elements.nextElement();
+                System.out.println(i + " - " + termSpecValues);
+
+                String delims = ",+"; // use + to treat consecutive delims as one;
+                // omit to treat consecutive delims separately
+                String[] tokens = termSpecValues.split(delims);
+
+                // Utility only allow for 3 parameters per termDefinition
+                List<TermParameterDefinition.Builder> termParameters = new ArrayList<TermParameterDefinition.Builder>();
+                if (!tokens[0].equals("zzz")) {
+                setupTermParameters(termParameters, tokens[0],tokens[1]);
+                }
+                if (!tokens[2].equals("zzz")) {
+                    setupTermParameters(termParameters, tokens[2],tokens[3]);
+                }
+                if (!tokens[4].equals("zzz")) {
+                    setupTermParameters(termParameters, tokens[4],tokens[5]);
+                }
+
+                createKRMSTermDefinition(namespace, tokens[6], tokens[7], termParameters);
+
+
+                i++;
+            }
+            System.out.println("Created " + i + " TermDefinitions with their parameters for KS KRMS");
+        }
+
+    }
+
+    private void setupTermParameters(
+            List<TermParameterDefinition.Builder> termParameters, String termParamName, String termParamValue) {
+        TermParameterDefinition.Builder termParamBuilder2 =
+                TermParameterDefinition.Builder.create(null, null, termParamName, termParamValue);
+        termParameters.add(termParamBuilder2);
+    }
+
+    private void createKRMSTermDefinition(String nameSpace,
+                                          String termSpecName, String termName, List<TermParameterDefinition.Builder> termParameters) {
+
+        Map<String, String> queryArgs = new HashMap<String, String>();
+        queryArgs.put("namespace", nameSpace);
+        queryArgs.put("name", termSpecName);
+        String a = queryArgs.get("name");
+        TermSpecificationBo termSpecBo = this.boService.findByPrimaryKey(
+                TermSpecificationBo.class, queryArgs);
+        //
+        TermSpecificationDefinition termSpec = null;
+
+        termSpec = termSpecBo.to(termSpecBo);
+
+        TermSpecificationDefinition.Builder termSpecDefBuilder = TermSpecificationDefinition.Builder
+                .create(termSpec);
+//        // Term Param
+//		List<TermParameterDefinition.Builder> termParameters = new ArrayList<TermParameterDefinition.Builder>();
+//        TermParameterDefinition.Builder termParamBuilder2 =
+//            TermParameterDefinition.Builder.create(null, null, "testParamName", "testParamValue");
+//        termParameters.add(termParamBuilder2);
+
+        TermDefinition.Builder termDefBuilder = TermDefinition.Builder.create(
+                null, termSpecDefBuilder, termParameters);
+
+        termDefBuilder.setDescription(termName);
+
+        TermDefinition termDefinition = termDefBuilder.build();
+
+        termDefinition = termBoService.createTermDefinition(termDefinition);
+
+    }
+    //
     private void createKRMSTermSpecificationsFromPropertyFile() {
         {
             Properties properties = getProperties(PROPERTY_TERMSPEC);
@@ -91,6 +176,7 @@ public class KSKRMSDataSetupUtility {
         KrmsTypeDefinition krmsTermResolverTypeDefinition = getKSKRMSType(KSKRMSReplaceWithPropertyFile.KSNAMESPACE, KSKRMSReplaceWithPropertyFile.KS_TERM_RESOLVER_TYPE, "ksKRMSTermResolverTypeService");
 
         // TermResolver
+        // TODO KSENROLL-1860 - do a check to see if the TermResolver already exist before creating it
         TermResolverDefinition termResolverDef =
                 TermResolverDefinition.Builder.create(null, KSKRMSReplaceWithPropertyFile.KSNAMESPACE, termResolverName, krmsTermResolverTypeDefinition.getId(),
                         TermSpecificationDefinition.Builder.create(termSpecDefinition),

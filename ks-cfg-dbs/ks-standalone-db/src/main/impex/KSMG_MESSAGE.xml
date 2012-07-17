@@ -714,11 +714,6 @@
         ID="529bca17-7ced-4543-a500-e0534549bd4b" LOCALE="en"
         MSG_ID="cluVersionCode-watermark" MSG_VALUE="A"
         OBJ_ID="BFC3BFA4-3347-B7F3-338E-0228FD671919" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="52EC0237A169452FBA3E43FCCE429176" LOCALE="en"
-        MSG_ID="validation.validChars.numeric.range"
-        MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="940DDB43701049E0B785730B0A5A6014" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="org"
         ID="52c0d320-5087-4613-b9cd-ab048640e756" LOCALE="en"
         MSG_ID="orgOrgRelationExpDate" MSG_VALUE="Expiration date"
@@ -1374,10 +1369,15 @@
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
         OBJ_ID="3388D5EE-A5A0-4549-8974-9DB22E7DEEA2" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="B1903DD242774B65BC9046A833CCDB12" LOCALE="en"
+        ID="C50735AC96F5BD73E040760A2C235926" LOCALE="en"
+        MSG_ID="validation.validChars.numeric.range"
+        MSG_VALUE="Single number or numeric range separated by a dash"
+        OBJ_ID="C50735AC96F6BD73E040760A2C235926" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="C50735AC96F7BD73E040760A2C235926" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="26D2B529A45147C182A2B307E7EE7009" VER_NBR="1"/>
+        OBJ_ID="C50735AC96F8BD73E040760A2C235926" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="F541324F-BD0D-A2CC-1874-E7F36B73D8FD" LOCALE="en"
         MSG_ID="reqActivate" MSG_VALUE="Required for Activate"

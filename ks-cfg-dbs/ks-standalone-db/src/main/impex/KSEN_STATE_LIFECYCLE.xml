@@ -56,4 +56,16 @@
         CREATETIME="19700101000000"
         DESCR_PLAIN="kuali milestone state process"
         ID="kuali.milestone.process" NAME="kuali.milestone.process" VER_NBR="0"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120716000000"
+        DESCR_FORMATTED="kuali.population.population.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.population.population.lifecycle state lifecycle"
+        ID="kuali.population.population.lifecycle"
+        NAME="kuali.population.population.lifecycle" VER_NBR="0"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120716000000"
+        DESCR_FORMATTED="kuali.population.population.rule.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.population.population.rule.lifecycle state lifecycle"
+        ID="kuali.population.population.rule.lifecycle"
+        NAME="kuali.population.population.rule.lifecycle" VER_NBR="0"/>
 </dataset>

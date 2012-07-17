@@ -15,21 +15,21 @@
         OBJ_ID="1C36B6742FF1437188CA6F29574FD344" VER_NBR="0"/>
     <KSEM_ENUM_T DESCR="ATP Intensity" EFF_DT="20000101000000"
         ENUM_KEY="kuali.atptype.intensity" NAME="ATP Intensity"
-        OBJ_ID="7CAB429B5F524011A07F48C9F15A7DFA" VER_NBR="0"/>
+        OBJ_ID="C50735AC9696BD73E040760A2C235926" VER_NBR="0"/>
     <KSEM_ENUM_T DESCR="Course Dependency Types" EFF_DT="20000101000000"
         ENUM_KEY="kuali.dependency.course.types"
         NAME="Course Dependency Types"
-        OBJ_ID="83C77DA6E6704AB79C1049779EAC49E0" VER_NBR="1"/>
+        OBJ_ID="C50735AC9709BD73E040760A2C235926" VER_NBR="1"/>
     <KSEM_ENUM_T DESCR="Course Set Dependency Types"
         EFF_DT="20000101000000"
         ENUM_KEY="kuali.dependency.courseSet.types"
         NAME="Course Set Dependency Types"
-        OBJ_ID="4E075C969334471F81252393BEBF2B05" VER_NBR="4"/>
+        OBJ_ID="C50735AC970BBD73E040760A2C235926" VER_NBR="4"/>
     <KSEM_ENUM_T DESCR="Program Dependency Types"
         EFF_DT="20000101000000"
         ENUM_KEY="kuali.dependency.program.types"
         NAME="Program Dependency Types"
-        OBJ_ID="8CC9082650554AE1A3A4AF46D04523E9" VER_NBR="2"/>
+        OBJ_ID="C50735AC970ABD73E040760A2C235926" VER_NBR="2"/>
     <KSEM_ENUM_T DESCR="Program Level" EFF_DT="20000101000000"
         ENUM_KEY="kuali.enum.lu.program.level" NAME="Program Level"
         OBJ_ID="99E334E9C3A749519C5563991834E56C" VER_NBR="0"/>
@@ -39,7 +39,7 @@
     <KSEM_ENUM_T DESCR="CIP 2010" EFF_DT="20000101000000"
         ENUM_KEY="kuali.enum.type.cip2010" NAME="CIP Codes 2010"
         OBJ_ID="8F168A9D34784C34B81B3ED975F88B28" VER_NBR="0"/>
-    <KSEM_ENUM_T DESCR="Slot Code" EFF_DT="20120716132741"
+    <KSEM_ENUM_T DESCR="Slot Code" EFF_DT="20120717130938"
         ENUM_KEY="kuali.enum.type.slotrule" NAME="Slot Codes"
         OBJ_ID="enroll" VER_NBR="1"/>
     <KSEM_ENUM_T DESCR="Organization Types for Clu Admin Org"

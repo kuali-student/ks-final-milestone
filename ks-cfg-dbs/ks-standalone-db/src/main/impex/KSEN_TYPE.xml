@@ -455,8 +455,8 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/course/ActivityInfo"
         TYPE_KEY="kuali.lu.type.grouping.activity" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Physical activity and participation are incorporated into the   class."
-        DESCR_PLAIN="Physical activity and participation are incorporated into the   class."
+        DESCR_FORMATTED="Physical activity and participation are incorporated into theÂ Â  class."
+        DESCR_PLAIN="Physical activity and participation are incorporated into theÂ Â  class."
         NAME="Activity"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.activity" VER_NBR="0"/>
@@ -479,8 +479,8 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.colloquium" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Materials are available in   electronic format for the student to   explore on their own with no or minimal     involvement by faculty"
-        DESCR_PLAIN="Materials are available in   electronic format for the student to   explore on their own with no or minimal     involvement by faculty"
+        DESCR_FORMATTED="Materials are available inÂ Â  electronic format for the student toÂ Â  explore on their own with no or minimalÂ Â Â Â  involvement by faculty"
+        DESCR_PLAIN="Materials are available inÂ Â  electronic format for the student toÂ Â  explore on their own with no or minimalÂ Â Â Â  involvement by faculty"
         NAME="Comp Based"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.compbased" VER_NBR="0"/>
@@ -502,8 +502,8 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.demonstration" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Provides students with a way to complete a  class or   other area of focused studies.  Directed study may be individualized method or in a group."
-        DESCR_PLAIN="Provides students with a way to complete a  class or   other area of focused studies.  Directed study may be individualized method or in a group."
+        DESCR_FORMATTED="Provides students with a way to complete aÂ  class orÂ Â  other area of focused studies.Â  Directed study may be individualized method or in a group."
+        DESCR_PLAIN="Provides students with a way to complete aÂ  class orÂ Â  other area of focused studies.Â  Directed study may be individualized method or in a group."
         NAME="Directed"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.directed" VER_NBR="0"/>
@@ -520,26 +520,26 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.field" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Student's doing homework, problem sets and reading assignments and   writing"
-        DESCR_PLAIN="Student's doing homework, problem sets and reading assignments and   writing"
+        DESCR_FORMATTED="Student's doing homework, problem sets and reading assignments andÂ Â  writing"
+        DESCR_PLAIN="Student's doing homework, problem sets and reading assignments andÂ Â  writing"
         NAME="Homework"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.homework" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Student-initiated educational activity. Supervised special project   undertaken with the direction of an     assigned faculty member."
-        DESCR_PLAIN="Student-initiated educational activity. Supervised special project   undertaken with the direction of an     assigned faculty member."
+        DESCR_FORMATTED="Student-initiated educational activity. Supervised special projectÂ Â  undertaken with the direction of anÂ Â Â Â  assigned faculty member."
+        DESCR_PLAIN="Student-initiated educational activity. Supervised special projectÂ Â  undertaken with the direction of anÂ Â Â Â  assigned faculty member."
         NAME="Independ"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.independ" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Individual activity in   authentic non-academic setting   arranged by instructor"
-        DESCR_PLAIN="Individual activity in   authentic non-academic setting   arranged by instructor"
+        DESCR_FORMATTED="Individual activity inÂ Â  authentic non-academic settingÂ Â  arranged by instructor"
+        DESCR_PLAIN="Individual activity inÂ Â  authentic non-academic settingÂ Â  arranged by instructor"
         NAME="Internship"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.internship" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Student working on projects in a defined laboratory space.    Instructors   are on-hand for students to ask questions and guidance."
-        DESCR_PLAIN="Student working on projects in a defined laboratory space.    Instructors   are on-hand for students to ask questions and guidance."
+        DESCR_FORMATTED="Student working on projects in a defined laboratory space.Â Â Â  InstructorsÂ Â  are on-hand for students to ask questions and guidance."
+        DESCR_PLAIN="Student working on projects in a defined laboratory space.Â Â Â  InstructorsÂ Â  are on-hand for students to ask questions and guidance."
         NAME="Lab"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.lab" VER_NBR="0"/>
@@ -568,8 +568,8 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.quiz" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Oral review of course material   by students, often in small groups and   often lead by TAs"
-        DESCR_PLAIN="Oral review of course material   by students, often in small groups and   often lead by TAs"
+        DESCR_FORMATTED="Oral review of course materialÂ Â  by students, often in small groups andÂ Â  often lead by TAs"
+        DESCR_PLAIN="Oral review of course materialÂ Â  by students, often in small groups andÂ Â  often lead by TAs"
         NAME="Recitation"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.recitation" VER_NBR="0"/>
@@ -579,8 +579,8 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.research" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Student-paced coverage,   usually   with individualized   attention, of assigned course material"
-        DESCR_PLAIN="Student-paced coverage,   usually   with individualized   attention, of assigned course material"
+        DESCR_FORMATTED="Student-paced coverage,Â Â  usuallyÂ Â  with individualizedÂ Â  attention, of assigned course material"
+        DESCR_PLAIN="Student-paced coverage,Â Â  usuallyÂ Â  with individualizedÂ Â  attention, of assigned course material"
         NAME="Self Paced"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.selfpaced" VER_NBR="0"/>
@@ -603,20 +603,20 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.tutorial" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Often interactive instruction   between campuses delivered through   closed-circuit TV cameras, screens and     microphones. Students are able to interact as if they were in the   same   classroom."
-        DESCR_PLAIN="Often interactive instruction   between campuses delivered through   closed-circuit TV cameras, screens and     microphones. Students are able to interact as if they were in the   same   classroom."
+        DESCR_FORMATTED="Often interactive instructionÂ Â  between campuses delivered throughÂ Â  closed-circuit TV cameras, screens andÂ Â Â Â  microphones. Students are able to interact as if they were in theÂ Â  sameÂ Â  classroom."
+        DESCR_PLAIN="Often interactive instructionÂ Â  between campuses delivered throughÂ Â  closed-circuit TV cameras, screens andÂ Â Â Â  microphones. Students are able to interact as if they were in theÂ Â  sameÂ Â  classroom."
         NAME="Video Conf"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.videoconf" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Web-based or technologically-mediated activities   replacing standard discussion sections"
-        DESCR_PLAIN="Web-based or technologically-mediated activities   replacing standard discussion sections"
+        DESCR_FORMATTED="Web-based or technologically-mediated activitiesÂ Â  replacing standard discussion sections"
+        DESCR_PLAIN="Web-based or technologically-mediated activitiesÂ Â  replacing standard discussion sections"
         NAME="Web Discuss"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.webdiscussion" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Web-based or   technologically-mediated activities   replacing standard lectures"
-        DESCR_PLAIN="Web-based or   technologically-mediated activities   replacing standard lectures"
+        DESCR_FORMATTED="Web-based orÂ Â  technologically-mediated activitiesÂ Â  replacing standard lectures"
+        DESCR_PLAIN="Web-based orÂ Â  technologically-mediated activitiesÂ Â  replacing standard lectures"
         NAME="Web Lecture"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.activity.offering.weblecture" VER_NBR="0"/>
@@ -674,6 +674,48 @@
         NAME="Registration"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_KEY="kuali.milestone.type.group.registration" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A list of populations (childPopulationIds) and the reference population (referencePopulationId) must be supplied; results of the reference populations (e.g., all students) less the populations represented in the list (not in) determine the membership"
+        DESCR_PLAIN="A list of populations (childPopulationIds) and the reference population (referencePopulationId) must be supplied; results of the reference populations (e.g., all students) less the populations represented in the list (not in) determine the membership"
+        NAME="Exclusion"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.exclusion" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A list of populations (childPopulationIds) must be supplied; results of the intersection of the populations determine the membership"
+        DESCR_PLAIN="A list of populations (childPopulationIds) must be supplied; results of the intersection of the populations determine the membership"
+        NAME="Intersection"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.intersection" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="Membership in the population is based entirely on someone manually inserting and removing people or groups (KIM) into and out of the population"
+        DESCR_PLAIN="Membership in the population is based entirely on someone manually inserting and removing people or groups (KIM) into and out of the population"
+        NAME="Explicitly defined"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.person" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="An agenda id must be supplied which calculates the membership"
+        DESCR_PLAIN="An agenda id must be supplied which calculates the membership"
+        NAME="Rule-based"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.rule" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A searchCriteria must be supplied; results of the search determine the membership"
+        DESCR_PLAIN="A searchCriteria must be supplied; results of the search determine the membership"
+        NAME="Search-based"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.search" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A list of populations (childPopulationIds) must be supplied; results of the union of the populations determine the membership"
+        DESCR_PLAIN="A list of populations (childPopulationIds) must be supplied; results of the union of the populations determine the membership"
+        NAME="Union"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.union" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="Membership in the population is comprised of people that are students"
+        DESCR_PLAIN="Membership in the population is comprised of people that are students"
+        NAME="Student"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationInfo"
+        TYPE_KEY="kuali.population.type.student" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="A certification that a student completed the requirements for a particular area of study that results in a paper certificate being awarded"
         DESCR_PLAIN="A certification that a student completed the requirements for a particular area of study that results in a paper certificate being awarded"

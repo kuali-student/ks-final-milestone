@@ -38,7 +38,7 @@ import java.util.Map;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:ks-krms-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:ks-krms-test-context-mock.xml"})
 @Ignore
 public class TestGradeTypeTermResolver {
         private KrmsTypeResolver typeResolver;

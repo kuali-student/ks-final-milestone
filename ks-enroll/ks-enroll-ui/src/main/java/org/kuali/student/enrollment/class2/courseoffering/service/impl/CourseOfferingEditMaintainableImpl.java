@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -122,10 +123,15 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             // CO code
             String courseOfferingCode = coEditWrapper.getCourse().getCode();
             if (!StringUtils.isEmpty(coInfo.getCourseNumberSuffix())) {
-                 courseOfferingCode += coInfo.getCourseNumberSuffix();
+                courseOfferingCode += coInfo.getCourseNumberSuffix();
             }
-
             coInfo.setCourseOfferingCode(courseOfferingCode);
+
+            // Waitlist
+            if (!coInfo.getHasWaitlist()) {
+                coInfo.setWaitlistTypeKey(null);
+                coInfo.setWaitlistLevelTypeKey(null);
+            }
 
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, getContextInfo());
         }   catch (Exception ex){
@@ -213,7 +219,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 //0. get credit count from CourseInfo
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
                 CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
-                coInfo.setCreditCnt(getCreditCount(coInfo));
+                coInfo.setCreditCnt(ViewHelperUtil.getCreditCount(coInfo, courseInfo)); //set for CO title
 
                 //1. set CourseOfferingInfo
                 CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
@@ -369,44 +375,6 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             }
         }
         return null;
-    }
-
-    //get credit count from CourseInfo that is backed for the CourseOfferingInfo
-    private String getCreditCount(CourseOfferingInfo coInfo) throws Exception{
-        CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
-        String creditOpt = courseInfo.getCreditOptions().get(0).getType();
-        if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED) ){              //fixed
-            return trimTrailing0(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
-        } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE) ){    //range
-            //minCreditValue - maxCreditValue
-            return trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get("minCreditValue"))
-                    +" - "+trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get("maxCreditValue")) ;
-        } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE) ){    //multiple
-            List<String> creditValuesS = courseInfo.getCreditOptions().get(0).getResultValues();
-            List<Float> creditValuesF = new ArrayList();
-            String creditMultiple = "";
-            for (String creditS : creditValuesS ) {  //convert String to Float for sorting
-                creditValuesF.add(Float.valueOf(creditS));
-            }
-            Collections.sort(creditValuesF);
-            for (Float creditF : creditValuesF ){
-                creditMultiple = creditMultiple + ", " + trimTrailing0(String.valueOf(creditF));
-            }
-            return creditMultiple.substring(2);  //trim leading ", "
-        } else {                                                                                                      //no credit option
-            LOG.info("Credit is missing for subject course " + coInfo.getCourseCode());
-            return "N/A";
-        }
-
-    }
-
-    public String trimTrailing0(String creditValue){
-        if (creditValue.indexOf(".0") > 0) {
-            return creditValue.substring(0, creditValue.length( )- 2);
-        } else {
-            return creditValue;
-        }
-
     }
 
     public ContextInfo getContextInfo() {

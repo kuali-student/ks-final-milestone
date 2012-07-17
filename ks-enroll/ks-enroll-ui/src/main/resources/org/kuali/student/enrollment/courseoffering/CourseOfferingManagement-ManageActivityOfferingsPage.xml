@@ -77,7 +77,7 @@
                                     <bean parent="Uif-TextControl" p:size="3"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addActivityOfferings"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addActivityOfferings"/>
                         </list>
                     </property>
                 </bean>
@@ -186,23 +186,18 @@
                     <list>
                         <bean parent="Uif-InputField" p:propertyName="activityActionType" p:label="Selected Offering Actions" p:labelPlacement="TOP">
                             <property name="control">
-                                <bean parent="Uif-DropdownControl" p:options-ref="coSelectedActivityOfferingActions-options"/>
+                                <bean parent="Uif-DropdownControl"/>
+                            </property>
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingActionsKeyValues"/>
                             </property>
                         </bean>
-                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go" p:methodToCall="selectedAoActions"/>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="selectedAoActions"/>
                     </list>
                 </property>
             </bean>
         </list>
         </property>
     </bean>
-
-    <util:list id="coSelectedActivityOfferingActions-options">
-        <bean parent="Uif-KeyLabelPair" p:key="Scheduling" p:value="Set as Ready for Scheduling"/>
-        <bean parent="Uif-KeyLabelPair" p:key="Draft" p:value="Set as Draft"/>
-        <bean parent="Uif-KeyLabelPair" p:key="ChangeActivityCodes" p:value="Change Activity Codes"/>
-        <bean parent="Uif-KeyLabelPair" p:key="Delete" p:value="Delete"/>
-    </util:list>
-
 
 </beans>

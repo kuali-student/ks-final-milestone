@@ -18,7 +18,8 @@ package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
@@ -29,12 +30,12 @@ import java.util.*;
  *
  * @author Kuali Student Team
  */
-public class WaitlistTypeOptionsKeyValues extends KeyValuesBase implements Serializable {
+public class WaitlistTypeOptionsKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Override
-    public List<KeyValue> getKeyValues() {
+    public List<KeyValue> getKeyValues(ViewModel model) {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 

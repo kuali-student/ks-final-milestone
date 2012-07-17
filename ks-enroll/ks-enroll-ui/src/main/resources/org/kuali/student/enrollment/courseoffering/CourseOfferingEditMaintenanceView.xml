@@ -414,7 +414,10 @@
                     </property>
                 </bean>
                 <!-- Fixed Type -->
-                <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed'}">
+                <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false"
+                      p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed'}"
+                      p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
+                      p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}"  >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="3" p:disabled="@{#dp.creditOptionFixed}" />
                     </property>
@@ -423,12 +426,14 @@
                 <bean parent="Uif-HorizontalBoxSection" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range'}">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Minimum Credits" p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"  p:propertyName="creditOption.minCredits" p:fieldLabel.renderColon="false">
+                            <bean parent="Uif-InputField" p:label="Minimum Credits" p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
+                                  p:propertyName="creditOption.minCredits" p:fieldLabel.renderColon="false" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Maximum Credits" p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}" p:propertyName="creditOption.maxCredits" p:fieldLabel.renderColon="false">
+                            <bean parent="Uif-InputField" p:label="Maximum Credits" p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}"
+                                  p:propertyName="creditOption.maxCredits" p:fieldLabel.renderColon="false" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3" />
                                 </property>
@@ -545,25 +550,29 @@
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl">
                                         <property name="checkboxLabel" value="This course offering has a waitlist"/>
-
-
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="coInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
-                                <property name="control">
-                                    <bean parent="Uif-VerticalRadioControl"/>
-                                </property>
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues" />
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:label="Waitlist Type" p:propertyName="coInfo.waitlistTypeKey" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
-                                <property name="control">
-                                    <bean parent="Uif-DropdownControl"/>
-                                </property>
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" />
+                            <bean parent="Uif-HorizontalBoxSection" p:refreshWhenChangedPropertyNames="#dp.coInfo.hasWaitlist">
+                                <property name="items">
+                                    <list>
+                                       <bean parent="Uif-InputField" p:propertyName="coInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                            <property name="control">
+                                                <bean parent="Uif-VerticalRadioControl" p:disabled="@{!#dp.coInfo.hasWaitlist}"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:label="Waitlist Type" p:propertyName="coInfo.waitlistTypeKey" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:disabled="@{!#dp.coInfo.hasWaitlist}"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" />
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                         </list>
@@ -589,14 +598,14 @@
                     <property name="layoutManager.richTable.render" value="false" />
                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-                    <property name="items">
+                    <property name="addLineItems">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID">
+                            <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID" >
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="quickfinder.fieldConversions">
                                     <map>
                                         <entry key="name" value="personName"/>
-                                        <entry key="principalId" value="personId"/>
+                                        <entry key="entityId" value="personId"/>
                                     </map>
                                 </property>
                                 <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
@@ -607,14 +616,18 @@
                                     <bean parent="Uif-DropdownControl" p:options-ref="coInstructors-options" />
                                 </property>
                             </bean>
-                            <!-- remove instructional effort column from edit CO page. It is for AO personnel -->
-                            <!--
-                            <bean parent="Uif-InputField" p:propertyName="percentageEffort" p:label="INST.EFFORT">
+                        </list>
+                    </property>
+
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="personId" p:label="ID" />
+                            <bean parent="Uif-DataField" p:propertyName="personName" p:label="Name" />
+                            <bean parent="Uif-InputField" p:propertyName="typeKey" p:label="AFFILIATION">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="10" />
+                                    <bean parent="Uif-DropdownControl" p:options-ref="coInstructors-options" />
                                 </property>
                             </bean>
-                            -->
                         </list>
                     </property>
 

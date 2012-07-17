@@ -42,8 +42,8 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Label" p:labelText="Current Course Offerings"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering"/>
+                <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingList.empty}"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:render="@{!courseOfferingList.empty}"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering"/>
             </list>
@@ -80,7 +80,7 @@
                       p:propertyName="creditCnt"/>
                 <bean parent="Uif-DataField"
                       p:label="GRADING"
-                      p:propertyName="gradingOption"/>
+                      p:propertyName="gradingOptionId"/>
                 <!--<bean parent="Uif-DataField"-->
                       <!--p:label="STATUS"-->
                       <!--p:propertyName="stateKey"/>-->

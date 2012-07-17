@@ -30,4 +30,5 @@
 	<mainChannel:workflow />
 	<mainChannel:notification />
     <mainChannel:rules />
+    <mainChannel:holds />
 </td>

@@ -27,33 +27,14 @@
         <property name="titleAttribute" value="id"/>
         <property name="attributes">
             <list>
-                <ref bean="CourseInfo.id"/>
                 <ref bean="CourseInfo.code"/>
                 <ref bean="CourseInfo.courseTitle"/>
-                <ref bean="CourseInfo.subjectArea"/>
-                <ref bean="CourseInfo.descr"/>
             </list>
         </property>
         <property name="primaryKeys">
             <list>
                 <value>id</value>
             </list>
-        </property>
-    </bean>
-
-    <bean id="CourseInfo.id" parent="CourseInfo.id-parentBean"/>
-    <bean id="CourseInfo.id-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="id"/>
-        <property name="dataType" value="STRING" />
-        <property name="label" value="Course ID"/>
-        <property name="shortLabel" value="Course ID"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="maxLength" value="10"/>
-        <property name="validCharactersConstraint">
-            <bean parent="NoWhitespacePatternConstraint" />
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -89,38 +70,6 @@
         </property>
     </bean>
 
-    <bean id="CourseInfo.subjectArea" parent="CourseInfo.subjectArea-parentBean"/>
-    <bean id="CourseInfo.subjectArea-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="subjectArea"/>
-        <property name="dataType" value="STRING" />
-        <property name="label" value="Subject Area"/>
-        <property name="shortLabel" value="Subject Area"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="maxLength" value="10"/>
-        <property name="validCharactersConstraint">
-            <bean parent="NoWhitespacePatternConstraint" />
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
-        </property>
-    </bean>
-
-    <bean id="CourseInfo.descr" parent="CourseInfo.descr-parentBean"/>
-    <bean id="CourseInfo.descr-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="descr"/>
-        <property name="dataType" value="STRING" />
-        <property name="label" value="Course Description"/>
-        <property name="shortLabel" value="Description"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="maxLength" value="200"/>
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="200"/>
-        </property>
-    </bean>
-
     <bean id="CourseInfo-LookupView" parent="KSLookupView">
         <property name="headerText" value="Course Lookup" />
         <property name="dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo" />
@@ -135,7 +84,7 @@
             <list>
                 <bean parent="Uif-InputField" p:propertyName="code" />
                 <bean parent="Uif-InputField" p:propertyName="courseTitle" />
-                <bean parent="Uif-InputField" p:propertyName="descr" />
+                <bean parent="Uif-InputField" p:propertyName="descr.formatted" />
             </list>
         </property>
     </bean>

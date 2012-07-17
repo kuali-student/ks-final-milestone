@@ -72,7 +72,7 @@ public class ActivityOfferingTransformer {
         // build list of OfferingInstructors
         List<LprInfo> lprs = lprService.getLprsByLui(ao.getId(), context);
 
-        ao.setInstructors(lprs2Instructors(lprs));
+        ao.setInstructors(OfferingInstructorTransformer.lprs2Instructors(lprs));
 
     }
 

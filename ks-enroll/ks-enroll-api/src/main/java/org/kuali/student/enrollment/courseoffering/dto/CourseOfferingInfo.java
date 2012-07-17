@@ -37,13 +37,13 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfo", propOrder = {
         "id", "typeKey", "stateKey", "descr", "courseId",
-        "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", 
-        "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds", 
-        "unitsContentOwnerOrgIds",  "maximumEnrollment", 
+        "termId", "courseCode", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle",
+        "creditCnt", "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds",
+        "unitsContentOwnerOrgIds",  "maximumEnrollment",
         "minimumEnrollment", "jointOfferingIds", "gradingOptionId",
         "studentRegistrationGradingOptions", "creditOptionDisplay", "creditOptionId",
-        "waitlistLevelTypeKey", "waitlistMaximum", "hasWaitlist", "waitlistTypeKey","campusLocations", 
-        "isEvaluated", "fundingSource", "isFeeAtActivityOffering", 
+        "waitlistLevelTypeKey", "waitlistMaximum", "hasWaitlist", "waitlistTypeKey","campusLocations",
+        "isEvaluated", "fundingSource", "isFeeAtActivityOffering",
         "isFinancialAidEligible", "courseOfferingURL", "finalExamType",
         "meta", "attributes", "_futureElements"})
 
@@ -101,8 +101,6 @@ public class CourseOfferingInfo
     @XmlElement
     private List<String> studentRegistrationGradingOptions;
 
-    @XmlAnyElement
-    private String gradingOption;
 
     @XmlElement
     private String creditOptionDisplay;

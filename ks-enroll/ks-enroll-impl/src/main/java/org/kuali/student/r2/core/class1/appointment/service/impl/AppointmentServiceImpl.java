@@ -206,9 +206,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         AppointmentEntity appointmentEntity = appointmentDao.find(appointmentId);
         if (null != appointmentEntity) {
             appointmentEntity.fromDto(appointmentInfo);
-            
-            appointmentEntity.setEntityUpdated(contextInfo);
-            
+            appointmentEntity.setUpdateId(contextInfo.getPrincipalId());
+            appointmentEntity.setUpdateTime(contextInfo.getCurrentDate());
             appointmentDao.merge(appointmentEntity);
             return appointmentEntity.toDto();
         } else {
@@ -325,9 +324,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     public AppointmentWindowInfo createAppointmentWindow(String appointmentWindowTypeKey, AppointmentWindowInfo appointmentWindowInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         // TODO: Check what to do in inconsistency between appointmentWindowTypeKey and type in appointmentWindowInfo
         AppointmentWindowEntity apptWin = new AppointmentWindowEntity(appointmentWindowTypeKey, appointmentWindowInfo);
-        
-        apptWin.setEntityCreated(contextInfo);
-        
+        apptWin.setCreateId(contextInfo.getPrincipalId());
+        apptWin.setCreateTime(contextInfo.getCurrentDate());
+        apptWin.setUpdateId(contextInfo.getPrincipalId());
+        apptWin.setUpdateTime(contextInfo.getCurrentDate());
         appointmentWindowDao.persist(apptWin);
         return apptWin.toDto();
     }
@@ -338,9 +338,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         AppointmentWindowEntity appointmentWindowEntity = appointmentWindowDao.find(appointmentWindowId);
         if (null != appointmentWindowEntity) {
             appointmentWindowEntity.fromDto(appointmentWindowInfo);
-            
-            appointmentWindowEntity.setEntityUpdated(contextInfo);
-            
+            appointmentWindowEntity.setUpdateId(contextInfo.getPrincipalId());
+            appointmentWindowEntity.setUpdateTime(contextInfo.getCurrentDate());
             appointmentWindowDao.merge(appointmentWindowEntity);
             return appointmentWindowEntity.toDto();
         } else {
@@ -415,9 +414,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public AppointmentSlotInfo createAppointmentSlot(String appointmentWindowId, String appointmentSlotTypeKey, AppointmentSlotInfo appointmentSlotInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentSlotEntity appointmentSlotEntity = new AppointmentSlotEntity(appointmentSlotTypeKey, appointmentSlotInfo);
-       
-        appointmentSlotEntity.setEntityCreated(contextInfo);
-        
+        appointmentSlotEntity.setCreateId(contextInfo.getPrincipalId());
+        appointmentSlotEntity.setCreateTime(contextInfo.getCurrentDate());
+        appointmentSlotEntity.setUpdateId(contextInfo.getPrincipalId());
+        appointmentSlotEntity.setUpdateTime(contextInfo.getCurrentDate());
         // Need to manually set the entity since appointmentSlotInfo only has an id for its corresponding AppointmentWindow
         AppointmentWindowEntity windowEntity = appointmentWindowDao.find(appointmentWindowId);
         if(null == windowEntity) {
@@ -497,9 +497,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         AppointmentSlotEntity appointmentSlotEntity = appointmentSlotDao.find(appointmentSlotId);
         if (null != appointmentSlotEntity) {
             appointmentSlotEntity.fromDto(appointmentSlotInfo);
-            
-            appointmentSlotEntity.setEntityUpdated(contextInfo);
-            
+            appointmentSlotEntity.setUpdateId(contextInfo.getPrincipalId());
+            appointmentSlotEntity.setUpdateTime(contextInfo.getCurrentDate());
             appointmentSlotDao.merge(appointmentSlotEntity);
             return appointmentSlotEntity.toDto();
         } else {

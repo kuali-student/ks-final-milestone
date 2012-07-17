@@ -115,9 +115,6 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	
 
 	/**
-	 * @param coService 
-	 * @param acalService 
-	 * @param canonicalCourseService 
 	 * 
 	 */
 	public CourseOfferingServiceTestDataLoader() {

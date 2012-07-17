@@ -19,16 +19,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 
 	<!-- ********************************************************
-		                       WARNING 
+		                       WARNING
 		             DO NOT UPDATE THIS FILE MANUALLY
 		This dictionary file was automatically generated on Thu Jul 05 08:31:03 EDT 2012
-		The DictionaryGeneratorMojo reads the service contract 
+		The DictionaryGeneratorMojo reads the service contract
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
 		If this file is out of sync with the contract re-run the mojo.
 
 		To add additional constraints or change these default values (perhaps
-		because the generator is not perfect) please update the corresponding 
+		because the generator is not perfect) please update the corresponding
 		ks-XXXX-dictionary.xml instead of this one.
 	************************************************************* -->
 	<!-- ********************************************************************************************************** -->
@@ -73,7 +73,6 @@ plus any of its dependencies -->
 				<ref bean="CourseOfferingInfo.creditOptionId"/>
 				<ref bean="CourseOfferingInfo.creditCnt"/>
 				<ref bean="CourseOfferingInfo.gradingOptionId"/>
-				<ref bean="CourseOfferingInfo.gradingOption"/>
 				<ref bean="CourseOfferingInfo.waitlistLevelTypeKey"/>
 				<ref bean="CourseOfferingInfo.hasWaitlist"/>
 				<ref bean="CourseOfferingInfo.waitlistTypeKey"/>
@@ -282,7 +281,7 @@ example: Subject Area = &quot;ENG&quot; and Suffix = &quot;101&quot; then code =
 		<property name="shortLabel" value="Course Number Suffix"/>
 		<property name="summary">
 			<value>
-A suffix of the course number as reflected in the college catalog. 
+A suffix of the course number as reflected in the college catalog.
 			</value>
 		</property>
 		<property name="label" value="Course Number Suffix"/>
@@ -305,7 +304,7 @@ in the calculation of the courseCode.
 		<property name="shortLabel" value="Course Offering Title"/>
 		<property name="summary">
 			<value>
-Name of the course used in the college catalog. 
+Name of the course used in the college catalog.
 			</value>
 		</property>
 		<property name="label" value="Course Title"/>
@@ -331,7 +330,7 @@ l
 		<property name="shortLabel" value="Is Honors Offering"/>
 		<property name="summary">
 			<value>
-Indicates that the entire course offering is an Honors Course ??? 
+Indicates that the entire course offering is an Honors Course ???
 			</value>
 		</property>
 		<property name="label" value="Is Honors Offering"/>
@@ -371,7 +370,7 @@ instructors should be copied down
 		<property name="summary">
 			<value>
 Identifies the department and/subject code of the course as reflected in
-the course catalog. 
+the course catalog.
 			</value>
 		</property>
 		<property name="label" value="Subject Area"/>
@@ -422,7 +421,7 @@ it's content is managed by an academic department.
 		<property name="summary">
 			<value>
 Organization(s) that is responsible for the academic content of the
-course as approved in its canonical form. 
+course as approved in its canonical form.
 			</value>
 		</property>
 		<property name="label" value="Units Content Owner"/>
@@ -445,7 +444,7 @@ department.
 		<property name="summary">
 			<value>
 Total maximum number of &quot;seats&quot; or enrollment slots that can be filled
-for the offering. 
+for the offering.
 			</value>
 		</property>
 		<property name="label" value="Maximum Enrollment"/>
@@ -465,7 +464,7 @@ primary activity type offerings.
 		<property name="summary">
 			<value>
 Total minimum number of seats that must be filled for the offering not to
-be canceled. 
+be canceled.
 			</value>
 		</property>
 		<property name="label" value="Minimum Enrollment"/>
@@ -505,7 +504,7 @@ offering is joint-listed
 		<property name="shortLabel" value="Credit Option Id"/>
 		<property name="summary">
 			<value>
-Type of credit of course offering. 
+Type of credit of course offering.
 			</value>
 		</property>
 		<property name="label" value="Credit Option"/>
@@ -549,7 +548,7 @@ Gets the Credit Count
 		<property name="summary">
 			<value>
 The options/scale that indicates the allowable grades that can be
-awarded. 
+awarded.
 			</value>
 		</property>
 		<property name="label" value="Grading Option Id"/>
@@ -565,30 +564,13 @@ point to Pass/Fail or Letter Graded option.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.gradingOption-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="gradingOption"/>
-		<property name="shortLabel" value="Grading Option"/>
-		<property name="summary">
-			<value>
-Gets the Grading Name
-			</value>
-		</property>
-		<property name="label" value="Grading"/>
-		<property name="description">
-			<value>
-Gets the Grading Name
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
 	<bean id="CourseOfferingInfo.studentRegistrationOptionIds-generated" abstract="true" parent="CollectionDefinition">
 		<property name="name" value="studentRegistrationOptionIds"/>
 		<property name="shortLabel" value="Student Registration Option Ids"/>
 		<property name="summary">
 			<value>
 The options/scales that indicate the allowable grades that can be
-awarded. 
+awarded.
 			</value>
 		</property>
 		<property name="label" value="Student Registration Option Ids"/>
@@ -615,7 +597,7 @@ ids are pulled out and placed in this collection.
 		<property name="summary">
 			<value>
 Indicates the waitlist level, i.e., CourseOffering or ActivityOffering.
- 
+
 			</value>
 		</property>
 		<property name="label" value="Waitlist Level Type Key"/>
@@ -660,7 +642,7 @@ Indicates the type of waitlist as it relates to processing students on
 and off The three types predefined in kuali are Automatic, Semi-Automatic
 and Manual TODO: Right not Waitlist types are not tied to any Waitlist
 object so we need to define an &quot;other key&quot; to get the list of valid
-values from the type service. 
+values from the type service.
 			</value>
 		</property>
 		<property name="label" value="Waitlist Type Key"/>
@@ -756,7 +738,7 @@ The primary source of funding for the offering.
 		<property name="summary">
 			<value>
 Indicates whether the fee is at activity offering level or
-course offering level. 
+course offering level.
 			</value>
 		</property>
 		<property name="label" value="Is Fee at Activity Offering"/>
@@ -775,7 +757,7 @@ if false its at CourseOffering level.
 		<property name="shortLabel" value="Is Financial Aid Eligible"/>
 		<property name="summary">
 			<value>
-Flag indicating whether a course is eligible for Financial Aid. 
+Flag indicating whether a course is eligible for Financial Aid.
 			</value>
 		</property>
 		<property name="label" value="Is Financial Aid Eligible"/>
@@ -812,7 +794,7 @@ Gets the Course Offering URL.
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
 			<value>
-Create and last update info for the structure. 
+Create and last update info for the structure.
 			</value>
 		</property>
 		<property name="label" value="Meta"/>
