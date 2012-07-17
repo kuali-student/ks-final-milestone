@@ -72,7 +72,7 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
         this.lifecycleKey = lifecycleKey;
     }
 
-    
+
     public Date getEffectiveDate() {
         return effectiveDate;
     }

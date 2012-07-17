@@ -12,6 +12,11 @@ import javax.persistence.Table;
 @Table(name = "KSEN_STATE_LIFECYCLE_ATTR")
 public class LifecycleAttributeEntity extends BaseAttributeEntity<LifecycleEntity> {
 
+<<<<<<< .mine
+    public LifecycleAttributeEntity() {
+        super();
+    }
+=======
 	public LifecycleAttributeEntity() {
 		super();
 	}
@@ -19,6 +24,16 @@ public class LifecycleAttributeEntity extends BaseAttributeEntity<LifecycleEntit
 	public LifecycleAttributeEntity(Attribute att, LifecycleEntity owner) {
 		super(att, owner);
 	}
+>>>>>>> .r33667
+<<<<<<< .mine
+
+    public LifecycleAttributeEntity(Attribute att, LifecycleEntity owner) {
+        super(att, owner);
+    }
+
+
+=======
     
     
+>>>>>>> .r33667
 }

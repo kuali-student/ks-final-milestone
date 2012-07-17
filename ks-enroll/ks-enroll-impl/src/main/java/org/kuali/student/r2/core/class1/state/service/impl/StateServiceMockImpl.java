@@ -51,28 +51,28 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  *  hashmaps as persistence.
  */
 
-public class StateServiceMockImpl 
-    implements StateService {
+public class StateServiceMockImpl
+        implements StateService {
 
     private final Map<String, LifecycleInfo> lifecycles = new HashMap<String, LifecycleInfo>();
     private final Map<String, StateInfo> states = new HashMap<String, StateInfo>();
     private final Map<String, Collection<String>> lifecycleStates = new HashMap<String, Collection<String>>();
 
     @Override
-    public LifecycleInfo getLifecycle(String lifecycleKey, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public LifecycleInfo getLifecycle(String lifecycleKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         LifecycleInfo lifecycle = this.lifecycles.get(lifecycleKey);
         if (lifecycle == null ) {
             throw new DoesNotExistException(lifecycleKey);
         }
-     
+
         return lifecycle;
     }
 
     @Override
-    public List<LifecycleInfo> getLifecyclesByKeys(List<String> lifecycleKeys, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LifecycleInfo> getLifecyclesByKeys(List<String> lifecycleKeys, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<LifecycleInfo> ret = new ArrayList<LifecycleInfo>();
         for (String key : lifecycleKeys) {
@@ -84,7 +84,7 @@ public class StateServiceMockImpl
 
     @Override
     public List<String> getLifecycleKeysByRefObjectUri(String refObjectUri, ContextInfo contextInfo)
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<String> ret = new ArrayList<String>();
         for (LifecycleInfo lifecycle : this.lifecycles.values()) {
@@ -97,29 +97,29 @@ public class StateServiceMockImpl
     }
 
     @Override
-    public List<String> searchForLifecycleKeys(QueryByCriteria criteria, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForLifecycleKeys(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         return new ArrayList<String>(this.lifecycles.keySet()); // TODO: look at the criteria
     }
 
     @Override
-    public List<LifecycleInfo> searchForLifecycles(QueryByCriteria criteria, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LifecycleInfo> searchForLifecycles(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         return new ArrayList<LifecycleInfo>(this.lifecycles.values()); // TODO: look at the criteria
     }
 
     @Override
-    public List<ValidationResultInfo> validateLifecycle(String validationTypeKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+    public List<ValidationResultInfo> validateLifecycle(String validationTypeKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         return new ArrayList<ValidationResultInfo>(); // TODO check for valid info
     }
 
     @Override
-    public LifecycleInfo createLifecycle(String lifecycleKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo) 
-        throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public LifecycleInfo createLifecycle(String lifecycleKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo)
+            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         if (this.lifecycles.get(lifecycleKey) != null) {
             throw new AlreadyExistsException(lifecycleKey + " already exists");
@@ -134,8 +134,8 @@ public class StateServiceMockImpl
     }
 
     @Override
-    public LifecycleInfo updateLifecycle(String lifecycleKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo) 
-        throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public LifecycleInfo updateLifecycle(String lifecycleKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
         if (this.lifecycles.get(lifecycleKey) != null) {
             throw new DoesNotExistException(lifecycleKey + " does not exist");
@@ -148,9 +148,9 @@ public class StateServiceMockImpl
     }
 
     @Override
-    public StatusInfo deleteLifecycle(String lifecycleKey, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+    public StatusInfo deleteLifecycle(String lifecycleKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         if (this.lifecycles.get(lifecycleKey) != null) {
             throw new DoesNotExistException(lifecycleKey + " does not exist");
         }
@@ -163,8 +163,8 @@ public class StateServiceMockImpl
 
 
     @Override
-    public StateInfo getState(String stateKey, ContextInfo context) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StateInfo getState(String stateKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         StateInfo state = this.states.get(stateKey);
         if (state == null ) {
@@ -175,9 +175,9 @@ public class StateServiceMockImpl
     }
 
     @Override
-    public List<StateInfo> getStatesByKeys(List<String> stateKeys, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+    public List<StateInfo> getStatesByKeys(List<String> stateKeys, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         List<StateInfo> ret = new ArrayList<StateInfo>();
         for (String key : stateKeys) {
             ret.add(getState(key, contextInfo));
@@ -186,8 +186,8 @@ public class StateServiceMockImpl
         return ret;
     }
 
-    public List<StateInfo> getStatesByLifecycle(String lifecycleKey, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<StateInfo> getStatesByLifecycle(String lifecycleKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         Collection<String> stateKeys = this.lifecycleStates.get(lifecycleKey);
         if (states == null) {
@@ -197,21 +197,21 @@ public class StateServiceMockImpl
         return getStatesByKeys(new ArrayList<String>(stateKeys), contextInfo);
     }
 
-    public List<String> searchForStateKeys(QueryByCriteria criteria, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForStateKeys(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         return new ArrayList<String>(this.states.keySet()); // TODO: look at criteria
     }
 
-    public List<StateInfo> searchForStates(QueryByCriteria criteria, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<StateInfo> searchForStates(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         return new ArrayList<StateInfo>(this.states.values()); // TODO: look at criteria
     }
 
     @Override
-    public List<ValidationResultInfo> validateState(String validationStateKey, String lifecycleKey, StateInfo stateInfo, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateState(String validationStateKey, String lifecycleKey, StateInfo stateInfo, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         if (this.lifecycles.get(lifecycleKey) == null) {
             throw new DoesNotExistException(lifecycleKey + " not found");
@@ -221,8 +221,8 @@ public class StateServiceMockImpl
     }
 
     @Override
-    public StateInfo createState(String lifecycleKey, String stateKey, StateInfo stateInfo, ContextInfo contextInfo) 
-        throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StateInfo createState(String lifecycleKey, String stateKey, StateInfo stateInfo, ContextInfo contextInfo)
+            throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         if (this.states.get(stateKey) != null) {
             throw new AlreadyExistsException(stateKey + " already exists");
@@ -243,7 +243,7 @@ public class StateServiceMockImpl
         } else if (!lifecycleKey.equals(stateInfo.getLifecycleKey())) {
             throw new DataValidationErrorException("attempt to set a lifecycle in state");
         }
-            
+
         // TODO call validate 
 
         this.states.put(stateKey, stateInfo);
