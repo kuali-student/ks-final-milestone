@@ -24,13 +24,13 @@ import java.util.Map;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:ks-krms-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:ks-krms-test-context-mock.xml"})
 @Ignore
 public class TestEnrolledCourseByTermTermResolver {
 	private KrmsTypeResolver typeResolver;
 
     public ContextInfo callContext = null;
-    @Resource(name = "acadRecordService")
+    @Resource(name = "courseRegistrationService")
     private CourseRegistrationService courseRegistrationService;
     private String studentID = "12020303";
 

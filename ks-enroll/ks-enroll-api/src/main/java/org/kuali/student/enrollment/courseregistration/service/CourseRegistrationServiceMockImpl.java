@@ -4,8 +4,10 @@
  */
 package org.kuali.student.enrollment.courseregistration.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -32,12 +34,25 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.ValidationResult;
 
 /**
  *
  * @author nwright
  */
 public class CourseRegistrationServiceMockImpl implements CourseRegistrationService {
+
+    //Mock datastructures
+    private Map<String, CourseRegistrationInfo> courseRegistrationInfoMap = new LinkedHashMap<String, CourseRegistrationInfo>();
+
+    public CourseRegistrationServiceMockImpl(){
+        //Dummy CourseRegistrationInfo
+        CourseRegistrationInfo courseReg = new CourseRegistrationInfo();
+        courseReg.setCredits("2");
+        courseReg.setGradingOptionKey("1");
+        courseReg.setStudentId("12020303");
+        courseRegistrationInfoMap.put("1",courseReg);
+    }
 
     @Override
     public LoadInfo calculateCreditLoadForRegRequest(String studentId, RegRequestInfo regRequestInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -56,17 +71,29 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
 
     @Override
     public List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<ValidationResultInfo> resultInfos = new ArrayList<ValidationResultInfo>();
+        ValidationResultInfo resultInfo = new ValidationResultInfo();
+        resultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        resultInfos.add(resultInfo);
+        return resultInfos;
     }
 
     @Override
     public List<ValidationResultInfo> checkStudentEligibilityForTerm(String studentId, String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<ValidationResultInfo> resultInfos = new ArrayList<ValidationResultInfo>();
+        ValidationResultInfo resultInfo = new ValidationResultInfo();
+        resultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        resultInfos.add(resultInfo);
+        return resultInfos;
     }
 
     @Override
     public List<ValidationResultInfo> checkStudentEligibiltyForCourseOffering(String studentId, String courseOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<ValidationResultInfo> resultInfos = new ArrayList<ValidationResultInfo>();
+        ValidationResultInfo resultInfo = new ValidationResultInfo();
+        resultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        resultInfos.add(resultInfo);
+        return resultInfos;
     }
 
     @Override
@@ -178,7 +205,15 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
 
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudent(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<CourseRegistrationInfo> results = new ArrayList<CourseRegistrationInfo>();
+        List<CourseRegistrationInfo> infos = new ArrayList<CourseRegistrationInfo>(courseRegistrationInfoMap.values());
+        for(CourseRegistrationInfo courseReg : infos){
+            if(courseReg.getStudentId().equals(studentId)){
+                results.add(courseReg);
+            }
+        }
+
+        return results;
     }
 
     @Override
@@ -188,7 +223,16 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
 
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //TODO This mock is just a quick fix. NOT taking term into account
+        List<CourseRegistrationInfo> results = new ArrayList<CourseRegistrationInfo>();
+        List<CourseRegistrationInfo> infos = new ArrayList<CourseRegistrationInfo>(courseRegistrationInfoMap.values());
+        for(CourseRegistrationInfo courseReg : infos){
+            if(courseReg.getStudentId().equals(studentId)){
+                results.add(courseReg);
+            }
+        }
+
+       return results;
     }
 
     @Override
