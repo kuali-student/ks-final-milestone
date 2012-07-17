@@ -49,7 +49,8 @@
                 <value>classpath:ks-SocRolloverResultInfo-dictionary.xml</value>
                 <value>classpath:ks-SocRolloverResultItemInfo-dictionary.xml</value>
                 <value>classpath:ks-TermInfo-dictionary.xml</value>
-
+                <value>classpath:ks-PopulationInfo-dictionary.xml</value>
+                <value>classpath:ks-PopulationRuleInfo-dictionary.xml</value>
 
                 <!--
 				<value>classpath:AcademicCalendarInfoUI.xml</value>
@@ -118,6 +119,9 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagement-SelectTermPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagement-ReleaseToDeptsPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingWrapperLookupAndInquiryView.xml</value>
+
+                <!-- Population -->
+                <value>classpath:org/kuali/student/enrollment/population/PopulationWrapperMaintenanceDocument.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">

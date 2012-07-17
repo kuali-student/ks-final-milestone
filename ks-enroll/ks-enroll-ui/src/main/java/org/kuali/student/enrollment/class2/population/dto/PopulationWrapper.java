@@ -35,7 +35,10 @@ public class PopulationWrapper implements Serializable {
     private boolean showByRuleLink;
     private boolean showLinkSection;
 
-
+    public PopulationWrapper(){
+        showByRuleLink = true;
+        showLinkSection = true;
+    }
     public PopulationInfo getPopulationInfo() {
         return populationInfo;
     }

@@ -1,0 +1,124 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+
+    <bean id="PopulationWrapper" parent="PopulationWrapper-parentBean"/>
+    <bean id="PopulationWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+        <property name="titleAttribute" value="populationInfo.name"/>
+        <property name="attributes">
+            <list>
+
+            </list>
+        </property>
+        <property name="complexAttributes">
+            <list>
+                <ref bean="PopulationWrapper.populationInfo"/>
+                <ref bean="PopulationWrapper.populationRuleInfo"/>
+            </list>
+        </property>
+        <property name="objectLabel" value="Population"/>
+        <property name="primaryKeys">
+            <list>
+                <value>populationInfo.id</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PopulationWrapper.populationInfo" parent="ComplexAttributeDefinition">
+        <property name="name" value="populationInfo"/>
+        <property name="dataObjectEntry" ref="PopulationInfo"/>
+    </bean>
+
+    <bean id="PopulationWrapper.populationRuleInfo" parent="ComplexAttributeDefinition">
+        <property name="name" value="populationRuleInfo"/>
+        <property name="dataObjectEntry" ref="PopulationRuleInfo"/>
+    </bean>
+
+    <!-- PopulationWrapper MaintenanceView -->
+    <bean id="KS-PopulationWrapper-MaintenanceView" parent="KSMaintenanceView">
+        <property name="headerText" value="Population Maintenance eDoc"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
+        <property name="singlePageView" value="true"/>
+        <!--<property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />-->
+        <property name="items">
+            <list>
+                <ref bean="KS-PopulationWrapper-LinkSection"/>
+                <ref bean="KS-PopulationWrapper-CreateByRule"/>
+                <!--<ref bean="KS-PopulationWrapper-CreateByCombiningPopulations"/>-->
+            </list>
+        </property>
+        <property name="page.footer.items">
+            <ref bean="KSDocumentPageFooter_SubmitCancel" />
+        </property>
+    </bean>
+     <!--p:render="@{#showLinkSection}"-->
+    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" >
+        <property name="disclosure.render" value="false"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-borderBottom</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-ActionLink" p:methodToCall="createByRule" p:style="font-weight:bold;" p:actionLabel="By Rule" p:render="@{document.newMaintainableObject.dataObject.showByRuleLink}"/>
+                <bean parent="Uif-MessageField" p:messageText="By Rule" p:style="font-weight:bold;" p:render="@{!document.newMaintainableObject.dataObject.showByRuleLink}"/>
+                <!--<bean parent="Uif-MessageField" p:messageText="  |  " p:style="font-weight:bold;"/>-->
+                <bean parent="Uif-ActionLink" p:methodToCall="createByCombiningPopulations" p:style="font-weight:bold;" p:actionLabel="By Combining Populations" p:render="@{!document.newMaintainableObject.dataObject.showByRuleLink}"/>
+                <bean parent="Uif-MessageField" p:messageText="By Combining Populations" p:style="font-weight:bold;" p:render="@{document.newMaintainableObject.dataObject.showByRuleLink}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-PopulationWrapper-CreateByRule" parent="Uif-VerticalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="populationInfo.name"
+                      p:label="Name" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="40" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="populationInfo.descr"
+                      p:label="Name" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="40" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PopulationWrapperMaintenanceDocument" parent="PopulationWrapperMaintenanceDocument-parentBean"/>
+    <bean id="PopulationWrapperMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+        <property name="maintainableClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperMaintainableImpl"/>
+        <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.population.rule.PopulationWrapperRule" />
+        <property name="documentTypeName" value="PopulationWrapperMaintenanceDocument"/>
+        <property name="lockingKeys">
+            <list>
+                <value>populationInfo.id</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>
