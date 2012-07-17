@@ -243,12 +243,17 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView selectedAoActions(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        if(theForm.getActivityActionType().equals("Scheduling") || theForm.getActivityActionType().equals("Draft") ||
-                theForm.getActivityActionType().equals("ChangeActivityCodes") ) {
-            throw new RuntimeException("Invalid type. Does not support for now");
+        if (StringUtils.equals(theForm.getActivityActionType(),CourseOfferingConstants.ACTIVITY_OFFERING_DELETE_ACTION)){
+            return confirmDelete(theForm,  result, request,  response);
         }
 
-        return confirmDelete(theForm,  result, request,  response);
+        if (StringUtils.equals(theForm.getActivityActionType(),CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
+            StringUtils.equals(theForm.getActivityActionType(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)){
+            getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(),theForm.getActivityActionType());
+        }
+
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
+
     }
 
 
