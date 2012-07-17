@@ -36,7 +36,6 @@ public class CourseOfferingConstants {
 
     public static final String ACTIVITY_OFFERING_SCHEDULING_ACTION = "Scheduling";
     public static final String ACTIVITY_OFFERING_DRAFT_ACTION = "Draft";
-    public static final String ACTIVITY_OFFERING_CHANGE_CODE_ACTION = "ChangeActivityCodes";
     public static final String ACTIVITY_OFFERING_DELETE_ACTION = "Delete";
 
     public static final String MANAGE_AO_PAGE = "manageActivityOfferingsPage";
