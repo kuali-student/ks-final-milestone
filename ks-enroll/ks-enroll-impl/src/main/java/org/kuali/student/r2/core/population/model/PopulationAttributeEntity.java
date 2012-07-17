@@ -33,9 +33,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "KSEN_POPULATION_ATTR")
 public class PopulationAttributeEntity extends BaseAttributeEntity<PopulationEntity>{
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private PopulationEntity owner;
     ///////////////////////////
     // CONSTRUCTORS
     ///////////////////////////
@@ -47,17 +44,6 @@ public class PopulationAttributeEntity extends BaseAttributeEntity<PopulationEnt
 
     public PopulationAttributeEntity(Attribute att, PopulationEntity owner) {
         super (att, owner);
-    }
-
-    @Override
-    public void setOwner(PopulationEntity owner) {
-        this.owner = owner;
-
-    }
-
-    @Override
-    public PopulationEntity getOwner() {
-        return owner;
     }
 }
 

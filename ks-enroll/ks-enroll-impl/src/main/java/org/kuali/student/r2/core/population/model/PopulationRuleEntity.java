@@ -29,8 +29,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -79,6 +83,15 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private final Set<PopulationRuleAttributeEntity> attributes = new HashSet<PopulationRuleAttributeEntity>();
 
+    @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "KSEN_POPULATION_RULE_CHILD_POP",
+            joinColumns = {
+                    @JoinColumn(name="POPULATION_RULE_ID", referencedColumnName = "ID")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name="CHILD_POPULATION_ID", referencedColumnName = "ID")
+            })
+    private Set<PopulationEntity> childPopulations = new HashSet<PopulationEntity>();
     //////////////////////////
     // CONSTRUCTORS ETC.
     //////////////////////////
@@ -95,6 +108,8 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
     }
 
     public void fromDTO(PopulationRule infc) {
+        // Note: Child populations must be set externally because infc only population IDS, not
+        //       PopulationInfo or PopulationEntity (which it wouldn't store anyway).
         this.setPopulationRuleState(infc.getStateKey());
         this.setName(infc.getName());
         if (infc.getDescr() != null) {
@@ -120,6 +135,7 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
         PopulationRuleInfo populationRuleInfo = new PopulationRuleInfo();
         populationRuleInfo.setMeta(super.toDTO());
         populationRuleInfo.setId(getId());
+        populationRuleInfo.setName(getName());
         populationRuleInfo.setTypeKey(populationRuleType);
         populationRuleInfo.setStateKey(populationRuleState);
         populationRuleInfo.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
@@ -136,7 +152,13 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
             }
         }
         populationRuleInfo.setAttributes(attributes);
-
+        List<String> childIds = new ArrayList<String>();
+        if (getChildPopulations() != null) {
+            for (PopulationEntity popEnt: getChildPopulations()) {
+                childIds.add(popEnt.getId());
+            }
+        }
+        populationRuleInfo.setChildPopulationIds(childIds);
         return populationRuleInfo;
     }
 
@@ -206,6 +228,14 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
 
     public void setSupportsGetMembersIndicator(Boolean supportsGetMembersIndicator) {
         this.supportsGetMembersIndicator = supportsGetMembersIndicator;
+    }
+
+    public Set<PopulationEntity> getChildPopulations() {
+        return childPopulations;
+    }
+
+    public void setChildPopulations(Set<PopulationEntity> childPopulations) {
+        this.childPopulations = childPopulations;
     }
 
     @Override
