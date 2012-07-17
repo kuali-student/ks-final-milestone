@@ -43,7 +43,7 @@ import java.util.Locale;
  *
  * @author Kuali Student Team
  */
-public class PopulationTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
+public class PopulationRuleTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private PopulationService populationService;
 
@@ -55,29 +55,29 @@ public class PopulationTypeKeyValues extends UifKeyValuesFinderBase implements S
         // TODO: Change hardcoded values to DB call after DB is fixed
         List<String> populationTypeList = new ArrayList(Arrays.asList("Any Type", "Core", "Union", "Intersection", "Exclusion"));
 
-//        try {
-//            for (String populationType : populationTypeList ) {
-//                if (populationType.equalsIgnoreCase("Any Type")) {
-//                    populationTypeKeyList = getPopulationService().getPopulationKeysByType("NONE", getContextInfo());
-//                    for (String keyVal : populationTypeKeyList){
-//                        keyValues.add(new ConcreteKeyValue(populationType, keyVal));
-//                    }
-//                } else {
-//                    populationTypeKeyList = getPopulationService().getPopulationKeysByType(populationType, getContextInfo());
-//                    for (String keyVal : populationTypeKeyList){
-//                        keyValues.add(new ConcreteKeyValue(populationType, keyVal));
-//                    }
-//                }
-//            }
-//        } catch (InvalidParameterException e) {
-//            throw new RuntimeException(e);
-//        } catch (MissingParameterException e) {
-//            throw new RuntimeException(e);
-//        } catch (OperationFailedException e) {
-//            throw new RuntimeException(e);
-//        } catch (PermissionDeniedException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            for (String populationType : populationTypeList ) {
+                if (populationType.equalsIgnoreCase("Any Type")) {
+                    populationTypeKeyList = getPopulationService().getPopulationIdsByType("NONE", getContextInfo());
+                    for (String keyVal : populationTypeKeyList){
+                        keyValues.add(new ConcreteKeyValue(populationType, keyVal));
+                    }
+                } else {
+                    populationTypeKeyList = getPopulationService().getPopulationIdsByType(populationType, getContextInfo());
+                    for (String keyVal : populationTypeKeyList){
+                        keyValues.add(new ConcreteKeyValue(populationType, keyVal));
+                    }
+                }
+            }
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
+        } catch (MissingParameterException e) {
+            throw new RuntimeException(e);
+        } catch (OperationFailedException e) {
+            throw new RuntimeException(e);
+        } catch (PermissionDeniedException e) {
+            throw new RuntimeException(e);
+        }
         return keyValues;
     }
 
