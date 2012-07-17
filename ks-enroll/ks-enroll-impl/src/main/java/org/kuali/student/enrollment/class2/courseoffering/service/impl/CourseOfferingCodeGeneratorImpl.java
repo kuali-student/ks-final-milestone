@@ -76,8 +76,14 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
         throw new RuntimeException("Error generating codes");
     }
 
-    //Gets the next letter of the alphabet in caps in the form A,B,C...Z,AA,AB,AC...AZ,AAA...
-    //Make sure it's public as it's needed for Test class
+    /**
+     * Gets the next letter of the alphabet in caps in the form A,B...Z,AA,AB...AZ,BA,BB..BZ,CA,CB....ZZ,AAA,AAB...
+     *
+     * Make sure it's public as it's needed for Test class
+     *
+     * @param source source code string
+     * @return next code
+     */
     public String getNextCode(String source){
         if (StringUtils.isEmpty(source)){
             return "A";
