@@ -42,6 +42,7 @@ public class TestCourseOfferingCodeGeneratorImpl {
         for(char c='A';c<='Z';c++){
             ActivityOfferingInfo a = new ActivityOfferingInfo();
             a.setActivityCode(String.valueOf(c));
+
             aos.add(a);
         }
         code = impl.generateActivityOfferingCode(aos);
@@ -52,5 +53,28 @@ public class TestCourseOfferingCodeGeneratorImpl {
         code = impl.generateActivityOfferingCode(aos);
         assertEquals("D",code);
 
+    }
+
+    @Test
+    public void testGetNextCode(){
+        CourseOfferingCodeGeneratorImpl impl = new CourseOfferingCodeGeneratorImpl();
+        assertEquals("A",impl.getNextCode(""));
+        assertEquals("E",impl.getNextCode("D"));
+        assertEquals("AA",impl.getNextCode("Z"));
+        assertEquals("AF",impl.getNextCode("AE"));
+        assertEquals("BA",impl.getNextCode("AZ"));
+        assertEquals("BF",impl.getNextCode("BE"));
+        assertEquals("ZB",impl.getNextCode("ZA"));
+        assertEquals("AAA",impl.getNextCode("ZZ"));
+        assertEquals("AAF",impl.getNextCode("AAE"));
+        assertEquals("ABA",impl.getNextCode("AAZ"));
+        assertEquals("ABG",impl.getNextCode("ABF"));
+        assertEquals("AAAA",impl.getNextCode("ZZZ"));
+        assertEquals("AAEB",impl.getNextCode("AAEA"));
+        assertEquals("AAZB",impl.getNextCode("AAZA"));
+        assertEquals("ABAA",impl.getNextCode("AAZZ"));
+        assertEquals("AZAC",impl.getNextCode("AZAB"));
+        assertEquals("ZZZD",impl.getNextCode("ZZZC"));
+        assertEquals("AAAAA",impl.getNextCode("ZZZZ"));
     }
 }
