@@ -82,19 +82,10 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
         if (StringUtils.isEmpty(source)){
             return "A";
         } else if (StringUtils.endsWithIgnoreCase(source,"Z")){
-            if (source.length() == 1){
-                return "AA";
-            }else{
-                return getNextCode(StringUtils.substringBeforeLast(source,"Z")) + "A";
-            }
+            return getNextCode(StringUtils.substringBeforeLast(source,"Z")) + "A";
         } else {
-            if (source.length() == 1){
-                char lastLetter = source.charAt(0);
-                return "" + ++lastLetter;
-            }else{
-                char lastLetter = source.charAt(source.length()-1);
-                return StringUtils.substringBeforeLast(source,""+lastLetter) + ++lastLetter;
-            }
+            char lastLetter = source.charAt(source.length()-1);
+            return StringUtils.substringBeforeLast(source,""+lastLetter) + ++lastLetter;
         }
     }
 }
