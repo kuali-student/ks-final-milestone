@@ -70,7 +70,7 @@ public class ExecuteAgendaTest extends KRMSTestCase {
 	    static final String BOOL2 = "bool2";
 	    static final String NULL_FACT = "nullFact";
 	//
-	private RulesEvaluationUtil rulesEvaluationUtil;
+	//private RulesEvaluationUtil rulesEvaluationUtil;
 	protected ContextBoService contextRepository;
 	protected KrmsTypeRepositoryService krmsTypeRepository;
 	private AgendaBoService agendaBoService;
@@ -232,9 +232,9 @@ public class ExecuteAgendaTest extends KRMSTestCase {
 //        executionFacts.put(KSKRMSConstants.TERM_APPROVED_COURSE, studentId);
 
         // TODO 3.  Execute the agenda...
-		EngineResults engineResults = rulesEvaluationUtil
+/*		EngineResults engineResults = rulesEvaluationUtil
 				.executeAgenda(agenda,
-						executionFacts);
+						executionFacts);*/
 
 //		List<ValidationResultInfo> resultInfos = new ArrayList<ValidationResultInfo>();
 //
