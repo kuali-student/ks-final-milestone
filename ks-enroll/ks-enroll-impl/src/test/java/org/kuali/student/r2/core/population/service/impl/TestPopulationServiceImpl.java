@@ -159,7 +159,9 @@ public class TestPopulationServiceImpl {
     }
 
     @Test
-    public void testUpdateDeleteAddChildPop() {
+    public void testPopulationRuleUpdateDeleteAddChildPop() {
+        // Checks for CRUD too
+        // This tests to see if changing the child populations and updating is working
         before();
         List<String> popIds = _makePopulationsAndReturnIds();
         try {
@@ -186,10 +188,23 @@ public class TestPopulationServiceImpl {
             // Now check if they have the same child Ids
             List<String> updatedFetchedIds = updatedFetched.getChildPopulationIds();
             checkSameChildIds(childIds, updatedFetchedIds);
+            // Test delete
+            populationService.deletePopulationRule(ruleInfoCreated.getId(), contextInfo);
+            // Now try to get
+            boolean exceptionThrown = false;
+            try {
+                populationService.getPopulation(ruleInfoCreated.getId(), contextInfo);
+            } catch (DoesNotExistException e) {
+                exceptionThrown = true;  // Should throw exception
+            }
+            if (!exceptionThrown) {
+                assert(false);
+            }
         } catch (Exception e) {
             assert(false);
         }
     }
+
     @Test
     public void testPopulationCreateGet() {
         before();
