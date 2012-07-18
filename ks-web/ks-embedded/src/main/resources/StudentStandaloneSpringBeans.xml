@@ -122,6 +122,7 @@
 
                 <!-- Population -->
                 <value>classpath:org/kuali/student/enrollment/population/PopulationWrapperMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/student/enrollment/population/PopulationWrapperLookupAndInquiryView.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
