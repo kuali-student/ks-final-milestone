@@ -32,8 +32,8 @@
       </property>
      <property name="lineActions">
       <list>
-        <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{!#line.official ? 'Make Official' : 'Update Official'}"  p:disabled="@{!(#form.academicCalendarInfo.stateKey eq 'kuali.atp.state.Official')}" p:methodToCall="makeTermOfficial" p:render="@{!#view.readOnly}"/>
-        <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="@{!#line.official ? 'Delete Draft' : 'Delete Term'}" p:render="@{!#view.readOnly and !#line.new}"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{!#line.official ? 'Make Official' : 'Update Official'}"  p:disabled="@{!#line.official}" p:methodToCall="makeTermOfficial" p:render="@{!#view.readOnly}"/>
+        <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Draft" p:render="@{!#view.readOnly and !#line.new and !#line.official}"/>
         <bean parent="Uif-ActionLink" p:methodToCall="cancelTerm" p:actionLabel="Cancel"/>
       </list>
     </property>

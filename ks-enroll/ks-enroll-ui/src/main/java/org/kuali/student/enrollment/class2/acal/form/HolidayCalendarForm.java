@@ -14,7 +14,9 @@
  */
 package org.kuali.student.enrollment.class2.acal.form;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 
@@ -45,6 +47,9 @@ public class HolidayCalendarForm  extends UifFormBase {
     private String updateTimeString;
     private boolean newCalendar;
     private boolean officialCalendar;
+
+    //Just to display buttons (delete) based on this flag
+    private boolean officialUI;
 
     public HolidayCalendarForm() {
         super();
@@ -154,5 +159,12 @@ public class HolidayCalendarForm  extends UifFormBase {
             }
             return updateTimeString;
         }
+    }
+
+    public boolean isOfficialUI(){
+        if (holidayCalendarInfo != null){
+            return StringUtils.equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY, holidayCalendarInfo.getStateKey());
+        }
+        return false;
     }
 }
