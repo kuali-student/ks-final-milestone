@@ -75,10 +75,10 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
     private String refPopulationId;
 
     @Column(name = "VARIES_BY_TIME_IND", columnDefinition = "VARCHAR2(1)")
-    private boolean variesByTimeIndicator;
+    private Boolean variesByTimeIndicator;
 
     @Column(name = "SUPPORTS_GET_MBR_IND", columnDefinition = "VARCHAR2(1)")
-    private boolean supportsGetMembersIndicator;
+    private Boolean supportsGetMembersIndicator;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private final Set<PopulationRuleAttributeEntity> attributes = new HashSet<PopulationRuleAttributeEntity>();
@@ -214,7 +214,7 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
         this.refPopulationId = refPopulationId;
     }
 
-    public boolean isVariesByTimeIndicator() {
+    public Boolean getVariesByTimeIndicator() {
         return variesByTimeIndicator;
     }
 
@@ -222,7 +222,7 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
         this.variesByTimeIndicator = variesByTimeIndicator;
     }
 
-    public boolean isSupportsGetMembersIndicator() {
+    public Boolean getSupportsGetMembersIndicator() {
         return supportsGetMembersIndicator;
     }
 
