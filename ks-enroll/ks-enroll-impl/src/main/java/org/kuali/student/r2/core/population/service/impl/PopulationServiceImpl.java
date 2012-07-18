@@ -133,22 +133,13 @@ public class PopulationServiceImpl implements PopulationService {
     public List<PopulationInfo> getPopulationsForPopulationRule(String populationRuleId, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // For now, do it the simple-minded way
-        PopulationRuleEntity ruleEntity = populationRuleDao.find(populationRuleId);
-        List<PopulationInfo> popList = new ArrayList<PopulationInfo>();
-        if (PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY.equals(ruleEntity.getPopulationRuleType())) {
-            String refPopId = ruleEntity.getRefPopulationId();
-            PopulationEntity entity = populationDao.find(refPopId);
+        List<PopulationEntity> popEntityList = populationDao.getPopulationsForPopulationRule(populationRuleId);
+        List<PopulationInfo> popInfos = new ArrayList<PopulationInfo>();
+        for (PopulationEntity entity: popEntityList) {
             PopulationInfo info = entity.toDto();
-            popList.add(info);
+            popInfos.add(info);
         }
-        Set<PopulationEntity> childPopEntities = ruleEntity.getChildPopulations();
-        if (childPopEntities != null) {
-            for (PopulationEntity childEntity: childPopEntities) {
-                PopulationInfo info = childEntity.toDto();
-                popList.add(info);
-            }
-        }
-        return popList;
+        return popInfos;
     }
     // ============================= PopulationRule end =============================
 
@@ -235,8 +226,17 @@ public class PopulationServiceImpl implements PopulationService {
     }
 
     @Override
-    public PopulationRuleInfo getPopulationRuleForPopulation(@WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("getPopulationRuleForPopulation");
+    @Transactional(readOnly = true)
+    public PopulationRuleInfo getPopulationRuleForPopulation(String populationId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        PopulationEntity popEnt = populationDao.find(populationId);
+        String popRuleId = popEnt.getPopulationRuleId();
+        if (popRuleId == null) {
+            throw new DoesNotExistException("Missing population rule ID for: " + populationId);
+        }
+        PopulationRuleEntity popRuleEntity = populationRuleDao.find(popRuleId);
+        PopulationRuleInfo ruleInfo = popRuleEntity.toDto();
+        return ruleInfo;
     }
     // ============================= PopulationRule end =============================
 
@@ -281,13 +281,31 @@ public class PopulationServiceImpl implements PopulationService {
     }
 
     @Override
-    public StatusInfo applyPopulationRuleToPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("applyPopulationRuleToPopulation");
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public StatusInfo applyPopulationRuleToPopulation(String populationRuleId, String populationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        PopulationEntity popEntity = populationDao.find(populationId);
+        // Strictly not needed, but is a good check to make sure the populationRule is valid (exception thrown if not valid)
+        PopulationRuleEntity popRuleEntity = populationRuleDao.find(populationRuleId);
+        popEntity.setPopulationRuleId(populationRuleId);
+        populationDao.merge(popEntity);
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+        return statusInfo;
     }
 
     @Override
-    public StatusInfo removePopulationRuleFromPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("removePopulationRuleFromPopulation");
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public StatusInfo removePopulationRuleFromPopulation(String populationRuleId, String populationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        PopulationEntity popEntity = populationDao.find(populationId);
+        String popRuleId = popEntity.getPopulationRuleId();
+        if (!popRuleId.equals(populationRuleId)) {
+            throw new InvalidParameterException("Passed population rule ID, " + populationRuleId + ", does not match population's pop rule ID: " + popRuleId);
+        }
+        popEntity.setPopulationRuleId(null); // Presumably, setting to null does the trick.
+        populationDao.merge(popEntity);
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+        return statusInfo;
     }
 
     @Override

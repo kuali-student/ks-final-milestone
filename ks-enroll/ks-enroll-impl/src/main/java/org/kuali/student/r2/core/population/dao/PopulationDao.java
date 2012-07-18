@@ -19,10 +19,23 @@ package org.kuali.student.r2.core.population.dao;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.population.model.PopulationEntity;
 
+import java.util.List;
+
 /**
  * This class //TODO ...
  *
  * @author Kuali Student Team
  */
 public class PopulationDao extends GenericEntityDao<PopulationEntity> {
+    public List<PopulationEntity> getPopulationsForPopulationRule(String popRuleId) {
+        String query = "SELECT entity FROM PopulationEntity entity WHERE entity.populationRuleId = :popRuleId";
+        return em.createQuery(query)
+                .setParameter("popRuleId", popRuleId).getResultList();
+    }
+
+    // Not currently being used (more of an optimization)
+    public void applyPopulationRuleToPopulation(String popRuleId, String popId) {
+        String query = "UPDATE PopulationEntity entity SET entity.populationRuleId = :popRuleId WHERE entity.id = :popId";
+        em.createQuery(query).setParameter("popRuleType", popRuleId).executeUpdate();
+    }
 }
