@@ -22,19 +22,26 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.mock.utilities.TestHelper;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -45,57 +52,18 @@ import java.util.Locale;
  */
 public class PopulationRuleTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
-    private PopulationService populationService;
-
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
-        List<KeyValue> keyValues = new ArrayList();
-        List<String> populationRuleTypeKeyList = new ArrayList();
-        // TODO: Change hardcoded values to DB call after DB is fixed
-        List<String> populationRuleTypeList = new ArrayList(Arrays.asList("Any Type", "Core", "Union", "Intersection", "Exclusion"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        try {
-            for (String populationRuleType : populationRuleTypeList ) {
-                if (populationRuleType.equalsIgnoreCase("Any Type")) {
-                    populationRuleTypeKeyList = getPopulationService().getPopulationRuleIdsByType("NONE", getContextInfo());
-                    for (String keyVal : populationRuleTypeKeyList){
-                        keyValues.add(new ConcreteKeyValue(populationRuleType, keyVal));
-                    }
-                } else {
-                    populationRuleTypeKeyList = getPopulationService().getPopulationIdsByType(populationRuleType, getContextInfo());
-                    for (String keyVal : populationRuleTypeKeyList){
-                        keyValues.add(new ConcreteKeyValue(populationRuleType, keyVal));
-                    }
-                }
-            }
-        } catch (InvalidParameterException e) {
-            throw new RuntimeException(e);
-        } catch (MissingParameterException e) {
-            throw new RuntimeException(e);
-        } catch (OperationFailedException e) {
-            throw new RuntimeException(e);
-        } catch (PermissionDeniedException e) {
-            throw new RuntimeException(e);
-        }
+        // Draft keyValues.add(new ConcreteKeyValue(PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY, "Explicitly defined"));
+        // Draft keyValues.add(new ConcreteKeyValue(PopulationServiceConstants.POPULATION_RULE_TYPE_SEARCH_KEY, "Search-based"));
+        keyValues.add(new ConcreteKeyValue(PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, "Rule-based"));
+        keyValues.add(new ConcreteKeyValue(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, "Union"));
+        keyValues.add(new ConcreteKeyValue(PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY, "Intersection"));
+        keyValues.add(new ConcreteKeyValue(PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY, "Exclusion"));
+
         return keyValues;
-    }
-
-    protected PopulationService getPopulationService() {
-        if(populationService == null) {
-            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationService"));
-        }
-        return this.populationService;
-    }
-
-    public ContextInfo getContextInfo() {
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-        contextInfo.setLocale(localeInfo);
-        return contextInfo;
     }
 }
