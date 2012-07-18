@@ -56,4 +56,10 @@
         CREATETIME="19700101000000"
         DESCR_PLAIN="kuali milestone state process"
         ID="kuali.milestone.process" NAME="kuali.milestone.process" VER_NBR="0"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120717000000"
+        DESCR_FORMATTED="kuali.hold.issue.process state lifecycle"
+        DESCR_PLAIN="kuali.hold.issue.process state lifecycle"
+        ID="kuali.hold.issue.process"
+        NAME="kuali.hold.issue.process" VER_NBR="0"/>
 </dataset>

@@ -134,4 +134,16 @@
         ID="kuali.milestone.state.Official"
         LIFECYCLE_KEY="kuali.milestone.process" NAME="Official"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
+                DESCR_FORMATTED="This issue is active and can be attached to holds"
+                DESCR_PLAIN="This issue is active and can be attached to holds"
+                ID="kuali.hold.issue.state.active"
+                LIFECYCLE_KEY="kuali.hold.issue.process"
+                NAME="Active" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
+                DESCR_FORMATTED="The issue is inactive an cannot be attached to new holds"
+                DESCR_PLAIN="The issue is inactive an cannot be attached to new holds "
+                ID="kuali.hold.issue.state.inactive"
+                LIFECYCLE_KEY="kuali.hold.issue.process"
+                NAME="Inactive" VER_NBR="0"/>
 </dataset>

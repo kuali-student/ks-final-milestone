@@ -875,4 +875,40 @@
         NAME="Group Type Type Relation"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/type/TypeTypeRelationInfo"
         TYPE_KEY="kuali.type.type.relation.type.group" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
+               DESCR_FORMATTED="This is a hold that applies to students"
+               DESCR_PLAIN="This is a hold that applies to students"
+               NAME="Student Hold"
+               REF_OBJECT_URI="http://student.kuali.org/wsdl/type/HoldInfo"
+               TYPE_KEY="kuali.hold.type.student" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
+               DESCR_FORMATTED="Indicates that the issue has to do with academic progress issues"
+               DESCR_PLAIN="Indicates that the issue has to do with academic progress issues"
+               NAME="Academic Progress Issue"
+               REF_OBJECT_URI="http://student.kuali.org/wsdl/type/HoldIssueInfo"
+               TYPE_KEY="kuali.hold.issue.type.academic.progress" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
+               DESCR_FORMATTED="Indicates that the issue has to do with academic advising issues"
+               DESCR_PLAIN="Indicates that the issue has to do with academic advising issues"
+               NAME="Academic Advising Issue"
+               REF_OBJECT_URI="http://student.kuali.org/wsdl/type/HoldIssueInfo"
+               TYPE_KEY="kuali.hold.issue.type.academic.advising" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
+               DESCR_FORMATTED="Indicates that the issue has to do with disciplinary issues"
+               DESCR_PLAIN="Indicates that the issue has to do with disciplinary issues"
+               NAME="Disciplinary Issue"
+               REF_OBJECT_URI="http://student.kuali.org/wsdl/type/HoldIssueInfo"
+               TYPE_KEY="kuali.hold.issue.type.discipline" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
+               DESCR_FORMATTED="Indicates that the issue has to do with financial issues, including non-payment of tuition charges"
+               DESCR_PLAIN="Indicates that the issue has to do with financial issues, including non-payment of tuition charges"
+               NAME="Financial Issue"
+               REF_OBJECT_URI="http://student.kuali.org/wsdl/type/HoldIssueInfo"
+               TYPE_KEY="kuali.hold.issue.type.financial" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
+               DESCR_FORMATTED="Indicates that the issue is that materials borrowed from the library have not been returned or some fine has not been paid"
+               DESCR_PLAIN="Indicates that the issue is that materials borrowed from the library have not been returned or some fine has not been paid "
+               NAME="Library Issue"
+               REF_OBJECT_URI="http://student.kuali.org/wsdl/type/HoldIssueInfo"
+               TYPE_KEY="kuali.hold.issue.type.library" VER_NBR="0"/>
 </dataset>
