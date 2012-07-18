@@ -198,11 +198,148 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOffering(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
             }
 
-            //reload existing AOs
+            //  reload existing AOs
+            //  CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();
+            //  theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
+
             getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+
+        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+    }
+
+    /**
+     * Method used to confirm delete AOs
+     */
+    @RequestMapping(params = "methodToCall=deleteCoConfirmation")
+    public ModelAndView deleteCoConfirmation(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CourseOfferingInfo theCourseOffering = null;
+
+        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (!StringUtils.isBlank(selectedCollectionPath)) {
+            Object selectedObject = _getSelectedObject(theForm, "deleteCo");
+            theCourseOffering = (CourseOfferingInfo) selectedObject;
+            theForm.setTheCourseOffering(theCourseOffering);
+            // load the related AOs
+            try {
+                getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+
+        if(theCourseOffering == null) {
+            theCourseOffering = theForm.getTheCourseOffering();
+        }
+        if(theCourseOffering == null) {
+            throw new RuntimeException("No Course Offering selected!");
+        }
+
+        String termId = theCourseOffering.getTermId();
+        String subjectCode = theCourseOffering.getSubjectArea();
+        theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
+
+        // load all the activity offerings
+        if (theForm.getActivityWrapperList().isEmpty()) {
+            try {
+                getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+
+        }
+        for (ActivityOfferingWrapper ao : theForm.getActivityWrapperList()) {
+            // verify if any AO status is not draft throw exception
+            if (!ao.getStateName().equals("Draft")) {
+                LOG.error("Error: Course Offering cannot be deleted.");
+                GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingManagement-CourseOfferingListSection",
+                        CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_CO_CANNOT_DELETE);
+                return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+            }
+        }
+
+        return getUIFModelAndView(theForm, "coDeleteConfirmationPage");
+    }
+
+    /**
+     * Method used to delete a Course Offering with all Draft activity Offerings
+     **/
+    @RequestMapping(params = "methodToCall=deleteCo")
+    public ModelAndView deleteCo(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        CourseOfferingInfo  theCourseOffering = theForm.getTheCourseOffering();
+        if(theCourseOffering == null) {
+            throw new RuntimeException("No Course Offering selected!");
+        }
+
+        String termId = theCourseOffering.getTermId();
+        String subjectCode = theCourseOffering.getSubjectArea();
+        // load all the activity offerings
+        if (theForm.getActivityWrapperList().isEmpty()) {
+            try {
+                getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+
+        }
+        try {
+            for (ActivityOfferingWrapper ao : theForm.getActivityWrapperList()) {
+                // verify if any AO status is not draft throw exception
+                if (!ao.getStateName().equals("Draft")) {
+                    LOG.error("Error: Course Offering cannot be deleted.");
+                    GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingManagement-CourseOfferingListSection",
+                            CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_CO_CANNOT_DELETE);
+                    return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+                }
+            }
+            CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(theCourseOffering.getCourseId(), ContextBuilder.loadContextInfo());
+            //reload existing COs
+            getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+    }
+
+    /**
+     * Method used to delete a Course Offering with all Draft activity Offerings
+     **/
+    @RequestMapping(params = "methodToCall=cancelDeleteCo")
+    public ModelAndView cancelDeleteCo(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                 HttpServletRequest request, HttpServletResponse response) {
+        CourseOfferingInfo  theCourseOffering = theForm.getTheCourseOffering();
+        if(theCourseOffering == null) {
+            throw new RuntimeException("No Course Offering selected!");
+        }
+
+        String termId = theCourseOffering.getTermId();
+        String subjectCode = theCourseOffering.getSubjectArea();
+        // load all the activity offerings
+        if (theForm.getActivityWrapperList().isEmpty()) {
+            try {
+                getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+
+        }
+
+        try {
+            getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
         return getUIFModelAndView(theForm, "manageCourseOfferingsPage");

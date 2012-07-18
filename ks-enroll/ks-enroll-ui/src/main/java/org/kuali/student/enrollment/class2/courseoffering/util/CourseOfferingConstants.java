@@ -33,6 +33,7 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_COURSE_OFFERING = "error.enroll.courseoffering.findMoreThanOneCourseOffering";
     public static final String COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED = "error.courseoffering.no.selected.AO";
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE = "error.courseoffering.selected.AO.delete.confirmation";
+    public static final String COURSEOFFERING_MSG_ERROR_CO_CANNOT_DELETE="error.courseoffering.selected.CO.delete.confirmation";
 
     public static final String ACTIVITY_OFFERING_SCHEDULING_ACTION = "Scheduling";
     public static final String ACTIVITY_OFFERING_DRAFT_ACTION = "Draft";

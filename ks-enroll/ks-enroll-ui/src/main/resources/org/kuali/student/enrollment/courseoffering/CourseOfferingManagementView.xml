@@ -43,6 +43,7 @@
                 <ref bean="KS-CourseOfferingManagement-SearchInputPage"/>
                 <ref bean="KS-CourseOfferingManagement-ManageCourseOfferingsPage"/>
                 <ref bean="KS-CourseOfferingManagement-ManageActivityOfferingsPage"/>
+                <ref bean="KS-CourseOfferingManagement-CoDeleteConfirmationPage"/>
                 <ref bean="KS-CourseOfferingManagement-SelectedAoDeleteConfirmationPage"/>
             </list>
         </property>
