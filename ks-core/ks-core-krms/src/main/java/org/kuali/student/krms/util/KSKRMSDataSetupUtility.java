@@ -231,23 +231,6 @@ public class KSKRMSDataSetupUtility {
         System.out.println("Created " + i + " context for KS KRMS");
     }
 
-    public void createKRMSTermSpecificationFromPropertyFile() {
-        getContextType();
-        Properties termSpecificationProperites = getProperties(PROPERTY_TERMSPEC);
-        //
-        Enumeration elements = termSpecificationProperites.elements();
-        int i = 0;
-        //
-        while (elements.hasMoreElements()) {
-            String contextValue =  (String) elements.nextElement();
-            System.out.println(i + " - " + contextValue);
-            createContext(namespace, contextValue, krmsTypeForContext);
-            i++;
-        }
-        System.out.println("Created " + i + " context for KS KRMS");
-    }
-
-
       private void setupPropertyFile() {
         propertyUtil = new PropertiesFilterFactoryBean();
         propertyUtil.setPropertyFile("classpath:KSKRMSDataToLoad.properties");
