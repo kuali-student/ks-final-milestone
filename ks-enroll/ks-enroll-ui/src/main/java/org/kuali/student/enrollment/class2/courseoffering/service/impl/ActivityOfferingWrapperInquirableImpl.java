@@ -29,6 +29,11 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
     private StateService stateService;
     private AcademicCalendarService acalService;
 
+    float previousPercentEffort = 0;
+    int indexHighestPercentEffort = 0;
+    // String instructorNameHighestPercentEffort = "";
+
+
     @Override
     public ActivityOfferingWrapper retrieveDataObject(Map<String, String> parameters) {
         try {
@@ -47,6 +52,21 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
                 type = getTypeService().getType(activityOfferingInfo.getTypeKey(),getContextInfo());
                 instructorWrapper.setTypeName(type.getName());
                 aoWrapper.getInstructors().add(instructorWrapper);
+
+                // For Jira 1736 - Tanveer 07/18/2012 - If more than one instructor then only display the Instructor Name with the highest % effort
+                indexHighestPercentEffort ++;
+                if (indexHighestPercentEffort > 1){
+                    if (instructor.getPercentageEffort() > previousPercentEffort)
+                    {
+                        previousPercentEffort = instructor.getPercentageEffort();
+                        // instructorNameHighestPercentEffort.set = instructor.getPersonName();
+                        aoWrapper.setInstructorNameHighestPercentEffort(instructor.getPersonName());
+                    }
+                }
+                else    {
+                        previousPercentEffort = instructor.getPercentageEffort();
+                        aoWrapper.setInstructorNameHighestPercentEffort(instructor.getPersonName());
+                        }
             }
             return aoWrapper;
         } catch (Exception e) {
