@@ -98,7 +98,7 @@
                                 </property>
                             </bean>
                             <bean parent="KS-SubmitActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" />
-                            <bean parent="KS-SubmitActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" />
+                            <bean parent="KS-SubmitActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft'}" />
                         </list>
                     </property>
                 </bean>

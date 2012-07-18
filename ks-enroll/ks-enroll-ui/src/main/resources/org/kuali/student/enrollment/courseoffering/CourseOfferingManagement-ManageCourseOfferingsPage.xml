@@ -93,7 +93,7 @@
             <list>
                 <bean parent="KS-SubmitActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.stateKey eq 'kuali.lui.state.draft'}" />
             </list>
         </property>
     </bean>
