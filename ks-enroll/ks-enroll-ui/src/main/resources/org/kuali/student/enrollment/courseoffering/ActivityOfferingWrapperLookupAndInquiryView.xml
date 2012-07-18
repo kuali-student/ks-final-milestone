@@ -83,7 +83,14 @@
                             <bean parent="Uif-DataField" p:propertyName="isEvaluatedUI" p:label="This course requires an evaluation"/>
                             <bean parent="Uif-DataField" p:propertyName="isHonorsOfferingUI" p:label="Honors Offering"/>
                             <bean parent="Uif-DataField" p:propertyName="aoInfo.activityOfferingURL"/>
-                            <bean parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="4"
+
+                            <!--<bean parent="Uif-DataField" p:propertyName="instructors[0].offeringInstructorInfo.personName" p:label="Affiliated Tanveer1 Personnel"/> -->
+
+                           <bean parent="Uif-DataField" p:propertyName="instructorNameHighestPercentEffort" p:label="Affiliated Personnel"/>
+
+
+
+                            <!-- <bean parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="4"
                                       p:layoutManager.style="width: 100%; display:block;">
                                     <property name="headerText" value="Affiliated Personnel" />
                                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
@@ -101,7 +108,7 @@
                                             <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.percentageEffort" p:label="INST.EFFORT" />
                                         </list>
                                     </property>
-                            </bean>
+                            </bean> -->
                         </list>
                     </property>
                 </bean>
