@@ -101,6 +101,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         this.businessLogic = businessLogic;
     }
 
+    private void deleteLprsByLui(String luiId, ContextInfo context)throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LprInfo> lprs = lprService.getLprsByLui(luiId, context);
+        for(LprInfo lpr : lprs) {
+            StatusInfo status = lprService.deleteLpr(lpr.getId(), context);
+            if(!status.getIsSuccess()) {
+                throw new OperationFailedException("Error Deleting related LPR with id ( " + lpr.getId() + " ), given message was: " + status.getMessage());
+            }
+        }
+    }
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -112,8 +121,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         for (FormatOfferingInfo fo:fos){
             deleteFormatOfferingCascaded(fo.getId(), context);
         }
-        //Delete all attached things (LPRs, EnrollmentFees, org relations, etc.)
-        //TODO
+
+        // delete offering instructor lprs for the Course Offering
+        deleteLprsByLui(courseOfferingId, context);
+
+        //TODO: Delete all attached other things (EnrollmentFees, org relations, etc.)
 
         //Delete the CO
         deleteCourseOffering(courseOfferingId, context);
@@ -127,8 +139,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // Delete dependent activity offerings
         List<ActivityOfferingInfo> aos = getActivityOfferingsByFormatOffering(formatOfferingId, context);
         for (ActivityOfferingInfo ao: aos) {
-            deleteActivityOffering(ao.getId(), context);
+            deleteActivityOfferingCascaded(ao.getId(), context);
         }
+
+        //TODO: Delete dependent RegistrationGroups
+
         // Delete the format offering
         try {
             deleteFormatOffering(formatOfferingId, context);
@@ -717,10 +732,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public StatusInfo deleteFormatOffering(String formatOfferingId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
 
-        List<LuiLuiRelationInfo> formatOfferingRelations = luiService.getLuiLuiRelationsByLui(formatOfferingId, context);
-        for (LuiLuiRelationInfo luiLuiRelation : formatOfferingRelations) {
-            luiService.deleteLuiLuiRelation(luiLuiRelation.getId(), context);
-        }
         return luiService.deleteLui(formatOfferingId, context);
 
     }
@@ -1187,13 +1198,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         try {
             // delete offering instructor lprs for the Activity Offering
-            List<LprInfo> lprs = lprService.getLprsByLui(activityOfferingId, context);
-            for(LprInfo lpr : lprs) {
-                StatusInfo status = lprService.deleteLpr(lpr.getId(), context);
-                if(!status.getIsSuccess()) {
-                    throw new OperationFailedException("Error Deleting related LPR with id ( " + lpr.getId() + " ), given message was: " + status.getMessage());
-                }
-            }
+            deleteLprsByLui(activityOfferingId, context);
 
             return luiService.deleteLui(activityOfferingId, context);
         } catch (DependentObjectsExistException e) {
@@ -1208,7 +1213,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException
 			 {
-    	throw new UnsupportedOperationException();
+        // TODO: getSeatPoolDefinitionsForActivityOffering and Delete dependent seatpool
+
+        // Delete the Activity offering
+        deleteActivityOffering(activityOfferingId, context);
+
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        return statusInfo;
+
 	}
 
 	@Override
