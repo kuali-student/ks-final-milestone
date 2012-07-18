@@ -194,7 +194,7 @@ public class PopulationServiceImpl implements PopulationService {
     public StatusInfo deletePopulationRule(String populationRuleId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
-
+        // TODO: Find all populations that use this population rule and set its populationRuleId to null
         PopulationRuleEntity popRuleEntity = populationRuleDao.find(populationRuleId);
         if (null != popRuleEntity) {
             populationRuleDao.remove(popRuleEntity);
