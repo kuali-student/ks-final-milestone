@@ -31,12 +31,14 @@ public class ActivityOfferingWrapper implements Serializable{
     private String formatOfferingName;
 
     // Tanveer 06/27/2012
-
     private String waitListLevelTypeKey;
     private String waitListTypeKey;
     private boolean hasWaitList;
     private String waitListText = "";
     private String toolTipText = "";
+
+
+    private String instructorNameHighestPercentEffort = "";
 
     private String firstInstructorDisplayName;
 
@@ -243,5 +245,13 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public String getIsHonorsOfferingUI(){
         return StringUtils.capitalize(BooleanUtils.toStringYesNo(aoInfo.getIsHonorsOffering()));
+    }
+
+    public String getInstructorNameHighestPercentEffort() {
+        return instructorNameHighestPercentEffort;
+    }
+
+    public void setInstructorNameHighestPercentEffort(String instructorNameHighestPercentEffort) {
+        this.instructorNameHighestPercentEffort = instructorNameHighestPercentEffort;
     }
 }
