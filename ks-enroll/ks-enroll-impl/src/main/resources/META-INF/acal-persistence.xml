@@ -154,6 +154,10 @@
         <class>org.kuali.student.core.organization.entity.OrgType</class>
         <class>org.kuali.student.core.organization.entity.OrgTypeAttribute</class>
 
+        <class>org.kuali.student.r2.core.population.model.PopulationEntity</class>
+        <class>org.kuali.student.r2.core.population.model.PopulationAttributeEntity</class>
+        <class>org.kuali.student.r2.core.population.model.PopulationRuleEntity</class>
+        <class>org.kuali.student.r2.core.population.model.PopulationRuleAttributeEntity</class>
 
     <!--class>org.kuali.student.r2.core.class1.process.model.CheckAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.CheckEntity</class>
