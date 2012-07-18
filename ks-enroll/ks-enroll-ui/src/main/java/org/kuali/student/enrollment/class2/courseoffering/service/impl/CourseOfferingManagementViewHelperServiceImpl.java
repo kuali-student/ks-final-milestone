@@ -227,46 +227,15 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), getContextInfo());
                 wrapper.setTypeName(typeInfo.getName());
 
-                if(info.getInstructors() != null && !info.getInstructors().isEmpty()) {
-
-                    // Build the display name for the Instructor
-                    Collection<OfferingInstructorInfo> highestInstEffortInstructors = new ArrayList<OfferingInstructorInfo>();
-                    float highestInstEffortComparison = 0f;
-
-                    for (OfferingInstructorInfo instructor : info.getInstructors()) {
-                        // if this instructor has a higher percent effort than any previous instructors,
-                        // clear the list we are keeping track of and set the new comparison number to this instructor's percentage effort
-                        if(instructor.getPercentageEffort() > highestInstEffortComparison) {
-                            highestInstEffortInstructors.clear();
-                            highestInstEffortComparison = instructor.getPercentageEffort();
-                            highestInstEffortInstructors.add(instructor);
-                        }
-                        // if this instructor's percent effort is tied with the comparison number,
-                        // add this instructor to the list of highest effort instructors
-                        else if (instructor.getPercentageEffort() == highestInstEffortComparison) {
-                            highestInstEffortInstructors.add(instructor);
-                        }
-                    }
-
-                    if(highestInstEffortInstructors.size() == 1) {
-                        wrapper.setFirstInstructorDisplayName(highestInstEffortInstructors.iterator().next().getPersonName());
-                    }
-                    else {
-                        List<String> names = new ArrayList<String>(highestInstEffortInstructors.size());
-                        for(OfferingInstructorInfo oiInfo : highestInstEffortInstructors) {
-                            names.add(oiInfo.getPersonName());
-                        }
-
-                        Collections.sort(names);
-
-                        wrapper.setFirstInstructorDisplayName(names.get(0));
-                    }
+                OfferingInstructorInfo displayInstructor = ViewHelperUtil.findDisplayInstructor(info.getInstructors());
+                if(displayInstructor != null) {
+                    wrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
                 }
 
                 activityOfferingWrapperList.add(wrapper);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error: Does not find a valid term with the Course Id = "+ courseOfferingId+ ". Exception "+e);
+            throw new RuntimeException("Error: Does not find a valid term with the Course Id = "+ courseOfferingId+ ". Exception " + e, e);
         }
         form.setActivityWrapperList(activityOfferingWrapperList);
      }

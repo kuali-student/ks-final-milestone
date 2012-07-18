@@ -24,6 +24,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
@@ -180,5 +181,49 @@ public class ViewHelperUtil {
 
     public static CourseService getCourseService() {
         return CourseOfferingResourceLoader.loadCourseService();
+    }
+
+    public static OfferingInstructorInfo findDisplayInstructor(List<OfferingInstructorInfo> instructors) {
+        OfferingInstructorInfo result = null;
+
+        if(instructors != null && !instructors.isEmpty()) {
+
+            // Build the display name for the Instructor
+            Collection<OfferingInstructorInfo> highestInstEffortInstructors = new ArrayList<OfferingInstructorInfo>();
+            float highestInstEffortComparison = 0f;
+
+            for (OfferingInstructorInfo instructor : instructors) {
+                // if this instructor has a higher percent effort than any previous instructors,
+                // clear the list we are keeping track of and set the new comparison number to this instructor's percentage effort
+                if(instructor.getPercentageEffort() > highestInstEffortComparison) {
+                    highestInstEffortInstructors.clear();
+                    highestInstEffortComparison = instructor.getPercentageEffort();
+                    highestInstEffortInstructors.add(instructor);
+                }
+                // if this instructor's percent effort is tied with the comparison number,
+                // add this instructor to the list of highest effort instructors
+                else if (instructor.getPercentageEffort() == highestInstEffortComparison) {
+                    highestInstEffortInstructors.add(instructor);
+                }
+            }
+
+            if(highestInstEffortInstructors.size() == 1) {
+                result = highestInstEffortInstructors.iterator().next();
+            }
+            else {
+                List<String> names = new ArrayList<String>(highestInstEffortInstructors.size());
+                Map<String, OfferingInstructorInfo> nameMap = new HashMap<String, OfferingInstructorInfo>(highestInstEffortInstructors.size());
+                for(OfferingInstructorInfo oiInfo : highestInstEffortInstructors) {
+                    names.add(oiInfo.getPersonName());
+                    nameMap.put(oiInfo.getPersonName(), oiInfo);
+                }
+
+                Collections.sort(names);
+
+                result = nameMap.get(names.get(0));
+            }
+        }
+
+        return result;
     }
 }
