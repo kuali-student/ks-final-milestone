@@ -754,6 +754,48 @@
         NAME="Registration"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_KEY="kuali.milestone.type.group.registration" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A list of populations (childPopulationIds) and the reference population (referencePopulationId) must be supplied; results of the reference populations (e.g., all students) less the populations represented in the list (not in) determine the membership"
+        DESCR_PLAIN="A list of populations (childPopulationIds) and the reference population (referencePopulationId) must be supplied; results of the reference populations (e.g., all students) less the populations represented in the list (not in) determine the membership"
+        NAME="Exclusion"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.exclusion" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A list of populations (childPopulationIds) must be supplied; results of the intersection of the populations determine the membership"
+        DESCR_PLAIN="A list of populations (childPopulationIds) must be supplied; results of the intersection of the populations determine the membership"
+        NAME="Intersection"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.intersection" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="Membership in the population is based entirely on someone manually inserting and removing people or groups (KIM) into and out of the population"
+        DESCR_PLAIN="Membership in the population is based entirely on someone manually inserting and removing people or groups (KIM) into and out of the population"
+        NAME="Explicitly defined"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.person" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="An agenda id must be supplied which calculates the membership"
+        DESCR_PLAIN="An agenda id must be supplied which calculates the membership"
+        NAME="Rule-based"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.rule" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A searchCriteria must be supplied; results of the search determine the membership"
+        DESCR_PLAIN="A searchCriteria must be supplied; results of the search determine the membership"
+        NAME="Search-based"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.search" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A list of populations (childPopulationIds) must be supplied; results of the union of the populations determine the membership"
+        DESCR_PLAIN="A list of populations (childPopulationIds) must be supplied; results of the union of the populations determine the membership"
+        NAME="Union"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationRuleInfo"
+        TYPE_KEY="kuali.population.rule.type.union" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="Membership in the population is comprised of people that are students"
+        DESCR_PLAIN="Membership in the population is comprised of people that are students"
+        NAME="Student"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/population/PopulationInfo"
+        TYPE_KEY="kuali.population.type.student" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="A certification that a student completed the requirements for a particular area of study that results in a paper certificate being awarded"
         DESCR_PLAIN="A certification that a student completed the requirements for a particular area of study that results in a paper certificate being awarded"
@@ -875,40 +917,4 @@
         NAME="Group Type Type Relation"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/type/TypeTypeRelationInfo"
         TYPE_KEY="kuali.type.type.relation.type.group" VER_NBR="0"/>
-    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
-               DESCR_FORMATTED="This is a hold that applies to students"
-               DESCR_PLAIN="This is a hold that applies to students"
-               NAME="Student Hold"
-               REF_OBJECT_URI="http://student.kuali.org/wsdl/type/HoldInfo"
-               TYPE_KEY="kuali.hold.type.student" VER_NBR="0"/>
-    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
-               DESCR_FORMATTED="Indicates that the issue has to do with academic progress issues"
-               DESCR_PLAIN="Indicates that the issue has to do with academic progress issues"
-               NAME="Academic Progress Issue"
-               REF_OBJECT_URI="http://student.kuali.org/wsdl/type/HoldIssueInfo"
-               TYPE_KEY="kuali.hold.issue.type.academic.progress" VER_NBR="0"/>
-    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
-               DESCR_FORMATTED="Indicates that the issue has to do with academic advising issues"
-               DESCR_PLAIN="Indicates that the issue has to do with academic advising issues"
-               NAME="Academic Advising Issue"
-               REF_OBJECT_URI="http://student.kuali.org/wsdl/type/HoldIssueInfo"
-               TYPE_KEY="kuali.hold.issue.type.academic.advising" VER_NBR="0"/>
-    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
-               DESCR_FORMATTED="Indicates that the issue has to do with disciplinary issues"
-               DESCR_PLAIN="Indicates that the issue has to do with disciplinary issues"
-               NAME="Disciplinary Issue"
-               REF_OBJECT_URI="http://student.kuali.org/wsdl/type/HoldIssueInfo"
-               TYPE_KEY="kuali.hold.issue.type.discipline" VER_NBR="0"/>
-    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
-               DESCR_FORMATTED="Indicates that the issue has to do with financial issues, including non-payment of tuition charges"
-               DESCR_PLAIN="Indicates that the issue has to do with financial issues, including non-payment of tuition charges"
-               NAME="Financial Issue"
-               REF_OBJECT_URI="http://student.kuali.org/wsdl/type/HoldIssueInfo"
-               TYPE_KEY="kuali.hold.issue.type.financial" VER_NBR="0"/>
-    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
-               DESCR_FORMATTED="Indicates that the issue is that materials borrowed from the library have not been returned or some fine has not been paid"
-               DESCR_PLAIN="Indicates that the issue is that materials borrowed from the library have not been returned or some fine has not been paid "
-               NAME="Library Issue"
-               REF_OBJECT_URI="http://student.kuali.org/wsdl/type/HoldIssueInfo"
-               TYPE_KEY="kuali.hold.issue.type.library" VER_NBR="0"/>
 </dataset>
