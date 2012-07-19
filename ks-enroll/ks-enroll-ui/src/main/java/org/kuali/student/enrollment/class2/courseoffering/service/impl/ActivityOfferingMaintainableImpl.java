@@ -26,6 +26,7 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
@@ -41,7 +42,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient TypeService typeService;
     private transient StateService stateService;
     private transient CourseService courseService;
-    private AcademicCalendarService academicCalendarService;
+    private transient AcademicCalendarService academicCalendarService;
 
     @Override
     public void saveDataObject() {
@@ -175,6 +176,17 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         if(!StringUtils.isBlank(instructor.getsEffort())){
             instructorInfo.setPercentageEffort(new Float(instructor.getsEffort()));
         }
+
+
+        if(StringUtils.isBlank(instructorInfo.getStateKey())) {
+            try {
+                StateInfo state = getStateService().getState(LprServiceConstants.TENATIVE_STATE_KEY, getContextInfo());
+                instructorInfo.setStateKey(state.getKey());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         return instructorInfo;
     }
 
