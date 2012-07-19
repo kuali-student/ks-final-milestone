@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <import resource="classpath:ks-HoldIssueInfo-dictionary.xml"/>
+    <import resource="classpath:UifKSDefinitions.xml"/>
+
+    <bean id="HoldIssueInfo" parent="HoldIssueInfo-parent" />
+
+    <bean id="HoldIssueInfo.id" parent="HoldIssueInfo.id-parent">
+        <property name="label" value="ID"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="4" p:watermarkText="ID"/>
+        </property>
+    </bean>
+
+    <bean id="HoldIssueInfo.name" parent="HoldIssueInfo.name-parent">
+        <property name="label" value="Name"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10" p:watermarkText="Name"/>
+        </property>
+    </bean>
+
+    <bean id="HoldIssueInfo.typeKey" parent="HoldIssueInfo.typeKey-parent">
+        <property name="label" value="Type"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20" p:watermarkText="Type"/>
+        </property>
+    </bean>
+
+    <bean id="HoldIssueInfo.stateKey" parent="HoldIssueInfo.stateKey-parent">
+        <property name="label" value="State"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20" p:watermarkText="State"/>
+        </property>
+    </bean>
+
+    <bean id="HoldIssueInfo.organizationId" parent="HoldIssueInfo.organizationId-parent">
+        <property name="label" value="Organization"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20" p:watermarkText="Organization"/>
+        </property>
+    </bean>
+
+    <bean id="KS-HoldIssueInfo-LookupView" parent="KSLookupView">
+        <property name="headerText" value="Hold Issue Info Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.hold.service.impl.HoldIssueInfoLookupableImpl"/>
+
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-GridSubSection">
+                    <property name="layoutManager.numberOfColumns" value="1"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+                                        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" />
+                                        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" />
+                                        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey" />
+                                        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="organizationId" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="id" />
+                <bean parent="Uif-DataField" p:propertyName="name" />
+                <bean parent="Uif-DataField" p:propertyName="typeKey" />
+                <bean parent="Uif-DataField" p:propertyName="stateKey" />
+                <bean parent="Uif-DataField" p:propertyName="descr" />
+                <bean parent="Uif-DataField" p:propertyName="organizationId" />
+            </list>
+        </property>
+    </bean>
+</beans>
