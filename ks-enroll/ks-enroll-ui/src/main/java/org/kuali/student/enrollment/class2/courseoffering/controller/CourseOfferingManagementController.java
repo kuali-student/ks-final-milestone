@@ -301,7 +301,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
                 }
             }
-            CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(theCourseOffering.getCourseId(), ContextBuilder.loadContextInfo());
+            CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(theCourseOffering.getId(), ContextBuilder.loadContextInfo());
             //reload existing COs
             getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
 
