@@ -42,14 +42,52 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private String firstInstructorDisplayName;
 
-    private String codeTypeString = "";
+    private String courseOfferingCode = "";
 
-    public String getCodeTypeString() {
-        return codeTypeString;
+    public String getCourseOfferingCode() {
+        return courseOfferingCode;
     }
 
-    public void setCodeTypeString(String codeTypeString) {
-        this.codeTypeString = codeTypeString;
+    public void setCourseOfferingCode(String courseOfferingCode) {
+        this.courseOfferingCode = courseOfferingCode;
+    }
+
+    public String courseOfferingTitle;
+    public void setCourseOfferingTitle(String courseOfferingTitle) {
+        this.courseOfferingTitle = courseOfferingTitle;
+    }
+
+    public String getCourseOfferingTitle() {
+        return courseOfferingTitle;
+    }
+
+    private String credits = "";
+    public String getCredits() {
+        return credits;
+    }
+
+    public void setCredits(String credits) {
+        this.credits = credits;
+    }
+
+    private String activityCode = "";
+
+    public String getActivityCode() {
+        return activityCode;
+    }
+
+    public void setActivityCode(String activityCode) {
+        this.activityCode = activityCode;
+    }
+
+    private String abbreviatedCourseType = "";
+
+    public String getAbbreviatedCourseType() {
+        return abbreviatedCourseType;
+    }
+
+    public void setAbbreviatedCourseType(String abbreviatedCourseType) {
+        this.abbreviatedCourseType= abbreviatedCourseType;
     }
 
     private String termDisplayString = "";

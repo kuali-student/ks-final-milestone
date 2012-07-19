@@ -92,7 +92,17 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
             wrapper.setTermDisplayString(getTermDisplayString(info.getTermId(), term));
 
-            wrapper.setCodeTypeString(getCodeTypeString(info));
+            wrapper.setCourseOfferingCode(info.getCourseOfferingCode());
+            wrapper.setCourseOfferingTitle(info.getCourseOfferingTitle());
+
+            String sCredits = courseOfferingInfo.getCreditCnt();
+            if (sCredits == null) {
+                sCredits = "0";
+            }
+            wrapper.setCredits(sCredits);
+            //wrapper.setAbbreviatedActivityCode(info.getActivityCode().toUpperCase().substring(0,3));
+            wrapper.setActivityCode(info.getActivityCode());
+            wrapper.setAbbreviatedCourseType(getTypeService().getType(info.getTypeKey(), getContextInfo()).getName().toUpperCase().substring(0,3));
 
             //process instructor effort
             assembleInstructorWrapper(info.getInstructors(), wrapper);
@@ -115,13 +125,13 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
     }
 
-    private String getCodeTypeString(ActivityOfferingInfo info) throws Exception {
-        String codeTypeString = "GHI(LEC)";
-        TypeInfo typeInfo = getTypeService().getType(info.getTypeKey(), getContextInfo());
-        String typeName = typeInfo.getName().toUpperCase().substring(0,3);
-        codeTypeString = info.getActivityCode() + "(" + typeName + ")";
-        return codeTypeString;
-    }
+//    private String getCodeTypeString(ActivityOfferingInfo info) throws Exception {
+//        String codeTypeString = "GHI(LEC)";
+//        TypeInfo typeInfo = getTypeService().getType(info.getTypeKey(), getContextInfo());
+//        String typeName = typeInfo.getName().toUpperCase().substring(0,3);
+//        codeTypeString = info.getActivityCode() + "(" + typeName + ")";
+//        return codeTypeString;
+//    }
 
     private String getTermDisplayString(String termId, TermInfo term) {
         // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'

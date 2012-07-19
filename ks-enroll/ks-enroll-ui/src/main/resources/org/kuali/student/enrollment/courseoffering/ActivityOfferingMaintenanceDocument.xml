@@ -65,30 +65,14 @@
         </property>
         <property name="items">
             <list>
-
+                <bean parent="Uif-HeaderFour" p:headerText="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.courseOfferingTitle} (@{document.newMaintainableObject.dataObject.credits} Credits)"/>
+                <bean parent="Uif-HeaderThree" p:headerText="Edit @{document.newMaintainableObject.dataObject.activityCode} (@{document.newMaintainableObject.dataObject.abbreviatedCourseType})"/>
                 <bean parent="Uif-VerticalBoxSection">
-                    <property name="headerText" value="Edit Activity Offering"/>
+
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HorizontalBoxSection">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-DataField" p:propertyName="aoInfo.courseOfferingCode" p:fieldLabel.renderColon="false" p:readOnly="true"/>
-                                        <bean parent="Uif-DataField" p:label="-" p:propertyName="aoInfo.courseOfferingTitle" p:fieldLabel.renderColon="false" p:readOnly="true"/>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-HorizontalBoxSection">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-DataField" p:label="Edit" p:propertyName="codeTypeString" p:fieldLabel.renderColon="false" p:readOnly="true"/>
-                                    </list>
-                                </property>
-                            </bean>
-
                             <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName"/>
                             <bean parent="Uif-DataField" p:label="Term" p:propertyName="termDisplayString" p:readOnly="true" />
-
 
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
@@ -104,9 +88,9 @@
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Save" p:performClientSideValidation="true"
                                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                                        <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
+                                        <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
                                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
                                     </list>
                                 </property>
@@ -120,6 +104,11 @@
                     <property name="headerText" value="Activity Offering Information"/>
                     <property name="items">
                         <list>
+                            <bean parent="Uif-InputField" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="1"/>
+                                </property>
+                            </bean>
                             <bean parent="Uif-InputField" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3"/>
