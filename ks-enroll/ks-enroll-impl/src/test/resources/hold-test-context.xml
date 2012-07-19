@@ -87,6 +87,7 @@
     <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
         <property name="holdIssueDao" ref="holdIssueDao"/>
         <property name="appliedHoldDao" ref="appliedHoldDao"/>
+        <property name="criteriaLookupService" ref="holdCriteriaLookupService"/>
     </bean>
 	
     <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">
@@ -108,7 +109,26 @@
     <bean id="holdIssueDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao">
         <property name="em" ref="entityManager"/>
     </bean>
-    
+
+    <!-- Hold Service - Criteria Lookup Service -->
+
+    <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
+
+    <bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
+        <property name="entityManager" ref="entityManager"/>
+    </bean>
+
+    <bean id="holdCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        <property name="predicateTransforms">
+            <list>
+                <ref bean="attributeTransform"/>
+            </list>
+        </property>
+    </bean>
+
+
+
     <tx:annotation-driven transaction-manager="JtaTxManager"
 		order="1000" />
 		
