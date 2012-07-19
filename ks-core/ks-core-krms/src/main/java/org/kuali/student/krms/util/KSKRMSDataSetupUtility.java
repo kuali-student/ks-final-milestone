@@ -62,8 +62,9 @@ public class KSKRMSDataSetupUtility {
     public void createKSKRMSData() {
         setupPropertyFile();
         namespace = getPropertyValue(PROPERTY_namespace);
-        // createKRMSContextFromPropertyFile();
-        // createKRMSTermSpecificationsFromPropertyFile();
+//         createKRMSContextFromPropertyFile();		// Works
+//         createKRMSTermSpecificationsFromPropertyFile();  // Works
+         // Run the IDContext.sql to do the link between context and TermSpec - KSENROLL-1239
         createAllKRMSTermDefinitionsFromPropertyFile();
     }
 
@@ -174,6 +175,8 @@ public class KSKRMSDataSetupUtility {
     public void createKRMSTermResolver(String termResolverName, TermSpecificationDefinition termSpecDefinition) {
         // KrmsType for TermResolver
         KrmsTypeDefinition krmsTermResolverTypeDefinition = getKSKRMSType(KSKRMSReplaceWithPropertyFile.KSNAMESPACE, KSKRMSReplaceWithPropertyFile.KS_TERM_RESOLVER_TYPE, "ksKRMSTermResolverTypeService");
+        
+        // TODO Per term resolver we have to create the Term Resolver parameters on krms_term_rslvr_parm_spec_t
 
         // TermResolver
         // TODO KSENROLL-1860 - do a check to see if the TermResolver already exist before creating it
