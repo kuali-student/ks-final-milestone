@@ -155,11 +155,13 @@ public class LuiServiceConstants {
      * The process is identical to the course offering.
      */
     public static final String FORMAT_OFFERING_PROCESS_KEY = "kuali.format.offering.process";
+    public static final String LUI_FO_STATE_DRAFT_KEY = "kuali.lui.format.offering.state.draft";
     public static final String LUI_FO_STATE_PLANNED_KEY = "kuali.lui.format.offering.state.planned";
     public static final String LUI_FO_STATE_OFFERED_KEY = "kuali.lui.format.offering.state.offered";
     public static final String LUI_FO_STATE_CANCELED_KEY = "kuali.lui.format.offering.state.canceled";
 
     public static final String[] FORMAT_OFFERING_PROCESS_STATE_KEYS = {
+            LUI_FO_STATE_DRAFT_KEY,
             LUI_FO_STATE_PLANNED_KEY,
             LUI_FO_STATE_OFFERED_KEY,
             LUI_FO_STATE_CANCELED_KEY

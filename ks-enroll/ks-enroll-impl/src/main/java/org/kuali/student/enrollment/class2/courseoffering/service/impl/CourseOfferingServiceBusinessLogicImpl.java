@@ -190,7 +190,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             targetFo.setMeta(null);
             CourseOfferingService locoService = this.getCoService();
             // Rolled over FO should be in planned state
-            targetFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
+            targetFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
             targetFo = locoService.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
                     targetFo.getTypeKey(), targetFo, context);
             List<ActivityOfferingInfo> aoInfoList = locoService.getActivityOfferingsByFormatOffering(sourceFo.getId(), context);
