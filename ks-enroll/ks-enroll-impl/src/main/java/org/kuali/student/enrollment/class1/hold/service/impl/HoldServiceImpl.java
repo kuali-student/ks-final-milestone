@@ -15,11 +15,13 @@
  */
 package org.kuali.student.enrollment.class1.hold.service.impl;
 
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.hold.dao.AppliedHoldDao;
 import org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao;
 import org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity;
 import org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -43,6 +45,7 @@ public class HoldServiceImpl
 
     private HoldIssueDao holdIssueDao;
     private AppliedHoldDao appliedHoldDao;
+    private CriteriaLookupService criteriaLookupService;
 
     public HoldIssueDao getHoldIssueDao() {
         return holdIssueDao;
@@ -58,6 +61,14 @@ public class HoldServiceImpl
 
     public void setAppliedHoldDao(AppliedHoldDao appliedHoldDao) {
         this.appliedHoldDao = appliedHoldDao;
+    }
+
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
+    }
+
+    public CriteriaLookupService getCriteriaLookupService() {
+        return criteriaLookupService;
     }
 
     @Override
@@ -84,7 +95,14 @@ public class HoldServiceImpl
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        List<String> results = new ArrayList<String>();
+        GenericQueryResults<AppliedHoldEntity> appliedHolds = criteriaLookupService.lookup(AppliedHoldEntity.class, criteria);
+        if (null != appliedHolds && appliedHolds.getResults().size() > 0) {
+            for (AppliedHoldEntity appliedHold : appliedHolds.getResults()) {
+                results.add(appliedHold.getId());
+            }
+        }
+        return results;
     }
 
     @Override
@@ -95,7 +113,14 @@ public class HoldServiceImpl
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        List<AppliedHoldInfo> results = new ArrayList<AppliedHoldInfo>();
+        GenericQueryResults<AppliedHoldEntity> appliedHolds = criteriaLookupService.lookup(AppliedHoldEntity.class, criteria);
+        if (null != appliedHolds && appliedHolds.getResults().size() > 0) {
+            for (AppliedHoldEntity appliedHold : appliedHolds.getResults()) {
+                results.add(appliedHold.toDto());
+            }
+        }
+        return results;
     }
 
     @Override
@@ -254,7 +279,14 @@ public class HoldServiceImpl
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        List<String> results = new ArrayList<String>();
+        GenericQueryResults<HoldIssueEntity> holdIssues = criteriaLookupService.lookup(HoldIssueEntity.class, criteria);
+        if (null != holdIssues && holdIssues.getResults().size() > 0) {
+            for (HoldIssueEntity holdIssue : holdIssues.getResults()) {
+                results.add(holdIssue.getId());
+            }
+        }
+        return results;
     }
 
     @Override
@@ -265,7 +297,14 @@ public class HoldServiceImpl
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        List<HoldIssueInfo> results = new ArrayList<HoldIssueInfo>();
+        GenericQueryResults<HoldIssueEntity> holdIssues = criteriaLookupService.lookup(HoldIssueEntity.class, criteria);
+        if (null != holdIssues && holdIssues.getResults().size() > 0) {
+            for (HoldIssueEntity holdIssue : holdIssues.getResults()) {
+                results.add(holdIssue.toDto());
+            }
+        }
+        return results;
     }
 
     @Override
