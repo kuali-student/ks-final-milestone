@@ -74,10 +74,10 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
     @Column(name = "REF_POPULATION_ID")
     private String refPopulationId;
 
-    @Column(name = "VARIES_BY_TIME_IND", columnDefinition = "VARCHAR(1)")
+    @Column(name = "VARIES_BY_TIME_IND", columnDefinition = "VARCHAR2(1)")
     private Boolean variesByTimeIndicator;
 
-    @Column(name = "SUPPORTS_GET_MBR_IND", columnDefinition = "VARCHAR(1)")
+    @Column(name = "SUPPORTS_GET_MBR_IND", columnDefinition = "VARCHAR2(1)")
     private Boolean supportsGetMembersIndicator;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
