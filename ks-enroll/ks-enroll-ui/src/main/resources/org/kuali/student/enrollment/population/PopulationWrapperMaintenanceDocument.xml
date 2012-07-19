@@ -18,59 +18,35 @@
      limitations under the License.
     -->
 
-    <bean id="PopulationWrapper" parent="PopulationWrapper-parentBean"/>
-    <bean id="PopulationWrapper-parentBean" abstract="true" parent="DataObjectEntry">
-        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
-        <property name="titleAttribute" value="populationInfo.name"/>
-        <property name="attributes">
-            <list>
-
-            </list>
-        </property>
-        <property name="complexAttributes">
-            <list>
-                <ref bean="PopulationWrapper.populationInfo"/>
-                <ref bean="PopulationWrapper.populationRuleInfo"/>
-            </list>
-        </property>
-        <property name="objectLabel" value="Population"/>
-        <property name="primaryKeys">
-            <list>
-                <value>populationInfo.id</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="PopulationWrapper.populationInfo" parent="ComplexAttributeDefinition">
-        <property name="name" value="populationInfo"/>
-        <property name="dataObjectEntry" ref="PopulationInfo"/>
-    </bean>
-
-    <bean id="PopulationWrapper.populationRuleInfo" parent="ComplexAttributeDefinition">
-        <property name="name" value="populationRuleInfo"/>
-        <property name="dataObjectEntry" ref="PopulationRuleInfo"/>
-    </bean>
-
     <!-- PopulationWrapper MaintenanceView -->
     <bean id="KS-PopulationWrapper-MaintenanceView" parent="KSMaintenanceView">
-        <property name="headerText" value="Population Maintenance eDoc"/>
+        <property name="headerText" value="Create a New Population"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
         <property name="singlePageView" value="true"/>
+        <property name="page.header.lowerGroup.render" value="false"/>
+        <property name="header">
+            <ref bean="KSHeader_Empty" />
+        </property>
         <!--<property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />-->
         <property name="items">
             <list>
                 <ref bean="KS-PopulationWrapper-LinkSection"/>
                 <ref bean="KS-PopulationWrapper-CreateByRule"/>
-                <!--<ref bean="KS-PopulationWrapper-CreateByCombiningPopulations"/>-->
+                <ref bean="KS-PopulationWrapper-CreateByCombiningPopulations"/>
             </list>
         </property>
         <property name="page.footer.items">
-            <ref bean="KSDocumentPageFooter_SubmitCancel" />
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Create Population" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
         </property>
     </bean>
-     <!--p:render="@{#showLinkSection}"-->
-    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" >
+
+    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{document.newMaintainableObject.dataObject.showLinkSection}">
         <property name="disclosure.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -88,7 +64,7 @@
         </property>
     </bean>
 
-    <bean id="KS-PopulationWrapper-CreateByRule" parent="Uif-VerticalBoxSection">
+    <bean id="KS-PopulationWrapper-CreateByRule" parent="Uif-VerticalBoxSection" p:render="@{!document.newMaintainableObject.dataObject.showByRuleLink}">
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
@@ -99,14 +75,196 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="populationInfo.descr"
-                      p:label="Name" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
+                      p:label="Description" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
                     <property name="control">
-                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="40" />
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
+
+    <bean id="KS-PopulationWrapper-CreateByCombiningPopulations" parent="Uif-VerticalBoxSection" p:render="@{document.newMaintainableObject.dataObject.showByRuleLink}">
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="populationInfo.name"
+                      p:label="Name" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="40" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="populationInfo.descr"
+                      p:label="Description" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.typeKey" p:label="Operation"
+                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:defaultValue="0" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="0" p:value="Union"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Intersection"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Exclusion"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.referencePopulationId"
+                      p:label="Reference Population" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" >
+                      <!--p:readOnly="@{!document.newMaintainableObject.dataObject.populationRuleInfo.typeKey =='2'}">-->
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="40" />
+                    </property>
+                </bean>
+                <ref bean="KS-PopulationWrapper-AddPopulationsSection"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <!-- This is a collection of Child Populations -->
+
+    <bean id="KS-PopulationWrapper-AddPopulationsSection" parent="Uif-HorizontalBoxSubSection" >
+    <property name="headerText" value=""/>
+    <!--<property name="instructionalText" value="Add the delivery formats to be used for this course offering"/>-->
+    <property name="items">
+        <list>
+            <!--<bean id="KS-PopulationWrapper-AddPopulationsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" >-->
+
+            <!--<property name="headerText" value="Population(s)" />-->
+            <!--<property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />-->
+            <!--<property name="propertyName" value="populationRuleInfo.childPopulationIds" />-->
+            <!--<property name="layoutManager.renderSequenceField" value="false" />-->
+            <!--<property name="layoutManager.applyAlternatingRowStyles" value="false" />-->
+            <!--<property name="layoutManager.applyDefaultCellWidths" value="false" />-->
+            <!--<property name="layoutManager.richTable.render" value="false" />-->
+            <!--<property name="addLineActions">-->
+                <!--<list>-->
+                    <!--<bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="Add To List"-->
+                          <!--p:actionEvent="addLine"/>-->
+                <!--</list>-->
+            <!--</property>-->
+
+            <bean id="KS-PopulationWrapper-AddPopulationsSubSection" parent="Uif-StackedCollectionSubSection" p:collectionLookup.render="false" >
+
+                <property name="headerText" value="Population(s)" />
+                <!--<property name="render" value="@{!#form.holidayCalendarList.empty}"/>-->
+                <property name="propertyName" value="populationRuleInfo.childPopulationIds" />
+                <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
+                <property name="collectionLookup.quickfinderAction.render" value="false" />
+                <property name="layoutManager">
+                    <ref bean="Uif-StackedCollectionLayout-WithBoxItems"/>
+                </property>
+                <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+                <!--<property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarInfo.name}"/>-->
+                <property name="layoutManager.lineGroupPrototype.footer.render" value="@{#isAddLine}"/>
+                <property name="layoutManager.lineGroupPrototype.header.style" value="margin-bottom:1em;"/>
+                <property name="layoutManager.subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
+                          p:cssClasses="uif-subCollection"/>
+                </property>
+                <property name="addLineLabel.labelText" value=""/>
+                <property name="layoutManager.lineGroupPrototype.header.cssClasses">
+                    <list merge="true">
+                        <value>ks-borderBottom2</value>
+                    </list>
+                </property>
+                <property name="layoutManager.lineGroupPrototype.header.lowerGroup">
+                    <bean parent="Uif-HorizontalBoxGroup">
+                        <property name="items">
+                            <list>
+                                <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
+                                <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
+                                <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                                      p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
+                                      p:clientSideJs="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <!--<property name="layoutManager.addLineGroup.header.lowerGroup">-->
+                    <!--<bean parent="Uif-HorizontalBoxGroup">-->
+                        <!--<property name="items">-->
+                            <!--<list>-->
+                                <!--<bean parent="Uif-ActionLink" p:methodToCall="cancelAddingHoliday" p:actionLabel="Cancel Adding Holiday Calendar"-->
+                                      <!--p:clientSideJs="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>-->
+                            <!--</list>-->
+                        <!--</property>-->
+                    <!--</bean>-->
+                <!--</property>-->
+
+
+    <!--<bean id="KS-PopulationWrapper-AddPopulationsSection" parent="Uif-TableCollectionSection"-->
+          <!--p:layoutManager.numberOfColumns="1"-->
+          <!--p:headerText="Populations" p:collectionObjectClass="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"-->
+          <!--p:propertyName="populationRuleInfo.childPopulationIds" p:layoutManager.renderSequenceField="false"-->
+          <!--p:layoutManager.generateAutoSequence="false"-->
+          <!--p:layoutManager.separateAddLine="false"-->
+          <!--p:layoutManager.richTable.disableTableSort="true"-->
+          <!--p:addLineLabel.labelText=""-->
+          <!--p:layoutManager.richTable.render="false"-->
+          <!--p:layoutManager.applyAlternatingRowStyles="false">-->
+
+        <!--<property name="cssClasses">-->
+            <!--<list merge="true">-->
+                <!--&lt;!&ndash; used for custom line separators &ndash;&gt;-->
+                <!--<value>ks-appointmentWindow-table</value>-->
+            <!--</list>-->
+        <!--</property>-->
+        <!--<property name="layoutManager.sequencePropertyName" value="name" />-->
+        <!--<property name="collectionLookup.quickfinderAction.render" value="false" />-->
+        <property name="collectionLookup" >
+            <null/>
+        </property>
+
+        <property name="items">
+            <list>
+                <!-- period, name, student group, start date, start time, am/pm -->
+                <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="id" p:style="font-weight:bold;" p:render="@{#isAddLine}" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="40" />
+                    </property>
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                    <property name="quickfinder.fieldConversions">
+                        <map>
+                            <entry key="id" value="populationInfo.id"/>
+                            <entry key="name" value="populationInfo.name"/>
+                        </map>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="populationInfo.name" p:readOnly="true"
+                      p:style="font-weight:bold;" p:render="@{!#isAddLine}" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="40" />
+                    </property>
+                </bean>
+
+           </list>
+        </property>
+
+        <!--<property name="lineActions">-->
+            <!--<list>-->
+                <!--<bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="Add" p:render="@{#isAddLine}" />-->
+                <!--<bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="assignStudents" p:actionLabel="Assign Students" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.draft'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />-->
+                <!--<bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="breakAppointments" p:actionLabel="Break Appointments" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />-->
+                <!--<bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="X" p:render="@{!#isAddLine}" />-->
+            <!--</list>-->
+        <!--</property>-->
+
+        <!--<property name="layoutManager.actionFieldPrototype">-->
+            <!--<bean parent="Uif-HorizontalFieldGroup" p:style="white-space:nowrap;" p:align="center" p:required="false" p:label="Actions" p:shortLabel="Actions"/>-->
+        <!--</property>-->
+            </bean>
+                </list>
+        </property>
+    </bean>
+
 
     <bean id="PopulationWrapperMaintenanceDocument" parent="PopulationWrapperMaintenanceDocument-parentBean"/>
     <bean id="PopulationWrapperMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
