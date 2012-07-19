@@ -4,6 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+    <!--<import resource="classpath:ks-PopulationInfo-dictionary.xml"/>
+    <import resource="classpath:ks-PopulationRuleInfo-dictionary.xml"/>-->
+
+
     <bean id="PopulationWrapper" parent="PopulationWrapper-parentBean"/>
     <bean id="PopulationWrapper-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
@@ -57,11 +61,20 @@
                     </property>
                 </bean>
 
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="populationInfo.stateKey"
+                      p:label="State" p:labelPlacement="TOP" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationStateKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
+
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <!--<bean parent="Uif-DataField" p:propertyName="id" />-->
                 <bean parent="Uif-DataField" p:propertyName="populationInfo.name"/>
                 <bean parent="Uif-DataField" p:propertyName="populationInfo.descr" />
                 <bean parent="Uif-DataField" p:propertyName="populationRuleInfo.typeKey" />
