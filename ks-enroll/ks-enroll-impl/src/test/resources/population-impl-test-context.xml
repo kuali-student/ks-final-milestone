@@ -89,6 +89,7 @@
     <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.PopulationServiceImpl">
         <property name="populationDao" ref="populationDao"/>
         <property name="populationRuleDao" ref="populationRuleDao"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
 
     <tx:annotation-driven transaction-manager="JtaTxManager"

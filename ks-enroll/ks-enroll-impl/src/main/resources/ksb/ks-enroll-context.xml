@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2010 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you 
-  may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0 
-  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS 
-  IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language 
+<!-- Copyright 2010 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you
+  may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0
+  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS
+  IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
   governing permissions and limitations under the License. -->
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -18,12 +18,12 @@
   <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
 
-  <!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> <property name="properties" 
-    value="#{bootstrapConfig.getProperties()}" /> </bean> <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean"> 
-    <property name="configLocations"> <list> <value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value> 
-    </list> </property> </bean> <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"> <property name="staticMethod" 
-    value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" /> <property name="arguments"> <list><ref bean="bootstrapConfig"/></list> 
-    </property> </bean> <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer"> <property 
+  <!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> <property name="properties"
+    value="#{bootstrapConfig.getProperties()}" /> </bean> <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
+    <property name="configLocations"> <list> <value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
+    </list> </property> </bean> <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"> <property name="staticMethod"
+    value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" /> <property name="arguments"> <list><ref bean="bootstrapConfig"/></list>
+    </property> </bean> <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer"> <property
     name="localServiceName" value="KSLumContext"/> </bean> -->
   <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
   <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
@@ -147,11 +147,11 @@
   <bean id="holidayCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler" />
 
   <bean id="holidayAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler" />
-  
+
   <bean id="keyDateAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler" />
 
   <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
-  
+
   <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
   <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
@@ -439,14 +439,13 @@
     <property name="resultSourceDao" ref="resultSourceDao" />
   </bean>
 
+  <bean id="lrcServiceBusinessLogic" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceBusinessLogicImpl" />
   <bean id="lrcPersistenceService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LRCServiceImpl">
     <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
     <property name="resultValueDao" ref="resultValueDao" />
     <property name="resultScaleDao" ref="resultScaleDao" />
-    <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic"/>
+    <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
   </bean>
-
-  <bean id="lrcServiceBusinessLogic" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceBusinessLogicImpl" />
 
   <bean id="ks.exp.LRCService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">
@@ -578,6 +577,7 @@
     <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.PopulationServiceImpl">
         <property name="populationDao" ref="populationDao" />
         <property name="populationRuleDao" ref="populationRuleDao" />
+        <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
 
     <bean id="ks.exp.populationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
