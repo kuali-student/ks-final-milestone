@@ -2070,8 +2070,8 @@
         <column name="POPULATION_RULE_STATE" required="true" size="255" type="VARCHAR"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="REF_POPULATION_ID" size="255" type="VARCHAR"/>
-        <column name="VARIES_BY_TIME_IND" size="1" type="VARCHAR"/>
-        <column name="SUPPORTS_GET_MBR_IND" size="1" type="VARCHAR"/>
+        <column name="VARIES_BY_TIME_IND" required="true" size="1" type="DECIMAL"/>
+        <column name="SUPPORTS_GET_MBR_IND" required="true" size="1" type="DECIMAL"/>
         <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
         <column name="DESCR_FORMATTED" size="255" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
