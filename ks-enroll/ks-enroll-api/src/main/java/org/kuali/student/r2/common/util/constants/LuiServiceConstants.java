@@ -125,6 +125,7 @@ public class LuiServiceConstants {
      * Implemented: 6/14/2012  by cclin
      */
     public static final String COURSE_OFFERING_PROCESS_KEY = "kuali.course.offering.process";
+    public static final String LUI_CO_STATE_DRAFT_KEY = "kuali.lui.course.offering.state.draft";
     public static final String LUI_CO_STATE_PLANNED_KEY = "kuali.lui.course.offering.state.planned";
     public static final String LUI_CO_STATE_OFFERED_KEY = "kuali.lui.course.offering.state.offered";
     public static final String LUI_CO_STATE_CANCELED_KEY = "kuali.lui.course.offering.state.canceled";
