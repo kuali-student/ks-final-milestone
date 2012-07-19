@@ -4,8 +4,8 @@
 <div class="body">
     <strong>Population</strong>
     <ul class="chan">
-        <%--<li><portal:portalLink displayTitle="true" title="Manage Population" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>--%>
-        <li><portal:portalLink displayTitle="true" title="Population Maintenance eDoc (New)" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+        <li><portal:portalLink displayTitle="true" title="Manage Population (Lookup)" url="${ConfigProperties.application.url}/kr-krad/lookup?viewId=KS-Population-LookupView&methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Population Maintenance eDoc (New)" url="${ConfigProperties.application.url}/kr-krad/population?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
     </ul>
     
     <strong>Registration</strong>
@@ -18,10 +18,4 @@
     </ul>    
 </div>
 
-<div class="body">
-    <strong>Population</strong>
-    <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Population Lookup" url="${ConfigProperties.application.url}/kr-krad/lookup?viewId=KS-Population-LookupView&methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true" /></li>
-    </ul>
-</div>
 <channel:portalChannelBottom />
