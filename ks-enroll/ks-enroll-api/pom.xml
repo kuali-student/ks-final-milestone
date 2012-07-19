@@ -123,33 +123,33 @@
                         </goals>
                         <configuration>
                             <inputFiles>
-<!--                                ATP 
+                                <!-- ATP -->
                                 <inputFile>ks-AtpInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-MilestoneInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-AtpAtpRelationInfo-dictionary.xml</inputFile>
-                                ACAL 
+                                <!-- ACAL -->
                                 <inputFile>ks-AcademicCalendarInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-HolidayCalendarInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-TermInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-HolidayInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-AcalEventInfo-dictionary.xml</inputFile>                                
                                 <inputFile>ks-KeyDateInfo-dictionary.xml</inputFile>                          
-                                 Appointment 
+                                <!-- Appointment -->
                                 <inputFile>ks-AppointmentWindowInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-AppointmentSlotInfo-dictionary.xml</inputFile>                                  
                                 <inputFile>ks-AppointmentInfo-dictionary.xml</inputFile> 
-                                 LPR 
+                                <!-- LPR -->
                                 <inputFile>ks-LuiPersonRelationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprRosterInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprRosterEntryInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprTransactionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprTransactionItemInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-LprTransactionItemResultInfo-dictionary.xml</inputFile>-->
+                                <inputFile>ks-LprTransactionItemResultInfo-dictionary.xml</inputFile>
                                 <!-- Hold -->        
                                 <inputFile>ks-AppliedHoldInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-HoldIssueInfo-dictionary.xml</inputFile>
-<!--                                 LUI                 
+                                <!-- LUI -->
                                 <inputFile>ks-LuiInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuiIdentifierInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuCodeInfo-dictionary.xml</inputFile>
@@ -160,13 +160,13 @@
                                 <inputFile>ks-MeetingScheduleInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuiLuiRelationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuiCapacityInfo-dictionary.xml</inputFile>
-                                 Course Offering       
+                                <!-- Course Offering -->
                                 <inputFile>ks-CourseOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-OfferingInstructorInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ActivityOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-FormatOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegistrationGroupInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-SeatPoolDefinitionInfo-dictionary.xml</inputFile>   -->
+                                <inputFile>ks-SeatPoolDefinitionInfo-dictionary.xml</inputFile>
                                 <!-- Course Offering Set -->
                                 <inputFile>ks-SocRolloverResultInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-SocRolloverResultItemInfo-dictionary.xml</inputFile>
@@ -178,23 +178,23 @@
                                 <inputFile>ks-RegistrationRequestItemInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegistrationResponseInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegistrationResponseItemInfo-dictionary.xml</inputFile>
-                                 Course waitlist       
+                                <!-- Course waitlist -->
                                 <inputFile>ks-CourseWaitlistEntryInfo-dictionary.xml</inputFile>
-                                 Exemption 
+                                <!-- Exemption -->
                                 <inputFile>ks-ExemptionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ExemptionRequestInfo-dictionary.xml</inputFile>
-                                 Grading 
+                                <!-- Grading -->
                                 <inputFile>ks-GradeRosterInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-GradeRosterEntryInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-GradeValuesGroupInfo-dictionary.xml</inputFile>
-                                 LRR 
+                                <!-- LRR -->
                                 <inputFile>ks-LearningResultRecordInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ResultSourceInfo-dictionary.xml</inputFile>
-                                 LRC 
+                                <!-- LRC -->
                                 <inputFile>ks-ResultValuesGroupInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ResultValueInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ResultScaleInfo-dictionary.xml</inputFile>
-                                  Course 
+                                <!-- Course -->
                                 <inputFile>ks-CourseInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-CourseJointInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-CourseCrossListingInfo-dictionary.xml</inputFile>  
@@ -208,12 +208,12 @@
                                 <inputFile>ks-ActivityInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-LoDisplayInfo-dictionary.xml</inputFile>   
                                 <inputFile>ks-LoCategoryInfo-dictionary.xml</inputFile>
-                                 <!--Process -->
+                                <!-- Process -->
                                 <inputFile>ks-CheckInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-InstructionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ProcessCategoryInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-ProcessInfo-dictionary.xml</inputFile>
-<!--                                 Program
+                                <inputFile>ks-ProcessInfo-dictionary.xml</inputFile>-->
+                                <!-- Program -->
                                 <inputFile>ks-CoreProgramInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-CredentialProgramInfo-dictionary.xml</inputFile> 
                                 <inputFile>ks-HonorsProgramInfo-dictionary.xml</inputFile>  
@@ -225,16 +225,15 @@
                                 <inputFile>ks-ReqComponentInfo-dictionary.xml</inputFile>   
                                 <inputFile>ks-ReqCompFieldInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-ProgramVariationInfo-dictionary.xml</inputFile> 
-                                  -->
-<!--                                 Type 
+                                <!-- Type -->
                                 <inputFile>ks-TypeInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-TypeTypeRelationInfo-dictionary.xml</inputFile>
-                                 State 
+                                <!-- State -->
                                 <inputFile>ks-StateInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-LifecycleInfo-dictionary.xml</inputFile>-->
-<!--                                Population
+                                <inputFile>ks-LifecycleInfo-dictionary.xml</inputFile>
+                                <!-- Population -->
                                 <inputFile>ks-PopulationInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-PopulationRuleInfo-dictionary.xml</inputFile> -->
+                                <inputFile>ks-PopulationRuleInfo-dictionary.xml</inputFile>
                             </inputFiles>
                         </configuration>                                    
                     </execution>
@@ -248,34 +247,34 @@
                         <configuration>
                             <writeManual>true</writeManual>
                             <classNames>
-<!--                                 Atp 
+                                <!-- Atp -->
                                 <className>AtpInfo</className>                    
                                 <className>MilestoneInfo</className>                                    
                                 <className>AtpAtpRelationInfo</className>  
-                                 Acal 
+                                <!-- Acal -->
                                 <className>AcademicCalendarInfo</className>
                                 <className>AcalEventInfo</className>                                  
                                 <className>HolidayCalendarInfo</className>
                                 <className>HolidayInfo</className>
                                 <className>TermInfo</className>    
                                 <className>KeyDateInfo</className>  
-                             Appointment 
+                                <!-- Appointment -->
                                 <className>AppointmentWindowInfo</className>
                                 <className>AppointmentSlotInfo</className>                                  
                                 <className>AppointmentInfo</className>
-                                Course 
+                                <!-- Course -->
                                 <className>CourseInfo</className>
                                 <className>FormatInfo</className>
                                 <className>ActivityInfo</className>
                                 <className>LoDisplayInfo</className>
-                                Course Offering      
+                                <!-- Course Offering -->
                                 <className>CourseOfferingInfo</className>
                                 <className>OfferingInstructorInfo</className>
                                 <className>FormatOfferingInfo</className>
                                 <className>ActivityOfferingInfo</className>
                                 <className>RegistrationGroupInfo</className>
                                 <className>SeatPoolDefinitionInfo</className>
-                                Course registration 
+                                <!-- Course registration -->
                                 <className>CourseRegistrationInfo</className>
                                 <className>ActivityRegistrationInfo</className>
                                 <className>RegistrationGroupInfo</className>
@@ -283,27 +282,26 @@
                                 <className>RegistrationRequestItemInfo</className>
                                 <className>RegistrationResponseInfo</className>
                                 <className>RegistrationResponseItemInfo</className>
-                                Course waitlist 
+                                <!-- Course waitlist -->
                                 <className>CourseWaitlistEntryInfo</className>
-                                Exemption 
+                                <!-- Exemption -->
                                 <className>ExemptionInfo</className>
                                 <className>ExemptionRequestInfo</className>
-                                Grading 
+                                <!-- Grading -->
                                 <className>GradeRosterInfo</className>
                                 <className>GradeRosterEntryInfo</className>
                                 <className>GradeValuesGroupInfo</className>-->
-<!--                                Hold         -->
-<!--                                <className>AppliedHoldInfo</className>
-                                <className>HoldIssueInfo</className>-->
-<!--                                LPR 
-                                <className>LuiPersonRelationInfo</className>
+                                <!-- Hold -->
+                                <className>AppliedHoldInfo</className>
+                                <className>HoldIssueInfo</className>
+                                <!-- LPR -->
                                 <className>LPRInfo</className>
                                 <className>LprRosterInfo</className>
                                 <className>LprRosterEntryInfo</className>
                                 <className>LprTransactionInfo</className>
                                 <className>LprTransactionItemInfo</className>
                                 <className>LprTransactionItemResultInfo</className>                           
-                                LUI                 
+                                <!-- LUI -->
                                 <className>LuiInfo</className>
                                 <className>LuiIdentifierInfo</className>
                                 <className>LuCodeInfo</className>
@@ -313,7 +311,7 @@
                                 <className>AffiliatedOrgInfo</className>
                                 <className>MeetingScheduleInfo</className>
                                 <className>LuiLuiRelationInfo</className>
-                                <className>LuiCapacityInfo</className>     -->
+                                <className>LuiCapacityInfo</className>
                                 <!-- Course Offering      -->
                                 <className>CourseOfferingInfo</className>
                                 <className>CourseWaitlistEntryInfo</className>
@@ -343,26 +341,26 @@
                                 <!-- LRR -->
                                 <className>LearningResultRecordInfo</className>
                                 <className>ResultSourceInfo</className>
-                                <!--LRC -->
+                                <!-- LRC -->
                                 <className>ResultValuesGroupInfo</className>
                                 <className>ResultValueInfo</className>
                                 <className>ResultScaleInfo</className>      
-                                <!--Program -->
+                                <!-- Program -->
                                 <className>CoreProgramInfo</className>
                                 <className>CredentialProgramInfo</className> 
                                 <className>HonorsProgramInfo</className>  
                                 <className>MajorDisciplineInfo</className>  
                                 <className>ProgramRequirementInfo</className>  
                                 <className>ProgramVariationInfo</className>
-                                <!--Process -->
+                                <!-- Process -->
                                 <className>CheckInfo</className>
                                 <className>InstructionInfo</className>
                                 <className>ProcessCategoryInfo</className>
                                 <className>ProcessInfo</className>
-                                <!--State -->
+                                <!-- State -->
                                 <className>StateInfo</className>
                                 <className>LifecycleInfo</className>
-                                <!--Type -->
+                                <!-- Type -->
                                 <className>TypeInfo</className>
                                 <className>TypeTypeRelationInfo</className>
 
