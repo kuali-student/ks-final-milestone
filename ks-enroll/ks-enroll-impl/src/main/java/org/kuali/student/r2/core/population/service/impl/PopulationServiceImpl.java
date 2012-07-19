@@ -16,7 +16,11 @@
  */
 package org.kuali.student.r2.core.population.service.impl;
 
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -56,6 +60,7 @@ public class PopulationServiceImpl implements PopulationService {
     // populationDao and populationRuleDao injected by Spring context files
     private PopulationDao populationDao;
     private PopulationRuleDao populationRuleDao;
+    private CriteriaLookupService criteriaLookupService;
 
     // ============================= Population start =============================
     @Override
@@ -257,7 +262,18 @@ public class PopulationServiceImpl implements PopulationService {
 
     @Override
     public List<PopulationInfo> searchForPopulations(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("searchForPopulations");
+
+            GenericQueryResults<PopulationEntity> results = criteriaLookupService.lookup(PopulationEntity.class, criteria);
+            List<PopulationInfo> populations = new ArrayList<PopulationInfo>(results.getResults().size());
+            for (PopulationEntity pe : results.getResults()) {
+                try {
+                    PopulationInfo pi = this.getPopulation(pe.getId(), contextInfo);
+                    populations.add(pi);
+                } catch (DoesNotExistException ex) {
+                    throw new OperationFailedException(pe.getId(), ex);
+                }
+            }
+            return populations;
     }
 
     @Override
@@ -383,5 +399,13 @@ public class PopulationServiceImpl implements PopulationService {
 
     public void setPopulationRuleDao(PopulationRuleDao populationRuleDao) {
         this.populationRuleDao = populationRuleDao;
+    }
+
+    public CriteriaLookupService getCriteriaLookupService() {
+        return criteriaLookupService;
+    }
+
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
     }
 }
