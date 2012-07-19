@@ -100,6 +100,12 @@
         LIFECYCLE_KEY="kuali.course.offering.process" NAME="Canceled"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Course offering is in draft state"
+        DESCR_PLAIN="Course offering is in draft state"
+        ID="kuali.lui.course.offering.state.draft"
+        LIFECYCLE_KEY="kuali.course.offering.process" NAME="Draft"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_FORMATTED="Offered" DESCR_PLAIN="Offered"
         ID="kuali.lui.course.offering.state.offered"
         LIFECYCLE_KEY="kuali.course.offering.process" NAME="Offered"
