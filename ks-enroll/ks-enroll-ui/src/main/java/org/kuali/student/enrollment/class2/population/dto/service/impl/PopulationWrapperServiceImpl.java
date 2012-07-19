@@ -14,15 +14,13 @@
  *
  * Created by vgadiyak on 7/16/12
  */
-package org.kuali.student.enrollment.class2.population.dto;
+package org.kuali.student.enrollment.class2.population.dto.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.core.population.dto.PopulationInfo;
-import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
-import org.kuali.student.r2.core.population.infc.Population;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
 import javax.xml.namespace.QName;
@@ -38,6 +36,7 @@ public class PopulationWrapperServiceImpl {
     private ContextInfo contextInfo;
     private transient PopulationService populationService;
 
+    // getting the PopulationInfo and Rule and pushing them into wrapper
     public PopulationWrapper getPopulationWrapper(String id) {
 
         PopulationWrapper wrapper = new PopulationWrapper();
@@ -52,6 +51,7 @@ public class PopulationWrapperServiceImpl {
         return wrapper;
     }
 
+    // saving the PopulationInfo and Rule: if no id - create new one, otherwise update
     public PopulationWrapper savePopulationWrapper(PopulationWrapper wrapper) {
         String id = wrapper.getPopulationInfo().getId();
 
