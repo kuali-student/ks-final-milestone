@@ -131,6 +131,7 @@ public class LuiServiceConstants {
     public static final String LUI_CO_STATE_CANCELED_KEY = "kuali.lui.course.offering.state.canceled";
 
     public static final String[] COURSE_OFFERING_PROCESS_STATE_KEYS = {
+        LUI_CO_STATE_DRAFT_KEY,
         LUI_CO_STATE_PLANNED_KEY,
         LUI_CO_STATE_OFFERED_KEY,
         LUI_CO_STATE_CANCELED_KEY
