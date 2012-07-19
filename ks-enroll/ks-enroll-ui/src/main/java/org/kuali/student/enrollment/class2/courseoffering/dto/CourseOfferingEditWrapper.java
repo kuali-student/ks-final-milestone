@@ -42,7 +42,7 @@ public class CourseOfferingEditWrapper implements Serializable {
     private String termStartEnd;
 
     private String selectedGradingOptionName;
-    private String selectedstudentRegOpts;
+    private String selectedStudentRegOpts;
 
     private CreditOptionInfo creditOption;
     private boolean creditOptionFixed;
@@ -116,12 +116,12 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.selectedGradingOptionName = selectedGradingOptionName;
     }
 
-    public String getSelectedstudentRegOpts() {
-        return selectedstudentRegOpts;
+    public String getSelectedStudentRegOpts() {
+        return selectedStudentRegOpts;
     }
 
-    public void setSelectedstudentRegOpts(String selectedstudentRegOpts) {
-        this.selectedstudentRegOpts = selectedstudentRegOpts;
+    public void setSelectedStudentRegOpts(String selectedStudentRegOpts) {
+        this.selectedStudentRegOpts = selectedStudentRegOpts;
     }
 
     public CourseInfo getCourse() {

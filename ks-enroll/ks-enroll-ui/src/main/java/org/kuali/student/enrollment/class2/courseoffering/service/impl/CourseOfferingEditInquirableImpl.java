@@ -22,6 +22,7 @@ import org.kuali.student.core.enumerationmanagement.service.EnumerationManagemen
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -40,6 +41,7 @@ import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
@@ -151,15 +153,15 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
 
             //Display student registration options
             /*List<String> studentRegOptIds = coInfo.getStudentRegistrationOptionIds();
-            String selectedstudentRegOpts = new String();
+            String selectedStudentRegOpts = new String();
             ResultValuesGroup rvGroup = null;
             if (studentRegOptIds != null && !studentRegOptIds.isEmpty()) {
                 for (String studentRegOptId: coInfo.getStudentRegistrationOptionIds()) {
                     rvGroup = getLRCService().getResultValuesGroup(studentRegOptId, getContextInfo());
-                    selectedstudentRegOpts = selectedstudentRegOpts + rvGroup.getName() + "|";
+                    selectedStudentRegOpts = selectedStudentRegOpts + rvGroup.getName() + "; ";
                 }
-                selectedstudentRegOpts = selectedstudentRegOpts.substring(0, selectedstudentRegOpts.length()-1);
-                formObject.setSelectedstudentRegOpts(selectedstudentRegOpts);
+                selectedStudentRegOpts = selectedStudentRegOpts.substring(0, selectedStudentRegOpts.length() - 2);
+                formObject.setSelectedStudentRegOpts(selectedStudentRegOpts);
             } */
 
             List<String> studentRegOptions = new ArrayList<String>();
@@ -183,25 +185,28 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             formObject.setStudentRegOptions(studentRegOptions);
             formObject.setCrsGradingOptions(crsGradingOptions);
 
-            String selectedstudentRegOpts = new String();
+            String selectedStudentRegOpts = new String();
             if (studentRegOptions != null) {
+                ResultValuesGroupInfo rvg;
+                StringBuilder sbStudentRegOpts = new StringBuilder();
                 for(String studentGradingOption : studentRegOptions) {
-                    // TODO: need to retrieve the value based on key gradingOption, however there is no table yet
-                    // (need enroll alternative of KSLR_RESCOMP that we can call with LRCService)
-                    // So for time-being putting "manual" logic
-                    if (LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT.equals(studentGradingOption)) {
-                        selectedstudentRegOpts = selectedstudentRegOpts + "Audit" + "|";
-                    } else if (LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL.equals(studentGradingOption)) {
-                        selectedstudentRegOpts = selectedstudentRegOpts + "Pass / Fail" + "|";
+                    rvg = getLRCService().getResultValuesGroup(studentGradingOption, getContextInfo());
+                    if (null != rvg) {
+                        sbStudentRegOpts.append(rvg.getName());
                     } else {
-                        selectedstudentRegOpts = selectedstudentRegOpts + studentGradingOption;
+                        sbStudentRegOpts.append(studentGradingOption);
                     }
+                    sbStudentRegOpts.append("; ");
                 }
-                if (!selectedstudentRegOpts.isEmpty()) {
-                    selectedstudentRegOpts = selectedstudentRegOpts.substring(0, selectedstudentRegOpts.length()-1);
-                }
-                formObject.setSelectedstudentRegOpts(selectedstudentRegOpts);
+                selectedStudentRegOpts = sbStudentRegOpts.toString();
             }
+            if (selectedStudentRegOpts.isEmpty()) {
+                selectedStudentRegOpts = CourseOfferingConstants.COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY;
+            }
+            else {
+                selectedStudentRegOpts = selectedStudentRegOpts.substring(0, selectedStudentRegOpts.length() - 2);
+            }
+            formObject.setSelectedStudentRegOpts(selectedStudentRegOpts);
 
             //Display the long version final exam type, comment out for now because we will use the short version for the performance concern
             /*

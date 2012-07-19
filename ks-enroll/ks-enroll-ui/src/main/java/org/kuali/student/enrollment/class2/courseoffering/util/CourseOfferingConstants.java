@@ -41,4 +41,7 @@ public class CourseOfferingConstants {
 
     public static final String MANAGE_AO_PAGE = "manageActivityOfferingsPage";
 
+    // Display text
+    public static final String COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY = "None available";
+
 }
