@@ -121,6 +121,12 @@
         LIFECYCLE_KEY="kuali.format.offering.process" NAME="Canceled"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Format offering is in draft state"
+        DESCR_PLAIN="Format offering is in draft state"
+        ID="kuali.lui.format.offering.state.draft"
+        LIFECYCLE_KEY="kuali.format.offering.process" NAME="Draft"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_FORMATTED="Offered" DESCR_PLAIN="Offered"
         ID="kuali.lui.format.offering.state.offered"
         LIFECYCLE_KEY="kuali.format.offering.process" NAME="Offered"
