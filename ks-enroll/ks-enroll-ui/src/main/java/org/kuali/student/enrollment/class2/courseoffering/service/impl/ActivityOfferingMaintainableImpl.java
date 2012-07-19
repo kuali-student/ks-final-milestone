@@ -33,7 +33,12 @@ import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Formatter;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
 
