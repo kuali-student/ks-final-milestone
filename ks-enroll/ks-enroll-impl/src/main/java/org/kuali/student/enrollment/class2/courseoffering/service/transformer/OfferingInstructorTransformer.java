@@ -74,11 +74,19 @@ public class OfferingInstructorTransformer {
         for (OfferingInstructorInfo instructorInfo : instructors) {
             LprInfo lprInfo = new LprInfo();
             lprInfo.setId(instructorInfo.getId());
-            lprInfo.setCommitmentPercent(instructorInfo.getPercentageEffort().toString());
+
+            Float cp = instructorInfo.getPercentageEffort();
+
+            if (cp != null)
+                lprInfo.setCommitmentPercent("" + cp);
+            else
+                lprInfo.setCommitmentPercent(null);
+
             lprInfo.setLuiId(luiInfo.getId());
             lprInfo.setPersonId(instructorInfo.getPersonId());
             lprInfo.setEffectiveDate(new Date());
             lprInfo.setTypeKey(instructorInfo.getTypeKey());
+            lprInfo.setStateKey(instructorInfo.getStateKey());
 
             results.add(lprInfo);
         }

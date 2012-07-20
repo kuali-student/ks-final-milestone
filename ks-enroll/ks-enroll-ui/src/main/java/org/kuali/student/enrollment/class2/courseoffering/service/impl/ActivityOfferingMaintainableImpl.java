@@ -185,7 +185,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         if(StringUtils.isBlank(instructorInfo.getStateKey())) {
             try {
-                StateInfo state = getStateService().getState(LprServiceConstants.TENATIVE_STATE_KEY, getContextInfo());
+                StateInfo state = getStateService().getState(LprServiceConstants.TENTATIVE_STATE_KEY, getContextInfo());
                 instructorInfo.setStateKey(state.getKey());
             } catch (Exception e) {
                 throw new RuntimeException(e);

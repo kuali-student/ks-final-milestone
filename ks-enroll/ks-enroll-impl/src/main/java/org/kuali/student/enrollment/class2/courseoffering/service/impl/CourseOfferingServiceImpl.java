@@ -526,13 +526,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         Collection<OfferingInstructorInfo> deletedInstructors = existingPersonMap.values();
 
         // create the new lprs
-        List<LprInfo> createdLprs = ActivityOfferingTransformer.instructors2Lprs(lui, createdInstructors);
+        List<LprInfo> createdLprs = OfferingInstructorTransformer.instructors2Lprs(lui, createdInstructors);
         for (LprInfo lprInfo : createdLprs) {
             lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
         }
 
         // update existing lprs
-        List<LprInfo> updatedLprs = ActivityOfferingTransformer.instructors2Lprs(lui, updatedInstructors);
+        List<LprInfo> updatedLprs = OfferingInstructorTransformer.instructors2Lprs(lui, updatedInstructors);
         for(LprInfo lprInfo : updatedLprs) {
             lprService.updateLpr(lprInfo.getId(), lprInfo, context);
         }
@@ -1018,7 +1018,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         // build LPR(s) for Offering Instructor
-        List<LprInfo> lprs = ActivityOfferingTransformer.instructors2Lprs(lui, aoInfo.getInstructors());
+        List<LprInfo> lprs = OfferingInstructorTransformer.instructors2Lprs(lui, aoInfo.getInstructors());
 
         for (LprInfo lprInfo : lprs) {
                 lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
@@ -1153,13 +1153,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
 
         // create the new lprs
-        List<LprInfo> createdLprs = ActivityOfferingTransformer.instructors2Lprs(lui, createdInstructors);
+        List<LprInfo> createdLprs = OfferingInstructorTransformer.instructors2Lprs(lui, createdInstructors);
         for (LprInfo lprInfo : createdLprs) {
                 lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
         }
 
         // update existing lprs
-        List<LprInfo> updatedLprs = ActivityOfferingTransformer.instructors2Lprs(lui, updatedInstructors);
+        List<LprInfo> updatedLprs = OfferingInstructorTransformer.instructors2Lprs(lui, updatedInstructors);
         for(LprInfo lprInfo : updatedLprs) {
             lprService.updateLpr(lprInfo.getId(), lprInfo, context);
         }
