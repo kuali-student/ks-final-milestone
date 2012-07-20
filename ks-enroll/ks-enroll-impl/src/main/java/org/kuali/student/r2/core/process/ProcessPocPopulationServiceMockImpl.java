@@ -99,7 +99,7 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService {
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new RuntimeException("Error initializing", e);
         }
     }
 
