@@ -21,6 +21,7 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 
 import java.io.Serializable;
+import java.util.List;
 //import java.util.ArrayList;
 //import java.util.List;
 
@@ -41,6 +42,8 @@ public class PopulationWrapper implements Serializable {
     private boolean inCreateMode;
     private boolean enableCreateButton;
     private String pageTitle;
+
+    private List<PopulationInfo> childPopulations;
 
     public PopulationWrapper(){
         createByRule = true;
@@ -138,4 +141,13 @@ public class PopulationWrapper implements Serializable {
     public void setPageTitle(String pageTitle) {
         this.pageTitle = pageTitle;
     }
+
+    public List<PopulationInfo> getChildPopulations() {
+        return childPopulations;
+    }
+
+    public void setChildPopulations(List<PopulationInfo> childPopulations) {
+        this.childPopulations = childPopulations;
+    }
+
 }
