@@ -41,7 +41,7 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
             PopulationWrapper wrapper = new PopulationWrapper();
             wrapper.setPopulationInfo(populationInfo);
             wrapper.setPopulationRuleInfo(populationRuleInfo);
-            wrapper.setShowLinkSection(false);
+            wrapper.setInCreateMode(false);
             if (PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY.equals(populationRuleInfo.getTypeKey())){
                 //core type by rule
                 wrapper.setCreateByRule(true);

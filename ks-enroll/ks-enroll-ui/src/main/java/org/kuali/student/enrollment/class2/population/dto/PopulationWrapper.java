@@ -36,12 +36,12 @@ public class PopulationWrapper implements Serializable {
     private String keyword;
     private String operationType;
     private boolean createByRule;
-    private boolean showLinkSection;
+    private boolean inCreateMode;
     private boolean enableCreateButton;
 
     public PopulationWrapper(){
         createByRule = true;
-        showLinkSection = true;
+        inCreateMode = true;
         enableCreateButton = true;
         operationType = PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY;
 
@@ -95,12 +95,12 @@ public class PopulationWrapper implements Serializable {
         this.createByRule = createByRule;
     }
 
-    public boolean isShowLinkSection() {
-        return showLinkSection;
+    public boolean isInCreateMode() {
+        return inCreateMode;
     }
 
-    public void setShowLinkSection(boolean showLinkSection) {
-        this.showLinkSection = showLinkSection;
+    public void setInCreateMode(boolean inCreateMode) {
+        this.inCreateMode = inCreateMode;
     }
 
     public boolean isEnableCreateButton() {

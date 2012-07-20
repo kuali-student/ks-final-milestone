@@ -46,7 +46,7 @@
         </property>
     </bean>
 
-    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{#dp.showLinkSection}">
+    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{#dp.inCreateMode}">
         <property name="disclosure.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
