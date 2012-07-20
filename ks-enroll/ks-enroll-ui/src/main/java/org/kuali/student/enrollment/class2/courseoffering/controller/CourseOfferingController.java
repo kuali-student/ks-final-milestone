@@ -73,21 +73,6 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         // Added for Jira 1598 and 1648 Tanveer 07/10/2012
         coWrapper.setInvalidCatalogCourseCodeError("");
         coWrapper.setInvalidTargetTermError("");
-        if (course == null || term == null) {
-            if (term == null) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Target Term");
-                coWrapper.setInvalidTargetTermError("Invalid Target Term");
-            }
-            if (course == null) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Catalog Course Code");
-                coWrapper.setInvalidCatalogCourseCodeError("Invalid Catalog Course Code");
-            }
-
-            if (course == null && term == null){
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Both Catalog Course Code and Target Term are invalid");
-            }
-            return getUIFModelAndView(form);
-            }
 
         if (course != null && term != null) {
             coWrapper.setCourse(course);
@@ -129,13 +114,20 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             }
 
         } else {
-            coWrapper.setCourse(null);
-            coWrapper.setShowAllSections(false);
-            coWrapper.setCreditCount("");
-            coWrapper.getExistingTermOfferings().clear();
-            coWrapper.getExistingCourseOfferings().clear();
-            coWrapper.setNoOfTermOfferings(0);
-            coWrapper.setEnableCreateButton(false);
+
+            if (course == null && term == null){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Both Catalog Course Code and Target Term are invalid");
+            } else {
+                if (term == null) {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Target Term");
+                    coWrapper.setInvalidTargetTermError("Invalid Target Term");
+                } else if (course == null) {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Catalog Course Code");
+                    coWrapper.setInvalidCatalogCourseCodeError("Invalid Catalog Course Code");
+                }
+            }
+            coWrapper.clear();
+            return getUIFModelAndView(form);
         }
 
         return getUIFModelAndView(form);
@@ -228,18 +220,13 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         List <CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
 
         SearchParam qpv1 = new SearchParam();
-        qpv1.setKey("lu.queryParam.luOptionalType");
-        qpv1.setValue("kuali.lu.type.CreditCourse");
+        qpv1.setKey("lu.criteria.code");
+        qpv1.setValue(courseName);
         searchParams.add(qpv1);
-
-        SearchParam qpv2 = new SearchParam();
-        qpv2.setKey("lu.queryParam.luOptionalCode");
-        qpv2.setValue(courseName);
-        searchParams.add(qpv2);
 
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.setParams(searchParams);
-        searchRequest.setSearchKey("lu.search.mostCurrent.union");
+        searchRequest.setSearchKey("lu.search.cluByCode");
 
         try {
             SearchResult searchResult = getLuService().search(searchRequest);
