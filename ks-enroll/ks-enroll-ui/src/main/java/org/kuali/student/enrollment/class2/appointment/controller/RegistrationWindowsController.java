@@ -43,7 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * This class //TODO ...
+ * This class manages UI actions for registration windows
  *
  * @author Kuali Student Team
  */
@@ -61,8 +61,6 @@ public class RegistrationWindowsController extends UifControllerBase {
     private AppointmentService appointmentService;
 
     private PopulationService populationService;
-
-    private ContextInfo contextInfo;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -97,7 +95,6 @@ public class RegistrationWindowsController extends UifControllerBase {
         String termType = searchForm.getTermType();
         String termYear = searchForm.getTermYear();
 
-        // resetForm(searchForm);
         getViewHelperService(searchForm).searchForTerm(termType, termYear, searchForm);
 
         if (GlobalVariables.getMessageMap().hasErrors()){
@@ -128,7 +125,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         else if (!periodId.isEmpty() && !periodId.equals("all")) {
 
             //Lookup the period information
-            KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
+            KeyDateInfo period = getAcalService().getKeyDate(periodId,ContextInfo.createDefaultContextInfo());
 
             //pull in the windows for this period
             List<KeyDateInfo> periods = new ArrayList<KeyDateInfo>();
@@ -312,9 +309,9 @@ public class RegistrationWindowsController extends UifControllerBase {
 
 
     private String _getSimpleDate(Date date) {
-        if (date == null)
-            return new String();
-
+        if (date == null){
+            return "";
+        }
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         return df.format(date);
     }
@@ -340,11 +337,11 @@ public class RegistrationWindowsController extends UifControllerBase {
                     if(!AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY.equals(window.getTypeKey())) {
                         windowWrapper.setSlotRuleEnumType(AppointmentSlotRuleTypeConversion.convTotAppointmentSlotRuleCode(window.getSlotRule()));
                     }
-                    windowWrapper.setStartDate(_parseDate(window.getStartDate()));
+                    windowWrapper.setStartDate(window.getStartDate());
                     windowWrapper.setStartTime(_parseTime(window.getStartDate()));
                     windowWrapper.setStartTimeAmPm(_parseAmPm(window.getStartDate()));
 
-                    windowWrapper.setEndDate(_parseDate(window.getEndDate()));
+                    windowWrapper.setEndDate(window.getEndDate());
                     windowWrapper.setEndTime(_parseTime(window.getEndDate()));
                     windowWrapper.setEndTimeAmPm(_parseAmPm(window.getEndDate()));
 
@@ -368,10 +365,6 @@ public class RegistrationWindowsController extends UifControllerBase {
         }
         DateFormat df = new SimpleDateFormat("hh:mm");
         return df.format(date);
-    }
-
-    private Date _parseDate(Date date) {
-        return date;
     }
 
     public AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm){
@@ -404,14 +397,6 @@ public class RegistrationWindowsController extends UifControllerBase {
             populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationService.class.getSimpleName()));
         }
         return populationService;
-    }
-
-    public ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            //TODO - get real ContextInfo
-            contextInfo = TestHelper.getContext1();
-        }
-        return contextInfo;
     }
 
 }

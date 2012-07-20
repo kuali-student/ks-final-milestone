@@ -139,11 +139,11 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
                     windowWrapper.setAssignedPopulationName(population.getName());
                     windowWrapper.setWindowTypeKey(window.getTypeKey());
 
-                    windowWrapper.setStartDate(_parseDate(window.getStartDate()));
+                    windowWrapper.setStartDate(window.getStartDate());
                     windowWrapper.setStartTime(_parseTime(window.getStartDate()));
                     windowWrapper.setStartTimeAmPm(_parseAmPm(window.getStartDate()));
 
-                    windowWrapper.setEndDate(_parseDate(window.getEndDate()));
+                    windowWrapper.setEndDate(window.getEndDate());
                     windowWrapper.setEndTime(_parseTime(window.getEndDate()));
                     windowWrapper.setEndTimeAmPm(_parseAmPm(window.getEndDate()));
 
@@ -169,10 +169,6 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
         }
         DateFormat df = new SimpleDateFormat("hh:mm");
         return df.format(date);
-    }
-
-    private Date _parseDate(Date date) {
-        return date;
     }
 
     public AcademicCalendarService getAcalService() {
