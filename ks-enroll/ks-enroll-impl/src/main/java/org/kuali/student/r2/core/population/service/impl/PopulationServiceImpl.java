@@ -288,7 +288,18 @@ public class PopulationServiceImpl implements PopulationService {
 
     @Override
     public List<PopulationRuleInfo> searchForPopulationRules(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("searchForPopulationRules");
+
+        GenericQueryResults<PopulationRuleEntity> results = criteriaLookupService.lookup(PopulationRuleEntity.class, criteria);
+        List<PopulationRuleInfo> populationRules = new ArrayList<PopulationRuleInfo>(results.getResults().size());
+        for (PopulationRuleEntity pre : results.getResults()) {
+            try {
+                PopulationRuleInfo pri = this.getPopulationRule(pre.getId(), contextInfo);
+                populationRules.add(pri);
+            } catch (DoesNotExistException ex) {
+                throw new OperationFailedException(pre.getId(), ex);
+            }
+        }
+        return populationRules;
     }
 
     @Override
