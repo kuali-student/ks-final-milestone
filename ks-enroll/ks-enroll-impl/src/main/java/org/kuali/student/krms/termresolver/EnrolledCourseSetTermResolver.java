@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EnrolledCourseSet implements TermResolver<List<CourseRegistrationInfo>> {	
+public class EnrolledCourseSetTermResolver implements TermResolver<List<CourseRegistrationInfo>> {
 
     private CourseRegistrationService courseRegistrationService;
     
@@ -59,7 +59,7 @@ public class EnrolledCourseSet implements TermResolver<List<CourseRegistrationIn
 
     @Override
     public String getOutput() {
-        return "EnrolledCourseSet.getOutput()";
+        return "EnrolledCourseSetTermResolver.getOutput()";
     }
 
     @Override
