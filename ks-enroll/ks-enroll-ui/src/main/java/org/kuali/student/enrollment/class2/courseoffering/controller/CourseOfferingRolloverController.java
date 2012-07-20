@@ -38,12 +38,10 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.StateServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.stereotype.Controller;
@@ -57,7 +55,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +74,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     private TypeService typeService;
     private StateService stateService;
 
-    final Logger logger = Logger.getLogger(CourseOfferingRolloverController.class);
+    final Logger LOGGER = Logger.getLogger(CourseOfferingRolloverController.class);
     public static final String ROLLOVER_DETAILS_PAGEID = "selectTermForRolloverDetails";
     public static final String ROLLOVER_CONFIRM_RELEASE = "releaseToDepts";
 
@@ -109,7 +106,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     private ModelAndView _startPerformRollover(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
         CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
-        System.err.println("startPerformRollover");
+        LOGGER.info("startPerformRollover");
         return getUIFModelAndView(theForm);
         // return super.start(theForm, result, request, response);
     }
@@ -118,7 +115,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                                              HttpServletRequest request, HttpServletResponse response) {
         CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
         Map map = request.getParameterMap();
-        System.err.println("startRolloverDetails");
+        LOGGER.info("startRolloverDetails");
         String rolloverTerm = theForm.getRolloverTargetTermCode();
 
         try {
@@ -135,7 +132,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
 
     private ModelAndView _startReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) {
-        System.err.println("startReleaseToDepts");
+        LOGGER.info("startReleaseToDepts");
         form.computeReleaseToDeptsDisabled();
         return getUIFModelAndView(form);
     }
@@ -485,7 +482,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 return getUIFModelAndView(form);
             } else {
                 if (socRolloverResultInfos.size() > 1) {
-                    logger.warn("Multiple Soc Rollover Results Found");
+                    LOGGER.warn("Multiple Soc Rollover Results Found");
                 }
                 _disableReleaseToDeptsIfNeeded(helper, targetTermId, form);
                 SocRolloverResultInfo socRolloverResultInfo = socRolloverResultInfos.get(0);
@@ -521,7 +518,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=releaseToDepts")
     public ModelAndView releaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.err.println("releaseToDepts");
+        LOGGER.info("releaseToDepts");
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         boolean accept = form.getAcceptIndicator();
         TermInfo targetTerm = form.getTargetTerm();
@@ -533,7 +530,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError("approveCheckbox", "error.rollover.invalidTerm");
         } else {
             // We're good!
-            System.err.println("Ready to release to depts");
+            LOGGER.info("Ready to release to depts");
             SocInfo socInfo = helper.getMainSoc(targetTerm.getId());
             if (!socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY)) {
                 // If it's not draft, then set variable to disable release to depts in the UI
@@ -554,21 +551,21 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=checkApproval")
     public ModelAndView checkApproval(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.err.println("checkApproval " + form.getAcceptIndicator());
+        LOGGER.info("checkApproval " + form.getAcceptIndicator());
         return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=redoRollover")
     public ModelAndView redoRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.err.println("redoRollover ");
+        LOGGER.info("redoRollover ");
         return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=confirmReleaseToDepts")
     public ModelAndView confirmReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.err.println("confirmReleaseToDepts ");
+        LOGGER.info("confirmReleaseToDepts ");
         return getUIFModelAndView(form, ROLLOVER_CONFIRM_RELEASE);
     }
 
