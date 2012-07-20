@@ -13,6 +13,7 @@ import org.kuali.rice.krms.impl.repository.AgendaBoService;
 import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.rice.krms.impl.repository.RuleBoService;
 import org.kuali.rice.krms.impl.repository.TermBoService;
+import org.kuali.rice.krms.impl.repository.TermResolverBo;
 import org.kuali.rice.krms.impl.repository.TermSpecificationBo;
 import org.kuali.student.common.util.PropertiesFilterFactoryBean;
 
@@ -181,13 +182,33 @@ public class KSKRMSDataSetupUtility {
         // TermResolver
         // TODO KSENROLL-1860 - do a check to see if the TermResolver already exist before creating it
 
-        TermResolverDefinition termResolverDef =
+
+        TermResolverDefinition termResolverDef = getTermResolverDefinition(termResolverName);
+
+        if(termResolverDef == null)
+        {
+        termResolverDef =
                 TermResolverDefinition.Builder.create(null, KSKRMSReplaceWithPropertyFile.KSNAMESPACE, termResolverName, krmsTermResolverTypeDefinition.getId(),
                         TermSpecificationDefinition.Builder.create(termSpecDefinition),
                         null,
                         null,
                         null).build();
         termResolverDef = termBoService.createTermResolver(termResolverDef);
+        }
+    }
+
+    public TermResolverDefinition getTermResolverDefinition(String termResolverName) {
+        Map<String, String> queryArgs = new HashMap<String, String>();
+        queryArgs.put("name", termResolverName);
+        String a = queryArgs.get("name");
+        TermResolverBo termResolverBo = this.boService.findByPrimaryKey(
+                TermResolverBo.class, queryArgs);
+
+        TermResolverDefinition termResolverDef = null;
+
+        termResolverDef = termResolverBo.to(termResolverBo);
+
+        return termResolverDef;
     }
 
     private TermSpecificationDefinition createKRMSTermSpecification(
