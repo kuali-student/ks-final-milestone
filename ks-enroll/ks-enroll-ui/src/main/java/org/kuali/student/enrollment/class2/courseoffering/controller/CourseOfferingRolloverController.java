@@ -61,7 +61,7 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * This class //TODO ...
+ * The controller for Perform Rollover, Rollover Details, and Release to Depts page (all within the same view).
  *
  * @author Kuali Student Team
  */
