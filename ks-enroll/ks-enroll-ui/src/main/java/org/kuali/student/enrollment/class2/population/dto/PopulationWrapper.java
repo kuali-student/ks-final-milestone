@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.population.dto;
 
+import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 
@@ -29,16 +30,31 @@ import java.io.Serializable;
  * @author Kuali Student Team
  */
 public class PopulationWrapper implements Serializable {
+    private String id;
     private PopulationInfo populationInfo; //The core info (name+description+meta)
     private PopulationRuleInfo  populationRuleInfo;
     private String keyword;
+    private String operationType;
     private boolean showByRuleLink;
     private boolean showLinkSection;
+    private boolean enableCreateButton;
 
     public PopulationWrapper(){
         showByRuleLink = false;
         showLinkSection = true;
+        enableCreateButton = true;
+        operationType = PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY;
+
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public PopulationInfo getPopulationInfo() {
         return populationInfo;
     }
@@ -63,6 +79,14 @@ public class PopulationWrapper implements Serializable {
         this.keyword = keyword;
     }
 
+    public String getOperationType() {
+        return operationType;
+    }
+
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
+    }
+
     public boolean isShowByRuleLink() {
         return showByRuleLink;
     }
@@ -79,4 +103,11 @@ public class PopulationWrapper implements Serializable {
         this.showLinkSection = showLinkSection;
     }
 
+    public boolean isEnableCreateButton() {
+        return enableCreateButton;
+    }
+
+    public void setEnableCreateButton(boolean enableCreateButton) {
+        this.enableCreateButton = enableCreateButton;
+    }
 }

@@ -62,6 +62,7 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
                 if ( populationInfo.getStateKey().equals(fieldValues.get("populationInfo.stateKey"))) {    //filter by state
                     wrapper.setPopulationRuleInfo(populationRuleInfo);
                     wrapper.setPopulationInfo(populationInfo);
+                    wrapper.setId(populationInfo.getId());
                     populationWrappers.add(wrapper);
                 }
             }
