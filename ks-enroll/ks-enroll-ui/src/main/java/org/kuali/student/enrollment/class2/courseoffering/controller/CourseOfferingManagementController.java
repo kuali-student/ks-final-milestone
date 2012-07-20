@@ -434,6 +434,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             for(ActivityOfferingWrapper ao : aoList) {
                 if(ao.getStateName().equals("Draft") && ao.getIsChecked()) {
                     selectedIndexList.add(ao);
+                }else if (ao.getIsChecked()){
+                    GlobalVariables.getMessageMap().putError("activityActionType",CourseOfferingConstants.AO_NOT_DRAFT_FOR_DELETION_ERROR);
+                    return getUIFModelAndView(theForm);
                 }
             }
             if(selectedIndexList.isEmpty() ) {
