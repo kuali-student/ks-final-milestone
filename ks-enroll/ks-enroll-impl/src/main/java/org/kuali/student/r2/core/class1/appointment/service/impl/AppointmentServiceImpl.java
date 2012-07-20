@@ -54,7 +54,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @WebService(name = "AppointmentWindowService", serviceName = "AppointmentWindowService", portName = "AppointmentWindowService", targetNamespace = "http://student.kuali.org/wsdl/appointmentwindow")
 public class AppointmentServiceImpl implements AppointmentService {
-    // Note: add getters/setters to instance variables otherwise, can't dependency inject!!!!
     @Resource
     private AppointmentWindowDao appointmentWindowDao;
     @Resource
@@ -258,7 +257,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (null != apptWin) {
             helper.deleteAppointmentsByWindow(apptWin, false); // don't delete the slots
         } else {
-            throw new DoesNotExistException(apptWin.getId());
+            throw new DoesNotExistException(appointmentWindowId);
         }
         return status;
     }
