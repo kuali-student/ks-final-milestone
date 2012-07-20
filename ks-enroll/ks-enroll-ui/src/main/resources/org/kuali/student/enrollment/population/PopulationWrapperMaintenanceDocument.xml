@@ -46,7 +46,7 @@
         </property>
     </bean>
 
-    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{document.newMaintainableObject.dataObject.showLinkSection}">
+    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{#dp.showLinkSection}">
         <property name="disclosure.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -55,16 +55,16 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="createByRule" p:style="font-weight:bold;" p:actionLabel="By Rule" p:render="@{document.newMaintainableObject.dataObject.showByRuleLink}"/>
-                <bean parent="Uif-MessageField" p:messageText="By Rule" p:style="font-weight:bold;" p:render="@{!document.newMaintainableObject.dataObject.showByRuleLink}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="createByRule" p:style="font-weight:bold;" p:actionLabel="By Rule" p:render="@{!#dp.createByRule}"/>
+                <bean parent="Uif-MessageField" p:messageText="By Rule" p:style="font-weight:bold;" p:render="@{#dp.createByRule}"/>
                 <!--<bean parent="Uif-MessageField" p:messageText="  |  " p:style="font-weight:bold;"/>-->
-                <bean parent="Uif-ActionLink" p:methodToCall="createByCombiningPopulations" p:style="font-weight:bold;" p:actionLabel="By Combining Populations" p:render="@{!#dp.showByRuleLink}"/>
-                <bean parent="Uif-MessageField" p:messageText="By Combining Populations" p:style="font-weight:bold;" p:render="@{#dp.showByRuleLink}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="createByCombiningPopulations" p:style="font-weight:bold;" p:actionLabel="By Combining Populations" p:render="@{#dp.createByRule}"/>
+                <bean parent="Uif-MessageField" p:messageText="By Combining Populations" p:style="font-weight:bold;" p:render="@{!#dp.createByRule}"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-PopulationWrapper-CreateByRule" parent="Uif-VerticalBoxSection" p:render="@{!#dp.showByRuleLink}">
+    <bean id="KS-PopulationWrapper-CreateByRule" parent="Uif-VerticalBoxSection" p:render="@{#dp.createByRule}">
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
@@ -84,7 +84,7 @@
         </property>
     </bean>
 
-    <bean id="KS-PopulationWrapper-CreateByCombiningPopulations" parent="Uif-VerticalBoxSection" p:render="@{#dp.showByRuleLink}">
+    <bean id="KS-PopulationWrapper-CreateByCombiningPopulations" parent="Uif-VerticalBoxSection" p:render="@{!#dp.createByRule}">
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>

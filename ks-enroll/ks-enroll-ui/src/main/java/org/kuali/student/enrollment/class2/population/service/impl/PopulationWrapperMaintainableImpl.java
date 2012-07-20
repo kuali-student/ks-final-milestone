@@ -44,12 +44,12 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
             wrapper.setShowLinkSection(false);
             if (PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY.equals(populationRuleInfo.getTypeKey())){
                 //core type by rule
-                wrapper.setShowByRuleLink(true);
+                wrapper.setCreateByRule(true);
 
             }
             else {
                 //constructed type by combining populations
-                wrapper.setShowByRuleLink(false);
+                wrapper.setCreateByRule(false);
             }
 
             return wrapper;

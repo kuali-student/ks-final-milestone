@@ -22,7 +22,7 @@ public class PopulationController extends MaintenanceDocumentController {
 
         PopulationWrapper wrapper = (PopulationWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
-        wrapper.setShowByRuleLink(false);
+        wrapper.setCreateByRule(true);
         wrapper.setShowLinkSection(true);
         return getUIFModelAndView(form);
     }
@@ -31,7 +31,7 @@ public class PopulationController extends MaintenanceDocumentController {
     public ModelAndView createByCombiningPopulations (@ModelAttribute("KualiForm") MaintenanceForm form, BindingResult result,
                                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         PopulationWrapper wrapper = (PopulationWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        wrapper.setShowByRuleLink(true);
+        wrapper.setCreateByRule(false);
         wrapper.setShowLinkSection(true);
         wrapper.setEnableCreateButton(false);
         return getUIFModelAndView(form);
