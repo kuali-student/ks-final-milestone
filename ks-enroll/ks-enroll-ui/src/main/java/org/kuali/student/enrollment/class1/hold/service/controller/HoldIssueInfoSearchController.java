@@ -63,7 +63,7 @@ import java.util.Properties;
  */
 
 @Controller
-@RequestMapping(value = "/holdSearch")
+@RequestMapping(value = "/holdIssueInfoSearch")
 public class HoldIssueInfoSearchController extends UifControllerBase {
 
     private transient HoldService holdService;
@@ -156,139 +156,20 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
     public ModelAndView view(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Object atp = getSelectedAtp(searchForm, "view");
-        Properties urlParameters;
-        String controllerPath;
-        if(atp instanceof HolidayCalendarInfo){
-            urlParameters = getViewHelperService(searchForm).buildHCalURLParameters((HolidayCalendarInfo)atp,CalendarConstants.HC_VIEW_METHOD,true,getContextInfo());
-            controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
-        } else if(atp instanceof AcademicCalendarInfo) {
-            urlParameters = getViewHelperService(searchForm).buildACalURLParameters((AcademicCalendarInfo)atp,CalendarConstants.AC_VIEW_METHOD,true,getContextInfo());
-            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-        } else if(atp instanceof TermInfo){
-            urlParameters = getViewHelperService(searchForm).buildTermURLParameters((TermInfo)atp,CalendarConstants.AC_VIEW_METHOD,true,getContextInfo());
-            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-        } else {
-            throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
-        }
-
-        return super.performRedirect(searchForm,controllerPath, urlParameters);
     }
 
     @RequestMapping(params = "methodToCall=edit")
     public ModelAndView edit(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Object atp = getSelectedAtp(searchForm, "edit");
 
-        Properties urlParameters;
-        String controllerPath;
-
-        if(atp instanceof HolidayCalendarInfo){
-            urlParameters = getViewHelperService(searchForm).buildHCalURLParameters((HolidayCalendarInfo) atp, CalendarConstants.HC_EDIT_METHOD, false, getContextInfo());
-            controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
-        } else if(atp instanceof AcademicCalendarInfo) {
-            urlParameters = getViewHelperService(searchForm).buildACalURLParameters((AcademicCalendarInfo) atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
-            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-        } else if(atp instanceof TermInfo){
-            urlParameters = getViewHelperService(searchForm).buildTermURLParameters((TermInfo)atp,CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
-            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-        } else {
-            throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
-        }
-
-        return super.performRedirect(searchForm,controllerPath, urlParameters);
-
-    }
-
-    @RequestMapping(params = "methodToCall=copy")
-    public ModelAndView copy(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        Object atp = getSelectedAtp(searchForm, "copy");
-
-        Properties urlParameters;
-        String controllerPath;
-
-        if(atp instanceof HolidayCalendarInfo){
-            controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
-            urlParameters = getViewHelperService(searchForm).buildHCalURLParameters((HolidayCalendarInfo)atp,CalendarConstants.HC_COPY_METHOD,false,getContextInfo());
-        }else if(atp instanceof AcademicCalendarInfo) {
-            urlParameters = getViewHelperService(searchForm).buildACalURLParameters((AcademicCalendarInfo)atp,CalendarConstants.AC_COPY_METHOD,false,getContextInfo());
-            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-        } else {
-            throw new RuntimeException("Invalid calendar type. This search supports Acal and HCal only");
-        }
-
-        return super.performRedirect(searchForm,controllerPath, urlParameters);
 
     }
 
     @RequestMapping(params = "methodToCall=delete")
     public ModelAndView delete(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object atp = getSelectedAtp(searchForm, "delete");
 
-        if(atp instanceof HolidayCalendarInfo){
-            StatusInfo status = getAcademicCalendarService().deleteHolidayCalendar(((HolidayCalendarInfo)atp).getId(),getContextInfo());
-            if (status.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,CalendarConstants.MSG_INFO_SEARCH_DELETE_SUCCESS,((HolidayCalendarInfo) atp).getName());
-                searchForm.getHolidayCalendars().remove(atp);
-            } else{
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
-            }
-        } else if(atp instanceof AcademicCalendarInfo) {
-            StatusInfo status = getAcademicCalendarService().deleteAcademicCalendar(((AcademicCalendarInfo)atp).getId(),getContextInfo());
-            if (status.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,CalendarConstants.MSG_INFO_SEARCH_DELETE_SUCCESS,((AcademicCalendarInfo) atp).getName());
-                searchForm.getAcademicCalendars().remove(atp);
-            } else{
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
-            }
-        } else if(atp instanceof TermInfo){
-            StatusInfo status = getAcademicCalendarService().deleteTerm(((TermInfo)atp).getId(),getContextInfo());
-            if (status.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,CalendarConstants.MSG_INFO_SEARCH_DELETE_SUCCESS,((TermInfo) atp).getName());
-                searchForm.getTerms().remove(atp);
-            } else{
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
-            }
-        } else {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: invalid calendar type.");
-        }
-
-        return getUIFModelAndView(searchForm);
-
-    }
-
-    private Object getSelectedAtp(CalendarSearchForm searchForm, String actionLink){
-        String selectedCollectionPath = searchForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("Selected collection was not set for " + actionLink);
-        }
-
-        int selectedLineIndex = -1;
-        String selectedLine = searchForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        if (selectedLineIndex == -1) {
-            throw new RuntimeException("Selected line index was not set");
-        }
-
-        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(searchForm, selectedCollectionPath);
-        Object atp = ((List<Object>) collection).get(selectedLineIndex);
-
-        return atp;
-    }
-
-    private CalendarSearchViewHelperService getViewHelperService(CalendarSearchForm form){
-        if (form.getView().getViewHelperServiceClass() != null){
-            return (CalendarSearchViewHelperService)form.getView().getViewHelperService();
-        } else {
-            return (CalendarSearchViewHelperService)form.getPostedView().getViewHelperService();
-        }
     }*/
 
     private void resetForm(HoldIssueInfoSearchForm searchForm) {
