@@ -43,8 +43,33 @@ public class HoldIssueInfoTypeKeyValues extends KeyValuesBase implements Seriali
 
         ConcreteKeyValue topKeyValue = new ConcreteKeyValue();
         topKeyValue.setKey("");
-        topKeyValue.setValue("Select Hold Type");
+        topKeyValue.setValue("");
         keyValues.add(topKeyValue);
+
+        ConcreteKeyValue keyValue = new ConcreteKeyValue();
+        keyValue.setKey("progress");
+        keyValue.setValue("Academic Progress Issue");
+        keyValues.add(keyValue);
+
+        ConcreteKeyValue keyValue1 = new ConcreteKeyValue();
+        keyValue1.setKey("advising");
+        keyValue1.setValue("Academic Advising Issue");
+        keyValues.add(keyValue1);
+
+        ConcreteKeyValue keyValue2 = new ConcreteKeyValue();
+        keyValue2.setKey("discipline");
+        keyValue2.setValue("Disciplinary Issue");
+        keyValues.add(keyValue2);
+
+        ConcreteKeyValue keyValue3 = new ConcreteKeyValue();
+        keyValue3.setKey("financial");
+        keyValue3.setValue("Financial Issue");
+        keyValues.add(keyValue3);
+
+        ConcreteKeyValue keyValue4 = new ConcreteKeyValue();
+        keyValue4.setKey("library");
+        keyValue4.setValue("Library Issue");
+        keyValues.add(keyValue4);
 
         /*try {
             List<TypeInfo> types = getHoldIssueTypes();
