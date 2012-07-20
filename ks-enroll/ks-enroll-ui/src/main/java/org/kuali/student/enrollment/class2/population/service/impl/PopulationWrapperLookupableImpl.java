@@ -59,12 +59,9 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
             for (PopulationInfo populationInfo: populationInfoList) {
                 PopulationRuleInfo populationRuleInfo = getPopulationService().getPopulationRuleForPopulation(populationInfo.getId(),getContextInfo());
                 PopulationWrapper wrapper = new PopulationWrapper();
-                if ( populationInfo.getStateKey().equals(fieldValues.get("populationInfo.stateKey"))) {    //filter by state
-                    wrapper.setPopulationRuleInfo(populationRuleInfo);
-                    wrapper.setPopulationInfo(populationInfo);
-                    wrapper.setId(populationInfo.getId());
-                    populationWrappers.add(wrapper);
-                }
+                wrapper.setPopulationRuleInfo(populationRuleInfo);
+                wrapper.setPopulationInfo(populationInfo);
+                populationWrappers.add(wrapper);
             }
         } catch (InvalidParameterException e) {
             logger.error("PopulationWrapperLookupableImpl invalid parameter. ", e);
@@ -88,12 +85,17 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
 
     private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
         String keyword = fieldValues.get("keyword");
+        String stateKey = fieldValues.get("populationInfo.stateKey");
 
         keyword = keyword.isEmpty()?"*":keyword; //search for all if empty
 
         List<Predicate> predicates = new ArrayList<Predicate>();
         predicates.add(PredicateFactory.like("name", "%"+keyword+"%"));   //search both columns
         predicates.add(PredicateFactory.or(PredicateFactory.like("descrPlain", "%"+keyword+"%")));
+        if (stateKey.equals(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY) ||
+                stateKey.equals(PopulationServiceConstants.POPULATION_INACTIVE_STATE_KEY)) {
+            predicates.add(PredicateFactory.and(PredicateFactory.equal("populationState", stateKey)));
+        }
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
