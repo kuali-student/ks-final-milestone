@@ -61,6 +61,7 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
                 PopulationWrapper wrapper = new PopulationWrapper();
                 wrapper.setPopulationRuleInfo(populationRuleInfo);
                 wrapper.setPopulationInfo(populationInfo);
+                wrapper.setId(populationInfo.getId());
                 //set display names
                 wrapper.setPopulationRuleTypeKeyName(populationRuleInfo.getTypeKey().substring(populationRuleInfo.getTypeKey().lastIndexOf('.')+1));
                 wrapper.setPopulationStateKeyName(populationInfo.getStateKey().substring(populationInfo.getStateKey().lastIndexOf('.')+1));
