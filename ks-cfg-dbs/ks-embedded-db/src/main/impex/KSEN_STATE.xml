@@ -54,6 +54,27 @@
         NAME="Official" UPDATEID="SYSTEMLOADER"
         UPDATETIME="19700101000000" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="The instructor is assigned to teach this course or section"
+        DESCR_PLAIN="The instructor is assigned to teach this course or section"
+        ID="kuali.lpr.state.assigned"
+        LIFECYCLE_KEY="kuali.lpr.lifecycle.instructor.course.assignment"
+        NAME="Assigned" UPDATEID="SYSTEMLOADER"
+        UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="The instructor is proposed to teach this course or section but it has not yet been confirmed"
+        DESCR_PLAIN="The instructor is proposed to teach this course or section but it has not yet been confirmed"
+        ID="kuali.lpr.state.tentative"
+        LIFECYCLE_KEY="kuali.lpr.lifecycle.instructor.course.assignment"
+        NAME="Tentative" UPDATEID="SYSTEMLOADER"
+        UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="The instructor had been assigned but then that assignment was removed"
+        DESCR_PLAIN="The instructor had been assigned but then that assignment was removed"
+        ID="kuali.lpr.state.unassigned"
+        LIFECYCLE_KEY="kuali.lpr.lifecycle.instructor.course.assignment"
+        NAME="Unassigned" UPDATEID="SYSTEMLOADER"
+        UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_FORMATTED="Approved" DESCR_PLAIN="Approved"
         ID="kuali.lui.activity.offering.state.approved"
         LIFECYCLE_KEY="kuali.activity.offering.process" NAME="Approved"
