@@ -40,12 +40,14 @@ public class PopulationWrapper implements Serializable {
     private boolean createByRule;
     private boolean inCreateMode;
     private boolean enableCreateButton;
+    private String pageTitle;
 
     public PopulationWrapper(){
         createByRule = true;
         inCreateMode = true;
         enableCreateButton = true;
         operationType = PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY;
+        pageTitle="Create a New Population";
 
     }
 
@@ -127,5 +129,13 @@ public class PopulationWrapper implements Serializable {
 
     public void setEnableCreateButton(boolean enableCreateButton) {
         this.enableCreateButton = enableCreateButton;
+    }
+
+    public String getPageTitle() {
+        return pageTitle;
+    }
+
+    public void setPageTitle(String pageTitle) {
+        this.pageTitle = pageTitle;
     }
 }

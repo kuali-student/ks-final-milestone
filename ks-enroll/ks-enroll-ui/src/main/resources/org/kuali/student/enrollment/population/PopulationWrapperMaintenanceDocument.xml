@@ -20,7 +20,7 @@
 
     <!-- PopulationWrapper MaintenanceView -->
     <bean id="KS-PopulationWrapper-MaintenanceView" parent="KSMaintenanceView">
-        <property name="headerText" value="Create a New Population"/>
+        <property name="headerText" value="@{#dp.pageTitle}"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
         <property name="singlePageView" value="true"/>
@@ -39,7 +39,9 @@
         <property name="page.footer.items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Create Population" p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"  p:disabled="@{#dp.enableCreateButton}"/>
+                      p:render="@{#dp.inCreateMode}"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Update" p:performClientSideValidation="true"
+                      p:render="@{!#dp.inCreateMode}"/>
                 <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
@@ -77,7 +79,8 @@
                 <bean parent="Uif-InputField" p:propertyName="populationInfo.descr" p:label="Description"
                       p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
+                        <!--<bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />-->
+                        <bean parent="Uif-TextControl" p:size="40" />
                     </property>
                 </bean>
             </list>
