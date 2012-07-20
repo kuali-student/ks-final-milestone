@@ -62,8 +62,8 @@ public class KSKRMSDataSetupUtility {
     public void createKSKRMSData() {
         setupPropertyFile();
         namespace = getPropertyValue(PROPERTY_namespace);
-//         createKRMSContextFromPropertyFile();		// Works
-//         createKRMSTermSpecificationsFromPropertyFile();  // Works
+        createKRMSContextFromPropertyFile();		// Works
+        createKRMSTermSpecificationsFromPropertyFile();  // Works
          // Run the IDContext.sql to do the link between context and TermSpec - KSENROLL-1239
         createAllKRMSTermDefinitionsFromPropertyFile();
     }
@@ -180,6 +180,7 @@ public class KSKRMSDataSetupUtility {
 
         // TermResolver
         // TODO KSENROLL-1860 - do a check to see if the TermResolver already exist before creating it
+
         TermResolverDefinition termResolverDef =
                 TermResolverDefinition.Builder.create(null, KSKRMSReplaceWithPropertyFile.KSNAMESPACE, termResolverName, krmsTermResolverTypeDefinition.getId(),
                         TermSpecificationDefinition.Builder.create(termSpecDefinition),
@@ -213,8 +214,6 @@ public class KSKRMSDataSetupUtility {
         } else {
             termSpec = termSpecBo.to(termSpecBo);
         }
-        System.out.println("Elmien :     " + termSpec.getDescription()
-                + "     " + termSpec.getName());
         return termSpec;
     }
 
