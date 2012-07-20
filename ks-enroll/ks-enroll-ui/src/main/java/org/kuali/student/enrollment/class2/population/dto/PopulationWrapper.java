@@ -51,6 +51,8 @@ public class PopulationWrapper implements Serializable {
         enableCreateButton = true;
         operationType = PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY;
         pageTitle="Create a New Population";
+        populationInfo = new PopulationInfo();
+        populationRuleInfo = new PopulationRuleInfo();
 
     }
 
