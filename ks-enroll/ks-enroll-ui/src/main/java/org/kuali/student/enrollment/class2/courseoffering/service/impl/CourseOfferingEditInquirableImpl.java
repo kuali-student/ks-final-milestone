@@ -249,7 +249,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
 
     protected LRCService getLRCService() {
         if(lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lrc", "LrcService"));
+            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.lrcService;
     }

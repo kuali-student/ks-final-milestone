@@ -275,23 +275,28 @@
     <bean id="KS-CourseOfferingEdit-StudentRegOptions" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="coInfo.studentRegistrationGradingOptions" p:label="Student Registration Options" p:labelPlacement="LEFT" p:render="@{!#dp.studentRegOptions.empty}">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="coInfo.studentRegistrationGradingOptions"
+                      p:label="Student Registration Options" p:render="@{!#dp.studentRegOptions.empty}">
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.StudentRegistrationOptionsKeyValues" p:addBlankOption="false" />
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.StudentRegistrationOptionsKeyValues"
+                              p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:label="Student Registration Options" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}"/>
+                <bean parent="Uif-MessageField" p:label="Student Registration Options"
+                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                      p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}"/>
             </list>
         </property>
     </bean>
-    <bean id="KS-CourseOfferingEdit-CreditType" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseOfferingEdit-CreditType" parent="Uif-VerticalBoxSection"
+          p:style="margin-left:15px;">
         <property name="items">
             <list>
                 <!-- Credit Option Type Selector -->
-                <bean parent="Uif-InputField" p:propertyName="creditOption.typeKey" p:label="Credit Type" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="creditOption.typeKey" p:label="Credit Type">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl" p:disabled="@{#dp.creditOptionFixed}" />
                     </property>
