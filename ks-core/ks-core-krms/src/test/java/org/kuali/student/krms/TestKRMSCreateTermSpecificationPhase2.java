@@ -188,8 +188,6 @@ public class TestKRMSCreateTermSpecificationPhase2 extends KRMSTestCase {
 		} else {
 			termSpec = termSpecBo.to(termSpecBo);
 		}
-		System.out.println("Elmien :     " + termSpec.getDescription()
-				+ "     " + termSpec.getName());
 		return termSpec;
 	}
 
