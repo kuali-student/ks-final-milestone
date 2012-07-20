@@ -53,6 +53,12 @@
         ID="kuali.format.offering.process"
         NAME="kuali.format.offering.process" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
+        DESCR_FORMATTED="kuali.lpr.lifecycle.instructor.course.assignment state lifecycle"
+        DESCR_PLAIN="kuali.lpr.lifecycle.instructor.course.assignment state lifecycle"
+        ID="kuali.lpr.lifecycle.instructor.course.assignment"
+        NAME="kuali.lpr.lifecycle.instructor.course.assignment" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="19700101000000"
         DESCR_PLAIN="kuali milestone state process"
         ID="kuali.milestone.process" NAME="kuali.milestone.process" VER_NBR="0"/>
