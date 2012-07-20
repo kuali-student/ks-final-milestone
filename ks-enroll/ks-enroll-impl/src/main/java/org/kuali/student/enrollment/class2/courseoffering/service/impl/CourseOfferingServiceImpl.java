@@ -1050,7 +1050,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, context);
         ao.setFormatOfferingId(luiRel.getLuiId());
         ao.setCourseOfferingId(co.getId());
-        ao.setFormatOfferingName(fo.getName());
+        ao.setFormatOfferingName(fo.getShortName());
         ao.setCourseOfferingCode(co.getCourseOfferingCode());
         ao.setCourseOfferingTitle(co.getCourseOfferingTitle());
         AtpService localAtpService = getAtpService();
