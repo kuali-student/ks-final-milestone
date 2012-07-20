@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.appointment.keyvalue;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -10,13 +11,12 @@ import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
+import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
-import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -25,9 +25,11 @@ import java.util.List;
 
 public class PeriodForAppWindowKeyDatesFinder extends UifKeyValuesFinderBase implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    private static final Logger LOG = Logger.getLogger(PeriodForAppWindowKeyDatesFinder.class);
+
     private transient AcademicCalendarService acalService;
     private transient TypeService typeService;
-    private ContextInfo contextInfo;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -56,27 +58,12 @@ public class PeriodForAppWindowKeyDatesFinder extends UifKeyValuesFinderBase imp
                     }
 
                 }catch (Exception e){
-                     //ToDo   
+                    LOG.error("Error getting periods", e);
                 }
-//                for (KeyDateInfo keyDateInfo : keyDateInfoList) {
-//                    if (keyDateInfo.getTypeKey().equals("kuali.atp.milestone.RegistrationPeriod")){
-//                        ConcreteKeyValue keyValue = new ConcreteKeyValue();
-//                        keyValue.setKey(keyDateInfo.getId());
-//                        keyValue.setValue(keyDateInfo.getName());
-//                        keyValues.add(keyValue);
-//                    }
-//                }
+
             }
-        }catch (DoesNotExistException dnee){
-            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get DoesNotExistException:  "+dnee.toString());
-        }catch (InvalidParameterException ipe){
-            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get InvalidParameterException:  "+ipe.toString());
-        }catch (MissingParameterException mpe){
-            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get MissingParameterException:  "+mpe.toString());
-        }catch (OperationFailedException ofe){
-            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get OperationFailedException:  "+ofe.toString());
-        }catch (PermissionDeniedException pde){
-            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get PermissionDeniedException:  "+pde.toString());
+        }catch (Exception e){
+            LOG.error("Error getting periods", e);
         }
         return keyValues;
     }
@@ -95,11 +82,4 @@ public class PeriodForAppWindowKeyDatesFinder extends UifKeyValuesFinderBase imp
         return this.typeService;
     }
 
-    private ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            //TODO - get real ContextInfo
-            contextInfo = TestHelper.getContext1();
-        }
-        return contextInfo;
-    }
 }
