@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.population.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -26,6 +27,10 @@ import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
@@ -43,47 +48,51 @@ import java.util.Map;
  */
 public class PopulationWrapperLookupableImpl extends LookupableImpl {
     private transient PopulationService populationService = getPopulationService();
+    final Logger logger = Logger.getLogger(PopulationWrapperLookupableImpl.class);
 
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<PopulationWrapper> populationWrappers = new ArrayList<PopulationWrapper>();
-        List<PopulationInfo> populationInfoList = new ArrayList<PopulationInfo>();
 
         try {
-            if (!fieldValues.get("keyword").isEmpty()) {
-                QueryByCriteria qbc = buildQueryByCriteria(fieldValues, "name");  //search for keyword in name
-                populationInfoList = getPopulationService().searchForPopulations(qbc, getContextInfo());
-                qbc = buildQueryByCriteria(fieldValues, "descr");                 //search for keyword in description
-                populationInfoList.addAll(getPopulationService().searchForPopulations(qbc, getContextInfo()));
-            } else {
-                return populationWrappers;
-            }
-
+            QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
+            List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(qbc, getContextInfo());
             for (PopulationInfo populationInfo: populationInfoList) {
                 PopulationRuleInfo populationRuleInfo = getPopulationService().getPopulationRuleForPopulation(populationInfo.getId(),getContextInfo());
                 PopulationWrapper wrapper = new PopulationWrapper();
-                if (//populationRuleInfo.getTypeKey().equals(fieldValues.get("populationRuleInfo.typeKey")) &&    out for now
-                    populationInfo.getStateKey().equals(fieldValues.get("populationInfo.stateKey"))) {    //filter by state
+                if ( populationInfo.getStateKey().equals(fieldValues.get("populationInfo.stateKey"))) {    //filter by state
                     wrapper.setPopulationRuleInfo(populationRuleInfo);
                     wrapper.setPopulationInfo(populationInfo);
                     populationWrappers.add(wrapper);
                 }
             }
+        } catch (InvalidParameterException e) {
+            logger.error("PopulationWrapperLookupableImpl invalid parameter. ", e);
+            throw new RuntimeException("PopulationWrapperLookupableImpl invalid parameter. ", e);
+        } catch (MissingParameterException e) {
+            logger.error("PopulationWrapperLookupableImpl missing parameter. ", e);
+            throw new RuntimeException("PopulationWrapperLookupableImpl missing parameter. ", e);
+        } catch (OperationFailedException e) {
+            logger.error("PopulationWrapperLookupableImpl operation failed. ", e);
+            throw new RuntimeException("PopulationWrapperLookupableImpl operation failed. ", e);
+        } catch (PermissionDeniedException e) {
+            logger.error("PopulationWrapperLookupableImpl permission denied. ", e);
+            throw new RuntimeException("PopulationWrapperLookupableImpl permission denied. ", e);
         } catch (Exception e) {
-           throw new RuntimeException(e);
+            logger.error("PopulationWrapperLookupableImpl exception. ", e);
+            throw new RuntimeException("PopulationWrapperLookupableImpl exception. ", e);
         }
 
         return populationWrappers;
     }
 
-    private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues, String nameOrDescr){
+    private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
         String keyword = fieldValues.get("keyword");
 
+        keyword = keyword.isEmpty()?"*":keyword; //search for all if empty
+
         List<Predicate> predicates = new ArrayList<Predicate>();
-        if (nameOrDescr.equals("name")) {
-            predicates.add(PredicateFactory.like("name", "%"+keyword+"%"));
-        } else {
-            predicates.add(PredicateFactory.like("descrPlain", "%"+keyword+"%"));
-        }
+        predicates.add(PredicateFactory.like("name", "%"+keyword+"%"));   //search both columns
+        predicates.add(PredicateFactory.or(PredicateFactory.like("descrPlain", "%"+keyword+"%")));
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
