@@ -79,9 +79,9 @@
         <property name="resultFields">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="populationInfo.name"/>
-                <bean parent="Uif-DataField" p:propertyName="populationInfo.descr" />
-                <bean parent="Uif-DataField" p:propertyName="populationRuleInfo.typeKey" />
-                <bean parent="Uif-DataField" p:propertyName="populationInfo.stateKey" />
+                <bean parent="Uif-DataField" p:propertyName="populationInfo.descr.plain" p:label="Description"/>
+                <bean parent="Uif-DataField" p:propertyName="populationRuleTypeKeyName"  p:label="Type"/>
+                <bean parent="Uif-DataField" p:propertyName="populationStateKeyName"  p:label="State"/>
             </list>
         </property>
     </bean>

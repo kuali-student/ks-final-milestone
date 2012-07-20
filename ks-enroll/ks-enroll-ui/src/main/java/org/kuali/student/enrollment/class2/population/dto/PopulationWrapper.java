@@ -35,6 +35,8 @@ public class PopulationWrapper implements Serializable {
     private PopulationRuleInfo  populationRuleInfo;
     private String keyword;
     private String operationType;
+    private String populationRuleTypeKeyName;
+    private String populationStateKeyName;
     private boolean createByRule;
     private boolean inCreateMode;
     private boolean enableCreateButton;
@@ -85,6 +87,22 @@ public class PopulationWrapper implements Serializable {
 
     public void setOperationType(String operationType) {
         this.operationType = operationType;
+    }
+
+    public String getPopulationRuleTypeKeyName() {
+        return populationRuleTypeKeyName;
+    }
+
+    public void setPopulationRuleTypeKeyName(String populationRuleTypeKeyName) {
+        this.populationRuleTypeKeyName = populationRuleTypeKeyName;
+    }
+
+    public String getPopulationStateKeyName() {
+        return populationStateKeyName;
+    }
+
+    public void setPopulationStateKeyName(String populationStateKeyName) {
+        this.populationStateKeyName = populationStateKeyName;
     }
 
     public boolean isCreateByRule() {
