@@ -27,7 +27,7 @@
           p:id="manageCourseOfferingsPage"
           p:headerText="">
         <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
+            <bean parent="Uif-HeaderThree"/>
         </property>
         <property name="items">
             <list>
@@ -42,6 +42,9 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
+                <bean parent="Uif-ActionLink" p:clientSideJs="confirmDeletion('Really mark ready?')"
+                      p:methodToCall="markSubjectCodeReadyForScheduling"
+                      p:actionLabel="Mark Subject Code Ready for Scheduling" />
                 <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingList.empty}"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:render="@{!courseOfferingList.empty}"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>

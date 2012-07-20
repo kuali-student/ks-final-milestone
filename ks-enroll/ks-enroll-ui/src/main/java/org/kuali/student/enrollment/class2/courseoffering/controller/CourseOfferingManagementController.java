@@ -1,5 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -9,6 +12,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -20,6 +24,8 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.krms.termresolver.SubjectCodeTermResolver;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.springframework.stereotype.Controller;
@@ -34,6 +40,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
+
 
 @Controller
 @RequestMapping(value = "/courseOfferingManagement")
@@ -514,6 +521,20 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
          return super.performRedirect(theForm,"courseOffering", props);
     }
+
+
+    @RequestMapping(params = "methodToCall=markSubjectCodeReadyForScheduling")
+    public ModelAndView markSubjectCodeReadyForScheduling(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<ActivityOfferingWrapper> list = theForm.getActivityWrapperList();
+        for (ActivityOfferingWrapper activityOfferingWrapper : list) {
+            if (DtoConstants.STATE_DRAFT.equalsIgnoreCase(activityOfferingWrapper.getStateName())) {
+                activityOfferingWrapper.setStateName(DtoConstants.STATE_SUBMITTED);
+            }
+        }
+        return getUIFModelAndView(theForm);
+    }
+
 
     /**
      * Method used to invoke the CO inquiry view from Manage Course Offering screen while search input is Course Offering
