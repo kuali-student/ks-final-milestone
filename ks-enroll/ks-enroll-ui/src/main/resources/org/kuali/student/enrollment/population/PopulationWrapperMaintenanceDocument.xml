@@ -39,16 +39,16 @@
         <property name="page.footer.items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Create Population" p:performClientSideValidation="true"
-                      p:render="@{#dp.inCreateMode}"/>
+                      p:render="@{maintenanceAction eq 'New'}"/>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Update" p:performClientSideValidation="true"
-                      p:render="@{!#dp.inCreateMode}"/>
+                      p:render="@{maintenanceAction eq 'Edit'}"/>
                 <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{#dp.inCreateMode}">
+    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{maintenanceAction eq 'New'}">
         <property name="disclosure.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -82,6 +82,14 @@
                         <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
                     </property>
                 </bean>
+                <bean parent="Uif-InputField" p:propertyName="populationStateKeyName" p:defaultValue="active" p:render="@{maintenanceAction eq 'Edit'}">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Union" p:render="@{(maintenanceAction eq 'Edit') AND (#dp.operationType eq 'kuali.population.rule.type.union')}"/>
+                <bean parent="Uif-MessageField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Intersection" p:render="@{(maintenanceAction eq 'Edit') AND (#dp.operationType eq 'kuali.population.rule.type.intersection')}"/>
+                <bean parent="Uif-MessageField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Exclusion" p:render="@{(maintenanceAction eq 'Edit') AND (#dp.operationType eq 'kuali.population.rule.type.exclusion')}"/>
             </list>
         </property>
     </bean>
@@ -102,8 +110,16 @@
                         <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="operationType" p:label="Operation"
-                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:defaultValue="kuali.population.rule.type.union" p:required="true">
+                <bean parent="Uif-InputField" p:propertyName="populationStateKeyName" p:defaultValue="active" p:render="@{maintenanceAction eq 'Edit'}">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Union" p:render="@{(maintenanceAction eq 'Edit') AND (#dp.operationType eq 'kuali.population.rule.type.union')}"/>
+                <bean parent="Uif-MessageField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Intersection" p:render="@{(maintenanceAction eq 'Edit') AND (#dp.operationType eq 'kuali.population.rule.type.intersection')}"/>
+                <bean parent="Uif-MessageField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Exclusion" p:render="@{(maintenanceAction eq 'Edit') AND (#dp.operationType eq 'kuali.population.rule.type.exclusion')}"/>
+                <bean parent="Uif-InputField" p:propertyName="operationType" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                      p:defaultValue="kuali.population.rule.type.union" p:required="true" p:render="@{maintenanceAction eq 'New'}">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl" />
                     </property>
@@ -121,7 +137,6 @@
                     </property>
                 </bean>
                 <ref bean="KS-PopulationWrapper-AddPopulationsSection"/>
-
             </list>
         </property>
     </bean>
@@ -241,4 +256,8 @@
         </property>
     </bean>
 
+    <util:list id="populationStateKeyName-options">
+        <bean parent="Uif-KeyLabelPair" p:key="active" p:value="Active"/>
+        <bean parent="Uif-KeyLabelPair" p:key="inactive" p:value="Inactive"/>
+    </util:list>
 </beans>
