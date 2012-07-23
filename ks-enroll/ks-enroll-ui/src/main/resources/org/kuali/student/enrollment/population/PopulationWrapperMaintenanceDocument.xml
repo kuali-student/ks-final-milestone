@@ -147,7 +147,7 @@
             <bean id="KS-PopulationWrapper-AddPopulationsSubSection" parent="Uif-StackedCollectionSubSection" p:collectionLookup.render="false" p:required="true">
                 <property name="headerText" value="Population(s)" />
                 <property name="instructionalText" value="Add at least two different populations"/>
-                <property name="propertyName" value="populationRuleInfo.childPopulationIds" />
+                <property name="propertyName" value="childPopulations" />
                 <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
                 <property name="collectionLookup.quickfinderAction.render" value="false" />
                 <property name="layoutManager">
