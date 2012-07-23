@@ -33,13 +33,13 @@ import java.util.List;
 public class PopulationWrapper implements Serializable {
     private String id;
     private PopulationInfo populationInfo; //The core info (name+description+meta)
-    private PopulationRuleInfo  populationRuleInfo;
+    private PopulationRuleInfo populationRuleInfo;
     private String keyword;
     private String operationType;
+    private String operationTypeText;
     private String populationRuleTypeKeyName;
     private String populationStateKeyName;
     private boolean createByRule;
-    private boolean inCreateMode;
     private boolean enableCreateButton;
     private String pageTitle;
 
@@ -47,7 +47,6 @@ public class PopulationWrapper implements Serializable {
 
     public PopulationWrapper(){
         createByRule = true;
-        inCreateMode = true;
         enableCreateButton = true;
         operationType = PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY;
         pageTitle="Create a New Population";
@@ -96,6 +95,14 @@ public class PopulationWrapper implements Serializable {
         this.operationType = operationType;
     }
 
+    public String getOperationTypeText() {
+        return operationTypeText;
+    }
+
+    public void setOperationTypeText(String operationTypeText) {
+        this.operationTypeText = operationTypeText;
+    }
+
     public String getPopulationRuleTypeKeyName() {
         return populationRuleTypeKeyName;
     }
@@ -118,14 +125,6 @@ public class PopulationWrapper implements Serializable {
 
     public void setCreateByRule(boolean createByRule) {
         this.createByRule = createByRule;
-    }
-
-    public boolean isInCreateMode() {
-        return inCreateMode;
-    }
-
-    public void setInCreateMode(boolean inCreateMode) {
-        this.inCreateMode = inCreateMode;
     }
 
     public boolean isEnableCreateButton() {
