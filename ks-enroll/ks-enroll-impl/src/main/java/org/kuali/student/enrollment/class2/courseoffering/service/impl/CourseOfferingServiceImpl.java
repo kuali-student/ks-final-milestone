@@ -1645,58 +1645,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         this.offeringCodeGenerator = offeringCodeGenerator;
     }
 
-    @Override
-    public TermInfo getTerm(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        AtpInfo atp = atpService.getAtp(termId, context);
-        TermInfo term = null;
-        TermAssembler termAssembler = getTermAssembler();
-        if (termAssembler == null) {
-            setTermAssembler(new TermAssembler());
-        }
-
-        if (atp != null && checkTypeForTermType(atp.getTypeKey(), context)) {
-            try {
-                term = getTermAssembler().assemble(atp, context);
-            } catch (AssemblyException e) {
-                throw new OperationFailedException("AssemblyException : " + e.getMessage());
-            }
-        } else {
-            throw new DoesNotExistException("This is either not valid Atp or not valid Term. " + termId);
-        }
-
-        return term;
-    }
-
-    private boolean checkTypeForTermType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<TypeInfo> types = getTermTypes(context);
-        return checkTypeInTypes(typeKey, types);
-    }
-
-    @Override
-    public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        List<TypeTypeRelationInfo> relations = null;
-        try {
-            relations = typeService.getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException(e.getMessage(), e);
-        }
-
-        if (relations != null) {
-            List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
-            for (TypeTypeRelationInfo rel : relations) {
-                try {
-                    results.add(typeService.getType(rel.getRelatedTypeKey(), context));
-                } catch (DoesNotExistException e) {
-                    throw new OperationFailedException(e.getMessage(), e);
-                }
-            }
-
-            return results;
-        }
-
-        return null;
-    }
 
     public TermAssembler getTermAssembler() {
         if (termAssembler == null) {

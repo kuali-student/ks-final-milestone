@@ -1513,22 +1513,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		return businessLogic.generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
 	}
 	
-	
-	
-	
-
-    @Override
-    public TermInfo getTerm(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        TermInfo termInfo = new TermInfo();
-        termInfo.setCode("20122");
-        return termInfo;
-    }
-
-    @Override
-    public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-    }
-
     @Override
     public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termId,
                                                                  String subjectArea, ContextInfo context)

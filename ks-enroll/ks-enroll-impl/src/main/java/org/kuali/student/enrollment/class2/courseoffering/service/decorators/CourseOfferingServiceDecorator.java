@@ -479,16 +479,6 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
 
-    @Override
-    public TermInfo getTerm(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getTerm(termId, context);
-    }
-
-    @Override
-    public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getTermTypes(context);
-    }
-
 	@Override
 	public StatusInfo addSeatPoolDefinitionToActivityOffering(
 			String seatPoolDefinitionId, String activityOfferingId,
