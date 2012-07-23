@@ -21,6 +21,7 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 //import java.util.ArrayList;
 //import java.util.List;
@@ -52,7 +53,7 @@ public class PopulationWrapper implements Serializable {
         pageTitle="Create a New Population";
         populationInfo = new PopulationInfo();
         populationRuleInfo = new PopulationRuleInfo();
-
+        childPopulations = new ArrayList<PopulationInfo>();
     }
 
     public String getId() {

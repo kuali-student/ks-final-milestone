@@ -198,25 +198,25 @@
 
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="id" p:style="font-weight:bold;" p:render="@{#isAddLine}" >
+                <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="name" p:style="font-weight:bold;">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="40" />
                     </property>
                     <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                     <property name="quickfinder.fieldConversions">
                         <map>
-                            <entry key="id" value="populationInfo.id"/>
-                            <entry key="name" value="populationInfo.name"/>
+                            <entry key="populationInfo.id" value="id"/>
+                            <entry key="populationInfo.name" value="name"/>
                         </map>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="populationInfo.name" p:readOnly="true"
-                      p:style="font-weight:bold;" p:render="@{!#isAddLine}" >
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="40" />
-                    </property>
-                </bean>
+                <!--<bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="name" p:readOnly="true"-->
+                      <!--p:style="font-weight:bold;" p:render="@{!#isAddLine}" >-->
+                    <!--<property name="control">-->
+                        <!--<bean parent="Uif-TextControl" p:size="40" />-->
+                    <!--</property>-->
+                <!--</bean>-->
 
            </list>
         </property>
