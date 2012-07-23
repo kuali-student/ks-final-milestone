@@ -23,7 +23,6 @@ public class PopulationController extends MaintenanceDocumentController {
         PopulationWrapper wrapper = (PopulationWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         wrapper.setCreateByRule(true);
-        wrapper.setInCreateMode(true);
         return getUIFModelAndView(form);
     }
 
@@ -32,7 +31,6 @@ public class PopulationController extends MaintenanceDocumentController {
                                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         PopulationWrapper wrapper = (PopulationWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         wrapper.setCreateByRule(false);
-        wrapper.setInCreateMode(true);
         wrapper.setEnableCreateButton(false);
         return getUIFModelAndView(form);
 
