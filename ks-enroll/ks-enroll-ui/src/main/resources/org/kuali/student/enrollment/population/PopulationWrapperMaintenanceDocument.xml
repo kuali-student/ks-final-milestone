@@ -264,41 +264,41 @@
     </util:list>
 
     <util:list id="populationRuleAgendaIds-options">
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-33" p:value="1st Year Cmps Prog"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-14" p:value="Acad Achiev Pgm"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-35" p:value="Academic Dismissal"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-17" p:value="All Registered Students"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-15" p:value="Athlete"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-10" p:value="Athletic Managers &amp; Trainers"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-22" p:value="BIOL"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-03" p:value="BOTN"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-07" p:value="Concurrent HS"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-09" p:value="Continuing/Returning Student"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-26" p:value="Core"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-06" p:value="DSS"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-25" p:value="EcoHouse"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-30" p:value="ENGL"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-32" p:value="Fraternity/Sorority"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-28" p:value="Freshman"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-13" p:value="Freshman Connect"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-01" p:value="Freshman First"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-21" p:value="Gen Ed"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-05" p:value="Individual Admit"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-08" p:value="Junior"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-31" p:value="Maryland Incentive"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-29" p:value="McNair Scholars"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-27" p:value="Md Engl Inst"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-02" p:value="New Freshmen"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-16" p:value="New Transfers"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-34" p:value="ROTC"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-04" p:value="Senior"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-20" p:value="Sophomore"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-11" p:value="Step"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-12" p:value="Study Abroad Non-sponsored"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-24" p:value="Study Abroad Sponsored"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-23" p:value="Summer Only"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-19" p:value="Veteran"/>
-        <bean parent="Uif-KeyLabelPair p:key"="KRMS-Agenda-Id-18" p:value="Young Scholars"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-33" p:value="1st Year Cmps Prog"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-14" p:value="Acad Achiev Pgm"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-35" p:value="Academic Dismissal"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-17" p:value="All Registered Students"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-15" p:value="Athlete"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-10" p:value="Athletic Managers &amp; Trainers"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-22" p:value="BIOL"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-03" p:value="BOTN"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-07" p:value="Concurrent HS"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-09" p:value="Continuing/Returning Student"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-26" p:value="Core"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-06" p:value="DSS"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-25" p:value="EcoHouse"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-30" p:value="ENGL"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-32" p:value="Fraternity/Sorority"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-28" p:value="Freshman"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-13" p:value="Freshman Connect"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-01" p:value="Freshman First"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-21" p:value="Gen Ed"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-05" p:value="Individual Admit"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-08" p:value="Junior"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-31" p:value="Maryland Incentive"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-29" p:value="McNair Scholars"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-27" p:value="Md Engl Inst"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-02" p:value="New Freshmen"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-16" p:value="New Transfers"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-34" p:value="ROTC"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-04" p:value="Senior"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-20" p:value="Sophomore"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-11" p:value="Step"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-12" p:value="Study Abroad Non-sponsored"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-24" p:value="Study Abroad Sponsored"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-23" p:value="Summer Only"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-19" p:value="Veteran"/>
+        <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-18" p:value="Young Scholars"/>
     </util:list>
 
 </beans>
