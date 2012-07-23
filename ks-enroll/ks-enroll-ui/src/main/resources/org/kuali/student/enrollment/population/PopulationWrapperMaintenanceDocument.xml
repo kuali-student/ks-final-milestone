@@ -87,9 +87,7 @@
                         <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Union" p:render="@{(maintenanceAction eq 'Edit') AND (#dp.operationType eq 'kuali.population.rule.type.union')}"/>
-                <bean parent="Uif-MessageField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Intersection" p:render="@{(maintenanceAction eq 'Edit') AND (#dp.operationType eq 'kuali.population.rule.type.intersection')}"/>
-                <bean parent="Uif-MessageField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Exclusion" p:render="@{(maintenanceAction eq 'Edit') AND (#dp.operationType eq 'kuali.population.rule.type.exclusion')}"/>
+                <bean parent="Uif-DataField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:propertyName="operationTypeText" p:render="@{maintenanceAction eq 'Edit'}"/>
             </list>
         </property>
     </bean>
@@ -115,9 +113,7 @@
                         <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Union" p:render="@{(maintenanceAction eq 'Edit') AND (#dp.operationType eq 'kuali.population.rule.type.union')}"/>
-                <bean parent="Uif-MessageField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Intersection" p:render="@{(maintenanceAction eq 'Edit') AND (#dp.operationType eq 'kuali.population.rule.type.intersection')}"/>
-                <bean parent="Uif-MessageField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Exclusion" p:render="@{(maintenanceAction eq 'Edit') AND (#dp.operationType eq 'kuali.population.rule.type.exclusion')}"/>
+                <bean parent="Uif-DataField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:propertyName="operationTypeText" p:render="@{maintenanceAction eq 'Edit'}"/>
                 <bean parent="Uif-InputField" p:propertyName="operationType" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
                       p:defaultValue="kuali.population.rule.type.union" p:required="true" p:render="@{maintenanceAction eq 'New'}">
                     <property name="control">
