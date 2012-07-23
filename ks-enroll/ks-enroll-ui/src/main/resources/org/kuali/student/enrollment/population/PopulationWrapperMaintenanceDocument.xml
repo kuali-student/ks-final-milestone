@@ -102,7 +102,7 @@
                         <bean parent="Uif-TextControl" p:size="40" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="populationInfo.descr" p:label="Description"
+                <bean parent="Uif-InputField" p:propertyName="populationInfo.descr.plain" p:label="Description"
                       p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
