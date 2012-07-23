@@ -82,14 +82,14 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
                     childPopulations = getChildPopulations(childPopulationIds);
                 }
                 wrapper.setChildPopulations(childPopulations);
-            }
-            // To display operation type as text
-            if (wrapper.getOperationType().equals(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY)) {
-                wrapper.setOperationTypeText("Union");
-            } else if (wrapper.getOperationType().equals(PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY)) {
-                wrapper.setOperationTypeText("Intersection");
-            } else if (wrapper.getOperationType().equals(PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY)) {
-                wrapper.setOperationTypeText("Exclusion");
+                // To display operation type as text
+                if (wrapper.getOperationType().equals(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY)) {
+                    wrapper.setOperationTypeText("Union");
+                } else if (wrapper.getOperationType().equals(PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY)) {
+                    wrapper.setOperationTypeText("Intersection");
+                } else if (wrapper.getOperationType().equals(PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY)) {
+                    wrapper.setOperationTypeText("Exclusion");
+                }
             }
 
             return wrapper;
