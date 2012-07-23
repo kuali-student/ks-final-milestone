@@ -171,7 +171,7 @@
             <list>
                 <bean parent="Uif-ActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="confirmDelete" p:actionLabel="Delete" p:render = "@{#line.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.draft'}" />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="confirmDelete" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />
             </list>
         </property>
     </bean>

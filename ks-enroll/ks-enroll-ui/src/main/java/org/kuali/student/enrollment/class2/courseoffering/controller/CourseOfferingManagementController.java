@@ -1,8 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -24,8 +21,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.krms.termresolver.SubjectCodeTermResolver;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.springframework.stereotype.Controller;
@@ -40,7 +35,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
-
 
 @Controller
 @RequestMapping(value = "/courseOfferingManagement")
@@ -194,6 +188,22 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     /**
      * Method used to delete a list of selected Draft activity Offerings
      **/
+    @RequestMapping(params = "methodToCall=cancelDeleteAOs")
+    public ModelAndView cancelDeleteAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseOfferingInfo selectedCO = theForm.getTheCourseOffering();
+
+        theForm.setTheCourseOffering(selectedCO);
+        theForm.setCourseOfferingCode(selectedCO.getCourseOfferingCode());
+        theForm.setInputCode(selectedCO.getCourseOfferingCode());
+        theForm.setRadioSelection("courseOfferingCode");
+        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(selectedCO, theForm);
+        return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
+    }
+
+    /**
+     * Method used to delete a list of selected Draft activity Offerings
+     **/
     @RequestMapping(params = "methodToCall=deleteSelectedAoList")
     public ModelAndView deleteSelectedAoList(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
@@ -216,7 +226,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
-    }
+   }
 
     /**
      * Method used to confirm delete AOs
@@ -439,7 +449,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             // check if there is Draft AO selected
             selectedIndexList.clear();
             for(ActivityOfferingWrapper ao : aoList) {
-                if(ao.getStateName().equals("Draft") && ao.getIsChecked()) {
+                if(ao.isLegalToDelete() && ao.getIsChecked()) {
                     selectedIndexList.add(ao);
                 }else if (ao.getIsChecked()){
                     GlobalVariables.getMessageMap().putError("activityActionType",CourseOfferingConstants.AO_NOT_DRAFT_FOR_DELETION_ERROR);

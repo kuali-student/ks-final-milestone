@@ -8,7 +8,6 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -291,5 +290,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setInstructorNameHighestPercentEffort(String instructorNameHighestPercentEffort) {
         this.instructorNameHighestPercentEffort = instructorNameHighestPercentEffort;
+    }
+
+    public boolean isLegalToDelete() {
+        if(StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) ||
+                StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY) ||
+                StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_SUBMITTED_KEY)) {
+            return true;
+        }
+        return false;
     }
 }
