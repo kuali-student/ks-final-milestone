@@ -136,10 +136,9 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
 
     // create the PopulationInfo and PopulationRuleInfo
     public PopulationWrapper createPopulation(PopulationWrapper wrapper) throws Exception {
-        PopulationInfo populationInfo = wrapper.getPopulationInfo();
-        getPopulationService().createPopulation(wrapper.getPopulationInfo(), getContextInfo());
+        PopulationInfo populationInfo = getPopulationService().createPopulation(wrapper.getPopulationInfo(), getContextInfo());
         PopulationRuleInfo  populationRuleInfo = getPopulationService().createPopulationRule(wrapper.getPopulationRuleInfo(), getContextInfo());
-        getPopulationService().applyPopulationRuleToPopulation(populationRuleInfo.getId(), populationInfo.getId(),getContextInfo());
+        getPopulationService().applyPopulationRuleToPopulation(populationRuleInfo.getId(), populationInfo.getId(), getContextInfo());
         wrapper.setPopulationInfo(populationInfo);
         wrapper.setPopulationRuleInfo(populationRuleInfo);
         wrapper.setId(populationInfo.getId());
@@ -172,6 +171,12 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
             populationInfo.setTypeKey(PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY);
             PopulationRuleInfo populationRuleInfo = wrapper.getPopulationRuleInfo();
             populationRuleInfo.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
+            if (wrapper.isCreateByRule()) {
+                populationRuleInfo.setTypeKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
+            }
+            else {
+                populationRuleInfo.setTypeKey(wrapper.getOperationType());
+            }
         }
         super.prepareForSave();
     }
