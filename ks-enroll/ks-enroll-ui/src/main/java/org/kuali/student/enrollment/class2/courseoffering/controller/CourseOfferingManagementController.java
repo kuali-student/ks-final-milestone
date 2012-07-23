@@ -191,13 +191,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=cancelDeleteAOs")
     public ModelAndView cancelDeleteAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CourseOfferingInfo selectedCO = theForm.getTheCourseOffering();
-
-        theForm.setTheCourseOffering(selectedCO);
-        theForm.setCourseOfferingCode(selectedCO.getCourseOfferingCode());
-        theForm.setInputCode(selectedCO.getCourseOfferingCode());
-        theForm.setRadioSelection("courseOfferingCode");
-        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(selectedCO, theForm);
+        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
         return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
     }
 
@@ -215,24 +209,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             for(ActivityOfferingWrapper ao : selectedAolist)  {
                 CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOffering(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
             }
-
-            //  reload existing AOs
-            //  CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();
-            //  theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
-
-            getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        CourseOfferingInfo selectedCO = theForm.getTheCourseOffering();
-
-        theForm.setTheCourseOffering(selectedCO);
-        theForm.setCourseOfferingCode(selectedCO.getCourseOfferingCode());
-        theForm.setInputCode(selectedCO.getCourseOfferingCode());
-        theForm.setRadioSelection("courseOfferingCode");
-        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(selectedCO, theForm);
+        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
         return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
 
     }
