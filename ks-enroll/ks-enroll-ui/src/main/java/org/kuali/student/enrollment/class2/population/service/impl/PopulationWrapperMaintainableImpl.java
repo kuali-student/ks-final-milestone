@@ -66,7 +66,6 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
             String populationId =  dataObjectKeys.get("id");
             PopulationWrapper wrapper = getPopulation(populationId);
             wrapper.setId(populationId);
-            wrapper.setInCreateMode(false);
             wrapper.setPageTitle("Edit Population");
             if (PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY.equals(wrapper.getPopulationRuleInfo().getTypeKey())){
                 //core type by rule
@@ -75,6 +74,14 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
             else {
                 //constructed type by combining populations
                 wrapper.setCreateByRule(false);
+            }
+            // To display operation type as text
+            if (wrapper.getOperationType().equals(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY)) {
+                wrapper.setOperationTypeText("Union");
+            } else if (wrapper.getOperationType().equals(PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY)) {
+                wrapper.setOperationTypeText("Intersection");
+            } else if (wrapper.getOperationType().equals(PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY)) {
+                wrapper.setOperationTypeText("Exclusion");
             }
 
             return wrapper;
