@@ -204,9 +204,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     /**
      * Method used to delete a list of selected Draft activity Offerings
      **/
+
     @RequestMapping(params = "methodToCall=deleteSelectedAoList")
     public ModelAndView deleteSelectedAoList(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) {
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         List<ActivityOfferingWrapper> selectedAolist = theForm.getSelectedToDeleteList();
 
@@ -225,8 +226,16 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             throw new RuntimeException(e);
         }
 
-        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
-   }
+        CourseOfferingInfo selectedCO = theForm.getTheCourseOffering();
+
+        theForm.setTheCourseOffering(selectedCO);
+        theForm.setCourseOfferingCode(selectedCO.getCourseOfferingCode());
+        theForm.setInputCode(selectedCO.getCourseOfferingCode());
+        theForm.setRadioSelection("courseOfferingCode");
+        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(selectedCO, theForm);
+        return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
+
+    }
 
     /**
      * Method used to confirm delete AOs
