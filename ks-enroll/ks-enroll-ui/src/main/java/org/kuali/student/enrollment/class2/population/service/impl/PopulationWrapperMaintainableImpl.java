@@ -24,7 +24,7 @@ import java.util.List;
 public class PopulationWrapperMaintainableImpl extends MaintainableImpl implements PopulationWrapperMaintainable{
     private transient PopulationService populationService;
     private ContextInfo contextInfo;
-    final transient Logger logger = Logger.getLogger(PopulationWrapperMaintainableImpl.class);
+ //   final transient Logger logger = Logger.getLogger(PopulationWrapperMaintainableImpl.class);
     
     @Override
     public void saveDataObject() {
@@ -38,25 +38,25 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
             }
      
         } catch (DataValidationErrorException e){
-            logger.error("PopulationWrapperMaintainableImpl data validation error. ", e);
+//            logger.error("PopulationWrapperMaintainableImpl data validation error. ", e);
             throw new RuntimeException("PopulationWrapperMaintainableImpl data validation error. ", e);
         } catch (InvalidParameterException e) {
-            logger.error("PopulationWrapperMaintainableImpl invalid parameter. ", e);
+//            logger.error("PopulationWrapperMaintainableImpl invalid parameter. ", e);
             throw new RuntimeException("PopulationWrapperMaintainableImpl invalid parameter. ", e);
         } catch (MissingParameterException e) {
-            logger.error("PopulationWrapperMaintainableImpl missing parameter. ", e);
+//            logger.error("PopulationWrapperMaintainableImpl missing parameter. ", e);
             throw new RuntimeException("PopulationWrapperMaintainableImpl missing parameter. ", e);
         } catch (OperationFailedException e) {
-            logger.error("PopulationWrapperMaintainableImpl operation failed. ", e);
+//            logger.error("PopulationWrapperMaintainableImpl operation failed. ", e);
             throw new RuntimeException("PopulationWrapperMaintainableImpl operation failed. ", e);
         } catch (PermissionDeniedException e) {
-            logger.error("PopulationWrapperMaintainableImpl permission denied. ", e);
+//            logger.error("PopulationWrapperMaintainableImpl permission denied. ", e);
             throw new RuntimeException("PopulationWrapperMaintainableImpl permission denied. ", e);
         } catch (ReadOnlyException e) {
-            logger.error("PopulationWrapperMaintainableImpl read only exception. ", e);
+//            logger.error("PopulationWrapperMaintainableImpl read only exception. ", e);
             throw new RuntimeException("PopulationWrapperMaintainableImpl read only exception. ", e);
         }catch (Exception e) {
-            logger.error("PopulationWrapperMaintainableImpl exception. ", e);
+//            logger.error("PopulationWrapperMaintainableImpl exception. ", e);
             throw new RuntimeException("PopulationWrapperMaintainableImpl exception. ", e);
         }
 
@@ -94,7 +94,7 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
 
             return wrapper;
         } catch (Exception e) {
-            logger.error("Fail to retrieve Population for edit.", e);
+//            logger.error("Fail to retrieve Population for edit.", e);
             throw new RuntimeException("Fail to retrieve Population for edit.", e);
         }
     }
@@ -171,11 +171,14 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
             populationInfo.setTypeKey(PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY);
             PopulationRuleInfo populationRuleInfo = wrapper.getPopulationRuleInfo();
             populationRuleInfo.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
+            populationRuleInfo.setVariesByTime(false);
             if (wrapper.isCreateByRule()) {
-                populationRuleInfo.setTypeKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
+                populationRuleInfo.setTypeKey(PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY);
+                populationRuleInfo.setSupportsGetMembers(false);
             }
             else {
                 populationRuleInfo.setTypeKey(wrapper.getOperationType());
+                populationRuleInfo.setSupportsGetMembers(true);
             }
         }
         super.prepareForSave();
