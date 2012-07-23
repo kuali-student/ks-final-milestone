@@ -17,7 +17,9 @@ import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.enrollment.class2.population.service.PopulationWrapperMaintainable;
 
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.List;
 
 public class PopulationWrapperMaintainableImpl extends MaintainableImpl implements PopulationWrapperMaintainable{
     private transient PopulationService populationService;
@@ -74,6 +76,12 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
             else {
                 //constructed type by combining populations
                 wrapper.setCreateByRule(false);
+                List<String> childPopulationIds = wrapper.getPopulationRuleInfo().getChildPopulationIds();
+                List<PopulationInfo> childPopulations = new ArrayList<PopulationInfo>();
+                if(!childPopulationIds.isEmpty()) {
+                    childPopulations = getChildPopulations(childPopulationIds);
+                }
+                wrapper.setChildPopulations(childPopulations);
             }
             // To display operation type as text
             if (wrapper.getOperationType().equals(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY)) {
@@ -141,6 +149,15 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
     public void updatePopulation(PopulationWrapper wrapper) throws Exception {
         getPopulationService().updatePopulation(wrapper.getId(), wrapper.getPopulationInfo(), getContextInfo());
         getPopulationService().updatePopulationRule(wrapper.getPopulationRuleInfo().getId(), wrapper.getPopulationRuleInfo(), getContextInfo());
+    }
+    
+    public List<PopulationInfo> getChildPopulations(List<String> childPopulationIds) throws Exception{
+        List<PopulationInfo> childPopulations = new ArrayList<PopulationInfo>(); 
+        for (String id : childPopulationIds){
+            PopulationInfo populationInfo = getPopulationService().getPopulation(id,getContextInfo());
+            childPopulations.add(populationInfo);
+        }
+        return childPopulations;
     }
 
     /**
