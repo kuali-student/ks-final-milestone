@@ -22,7 +22,7 @@ import java.util.Map;
 public class PopulationWrapperMaintainableImpl extends MaintainableImpl implements PopulationWrapperMaintainable{
     private transient PopulationService populationService;
     private ContextInfo contextInfo;
-    final Logger logger = Logger.getLogger(PopulationWrapperMaintainableImpl.class);
+    final transient Logger logger = Logger.getLogger(PopulationWrapperMaintainableImpl.class);
     
     @Override
     public void saveDataObject() {
