@@ -4,10 +4,14 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+    <bean id="PopulationInfo" parent="PopulationInfo-parent">
+        <property name="titleAttribute" value="id"/>
+    </bean>
+
     <bean id="PopulationWrapper" parent="PopulationWrapper-parentBean"/>
     <bean id="PopulationWrapper-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
-        <property name="titleAttribute" value="populationInfo.name"/>
+        <property name="titleAttribute" value="id"/>
         <property name="attributes">
             <list>
                 <ref bean="PopulationWrapper.id"/>
@@ -74,7 +78,11 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="populationInfo.name"/>
+                <bean parent="Uif-DataField" p:propertyName="populationInfo.name">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" p:inquiryParameters="id" />
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField" p:propertyName="populationInfo.descr.plain" p:label="Description"/>
                 <bean parent="Uif-DataField" p:propertyName="populationRuleTypeKeyName"  p:label="Type"/>
                 <bean parent="Uif-DataField" p:propertyName="populationStateKeyName"  p:label="State"/>
