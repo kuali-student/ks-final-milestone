@@ -25,15 +25,7 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.infc.PopulationRule;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -80,6 +72,14 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
     @Column(name = "SUPPORTS_GET_MBR_IND")
     private Boolean supportsGetMembersIndicator;
 
+    @ElementCollection
+    @CollectionTable(
+            name="KSEN_POPULATION_RULE_AGENDA",
+            joinColumns=@JoinColumn(name="POPULATION_RULE_ID")
+    )
+    @Column(name="AGENDA_ID")
+    private Set<String> agendaIds;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private final Set<PopulationRuleAttributeEntity> attributes = new HashSet<PopulationRuleAttributeEntity>();
 
@@ -122,6 +122,10 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
         this.setRefPopulationId(infc.getReferencePopulationId());
         this.setVariesByTimeIndicator(infc.getVariesByTime());
         this.setSupportsGetMembersIndicator(infc.getSupportsGetMembers());
+
+        this.agendaIds = new HashSet<String>(infc.getAgendaIds().size());
+        this.agendaIds.addAll(infc.getAgendaIds());
+
         this.attributes.clear();
         for (Attribute att : infc.getAttributes()) {
             this.attributes.add(new PopulationRuleAttributeEntity(att, this));
@@ -142,6 +146,10 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
         populationRuleInfo.setReferencePopulationId(refPopulationId);
         populationRuleInfo.setVariesByTime(variesByTimeIndicator);
         populationRuleInfo.setSupportsGetMembers(supportsGetMembersIndicator);
+        populationRuleInfo.getAgendaIds().clear();
+        if(agendaIds!=null){
+            populationRuleInfo.getAgendaIds().addAll(agendaIds);
+        }
         List<AttributeInfo> dtoAttributes = populationRuleInfo.getAttributes();
         dtoAttributes.clear();
         List<AttributeInfo> attributes = populationRuleInfo.getAttributes();
