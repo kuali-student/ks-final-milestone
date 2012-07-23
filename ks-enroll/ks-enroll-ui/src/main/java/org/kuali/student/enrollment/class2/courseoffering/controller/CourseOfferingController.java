@@ -92,7 +92,9 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                 co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
                 co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
-                co.setGrading(courseOfferingInfo.getGradingOptionId());
+                if ( courseOfferingInfo.getGradingOptionId() != null ) {
+                    co.setGrading(courseOfferingInfo.getGradingOptionId().substring(courseOfferingInfo.getGradingOptionId().lastIndexOf('.') + 1));
+                }
                 coWrapper.getExistingCourseOfferings().add(co);
             }
 
