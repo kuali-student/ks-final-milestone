@@ -127,6 +127,7 @@
 
                 <!-- Holds -->
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoSearchView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoCreateView.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
