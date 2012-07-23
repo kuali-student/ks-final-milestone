@@ -126,7 +126,7 @@ public class ViewHelperUtil {
             List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), ContextBuilder.loadContextInfo());
             if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {                                 //fixed
                 if (!resultValueInfos.isEmpty()) {
-                    creditCount = resultValueInfos.get(0).getValue();
+                    creditCount = trimTrailing0(resultValueInfos.get(0).getValue());
                 }
             } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
                 creditCount = trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMinValue()) + " - " +

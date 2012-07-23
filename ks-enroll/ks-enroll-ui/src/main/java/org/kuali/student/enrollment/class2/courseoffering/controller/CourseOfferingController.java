@@ -76,7 +76,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         if (course != null && term != null) {
             coWrapper.setCourse(course);
-            coWrapper.setCreditCount(course.getCreditOptions().get(0).getResultValues().get(0));
+            coWrapper.setCreditCount(ViewHelperUtil.trimTrailing0(course.getCreditOptions().get(0).getResultValues().get(0)));
             coWrapper.setShowAllSections(true);
             coWrapper.setShowCatalogLink(false);
             coWrapper.setShowTermOfferingLink(true);
