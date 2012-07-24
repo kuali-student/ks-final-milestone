@@ -31,10 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/courseOfferingManagement")
@@ -70,13 +67,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         } else if (termList.size()>1) {
             LOG.error("Error: Found more than one Term for term code: "+termCode);
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
-            theForm.getCourseOfferingList().clear();
+            theForm.getCourseOfferingEditWrapperList().clear();
             return getUIFModelAndView(theForm);
          }
         else{
             LOG.error("Error: Can't find any Term for term code: "+termCode);
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
-            theForm.getCourseOfferingList().clear();
+            theForm.getCourseOfferingEditWrapperList().clear();
             return getUIFModelAndView(theForm);
         }
         
@@ -97,7 +94,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             List<CourseOfferingInfo> courseOfferingList = getViewHelperService(theForm).
                                        findCourseOfferingsByTermAndCourseOfferingCode(termCode, courseOfferingCode, theForm);
             if (!courseOfferingList.isEmpty() && courseOfferingList.size() == 1 )  {
-                theForm.setCourseOfferingList(courseOfferingList);
+                CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(courseOfferingList.get(0));
+                List<CourseOfferingEditWrapper> list = new ArrayList<CourseOfferingEditWrapper> ();
+                list.add(wrapper);
+                theForm.setCourseOfferingEditWrapperList(list);
                 CourseOfferingInfo theCourseOffering = courseOfferingList.get(0);
                 theForm.setTheCourseOffering(theCourseOffering);
                 getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
@@ -105,13 +105,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             } else if (courseOfferingList.size()>1) {
                 LOG.error("Error: Found more than one Course Offering for a Course Offering Code: "+courseOfferingCode+" in term: "+termCode);
                 GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_COURSE_OFFERING, courseOfferingCode, termCode);
-                theForm.getCourseOfferingList().clear();
+                theForm.getCourseOfferingEditWrapperList().clear();
                 theForm.setActivityWrapperList(null);
                 return getUIFModelAndView(theForm);
             } else {
                 LOG.error("Error: Can't find any Course Offering for a Course Offering Code: "+courseOfferingCode+" in term: "+termCode);
                 GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", courseOfferingCode, termCode);
-                theForm.getCourseOfferingList().clear();
+                theForm.getCourseOfferingEditWrapperList().clear();
                 theForm.setActivityWrapperList(null);
                 return getUIFModelAndView(theForm);
             }
@@ -407,7 +407,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)){
-            getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingList());
+            getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingEditWrapperList());
         }
 
         return getUIFModelAndView(theForm);

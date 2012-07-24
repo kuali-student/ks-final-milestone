@@ -48,6 +48,7 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     private CreditOptionInfo creditOption;
     private boolean creditOptionFixed;
+    private boolean isChecked;
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
@@ -164,6 +165,14 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     public void setInstructors(List<OfferingInstructorWrapper> instructors) {
         this.instructors = instructors;
+    }
+
+    public boolean getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(boolean checked) {
+        this.isChecked = checked;
     }
 
     public boolean isLegalToDelete() {

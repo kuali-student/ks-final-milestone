@@ -17,7 +17,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String radioSelection;
     private String inputCode;
     private String selectedOfferingAction;
-    private List<CourseOfferingInfo> courseOfferingList;
     private CourseOfferingInfo theCourseOffering;
     private String coViewLinkWrapper = "View"; // temp var to hold/store the View Details Link
 
@@ -32,7 +31,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String noOfActivityOfferings;
 
     public CourseOfferingManagementForm (){
-        courseOfferingList = new ArrayList<CourseOfferingInfo>();
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
@@ -95,13 +93,13 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.selectedOfferingAction = selectedOfferingAction;
     }
 
-    public List<CourseOfferingInfo> getCourseOfferingList(){
+    /*public List<CourseOfferingInfo> getCourseOfferingList(){
         return courseOfferingList;
     }
     
     public void setCourseOfferingList(List<CourseOfferingInfo> courseOfferingList) {
         this.courseOfferingList = courseOfferingList;
-    }
+    }*/
     
     public CourseOfferingInfo getTheCourseOffering(){
         return theCourseOffering;
