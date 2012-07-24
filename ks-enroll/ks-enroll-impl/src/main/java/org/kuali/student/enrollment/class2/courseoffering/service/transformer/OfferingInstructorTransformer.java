@@ -20,10 +20,14 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class //TODO ...
@@ -32,10 +36,10 @@ import java.util.*;
  */
 public class OfferingInstructorTransformer {
 
-    public static List<OfferingInstructorInfo> lprs2Instructors(List<LuiPersonRelationInfo> lprs) {
+    public static List<OfferingInstructorInfo> lprs2Instructors(List<LprInfo> lprs) {
         List<OfferingInstructorInfo> results = new ArrayList<OfferingInstructorInfo>(lprs.size());
 
-        for(LuiPersonRelationInfo lpr : lprs) {
+        for(LprInfo lpr : lprs) {
             OfferingInstructorInfo instructor = new OfferingInstructorInfo();
             instructor.setPersonId(lpr.getPersonId());
             instructor.setPercentageEffort(lpr.getCommitmentPercent());
@@ -67,12 +71,12 @@ public class OfferingInstructorTransformer {
         return KimApiServiceLocator.getPersonService();
     }
 
-    public static List<LuiPersonRelationInfo> instructors2Lprs(LuiInfo luiInfo, List<OfferingInstructorInfo> instructors) {
+    public static List<LprInfo> instructors2Lprs(LuiInfo luiInfo, List<OfferingInstructorInfo> instructors) {
 
-        List<LuiPersonRelationInfo> results = new ArrayList<LuiPersonRelationInfo>(instructors.size());
+        List<LprInfo> results = new ArrayList<LprInfo>(instructors.size());
 
         for (OfferingInstructorInfo instructorInfo : instructors) {
-            LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
+            LprInfo lprInfo = new LprInfo();
             lprInfo.setId(instructorInfo.getId());
             lprInfo.setCommitmentPercent(instructorInfo.getPercentageEffort());
             lprInfo.setLuiId(luiInfo.getId());

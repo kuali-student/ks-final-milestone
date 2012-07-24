@@ -27,7 +27,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupTemplate
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -45,7 +45,6 @@ import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -54,7 +53,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -482,7 +481,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // map existing lprs to their person id
         Map<String, OfferingInstructorInfo> existingPersonMap = new HashMap<String, OfferingInstructorInfo>(existingLprs.size());
         for(OfferingInstructorInfo info : existingLprs) {
-            if (info.getStateKey() != null && info.getStateKey().equals(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY))  {
+            if (info.getStateKey() != null && info.getStateKey().equals(LprServiceConstants.DROPPED_STATE_KEY))  {
                 continue;
             }
             existingPersonMap.put(info.getPersonId(), info);
@@ -509,20 +508,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         Collection<OfferingInstructorInfo> deletedInstructors = existingPersonMap.values();
 
         // create the new lprs
-        List<LuiPersonRelationInfo> createdLprs = OfferingInstructorTransformer.instructors2Lprs(lui, createdInstructors);
-        for (LuiPersonRelationInfo lprInfo : createdLprs) {
-            try {
-                lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
-            } catch (AlreadyExistsException e) {
-                throw new OperationFailedException("Tried to create an already existing LPR", e);
-            } catch (DisabledIdentifierException e) {
-                throw new OperationFailedException("Unexpected", e);
-            }
+        List<LprInfo> createdLprs = OfferingInstructorTransformer.instructors2Lprs(lui, createdInstructors);
+        for (LprInfo lprInfo : createdLprs) {
+            lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
         }
 
         // update existing lprs
-        List<LuiPersonRelationInfo> updatedLprs = OfferingInstructorTransformer.instructors2Lprs(lui, updatedInstructors);
-        for(LuiPersonRelationInfo lprInfo : updatedLprs) {
+        List<LprInfo> updatedLprs = OfferingInstructorTransformer.instructors2Lprs(lui, updatedInstructors);
+        for(LprInfo lprInfo : updatedLprs) {
             lprService.updateLpr(lprInfo.getId(), lprInfo, context);
         }
 
@@ -1011,16 +1004,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         // build LPR(s) for Offering Instructor
-        List<LuiPersonRelationInfo> lprs = OfferingInstructorTransformer.instructors2Lprs(lui, aoInfo.getInstructors());
+        List<LprInfo> lprs = OfferingInstructorTransformer.instructors2Lprs(lui, aoInfo.getInstructors());
 
-        for (LuiPersonRelationInfo lprInfo : lprs) {
-            try {
-                lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
-            } catch (AlreadyExistsException e) {
-                throw new OperationFailedException("Tried to create an already existing LPR", e);
-            } catch (DisabledIdentifierException e) {
-                throw new OperationFailedException("Unexpected", e);
-            }
+        for (LprInfo lprInfo : lprs) {
+            lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
         }
 
         // now build the lui lui relation
@@ -1152,20 +1139,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
 
         // create the new lprs
-        List<LuiPersonRelationInfo> createdLprs = OfferingInstructorTransformer.instructors2Lprs(lui, createdInstructors);
-        for (LuiPersonRelationInfo lprInfo : createdLprs) {
-            try {
-                lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
-            } catch (AlreadyExistsException e) {
-                throw new OperationFailedException("Tried to create an already existing LPR", e);
-            } catch (DisabledIdentifierException e) {
-                throw new OperationFailedException("Unexpected", e);
-            }
+        List<LprInfo> createdLprs = OfferingInstructorTransformer.instructors2Lprs(lui, createdInstructors);
+        for (LprInfo lprInfo : createdLprs) {
+            lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
         }
 
         // update existing lprs
-        List<LuiPersonRelationInfo> updatedLprs = OfferingInstructorTransformer.instructors2Lprs(lui, updatedInstructors);
-        for(LuiPersonRelationInfo lprInfo : updatedLprs) {
+        List<LprInfo> updatedLprs = OfferingInstructorTransformer.instructors2Lprs(lui, updatedInstructors);
+        for(LprInfo lprInfo : updatedLprs) {
             lprService.updateLpr(lprInfo.getId(), lprInfo, context);
         }
 
@@ -1203,8 +1184,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         try {
             // delete offering instructor lprs for the Activity Offering
-            List<LuiPersonRelationInfo> lprs = lprService.getLprsByLui(activityOfferingId, context);
-            for(LuiPersonRelationInfo lpr : lprs) {
+            List<LprInfo> lprs = lprService.getLprsByLui(activityOfferingId, context);
+            for(LprInfo lpr : lprs) {
                 StatusInfo status = lprService.deleteLpr(lpr.getId(), context);
                 if(!status.getIsSuccess()) {
                     throw new OperationFailedException("Error Deleting related LPR with id ( " + lpr.getId() + " ), given message was: " + status.getMessage());
