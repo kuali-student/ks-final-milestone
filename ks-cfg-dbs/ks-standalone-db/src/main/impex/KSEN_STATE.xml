@@ -54,6 +54,77 @@
         NAME="Official" UPDATEID="SYSTEMLOADER"
         UPDATETIME="19700101000000" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Approved" DESCR_PLAIN="Approved"
+        ID="kuali.lui.activity.offering.state.approved"
+        LIFECYCLE_KEY="kuali.activity.offering.process" NAME="Approved"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Canceled" DESCR_PLAIN="Canceled"
+        ID="kuali.lui.activity.offering.state.canceled"
+        LIFECYCLE_KEY="kuali.activity.offering.process" NAME="Canceled"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Draft" DESCR_PLAIN="Draft"
+        ID="kuali.lui.activity.offering.state.draft"
+        LIFECYCLE_KEY="kuali.activity.offering.process" NAME="Draft"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Offered" DESCR_PLAIN="Offered"
+        ID="kuali.lui.activity.offering.state.offered"
+        LIFECYCLE_KEY="kuali.activity.offering.process" NAME="Offered"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Scheduled" DESCR_PLAIN="Scheduled"
+        ID="kuali.lui.activity.offering.state.scheduled"
+        LIFECYCLE_KEY="kuali.activity.offering.process" NAME="Scheduled"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Submitted" DESCR_PLAIN="Submitted"
+        ID="kuali.lui.activity.offering.state.submitted"
+        LIFECYCLE_KEY="kuali.activity.offering.process" NAME="Submitted"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Suspended" DESCR_PLAIN="Suspended"
+        ID="kuali.lui.activity.offering.state.suspended"
+        LIFECYCLE_KEY="kuali.activity.offering.process" NAME="Suspended"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Unscheduled" DESCR_PLAIN="Unscheduled"
+        ID="kuali.lui.activity.offering.state.unscheduled"
+        LIFECYCLE_KEY="kuali.activity.offering.process"
+        NAME="Unscheduled" UPDATEID="SYSTEMLOADER"
+        UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Canceled" DESCR_PLAIN="Canceled"
+        ID="kuali.lui.course.offering.state.canceled"
+        LIFECYCLE_KEY="kuali.course.offering.process" NAME="Canceled"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Offered" DESCR_PLAIN="Offered"
+        ID="kuali.lui.course.offering.state.offered"
+        LIFECYCLE_KEY="kuali.course.offering.process" NAME="Offered"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Planned" DESCR_PLAIN="Planned"
+        ID="kuali.lui.course.offering.state.planned"
+        LIFECYCLE_KEY="kuali.course.offering.process" NAME="Planned"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Canceled" DESCR_PLAIN="Canceled"
+        ID="kuali.lui.format.offering.state.canceled"
+        LIFECYCLE_KEY="kuali.format.offering.process" NAME="Canceled"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Offered" DESCR_PLAIN="Offered"
+        ID="kuali.lui.format.offering.state.offered"
+        LIFECYCLE_KEY="kuali.format.offering.process" NAME="Offered"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Planned" DESCR_PLAIN="Planned"
+        ID="kuali.lui.format.offering.state.planned"
+        LIFECYCLE_KEY="kuali.format.offering.process" NAME="Planned"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_PLAIN="Indicates that this milestone is just tentative"
         ID="kuali.milestone.state.Draft"
         LIFECYCLE_KEY="kuali.milestone.process" NAME="Draft"
@@ -63,4 +134,28 @@
         ID="kuali.milestone.state.Official"
         LIFECYCLE_KEY="kuali.milestone.process" NAME="Official"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A default state for this Population Rule"
+        DESCR_PLAIN="A default state for this Population Rule"
+        ID="kuali.population.population.rule.state.active"
+        LIFECYCLE_KEY="kuali.population.population.rule.lifecycle"
+        NAME="Active" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="The inactive state for this Population Rule"
+        DESCR_PLAIN="The inactive state for this Population Rule"
+        ID="kuali.population.population.rule.state.inactive"
+        LIFECYCLE_KEY="kuali.population.population.rule.lifecycle"
+        NAME="Inactive" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="A default state for this Population"
+        DESCR_PLAIN="A default state for this Population"
+        ID="kuali.population.population.state.active"
+        LIFECYCLE_KEY="kuali.population.population.lifecycle"
+        NAME="Active" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
+        DESCR_FORMATTED="The inactive state for this Population"
+        DESCR_PLAIN="The inactive state for this Population"
+        ID="kuali.population.population.state.inactive"
+        LIFECYCLE_KEY="kuali.population.population.lifecycle"
+        NAME="Inactive" VER_NBR="0"/>
 </dataset>

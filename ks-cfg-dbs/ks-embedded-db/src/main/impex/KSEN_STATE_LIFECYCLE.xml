@@ -4,6 +4,12 @@
 <dataset>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
+        DESCR_FORMATTED="kuali.activity.offering.process state lifecycle"
+        DESCR_PLAIN="kuali.activity.offering.process state lifecycle"
+        ID="kuali.activity.offering.process"
+        NAME="kuali.activity.offering.process" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
         DESCR_FORMATTED="kuali.appointment.lifecycle state lifecycle"
         DESCR_PLAIN="kuali.appointment.lifecycle state lifecycle"
         ID="kuali.appointment.lifecycle"
@@ -35,7 +41,31 @@
         DESCR_PLAIN="kuali atp state process" ID="kuali.atp.process"
         NAME="kuali.atp.process" VER_NBR="0"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
+        DESCR_FORMATTED="kuali.course.offering.process state lifecycle"
+        DESCR_PLAIN="kuali.course.offering.process state lifecycle"
+        ID="kuali.course.offering.process"
+        NAME="kuali.course.offering.process" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
+        DESCR_FORMATTED="kuali.format.offering.process state lifecycle"
+        DESCR_PLAIN="kuali.format.offering.process state lifecycle"
+        ID="kuali.format.offering.process"
+        NAME="kuali.format.offering.process" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="19700101000000"
         DESCR_PLAIN="kuali milestone state process"
         ID="kuali.milestone.process" NAME="kuali.milestone.process" VER_NBR="0"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120716000000"
+        DESCR_FORMATTED="kuali.population.population.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.population.population.lifecycle state lifecycle"
+        ID="kuali.population.population.lifecycle"
+        NAME="kuali.population.population.lifecycle" VER_NBR="0"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120716000000"
+        DESCR_FORMATTED="kuali.population.population.rule.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.population.population.rule.lifecycle state lifecycle"
+        ID="kuali.population.population.rule.lifecycle"
+        NAME="kuali.population.population.rule.lifecycle" VER_NBR="0"/>
 </dataset>

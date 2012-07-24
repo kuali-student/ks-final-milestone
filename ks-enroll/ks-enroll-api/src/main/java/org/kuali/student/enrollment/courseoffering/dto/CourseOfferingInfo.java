@@ -66,6 +66,9 @@ public class CourseOfferingInfo
     private RichTextInfo descr;
 
     @XmlElement
+    private String courseCode;
+
+    @XmlElement
     private String courseOfferingCode;
 
     @XmlElement
@@ -92,8 +95,14 @@ public class CourseOfferingInfo
     @XmlElement
     private String gradingOptionId;
 
+    @XmlAnyElement
+    private String creditCnt;
+
     @XmlElement
     private List<String> registrationGradingOptionIds;
+
+    @XmlAnyElement
+    private String gradingOption;
 
     @XmlElement
     private String creditOptionDisplay;
@@ -143,7 +152,6 @@ public class CourseOfferingInfo
     @XmlAnyElement
     private List<Element> _futureElements;
 
-
     /**
      * Constructs a new CourseOfferingInfo.
      */
@@ -170,6 +178,7 @@ public class CourseOfferingInfo
         
 
         this.courseOfferingTitle = offering.getCourseOfferingTitle();
+        this.courseCode = offering.getCourseCode();
         this.courseOfferingCode = offering.getCourseOfferingCode();
         this.courseNumberSuffix = offering.getCourseNumberSuffix();
         this.subjectArea = offering.getSubjectArea();
@@ -252,9 +261,8 @@ public class CourseOfferingInfo
         this.descr = descr;
     }
 
-    @Override
-    public String getCourseOfferingCode() {
-        return this.courseOfferingCode;
+    public void setSubjectArea(String subjectArea) {
+        this.subjectArea = subjectArea;
     }
 
     public void setCourseOfferingCode(String courseOfferingCode) {
@@ -270,6 +278,10 @@ public class CourseOfferingInfo
         this.courseNumberSuffix = courseNumberSuffix;
     }
 
+    public void setCourseOfferingTitle(String courseOfferingTitle) {
+        this.courseOfferingTitle = courseOfferingTitle;
+    }
+
     @Override
     public String getSubjectArea() {
         return this.subjectArea;
@@ -277,6 +289,10 @@ public class CourseOfferingInfo
 
     public void setSubjectArea(String subjectArea) {
         this.subjectArea = subjectArea;
+    }
+
+    public void setMinimumEnrollment(Integer minimumEnrollment) {
+        this.minimumEnrollment = minimumEnrollment;
     }
 
     @Override
@@ -364,7 +380,7 @@ public class CourseOfferingInfo
     }
 
     public void setRegistrationGradingOptionIds(List<String> gradingOptionIds) {
-        this.registrationGradingOptionIds = gradingOptionIds;
+        this.registrationGradingOptionIds = registrationGradingOptionIds;
     }
 
     @Override
@@ -440,6 +456,15 @@ public class CourseOfferingInfo
     }
 
     @Override
+    public Boolean getHasFinalExam(){
+          return this.hasFinalExam;
+    }
+
+    public void setHasFinalExam(Boolean hasFinalExam) {
+        this.hasFinalExam = hasFinalExam;
+    }
+
+    @Override
     public List<String> getJointOfferingIds() {
         if (null == this.jointOfferingIds) {
             this.jointOfferingIds = new ArrayList<String>();
@@ -471,8 +496,8 @@ public class CourseOfferingInfo
     }
 
     @Override
-    public Boolean getIsEvaluated() {
-        return isEvaluated;
+    public String getGradingOption() {
+        return gradingOption;
     }
 
    

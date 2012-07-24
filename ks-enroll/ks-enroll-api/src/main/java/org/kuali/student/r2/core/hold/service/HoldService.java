@@ -23,18 +23,18 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 /**
- * The Hold Service defines a service to manage holdss on a Person by Person
+ * The Hold Service defines a service to manage holds on a Person by Person
  * basis. Holds are a way to put a "stop" on an action implemented by another
  * service, such as registration for a course. Holds are checked in the Process
  * Service.
  *
- * The Hold is a relation between a Person and an Issue. An inactive Hold is one
- * that has been released or cancelled. The state of the Hold needs to be
- * checked to determine if a restriction exists.
+ * The Student Hold is a relation between a Person and an Issue. An inactive
+ * Hold is one that has been released or canceled. The state of the Hold needs
+ * to be checked to determine if the restriction still exists.
  *
  * @author tom
  * @since Sun May 1 14:22:34 EDT 2011
@@ -44,65 +44,65 @@ import org.kuali.student.r2.core.hold.dto.IssueInfo;
 public interface HoldService {
 
     /**
-     * Retrieves the a single Hold by a hold Id.
+     * Retrieves the a single applied hold by the applied hold Id.
      *
-     * @param holdId a unique identifier of the Hold to be retrieved
+     * @param appliedHoldId a unique identifier of the Hold to be retrieved
      * @param contextInfo information containing the principalId and locale
      * information about the caller of service operation
      * @return the Hold requested
-     * @throws DoesNotExistException holdId not found
+     * @throws DoesNotExistException appliedHoldId not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException holdId or contextInfo is missing or
-     * null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public HoldInfo getHold(@WebParam(name = "holdId") String holdId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list Holds from to a list of hold Ids. The returned list may
-     * be in any order and of duplicate Ids are supplied, a unique set may or
-     * may not be returned.
-     *
-     * @param holdIds list of Hold identifiers
-     * @param contextInfo information containing the principalId and locale
-     * information about the caller of service operation
-     * @return a list of Holds
-     * @throws DoesNotExistException a holdId in list not found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException holdIds, a holdId in holdIds, or
-     * contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<HoldInfo> getHoldsByIds(@WebParam(name = "holdIds") List<String> holdIds,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list Hold Ids by Hold Type.
-     *
-     * @param holdTypeKey an identifier for a Hold Type
-     * @param contextInfo information containing the principalId and locale
-     * information about the caller of service operation
-     * @return a list of Hold identifiers
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException holdTypeKey or contextInfo is missing
+     * @throws MissingParameterException appliedHoldId or contextInfo is missing
      * or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getHoldIdsByType(@WebParam(name = "holdTypeKey") String holdTypeKey,
+    public AppliedHoldInfo getAppliedHold(@WebParam(name = "appliedHoldId") String appliedHoldId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list applied holds from to a list of applied hold Ids. The
+     * returned list may be in any order and of duplicate Ids are supplied, a
+     * unique set may or may not be returned.
+     *
+     * @param appliedHoldIds list of Hold identifiers
+     * @param contextInfo information containing the principalId and locale
+     * information about the caller of service operation
+     * @return a list of Holds
+     * @throws DoesNotExistException a appliedHoldId in list not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException appliedHoldIds, a appliedHoldId in
+     * appliedHoldIds, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<AppliedHoldInfo> getAppliedHoldsByIds(@WebParam(name = "appliedHoldIds") List<String> appliedHoldIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list Student Hold Ids by Student Hold Type.
+     *
+     * @param appliedHoldTypeKey an identifier for a Hold Type
+     * @param contextInfo information containing the principalId and locale
+     * information about the caller of service operation
+     * @return a list of Hold identifiers
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException appliedHoldTypeKey or contextInfo is
+     * missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getAppliedHoldIdsByType(@WebParam(name = "appliedHoldTypeKey") String appliedHoldTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -110,19 +110,20 @@ public interface HoldService {
             PermissionDeniedException;
 
     /**
-     * Retrieves all Holds related to the given Issue.
+     * Retrieves all Student Holds related to the given hold Issue.
      *
-     * @param issueId a unique identifier for the Issue
+     * @param holdIssueId a unique identifier for the Issue
      * @param contextInfo information containing the principalId and locale
      * information about the caller of service operation
      * @return the Hold ids to the given Issue
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException issueId or contetInfo is missing or
+     * @throws MissingParameterException holdIssueId or contetInfo is missing or
      * null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getHoldIdsByIssue(@WebParam(name = "issueId") String issueId,
+    public List<String> getAppliedHoldIdsByIssue(
+            @WebParam(name = "holdIssueId") String holdIssueId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -130,7 +131,7 @@ public interface HoldService {
             PermissionDeniedException;
 
     /**
-     * Retrieves all Holds to the given Person.
+     * Retrieves all applied holds to the given Person.
      *
      * @param personId a unique identifier for the Person
      * @param contextInfo information containing the principalId and locale
@@ -142,7 +143,7 @@ public interface HoldService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<HoldInfo> getHoldsByPerson(@WebParam(name = "personId") String personId,
+    public List<AppliedHoldInfo> getAppliedHoldsByPerson(@WebParam(name = "personId") String personId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -150,8 +151,9 @@ public interface HoldService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list of active Holds, that pertain to the given Person. An
-     * active Hold is any open Hold that has had not been released or cancelled.
+     * Retrieves a list of active applied holds, that pertain to the given
+     * Person. An active Hold is any open Hold that has had not been released or
+     * canceled.
      *
      * @param personId an Id of a Person
      * @param contextInfo Context information containing the principalId and
@@ -162,7 +164,8 @@ public interface HoldService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<HoldInfo> getActiveHoldsByPerson(@WebParam(name = "personId") String personId,
+    public List<AppliedHoldInfo> getActiveAppliedHoldsByPerson(
+            @WebParam(name = "personId") String personId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -172,7 +175,7 @@ public interface HoldService {
     /**
      * Retrieves a list of all Holds by Issue for a Person.
      *
-     * @param issueId an Issue
+     * @param holdIssueId an Issue
      * @param personId Id of a person
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
@@ -182,7 +185,7 @@ public interface HoldService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<HoldInfo> getHoldsByIssueAndPerson(@WebParam(name = "issueId") String issueId,
+    public List<AppliedHoldInfo> getAppliedHoldsByIssueAndPerson(@WebParam(name = "holdIssueId") String holdIssueId,
             @WebParam(name = "personId") String personId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
@@ -191,11 +194,11 @@ public interface HoldService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list of active Holds, both warning and blocking, by Issue for
-     * a Person. An active Hold is any open Hold that has had not been released
-     * or cancelled.
+     * Retrieves a list of active applied holds, both warning and blocking, by
+     * hold Issue for a Person. An active Hold is any open Hold that has had not
+     * been released or canceled.
      *
-     * @param issueId an Issue
+     * @param holdIssueId an Issue
      * @param personId Id of a person
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
@@ -205,7 +208,8 @@ public interface HoldService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<HoldInfo> getActiveHoldsByIssueAndPerson(@WebParam(name = "issueId") String issueId,
+    public List<AppliedHoldInfo> getActiveAppliedHoldsByIssueAndPerson(
+            @WebParam(name = "holdIssueId") String holdIssueId,
             @WebParam(name = "personId") String personId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
@@ -214,7 +218,7 @@ public interface HoldService {
             PermissionDeniedException;
 
     /**
-     * Searches for Holds based on the criteria and returns a list of Hold
+     * Searches for applied holds based on the criteria and returns a list of Hold
      * identifiers which match the search criteria.
      *
      * @param criteria the search criteria
@@ -226,7 +230,7 @@ public interface HoldService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForHoldIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+    public List<String> searchForAppliedHoldIds(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -234,7 +238,7 @@ public interface HoldService {
             PermissionDeniedException;
 
     /**
-     * Searches for Holds based on the criteria and returns a list of Holds
+     * Searches for applied holds based on the criteria and returns a list of Holds
      * which match the search criteria.
      *
      * @param criteria the search criteria
@@ -246,7 +250,7 @@ public interface HoldService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<HoldInfo> searchForHolds(@WebParam(name = "criteria") QueryByCriteria criteria,
+    public List<AppliedHoldInfo> searchForAppliedHolds(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -254,7 +258,7 @@ public interface HoldService {
             PermissionDeniedException;
 
     /**
-     * Validates a Hold. Depending on the value of validationType, this
+     * Validates a applied hold. Depending on the value of validationType, this
      * validation could be limited to tests on just the current object and its
      * directly contained subobjects or expanded to perform all tests related to
      * this object. If an identifier is present for the hold and a record is
@@ -268,17 +272,19 @@ public interface HoldService {
      * assigning an identifier.
      *
      * @param validationTypeKey Identifier of the extent of validation
-     * @param holdInfo the hold information to be tested.
+     * @param appliedHoldInfo the hold information to be tested.
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the results from performing the validation
      * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, holdInfo
-     * @throws MissingParameterException missing validationTypeKey, holdInfo
+     * @throws InvalidParameterException invalid validationTypeKey,
+     * appliedHoldInfo
+     * @throws MissingParameterException missing validationTypeKey,
+     * appliedHoldInfo
      * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultInfo> validateHold(@WebParam(name = "validationTypeKey") String validationTypeKey,
-            @WebParam(name = "holdInfo") HoldInfo holdInfo,
+    public List<ValidationResultInfo> validateAppliedHold(@WebParam(name = "validationTypeKey") String validationTypeKey,
+            @WebParam(name = "appliedHoldInfo") AppliedHoldInfo appliedHoldInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -286,12 +292,12 @@ public interface HoldService {
             OperationFailedException;
 
     /**
-     * Creates a new Hold.
+     * Creates a new applied hold.
      *
      * @param personId identifying the person for whom the hold is to be applied
-     * @param issueId identifying the exact issue involved
-     * @param holdTypeKey identifying the type of the hold
-     * @param holdInfo Details of the Hold to be created
+     * @param holdIssueId identifying the exact issue involved
+     * @param appliedHoldTypeKey identifying the type of the hold
+     * @param appliedHoldInfo Details of the Hold to be created
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the details of the Hold just created
@@ -304,11 +310,11 @@ public interface HoldService {
      * as read only
      * @throws PermissionDeniedException authorization failure
      */
-    public HoldInfo createHold(
+    public AppliedHoldInfo createAppliedHold(
             @WebParam(name = "personId") String personId,
-            @WebParam(name = "issueId") String issueId,
-            @WebParam(name = "holdTypeKey") String holdTypeKey,
-            @WebParam(name = "holdInfo") HoldInfo holdInfo,
+            @WebParam(name = "holdIssueId") String holdIssueId,
+            @WebParam(name = "appliedHoldTypeKey") String appliedHoldTypeKey,
+            @WebParam(name = "appliedHoldInfo") AppliedHoldInfo appliedHoldInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             InvalidParameterException,
@@ -318,10 +324,10 @@ public interface HoldService {
             ReadOnlyException;
 
     /**
-     * Updates an existing Hold.
+     * Updates an existing applied hold.
      *
-     * @param holdId Id of Hold to be updated
-     * @param holdInfo Details of updates to the Hold being updated
+     * @param appliedHoldId Id of Hold to be updated
+     * @param appliedHoldInfo Details of updates to the Hold being updated
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the details of Hold just updated
@@ -337,8 +343,8 @@ public interface HoldService {
      * @throws VersionMismatchException The action was attempted on an out of
      * date version.
      */
-    public HoldInfo updateHold(@WebParam(name = "holdId") String holdId,
-            @WebParam(name = "holdInfo") HoldInfo holdInfo,
+    public AppliedHoldInfo updateAppliedHold(@WebParam(name = "appliedHoldId") String appliedHoldId,
+            @WebParam(name = "appliedHoldInfo") AppliedHoldInfo appliedHoldInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -350,11 +356,11 @@ public interface HoldService {
             VersionMismatchException;
 
     /**
-     * Releases a Hold. A release preserves the record and marks the State as
+     * Releases a applied hold. A release preserves the record and marks the State as
      * released and sets the released date. A Hold should be released instead of
      * deleted when the record needs to be preserved.
      *
-     * @param holdId a hold
+     * @param appliedHoldId a hold
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the modified HoldInfo
@@ -364,7 +370,7 @@ public interface HoldService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public HoldInfo releaseHold(@WebParam(name = "holdId") String holdId,
+    public AppliedHoldInfo releaseAppliedHold(@WebParam(name = "appliedHoldId") String appliedHoldId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -373,9 +379,9 @@ public interface HoldService {
             PermissionDeniedException;
 
     /**
-     * Deletes an existing Hold record.
+     * Deletes an existing applied hold record.
      *
-     * @param holdId the Id of the Hold to be deleted
+     * @param appliedHoldId the Id of the Hold to be deleted
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return status of the operation (success, failed)
@@ -385,7 +391,7 @@ public interface HoldService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteHold(@WebParam(name = "holdId") String holdId,
+    public StatusInfo deleteAppliedHold(@WebParam(name = "appliedHoldId") String appliedHoldId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -394,19 +400,19 @@ public interface HoldService {
             PermissionDeniedException;
 
     /**
-     * Retrieves the details of a single Issue by an issue Id.
+     * Retrieves the details of a single hold Issue by it's hold issue Id.
      *
-     * @param issueId Unique Id of the Issue to be retrieved
+     * @param holdIssueId Unique Id of the Issue to be retrieved
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the details of the Issue requested
-     * @throws DoesNotExistException issueId not found
-     * @throws InvalidParameterException invalid issueId
-     * @throws MissingParameterException missing issueId
+     * @throws DoesNotExistException holdIssueId not found
+     * @throws InvalidParameterException invalid holdIssueId
+     * @throws MissingParameterException missing holdIssueId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public IssueInfo getIssue(@WebParam(name = "issueId") String issueId,
+    public HoldIssueInfo getHoldIssue(@WebParam(name = "holdIssueId") String holdIssueId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -415,19 +421,19 @@ public interface HoldService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list Issues corresponding to a list of issue Ids.
+     * Retrieves a list hold Issues corresponding to a list of issue Ids.
      *
-     * @param issueIds list of unique Ids of the Issue to be retrieved
+     * @param holdIssueIds list of unique Ids of the Issue to be retrieved
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Issues
-     * @throws DoesNotExistException a issueId in list not found
-     * @throws InvalidParameterException invalid issueId in list
-     * @throws MissingParameterException missing issueIds
+     * @throws DoesNotExistException a holdIssueId in list not found
+     * @throws InvalidParameterException invalid holdIssueId in list
+     * @throws MissingParameterException missing holdIssueIds
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<IssueInfo> getIssuesByIds(@WebParam(name = "issueIds") List<String> issueIds,
+    public List<HoldIssueInfo> getHoldIssuesByIds(@WebParam(name = "holdIssueIds") List<String> holdIssueIds,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException,
@@ -435,9 +441,9 @@ public interface HoldService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list of Issues by Type.
+     * Retrieves a list of hold Issues by Type.
      *
-     * @param issueTypeKey a Type of the Issue to be retrieved
+     * @param holdIssueTypeKey a Type of the Issue to be retrieved
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Issues of the given Type
@@ -446,7 +452,7 @@ public interface HoldService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getIssueIdsByType(@WebParam(name = "issueTypeKey") String issueTypeKey,
+    public List<String> getHoldIssueIdsByType(@WebParam(name = "holdIssueTypeKey") String holdIssueTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -454,9 +460,9 @@ public interface HoldService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list of Issues that pertain to the given organization.
+     * Retrieves a list of hold Issues that pertain to the given organization.
      *
-     * @param organizationId a unique Id of an organoization
+     * @param organizationId a unique Id of an organization
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Issues
@@ -465,7 +471,7 @@ public interface HoldService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<IssueInfo> getIssuesByOrg(@WebParam(name = "organizationId") String organizationId,
+    public List<HoldIssueInfo> getHoldIssuesByOrg(@WebParam(name = "organizationId") String organizationId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -485,7 +491,7 @@ public interface HoldService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForIssueIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+    public List<String> searchForHoldIssueIds(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -505,7 +511,7 @@ public interface HoldService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<IssueInfo> searchForIssues(@WebParam(name = "criteria") QueryByCriteria criteria,
+    public List<HoldIssueInfo> searchForHoldIssues(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -527,17 +533,19 @@ public interface HoldService {
      * assigning an identifier.
      *
      * @param validationTypeKey Identifier of the extent of validation
-     * @param issueInfo the issue information to be tested.
+     * @param holdIssueInfo the issue information to be tested.
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the results from performing the validation
      * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, issueInfo
-     * @throws MissingParameterException missing validationTypeKey, issueInfo
+     * @throws InvalidParameterException invalid validationTypeKey,
+     * holdIssueInfo
+     * @throws MissingParameterException missing validationTypeKey,
+     * holdIssueInfo
      * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultInfo> validateIssue(@WebParam(name = "validationTypeKey") String validationTypeKey,
-            @WebParam(name = "issueInfo") IssueInfo issueInfo,
+    public List<ValidationResultInfo> validateHoldIssue(@WebParam(name = "validationTypeKey") String validationTypeKey,
+            @WebParam(name = "holdIssueInfo") HoldIssueInfo holdIssueInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -545,10 +553,10 @@ public interface HoldService {
             OperationFailedException;
 
     /**
-     * Creates a new Issue.
+     * Creates a new hold Issue.
      *
-     * @param issueTypeKey indicates the type of issue
-     * @param issueInfo Details of the Issue to be created
+     * @param holdIssueTypeKey indicates the type of issue
+     * @param holdIssueInfo Details of the Issue to be created
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the details of the Issue just created
@@ -561,9 +569,9 @@ public interface HoldService {
      * @throws ReadOnlyException an attempt at supplying information designated
      * as read only
      */
-    public IssueInfo createIssue(
-            @WebParam(name = "issueTypeKey") String issueTypeKey,
-            @WebParam(name = "issueInfo") IssueInfo issueInfo,
+    public HoldIssueInfo createHoldIssue(
+            @WebParam(name = "holdIssueTypeKey") String holdIssueTypeKey,
+            @WebParam(name = "holdIssueInfo") HoldIssueInfo holdIssueInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             InvalidParameterException,
@@ -573,10 +581,10 @@ public interface HoldService {
             ReadOnlyException;
 
     /**
-     * Updates an existing Issue.
+     * Updates an existing hold Issue.
      *
-     * @param issueId Id of the Issue to be updated
-     * @param issueInfo Details of updates to the Issue being updated
+     * @param holdIssueId Id of the Issue to be updated
+     * @param holdIssueInfo Details of updates to the Issue being updated
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the details of the Issue just updated
@@ -592,8 +600,8 @@ public interface HoldService {
      * @throws VersionMismatchException The action was attempted on an out of
      * date version.
      */
-    public IssueInfo updateIssue(@WebParam(name = "issueId") String issueId,
-            @WebParam(name = "issueInfo") IssueInfo issueInfo,
+    public HoldIssueInfo updateHoldIssue(@WebParam(name = "holdIssueId") String holdIssueId,
+            @WebParam(name = "holdIssueInfo") HoldIssueInfo holdIssueInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -605,9 +613,9 @@ public interface HoldService {
             VersionMismatchException;
 
     /**
-     * Deletes an existing Issue.
+     * Deletes an existing hold Issue.
      *
-     * @param issueId the Id of the Issue to be deleted
+     * @param holdIssueId the Id of the Issue to be deleted
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return status of the operation (success, failed)
@@ -618,7 +626,7 @@ public interface HoldService {
      * @throws PermissionDeniedException authorization failure
      * @throws DependentObjectsExistException if a hold exists for this issue
      */
-    public StatusInfo deleteIssue(@WebParam(name = "issueId") String issueId,
+    public StatusInfo deleteHoldIssue(@WebParam(name = "holdIssueId") String holdIssueId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,

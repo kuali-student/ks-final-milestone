@@ -42,11 +42,11 @@ public interface Check
     extends IdEntity {
 
     /**
-     * The Issue Key if this Check is for a Hold.
+     * The Hold Issue if this Check to check if the student has an applied hold.
      *
-     * @name Issue Key
+     * @name Hold Issue Id
      */
-    public String getIssueId();
+    public String getHoldIssueId();
 
     /**
      * The Milestone Type Key if this Check is for a deadline, "not
@@ -65,12 +65,12 @@ public interface Check
     public String getAgendaId();
 
     /**
-     * The Process Key if this Check is based on evaluating
-     * a Process.
+     * The Process Key if this Check is to evaluate a all the instructions
+     * already defined in another child process.
      *
-     * @name Process Key
+     * @name Child Process Key
      */
-    public String getProcessKey();
+    public String getChildProcessKey();
 
     /** 
      *  A hard coded value for comparison Check Types of

@@ -48,9 +48,15 @@
         <property name="businessLogic" ref="businessLogic" />
         <property name="atpService" ref="atpService"/>
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
+        <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
     </bean>
 
     <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
+        <property name="lprService" ref="lprService" />
+        <property name="personService" ref="personService" />
+    </bean>
+    <bean id="personService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.PersonServiceMockImpl"/>
 
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
@@ -68,8 +74,12 @@
     </bean>
 
 
+
     <bean id="regGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer" />
     <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
+    
+    <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
+	 <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
 
 
 </beans>

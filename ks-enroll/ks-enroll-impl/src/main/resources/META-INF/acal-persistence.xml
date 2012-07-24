@@ -57,8 +57,8 @@
 
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldAttributeEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lui.model.LuiEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity</class>
@@ -68,7 +68,6 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>  
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsContentOwnerEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
 <!--  
     <class>org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity</class>
@@ -106,16 +105,12 @@
         <class>org.kuali.student.r2.core.fee.model.EnrollmentFeeEntity</class>
         <class>org.kuali.student.r2.core.fee.model.EnrollmentFeeAttributeEntity</class>
 
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultScaleAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultScaleEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultScaleRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupRichTextEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.LrrAttributeEntity</class>
@@ -140,12 +135,35 @@
         <class>org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultItemEntity</class>
         <class>org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultItemAttributeEntity</class>
         <class>org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultOptionEntity</class>
-    <!--class>org.kuali.student.r2.core.process.model.CheckAttributeEntity</class>
-    <class>org.kuali.student.r2.core.process.model.CheckEntity</class>
-    <class>org.kuali.student.r2.core.process.model.InstructionAttributeEntity</class>
-    <class>org.kuali.student.r2.core.process.model.InstructionEntity</class>
-    <class>org.kuali.student.r2.core.process.model.ProcessAttributeEntity</class>
-    <class>org.kuali.student.r2.core.process.model.ProcessEntity</class>
+
+        <!-- Org Entities -->
+        <class>org.kuali.student.core.organization.entity.Org</class>
+        <class>org.kuali.student.core.organization.entity.OrgAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgHierarchy</class>
+        <class>org.kuali.student.core.organization.entity.OrgHierarchyAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgOrgRelation</class>
+        <class>org.kuali.student.core.organization.entity.OrgOrgRelationAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgOrgRelationType</class>
+        <class>org.kuali.student.core.organization.entity.OrgOrgRelationTypeAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgPersonRelation</class>
+        <class>org.kuali.student.core.organization.entity.OrgPersonRelationAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgPersonRelationType</class>
+        <class>org.kuali.student.core.organization.entity.OrgPersonRelationTypeAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgPositionRestriction</class>
+        <class>org.kuali.student.core.organization.entity.OrgPositionRestrictionAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgType</class>
+        <class>org.kuali.student.core.organization.entity.OrgTypeAttribute</class>
+
+
+    <!--class>org.kuali.student.r2.core.class1.process.model.CheckAttributeEntity</class>
+    <class>org.kuali.student.r2.core.class1.process.model.CheckEntity</class>
+    <class>org.kuali.student.r2.core.class1.process.model.CheckRichTextEntity</class>
+    <class>org.kuali.student.r2.core.class1.process.model.InstructionAttributeEntity</class>
+    <class>org.kuali.student.r2.core.class1.process.model.InstructionEntity</class>
+    <class>org.kuali.student.r2.core.class1.process.model.InstructionMessageEntity</class>
+    <class>org.kuali.student.r2.core.class1.process.model.ProcessAttributeEntity</class>
+    <class>org.kuali.student.r2.core.class1.process.model.ProcessEntity</class>
+    <class>org.kuali.student.r2.core.class1.process.model.ProcessRichTextEntity</class>
 
     <class>org.kuali.student.r2.core.population.model.PopulationEntity</class-->
 

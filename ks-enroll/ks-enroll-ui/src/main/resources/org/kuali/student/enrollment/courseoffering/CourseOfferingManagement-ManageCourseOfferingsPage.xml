@@ -19,6 +19,10 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
+    <bean id="CourseOfferingInfo" parent="CourseOfferingInfo-parent">
+        <property name="titleAttribute" value="id"/>
+    </bean>
+
     <bean id="KS-CourseOfferingManagement-ManageCourseOfferingsPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="manageCourseOfferingsPage"
           p:headerText="">
@@ -33,63 +37,15 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-CriteriaSection" parent="Uif-HorizontalBoxSection">
-        <property name="disclosure.render" value="false"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-HorizontalFieldGroup">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true">
-                                            <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2009" p:minLength="7" p:maxLength="7"/>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Set" p:methodToCall="searchForTerm"/>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-HorizontalFieldGroup">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-InputField" p:propertyName="radioSelection" p:label="" p:width="auto" p:required="true">
-                                            <property name="control">
-                                                <bean parent="Uif-VerticalRadioControl">
-                                                    <property name="options">
-                                                        <list>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="courseOfferingCode" p:value="Course ID"/>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="subjectCode" p:value="Subject Code"/>
-                                                        </list>
-                                                    </property>
-                                                </bean>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="inputCode" p:label="" p:required="true">
-                                            <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="10"/>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Show" p:methodToCall="show"/>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-     </bean>
-
     <bean id="KS-CourseOfferingManagement-CourseOfferingResultSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="@{subjectCode}" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Create Course Offering" p:methodToCall=""/>
+                <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingList.empty}"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:render="@{!courseOfferingList.empty}"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering"/>
             </list>
         </property>
     </bean>
@@ -105,29 +61,37 @@
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+                <entry key="aaSorting" value="[[ 0, 'asc' ]]"/>
+                <entry key="bPaginate" value="false"/>
             </map>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField"
-                      p:label="COURSE ID"
-                      p:propertyName="courseOfferingCode" />
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="id" />
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField"
                       p:label="TITLE"
                       p:propertyName="courseOfferingTitle"/>
                 <bean parent="Uif-DataField"
-                      p:label="STATUS"
-                      p:propertyName="stateKey"/>
+                      p:label="CREDITS"
+                      p:propertyName="creditCnt"/>
+                <bean parent="Uif-DataField"
+                      p:label="GRADING"
+                      p:propertyName="gradingOption"/>
+                <!--<bean parent="Uif-DataField"-->
+                      <!--p:label="STATUS"-->
+                      <!--p:propertyName="stateKey"/>-->
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions" p:style="display:inline;"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="ACTIONS" p:style="display:inline;"/>
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-SubmitActionLink" p:methodToCall="loadAOs" p:actionLabel="Edit Activity Offerings  " />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View  " />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
                 <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="delete" p:actionLabel="Delete" />
             </list>

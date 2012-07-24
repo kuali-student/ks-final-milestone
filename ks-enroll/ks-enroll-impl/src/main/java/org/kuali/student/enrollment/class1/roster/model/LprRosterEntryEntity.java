@@ -2,9 +2,7 @@ package org.kuali.student.enrollment.class1.roster.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,7 +21,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_LPR_ROSTER_ENTRY")
-public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<LprRosterEntryAttributeEntity>{
+public class LprRosterEntryEntity extends MetaEntity {
 
     @Column(name = "LPRROSTER_ID")
     private String lprRosterId;
@@ -47,7 +45,7 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
     private String lprEntryRelationState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
-    private Set<LprRosterEntryAttributeEntity> attributes;
+    private List<LprRosterEntryAttributeEntity> attributes;
 
     public LprRosterEntryEntity() {}
 
@@ -62,7 +60,7 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
             if (dto.getStateKey() != null) {
                 this.setLprEntryRelationState(dto.getStateKey());
             }
-            this.setAttributes(new HashSet<LprRosterEntryAttributeEntity>());
+            this.setAttributes(new ArrayList<LprRosterEntryAttributeEntity>());
             if (null != dto.getAttributes()) {
                 for (Attribute att : dto.getAttributes()) {
                     LprRosterEntryAttributeEntity attEntity = new LprRosterEntryAttributeEntity(att, this);
@@ -112,11 +110,11 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
         this.position = position;
     }
 
-    public Set<LprRosterEntryAttributeEntity> getAttributes() {
+    public List<LprRosterEntryAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(Set<LprRosterEntryAttributeEntity> attributes) {
+    public void setAttributes(List<LprRosterEntryAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 

@@ -15,8 +15,8 @@
 package org.kuali.student.r2.common.util.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 /**
  * This class holds the constants used by the Hold service
@@ -29,8 +29,8 @@ public class HoldServiceConstants {
      * Reference Object URI's
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "hold";
-    public static final String REF_OBJECT_URI_HOLD = NAMESPACE + "/" + HoldInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_ISSUE = NAMESPACE + "/" + IssueInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_HOLD = NAMESPACE + "/" + AppliedHoldInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_ISSUE = NAMESPACE + "/" + HoldIssueInfo.class.getSimpleName();
     /**
      * Hold types
      */

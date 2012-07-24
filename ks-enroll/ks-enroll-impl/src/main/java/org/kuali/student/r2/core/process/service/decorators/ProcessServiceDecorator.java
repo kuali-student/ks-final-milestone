@@ -73,7 +73,7 @@ public abstract class ProcessServiceDecorator implements ProcessService {
     }
 
     @Override
-    public StatusInfo deleteProcessCategory(String processCategoryId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteProcessCategory(String processCategoryId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException{
         return getNextDecorator().deleteProcessCategory(processCategoryId, contextInfo);
     }
 
@@ -113,8 +113,8 @@ public abstract class ProcessServiceDecorator implements ProcessService {
     }
 
     @Override
-    public List<ProcessInfo> searchForProcesss(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForProcesss(criteria, contextInfo);
+    public List<ProcessInfo> searchForProcess(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForProcess(criteria, contextInfo);
     }
 
     @Override
@@ -246,4 +246,18 @@ public abstract class ProcessServiceDecorator implements ProcessService {
     public List<InstructionInfo> getInstructionsForEvaluation(String processKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getInstructionsForEvaluation(processKey, contextInfo);
     }
+
+    @Override
+    public StatusInfo reorderInstructions(String processKey,
+            List<String> instructionIds,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator ().reorderInstructions(processKey, instructionIds, contextInfo);
+    }
+    
 }

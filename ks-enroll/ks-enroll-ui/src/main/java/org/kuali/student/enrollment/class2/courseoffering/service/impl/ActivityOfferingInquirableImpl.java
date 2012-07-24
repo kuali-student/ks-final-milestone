@@ -38,7 +38,6 @@ public class ActivityOfferingInquirableImpl extends InquirableImpl {
     public ActivityOfferingInfo retrieveDataObject(Map<String, String> parameters) {
         try {
             ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(parameters.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID), getContextInfo());
-            ViewHelperUtil.getInstructorNames(activityOfferingInfo.getInstructors());
             return activityOfferingInfo;
         } catch (Exception e) {
            throw new RuntimeException(e);

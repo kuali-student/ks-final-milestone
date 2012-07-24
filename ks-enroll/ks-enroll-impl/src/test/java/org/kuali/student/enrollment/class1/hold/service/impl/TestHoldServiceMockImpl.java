@@ -18,8 +18,8 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -61,14 +61,14 @@ public class TestHoldServiceMockImpl {
             VersionMismatchException,
             DependentObjectsExistException {
         // test create
-        IssueInfo expected = new IssueInfo();
+        HoldIssueInfo expected = new HoldIssueInfo();
         expected.setName("name of issue");
         expected.setDescr(new RichTextHelper().fromPlain("description of issue"));
         expected.setOrganizationId("org1");
         expected.setTypeKey(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY);
         expected.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());
-        IssueInfo actual = holdService.createIssue(expected.getTypeKey(), expected, callContext);
+        HoldIssueInfo actual = holdService.createHoldIssue(expected.getTypeKey(), expected, callContext);
         assertNotNull(actual.getId());
         new IdEntityTester().check(expected, actual);
         assertEquals(expected.getOrganizationId(), actual.getOrganizationId());
@@ -82,7 +82,7 @@ public class TestHoldServiceMockImpl {
 //            // to let the checks work properly
 //            itemInfo.setId(null);
 //        }
-        actual = holdService.getIssue(actual.getId(), callContext);
+        actual = holdService.getHoldIssue(actual.getId(), callContext);
         assertEquals(expected.getId(), actual.getId());
         new IdEntityTester().check(expected, actual);
         assertEquals(expected.getOrganizationId(), actual.getOrganizationId());
@@ -96,40 +96,40 @@ public class TestHoldServiceMockImpl {
         expected.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
         expected.setOrganizationId("org2");
         new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
-        actual = holdService.updateIssue(expected.getId(), expected, callContext);
+        actual = holdService.updateHoldIssue(expected.getId(), expected, callContext);
         assertEquals(expected.getId(), actual.getId());
         new IdEntityTester().check(expected, actual);
         assertEquals(expected.getOrganizationId(), actual.getOrganizationId());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
 
-        // test read
+        // test read after update
         expected = actual;
-        actual = holdService.getIssue(actual.getId(), callContext);
+        actual = holdService.getHoldIssue(actual.getId(), callContext);
         assertEquals(expected.getId(), actual.getId());
         new IdEntityTester().check(expected, actual);
         assertEquals(expected.getOrganizationId(), actual.getOrganizationId());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
-        new MetaTester().checkAfterCreate(actual.getMeta());
+        new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
 
-        IssueInfo acadIssue = actual;
+        HoldIssueInfo acadIssue = actual;
 
         // create a 2nd issue
-        IssueInfo finAidIssue = new IssueInfo();
+        HoldIssueInfo finAidIssue = new HoldIssueInfo();
         finAidIssue.setName("fin aid issue");
         finAidIssue.setDescr(new RichTextHelper().fromPlain("financial aid issue"));
         finAidIssue.setOrganizationId("org2");
         finAidIssue.setTypeKey(HoldServiceConstants.FINANCIAL_AID_ISSUE_TYPE_KEY);
         finAidIssue.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
-        finAidIssue = holdService.createIssue(finAidIssue.getTypeKey(), finAidIssue, callContext);
+        finAidIssue = holdService.createHoldIssue(finAidIssue.getTypeKey(), finAidIssue, callContext);
 
         // test bulk get
         List<String> ids = new ArrayList<String>();
         ids.add(acadIssue.getId());
         ids.add(finAidIssue.getId());
-        List<IssueInfo> issues = holdService.getIssuesByIds(ids, callContext);
+        List<HoldIssueInfo> issues = holdService.getHoldIssuesByIds(ids, callContext);
         assertEquals(ids.size(), issues.size());
-        for (IssueInfo issue : issues) {
+        for (HoldIssueInfo issue : issues) {
             if (!ids.remove(issue.getId())) {
                 fail(issue.getId());
             }
@@ -137,27 +137,27 @@ public class TestHoldServiceMockImpl {
         assertEquals(0, ids.size());
 
         // test get by type
-        ids = holdService.getIssueIdsByType(HoldServiceConstants.FINANCIAL_AID_ISSUE_TYPE_KEY, callContext);
+        ids = holdService.getHoldIssueIdsByType(HoldServiceConstants.FINANCIAL_AID_ISSUE_TYPE_KEY, callContext);
         assertEquals(1, ids.size());
         assertEquals(finAidIssue.getId(), ids.get(0));
 
         // test get by other type
-        ids = holdService.getIssueIdsByType(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY, callContext);
+        ids = holdService.getHoldIssueIdsByType(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY, callContext);
         assertEquals(1, ids.size());
         assertEquals(acadIssue.getId(), ids.get(0));
 
         // test get by org1
-        issues = holdService.getIssuesByOrg("org1", callContext);
+        issues = holdService.getHoldIssuesByOrg("org1", callContext);
         assertEquals(0, issues.size());
 
         // test get by org2
-        issues = holdService.getIssuesByOrg("org2", callContext);
+        issues = holdService.getHoldIssuesByOrg("org2", callContext);
         assertEquals(2, issues.size());
         assertEquals(acadIssue.getId(), issues.get(0).getId());
         ids = new ArrayList<String>();
         ids.add(acadIssue.getId());
         ids.add(finAidIssue.getId());
-        for (IssueInfo issue : issues) {
+        for (HoldIssueInfo issue : issues) {
             if (!ids.remove(issue.getId())) {
                 fail(issue.getId());
             }
@@ -166,33 +166,33 @@ public class TestHoldServiceMockImpl {
 
 
         //TODO: check that service throws dependent object exception propertly
-        HoldInfo holdInfo = this.testCrudHold(acadIssue, finAidIssue);
+        AppliedHoldInfo holdInfo = this.testCrudHold(acadIssue, finAidIssue);
 
         // test for circular dependency when delete issue with a hold
         try {
-            StatusInfo status = holdService.deleteIssue(actual.getId(), callContext);
+            StatusInfo status = holdService.deleteHoldIssue(actual.getId(), callContext);
             fail("Did not receive DependentObjectsExistException when attempting to delete an issue with a hold that exists");
         } catch (DependentObjectsExistException dnee) {
             // expected
         }
 
         // now test delete of hold
-        StatusInfo status = holdService.deleteHold(holdInfo.getId(), callContext);
+        StatusInfo status = holdService.deleteAppliedHold(holdInfo.getId(), callContext);
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            holdInfo = holdService.getHold(holdInfo.getId(), callContext);
-            fail("Did not receive DoesNotExistException when attempting to get already-deleted HoldEntity");
+            holdInfo = holdService.getAppliedHold(holdInfo.getId(), callContext);
+            fail("Did not receive DoesNotExistException when attempting to get already-deleted AppliedHoldEntity");
         } catch (DoesNotExistException dnee) {
             // expected
         }
 
         // test delete issue
-        status = holdService.deleteIssue(finAidIssue.getId(), callContext);
+        status = holdService.deleteHoldIssue(finAidIssue.getId(), callContext);
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            actual = holdService.getIssue(finAidIssue.getId(), callContext);
+            actual = holdService.getHoldIssue(finAidIssue.getId(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted IssueEntity");
         } catch (DoesNotExistException dnee) {
             // expected
@@ -200,8 +200,8 @@ public class TestHoldServiceMockImpl {
 
     }
 
-    public HoldInfo testCrudHold(IssueInfo acadIssue,
-            IssueInfo finAidIssue)
+    private AppliedHoldInfo testCrudHold(HoldIssueInfo acadIssue,
+            HoldIssueInfo finAidIssue)
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -212,9 +212,9 @@ public class TestHoldServiceMockImpl {
             VersionMismatchException,
             DependentObjectsExistException {
         // test create
-        HoldInfo expected = new HoldInfo();
+        AppliedHoldInfo expected = new AppliedHoldInfo();
         expected.setPersonId("student1");
-        expected.setIssueId(acadIssue.getId());
+        expected.setHoldIssueId(acadIssue.getId());
         expected.setName("name of hold");
         expected.setDescr(new RichTextHelper().fromPlain("description of hold"));
         expected.setEffectiveDate(new Date());
@@ -222,12 +222,12 @@ public class TestHoldServiceMockImpl {
         expected.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         expected.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());
-        HoldInfo actual = holdService.createHold(expected.getPersonId(), expected.getIssueId(), expected.getTypeKey(), expected,
+        AppliedHoldInfo actual = holdService.createAppliedHold(expected.getPersonId(), expected.getHoldIssueId(), expected.getTypeKey(), expected,
                 callContext);
         assertNotNull(actual.getId());
         new IdEntityTester().check(expected, actual);
         assertEquals(expected.getPersonId(), actual.getPersonId());
-        assertEquals(expected.getIssueId(), actual.getIssueId());
+        assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
         new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
         new TimeTester().check(expected.getReleasedDate(), actual.getReleasedDate());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
@@ -235,11 +235,11 @@ public class TestHoldServiceMockImpl {
 
         // test read
         expected = actual;
-        actual = holdService.getHold(actual.getId(), callContext);
+        actual = holdService.getAppliedHold(actual.getId(), callContext);
         assertEquals(expected.getId(), actual.getId());
         new IdEntityTester().check(expected, actual);
         assertEquals(expected.getPersonId(), actual.getPersonId());
-        assertEquals(expected.getIssueId(), actual.getIssueId());
+        assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
         new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
         new TimeTester().check(expected.getReleasedDate(), actual.getReleasedDate());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
@@ -253,11 +253,11 @@ public class TestHoldServiceMockImpl {
         expected.setReleasedDate(new Date());
         expected.setStateKey(HoldServiceConstants.HOLD_RELEASED_STATE_KEY);
         new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
-        actual = holdService.updateHold(expected.getId(), expected, callContext);
+        actual = holdService.updateAppliedHold(expected.getId(), expected, callContext);
         assertEquals(expected.getId(), actual.getId());
         new IdEntityTester().check(expected, actual);
         assertEquals(expected.getPersonId(), actual.getPersonId());
-        assertEquals(expected.getIssueId(), actual.getIssueId());
+        assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
         new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
         new TimeTester().check(expected.getReleasedDate(), actual.getReleasedDate());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
@@ -265,56 +265,58 @@ public class TestHoldServiceMockImpl {
 
         // test read
         expected = actual;
-        actual = holdService.getHold(actual.getId(), callContext);
+        actual = holdService.getAppliedHold(actual.getId(), callContext);
         assertEquals(expected.getId(), actual.getId());
         new IdEntityTester().check(expected, actual);
         assertEquals(expected.getPersonId(), actual.getPersonId());
-        assertEquals(expected.getIssueId(), actual.getIssueId());
+        assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
         new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
         new TimeTester().check(expected.getReleasedDate(), actual.getReleasedDate());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterCreate(actual.getMeta());
 
-        HoldInfo acadHoldReleasedStudent1 = actual;
+        AppliedHoldInfo acadHoldReleasedStudent1 = actual;
         // create 2nd
-        HoldInfo finAidHoldStudent1 = new HoldInfo();
+        AppliedHoldInfo finAidHoldStudent1 = new AppliedHoldInfo();
         finAidHoldStudent1.setPersonId("student1");
-        finAidHoldStudent1.setIssueId(finAidIssue.getId());
+        finAidHoldStudent1.setHoldIssueId(finAidIssue.getId());
         finAidHoldStudent1.setName("name of hold");
         finAidHoldStudent1.setDescr(new RichTextHelper().fromPlain("description of hold"));
         finAidHoldStudent1.setEffectiveDate(new Date());
         finAidHoldStudent1.setReleasedDate(null);
         finAidHoldStudent1.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         finAidHoldStudent1.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
-        finAidHoldStudent1 = holdService.createHold(finAidHoldStudent1.getPersonId(), finAidHoldStudent1.getIssueId(),
+        finAidHoldStudent1 = holdService.createAppliedHold(finAidHoldStudent1.getPersonId(), 
+                finAidHoldStudent1.getHoldIssueId(),
                 finAidHoldStudent1.getTypeKey(), finAidHoldStudent1,
                 callContext);
         // create a 3rd
-        HoldInfo acadHoldActiveStudent1 = new HoldInfo();
+        AppliedHoldInfo acadHoldActiveStudent1 = new AppliedHoldInfo();
         acadHoldActiveStudent1.setPersonId("student1");
-        acadHoldActiveStudent1.setIssueId(acadIssue.getId());
+        acadHoldActiveStudent1.setHoldIssueId(acadIssue.getId());
         acadHoldActiveStudent1.setName("name of hold");
         acadHoldActiveStudent1.setDescr(new RichTextHelper().fromPlain("description of hold"));
         acadHoldActiveStudent1.setEffectiveDate(new Date());
         acadHoldActiveStudent1.setReleasedDate(null);
         acadHoldActiveStudent1.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         acadHoldActiveStudent1.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
-        acadHoldActiveStudent1 = holdService.createHold(acadHoldActiveStudent1.getPersonId(), acadHoldActiveStudent1.getIssueId(),
+        acadHoldActiveStudent1 = holdService.createAppliedHold(acadHoldActiveStudent1.getPersonId(), 
+                acadHoldActiveStudent1.getHoldIssueId(),
                 acadHoldActiveStudent1.getTypeKey(), acadHoldActiveStudent1,
                 callContext);
 
         // create a 4th
-        HoldInfo acadHoldActiveInstructor1 = new HoldInfo();
+        AppliedHoldInfo acadHoldActiveInstructor1 = new AppliedHoldInfo();
         acadHoldActiveInstructor1.setPersonId("instructor1");
-        acadHoldActiveInstructor1.setIssueId(acadIssue.getId());
+        acadHoldActiveInstructor1.setHoldIssueId(acadIssue.getId());
         acadHoldActiveInstructor1.setName("name of hold");
         acadHoldActiveInstructor1.setDescr(new RichTextHelper().fromPlain("description of hold"));
         acadHoldActiveInstructor1.setEffectiveDate(new Date());
         acadHoldActiveInstructor1.setReleasedDate(null);
         acadHoldActiveInstructor1.setTypeKey(HoldServiceConstants.INTRUCTOR_HOLD_TYPE_KEY);
         acadHoldActiveInstructor1.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
-        acadHoldActiveInstructor1 = holdService.createHold(acadHoldActiveInstructor1.getPersonId(),
-                acadHoldActiveInstructor1.getIssueId(), acadHoldActiveInstructor1.getTypeKey(), acadHoldActiveInstructor1,
+        acadHoldActiveInstructor1 = holdService.createAppliedHold(acadHoldActiveInstructor1.getPersonId(),
+                acadHoldActiveInstructor1.getHoldIssueId(), acadHoldActiveInstructor1.getTypeKey(), acadHoldActiveInstructor1,
                 callContext);
 
         // test bulk get
@@ -323,9 +325,9 @@ public class TestHoldServiceMockImpl {
         expIds.add(finAidHoldStudent1.getId());
         expIds.add(acadHoldActiveStudent1.getId());
         expIds.add(acadHoldActiveInstructor1.getId());
-        List<HoldInfo> holds = holdService.getHoldsByIds(expIds, callContext);
+        List<AppliedHoldInfo> holds = holdService.getAppliedHoldsByIds(expIds, callContext);
         assertEquals(expIds.size(), holds.size());
-        for (HoldInfo issue : holds) {
+        for (AppliedHoldInfo issue : holds) {
             if (!expIds.remove(issue.getId())) {
                 fail(issue.getId());
             }
@@ -333,12 +335,12 @@ public class TestHoldServiceMockImpl {
         assertEquals(0, expIds.size());
 
         // test get by type
-        List<String> actIds = holdService.getHoldIdsByType(HoldServiceConstants.INTRUCTOR_HOLD_TYPE_KEY, callContext);
+        List<String> actIds = holdService.getAppliedHoldIdsByType(HoldServiceConstants.INTRUCTOR_HOLD_TYPE_KEY, callContext);
         assertEquals(1, actIds.size());
         assertEquals(acadHoldActiveInstructor1.getId(), actIds.get(0));
 
         // test get by other type
-        actIds = holdService.getHoldIdsByType(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY, callContext);
+        actIds = holdService.getAppliedHoldIdsByType(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY, callContext);
         expIds = new ArrayList<String>();
         expIds.add(acadHoldReleasedStudent1.getId());
         expIds.add(finAidHoldStudent1.getId());
@@ -346,88 +348,85 @@ public class TestHoldServiceMockImpl {
         new ListOfStringTester().check(expIds, actIds);
 
         // test get by student1
-        holds = holdService.getHoldsByPerson("student1", callContext);
+        holds = holdService.getAppliedHoldsByPerson("student1", callContext);
         expIds = new ArrayList<String>();
         expIds.add(acadHoldReleasedStudent1.getId());
         expIds.add(finAidHoldStudent1.getId());
         expIds.add(acadHoldActiveStudent1.getId());
-        actIds = new ArrayList<String>();
-        for (HoldInfo hold : holds) {
+        for (AppliedHoldInfo hold : holds) {
             if (!expIds.remove(hold.getId())) {
                 fail(hold.getId());
             }
         }
-        assertEquals(0, actIds.size());
+        assertEquals(0, expIds.size());
 
         // test get by instructor1
-        holds = holdService.getHoldsByPerson("instructor1", callContext);
+        holds = holdService.getAppliedHoldsByPerson("instructor1", callContext);
         assertEquals(1, holds.size());
         assertEquals(acadHoldActiveInstructor1.getId(), holds.get(0).getId());
 
         // test get by student1
-        holds = holdService.getActiveHoldsByPerson("student1", callContext);
+        holds = holdService.getActiveAppliedHoldsByPerson("student1", callContext);
         expIds = new ArrayList<String>();
         expIds.add(finAidHoldStudent1.getId());
         expIds.add(acadHoldActiveStudent1.getId());
-        actIds = new ArrayList<String>();
-        for (HoldInfo hold : holds) {
+        System.out.println (holds.size() + " active applied holds found for student1");
+        for (AppliedHoldInfo hold : holds) {
+            System.out.println ("active applied hold id=" + hold.getId());
             if (!expIds.remove(hold.getId())) {
                 fail(hold.getId());
             }
         }
-        assertEquals(0, actIds.size());
+        assertEquals(0, expIds.size());
 
 //        getHoldsByIssue
-        actIds = holdService.getHoldIdsByIssue(acadIssue.getId(), callContext);
+        actIds = holdService.getAppliedHoldIdsByIssue(acadIssue.getId(), callContext);
         expIds = new ArrayList<String>();
         expIds.add(acadHoldReleasedStudent1.getId());
         expIds.add(acadHoldActiveStudent1.getId());
         expIds.add(acadHoldActiveInstructor1.getId());
-        actIds = new ArrayList<String>();
         for (String id : actIds) {
             if (!expIds.remove(id)) {
                 fail(id);
             }
         }
-        assertEquals(0, actIds.size());
+        assertEquals(0, expIds.size());
         
 //        getHoldsByIssueAndPerson
-        holds = holdService.getHoldsByIssueAndPerson(acadIssue.getId(), "student1", callContext);
+        holds = holdService.getAppliedHoldsByIssueAndPerson(acadIssue.getId(), "student1", callContext);
         expIds = new ArrayList<String>();
         expIds.add(acadHoldReleasedStudent1.getId());
         expIds.add(acadHoldActiveStudent1.getId());
-        actIds = new ArrayList<String>();
-        for (HoldInfo hold : holds) {
+        for (AppliedHoldInfo hold : holds) {
             if (!expIds.remove(hold.getId())) {
                 fail(hold.getId());
             }
         }
-        assertEquals(0, actIds.size());
+        assertEquals(0, expIds.size());
         
 //        getActiveHoldsByIssueAndPerson
-        holds = holdService.getActiveHoldsByIssueAndPerson(acadIssue.getId(), "student1", callContext);
+        holds = holdService.getActiveAppliedHoldsByIssueAndPerson(acadIssue.getId(), "student1", callContext);
         expIds = new ArrayList<String>();
         expIds.add(acadHoldActiveStudent1.getId());
-        actIds = new ArrayList<String>();
-        for (HoldInfo hold : holds) {
+        for (AppliedHoldInfo hold : holds) {
             if (!expIds.remove(hold.getId())) {
                 fail(hold.getId());
             }
         }
-        assertEquals(0, actIds.size());
+        assertEquals(0, expIds.size());
         
         // now test delete all but one hold      
-        StatusInfo status = holdService.deleteHold(acadHoldActiveStudent1.getId(), callContext);
+        StatusInfo status = holdService.deleteAppliedHold(acadHoldActiveStudent1.getId(), callContext);
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            actual = holdService.getHold(acadHoldActiveStudent1.getId(), callContext);
-            fail("Did not receive DoesNotExistException when attempting to get already-deleted HoldEntity");
+            actual = holdService.getAppliedHold(acadHoldActiveStudent1.getId(), callContext);
+            fail("Did not receive DoesNotExistException when attempting to get already-deleted AppliedHoldEntity");
         } catch (DoesNotExistException dnee) {
             // expected
         }
-        status = holdService.deleteHold(finAidHoldStudent1.getId(), callContext);
-        status = holdService.deleteHold(acadHoldActiveInstructor1.getId(), callContext);
+        status = holdService.deleteAppliedHold(finAidHoldStudent1.getId(), callContext);
+        status = holdService.deleteAppliedHold(acadHoldActiveInstructor1.getId(), callContext);
         
         return acadHoldReleasedStudent1;
 

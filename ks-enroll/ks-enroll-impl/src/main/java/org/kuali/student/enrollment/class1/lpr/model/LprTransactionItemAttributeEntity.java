@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS_ITEM_ATTR")
-public class LprTransactionItemAttributeEntity extends BaseAttributeEntity<LprTransactionItemEntity> {
+public class LprTransactionItemAttributeEntity extends BaseAttributeEntityNew<LprTransactionItemEntity> {
 
 	public LprTransactionItemAttributeEntity() {
 		super();
@@ -36,6 +36,4 @@ public class LprTransactionItemAttributeEntity extends BaseAttributeEntity<LprTr
 		super(att, owner);
 	}
   
-	
-
 }

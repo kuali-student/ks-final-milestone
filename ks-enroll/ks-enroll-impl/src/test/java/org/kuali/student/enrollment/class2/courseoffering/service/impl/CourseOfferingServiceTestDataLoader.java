@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,8 @@ import org.kuali.student.common.test.TestAwareDataLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
+import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
+import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -68,16 +71,19 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
- * When testing CourseOfferingService it was a problem to have all the base data be reloaded before each test.
+ * This class is expected to be configured as a spring bean in order to have the resources loaded.  
+ * <p/>
+ * The {@link TestAwareDataLoader}  api is used by the TestCourseOfferingServiceMockImpl to coordinate the data clear and load operations. 
  * 
- * So this class is now intended to be a spring bean so that it can configure itself once and then the data will
- * be available for all of the test cases.
+ * The data modeled here probably should have come from this picture in the CourseOfferingService documentation : 
+ * <p/>
+ * {@link https://wiki.kuali.org/display/STUDENT/KS+ENR+HLDS+-+Seat+Pools+-+Reg+Groups#KSENRHLDS-SeatPools-RegGroups-DiagramofSeatPoolandRegGroupExamples}
+ * 
+ * We also define some methods that can be used to insert specific kinds of data into various spots for each example CourseOffering.
  * 
  * @author ocleirig
- * 
  *
  */
 public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader, ApplicationContextAware {
@@ -94,10 +100,18 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	@Resource
 	private AtpService atpService;
 	
+	@Resource
+	private CourseOfferingCodeGenerator courseCodeGenerator;
+	
+	@Resource
+	private RegistrationGroupCodeGenerator registrationGroupCodeGenerator;
+	
 	private AtpTestDataLoader atpDataLoader;
 	private AcalTestDataLoader acalDataLoader;
 
 	private ApplicationContext applicationContext;
+
+	private boolean initialized;
 	
 
 	/**
@@ -145,6 +159,8 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 		createCourseCHEM123(fall2012, context);
 		
 		createCourseENG101(spring2012, context);
+		
+		this.initialized = true;
 		
 		
 		// activity
@@ -272,14 +288,14 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			
 			
 			// Format 1 Lecture offering A
-			ActivityOfferingInfo lectureOnlyFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureOnlyFormatOffering.getId(), "SCHED-1", canonicalLectureOnlyLectureActivity.getId(), "Lecture A", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureOnlyFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureOnlyFormatOffering.getId(), "SCHED-1", canonicalLectureOnlyLectureActivity.getId(), "Lecture A", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureOnlyFormatLectureA.setId("CO-1:LEC-ONLY:LEC-A");
 			
 			coService.createActivityOffering(lectureOnlyFormatOffering.getId(), canonicalLectureOnlyLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureOnlyFormatLectureA, context);
 			
 			// Format 1 Lecture Offering B
-			ActivityOfferingInfo lectureOnlyFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureOnlyFormatOffering.getId(), "SCHED-2", canonicalLectureOnlyLectureActivity.getId(), "Lecture B", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureOnlyFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureOnlyFormatOffering.getId(), "SCHED-2", canonicalLectureOnlyLectureActivity.getId(), "Lecture B", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureOnlyFormatLectureB.setId("CO-1:LEC-ONLY:LEC-B");
 			
@@ -288,14 +304,14 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			// Format 2:
 			
 			// Lecture A
-			ActivityOfferingInfo lectureAndLabFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureAndLabFormatOffering.getId(), "SCHED-3", canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture A", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), "SCHED-3", canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture A", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLectureA.setId("CO-1:LEC-AND-LAB:LEC-A");
 			
 			coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLectureA, context);
 			
 			// Lecture B
-			ActivityOfferingInfo lectureAndLabFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureAndLabFormatOffering.getId(), "SCHED-4", canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture B", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), "SCHED-4", canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture B", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLectureB.setId("CO-1:LEC-AND-LAB:LEC-B");
 			
@@ -305,7 +321,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			
 			
 			// Lab A
-			ActivityOfferingInfo lectureAndLabFormatLabA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureAndLabFormatOffering.getId(), "LAB-A", canonicalLectureAndLabFormatLabActivity.getId(), "Lab A", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLabA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), "LAB-A", canonicalLectureAndLabFormatLabActivity.getId(), "Lab A", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLabA.setId("CO-1:LEC-AND-LAB:LAB-A");
 			
@@ -313,7 +329,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			
 			
 			// Lab B
-			ActivityOfferingInfo lectureAndLabFormatLabB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureAndLabFormatOffering.getId(), "LAB-B", canonicalLectureAndLabFormatLabActivity.getId(), "Lab B", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLabB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), "LAB-B", canonicalLectureAndLabFormatLabActivity.getId(), "Lab B", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLabB.setId("CO-1:LEC-AND-LAB:LAB-B");
 			
@@ -322,7 +338,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			// Lab C
 			
 			
-			ActivityOfferingInfo lectureAndLabFormatLabC = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering.getId(), lectureAndLabFormatOffering.getId(), "LAB-C", canonicalLectureAndLabFormatLabActivity.getId(), "Lab C", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLabC = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), "LAB-C", canonicalLectureAndLabFormatLabActivity.getId(), "Lab C", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLabC.setId("CO-1:LEC-AND-LAB:LAB-C");
 			
@@ -357,7 +373,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	
 			String canonicalActivityId = CourseOfferingServiceDataUtils.createCanonicalActivityId(targetFormat.getId(), LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY);
 			
-			ActivityOfferingInfo lectureAndLabFormatLabC = CourseOfferingServiceDataUtils.createActivityOffering(co.getTermId(), co.getId(), "CO-1:LEC-AND-LAB", labCode, canonicalActivityId, labCode, "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLabC = CourseOfferingServiceDataUtils.createActivityOffering(co.getTermId(), co, "CO-1:LEC-AND-LAB", labCode, canonicalActivityId, labCode, "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLabC.setId("CO-1:LEC-AND-LAB:" + labCode);
 		
@@ -400,23 +416,27 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			instructors.add(CourseOfferingServiceDataUtils.createInstructor("p2", "Instructor", 100.00F));
 			
 			// Lecture A
-			ActivityOfferingInfo lectureOnlyFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), co.getId(), fo1.getId(), "SCHED-1", canonicalLectureOnlyFormatLectureActivity.getId(), "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureOnlyFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), co, fo1.getId(), "SCHED-1", canonicalLectureOnlyFormatLectureActivity.getId(), "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureOnlyFormatLectureA.setId("CO-2:LEC-ONLY:LEC-A");
 			
 			coService.createActivityOffering(fo1.getId(), canonicalLectureOnlyFormatLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureOnlyFormatLectureA, context);
 			
 			// Lecture B
-			ActivityOfferingInfo lectureOnlyFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), co.getId(), fo1.getId(), "SCHED-1", canonicalLectureOnlyFormatLectureActivity.getId(), "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureOnlyFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), co, fo1.getId(), "SCHED-1", canonicalLectureOnlyFormatLectureActivity.getId(), "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureOnlyFormatLectureB.setId("CO-2:LEC-ONLY:LEC-B");
 			
 			coService.createActivityOffering(fo1.getId(), canonicalLectureOnlyFormatLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureOnlyFormatLectureB, context);
 			
 			// Create a Registration Group
-			RegistrationGroupInfo regGroupA = CourseOfferingServiceDataUtils.createRegistrationGroup(co.getId(), fo1.getId(), "2012SP", Arrays.asList(new String[] {lectureOnlyFormatLectureA.getId()}), "Reg Group for Lecture A", "REG:LEC-A", false, false,50, LuiServiceConstants.REG_GROUP_OPEN_STATE_KEY);
+			List activities;
+			RegistrationGroupInfo regGroupA = CourseOfferingServiceDataUtils.createRegistrationGroup(co.getId(), fo1.getId(), "2012SP", activities = Arrays.asList(new String[] {lectureOnlyFormatLectureA.getId()}), "Reg Group for Lecture A", "REG:LEC-A", false, false,50, LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
 			
 			regGroupA.setId("CO-2:LEC-ONLY:REG-GROUP-LEC-A");
+			
+			regGroupA.setRegistrationCode(registrationGroupCodeGenerator.generateRegistrationGroupCode(fo1, activities));
+			
 			
 			coService.createRegistrationGroup(fo1.getId(), LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, regGroupA, context);
 			
@@ -558,5 +578,12 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	            throw new IllegalArgumentException("Bad date " + str + " in " + context);
 	        }
 	    }
+
+
+
+
+		public boolean isInitialized() {
+			return initialized;
+		}
 
 }

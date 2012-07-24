@@ -16,12 +16,7 @@
  */
 package org.kuali.student.enrollment.test.util;
 
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.EntityInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.*;
 
 import static org.junit.Assert.*;
 
@@ -76,6 +71,11 @@ public class CrudInfoTester {
      */
     private IdEntityTester idEntityTester;
 
+    /**
+     * The RichTextTester tester.
+     */
+    private RichTextTester richTextTester;
+
     ///////////////////////
     // CONSTRUCTORS
     ///////////////////////
@@ -90,6 +90,7 @@ public class CrudInfoTester {
         listOfStringTester = new ListOfStringTester();
         entityInfoTester = new EntityInfoTester();
         idEntityTester = new IdEntityTester();
+        richTextTester = new RichTextTester();
     }
 
     public CrudInfoTester () {
@@ -164,6 +165,14 @@ public class CrudInfoTester {
         this.idEntityTester = idEntityTester;
     }
 
+    public RichTextTester getRichTextTester() {
+        return richTextTester;
+    }
+
+    public void setRichTextTester(RichTextTester richTextTester) {
+        this.richTextTester = richTextTester;
+    }
+
     ///////////////////////
     // FUNCTIONALS
     ///////////////////////
@@ -171,7 +180,8 @@ public class CrudInfoTester {
     public void initializeInfoForTestCreate (EntityInfo expected, String typeKey, String stateKey) throws Exception {
         expected.setTypeKey(typeKey);
         expected.setStateKey(stateKey);
-        expected.setName("Name 1");
+        expected.setName("Name1");
+        expected.setDescr(new RichTextInfo("plain1", "formatted1"));
         getAttributeTester().add2ForCreate(expected.getAttributes());
     }
 
@@ -189,14 +199,18 @@ public class CrudInfoTester {
         getMetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
     }
 
-    public void initializeInfoForTestUpdate (EntityInfo expected) throws Exception {
+    public void initializeInfoForTestUpdate (EntityInfo expected, String newStateKey) throws Exception {
         clearAttributeIds(expected);
-        expected.setName("Name 2");
+        expected.setStateKey(newStateKey);
+        expected.setName("Name2");
+        expected.setDescr(new RichTextInfo("plain2", "formatted2"));
         getAttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
     }
 
     public void testUpdate (EntityInfo expected, EntityInfo actual) throws Exception {
         doCommonTests(expected, actual);
+        assertEquals(expected.getName(), "Name2");
+        getRichTextTester().check(expected.getDescr(), new RichTextInfo("plain2", "formatted2"));
         getMetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
     }
 
@@ -228,6 +242,7 @@ public class CrudInfoTester {
         }
         getEntityInfoTester().check(expected, actual);
         getAttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        getRichTextTester().check(expected.getDescr(), actual.getDescr());
     }
 
     private void clearAttributeIds(EntityInfo expected) throws Exception {

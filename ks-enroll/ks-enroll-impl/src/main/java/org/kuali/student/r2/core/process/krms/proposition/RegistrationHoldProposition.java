@@ -23,7 +23,7 @@ import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,17 +47,17 @@ public class RegistrationHoldProposition extends AbstractLeafProposition {
     public PropositionResult evaluate(ExecutionEnvironment environment) {
 
         Term studentRegistrationHoldsTerm = new Term(RulesExecutionConstants.STUDENT_REGISTRATION_HOLDS_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.ISSUE_KEY_TERM_PROPERTY, issueId));
-        List<HoldInfo> studentRegistrationHolds = environment.resolveTerm(studentRegistrationHoldsTerm, this);
+        List<AppliedHoldInfo> studentRegistrationHolds = environment.resolveTerm(studentRegistrationHoldsTerm, this);
 
         PropositionResult result = null;
 
         if (studentRegistrationHolds.isEmpty()) {
             result = new PropositionResult(true);
         } else {
-            List<HoldInfo> blockingHolds = new ArrayList<HoldInfo>();
+            List<AppliedHoldInfo> blockingHolds = new ArrayList<AppliedHoldInfo>();
 
             // Split the found holds into warning and blocking holds
-            for (HoldInfo hold : studentRegistrationHolds) {
+            for (AppliedHoldInfo hold : studentRegistrationHolds) {
                     blockingHolds.add(hold);
             }
 

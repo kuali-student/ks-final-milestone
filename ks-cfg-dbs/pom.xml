@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.3.0-services-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-cfg-dbs</artifactId>
@@ -46,9 +46,9 @@
 
     <!-- Oracle specific properties -->
     <ks.impex.masterdb.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</ks.impex.masterdb.url>
-    <ks.impex.masterdb.schema>KSMASTER</ks.impex.masterdb.schema>
-    <ks.impex.masterdb.username>KSMASTER</ks.impex.masterdb.username>
-    <ks.impex.masterdb.password>KSMASTER</ks.impex.masterdb.password>
+    <ks.impex.masterdb.schema>KSMASTER_13</ks.impex.masterdb.schema>
+    <ks.impex.masterdb.username>KSMASTER_13</ks.impex.masterdb.username>
+    <ks.impex.masterdb.password>KSMASTER_13</ks.impex.masterdb.password>
     <ks.impex.oracle.driver>oracle.jdbc.driver.OracleDriver</ks.impex.oracle.driver>
     <ks.impex.oracle.default.url>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.oracle.default.url>
     <ks.impex.oracle.delimiter>/</ks.impex.oracle.delimiter>
@@ -329,7 +329,7 @@
       <plugin>
         <groupId>org.kuali.maven.plugins</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0.31</version>
+        <version>1.0.30</version>
         <dependencies>
           <dependency>
             <groupId>mysql</groupId>

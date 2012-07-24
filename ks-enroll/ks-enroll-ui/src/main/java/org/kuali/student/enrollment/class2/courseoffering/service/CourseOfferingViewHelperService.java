@@ -3,9 +3,11 @@ package org.kuali.student.enrollment.class2.courseoffering.service;
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,11 +40,23 @@ public interface CourseOfferingViewHelperService extends ViewHelperService {
 
     public boolean cleanSourceTerm(String targetTermId, CourseOfferingRolloverManagementForm form);
     
-    public SocInfo performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form);
+    public boolean performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form);
 
     public SocRolloverResultInfo performReverseRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form);
 
-    public void cleanTargetTerm(String targetTermId, CourseOfferingRolloverManagementForm form);
+    public void deleteTargetTerm(String targetTermId, DeleteTargetTermForm form);
 
     public List<SocRolloverResultInfo> findRolloverByTerm(String termId) throws Exception;
+    
+    public boolean termHasSoc(String termId, CourseOfferingRolloverManagementForm form);
+    
+    public String formatDate(Date date);
+
+    public SocInfo getMainSoc(String termId);
+
+    // Used in rollover details screen
+    public String formatDateAndTime(Date date);
+
+    // User friendly term string
+    public String getTermDesc(String termId);
 }

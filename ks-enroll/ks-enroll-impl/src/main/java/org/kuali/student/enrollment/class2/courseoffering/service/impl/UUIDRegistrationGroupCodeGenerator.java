@@ -18,12 +18,15 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import java.util.List;
 
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.enrollment.class2.courseoffering.service.strategy.RegistrationGroupCodeGenerator;
+import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
 
 /**
  * A really simple registration code that is just a UUID.
+ * 
+ * This is a place holder.  Using a UUID is not what is wanted so during M4 this implementation should be thrown away
+ * in favour of something that crafts what the Analysis team determines is the desired format.
  * 
  * @author ocleirig
  *

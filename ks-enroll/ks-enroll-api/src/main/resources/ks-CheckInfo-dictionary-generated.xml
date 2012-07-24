@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Jun 14 11:06:41 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -73,10 +73,10 @@ Information about a Check. A Check can be one of a:
 				<ref bean="CheckInfo.typeKey"/>
 				<ref bean="CheckInfo.stateKey"/>
 				<ref bean="CheckInfo.name"/>
-				<ref bean="CheckInfo.issueId"/>
+				<ref bean="CheckInfo.holdIssueId"/>
 				<ref bean="CheckInfo.milestoneTypeKey"/>
 				<ref bean="CheckInfo.agendaId"/>
-				<ref bean="CheckInfo.processKey"/>
+				<ref bean="CheckInfo.childProcessKey"/>
 				<ref bean="CheckInfo.rightComparisonValue"/>
 				<ref bean="CheckInfo.leftComparisonAgendaId"/>
 				<ref bean="CheckInfo.rightComparisonAgendaId"/>
@@ -166,18 +166,18 @@ A description of the entity.
 		<property name="name" value="formatted"/>
 	</bean>
 
-	<bean id="CheckInfo.issueId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="issueId"/>
-		<property name="shortLabel" value="Issue Id"/>
+	<bean id="CheckInfo.holdIssueId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="holdIssueId"/>
+		<property name="shortLabel" value="Hold Issue Id"/>
 		<property name="summary">
 			<value>
-The Issue Key if this Check is for a Hold.
+The Hold Issue if this Check to check if the student has an applied hold.
 			</value>
 		</property>
-		<property name="label" value="Issue Key"/>
+		<property name="label" value="Hold Issue Id"/>
 		<property name="description">
 			<value>
-The Issue Key if this Check is for a Hold.
+The Hold Issue if this Check to check if the student has an applied hold.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -221,20 +221,20 @@ an Agenda. (do we need a reference for the eval?)
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CheckInfo.processKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="processKey"/>
-		<property name="shortLabel" value="Process Key"/>
+	<bean id="CheckInfo.childProcessKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="childProcessKey"/>
+		<property name="shortLabel" value="Child Process Key"/>
 		<property name="summary">
 			<value>
-The Process Key if this Check is based on evaluating
-a Process.
+The Process Key if this Check is to evaluate a all the instructions
+already defined in another child process.
 			</value>
 		</property>
-		<property name="label" value="Process Key"/>
+		<property name="label" value="Child Process Key"/>
 		<property name="description">
 			<value>
-The Process Key if this Check is based on evaluating
-a Process.
+The Process Key if this Check is to evaluate a all the instructions
+already defined in another child process.
 			</value>
 		</property>
 		<property name="required" value="false"/>

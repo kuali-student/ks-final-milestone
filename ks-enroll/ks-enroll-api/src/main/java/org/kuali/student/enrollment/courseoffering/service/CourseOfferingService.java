@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.courseoffering.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -529,16 +530,15 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws DependentObjectsExistException dependent object exist  for course offering
+     * @throws DependentObjectsExistException When one or more Format Offering, Activity Offering, Registration Group or Seat Pool Definition exist for course offering.
      */
     public StatusInfo deleteCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
 
     /**
      * Deletes an existing CourseOffering cascaded style. Deleting a course offering
-     * cascaded style would also delete all the format offering, activity offerings
-     * and registrations groups within
-     * it. Cross listed course offerings should also be deleted along with
-     * passed in courseOfferingId.
+     * cascaded style would also delete all the format offering, activity offerings, 
+     * registration groups and seat pool definitions within it. Cross listed course 
+     * offerings should also be deleted along with passed in courseOfferingId.
      *
      * @param courseOfferingId the Id of the ActivityOffering to be deleted
      * @param context          Context information containing the principalId and locale
@@ -689,7 +689,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws MissingParameterException  Missing  formatOfferingId
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
-     * @throws DependentObjectsExistException if a dependent object exists
+     * @throws DependentObjectsExistException When one or more Activity Offering, Registration Group or Seat Pool Definition exist for the format offering.
      */
     public StatusInfo deleteFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
 
@@ -941,9 +941,25 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws  DependentObjectsExistException
+     * @throws  DependentObjectsExistException when one or more Registration Group and/or Seat Pool Definitions dependencies exist.
      */
     public StatusInfo deleteActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException , DependentObjectsExistException;
+
+    /**
+     * Deletes an existing ActivityOffering cascaded style. Deleting an activity offering 
+     * cascaded style would also delete all the registration groups and seat pools associated with it.
+     * 
+     * @param activityOfferingId the Id of the ActivityOffering to be deleted
+     * @param context            Context information containing the principalId and locale
+     *                           information about the caller of service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the SeatPoolDefinition does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteActivityOfferingCascaded(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates an activity offering. Depending on the value of validationType,
@@ -1119,21 +1135,6 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException    authorization failure
      */
     public RegistrationGroupInfo createRegistrationGroup(@WebParam(name = "formatOfferingId") String formatOfferingId , @WebParam(name = "registrationGroupType") String registrationGroupType, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
-
-    /**
-     * Generates all possible registration groups needed (not already in a regGroup) for the given format
-     * Offering  if there are no reg group templates for the  Format Offering ;
-     * else generate by constraints in the reg group template.
-     *
-     * @param formatOfferingId    identifier of the activity offering
-     * @param context
-     * @return
-     * @throws InvalidParameterException    One or more parameters invalid
-     * @throws MissingParameterException    One or more parameters missing
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    authorization failure
-     */
-    public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Generates all possible registration groups needed (not already in a regGroup) for the given format
@@ -1589,4 +1590,35 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException
      */
     public List<String> searchForSeatpoolDefinitionIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a single Term by a Term Id.
+     *
+     * @param termId      the identifier for the Term to be retrieved
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return the Term requested
+     * @throws DoesNotExistException     termIs is not found
+     * @throws InvalidParameterException contextInfo isnot valid
+     * @throws MissingParameterException termId or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public TermInfo getTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Gets the valid Term types.
+     *
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return a list of valid Term Types
+     * @throws InvalidParameterException contextInfo is not value
+     * @throws MissingParameterException contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TypeInfo> getTermTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
 }

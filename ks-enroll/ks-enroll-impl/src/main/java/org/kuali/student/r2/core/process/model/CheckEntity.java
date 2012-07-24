@@ -1,9 +1,13 @@
 package org.kuali.student.r2.core.process.model;
 
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Set;
+import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.process.dto.CheckInfo;
+import org.kuali.student.r2.core.process.infc.Check;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,16 +15,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.kuali.student.common.entity.KSEntityConstants;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.HasMeta;
-import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.core.process.dto.CheckInfo;
-import org.kuali.student.r2.core.process.infc.Check;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_PROCESS_CHECK")
@@ -73,8 +70,6 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     // CONSTRUCTORS ETC.
     //////////////////////////
 
-    
-
 	public CheckEntity(Check check) {
         super(check);
         this.setId(check.getId());
@@ -96,12 +91,12 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
             this.setDescrFormatted(null);
             this.setDescrPlain(null);
         }
-        this.setIssueId(check.getIssueId());
+        this.setIssueId(check.getHoldIssueId());
         this.setMilestoneType(check.getMilestoneTypeKey());
         this.setAgendaId(check.getAgendaId());
         this.setRightAgendaId(check.getRightComparisonValue());
         this.setLeftAgendaId(check.getLeftComparisonAgendaId());
-        this.setChildProcessId(check.getProcessKey());
+        this.setChildProcessId(check.getChildProcessKey());
         
         this.attributes.clear();
         
@@ -121,7 +116,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         checkInfo.setTypeKey(checkType);
         checkInfo.setStateKey(checkState);
         checkInfo.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
-        checkInfo.setIssueId(issueId);
+        checkInfo.setHoldIssueId(issueId);
         checkInfo.setMilestoneTypeKey(milestoneType);
         checkInfo.setAgendaId(agendaId);
         checkInfo.setRightComparisonAgendaId(rightAgendaId);

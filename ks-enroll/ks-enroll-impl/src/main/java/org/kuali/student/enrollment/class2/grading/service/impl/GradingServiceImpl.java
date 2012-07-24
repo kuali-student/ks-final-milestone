@@ -646,11 +646,11 @@ public class GradingServiceImpl implements GradingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        List<ResultValuesGroupInfo> resultValuesGroupInfos = lrcService.getResultValuesGroupsByIds(gradeGroupKeyList, context);
+        List<ResultValuesGroupInfo> resultValuesGroupInfos = lrcService.getResultValuesGroupsByKeys(gradeGroupKeyList, context);
         List<GradeValuesGroupInfo> gradeValuesGroupInfos = new ArrayList<GradeValuesGroupInfo>();
 
         for(ResultValuesGroupInfo resultValuesGroupInfo : resultValuesGroupInfos){
-            List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByIds(resultValuesGroupInfo.getResultValueKeys(),context);
+            List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(),context);
             try {
                 gradeValuesGroupInfos.add(gradeValuesGroupAssembler.assemble(resultValuesGroupInfo,resultValueInfos,context));
             } catch (AssemblyException e) {
@@ -754,8 +754,9 @@ public class GradingServiceImpl implements GradingService {
             if (courseOfferingInfo == null){
                 throw new OperationFailedException("Could not find course offering " + lpr.getLuiId());
             }
-
-            lprToGradeOptions.put(lpr.getId(),courseOfferingInfo.getRegistrationGradingOptionIds());
+            List<String> gradingOptionIds = new ArrayList<String>(1);
+            gradingOptionIds.add(courseOfferingInfo.getGradingOptionId());
+            lprToGradeOptions.put(lpr.getId(),gradingOptionIds);
 
         }
 
@@ -775,7 +776,7 @@ public class GradingServiceImpl implements GradingService {
             }
         }
 
-        List<ResultValueInfo> resultValues = lrcService.getResultValuesByIds(resultValueKeys, context);
+        List<ResultValueInfo> resultValues = lrcService.getResultValuesByKeys(resultValueKeys, context);
         for (int i = 0; i < resultValues.size(); i++) {
             LearningResultRecordInfo lrr = filteredLrrs.get(i);
             ResultValueInfo resultValue = resultValues.get(i);
@@ -851,7 +852,7 @@ public class GradingServiceImpl implements GradingService {
             }
         }
 
-        List<ResultValueInfo> resultValues = lrcService.getResultValuesByIds(resultValueKeys, context);
+        List<ResultValueInfo> resultValues = lrcService.getResultValuesByKeys(resultValueKeys, context);
         for (int i = 0; i < resultValues.size(); i++) {
             ResultValueInfo resultValue = resultValues.get(i);
             String resultValuetypeKey = resultValue.getTypeKey();

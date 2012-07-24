@@ -26,9 +26,14 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRespInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRespItemInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+
 
 /**
- * This class holds the constants used by the Appointment service
+ * This class holds the constants used by the Scheduling service
  *
  * @Version 1.0
  * @Author Sri komandur@uw.edu

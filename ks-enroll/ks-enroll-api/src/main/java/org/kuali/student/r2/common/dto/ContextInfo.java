@@ -18,6 +18,7 @@ package org.kuali.student.r2.common.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,6 +26,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.infc.Context;
 import org.w3c.dom.Element;
 
@@ -97,6 +99,23 @@ public class ContextInfo
         }
 
         this.timeZone = context.getTimeZone();
+    }
+
+    /**
+     * Creates a default context with the current user and date and default locale
+     * @return a default context
+     */
+    //TODO Refactor to a common/core util package and out of API module
+    public static ContextInfo createDefaultContextInfo(){
+        ContextInfo contextInfo = new ContextInfo();
+        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        contextInfo.setCurrentDate(new Date());
+        LocaleInfo localeInfo = new LocaleInfo();
+        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
+        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
+        contextInfo.setLocale(localeInfo);
+        return contextInfo;
     }
 
     @Override

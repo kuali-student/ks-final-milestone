@@ -20,12 +20,16 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseofferingset.service.impl.DeleteTargetTermRolloverRunner;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
@@ -39,13 +43,20 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -64,8 +75,8 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         // TODO: Find sensible way to rewrap exception that acal service may throw
         // Find the term (alas, I think it does approximate search)
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        // TODO: How does one get rid of hard-coding "atpCode"?
-        qbcBuilder.setPredicates(PredicateFactory.equal("atpCode", termCode));
+
+        qbcBuilder.setPredicates(PredicateFactory.equal(CourseOfferingConstants.ATP_CODE, termCode));
 
         QueryByCriteria criteria = qbcBuilder.build();
 
@@ -75,7 +86,9 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         return terms;
     }
 
-    private CourseOfferingInfo _createCourseOffering(String termId) {
+    private CourseOfferingInfo _createCourseOffering(String termId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ContextInfo contextInfo = ContextUtils.getContextInfo();
+
         CourseOfferingService coService = _getCourseOfferingService();
         CourseOfferingTransformer coTrans = new CourseOfferingTransformer();
         CourseService courseService = _getCourseService();
@@ -91,10 +104,10 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         List<String> copyOptions = new ArrayList<String>();
         copyOptions.add(CourseOfferingSetServiceConstants.NOT_GRADING_CREDIT_OPTION_KEY);
         // At this point
-        coTrans.copyFromCanonical(courseInfo, coInfo, copyOptions);
+        coTrans.copyFromCanonical(courseInfo, coInfo, copyOptions, contextInfo);
         coInfo.setCourseOfferingTitle("Intro to Finite Math");
         coInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-        coInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        coInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
         coInfo.setMinimumEnrollment(5);
         coInfo.setMaximumEnrollment(40);
 //        // info.setCourseId("REFERENCECOURSEMATH140");
@@ -112,7 +125,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
             String infoTermId = coInfo.getTermId();
             String typeKey = coInfo.getTypeKey();
             List<String> options = new ArrayList<String>();
-            ContextInfo contextInfo = new ContextInfo();
+
             CourseOfferingInfo result = coService.createCourseOffering(courseId, infoTermId, typeKey, coInfo,
                                                                        options, contextInfo);
             return result;
@@ -128,7 +141,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         foInfo.setCourseOfferingId(coInfo.getId());
         foInfo.setFormatId("10f433ba-50e4-4037-a727-4ea7747c3e6b"); // Format for CHEM241
         foInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-        foInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        foInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY);
         try {
             FormatOfferingInfo result =
                     coService.createFormatOffering(coInfo.getId(), foInfo.getFormatId(), foInfo.getTypeKey(), foInfo, new ContextInfo());
@@ -144,7 +157,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         aoInfo.setActivityId("f0072e90-3aed-4d9b-8a5a-e7efe317a686"); // Lecture for CHEM241
         aoInfo.setName("DEVTEST_activity");
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-        aoInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
         aoInfo.setActivityCode("A");
         aoInfo.setCourseOfferingCode(coInfo.getCourseOfferingCode());
         aoInfo.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
@@ -206,7 +219,13 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     }
     @Override
     public SocInfo createSocCoFoAoForTerm(String termId, CourseOfferingRolloverManagementForm form) {
-        CourseOfferingInfo coOffering = _createCourseOffering(termId);
+        CourseOfferingInfo coOffering;
+
+        try{
+            coOffering = _createCourseOffering(termId);
+        }catch(Exception e){
+            throw new RuntimeException("Failed to create Course Offering from Course",e);
+        }
 
         if (coOffering == null) {
             form.setStatusField("createSocCoFoAoForTerm: Course offering not created");
@@ -262,6 +281,78 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         }
     }
 
+    private int _mainSocCount(List<String> socIds) {
+        int mainSocCount = 0;
+        try {
+            for (String socId: socIds) {
+                SocInfo socInfo = socService.getSoc(socId, new ContextInfo());
+                if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                    mainSocCount++;
+                }
+            }
+        } catch (Exception e) {
+            return -1;
+        }
+        return mainSocCount;
+    }
+
+    private SocInfo _getUniqueMainSoc(List<String> socIds) {
+        SocInfo mainSoc = null;
+        int mainSocCount = 0;
+        try {
+            for (String socId: socIds) {
+                SocInfo socInfo = socService.getSoc(socId, new ContextInfo());
+                if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                    mainSocCount++;
+                    if (mainSocCount > 1) {
+                        mainSoc = null;
+                    } else if (mainSocCount == 1) {
+                        mainSoc = socInfo;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return mainSoc;
+    }
+
+    @Override
+    public boolean termHasSoc(String termId, CourseOfferingRolloverManagementForm form) {
+        CourseOfferingSetService socService = _getSocService();
+        try {
+            List<String> socIds = socService.getSocIdsByTerm(termId, new ContextInfo());
+            if (socIds == null || socIds.isEmpty()) {
+                if (form != null) {
+                    form.setStatusField("No SOCS in source term");
+                }
+                return false;
+            } else {
+                int mainSocCount = _mainSocCount(socIds);
+                if (mainSocCount != 1) {
+                    if (form != null) {
+                        form.setStatusField("Wrong number of SOCS in source term: " + socIds.size());
+                    }
+                    return false;
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public SocInfo getMainSoc(String termId) {
+        CourseOfferingSetService socService = _getSocService();
+        try {
+            List<String> socIds = socService.getSocIdsByTerm(termId, new ContextInfo());
+            return _getUniqueMainSoc(socIds);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @Override
     public SocRolloverResultInfo performReverseRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
         CourseOfferingSetService socService = _getSocService();
@@ -296,22 +387,22 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     }
     
     @Override
-    public SocInfo performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
+    public boolean performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
         CourseOfferingSetService socService = _getSocService();
         try {
-            List<String> socIds = socService.getSocIdsByTerm(sourceTermId, new ContextInfo());
-            if (socIds == null || socIds.isEmpty()) {
-                form.setStatusField("No source soc ID found");
-            } else if (socIds.size() > 1) {
-                form.setStatusField("Too many SOCs in source term: " + socIds.size());
+            ContextInfo context = ContextInfo.createDefaultContextInfo();
+            List<String> socIds = socService.getSocIdsByTerm(sourceTermId, context);
+            SocInfo socInfo = _getUniqueMainSoc(socIds);
+            if (socInfo == null) {
+                GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.sourceTerm.noSoc");
             } else {
-                String sourceSocId = socIds.get(0);
+                String sourceSocId = socInfo.getId();
                 List<String> options = new ArrayList<String>();
-                // TODO: Force rollover to run synchronously for now
-                options.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
+                // Rollover now runs asynchronously. KSENROLL-1545
+                // options.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
                 options.add(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY);
-                SocInfo result = socService.rolloverSoc(sourceSocId, targetTermId, options, new ContextInfo());
-                return result;
+                SocInfo result = socService.rolloverSoc(sourceSocId, targetTermId, options, context);
+                return true;
             }
         } catch (Exception e) {
             System.err.println("--------- rollover exception in performRollover [START]");
@@ -319,64 +410,17 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
             System.err.println("--------- rollover exception in performRollover [END]");
             form.setStatusField("performRollover: Exception thrown: " + e.getMessage());
         }
-        return null;
+        return false;
     }
 
     @Override
-    public void cleanTargetTerm(String targetTermId, CourseOfferingRolloverManagementForm form) {
+    public void deleteTargetTerm(String targetTermId, DeleteTargetTermForm form) {
         // Remove SOCS, SOCResults, and course offerings
-        CourseOfferingSetService socService = _getSocService();
-        CourseOfferingService coService = _getCourseOfferingService();
-
-        try {
-            // First, the course offerings
-            List<String> coIds = coService.getCourseOfferingIdsByTerm(targetTermId, Boolean.FALSE, new ContextInfo());
-            if (coIds != null) {
-                for (String coId : coIds) {
-                    List<FormatOfferingInfo> foInfos =
-                            coService.getFormatOfferingsByCourseOffering(coId, new ContextInfo());
-                    for (FormatOfferingInfo foInfo: foInfos) {
-                        String foId = foInfo.getId();
-                        // Delete activity offerings
-                        List<ActivityOfferingInfo> aoInfos =
-                                coService.getActivityOfferingsByFormatOffering(foId, new ContextInfo());
-                        for (ActivityOfferingInfo aoInfo: aoInfos) {
-                            coService.deleteActivityOffering(aoInfo.getId(), new ContextInfo());
-                        }
-                        // Delete format offerings first
-                        coService.deleteFormatOffering(foInfo.getId(), new ContextInfo());
-                    }
-                    coService.deleteCourseOffering(coId, new ContextInfo());
-                }
-            }
-            // Then, SocRolloverItems
-            List<String> socIds = socService.getSocIdsByTerm(targetTermId, new ContextInfo());
-            if (socIds != null) {
-                ContextInfo contextInfo = new ContextInfo();
-                for (String targetSocId : socIds) {
-                    SocInfo socInfo = socService.getSoc(targetSocId, new ContextInfo());
-                    if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                        List<String> resultIds = socService.getSocRolloverResultIdsByTargetSoc(targetSocId, contextInfo);
-                        if (resultIds != null) {
-                            for (String resultId: resultIds) {
-                                List<SocRolloverResultItemInfo> items = socService.getSocRolloverResultItemsByResultId(resultId, contextInfo);
-                                // Items deleted here
-                                for (SocRolloverResultItemInfo item: items) {
-                                    socService.deleteSocRolloverResultItem(item.getId(), contextInfo);
-                                }
-                                // Results deleted here
-                                socService.deleteSocRolloverResult(resultId, contextInfo);
-                            }
-                        }
-                        // Finally, delete the SOC
-                        socService.deleteSoc(targetSocId, contextInfo);
-                    }
-                }
-            }
-            
-        } catch (Exception ex) {
-            form.setStatusField("Exception in cleanTargetTerm");
-        }
+        DeleteTargetTermRolloverRunner runner = new DeleteTargetTermRolloverRunner();
+        runner.setSocService(_getSocService());
+        runner.setCoService(_getCourseOfferingService());
+        runner.setTermId(targetTermId);
+        runner.run();
     }
 
     @Override
@@ -480,6 +524,32 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         return socRolloverResultInfos;
     }
 
+    @Override
+    public String formatDate(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("EEE, MMMMM d, yyyy");
+        String startDateStr = format.format(date);
+        return startDateStr;
+    }
+
+    @Override
+    public String formatDateAndTime(Date date) {
+        if (date == null) {
+            return "";
+        }
+        SimpleDateFormat format = new SimpleDateFormat("MMMMM d, yyyy, h:mm a");
+        String startDateStr = format.format(date);
+        return startDateStr;
+    }
+
+    @Override
+    public String getTermDesc(String termId) {
+        try {
+            TermInfo termInfo = _getAcalService().getTerm(termId, new ContextInfo());
+            return termInfo.getDescr().getPlain();
+        } catch (Exception e) {
+            return "NO TERM DATA";
+        }
+    }
 
     private CourseOfferingService _getCourseOfferingService() {
         if (coService == null) {

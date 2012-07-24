@@ -1,38 +1,38 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject;
+import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.constants.StateServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
-import javax.xml.namespace.QName;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
 
@@ -40,64 +40,16 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private ContextInfo contextInfo;
     private transient TypeService typeService;
     private transient StateService stateService;
-    private CourseService courseService;
-
-
+    private transient CourseService courseService;
+    private AcademicCalendarService academicCalendarService;
 
     @Override
     public void saveDataObject() {
-        if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
-                getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
+        if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
+            disassembleInstructorsWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
             try {
-                ActivityOfferingFormObject activityOfferingFormObject = (ActivityOfferingFormObject) getDataObject();
-                ActivityOfferingInfo toSave = activityOfferingFormObject.getAoInfo();
-
-                // **** BEGIN HARD-CODED DEFAULTS FOR TESTING ****
-                // TODO REMOVE THESE
-                toSave.setFormatOfferingId("LuiFO-1-106");
-
-                FormatOfferingInfo foInfo = getCourseOfferingService().getFormatOffering(toSave.getFormatOfferingId(), getContextInfo());
-
-                toSave.setFormatOfferingName(foInfo.getName());
-                toSave.setTermId(foInfo.getTermId());
-                toSave.setTermCode(foInfo.getTermId());
-
-                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(foInfo.getCourseOfferingId(), getContextInfo());
-
-                toSave.setCourseOfferingId(coInfo.getId());
-                toSave.setCourseOfferingCode(coInfo.getCourseOfferingCode());
-                toSave.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
-
-                CourseInfo course = getCourseService().getCourse(coInfo.getCourseId());
-
-                // find the format that matches the offering we have
-                List<FormatInfo> formats = course.getFormats();
-                FormatInfo foundFormat = null;
-                for(FormatInfo format : formats) {
-                    if(format.getId().equals(foInfo.getFormatId())) {
-                        foundFormat = format;
-                        break;
-                    }
-                }
-
-                //
-                if (!foundFormat.getActivities().isEmpty()) {
-                    toSave.setActivityId(foundFormat.getActivities().get(0).getId());
-                }
-
-                // **** END HARD-CODED DEFAULTS FOR TESTING ****
-                // TODO REMOVE THESE
-
-                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().createActivityOffering(activityOfferingFormObject.getAoInfo().getFormatOfferingId(),activityOfferingFormObject.getAoInfo().getActivityId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,activityOfferingFormObject.getAoInfo(),getContextInfo());
-                setDataObject(new ActivityOfferingFormObject(activityOfferingInfo));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        else {   //should be edit action
-            ActivityOfferingFormObject activityOfferingFormObject = (ActivityOfferingFormObject) getDataObject();
-            try {
-                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingFormObject.getAoInfo().getId(), activityOfferingFormObject.getAoInfo(), getContextInfo());
+                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -107,33 +59,191 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
-            ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(dataObjectKeys.get("aoInfo.id"),getContextInfo());
-            ViewHelperUtil.getInstructorNames(info.getInstructors());
-            ActivityOfferingFormObject formObject = new ActivityOfferingFormObject(info);
+            ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID),getContextInfo());
+            ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info);
+
+            //get the course offering
+            CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(info.getCourseOfferingId(), getContextInfo());
+
+            // get the format offering
+            FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(info.getFormatOfferingId(), getContextInfo());
+            wrapper.setFormatOffering(formatOfferingInfo);
+
+            // Added for WaitList Tanveer 06/27/2012
+            wrapper.setWaitListLevelTypeKey(courseOfferingInfo.getWaitlistLevelTypeKey());
+            wrapper.setWaitListTypeKey(courseOfferingInfo.getWaitlistTypeKey());
+            wrapper.setHasWaitList(courseOfferingInfo.getHasWaitlist());
+            if (!wrapper.getHasWaitList())
+                wrapper.setWaitListText("There is no wait list for this offering.");
+            if (wrapper.getWaitListLevelTypeKey().equals("Course Offering")){
+                wrapper.setWaitListText("This waitlist is managed at the Course Offering level.");
+                wrapper.setToolTipText("There is one waitlist for all Activity Offerings");
+            }
+            if (wrapper.getWaitListLevelTypeKey().equals("Activity Offering")){
+                wrapper.setWaitListText("This waitlist is managed at the Activity Offering level.");
+                wrapper.setToolTipText("Each Activity Offering has its own wait list.");
+            }
+
+
+            // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
+            TermInfo term = getAcademicCalendarService().getTerm(info.getTermId(), getContextInfo());
+            if (term != null) {
+                wrapper.setTermName(term.getName());
+            }
+            wrapper.setTermDisplayString(getTermDisplayString(info.getTermId(), term));
+
+            wrapper.setCodeTypeString(getCodeTypeString(info));
+
+            //process instructor effort
+            assembleInstructorWrapper(info.getInstructors(), wrapper);
+
 
             boolean readOnlyView = Boolean.parseBoolean(dataObjectKeys.get("readOnlyView"));
-            formObject.setReadOnlyView(readOnlyView);
+            wrapper.setReadOnlyView(readOnlyView);
 
-            document.getNewMaintainableObject().setDataObject(formObject);
-            document.getOldMaintainableObject().setDataObject(formObject);
+            document.getNewMaintainableObject().setDataObject(wrapper);
+            document.getOldMaintainableObject().setDataObject(wrapper);
             document.getDocumentHeader().setDocumentDescription("Edit AO - " + info.getActivityCode());
-//            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
-//            formObject.setStateName(state.getName());
-            return formObject;
+            StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), getContextInfo());
+            wrapper.setStateName(state.getName());
+            TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), getContextInfo());
+            wrapper.setTypeName(typeInfo.getName());
+
+            return wrapper;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getCodeTypeString(ActivityOfferingInfo info) throws Exception {
+        String codeTypeString = "GHI(LEC)";
+        TypeInfo typeInfo = getTypeService().getType(info.getTypeKey(), getContextInfo());
+        String typeName = typeInfo.getName().toUpperCase().substring(0,3);
+        codeTypeString = info.getActivityCode() + "(" + typeName + ")";
+        return codeTypeString;
+    }
+
+    private String getTermDisplayString(String termId, TermInfo term) {
+        // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
+        StringBuilder    stringBuilder = new StringBuilder();
+        Formatter        formatter     = new Formatter(stringBuilder, Locale.US);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+        String           displayString = termId; // use termId as a default.
+        if (term != null) {
+            String           startDate = dateFormatter.format(term.getStartDate());
+            String           endDate   = dateFormatter.format(term.getEndDate());
+            String           termType  = term.getName();
+            formatter.format("%s (%s to %s)", termType, startDate, endDate);
+            displayString = stringBuilder.toString();
+        }
+        return displayString;
+    }
+
+    private void assembleInstructorWrapper(List<OfferingInstructorInfo> instructors, ActivityOfferingWrapper wrapper){
+        if(instructors!= null && !instructors.isEmpty()){
+            for(OfferingInstructorInfo instructor : instructors){
+                OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper(instructor);
+                if(instructor.getPercentageEffort() != null){
+                    instructorWrapper.setsEffort(Integer.toString(instructor.getPercentageEffort().intValue()));
+                }
+                wrapper.getInstructors().add(instructorWrapper);
+            }
+        }
+    }
+
+    private void disassembleInstructorsWrapper(List<OfferingInstructorWrapper> instructors, ActivityOfferingInfo aoInfo){
+        aoInfo.setInstructors(new ArrayList<OfferingInstructorInfo>());
+        if(instructors!= null && !instructors.isEmpty()){
+            for(OfferingInstructorWrapper instructor : instructors){
+                aoInfo.getInstructors().add(disassembleInstructorWrapper(instructor));
+            }
+        }
+    }
+
+    private OfferingInstructorInfo disassembleInstructorWrapper(OfferingInstructorWrapper instructor){
+        OfferingInstructorInfo instructorInfo = new OfferingInstructorInfo(instructor.getOfferingInstructorInfo());
+        if(!StringUtils.isBlank(instructor.getsEffort())){
+            instructorInfo.setPercentageEffort(new Float(instructor.getsEffort()));
+        }
+        return instructorInfo;
+    }
+
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)document.getNewMaintainableObject().getDataObject();
+        document.getDocumentHeader().setDocumentDescription("Activity Offering");
+        try {
+            StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), getContextInfo());
+            wrapper.setStateName(state.getName());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        ActivityOfferingFormObject formObject = (ActivityOfferingFormObject)document.getNewMaintainableObject().getDataObject();
-        document.getDocumentHeader().setDocumentDescription("Activity Offering");
-        try {
-//            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
-//            formObject.setStateName(state.getName());
-        } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        super.processAfterAddLine(view, collectionGroup, model, addLine);
+
+        if (addLine instanceof ScheduleComponentWrapper) {
+            ScheduleComponentWrapper scheduleComponentWrapper = (ScheduleComponentWrapper)addLine;
+            if ("1".equals(scheduleComponentWrapper.getAddDaysSpecifiedBoolean())) {
+                if (null != scheduleComponentWrapper.getAddWeekDayOptions()) {
+                    List<String> weekDayLabels = Arrays.asList("Su ","M ","T ","W ","Th ","F ","Sa ");
+                    StringBuilder weekDays = new StringBuilder();
+                    for (Integer day : scheduleComponentWrapper.getAddWeekDayOptions()) {
+                        weekDays.append(weekDayLabels.get(day));
+                    }
+                    scheduleComponentWrapper.setWeekDays(weekDays.toString());
+                }
+            }
+            else {
+                scheduleComponentWrapper.setWeekDays("To Be Announced");
+            }
+            if (null != scheduleComponentWrapper.getAddRoomResources()) {
+                StringBuilder resources = new StringBuilder();
+                for (String resource : scheduleComponentWrapper.getAddRoomResources()) {
+                    if (resources.length() > 0) {
+                        resources.append(", ");
+                    }
+                    resources.append(resource);
+                }
+                scheduleComponentWrapper.setRoomFeatures(resources.toString());
+            }
+        }
+    }
+
+    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        if (addLine instanceof OfferingInstructorWrapper){
+            OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
+
+            //check duplication
+            MaintenanceForm form = (MaintenanceForm)model;
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            List<OfferingInstructorWrapper> instructors = activityOfferingWrapper.getInstructors();
+            if(instructors != null && !instructors.isEmpty()){
+                for(OfferingInstructorWrapper thisInst : instructors){
+                    if(instructor.getOfferingInstructorInfo().getPersonId().equals(thisInst.getOfferingInstructorInfo().getPersonId())){
+                        GlobalVariables.getMessageMap().putErrorForSectionId("ao-personnelgroup", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_DUPLICATE, instructor.getOfferingInstructorInfo().getPersonId());
+                        return false;
+                    }
+                }
+            }
+
+            //validate ID
+            List<Person> lstPerson = ViewHelperUtil.getInstructorByPersonId(instructor.getOfferingInstructorInfo().getPersonId());
+            if(lstPerson == null || lstPerson.isEmpty()){
+                GlobalVariables.getMessageMap().putErrorForSectionId("ao-personnelgroup", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_NOTFOUND, instructor.getOfferingInstructorInfo().getPersonId());
+                return false;
+            }
+        }
+
+        return super.performAddLineValidation(view, collectionGroup, model, addLine);
+    }
+
+    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        if (addLine instanceof OfferingInstructorWrapper){
+            OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
+            instructor.setOfferingInstructorInfo(disassembleInstructorWrapper(instructor));
         }
     }
 
@@ -146,15 +256,15 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     }
 
     public TypeService getTypeService() {
-           if(typeService == null) {
-             typeService = CourseOfferingResourceLoader.loadTypeService();
+        if(typeService == null) {
+            typeService = CourseOfferingResourceLoader.loadTypeService();
         }
         return this.typeService;
     }
 
     public StateService getStateService() {
-           if(stateService == null) {
-             stateService = CourseOfferingResourceLoader.loadStateService();
+        if(stateService == null) {
+            stateService = CourseOfferingResourceLoader.loadStateService();
         }
         return stateService;
     }
@@ -173,4 +283,43 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         return courseService;
     }
+
+    private AcademicCalendarService getAcademicCalendarService() {
+        if(academicCalendarService == null) {
+            academicCalendarService = CourseOfferingResourceLoader.loadAcademicCalendarService();
+        }
+
+        return academicCalendarService;
+    }
+
+    /**
+     * Mock data that was being used in the Delivery Logistics section of Edit Activity Offering
+     *
+     * @param userEnteredCode
+     * @return
+     */
+    public List<String> getBuildingsCodesForSuggest(String userEnteredCode) {
+        //TODO - make this an actual search based on user-entered text
+        List<String> buildingCodes = new ArrayList<String>();
+        buildingCodes.add(userEnteredCode+"Dog");
+        buildingCodes.add(userEnteredCode+"Emu");
+        buildingCodes.add(userEnteredCode+"Fox");
+        return buildingCodes;
+    }
+
+    /**
+     * Mock data that was being used in the Delivery Logistics section of Edit Activity Offering
+     *
+     * @param buildingCode
+     * @return
+     */
+    public List<String> getRoomNumbersForSuggest(String buildingCode) {
+        //TODO - make this an actual search based on the building & user-entered text
+        List<String> roomNumbers = new ArrayList<String>();
+        roomNumbers.add("101");
+        roomNumbers.add("202");
+        roomNumbers.add("303");
+        return roomNumbers;
+    }
+
 }

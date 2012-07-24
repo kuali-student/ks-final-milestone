@@ -4,7 +4,8 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
-import org.apache.oro.text.regex.PatternMatcher;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -20,8 +21,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
@@ -29,6 +28,7 @@ import java.util.regex.Pattern;
  */
 public class R1CourseServiceHelper {
 
+    public static final String ATP_CODE_FIELD_NAME = "atpCode";
     private CourseService courseService;
     private AcademicCalendarService acalService;
 
@@ -69,8 +69,10 @@ public class R1CourseServiceHelper {
             course = courseService.getCourse(courseId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("The course does not exist. course: " + courseId, e);
+        } catch (org.kuali.student.common.exceptions.OperationFailedException ex) {
+            throw new OperationFailedException("Bad data. Couldn't create course offering with id: " + courseId, ex);
         } catch (Exception e) {
-            throw new OperationFailedException("unxpected trying to get course " + courseId, e);
+            throw new OperationFailedException("Bad data. Couldn't create course offering with id: " + courseId, e);
         }
         return course;
     }
@@ -106,12 +108,11 @@ public class R1CourseServiceHelper {
         try {
             versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, versionIndCourseId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
-            // TODO: if no version exists for the target term should we return null instead?
             throw new DoesNotExistException("The course does not exist. course: " + versionIndCourseId, e);
         } catch (Exception e) {
             throw new OperationFailedException("unexpected trying to get course " + versionIndCourseId, e);
         }
-        // TODO: consider sorting this in reverse order so the latest versions are checked first
+
         for (VersionDisplayInfo version : versions) {
             CourseInfo course = this.getCourse(version.getId());
             if (isCourseValidToBeOfferendInTerm(course, targetTerm, context)) {
@@ -121,22 +122,11 @@ public class R1CourseServiceHelper {
         return list;
     }
 
-    // TODO: Remove hack once data is valid (converts kuali.atp.term.xxx to 2008Fall, which is what is in Acal)
-    private String _hackTerm(String termId) {
-        if (termId.startsWith("kuali")) {
-            Pattern p = Pattern.compile("\\d\\d\\d\\d");
-            Matcher m = p.matcher(termId);
-            if (m.find()) {
-                String s = m.group();
-                return s + "FALL";
-            }
-        }
-        return termId;
-    }
-
     private boolean isCourseValidToBeOfferendInTerm(CourseInfo course, TermInfo targetTerm, ContextInfo context)
             throws OperationFailedException {
         // TODO: check the status of the course to make sure it is active, superseded or retired but it cannot be draft or otherwise in-active
+
+
         // shortcut if the terms match
         if (targetTerm.getId().equals(course.getStartTerm())) {
             return true;
@@ -146,13 +136,18 @@ public class R1CourseServiceHelper {
         }
         // TODO: find out if the course's Effective and expiration dates can be used so I don't have to fetch all the terms to 
         // compare start/end dates
+
         TermInfo startTerm;
-        String startTermStr = course.getStartTerm();
-        startTermStr = _hackTerm(startTermStr); // TODO: Fix hack once term data is good
+        String startTermCode = course.getStartTerm();
         try {
-            startTerm = acalService.getTerm(startTermStr, context);
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("unexpected", ex);
+
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+
+            qbcBuilder.setPredicates(PredicateFactory.equal(ATP_CODE_FIELD_NAME, startTermCode));
+
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            startTerm = acalService.searchForTerms(criteria, context).get(0);
         } catch (InvalidParameterException ex) {
             throw new OperationFailedException("unexpected", ex);
         } catch (MissingParameterException ex) {
@@ -160,18 +155,23 @@ public class R1CourseServiceHelper {
         } catch (PermissionDeniedException ex) {
             throw new OperationFailedException("unexpected", ex);
         }
-        if (targetTerm.getStartDate().before(startTerm.getStartDate())) {
+        if (targetTerm.getEndDate().before(startTerm.getStartDate())) {
             return false;
         }
         // if no end term the all done
-        if (course.getEndTerm() == null || course.getEndTerm().indexOf("9999") != -1) { // TODO: Hack
+        if (course.getEndTerm() == null || course.getEndTerm().contains("9999")) { // TODO: Hack
             return true;
         }
         TermInfo endTerm;
+        String endTermCode = course.getEndTerm();
         try {
-            endTerm = acalService.getTerm(course.getEndTerm(), context);
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("unexpected", ex);
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+
+            qbcBuilder.setPredicates(PredicateFactory.equal(ATP_CODE_FIELD_NAME, endTermCode));
+
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            endTerm = acalService.searchForTerms(criteria, context).get(0);
         } catch (InvalidParameterException ex) {
             throw new OperationFailedException("unexpected", ex);
         } catch (MissingParameterException ex) {
@@ -182,7 +182,8 @@ public class R1CourseServiceHelper {
         if (targetTerm.getStartDate().after(endTerm.getEndDate())) {
             return false;
         }
-        return false;
+
+        return true;
 
     }
 }

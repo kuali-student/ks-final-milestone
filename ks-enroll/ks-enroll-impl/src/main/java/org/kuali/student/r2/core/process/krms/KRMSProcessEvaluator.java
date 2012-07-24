@@ -61,7 +61,7 @@ import org.kuali.student.r2.core.process.util.InstructionComparator;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.infc.DateOverride;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
@@ -225,13 +225,13 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             if (check.getTypeKey().equals(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY)) {
 
                 CourseRegistrationProcessContextInfo checkContext = CourseRegistrationProcessContextInfo.createForRegistrationEligibility(processContext.getStudentId(), processContext.getTermKey());
-                checkContext.setProcessKey(check.getProcessKey());
+                checkContext.setProcessKey(check.getChildProcessKey());
 
                 propositions.put(new SubProcessProposition(checkContext, this), instruction);
             }
 
             if (check.getTypeKey().equals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY)) {
-                propositions.put(new RegistrationHoldProposition(check.getIssueId()), instruction);
+                propositions.put(new RegistrationHoldProposition(check.getHoldIssueId()), instruction);
 
                 
                 /*
@@ -393,7 +393,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
 
         if (warningHoldIds != null && !warningHoldIds.isEmpty()) {
             for (String holdId : warningHoldIds) {
-                HoldInfo hold = holdService.getHold(holdId, context);
+                AppliedHoldInfo hold = holdService.getAppliedHold(holdId, context);
                 ValidationResultInfo result = new ValidationResultInfo();
                 result.setWarn("The following hold was found on the student's account, but set as a warning: " + hold.getDescr().getPlain());
                 results.add(result);

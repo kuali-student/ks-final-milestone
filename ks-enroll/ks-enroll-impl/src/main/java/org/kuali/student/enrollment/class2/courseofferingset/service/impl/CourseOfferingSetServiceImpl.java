@@ -17,7 +17,9 @@
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.Resource;
 import javax.jws.WebParam;
 
@@ -27,6 +29,7 @@ import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultDao;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultItemDao;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocEntity;
+import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultAttributeEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultItemEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultOptionEntity;
@@ -35,6 +38,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetServiceBusinessLogic;
+import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -596,6 +600,13 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
        
         entity.setEntityUpdated(context);
         
+        Set<SocRolloverResultAttributeEntity> resultAttributeEntities = entity.getAttributes();
+        for (SocRolloverResultAttributeEntity attr: resultAttributeEntities) {
+            if (CourseOfferingSetServiceConstants.DATE_COMPLETED_RESULT_DYNATTR_KEY.equals(attr.getKey())) {
+                // Update the date completed
+                attr.setValue(TransformUtility.dateTimeToDynamicAttributeString(new Date()));
+            }
+        }
         socRorDao.merge(entity);
         return entity.toDto();
     }

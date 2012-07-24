@@ -39,11 +39,18 @@ public class LuiServiceConstants {
      */
 //    public static final String COURSE_BUNDLE_TYPE_KEY = "kuali.lui.type.course.bundle";
     public static final String COURSE_OFFERING_TYPE_KEY = "kuali.lui.type.course.offering";
-     public static final String FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.format.offering";
+    // 6/13/2012 Per conversation with Norm/Melissa to include course with format in the format offering type key
+    public static final String FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
     public static final String REGISTRATION_GROUP_TYPE_KEY = "kuali.lui.type.registration.group";
 //    public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
     public static final String ACTIVITY_OFFERING_GROUP_TYPE_KEY = "kuali.lui.type.grouping.activity";
 
+    public static final boolean isFormatOfferingTypeKey(String possibleType) {
+        if (possibleType == null) {
+            return false;
+        }
+        return FORMAT_OFFERING_TYPE_KEY.equals(possibleType.trim());
+    }
     /**
      * Activity types
      */
@@ -69,6 +76,9 @@ public class LuiServiceConstants {
     public static final String SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.selfpaced";
     public static final String COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.compbased";
     public static final String VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.videoconf";
+    public static final String SEMINAR_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.seminar";
+    public static final String QUIZ_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.quiz";
+    public static final String CONFERENCE_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.conference";
     public static final String ACTIVITY_OFFERING_TYPE_KEY_PREFIX = "kuali.lui.type.activity.offering.";
     public static final String[] ALL_ACTIVITY_TYPES = {
         LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
@@ -92,7 +102,10 @@ public class LuiServiceConstants {
         RESEARCH_ACTIVITY_OFFERING_TYPE_KEY,
         SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY,
         COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY,
-        VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY};
+        VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY,
+        SEMINAR_ACTIVITY_OFFERING_TYPE_KEY,
+        QUIZ_ACTIVITY_OFFERING_TYPE_KEY,
+        CONFERENCE_ACTIVITY_OFFERING_TYPE_KEY};
 
     // TODO: May want to do this for other groupings
     private static HashSet<String> ACTIVITY_TYPES_HASH_SET = null;
@@ -107,26 +120,109 @@ public class LuiServiceConstants {
         return ACTIVITY_TYPES_HASH_SET.contains(possibleActivityType);
     }
     /**
-     * States
+     * Course Offering States based on:
+     * https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Activity%2CCourseandRegGroupOffering
+     * Implemented: 6/14/2012  by cclin
      */
     public static final String COURSE_OFFERING_PROCESS_KEY = "kuali.course.offering.process";
-    public static final String LUI_DRAFT_STATE_KEY = "kuali.lui.state.draft";
-    public static final String LUI_SUBMITTED_STATE_KEY = "kuali.lui.state.submitted";
-    public static final String LUI_APROVED_STATE_KEY = "kuali.lui.state.approved";
-    public static final String LUI_SCHEDULED_STATE_KEY = "kuali.lui.state.scheduled";
-    public static final String LUI_DELETED_STATE_KEY = "kuali.lui.state.deleted";
-    public static final String LUI_OFFERED_STATE_KEY = "kuali.lui.state.offered";
-    public static final String LUI_CANCELED_STATE_KEY = "kuali.lui.state.canceled";
-    public static final String LUI_SUSPENDED_STATE_KEY = "kuali.lui.state.suspended";
-    public static final String[] COURSE_OFFERING_PROCESS_STATE_KEYS = {LUI_DRAFT_STATE_KEY,
-        LUI_SUBMITTED_STATE_KEY,
-        LUI_APROVED_STATE_KEY,
-        LUI_SCHEDULED_STATE_KEY,
-        LUI_DELETED_STATE_KEY,
-        LUI_OFFERED_STATE_KEY,
-        LUI_CANCELED_STATE_KEY,
-        LUI_SUSPENDED_STATE_KEY
+    public static final String LUI_CO_STATE_PLANNED_KEY = "kuali.lui.course.offering.state.planned";
+    public static final String LUI_CO_STATE_OFFERED_KEY = "kuali.lui.course.offering.state.offered";
+    public static final String LUI_CO_STATE_CANCELED_KEY = "kuali.lui.course.offering.state.canceled";
+
+    public static final String[] COURSE_OFFERING_PROCESS_STATE_KEYS = {
+        LUI_CO_STATE_PLANNED_KEY,
+        LUI_CO_STATE_OFFERED_KEY,
+        LUI_CO_STATE_CANCELED_KEY
     };
+
+    public static boolean isValidCourseOfferingState(String possibleState) {
+        if (possibleState == null) {
+            return false;
+        }
+        for (String state: COURSE_OFFERING_PROCESS_STATE_KEYS) {
+            if (state.equals(possibleState)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * Format Offering States based on:
+     * https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Activity%2CCourseandRegGroupOffering
+     * Implemented: 6/14/2012  by cclin
+     * The process is identical to the course offering.
+     */
+    public static final String FORMAT_OFFERING_PROCESS_KEY = "kuali.format.offering.process";
+    public static final String LUI_FO_STATE_PLANNED_KEY = "kuali.lui.format.offering.state.planned";
+    public static final String LUI_FO_STATE_OFFERED_KEY = "kuali.lui.format.offering.state.offered";
+    public static final String LUI_FO_STATE_CANCELED_KEY = "kuali.lui.format.offering.state.canceled";
+
+    public static final String[] FORMAT_OFFERING_PROCESS_STATE_KEYS = {
+            LUI_FO_STATE_PLANNED_KEY,
+            LUI_FO_STATE_OFFERED_KEY,
+            LUI_FO_STATE_CANCELED_KEY
+    };
+
+    public static boolean isValidFormatOfferingState(String possibleState) {
+        if (possibleState == null) {
+            return false;
+        }
+        for (String state: FORMAT_OFFERING_PROCESS_STATE_KEYS) {
+            if (state.equals(possibleState)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * Activity Offering States based on:
+     * https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Activity%2CCourseandRegGroupOffering
+     * Implemented: 6/14/2012  by cclin
+     */
+    public static final String ACTIVITY_OFFERING_PROCESS_KEY = "kuali.activity.offering.process";
+    public static final String LUI_AO_STATE_DRAFT_KEY = "kuali.lui.activity.offering.state.draft";
+    public static final String LUI_AO_STATE_SUBMITTED_KEY = "kuali.lui.activity.offering.state.submitted";
+    public static final String LUI_AO_STATE_APPROVED_KEY = "kuali.lui.activity.offering.state.approved";
+    public static final String LUI_AO_STATE_SCHEDULED_KEY = "kuali.lui.activity.offering.state.scheduled";
+    public static final String LUI_AO_STATE_OFFERED_KEY = "kuali.lui.activity.offering.state.offered";
+    public static final String LUI_AO_STATE_SUSPENDED_KEY = "kuali.lui.activity.offering.state.suspended";
+    public static final String LUI_AO_STATE_CANCELED_KEY = "kuali.lui.activity.offering.state.canceled";
+    public static final String LUI_AO_STATE_UNSCHEDULED_KEY = "kuali.lui.activity.offering.state.unscheduled";
+
+    public static final String[] ACTIVITY_OFFERING_PROCESS_STATE_KEYS = {
+        LUI_AO_STATE_DRAFT_KEY,
+        LUI_AO_STATE_SUBMITTED_KEY,
+        LUI_AO_STATE_APPROVED_KEY,
+        LUI_AO_STATE_SCHEDULED_KEY,
+        LUI_AO_STATE_OFFERED_KEY,
+        LUI_AO_STATE_SUSPENDED_KEY,
+        LUI_AO_STATE_CANCELED_KEY,
+        LUI_AO_STATE_UNSCHEDULED_KEY
+    };
+
+    public static boolean isValidActivityOfferingState(String possibleState) {
+        if (possibleState == null) {
+            return false;
+        }
+        for (String state: ACTIVITY_OFFERING_PROCESS_STATE_KEYS) {
+            if (state.equals(possibleState)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * Deprecated AO states (see https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Activity%2CCourseandRegGroupOffering)
+     */
+    @Deprecated
+    public static final String LUI_DELETED_STATE_KEY = "kuali.lui.state.deleted";
+
+
+    /**
+     * Deprecated AO states (see https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Activity%2CCourseandRegGroupOffering)
+     */
+    @Deprecated
+    public static final String LUI_DRAFT_STATE_KEY = "kuali.lui.state.draft";
 
     /**
      *  LUI LUI Relation types
@@ -193,9 +289,9 @@ public class LuiServiceConstants {
     /**
      * Registration Group States
      */
-    public static final String REG_GROUP_OPEN_STATE_KEY = " kuali.lui.reggroup.state.open";
-    public static final String REG_GROUP_CLOSED_STATE_KEY = " kuali.lui.reggroup.state.closed";
-    public static final String REG_GROUP_SUSPENDED_STATE_KEY = " kuali.lui.reggroup.state.suspended";
+    public static final String REGISTRATION_GROUP_OPEN_STATE_KEY = " kuali.lui.registration.group.state.open";
+    public static final String REGISTRATION_GROUP_CLOSED_STATE_KEY = " kuali.lui.registration.group.state.closed";
+    public static final String REGISTRATION_GROUP_SUSPENDED_STATE_KEY = " kuali.lui.registration.group.state.suspended";
     
     /**
      * known lu codes

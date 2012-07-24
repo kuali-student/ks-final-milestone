@@ -16,10 +16,29 @@ public class CourseOfferingConstants {
     public final static String ATP_CODE = "atpCode";
     public final static String ATP_ID = "atpId";
 
+    // display name for 'Course' option in Grade Roster Level
+    public final static String FORMAT_OFFERING_GRADE_ROSTER_LEVEL_COURSE_DISPLAY = "Course";
+
     //Attributes defined in SocRolloverResultInfo
     public final static String SOCROLLOVERRESULTINFO_ID = "id";
     public final static String SOCROLLOVERRESULTINFO_SOURCE_TERM_ID = "sourceTermId";
     public final static String SOCROLLOVERRESULTINFO_TARGET_TERM_ID = "targetTermId";
 
     //Attributes defined in SocRolloverResultItemInfo
+
+    //Message keys
+    public static final String COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND = "error.enroll.courseoffering.noTermIsFound";
+    public static final String COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM = "error.enroll.courseoffering.findMoreThanOneTerm";
+    public static final String COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND = "error.enroll.courseoffering.noCourseOfferingIsFound";
+    public static final String COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_COURSE_OFFERING = "error.enroll.courseoffering.findMoreThanOneCourseOffering";
+    public static final String COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED = "error.courseoffering.no.selected.AO";
+    public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE = "error.courseoffering.selected.AO.delete.confirmation";
+
+    public static final String ACTIVITY_OFFERING_SCHEDULING_ACTION = "Scheduling";
+    public static final String ACTIVITY_OFFERING_DRAFT_ACTION = "Draft";
+    public static final String ACTIVITY_OFFERING_CHANGE_CODE_ACTION = "ChangeActivityCodes";
+    public static final String ACTIVITY_OFFERING_DELETE_ACTION = "Delete";
+
+    public static final String MANAGE_AO_PAGE = "manageActivityOfferingsPage";
+
 }

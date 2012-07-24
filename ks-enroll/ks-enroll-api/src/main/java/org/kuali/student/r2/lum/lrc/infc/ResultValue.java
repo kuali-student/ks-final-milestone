@@ -28,6 +28,7 @@ public interface ResultValue extends KeyEntity, HasEffectiveDates {
      * Identifier of the scale for this result value.
      * 
      * @name Result Scale Key
+     * @required
      */
     public String getResultScaleKey();
 
@@ -41,16 +42,20 @@ public interface ResultValue extends KeyEntity, HasEffectiveDates {
      * takes to achieve that degree.
      * 
      * @name Numeric Value
-     * @return a floating point decimal as a string
+     * @impl this is a floating point decimal but encoded as a string to avoid rounding issues
      */
     public String getNumericValue();      
 
     /**
-     * Result Value string Value of the result. Typically corresponds
-     * with the short coded form of the result (ex. "A", "4.0",
-     * "97.0", "B.S" etc.)  scaleKey Scale Identifier scaleKey.
-     *
-     * @name Result value
+     * The Value of this Result. 
+     * 
+     * Typically corresponds with the short coded form of the result (ex. "A", 
+     * "B", "C" or for "100.00", "97.0", "B.S" etc.)  
+     *   
+     * Should be unique within it's result scale.
+     * 
+     * @name value
+     * @required
      */
     public String getValue();
 }

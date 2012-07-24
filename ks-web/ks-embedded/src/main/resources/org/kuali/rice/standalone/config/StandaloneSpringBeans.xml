@@ -85,8 +85,8 @@
         
 	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/> 
 
-	<import resource="classpath:ksb/ks-core-context.xml"/>
-    <import resource="classpath:ksb/ks-lu-context.xml"/>   
+	<import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
+    <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
     <import resource="classpath:ksb/ks-enroll-context.xml"/>
     <!-- TODO: RICE-M7 UPGRADE fix ks-admin
     <import resource="classpath:ks-embedded-admin-context.xml"/-->

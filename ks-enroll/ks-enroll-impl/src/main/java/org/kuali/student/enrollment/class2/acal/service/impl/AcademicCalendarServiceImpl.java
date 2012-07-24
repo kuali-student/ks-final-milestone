@@ -2,12 +2,18 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
+import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.Weeks;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.acal.dto.*;
+import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.assembler.*;
 import org.kuali.student.r2.common.assembler.AssemblyException;
@@ -597,20 +603,25 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         AtpInfo atp;
 
         if (checkTypeForTermType(termTypeKey, context)) {
-            try {
-                atp = termAssembler.disassemble(termInfo, context);
-            } catch (AssemblyException e) {
-                throw new OperationFailedException("AssemblyException : " + e.getMessage());
-            }
+                try {
+                    atp = termAssembler.disassemble(termInfo, context);
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
+                }
 
-            try {
-                AtpInfo newAtp = atpService.createAtp(atp.getTypeKey(), atp, context);
-                termInfo = termAssembler.assemble(newAtp, context);
-            } catch (AssemblyException e) {
-                throw new OperationFailedException("Error assembling term", e);
-            } catch (ReadOnlyException e) {
-                throw new OperationFailedException("Error assembling term", e);
-            }
+                try {
+                    if(!hasTermCode(atp.getTypeKey(), atp.getCode(), context)){
+                        AtpInfo newAtp = atpService.createAtp(atp.getTypeKey(), atp, context);
+                        termInfo = termAssembler.assemble(newAtp, context);
+                    }
+                    else {
+                        throw new DataValidationErrorException("The term code " + atp.getCode() + " with type( " + atp.getTypeKey() + ") already exists.");
+                    }
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("Error assembling term", e);
+                } catch (ReadOnlyException e) {
+                    throw new OperationFailedException("Error assembling term", e);
+                }
         } else {
             throw new InvalidParameterException("Term type not found: '" + termTypeKey + "'");
         }
@@ -627,11 +638,19 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         TermInfo updatedTerm;
 
         try {
+            AtpInfo existingAtp = atpService.getAtp(termId, context);
+            String termCode = existingAtp.getCode();
+
             AtpInfo toUpdate = termAssembler.disassemble(termInfo, context);
+            if(termCode.equals(toUpdate.getCode()) || (!termCode.equals(toUpdate.getCode()) && !hasTermCode(toUpdate.getTypeKey(), toUpdate.getCode(), context))){
 
-            AtpInfo updated = atpService.updateAtp(termId, toUpdate, context);
+                AtpInfo updated = atpService.updateAtp(termId, toUpdate, context);
 
-            updatedTerm = termAssembler.assemble(updated, context);
+                updatedTerm = termAssembler.assemble(updated, context);
+            }
+            else {
+                throw new DataValidationErrorException("The term code " + toUpdate.getCode() + " with type( " + toUpdate.getTypeKey() + ") already exists.");
+            }
         } catch (AssemblyException e) {
             throw new OperationFailedException("AssemblyException : " + e.getMessage());
         } catch (ReadOnlyException e) {
@@ -639,6 +658,35 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
 
         return updatedTerm;
+    }
+
+    private QueryByCriteria buildQueryByCriteriaForTerm(String type, String code){
+        List<Predicate> predicates = new ArrayList<Predicate>();
+
+        predicates.add(PredicateFactory.equal("atpType", type));
+        predicates.add(PredicateFactory.equalIgnoreCase("atpCode", code));
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+        QueryByCriteria qbc = qbcBuilder.build();
+
+        return qbc;
+    }
+
+    private boolean hasTermCode(String type, String code, ContextInfo context)throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
+        List<TermInfo> termInfoList = new ArrayList<TermInfo>();
+
+        QueryByCriteria qbc = buildQueryByCriteriaForTerm(type, code);
+
+        List<TermInfo> terms = searchForTerms(qbc, context);
+
+        if(terms != null && !terms.isEmpty())
+            return true;
+
+        return false;
+
     }
 
     @Override
@@ -1907,55 +1955,73 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public Integer getInstructionalDaysForTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-
         KeyDateInfo instructionalPeriodKeyDate = null;
 
         List<KeyDateInfo> keyDates = getKeyDatesForTerm(termId, contextInfo);
-
         for (KeyDateInfo keyDate : keyDates) {
             if (keyDate.getTypeKey().equals(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)) {
-
                 instructionalPeriodKeyDate = new KeyDateInfo(keyDate);
-
+                break;
             }
+        }
+        
+        int instructionalDaysForTerm = 0;
+        DateMidnight currentDate = new DateMidnight(instructionalPeriodKeyDate.getStartDate().getTime());
+        DateMidnight endDate = new DateMidnight(instructionalPeriodKeyDate.getEndDate().getTime());
 
+        // go from start to end and count instructional days
+        while (currentDate.compareTo(endDate) <= 0) {
+            if (_dateIsInstructional(currentDate)) {
+                ++instructionalDaysForTerm;
+            }
+            currentDate = currentDate.plusDays(1);
         }
 
-        DateTime instructionalStart = new DateTime(instructionalPeriodKeyDate.getStartDate().getTime());
-        DateTime instructionalEnd = new DateTime(instructionalPeriodKeyDate.getEndDate().getTime());
-
-        Days totalDays = Days.daysBetween(instructionalStart, instructionalEnd);
-
-        Weeks weeks = Weeks.weeksBetween(instructionalStart, instructionalEnd);
-
-        int approxWeekends = weeks.getWeeks() * 2;
-
-        int totalDaysInTerm = totalDays.getDays();
-
-        return totalDaysInTerm - (approxWeekends + getNumberOfHolidayDatesInTerm(termId, instructionalPeriodKeyDate, contextInfo));
-
+        // subtract non-instructional holidays which fall on instructional days
+        instructionalDaysForTerm -=
+                _getNumberOfNonInstructionalHolidaysForTerm(termId, instructionalPeriodKeyDate, contextInfo);
+        
+        return instructionalDaysForTerm;
     }
 
-    private Integer getNumberOfHolidayDatesInTerm(String termId, KeyDateInfo instructionalPeriodKeyDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private int _getNumberOfNonInstructionalHolidaysForTerm(String termId, KeyDateInfo instructionalPeriodKeyDate, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+
+        DateMidnight currentDate, stopDate;
+        List<DateMidnight> nonInstructionalHolidayDates = new ArrayList<DateMidnight>();
         List<AcademicCalendarInfo> acalsForTerm = getAcademicCalendarsForTerm(termId, contextInfo);
-        int numberOfHolidayDays = 0;
+        
         for (AcademicCalendarInfo acal : acalsForTerm) {
+            List<HolidayInfo> holidaysForTerm =
+                    getHolidaysByDateForAcademicCalendar( acal.getId(), instructionalPeriodKeyDate.getStartDate(), 
+                                                          instructionalPeriodKeyDate.getEndDate(), contextInfo);
 
-            List<HolidayInfo> holidays = getHolidaysByDateForAcademicCalendar(acal.getId(), instructionalPeriodKeyDate.getStartDate(), instructionalPeriodKeyDate.getEndDate(), contextInfo);
-
-            for (HolidayInfo holiday : holidays) {
-                Period holidayPeriod;
-                if (holiday.getIsDateRange()){
-                    holidayPeriod = new Period(holiday.getStartDate().getTime(), holiday.getEndDate().getTime());
-                    numberOfHolidayDays = numberOfHolidayDays + holidayPeriod.toStandardDays().getDays();
-                }else{
-                    numberOfHolidayDays = numberOfHolidayDays + 1;
+            for (HolidayInfo holiday : holidaysForTerm) {
+                if (!holiday.getIsInstructionalDay()) {
+                    currentDate = new DateMidnight(holiday.getStartDate().getTime());
+                    stopDate = new DateMidnight(holiday.getEndDate().getTime());
+                    while (currentDate.compareTo(stopDate) <= 0) {
+                        if ((_dateIsInstructional(currentDate))
+                                &&  ( ! nonInstructionalHolidayDates.contains(currentDate))) {
+                            nonInstructionalHolidayDates.add(currentDate);
+                        }
+                        currentDate = currentDate.plusDays(1);
+                    }
                 }
             }
         }
-        return numberOfHolidayDays;
+        
+        return nonInstructionalHolidayDates.size();
+    }
 
+    private boolean _dateIsInstructional(DateMidnight date) {
+        //TODO - instructional days should be configurable
+        if ((date.getDayOfWeek() != DateTimeConstants.SATURDAY)
+                &&  (date.getDayOfWeek() != DateTimeConstants.SUNDAY)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -1992,9 +2058,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             List<HolidayInfo> holidays = getHolidaysForHolidayCalendar(holidayCalendarId, contextInfo);
 
             for (HolidayInfo holiday : holidays) {
-                if (holiday.getStartDate().after(startDate)){
-                    if (holiday.getIsDateRange()){
-                        if (holiday.getEndDate().before(endDate)){
+                if (holiday.getStartDate().after(startDate)) {
+                    if (holiday.getIsDateRange()) {
+                        if (holiday.getEndDate().before(endDate)) {
                            holidaysForAcal.add(holiday);
                         }
                     }else{

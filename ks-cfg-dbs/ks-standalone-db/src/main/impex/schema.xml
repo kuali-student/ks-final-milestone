@@ -1111,7 +1111,6 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="HOLD_TYPE" required="true" size="255" type="VARCHAR"/>
         <column name="HOLD_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
         <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
         <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
         <column name="ISSUE_ID" required="true" size="55" type="VARCHAR"/>
@@ -1184,6 +1183,13 @@
             <index-column name="OWNER_ID"/>
         </index>
     </table>
+    <table name="KSEN_HOLD_RICH_TEXT">
+        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="FORMATTED" size="2000" type="VARCHAR"/>
+        <column name="PLAIN" size="2000" type="VARCHAR"/>
+    </table>
     <table name="KSEN_INSTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
@@ -1248,356 +1254,141 @@
     <table name="KSEN_LPR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="LPR_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="LPR_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="LUI_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="PERS_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="COMMIT_PERCT" size="22" type="DECIMAL"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <index name="KSEN_LPR_I1">
-            <index-column name="PERS_ID"/>
-            <index-column name="LPR_TYPE"/>
-            <index-column name="LPR_STATE"/>
-        </index>
-        <index name="KSEN_LPR_I2">
-            <index-column name="LUI_ID"/>
-            <index-column name="LPR_TYPE"/>
-            <index-column name="LPR_STATE"/>
-        </index>
-        <index name="KSEN_LPR_I3">
-            <index-column name="PERS_ID"/>
-            <index-column name="LUI_ID"/>
-        </index>
-        <index name="KSEN_LPR_I4">
-            <index-column name="PERS_ID"/>
-            <index-column name="LPR_TYPE"/>
-        </index>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
+        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
+        <column name="LUIID" size="255" type="VARCHAR"/>
+        <column name="PERSONID" size="255" type="VARCHAR"/>
+        <column name="COMMITMENTPERCENT" type="FLOAT"/>
+        <column name="LPR_STATE" size="255" type="VARCHAR"/>
+        <column name="LPR_TYPE" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_COMM_STATE" name="FK1BE1597B61E975F6">
+            <reference foreign="ID" local="LPR_STATE"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LPR_TYPE" name="FK1BE1597B1D2EFA44">
+            <reference foreign="TYPE_KEY" local="LPR_TYPE"/>
+        </foreign-key>
+    </table>
+    <table name="KSEN_LPRROSTER_LUI_RELTN">
+        <column name="LPRROSTER_ID" size="255" type="VARCHAR"/>
+        <column name="LUI_ID" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LPR_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR" name="KSEN_LPR_ATTR_FK1">
+        <foreign-key foreignTable="KSEN_LPR_TYPE" name="FKDF4BE635A8427FA">
+            <reference foreign="TYPE_KEY" local="OWNER_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LPR" name="FKDF4BE635DC3CD520">
             <reference foreign="ID" local="OWNER_ID"/>
         </foreign-key>
-        <index name="KSEN_LPR_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_LPR_RESULT_VAL_GRP">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="LPR_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="RESULT_VAL_GRP_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR" name="KSEN_LPR_RESULT_VAL_GRP_KF1">
-            <reference foreign="ID" local="LPR_ID"/>
+        <foreign-key foreignTable="KSEN_COMM_STATE" name="FKDF4BE635EA869E3D">
+            <reference foreign="ID" local="OWNER_ID"/>
         </foreign-key>
-        <unique name="KSEN_LPR_RESULT_VAL_GRP_I1">
-            <unique-column name="LPR_ID"/>
-            <unique-column name="RESULT_VAL_GRP_ID"/>
-        </unique>
-        <index name="KSEN_LPR_RESULT_VAL_GRP_IF1">
-            <index-column name="LPR_ID"/>
-        </index>
     </table>
     <table name="KSEN_LPR_ROSTER">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="LPR_ROSTER_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="LPR_ROSTER_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
-        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
-        <column name="MAX_CAPACITY" size="22" type="DECIMAL"/>
-        <column name="CHECK_IN_REQ_IND" size="1" type="VARCHAR"/>
-        <column name="CHECK_IN_FREQ_DUR_TYPE" size="255" type="VARCHAR"/>
-        <column name="CHECK_IN_FREQ_TIME_QTY" size="22" type="DECIMAL"/>
-        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <index name="KSEN_LPR_ROSTER_I1">
-            <index-column name="LPR_ROSTER_TYPE"/>
-        </index>
-    </table>
-    <table name="KSEN_LPR_ROSTER_ASSO_LUI_ID">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="LPR_ROSTER_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="LUI_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_ROSTER" name="KSEN_LPR_ROSTER_ASSO_LUI_ID_FK">
-            <reference foreign="ID" local="LPR_ROSTER_ID"/>
-        </foreign-key>
-        <unique name="KSEN_LPR_ROSTER_ASSO_LUI_ID_I1">
-            <unique-column name="LPR_ROSTER_ID"/>
-            <unique-column name="LUI_ID"/>
-        </unique>
-        <index name="KSEN_LPR_ROSTER_ASSO_LUI_ID_I2">
-            <index-column name="LUI_ID"/>
-        </index>
-        <index name="KSEN_LPR_ROSTER_ASSO_LUI_ID_IF">
-            <index-column name="LPR_ROSTER_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_LPR_ROSTER_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_ROSTER" name="KSEN_LPR_ROSTER_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
+        <column name="VER_NBR" size="22" type="DECIMAL"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="MAX_CAPACITY" size="22" type="DECIMAL"/>
+        <column name="CHECK_IN_REQ" size="22" type="DECIMAL"/>
+        <column name="STATE_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="ATP_DUR_TYP_KEY" size="255" type="VARCHAR"/>
+        <column name="TM_QUANTITY" size="22" type="DECIMAL"/>
+        <foreign-key foreignTable="KSEN_RICH_TEXT_T" name="KSEN_LPR_ROSTER_FK1">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-        <index name="KSEN_LPR_ROSTER_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
-        </index>
     </table>
     <table name="KSEN_LPR_ROSTER_ENTRY">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="LPR_ROSTER_ENTRY_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="LPR_ROSTER_ENTRY_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="POSITION" size="22" type="DECIMAL"/>
-        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
+        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
+        <column name="LPRROSTER_ID" size="255" type="VARCHAR"/>
         <column name="LPR_ID" size="255" type="VARCHAR"/>
-        <column name="LPR_ROSTER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_ROSTER" name="KSEN_LPR_ROSTER_ENTRY_FK2">
-            <reference foreign="ID" local="LPR_ROSTER_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSEN_LPR" name="KSEN_LPR_ROSTER_ENTRY_FK1">
+        <column name="POSITION" size="10" type="DECIMAL"/>
+        <column name="RELATION_STATE_ID" size="255" type="VARCHAR"/>
+        <column name="RELATION_TYPE_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LPR" name="KSEN_LPR_ROSTER_ENTRY_FK2">
             <reference foreign="ID" local="LPR_ID"/>
         </foreign-key>
-        <index name="KSEN_LPR_ROSTER_ENTRY_IF1">
-            <index-column name="LPR_ID"/>
-        </index>
-        <index name="KSEN_LPR_ROSTER_ENTRY_IF2">
-            <index-column name="LPR_ROSTER_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_LPR_ROSTER_ENTRY_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_ROSTER_ENTRY" name="KSEN_LPR_ROSTER_ENTRY_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
+        <foreign-key foreignTable="KSEN_LPR_ROSTER" name="KSEN_LPR_ROSTER_ENTRY_FK1">
+            <reference foreign="ID" local="LPRROSTER_ID"/>
         </foreign-key>
-        <index name="KSEN_LPR_ROSTER_ENTRY_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
-        </index>
+    </table>
+    <table name="KSEN_LPR_RV_GRP_RELTN">
+        <column name="LPR_ID" size="255" type="VARCHAR"/>
+        <column name="RV_GRP_ID" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LPR_TRANS">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="LPR_TRANS_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="LPR_TRANS_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="REQUESTING_PERS_ID" size="255" type="VARCHAR"/>
-        <column name="ATP_ID" size="255" type="VARCHAR"/>
-        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
-        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="9" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <index name="KSEN_LPR_TRANS_I1">
-            <index-column name="LPR_TRANS_STATE"/>
-        </index>
-        <index name="KSEN_LPR_TRANS_I2">
-            <index-column name="REQUESTING_PERS_ID"/>
-            <index-column name="ATP_ID"/>
-        </index>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="REQ_PERSON_ID" size="255" type="VARCHAR"/>
+        <column name="ATP_ID" size="255" type="VARCHAR"/>
+        <column name="STATE_ID" size="255" type="VARCHAR"/>
+        <column name="LPR_TYPE_ID" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LPR_TRANS_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_TRANS" name="KSEN_LPR_TRANS_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
-        </foreign-key>
-        <index name="KSEN_LPR_TRANS_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
-        </index>
     </table>
-    <table name="KSEN_LPR_TRANS_ITEM">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="LPR_TRANS_ITEM_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="LPR_TRANS_ITEM_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="PERS_ID" size="255" type="VARCHAR"/>
-        <column name="NEW_LUI_ID" size="255" type="VARCHAR"/>
-        <column name="EXISTING_LUI_ID" size="255" type="VARCHAR"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
-        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="9" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
+    <table name="KSEN_LPR_TRANS_ITEMS">
+        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="PERSON_ID" size="255" type="VARCHAR"/>
+        <column name="NEW_LUI_ID" size="255" type="VARCHAR"/>
+        <column name="EXIST_LUI_ID" size="255" type="VARCHAR"/>
+        <column name="RESULTING_LPR_ID" size="255" type="VARCHAR"/>
         <column name="GROUP_ID" size="255" type="VARCHAR"/>
-        <column name="LTI_RESULTING_LPR_ID" size="255" type="VARCHAR"/>
-        <column name="LTI_RESULT_MESSAGE" size="4000" type="VARCHAR"/>
-        <column name="LTI_RESULT_STATUS" size="255" type="VARCHAR"/>
+        <column name="STATUS" size="255" type="VARCHAR"/>
         <column name="LPR_TRANS_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_TRANS" name="KSEN_LPR_TRANS_ITEM_FK1">
-            <reference foreign="ID" local="LPR_TRANS_ID"/>
-        </foreign-key>
-        <index name="KSEN_LPR_TRANS_ITEM_I1">
-            <index-column name="PERS_ID"/>
-        </index>
-        <index name="KSEN_LPR_TRANS_ITEM_I2">
-            <index-column name="NEW_LUI_ID"/>
-        </index>
-        <index name="KSEN_LPR_TRANS_ITEM_I3">
-            <index-column name="EXISTING_LUI_ID"/>
-        </index>
-        <index name="KSEN_LPR_TRANS_ITEM_I4">
-            <index-column name="LTI_RESULTING_LPR_ID"/>
-        </index>
-        <index name="KSEN_LPR_TRANS_ITEM_IF1">
-            <index-column name="LPR_TRANS_ID"/>
-        </index>
+        <column name="STATE_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_ID" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LPR_TRANS_ITEM_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_TRANS_ITEM" name="KSEN_LPR_TRANS_ITEM_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
-        </foreign-key>
-        <index name="KSEN_LPR_TRANS_ITEM_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_LPR_TRANS_ITEM_RQST_OPT">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="OPTION_KEY" size="255" type="VARCHAR"/>
-        <column name="OPTION_VALUE" size="255" type="VARCHAR"/>
-        <column name="LPR_TRANS_ITEM_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_TRANS_ITEM" name="KSEN_LPR_LTI_RQST_OPT_FK1">
-            <reference foreign="ID" local="LPR_TRANS_ITEM_ID"/>
-        </foreign-key>
-        <index name="KSEN_LPR_LTI_RQST_OPT_IF1">
-            <index-column name="LPR_TRANS_ITEM_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_LPR_TRANS_ITEM_RVG">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="LPR_TRANS_ITEM_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="RESULT_VAL_GRP_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_TRANS_ITEM" name="KSEN_LPR_LTI_RVG_FK1">
-            <reference foreign="ID" local="LPR_TRANS_ITEM_ID"/>
-        </foreign-key>
-        <unique name="KSEN_LPR_LTI_RVG_I1">
-            <unique-column name="LPR_TRANS_ITEM_ID"/>
-            <unique-column name="RESULT_VAL_GRP_ID"/>
-        </unique>
-        <index name="KSEN_LPR_LTI_RVG_IF1">
-            <index-column name="LPR_TRANS_ITEM_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_LRC_RES_SCALE">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
-        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
-        <column name="STATE_ID" size="255" type="VARCHAR"/>
-        <column name="TYPE_ID" size="255" type="VARCHAR"/>
-        <column name="MIN_VALUE" size="255" type="VARCHAR"/>
-        <column name="MAX_VALUE" size="255" type="VARCHAR"/>
-        <column name="INCR" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSEN_LRC_RES_SCALE_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER_ID" size="255" type="VARCHAR"/>
     </table>
-    <table name="KSEN_LRC_RES_VALUE">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
-        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
-        <column name="STATE_ID" size="255" type="VARCHAR"/>
-        <column name="TYPE_ID" size="255" type="VARCHAR"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
-        <column name="RES_SCALE_ID" size="255" type="VARCHAR"/>
-        <column name="NUMERIC_VALUE" size="255" type="VARCHAR"/>
-        <column name="VALUE" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSEN_LRC_RES_VALUE_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSEN_LRC_RES_VAL_GRP">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
-        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
-        <column name="STATE_ID" size="255" type="VARCHAR"/>
-        <column name="TYPE_ID" size="255" type="VARCHAR"/>
-        <column name="MIN_VALUE" size="255" type="VARCHAR"/>
-        <column name="MAX_VALUE" size="255" type="VARCHAR"/>
-        <column name="INCR" size="255" type="VARCHAR"/>
-        <column name="RES_SCALE_ID" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSEN_LRC_RES_VAL_GRP_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSEN_LRC_RVGP_RV_RELTN">
-        <column name="RES_VAL_GRP_ID" size="255" type="VARCHAR"/>
-        <column name="RES_VAL_ID" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSEN_LRC_TYPE">
+    <table name="KSEN_LPR_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="19" type="DECIMAL"/>
@@ -1606,6 +1397,139 @@
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="REF_OBJECT_URI" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRC_RESULT_SCALE">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="RESULT_SCALE_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="RESULT_SCALE_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="RANGE_MIN_VALUE" size="255" type="VARCHAR"/>
+        <column name="RANGE_MAX_VALUE" size="255" type="VARCHAR"/>
+        <column name="RANGE_INCREMENT" size="255" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRC_RESULT_SCALE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LRC_RESULT_SCALE" name="KSEN_LRC_RESULT_SCALE_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_LRC_RESULT_SCALE_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_LRC_RESULT_VALUE">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="RESULT_VALUE_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="RESULT_VALUE_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="RESULT_SCALE_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="NUMERIC_VALUE" size="22" type="DECIMAL"/>
+        <column name="RESULT_VALUE" required="true" size="255" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LRC_RESULT_SCALE" name="KSEN_LRC_RESULT_VAL_FK1">
+            <reference foreign="ID" local="RESULT_SCALE_ID"/>
+        </foreign-key>
+        <index name="KSEN_LRC_RESULT_VALUE_I1">
+            <index-column name="RESULT_VALUE_TYPE"/>
+            <index-column name="RESULT_VALUE_STATE"/>
+            <index-column name="RESULT_VALUE"/>
+        </index>
+        <index name="KSEN_LRC_RESULT_VAL_IF1">
+            <index-column name="RESULT_SCALE_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_LRC_RESULT_VALUE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LRC_RESULT_VALUE" name="KSEN_LRC_RESULT_VALUE_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_LRC_RESULT_VALUE_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_LRC_RVG">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="RVG_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="RVG_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="RESULT_SCALE_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="RANGE_MIN_VALUE" size="255" type="VARCHAR"/>
+        <column name="RANGE_MAX_VALUE" size="255" type="VARCHAR"/>
+        <column name="RANGE_INCREMENT" size="255" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LRC_RESULT_SCALE" name="KSEN_LRC_RVG_FK1">
+            <reference foreign="ID" local="RESULT_SCALE_ID"/>
+        </foreign-key>
+        <index name="KSEN_LRC_RVG_I1">
+            <index-column name="RVG_TYPE"/>
+        </index>
+        <index name="KSEN_LRC_RVG_IF1">
+            <index-column name="RESULT_SCALE_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_LRC_RVG_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LRC_RVG" name="KSEN_LRC_RVG_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_LRC_RVG_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_LRC_RVG_RESULT_VALUE">
+        <column name="RVG_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="RESULT_VALUE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LRC_RESULT_VALUE" name="KSEN_LRC_RVG_RV_FK2">
+            <reference foreign="ID" local="RESULT_VALUE_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LRC_RVG" name="KSEN_LRC_RVG_RV_FK1">
+            <reference foreign="ID" local="RVG_ID"/>
+        </foreign-key>
+        <index name="KSEN_LRC_RVG_RV_IF1">
+            <index-column name="RVG_ID"/>
+        </index>
+        <index name="KSEN_LRC_RVG_RV_IF2">
+            <index-column name="RESULT_VALUE_ID"/>
+        </index>
     </table>
     <table name="KSEN_LRR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -1893,7 +1817,6 @@
         </foreign-key>
     </table>
     <table name="KSEN_LUI_RESULT_VAL_GRP">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="LUI_ID" required="true" size="255" type="VARCHAR"/>
         <column name="RESULT_VAL_GRP_ID" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUI_RESULT_VAL_GRP_FK1">
@@ -1908,7 +1831,6 @@
         </index>
     </table>
     <table name="KSEN_LUI_UNITS_CONT_OWNER">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="LUI_ID" required="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUI_UNITS_CONT_OWNER_FK1">
@@ -1978,15 +1900,172 @@
         </index>
     </table>
     <table name="KSEN_POPULATION">
-        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="POPULATION_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="POPULATION_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="POPULATION_RULE_ID" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="STATE_ID" size="255" type="VARCHAR"/>
-        <column name="TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_FK1">
+            <reference foreign="ID" local="POPULATION_RULE_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_I1">
+            <index-column name="POPULATION_TYPE"/>
+        </index>
+        <index name="KSEN_POP_IF1">
+            <index-column name="POPULATION_RULE_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION" name="KSEN_POPULATION_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_CAT">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="POPULATION_CAT_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="POPULATION_CAT_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <index name="KSEN_POP_CAT_I1">
+            <index-column name="POPULATION_CAT_TYPE"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_CAT_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_CAT" name="KSEN_POP_CAT_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_CAT_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_CAT_RELTN">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="POPULATION_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="POPULATION_CAT_ID" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_CAT" name="KSEN_POP_CAT_RELTN_FK2">
+            <reference foreign="ID" local="POPULATION_CAT_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_POPULATION" name="KSEN_POP_CAT_RELTN_FK1">
+            <reference foreign="ID" local="POPULATION_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_CAT_RELTN_IF1">
+            <index-column name="POPULATION_ID"/>
+        </index>
+        <index name="KSEN_POP_CAT_RELTN_IF2">
+            <index-column name="POPULATION_CAT_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="POPULATION_RULE_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="POPULATION_RULE_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="REF_POPULATION_ID" size="255" type="VARCHAR"/>
+        <column name="VARIES_BY_TIME_IND" size="1" type="VARCHAR"/>
+        <column name="SUPPORTS_GET_MBR_IND" size="1" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <index name="KSEN_POP_RULE_I1">
+            <index-column name="POPULATION_RULE_TYPE"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE_AGENDA">
+        <column name="AGENDA_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="POPULATION_RULE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_RULE_AGENDA_FK1">
+            <reference foreign="ID" local="POPULATION_RULE_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_RULE_AGENDA_IF1">
+            <index-column name="POPULATION_RULE_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_RULE_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_RULE_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE_CHILD_POP">
+        <column name="POPULATION_RULE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CHILD_POPULATION_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_RULE_CHILD_POP_FK1">
+            <reference foreign="ID" local="POPULATION_RULE_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_RULE_CHILD_POP_IF1">
+            <index-column name="POPULATION_RULE_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE_GRP">
+        <column name="POPULATION_RULE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="GROUP_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_RULE_GRP_FK1">
+            <reference foreign="ID" local="POPULATION_RULE_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_RULE_GRP_IF1">
+            <index-column name="POPULATION_RULE_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE_PERS">
+        <column name="POPULATION_RULE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="PERSON_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_RULE_PERS_FK1">
+            <reference foreign="ID" local="POPULATION_RULE_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_RULE_PERS_IF1">
+            <index-column name="POPULATION_RULE_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_POPULATION_RULE_SOT">
+        <column name="POPULATION_RULE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="SORT_ORDER_TYPE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_POPULATION_RULE" name="KSEN_POP_RULE_SOT_FK1">
+            <reference foreign="ID" local="POPULATION_RULE_ID"/>
+        </foreign-key>
+        <index name="KSEN_POP_RULE_SOT_IF1">
+            <index-column name="POPULATION_RULE_ID"/>
+        </index>
     </table>
     <table name="KSEN_PROCESS">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5276,7 +5355,7 @@
     <sequence name="KREW_ACTN_RQST_S" nextval="2369"/>
     <sequence name="KREW_ACTN_TKN_S" nextval="2332"/>
     <sequence name="KREW_ATTR_DEFN_S" nextval="10000"/>
-    <sequence name="KREW_DOC_HDR_S" nextval="3025"/>
+    <sequence name="KREW_DOC_HDR_S" nextval="3029"/>
     <sequence name="KREW_DOC_LNK_S" nextval="2000"/>
     <sequence name="KREW_DOC_NTE_S" nextval="2020"/>
     <sequence name="KREW_DOC_TYP_ATTR_S" nextval="2010"/>
@@ -5288,8 +5367,8 @@
     <sequence name="KREW_PPL_FLW_MBR_S" nextval="10000"/>
     <sequence name="KREW_PPL_FLW_S" nextval="10000"/>
     <sequence name="KREW_RSP_S" nextval="2065"/>
-    <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2641"/>
-    <sequence name="KREW_RTE_NODE_S" nextval="2968"/>
+    <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2651"/>
+    <sequence name="KREW_RTE_NODE_S" nextval="2970"/>
     <sequence name="KREW_RTE_TMPL_S" nextval="1645"/>
     <sequence name="KREW_RULE_EXPR_S" nextval="2002"/>
     <sequence name="KREW_RULE_TMPL_OPTN_S" nextval="2020"/>

@@ -17,20 +17,19 @@
   <import resource="classpath:META-INF/default-property-config-context-test.xml" />
   <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
   <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
-  <import resource="classpath:en-course-test-context.xml" />
-  <import resource="classpath:search-test-context.xml"/>
   <!-- Preloaded data -->
-  <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-    <property name="jtaTxManager" ref="JtaTxManager" />
-    <property name="shouldLoadData" value="true" />
-    <property name="preloadMap">
-      <map>
-        <entry key="co">
-          <value>classpath:ks-courseOffering.sql</value>
-        </entry>
-      </map>
-    </property>
-  </bean>
+  <!--     Commented out for M4 as the data should come from CourseOfferingServiceTestDataLoader -->
+<!--   <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener"> -->
+<!--     <property name="jtaTxManager" ref="JtaTxManager" /> -->
+<!--     <property name="shouldLoadData" value="true" /> -->
+<!--     <property name="preloadMap"> -->
+<!--       <map> -->
+<!--         <entry key="co"> -->
+<!--           <value>classpath:ks-courseOffering.sql</value> -->
+<!--         </entry> -->
+<!--       </map> -->
+<!--     </property> -->
+<!--   </bean> -->
 
   <bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
     <property name="properties" value="${propertiesPrefix.systemProperties}" />
@@ -76,6 +75,7 @@
 
   <bean id="entityManagerFactory" parent="defaultEntityManagerFactory">
     <property name="persistenceUnitName" value="co" />
+    <!-- In M4 this needs to change -->
     <property name="persistenceXmlLocation" value="classpath:META-INF/courseOffering-persistence.xml" />
     <property name="dataSource" ref="dataSource" />
   </bean>
@@ -154,10 +154,10 @@
    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
   </bean>
 
-  <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
+  <bean id="coServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
     <property name="luiService" ref="luiService" />
     <property name="rgAssembler" ref="rgAssembler" />
-    <property name="courseService" ref="courseServiceImpl" />
+    <property name="courseService" ref="courseService" />
     <property name="acalService" ref="acalService" />
     <property name="stateService" ref="stateService" />
     <property name="lprService" ref="lprPersistenceService" />
@@ -165,12 +165,16 @@
     <property name="businessLogic" ref="businessLogic" />
     <property name="typeService" ref="typeService"/>
     <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
+    <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
   </bean>
 
     <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
+        <property name="lprService" ref="lprPersistenceService" />
+    </bean>
 
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
-    <property name="courseService" ref="courseServiceImpl" />
+    <property name="courseService" ref="courseService" />
     <property name="acalService" ref="acalService" />
     <property name="coService" ref="coService" />
   </bean>
@@ -201,11 +205,11 @@
 
   <bean id="coServiceValidationDecorator"
     class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
-    <property name="nextDecorator" ref="coService" />
+    <property name="nextDecorator" ref="coServiceImpl" />
     <property name="validator" ref="validator" />
   </bean>
 
-  <bean id="coServiceAuthDecorator"
+  <bean id="coService"
     class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceAuthorizationDecorator">
     <property name="nextDecorator" ref="coServiceValidationDecorator" />
     <property name="permissionService" ref="permissionService" />
@@ -218,8 +222,6 @@
     <property name="lprTransactionDao" ref="lprTransactionDao" />
     <property name="lprTransactionItemDao" ref="lprTransactionItemDao" />
   </bean>
-
-
 
   <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
     <property name="em" ref="entityManager" />
@@ -241,7 +243,25 @@
   <bean id="regGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer" />
   <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
+	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader" autowire="byType" />
+	 
+<!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
+	 <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
 
+
+	<!--  this should probably be changed to the real impl. -->
+	<bean id="courseService"
+		class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl">
+	</bean>
+	
+	<bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
+    	<property name="entityManager" ref="entityManager"/>
+  	</bean>
+  	
+  	 <bean id="coCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+           <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        </bean>  	
+        
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
 </beans>

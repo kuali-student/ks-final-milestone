@@ -1,18 +1,25 @@
 package org.kuali.student.enrollment.class2.courseofferingset.model;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResult;
+import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 import javax.persistence.*;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -42,6 +49,8 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<SocRolloverResultAttributeEntity> attributes = new HashSet<SocRolloverResultAttributeEntity>();
 
+    private static Logger LOGGER = Logger.getLogger(SocRolloverResultEntity.class);
+
     public SocRolloverResultEntity() {
     }
 
@@ -52,14 +61,35 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
         this.fromDTO(socRolloverResult);
     }
 
+    private Map<String, SocRolloverResultAttributeEntity> _computeKeyAttributeMap(Set<SocRolloverResultAttributeEntity> attributes) {
+        Map<String, SocRolloverResultAttributeEntity> keyAttributeMap =
+                new HashMap<String, SocRolloverResultAttributeEntity>();
+        for (SocRolloverResultAttributeEntity attr: attributes) {
+            keyAttributeMap.put(attr.getKey(), attr);
+        }
+        return keyAttributeMap;
+    }
+
+    private Set<SocRolloverResultAttributeEntity> _filterForDynAttrs(SocRolloverResultEntity entity) {
+        Set<SocRolloverResultAttributeEntity> filtered = new HashSet<SocRolloverResultAttributeEntity>();
+        for (SocRolloverResultAttributeEntity attrEntity: this.getAttributes()) {
+            if (CourseOfferingSetServiceConstants.ALL_RESULT_DYNATTR_KEYS.contains(attrEntity.getKey())) {
+                filtered.add(attrEntity);
+            }
+        }
+        // Remove the dynamic attributes from this
+        this.getAttributes().removeAll(filtered);
+        return filtered;
+    }
+
     public void fromDTO(SocRolloverResult socRolloverResult) {
         this.setSocRorState(socRolloverResult.getStateKey());
         this.setSourceSocId(socRolloverResult.getSourceSocId());
         this.setTargetSocId(socRolloverResult.getTargetSocId());
         this.setTargetTermId(socRolloverResult.getTargetTermId());
         // TODO: store the option keys
-        this.setItemsProcessed(socRolloverResult.getItemsProcessed());
-        this.setItemsExpected(socRolloverResult.getItemsExpected());
+        this.setItemsProcessed(socRolloverResult.getItemsProcessed());  // Basically ignored
+        this.setItemsExpected(socRolloverResult.getItemsExpected()); // Basically ignored
         if (socRolloverResult.getMessage() != null) {
             this.setMesgFormatted(socRolloverResult.getMessage().getFormatted());
             this.setMesgPlain(socRolloverResult.getMessage().getPlain());
@@ -74,10 +104,19 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
                 this.getOptions().add(new SocRolloverResultOptionEntity(optionKey, this));
             }
         }
-        this.setAttributes(new HashSet<SocRolloverResultAttributeEntity>());
-        for (Attribute att : socRolloverResult.getAttributes()) {
-            this.getAttributes().add(new SocRolloverResultAttributeEntity(att, this));
+        // Handle copying SocRolloverResult attributes to SocRolloverResultEntity attributes
+        // TODO: Could be made more generic
+        Set<SocRolloverResultAttributeEntity> dynamicAttrSet = _filterForDynAttrs(this);
+        // Merge the non-dynamic attributes
+        List<Object> toDelete =
+                TransformUtility.mergeToEntityAttributes(SocRolloverResultAttributeEntity.class, socRolloverResult, this);
+        if (!toDelete.isEmpty()) {
+            LOGGER.warn("Unexpected attributes--should handle by deleting orphans");
         }
+        // Then, copy the dynamic attributes in
+        this.getAttributes().addAll(dynamicAttrSet);
+        // Then update the entity attribute values
+        SocRolloverResultDynAttrConverter.copyDtoDynAttrsToEntity(socRolloverResult, this);
     }
 
     private boolean alreadyExists(String optionKey) {
@@ -87,6 +126,18 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
             }
         }
         return false;
+    }
+
+    private Integer _parseInt(String intStr) {
+        if (intStr == null) {
+            return null;
+        }
+        try {
+            return Integer.parseInt(intStr);
+        } catch (NumberFormatException e) {
+            // Final return if exception thrown
+        }
+        return null;
     }
 
     public SocRolloverResultInfo toDto() {
@@ -109,10 +160,15 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
         }
         socRolloverResult.setMeta(super.toDTO());
         if (getAttributes() != null) {
+            // Handle standard attributes
             for (SocRolloverResultAttributeEntity att : getAttributes()) {
                 AttributeInfo attInfo = att.toDto();
-                socRolloverResult.getAttributes().add(attInfo);
+                if (!CourseOfferingSetServiceConstants.ALL_RESULT_DYNATTR_KEYS.contains(attInfo.getKey())) {
+                    socRolloverResult.getAttributes().add(attInfo);
+                }
             }
+            // Handle dynamic attributes
+            SocRolloverResultDynAttrConverter.copyEntityAttrsToDtoDynAttrs(this, socRolloverResult);
         }
         return socRolloverResult;
     }

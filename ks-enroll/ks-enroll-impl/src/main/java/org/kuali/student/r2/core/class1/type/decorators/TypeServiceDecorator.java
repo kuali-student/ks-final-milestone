@@ -7,32 +7,22 @@
  */
 package org.kuali.student.r2.core.class1.type.decorators;
 
-import java.util.List;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
-import javax.jws.WebParam;
+import java.util.List;
 
 /**
- *
  * @author nwright
  */
 public class TypeServiceDecorator implements TypeService {
-    
- private TypeService nextDecorator;
+
+    private TypeService nextDecorator;
 
     public TypeService getNextDecorator() {
         return nextDecorator;
@@ -56,17 +46,16 @@ public class TypeServiceDecorator implements TypeService {
     public List<String> getRefObjectUris(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getRefObjectUris(contextInfo);
     }
-    
+
     @Override
     public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getTypesByRefObjectUri(refObjectUri, contextInfo);
     }
 
     @Override
-    public List<org.kuali.student.r2.core.type.dto.TypeInfo> getTypesForGroupType(@WebParam(name = "groupTypeKey") String groupTypeKey, @WebParam(name = "contextInfo") org.kuali.student.r2.common.dto.ContextInfo contextInfo) throws org.kuali.student.r2.common.exceptions.DoesNotExistException, org.kuali.student.r2.common.exceptions.InvalidParameterException, org.kuali.student.r2.common.exceptions.MissingParameterException, org.kuali.student.r2.common.exceptions.OperationFailedException, org.kuali.student.r2.common.exceptions.PermissionDeniedException
-        {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
+    public List<TypeInfo> getTypesForGroupType(String groupTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getTypesForGroupType(groupTypeKey, contextInfo);
+    }
 
     @Override
     public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -111,7 +100,7 @@ public class TypeServiceDecorator implements TypeService {
     public List<TypeTypeRelationInfo> getTypeTypeRelationsByRelatedTypeAndType(String relatedTypeKey, String typeTypeRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getTypeTypeRelationsByRelatedTypeAndType(relatedTypeKey, typeTypeRelationTypeKey, contextInfo);
     }
-    
+
     @Override
     public List<ValidationResultInfo> validateTypeTypeRelation(String validationTypeKey, String typeKey, String typePeerKey, String typeTypeRelationTypeKey, TypeTypeRelationInfo typeTypeRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().validateTypeTypeRelation(validationTypeKey, typeKey, typePeerKey, typeTypeRelationTypeKey, typeTypeRelationInfo, contextInfo);
@@ -131,5 +120,5 @@ public class TypeServiceDecorator implements TypeService {
     public StatusInfo deleteTypeTypeRelation(String typeTypeRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteTypeTypeRelation(typeTypeRelationId, contextInfo);
     }
-    
+
 }

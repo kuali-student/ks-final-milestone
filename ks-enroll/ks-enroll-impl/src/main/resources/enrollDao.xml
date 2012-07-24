@@ -52,11 +52,11 @@
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
      
-    <bean id="holdDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldDao">
+    <bean id="appliedHoldDao" class="org.kuali.student.enrollment.class1.hold.dao.AppliedHoldDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
     
-    <bean id="issueDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao">
+    <bean id="holdIssueDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
     
@@ -147,6 +147,15 @@
         <property name="em" ref="enrollEntityManager" />
     </bean>
 
+    <!-- Population Dao -->
+    <bean id="populationDao" class="org.kuali.student.r2.core.population.dao.PopulationDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="populationRuleDao" class="org.kuali.student.r2.core.population.dao.PopulationRuleDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
     <!-- Search Dao needs an implementation at some point -->
     <bean id="searchDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao">
         <property name="em" ref="enrollEntityManager"/>
@@ -156,5 +165,14 @@
     <bean id="enumValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
+    <!-- Organization Service -->
+    <bean id="orgDao" class="org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="extendedOrgDao" class="org.kuali.student.r2.core.class1.organization.dao.ExtendedOrgDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
 
 </beans>

@@ -6,9 +6,13 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.apache.log4j.Logger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfoExtended;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -88,7 +92,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
         this.skipIfAlreadyExists = getBooleanOption(CourseOfferingSetServiceConstants.SKIP_IF_ALREADY_EXISTS_OPTION_KEY, false);
         this.logSuccesses = getBooleanOption(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY, false);
         this.progressFrequency = getIntOption(CourseOfferingSetServiceConstants.LOG_FREQUENCY_OPTION_KEY_PREFIX, 10);
-        this.haltErrorsMax = getIntOption(CourseOfferingSetServiceConstants.HALT_ERRORS_MAX_OPTION_KEY_PREFIX, 10);
+        this.haltErrorsMax = getIntOption(CourseOfferingSetServiceConstants.HALT_ERRORS_MAX_OPTION_KEY_PREFIX, -1);
 
     }
     // TODO: implement these options
@@ -128,7 +132,8 @@ public class CourseOfferingRolloverRunner implements Runnable {
             try {
                 this.result = socService.getSocRolloverResult(result.getId(), context);
                 this.result.setStateKey(CourseOfferingSetServiceConstants.ABORTED_RESULT_STATE_KEY);
-                this.result.setMessage(new RichTextHelper().fromPlain("Got an unexpected exception running rolloever:\n" +
+                this.result.setDateCompleted(new Date());
+                this.result.setMessage(new RichTextHelper().fromPlain("Got an unexpected exception running rollover:\n" +
                         ex.toString()));
                 this.socService.updateSocRolloverResult(result.getId(), result, context);
             } catch (Exception ex1) {
@@ -162,35 +167,46 @@ public class CourseOfferingRolloverRunner implements Runnable {
         this.socService.updateSocRolloverResult(result.getId(), result, context);
 
         // Start processing
-        int i = 0;
+        int sourceCoIdsHandled = 0;
+        int aoRolledOver = 0;
         int errors = 0;
         List<SocRolloverResultItemInfo> items = new ArrayList<SocRolloverResultItemInfo>();
         for (String sourceCoId : sourceCoIds) {
-            logger.info("Processing" + sourceCoId);
-            System.out.println("processing " + sourceCoId);
+            logger.info("Processing: " + sourceCoId);
+            // System.out.println("processing: " + sourceCoId);
             try {
-                SocRolloverResultItemInfo item = rolloverOneCourseOfferingReturningItem(sourceCoId);
+                Object[] result = rolloverOneCourseOfferingReturningItem(sourceCoId);
+                SocRolloverResultItemInfo item = (SocRolloverResultItemInfo) result[0];
                 items.add(item);
-                reportProgressIfModulo(items, i);
+                reportProgressIfModulo(items, sourceCoIdsHandled);
                 if (!item.getStateKey().equals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY)) {
                     errors++;
                     if (this.haltErrorsMax != -1) {
                         if (errors > this.haltErrorsMax) {
                             throw new OperationFailedException("Too many errors, exceeded the halt threshold: " + errors +
-                                    " out of " + i + " course offerings rolled over");
+                                    " out of " + sourceCoIdsHandled + " course offerings rolled over");
                         }
                     }
                 }
+                if (result.length > 1) {
+                    aoRolledOver += (Integer) result[1];
+                }
             } catch (Exception ex) {
                 // log some conetxt for the exception
-                logger.fatal("failed while processing the " + i + "th course offering " + sourceCoId, ex);
+                logger.fatal("failed while processing the " + sourceCoIdsHandled + "th course offering " + sourceCoId, ex);
                 throw ex;
             }
-            i++;
+            sourceCoIdsHandled++;
         }
-        reportProgress(items, i);
+        logger.info("======= Finished processing rollover =======");
+        reportProgress(items, sourceCoIdsHandled - errors);      // Items Processed = Items - Errors
         // mark finished
         result = socService.getSocRolloverResult(result.getId(), context);
+        result.setDateCompleted(new Date());
+        result.setCourseOfferingsCreated(sourceCoIdsHandled - errors);
+        result.setCourseOfferingsSkipped(errors);
+        result.setActivityOfferingsCreated(aoRolledOver);
+        result.setActivityOfferingsSkipped(0); // For now, we have no "failed" AOs that didn't rollover.
         result.setStateKey(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY);
         this.socService.updateSocRolloverResult(result.getId(), result, context);
     }
@@ -230,7 +246,8 @@ public class CourseOfferingRolloverRunner implements Runnable {
         }
     }
 
-    private SocRolloverResultItemInfo rolloverOneCourseOfferingReturningItem(String sourceCoId) throws Exception {
+    // The return type is a hack, but I need more info out of this private method. cclin
+    private Object[] rolloverOneCourseOfferingReturningItem(String sourceCoId) throws Exception {
         CourseOfferingInfo targetCo = null;
         String error = null;
         try {
@@ -242,6 +259,14 @@ public class CourseOfferingRolloverRunner implements Runnable {
             error = ex.getMessage();
         } catch (InvalidParameterException ex) {
             error = ex.getMessage();
+        } catch (Exception ex) {
+            // This is a catchall for unknown exceptions, possibly due to bad data.  The previous exceptions are considered
+            // expected exceptions.  By catching Exception, the rollover won't stop and will continue to process.
+            error = "Unexpected error rolling over course";
+            String mesg = ex.getMessage();
+            if (mesg != null) {
+                error += ": (" + mesg + ")";
+            }
         }
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
         item.setSocRolloverResultId(result.getId());
@@ -250,11 +275,31 @@ public class CourseOfferingRolloverRunner implements Runnable {
         if (error == null) {
             item.setStateKey(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY);
             item.setTargetCourseOfferingId(targetCo.getId());
-            return item;
+            // Compute AO count
+            CourseOfferingInfoExtended coExtended = null;
+            try {
+                coExtended = (CourseOfferingInfoExtended) targetCo;
+            } catch (ClassCastException e) {
+                Object[] result = new Object[1];
+                result[0] = item;
+                return result;
+            }
+            Integer aoCount = 0;
+            if (coExtended != null) {
+                Map<String, Object> properties = coExtended.getProperties();
+                aoCount = (Integer) properties.get(CourseOfferingInfoExtended.ACTIVITY_OFFERINGS_CREATED);
+            }
+            // Return back the item and the AO count
+            Object[] result = new Object[2];
+            result[0] = item;
+            result[1] = aoCount;
+            return result;
         }
         item.setStateKey(CourseOfferingSetServiceConstants.ERROR_RESULT_ITEM_STATE_KEY);
         item.setTargetCourseOfferingId(null);
         item.setMessage(new RichTextHelper().fromPlain(error));
-        return item;
+        Object[] result = new Object[1];
+        result[0] = item;
+        return result;
     }
 }

@@ -36,15 +36,15 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 
 public class HoldServiceMockImpl
         implements HoldService {
 
     @Override
-    public HoldInfo getHold(String holdId,
+    public AppliedHoldInfo getAppliedHold(String holdId,
             ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -54,33 +54,33 @@ public class HoldServiceMockImpl
         if (!this.holdMap.containsKey(holdId)) {
             throw new DoesNotExistException(holdId);
         }
-        return new HoldInfo(this.holdMap.get(holdId));
+        return new AppliedHoldInfo(this.holdMap.get(holdId));
     }
 
     @Override
-    public List<HoldInfo> getHoldsByIds(List<String> holdIds,
+    public List<AppliedHoldInfo> getAppliedHoldsByIds(List<String> holdIds,
             ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        List<HoldInfo> list = new ArrayList<HoldInfo>();
+        List<AppliedHoldInfo> list = new ArrayList<AppliedHoldInfo>();
         for (String id : holdIds) {
-            list.add(this.getHold(id, contextInfo));
+            list.add(this.getAppliedHold(id, contextInfo));
         }
         return list;
     }
 
     @Override
-    public List<String> getHoldIdsByType(String holdTypeKey,
+    public List<String> getAppliedHoldIdsByType(String holdTypeKey,
             ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
         List<String> list = new ArrayList<String>();
-        for (HoldInfo info : holdMap.values()) {
+        for (AppliedHoldInfo info : holdMap.values()) {
             if (holdTypeKey.equals(info.getTypeKey())) {
                 list.add(info.getId());
             }
@@ -89,15 +89,15 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public List<String> getHoldIdsByIssue(String issueId,
+    public List<String> getAppliedHoldIdsByIssue(String issueId,
             ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
         List<String> list = new ArrayList<String>();
-        for (HoldInfo info : holdMap.values()) {
-            if (issueId.equals(info.getIssueId())) {
+        for (AppliedHoldInfo info : holdMap.values()) {
+            if (issueId.equals(info.getHoldIssueId())) {
                 list.add(info.getId());
             }
         }
@@ -105,36 +105,36 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public List<HoldInfo> getHoldsByPerson(String personId,
+    public List<AppliedHoldInfo> getAppliedHoldsByPerson(String personId,
             ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        List<HoldInfo> list = new ArrayList<HoldInfo>();
-        for (HoldInfo info : holdMap.values()) {
+        List<AppliedHoldInfo> list = new ArrayList<AppliedHoldInfo>();
+        for (AppliedHoldInfo info : holdMap.values()) {
             if (personId.equals(info.getPersonId())) {
-                list.add(new HoldInfo(info));
+                list.add(new AppliedHoldInfo(info));
             }
         }
         return list;
     }
 
     @Override
-    public List<HoldInfo> getActiveHoldsByPerson(String personId,
+    public List<AppliedHoldInfo> getActiveAppliedHoldsByPerson(String personId,
             ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
         Date now = new Date();
-        List<HoldInfo> list = new ArrayList<HoldInfo>();
-        for (HoldInfo info : holdMap.values()) {
+        List<AppliedHoldInfo> list = new ArrayList<AppliedHoldInfo>();
+        for (AppliedHoldInfo info : holdMap.values()) {
             if (personId.equals(info.getPersonId())) {
                 if (info.getStateKey().equals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY)) {
                     if (info.getEffectiveDate().before(now)) {
                         if (info.getReleasedDate() == null || info.getReleasedDate().after(now)) {
-                            list.add(new HoldInfo(info));
+                            list.add(new AppliedHoldInfo(info));
                         }
                     }
                 }
@@ -144,16 +144,16 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public List<HoldInfo> getHoldsByIssueAndPerson(String issueId,
+    public List<AppliedHoldInfo> getAppliedHoldsByIssueAndPerson(String issueId,
             String personId,
             ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        List<HoldInfo> list = new ArrayList<HoldInfo>();
-        for (HoldInfo info : holdMap.values()) {
-            if (issueId.equals(info.getIssueId())) {
+        List<AppliedHoldInfo> list = new ArrayList<AppliedHoldInfo>();
+        for (AppliedHoldInfo info : holdMap.values()) {
+            if (issueId.equals(info.getHoldIssueId())) {
                 if (personId.equals(info.getPersonId())) {
                     list.add(info);
                 }
@@ -163,7 +163,7 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public List<HoldInfo> getActiveHoldsByIssueAndPerson(String issueId,
+    public List<AppliedHoldInfo> getActiveAppliedHoldsByIssueAndPerson(String issueId,
             String personId,
             ContextInfo contextInfo)
             throws InvalidParameterException,
@@ -171,9 +171,9 @@ public class HoldServiceMockImpl
             OperationFailedException,
             PermissionDeniedException {
         Date now = new Date();
-        List<HoldInfo> list = new ArrayList<HoldInfo>();
-        for (HoldInfo info : holdMap.values()) {
-            if (issueId.equals(info.getIssueId())) {
+        List<AppliedHoldInfo> list = new ArrayList<AppliedHoldInfo>();
+        for (AppliedHoldInfo info : holdMap.values()) {
+            if (issueId.equals(info.getHoldIssueId())) {
                 if (personId.equals(info.getPersonId())) {
                     if (info.getStateKey().equals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY)) {
                         if (info.getEffectiveDate().before(now)) {
@@ -189,7 +189,7 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public List<String> searchForHoldIds(QueryByCriteria criteria,
+    public List<String> searchForAppliedHoldIds(QueryByCriteria criteria,
             ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -199,7 +199,7 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public List<HoldInfo> searchForHolds(QueryByCriteria criteria,
+    public List<AppliedHoldInfo> searchForAppliedHolds(QueryByCriteria criteria,
             ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -209,8 +209,8 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public List<ValidationResultInfo> validateHold(String validationTypeKey,
-            HoldInfo holdInfo,
+    public List<ValidationResultInfo> validateAppliedHold(String validationTypeKey,
+            AppliedHoldInfo holdInfo,
             ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -221,13 +221,13 @@ public class HoldServiceMockImpl
     }
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, HoldInfo> holdMap = new LinkedHashMap<String, HoldInfo>();
+    private Map<String, AppliedHoldInfo> holdMap = new LinkedHashMap<String, AppliedHoldInfo>();
 
     @Override
-    public HoldInfo createHold(String personId,
+    public AppliedHoldInfo createAppliedHold(String personId,
             String issueId,
             String holdTypeKey,
-            HoldInfo holdInfo,
+            AppliedHoldInfo holdInfo,
             ContextInfo contextInfo)
             throws DataValidationErrorException,
             InvalidParameterException,
@@ -240,18 +240,18 @@ public class HoldServiceMockImpl
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
         // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
-        HoldInfo copy = new HoldInfo(holdInfo);
+        AppliedHoldInfo copy = new AppliedHoldInfo(holdInfo);
         if (copy.getId() == null) {
             copy.setId(holdMap.size() + "");
         }
         copy.setMeta(newMeta(contextInfo));
         holdMap.put(copy.getId(), copy);
-        return new HoldInfo(copy);
+        return new AppliedHoldInfo(copy);
     }
 
     @Override
-    public HoldInfo updateHold(String holdId,
-            HoldInfo holdInfo,
+    public AppliedHoldInfo updateAppliedHold(String holdId,
+            AppliedHoldInfo holdInfo,
             ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -265,28 +265,28 @@ public class HoldServiceMockImpl
         if (!holdId.equals(holdInfo.getId())) {
             throw new InvalidParameterException("The id parameter does not match the id on the info object");
         }
-        HoldInfo copy = new HoldInfo(holdInfo);
-        HoldInfo old = this.getHold(holdInfo.getId(), contextInfo);
+        AppliedHoldInfo copy = new AppliedHoldInfo(holdInfo);
+        AppliedHoldInfo old = this.getAppliedHold(holdInfo.getId(), contextInfo);
         if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
         copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
         this.holdMap.put(holdInfo.getId(), copy);
-        return new HoldInfo(copy);
+        return new AppliedHoldInfo(copy);
     }
 
     @Override
-    public HoldInfo releaseHold(String holdId,
+    public AppliedHoldInfo releaseAppliedHold(String holdId,
             ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        HoldInfo info = this.getHold(holdId, contextInfo);
+        AppliedHoldInfo info = this.getAppliedHold(holdId, contextInfo);
         info.setReleasedDate(new Date());
         try {
-            return this.updateHold(holdId, info, contextInfo);
+            return this.updateAppliedHold(holdId, info, contextInfo);
         } catch (DataValidationErrorException ex) {
             throw new OperationFailedException("unexpected", ex);
         } catch (ReadOnlyException ex) {
@@ -297,7 +297,7 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public StatusInfo deleteHold(String holdId,
+    public StatusInfo deleteAppliedHold(String holdId,
             ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -311,7 +311,7 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public IssueInfo getIssue(String issueId,
+    public HoldIssueInfo getHoldIssue(String issueId,
             ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -321,33 +321,33 @@ public class HoldServiceMockImpl
         if (!this.issueMap.containsKey(issueId)) {
             throw new DoesNotExistException(issueId);
         }
-        return new IssueInfo(this.issueMap.get(issueId));
+        return new HoldIssueInfo(this.issueMap.get(issueId));
     }
 
     @Override
-    public List<IssueInfo> getIssuesByIds(List<String> issueIds,
+    public List<HoldIssueInfo> getHoldIssuesByIds(List<String> issueIds,
             ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        List<IssueInfo> list = new ArrayList<IssueInfo>();
+        List<HoldIssueInfo> list = new ArrayList<HoldIssueInfo>();
         for (String id : issueIds) {
-            list.add(this.getIssue(id, contextInfo));
+            list.add(this.getHoldIssue(id, contextInfo));
         }
         return list;
     }
 
     @Override
-    public List<String> getIssueIdsByType(String issueTypeKey,
+    public List<String> getHoldIssueIdsByType(String issueTypeKey,
             ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
         List<String> list = new ArrayList<String>();
-        for (IssueInfo info : issueMap.values()) {
+        for (HoldIssueInfo info : issueMap.values()) {
             if (issueTypeKey.equals(info.getTypeKey())) {
                 list.add(info.getId());
             }
@@ -356,14 +356,14 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public List<IssueInfo> getIssuesByOrg(String organizationId,
+    public List<HoldIssueInfo> getHoldIssuesByOrg(String organizationId,
             ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        List<IssueInfo> list = new ArrayList<IssueInfo>();
-        for (IssueInfo info : issueMap.values()) {
+        List<HoldIssueInfo> list = new ArrayList<HoldIssueInfo>();
+        for (HoldIssueInfo info : issueMap.values()) {
             if (organizationId.equals(info.getOrganizationId())) {
                 list.add(info);
             }
@@ -372,7 +372,7 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public List<String> searchForIssueIds(QueryByCriteria criteria,
+    public List<String> searchForHoldIssueIds(QueryByCriteria criteria,
             ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -382,7 +382,7 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public List<IssueInfo> searchForIssues(QueryByCriteria criteria,
+    public List<HoldIssueInfo> searchForHoldIssues(QueryByCriteria criteria,
             ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -392,8 +392,8 @@ public class HoldServiceMockImpl
     }
 
     @Override
-    public List<ValidationResultInfo> validateIssue(String validationTypeKey,
-            IssueInfo issueInfo,
+    public List<ValidationResultInfo> validateHoldIssue(String validationTypeKey,
+            HoldIssueInfo issueInfo,
             ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -404,11 +404,11 @@ public class HoldServiceMockImpl
     }
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, IssueInfo> issueMap = new LinkedHashMap<String, IssueInfo>();
+    private Map<String, HoldIssueInfo> issueMap = new LinkedHashMap<String, HoldIssueInfo>();
 
     @Override
-    public IssueInfo createIssue(String issueTypeKey,
-            IssueInfo issueInfo,
+    public HoldIssueInfo createHoldIssue(String issueTypeKey,
+            HoldIssueInfo issueInfo,
             ContextInfo contextInfo)
             throws DataValidationErrorException,
             InvalidParameterException,
@@ -420,18 +420,18 @@ public class HoldServiceMockImpl
         if (!issueTypeKey.equals(issueInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
-        IssueInfo copy = new IssueInfo(issueInfo);
+        HoldIssueInfo copy = new HoldIssueInfo(issueInfo);
         if (copy.getId() == null) {
             copy.setId(issueMap.size() + "");
         }
         copy.setMeta(newMeta(contextInfo));
         issueMap.put(copy.getId(), copy);
-        return new IssueInfo(copy);
+        return new HoldIssueInfo(copy);
     }
 
     @Override
-    public IssueInfo updateIssue(String issueId,
-            IssueInfo issueInfo,
+    public HoldIssueInfo updateHoldIssue(String issueId,
+            HoldIssueInfo issueInfo,
             ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -445,18 +445,18 @@ public class HoldServiceMockImpl
         if (!issueId.equals(issueInfo.getId())) {
             throw new InvalidParameterException("The id parameter does not match the id on the info object");
         }
-        IssueInfo copy = new IssueInfo(issueInfo);
-        IssueInfo old = this.getIssue(issueInfo.getId(), contextInfo);
+        HoldIssueInfo copy = new HoldIssueInfo(issueInfo);
+        HoldIssueInfo old = this.getHoldIssue(issueInfo.getId(), contextInfo);
         if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
         copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
         this.issueMap.put(issueInfo.getId(), copy);
-        return new IssueInfo(copy);
+        return new HoldIssueInfo(copy);
     }
 
     @Override
-    public StatusInfo deleteIssue(String issueId,
+    public StatusInfo deleteHoldIssue(String issueId,
             ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -467,7 +467,7 @@ public class HoldServiceMockImpl
         if (!this.issueMap.containsKey(issueId)) {
             throw new DoesNotExistException(issueId);
         }
-        List<String> list = this.getHoldIdsByIssue(issueId, contextInfo);
+        List<String> list = this.getAppliedHoldIdsByIssue(issueId, contextInfo);
         if (!list.isEmpty()) {
             throw new DependentObjectsExistException(list.size() + " hold(s) with this issue");
         }

@@ -108,11 +108,12 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setIsFeeAtActivityOffering(false);
         orig.setFundingSource("funding source");
         orig.setCourseOfferingCode("CODE");
+        orig.setCourseNumberSuffix("ABC");
         orig.setCourseOfferingTitle("Title");
-//        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
-//        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
-        orig.getRegistrationGradingOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
-        orig.getRegistrationGradingOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE);
+        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+        orig.setGradingOptionId(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
+
 
         CourseOfferingInfo info = courseOfferingService.createCourseOffering(orig.getCourseId(), orig.getTermId(), 
                 orig.getTypeKey(), orig, optionKeys, callContext);
@@ -128,7 +129,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(orig.getIsFeeAtActivityOffering(), info.getIsFeeAtActivityOffering());
         assertEquals(orig.getFundingSource(), info.getFundingSource());
         assertEquals(course.getCode(), info.getCourseOfferingCode());
-        assertEquals(course.getCourseNumberSuffix(), info.getCourseNumberSuffix());
+        assertEquals(orig.getCourseNumberSuffix(), info.getCourseNumberSuffix());
         assertEquals(course.getSubjectArea(), info.getSubjectArea());
         if (course.getDescr() != null) {
             assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getPlain(), info.getDescr().getPlain());
@@ -195,12 +196,6 @@ public class TestCourseOfferingServiceImplWithMocks {
 //        assertEquals(origInst1.getStateKey(), infoInst1.getStateKey());
         return info;
     }
-
-
-
-
-
-
 
     private void testDeletes(CourseOfferingInfo co, FormatOfferingInfo fo, ActivityOfferingInfo ao)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException {

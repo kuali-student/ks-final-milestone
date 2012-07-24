@@ -1,30 +1,32 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
-import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ActivityOfferingTransformer {
 
-    public static void lui2Activity(ActivityOfferingInfo ao, LuiInfo lui, LprService lprService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    public static void lui2Activity(ActivityOfferingInfo ao, LuiInfo lui, LuiPersonRelationService lprService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         ao.setId(lui.getId());
         ao.setMeta(lui.getMeta());
         ao.setStateKey(lui.getStateKey());
@@ -64,9 +66,9 @@ public class ActivityOfferingTransformer {
         }
 
         // build list of OfferingInstructors
-        List<LprInfo> lprs = lprService.getLprsByLui(ao.getId(), context);
+        List<LuiPersonRelationInfo> lprs = lprService.getLprsByLui(ao.getId(), context);
 
-        ao.setInstructors(lprs2Instructors(lprs));
+        ao.setInstructors(OfferingInstructorTransformer.lprs2Instructors(lprs));
 
     }
 
@@ -74,7 +76,15 @@ public class ActivityOfferingTransformer {
         lui.setId(ao.getId());
         lui.setTypeKey(ao.getTypeKey());
         lui.setStateKey(ao.getStateKey());
-        lui.setName(ao.getName());
+        if (ao.getName() == null) {
+            String coCode = ao.getCourseOfferingCode();
+            if (coCode == null) {
+                coCode = "NOCODE";
+            }
+            lui.setName(coCode + " AO"); // Makes it easier to track in DB
+        } else {
+            lui.setName(ao.getName());
+        }
         lui.setDescr(ao.getDescr());
         lui.setMeta(ao.getMeta());
         lui.setCluId(ao.getActivityId());
@@ -112,52 +122,6 @@ public class ActivityOfferingTransformer {
         //Honors code
         LuCodeInfo luCode = findAddLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
         luCode.setValue(String.valueOf(ao.getIsHonorsOffering()));
-    }
-
-
-    public static List<OfferingInstructorInfo> lprs2Instructors(List<LprInfo> lprs) {
-        List<OfferingInstructorInfo> results = new ArrayList<OfferingInstructorInfo>(lprs.size());
-
-        for(LprInfo lpr : lprs) {
-            OfferingInstructorInfo instructor = new OfferingInstructorInfo();
-            instructor.setPersonId(lpr.getPersonId());
-            
-            instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
-            instructor.setId(lpr.getId());
-            instructor.setTypeKey(lpr.getTypeKey());
-            instructor.setStateKey(lpr.getStateKey());
-
-            results.add(instructor);
-        }
-
-        return results;
-
-    }
-
-    public static List<LprInfo> instructors2Lprs(LuiInfo luiInfo, List<OfferingInstructorInfo> instructors) {
-
-        List<LprInfo> results = new ArrayList<LprInfo>(instructors.size());
-
-        for (OfferingInstructorInfo instructorInfo : instructors) {
-            LprInfo lprInfo = new LprInfo();
-            lprInfo.setId(instructorInfo.getId());
-            
-            Float cp = instructorInfo.getPercentageEffort();
-            
-            if (cp != null)
-            	lprInfo.setCommitmentPercent("" + cp);
-            else
-            	lprInfo.setCommitmentPercent(null);
-            
-            lprInfo.setLuiId(luiInfo.getId());
-            lprInfo.setPersonId(instructorInfo.getPersonId());
-            lprInfo.setEffectiveDate(new Date());
-            lprInfo.setTypeKey(instructorInfo.getTypeKey());
-
-            results.add(lprInfo);
-        }
-
-        return results;
     }
 
     public static LuCodeInfo findLuCode(LuiInfo lui, String typeKey) {

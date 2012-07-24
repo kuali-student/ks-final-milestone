@@ -13,12 +13,16 @@
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
-        <property name="header.items">
-            <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
-                <bean parent="Uif-ActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete this academic calendar?')" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
-            </list>
+        <property name="header.rightGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
+                        <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
+                        <bean parent="Uif-ActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete this academic calendar?')" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>
@@ -225,15 +229,35 @@
 		</property>
 	</bean>
 
-    <bean id="KS-AcademicCalendar-HolidaySubSection" parent="Uif-Disclosure-StackedCollectionSubSection" p:id="acal-holidays" >
+    <bean id="KS-AcademicCalendar-HolidaySubSection" parent="Uif-VerticalBoxGroup">
+        <property name="style" value="margin-bottom:0;"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-AcademicCalendar-HolidaySubSection-NotFound" />
+                <ref bean="KS-AcademicCalendar-HolidaySubSection-Found" />
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-AcademicCalendar-HolidaySubSection-NotFound" parent="Uif-VerticalBoxSubSection">
         <property name="headerText" value="Holidays" />
+        <property name="render" value="@{#form.holidayCalendarList.empty}"/>
+        <property name="style" value="margin-bottom:0;"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="No Holiday Calendar available"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-AcademicCalendar-HolidaySubSection-Found" parent="Uif-Disclosure-StackedCollectionSubSection" p:id="acal-holidays" >
+        <property name="headerText" value="Holidays" />
+        <property name="render" value="@{!#form.holidayCalendarList.empty}"/>
+        <property name="propertyName" value="holidayCalendarList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
-        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager">
              <ref bean="Uif-StackedCollectionLayout-WithBoxItems"/>
         </property>
-        <property name="propertyName" value="holidayCalendarList" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarInfo.name}"/>
         <property name="layoutManager.lineGroupPrototype.footer.render" value="@{#isAddLine}"/>
         <property name="layoutManager.lineGroupPrototype.header.style" value="margin-bottom:1em;"/>
@@ -272,7 +296,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:render="@{#isAddLine}" p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate">
+                <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:render="@{#isAddLine}"
+                      p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>

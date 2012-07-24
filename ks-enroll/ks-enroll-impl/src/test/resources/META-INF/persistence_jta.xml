@@ -47,8 +47,8 @@
         
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldAttributeEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lui.model.LuiEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity</class>
@@ -102,12 +102,13 @@
         <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupRichTextEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueAttributeEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
         <class>org.kuali.student.r2.core.population.model.PopulationEntity</class>
+        <class>org.kuali.student.r2.core.population.model.PopulationAttributeEntity</class>
+        <class>org.kuali.student.r2.core.population.model.PopulationRuleEntity</class>
+        <class>org.kuali.student.r2.core.population.model.PopulationRuleAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupAttributeEntity</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>

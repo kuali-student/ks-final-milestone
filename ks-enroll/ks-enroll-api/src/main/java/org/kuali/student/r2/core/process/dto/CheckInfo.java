@@ -31,11 +31,21 @@ import org.kuali.student.r2.core.process.infc.Check;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CheckInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-                "descr", "issueId", "milestoneTypeKey", 
-                "agendaId", "childProcessKey",
-                "rightComparisonValue", "leftComparisonAgendaId", "rightComparisonAgendaId",
-                "meta", "attributes", "_futureElements" })
+@XmlType(name = "CheckInfo", propOrder = {"id",
+    "typeKey",
+    "stateKey",
+    "name",
+    "descr",
+    "holdIssueId",
+    "milestoneTypeKey",
+    "agendaId",
+    "childProcessKey",
+    "rightComparisonValue",
+    "leftComparisonAgendaId",
+    "rightComparisonAgendaId",
+    "meta",
+    "attributes",
+    "_futureElements"})
 
 public class CheckInfo 
     extends IdEntityInfo 
@@ -48,7 +58,7 @@ public class CheckInfo
     private static final long serialVersionUID = 1L;
     
     @XmlElement 
-    private String issueId;
+    private String holdIssueId;
 
     @XmlElement 
     private String milestoneTypeKey;
@@ -89,13 +99,13 @@ public class CheckInfo
     public CheckInfo(Check check) {
         super(check);
         if (check != null) {
-            this.issueId = check.getIssueId();
+            this.holdIssueId = check.getHoldIssueId();
             this.milestoneTypeKey = check.getMilestoneTypeKey();
             this.agendaId = check.getAgendaId();
             this.leftComparisonAgendaId = check.getLeftComparisonAgendaId();
             this.rightComparisonValue = check.getRightComparisonValue();
             this.rightComparisonAgendaId = check.getRightComparisonAgendaId();
-            this.childProcessKey = check.getProcessKey();
+            this.childProcessKey = check.getChildProcessKey();
         }
     }
 
@@ -104,12 +114,12 @@ public class CheckInfo
     ///////////////////////////
 
     @Override
-    public String getIssueId() {
-        return this.issueId;
+    public String getHoldIssueId() {
+        return this.holdIssueId;
     }
 
-    public void setIssueId(String issueId) {
-        this.issueId = issueId;
+    public void setHoldIssueId(String holdIssueId) {
+        this.holdIssueId = holdIssueId;
     }
 
     @Override
@@ -131,16 +141,8 @@ public class CheckInfo
     }
 
     @Override
-    public String getProcessKey() {
-        return getChildProcessKey();
-    }
-
     public String getChildProcessKey() {
         return this.childProcessKey;
-    }
-
-    public void setProcessKey(String childProcessKey) {
-        setChildProcessKey(childProcessKey);
     }
 
     public void setChildProcessKey(String childProcessKey) {

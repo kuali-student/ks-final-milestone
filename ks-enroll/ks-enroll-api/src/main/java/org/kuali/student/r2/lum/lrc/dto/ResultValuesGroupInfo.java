@@ -81,7 +81,9 @@ public class ResultValuesGroupInfo
         if (null != orig) {
             this.resultScaleKey = orig.getResultScaleKey();
             this.resultValueKeys = new ArrayList<String>(orig.getResultValueKeys());
-            this.resultValueRange = new ResultValueRangeInfo(orig.getResultValueRange());
+            if (orig.getResultValueRange() != null) {
+                this.resultValueRange = new ResultValueRangeInfo(orig.getResultValueRange());
+            }
             if (orig.getEffectiveDate() != null) {
                 this.effectiveDate = new Date(orig.getEffectiveDate().getTime());
             }

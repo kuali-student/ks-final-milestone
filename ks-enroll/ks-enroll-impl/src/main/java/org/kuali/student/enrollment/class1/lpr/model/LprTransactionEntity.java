@@ -15,35 +15,27 @@
  */
 package org.kuali.student.enrollment.class1.lpr.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.infc.LprTransaction;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.kuali.student.common.entity.KSEntityConstants;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.infc.LprTransaction;
-import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.helper.EntityMergeHelper;
-import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeResult;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.RichTextHelper;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS")
-public class LprTransactionEntity extends MetaEntity implements AttributeOwner<LprTransactionAttributeEntity> {
+public class LprTransactionEntity extends MetaEntity {
 
     @Column(name = "NAME")
     private String name;
@@ -60,27 +52,29 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrPlain;
 
-    @Column(name = "LPR_TRANS_TYPE", nullable=false)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+    @JoinColumn(name = "LPR_TRANS_ID")
+    private Set<LprTransactionItemEntity> lprTransactionItems;
+
+    @Column(name = "LPR_TRANS_TYPE")
     private String lprTransType;
 
     @Column(name = "LPR_TRANS_STATE", nullable=false)
     private String lprTransState;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
-    private final Set<LprTransactionAttributeEntity> attributes = new HashSet<LprTransactionAttributeEntity>();
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
-    private final Set<LprTransactionItemEntity> lprTransactionItems = new HashSet<LprTransactionItemEntity>();
-   
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<LprTransAttributeEntity> attributes;
+
 
     public LprTransactionEntity() {}
 
     public LprTransactionEntity(LprTransaction lprTransaction) {
         super(lprTransaction);
-        
-        // TODO: determine if these are the static fields on the Entity.
-        this.setId(lprTransaction.getId());
-
+        this.setName(lprTransaction.getName());
+        this.setRequestingPersonId(lprTransaction.getRequestingPersonId());
+        this.requestingPersonId = lprTransaction.getAtpId();
+        this.lprTransactionItems = new HashSet<LprTransactionItemEntity>();
+        this.setLprTransState(lprTransaction.getStateKey());
         this.setLprTransType(lprTransaction.getTypeKey());
         
        this.fromDto(lprTransaction);
@@ -216,17 +210,11 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     		this.lprTransactionItems.addAll(lprTransactionItems);
     }
 
-
-    @Override
-    public void setAttributes(Set<LprTransactionAttributeEntity> attributes) {
-    	this.attributes.clear();
-    	
-    	if (attributes != null)
-    		this.attributes.addAll(attributes);
+    public void setAttributes(Set<LprTransAttributeEntity> attributes) {
+       this.attributes = attributes;
     }
 
-    @Override
-    public Set<LprTransactionAttributeEntity> getAttributes() {
+    public Set<LprTransAttributeEntity> getAttributes() {
         return this.attributes;
     }
 

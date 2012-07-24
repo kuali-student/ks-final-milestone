@@ -24,6 +24,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="atpServiceOnBus" parent="atpServiceValidation" />
   <bean id="acalServiceOnBus" parent="acalServiceValidation" />
   <bean id="courseOfferingServiceOnBus" parent="courseOfferingValidation" />
+  <bean id="holdServiceOnBus" parent="holdValidation" />
 
   <!-- declare beans here -->
   <!-- declare impls here -->
@@ -144,6 +145,13 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="enrollmentFeeDao" class="org.kuali.student.r2.core.fee.dao.EnrollmentFeeDao"/>
     <bean id="feeService" class="org.kuali.student.r2.core.fee.service.impl.FeeServiceImpl">
         <property name="enrollmentFeeDao" ref="enrollmentFeeDao"/>
+    </bean>
+
+    <bean id="populationDao" class="org.kuali.student.r2.core.population.dao.PopulationDao"/>
+    <bean id="populationRuleDao" class="org.kuali.student.r2.core.population.dao.PopulationRuleDao"/>
+    <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.PopulationServiceImpl">
+        <property name="populationDao" ref="populationDao"/>
+        <property name="populationRuleDao" ref="populationRuleDao"/>
     </bean>
 
     <!-- TODO: this is a duplicate definition -->
