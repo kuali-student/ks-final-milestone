@@ -48,7 +48,7 @@
         </property>
     </bean>
 
-    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{maintenanceAction eq 'New'}">
+    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{(maintenanceAction eq 'New') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
         <property name="disclosure.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
