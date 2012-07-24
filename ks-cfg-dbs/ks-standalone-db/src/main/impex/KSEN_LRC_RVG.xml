@@ -469,8 +469,7 @@
     <KSEN_LRC_RVG CREATEID="SYSTEMLOADER" CREATETIME="20120622000000"
         DESCR_FORMATTED="Standard A-F Grading used by most courses and how most courses are shown on the external transcript"
         DESCR_PLAIN="Standard A-F Grading used by most courses and how most courses are shown on the external transcript"
-        ID="kuali.resultComponent.grade.letter"
-        NAME="Standard A-F Grading"
+        ID="kuali.resultComponent.grade.letter" NAME="Letter"
         RESULT_SCALE_ID="kuali.result.scale.grade.letter"
         RVG_STATE="kuali.result.values.group.state.approved "
         RVG_TYPE="kuali.result.values.group.type.multiple" VER_NBR="0"/>
