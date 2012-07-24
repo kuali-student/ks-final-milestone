@@ -11,6 +11,7 @@ import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConsta
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -36,7 +37,9 @@ import org.kuali.student.r2.core.type.service.TypeService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 
 public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
@@ -70,16 +73,20 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         List<String> courseOfferingIds = _getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(termId, subjectCode, getContextInfo());
         if(courseOfferingIds.size()>0){
             List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>(courseOfferingIds.size());
+            form.getCourseOfferingEditWrapperList().clear();
             for(String coId : courseOfferingIds) {
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coId, getContextInfo());
                 coInfo.setCreditCnt(getCreditCount(coInfo, null));
                 courseOfferings.add(coInfo);
+                CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);
+                form.getCourseOfferingEditWrapperList().add(courseOfferingEditWrapper);
             }
             form.setCourseOfferingList(courseOfferings);
         } else {
             LOG.error("Error: Can't find any Course Offering for a Subject Code: "+subjectCode+" in term: "+termId);
             GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Subject", subjectCode,termId);
             form.getCourseOfferingList().clear();
+            form.getCourseOfferingEditWrapperList().clear();
         }
     }
 

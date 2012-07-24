@@ -121,9 +121,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=loadAOs")
     public ModelAndView loadAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object selectedObject = _getSelectedObject(theForm, "Edit Activity Offerings");
-        if(selectedObject instanceof CourseOfferingInfo){
-            CourseOfferingInfo theCourseOffering = (CourseOfferingInfo)selectedObject;
+        Object selectedObject = _getSelectedObject(theForm, "Manage");
+        if(selectedObject instanceof CourseOfferingEditWrapper){
+            CourseOfferingEditWrapper coWrapper =  (CourseOfferingEditWrapper)selectedObject;
+            CourseOfferingInfo theCourseOffering = coWrapper.getCoInfo();
             theForm.setTheCourseOffering(theCourseOffering);
             theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
             theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
@@ -230,7 +231,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (!StringUtils.isBlank(selectedCollectionPath)) {
             Object selectedObject = _getSelectedObject(theForm, "deleteCo");
-            theCourseOffering = (CourseOfferingInfo) selectedObject;
+            theCourseOffering = ((CourseOfferingEditWrapper) selectedObject).getCoInfo();
             theForm.setTheCourseOffering(theCourseOffering);
             // load the related AOs
             try {
@@ -362,8 +363,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         Properties urlParameters = new Properties();
         String controllerPath = "maintenance";
         Object selectedObject = _getSelectedObject(theForm, "edit");
-        if(selectedObject instanceof CourseOfferingInfo){
-            urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"maintenanceEdit",false,getContextInfo());
+        if(selectedObject instanceof CourseOfferingEditWrapper){
+            CourseOfferingInfo courseOfferingInfo = ((CourseOfferingEditWrapper) selectedObject).getCoInfo();
+            urlParameters = _buildCOURLParameters(courseOfferingInfo,"maintenanceEdit",false,getContextInfo());
         }
         else if(selectedObject instanceof ActivityOfferingWrapper) {
             ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper)selectedObject;

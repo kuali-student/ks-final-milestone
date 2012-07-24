@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     private List<ActivityOfferingWrapper> activityWrapperList;
     private List<ActivityOfferingWrapper> selectedToDeleteList;
-
+    private List<CourseOfferingEditWrapper> courseOfferingEditWrapperList;
 
     //For Adding Activity
     private String formatIdForNewAO;
@@ -34,6 +35,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
         courseOfferingList = new ArrayList<CourseOfferingInfo>();
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
+        courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
 //        haveValidTerm = false;
     }
 
@@ -155,5 +157,13 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setCoViewLinkWrapper(String coViewLinkWrapper) {
         this.coViewLinkWrapper = coViewLinkWrapper;
+    }
+
+    public List<CourseOfferingEditWrapper> getCourseOfferingEditWrapperList() {
+        return courseOfferingEditWrapperList;
+    }
+
+    public void setCourseOfferingEditWrapperList(List<CourseOfferingEditWrapper> courseOfferingEditWrapperList) {
+        this.courseOfferingEditWrapperList = courseOfferingEditWrapperList;
     }
 }

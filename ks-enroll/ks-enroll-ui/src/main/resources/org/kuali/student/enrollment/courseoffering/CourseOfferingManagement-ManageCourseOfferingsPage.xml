@@ -56,8 +56,8 @@
 
     <bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection"
           p:layoutManager.numberOfColumns="3"  p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo" />
-        <property name="propertyName" value="courseOfferingList" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
+        <property name="propertyName" value="courseOfferingEditWrapperList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
@@ -71,20 +71,20 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode">
+                <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode">
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="id" />
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="coInfo.id" />
                     </property>
                 </bean>
                 <bean parent="Uif-DataField"
                       p:label="TITLE"
-                      p:propertyName="courseOfferingTitle"/>
+                      p:propertyName="coInfo.courseOfferingTitle"/>
                 <bean parent="Uif-DataField"
                       p:label="CREDITS"
-                      p:propertyName="creditCnt"/>
+                      p:propertyName="coInfo.creditCnt"/>
                 <bean parent="Uif-DataField"
                       p:label="GRADING"
-                      p:propertyName="gradingOptionId"/>
+                      p:propertyName="coInfo.gradingOptionId"/>
                 <!--<bean parent="Uif-DataField"-->
                       <!--p:label="STATUS"-->
                       <!--p:propertyName="stateKey"/>-->
@@ -97,7 +97,7 @@
             <list>
                 <bean parent="KS-SubmitActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.stateKey eq 'kuali.lui.state.draft' or #line.stateKey eq 'kuali.lui.course.offering.state.draft' or #line.stateKey eq 'kuali.lui.course.offering.state.planned'}" />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />
             </list>
         </property>
     </bean>
