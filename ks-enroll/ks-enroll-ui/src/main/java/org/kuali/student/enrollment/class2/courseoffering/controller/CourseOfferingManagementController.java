@@ -265,7 +265,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
         for (ActivityOfferingWrapper ao : theForm.getActivityWrapperList()) {
             // verify if any AO status is not draft throw exception
-            if (!ao.getStateName().equals("Draft")) {
+            if (!ao.isLegalToDelete()) {
                 LOG.error("Error: Course Offering cannot be deleted.");
                 GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingManagement-CourseOfferingListSection",
                         CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_CO_CANNOT_DELETE);
@@ -302,7 +302,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         try {
             for (ActivityOfferingWrapper ao : theForm.getActivityWrapperList()) {
                 // verify if any AO status is not draft throw exception
-                if (!ao.getStateName().equals("Draft")) {
+                if (!ao.isLegalToDelete()) {
                     LOG.error("Error: Course Offering cannot be deleted.");
                     GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingManagement-CourseOfferingListSection",
                             CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_CO_CANNOT_DELETE);
