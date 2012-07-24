@@ -88,9 +88,16 @@
                 <bean parent="Uif-DataField" p:propertyName="populationStateKeyName"  p:label="State"/>
             </list>
         </property>
+        <!-- use KS-LookupView-ResultActions to display edit link only -->
+        <property name="resultsActionsFieldGroup">
+            <bean parent="Uif-FieldGroupBase">
+                <property name="label" value="Actions"/>
+                <property name="group">
+                    <bean parent="KS-LookupView-ResultActions"/>
+                </property>
+            </bean>
+        </property>
     </bean>
-
-
 
     <!-- InquiryView -->
     <bean id="KS-Population-InquiryView" parent="KSInquiryView">
