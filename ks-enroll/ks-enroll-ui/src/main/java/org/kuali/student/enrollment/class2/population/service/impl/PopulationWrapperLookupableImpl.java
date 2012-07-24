@@ -68,20 +68,7 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
 
                 populationWrappers.add(wrapper);
             }
-        } catch (InvalidParameterException e) {
-            logger.error("PopulationWrapperLookupableImpl invalid parameter. ", e);
-            throw new RuntimeException("PopulationWrapperLookupableImpl invalid parameter. ", e);
-        } catch (MissingParameterException e) {
-            logger.error("PopulationWrapperLookupableImpl missing parameter. ", e);
-            throw new RuntimeException("PopulationWrapperLookupableImpl missing parameter. ", e);
-        } catch (OperationFailedException e) {
-            logger.error("PopulationWrapperLookupableImpl operation failed. ", e);
-            throw new RuntimeException("PopulationWrapperLookupableImpl operation failed. ", e);
-        } catch (PermissionDeniedException e) {
-            logger.error("PopulationWrapperLookupableImpl permission denied. ", e);
-            throw new RuntimeException("PopulationWrapperLookupableImpl permission denied. ", e);
         } catch (Exception e) {
-            logger.error("PopulationWrapperLookupableImpl exception. ", e);
             throw new RuntimeException("PopulationWrapperLookupableImpl exception. ", e);
         }
 
@@ -95,8 +82,8 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
         keyword = keyword.isEmpty()?"*":keyword; //search for all if empty
 
         List<Predicate> predicates = new ArrayList<Predicate>();
-        predicates.add(PredicateFactory.like("name", "%"+keyword+"%"));   //search both columns
-        predicates.add(PredicateFactory.or(PredicateFactory.like("descrPlain", "%"+keyword+"%")));
+        predicates.add(PredicateFactory.or(PredicateFactory.like("name", "%"+keyword+"%"),
+                                           PredicateFactory.like("descrPlain", "%"+keyword+"%")));
         if (stateKey.equals(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY) ||
                 stateKey.equals(PopulationServiceConstants.POPULATION_INACTIVE_STATE_KEY)) {
             predicates.add(PredicateFactory.and(PredicateFactory.equal("populationState", stateKey)));

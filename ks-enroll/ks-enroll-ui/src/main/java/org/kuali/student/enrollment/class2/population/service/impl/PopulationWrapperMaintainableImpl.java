@@ -37,26 +37,7 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
                 updatePopulation(wrapper);
             }
      
-        } catch (DataValidationErrorException e){
-//            logger.error("PopulationWrapperMaintainableImpl data validation error. ", e);
-            throw new RuntimeException("PopulationWrapperMaintainableImpl data validation error. ", e);
-        } catch (InvalidParameterException e) {
-//            logger.error("PopulationWrapperMaintainableImpl invalid parameter. ", e);
-            throw new RuntimeException("PopulationWrapperMaintainableImpl invalid parameter. ", e);
-        } catch (MissingParameterException e) {
-//            logger.error("PopulationWrapperMaintainableImpl missing parameter. ", e);
-            throw new RuntimeException("PopulationWrapperMaintainableImpl missing parameter. ", e);
-        } catch (OperationFailedException e) {
-//            logger.error("PopulationWrapperMaintainableImpl operation failed. ", e);
-            throw new RuntimeException("PopulationWrapperMaintainableImpl operation failed. ", e);
-        } catch (PermissionDeniedException e) {
-//            logger.error("PopulationWrapperMaintainableImpl permission denied. ", e);
-            throw new RuntimeException("PopulationWrapperMaintainableImpl permission denied. ", e);
-        } catch (ReadOnlyException e) {
-//            logger.error("PopulationWrapperMaintainableImpl read only exception. ", e);
-            throw new RuntimeException("PopulationWrapperMaintainableImpl read only exception. ", e);
-        }catch (Exception e) {
-//            logger.error("PopulationWrapperMaintainableImpl exception. ", e);
+        } catch (Exception e) {
             throw new RuntimeException("PopulationWrapperMaintainableImpl exception. ", e);
         }
 
@@ -94,7 +75,6 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
 
             return wrapper;
         } catch (Exception e) {
-//            logger.error("Fail to retrieve Population for edit.", e);
             throw new RuntimeException("Fail to retrieve Population for edit.", e);
         }
     }
