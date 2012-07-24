@@ -464,6 +464,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 LOG.error("Error: No selected Draft Activity Offering");
                 GlobalVariables.getMessageMap().putErrorForSectionId("confirmationResultSection",
                         CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED);
+                return getUIFModelAndView(theForm);
             }
         }
 
