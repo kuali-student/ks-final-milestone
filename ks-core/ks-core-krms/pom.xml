@@ -114,6 +114,11 @@
             <artifactId>ks-common-util</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- 		<dependency> -->
 <!-- 			<artifactId>rice-it</artifactId> -->
