@@ -34,7 +34,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
-//        haveValidTerm = false;
     }
 
     public String getTermCode(){
@@ -93,14 +92,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.selectedOfferingAction = selectedOfferingAction;
     }
 
-    /*public List<CourseOfferingInfo> getCourseOfferingList(){
-        return courseOfferingList;
-    }
-    
-    public void setCourseOfferingList(List<CourseOfferingInfo> courseOfferingList) {
-        this.courseOfferingList = courseOfferingList;
-    }*/
-    
     public CourseOfferingInfo getTheCourseOffering(){
         return theCourseOffering;
     }
