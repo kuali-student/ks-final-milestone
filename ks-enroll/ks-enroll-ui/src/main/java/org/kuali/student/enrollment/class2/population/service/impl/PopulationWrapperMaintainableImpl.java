@@ -23,7 +23,6 @@ import java.util.List;
 
 public class PopulationWrapperMaintainableImpl extends MaintainableImpl implements PopulationWrapperMaintainable{
     private transient PopulationService populationService;
-    private ContextInfo contextInfo;
  //   final transient Logger logger = Logger.getLogger(PopulationWrapperMaintainableImpl.class);
     
     @Override
@@ -105,8 +104,19 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
         PopulationWrapper wrapper = new PopulationWrapper();
 
         try {
-            wrapper.setPopulationInfo(getPopulationService().getPopulation(populationId, getContextInfo()));
-            wrapper.setPopulationRuleInfo(getPopulationService().getPopulationRuleForPopulation(populationId, getContextInfo()));
+            ContextInfo context = ContextInfo.createDefaultContextInfo();
+            wrapper.setPopulationInfo(getPopulationService().getPopulation(populationId, context));
+            wrapper.setPopulationRuleInfo(getPopulationService().getPopulationRuleForPopulation(populationId, context));
+            wrapper.setOperationType(wrapper.getPopulationRuleInfo().getTypeKey());
+            if(wrapper.getPopulationRuleInfo().getReferencePopulationId() != null){
+                PopulationInfo referencePopulation = getPopulationService().getPopulation(wrapper.getPopulationRuleInfo().getReferencePopulationId(), context);
+                wrapper.setReferencePopulation(referencePopulation);
+            }
+            wrapper.getChildPopulations().clear();
+            for(String childPopulationId : wrapper.getPopulationRuleInfo().getChildPopulationIds()){
+                wrapper.getChildPopulations().add(getPopulationService().getPopulation(childPopulationId, context));
+            }
+
         } catch (Exception ex){
             throw new RuntimeException(ex);
         }
@@ -116,13 +126,14 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
 
     // create the PopulationInfo and PopulationRuleInfo
     public PopulationWrapper createPopulation(PopulationWrapper wrapper) throws Exception {
-        PopulationInfo populationInfo = getPopulationService().createPopulation(wrapper.getPopulationInfo(), getContextInfo());
+        ContextInfo context = ContextInfo.createDefaultContextInfo();
+        PopulationInfo populationInfo = getPopulationService().createPopulation(wrapper.getPopulationInfo(), context);
         wrapper.getPopulationRuleInfo().getChildPopulationIds().clear();
         for(PopulationInfo childPopulation : wrapper.getChildPopulations()){
             wrapper.getPopulationRuleInfo().getChildPopulationIds().add(childPopulation.getId());
         }
-        PopulationRuleInfo  populationRuleInfo = getPopulationService().createPopulationRule(wrapper.getPopulationRuleInfo(), getContextInfo());
-        getPopulationService().applyPopulationRuleToPopulation(populationRuleInfo.getId(), populationInfo.getId(), getContextInfo());
+        PopulationRuleInfo  populationRuleInfo = getPopulationService().createPopulationRule(wrapper.getPopulationRuleInfo(), context);
+        getPopulationService().applyPopulationRuleToPopulation(populationRuleInfo.getId(), populationInfo.getId(), context);
         wrapper.setPopulationInfo(populationInfo);
         wrapper.setPopulationRuleInfo(populationRuleInfo);
         wrapper.setId(populationInfo.getId());
@@ -130,21 +141,23 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
     }
 
     public void updatePopulation(PopulationWrapper wrapper) throws Exception {
-        PopulationInfo populationInfo = getPopulationService().updatePopulation(wrapper.getId(), wrapper.getPopulationInfo(), getContextInfo());
+        ContextInfo context = ContextInfo.createDefaultContextInfo();
+        PopulationInfo populationInfo = getPopulationService().updatePopulation(wrapper.getId(), wrapper.getPopulationInfo(), context);
         wrapper.getPopulationRuleInfo().getChildPopulationIds().clear();
         for(PopulationInfo childPopulation : wrapper.getChildPopulations()){
             wrapper.getPopulationRuleInfo().getChildPopulationIds().add(childPopulation.getId());
         }
-        PopulationRuleInfo populationRuleInfo = getPopulationService().updatePopulationRule(wrapper.getPopulationRuleInfo().getId(), wrapper.getPopulationRuleInfo(), getContextInfo());
+        PopulationRuleInfo populationRuleInfo = getPopulationService().updatePopulationRule(wrapper.getPopulationRuleInfo().getId(), wrapper.getPopulationRuleInfo(), context);
         wrapper.setPopulationInfo(populationInfo);
         wrapper.setPopulationRuleInfo(populationRuleInfo);
         wrapper.setId(populationInfo.getId());
     }
     
     public List<PopulationInfo> getChildPopulations(List<String> childPopulationIds) throws Exception{
+        ContextInfo context = ContextInfo.createDefaultContextInfo();
         List<PopulationInfo> childPopulations = new ArrayList<PopulationInfo>(); 
         for (String id : childPopulationIds){
-            PopulationInfo populationInfo = getPopulationService().getPopulation(id,getContextInfo());
+            PopulationInfo populationInfo = getPopulationService().getPopulation(id, context);
             childPopulations.add(populationInfo);
         }
         return childPopulations;
@@ -180,13 +193,6 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
             populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationService"));
         }
         return populationService;
-    }
-
-    public ContextInfo getContextInfo() {
-        if (contextInfo == null) {
-            contextInfo = ContextBuilder.loadContextInfo();
-        }
-        return contextInfo;
     }
 
 }
