@@ -82,7 +82,7 @@
                         <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="populationStateKeyName" p:defaultValue="active" p:render="@{maintenanceAction eq 'Edit'}">
+                <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="populationInfo.stateKey" p:render="@{maintenanceAction eq 'Edit'}">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
                     </property>
@@ -114,7 +114,7 @@
                         <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="populationStateKeyName" p:defaultValue="active" p:render="@{maintenanceAction eq 'Edit'}">
+                <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="populationInfo.stateKey" p:render="@{maintenanceAction eq 'Edit'}">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
                     </property>
@@ -259,8 +259,8 @@
     </bean>
 
     <util:list id="populationStateKeyName-options">
-        <bean parent="Uif-KeyLabelPair" p:key="active" p:value="Active"/>
-        <bean parent="Uif-KeyLabelPair" p:key="inactive" p:value="Inactive"/>
+        <bean parent="Uif-KeyLabelPair" p:key="kuali.population.population.state.active" p:value="Active"/>
+        <bean parent="Uif-KeyLabelPair" p:key="kuali.population.population.state.inactive" p:value="Inactive"/>
     </util:list>
 
     <util:list id="populationRuleAgendaIds-options">
