@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
@@ -257,6 +258,25 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 wrapper.setAoInfo(updatedAO);
             }
         }
+    }
+
+    public void markCourseOfferingsForScheduling(List<CourseOfferingInfo> courseOfferingInfos) throws Exception{
+        for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
+//                if (wrapper.getIsChecked()){
+                if (!(StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY,courseOfferingInfo.getStateKey()) ||
+                      StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY,courseOfferingInfo.getStateKey()))){
+                    GlobalVariables.getMessageMap().putError("selectedOfferingAction",CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
+                    return;
+                }else{
+                    List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingInfo.getId(),getContextInfo());
+                    for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
+                        if (!StringUtils.equals(activityOfferingInfo.getStateKey(),LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY)){
+                            GlobalVariables.getMessageMap().putError("selectedOfferingAction",RiceKeyConstants.ERROR_CUSTOM,"Activity Offering(s) for CO " + courseOfferingInfo.getCourseOfferingCode() + " not in draft state");
+                            return;
+                        }
+                    }
+                }
+            }
     }
 
     private CourseOfferingService _getCourseOfferingService() {

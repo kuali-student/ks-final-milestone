@@ -387,16 +387,28 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView selectedAoActions(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        if (StringUtils.equals(theForm.getActivityActionType(),CourseOfferingConstants.ACTIVITY_OFFERING_DELETE_ACTION)){
+        if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_DELETE_ACTION)){
             return confirmDelete(theForm,  result, request,  response);
         }
 
-        if (StringUtils.equals(theForm.getActivityActionType(),CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
-            StringUtils.equals(theForm.getActivityActionType(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)){
-            getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(),theForm.getActivityActionType());
+        if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
+            StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)){
+            getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(),theForm.getSelectedOfferingAction());
         }
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
+
+    }
+
+    @RequestMapping(params = "methodToCall=selectedCOActions")
+    public ModelAndView selectedCOActions(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)){
+            getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingList());
+        }
+
+        return getUIFModelAndView(theForm);
 
     }
 
@@ -442,7 +454,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 if(ao.isLegalToDelete() && ao.getIsChecked()) {
                     selectedIndexList.add(ao);
                 }else if (ao.getIsChecked()){
-                    GlobalVariables.getMessageMap().putError("activityActionType",CourseOfferingConstants.AO_NOT_DRAFT_FOR_DELETION_ERROR);
+                    GlobalVariables.getMessageMap().putError("selectedOfferingAction",CourseOfferingConstants.AO_NOT_DRAFT_FOR_DELETION_ERROR);
                     return getUIFModelAndView(theForm);
                 }
             }

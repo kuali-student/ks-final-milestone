@@ -33,6 +33,7 @@
             <list>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingResultSection"/>
+                <ref bean="KS-CourseOfferingManagement-CourseOfferingActionSection"/>
             </list>
         </property>
     </bean>
@@ -98,6 +99,28 @@
                 <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.stateKey eq 'kuali.lui.state.draft' or #line.stateKey eq 'kuali.lui.course.offering.state.draft' or #line.stateKey eq 'kuali.lui.course.offering.state.planned'}" />
             </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-CourseOfferingActionSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+        <list>
+            <bean parent="Uif-HorizontalBoxSection">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Course Offering Actions" p:labelPlacement="TOP">
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl"/>
+                            </property>
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingActionsKeyValues"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="selectedCOActions"/>
+                    </list>
+                </property>
+            </bean>
+        </list>
         </property>
     </bean>
 

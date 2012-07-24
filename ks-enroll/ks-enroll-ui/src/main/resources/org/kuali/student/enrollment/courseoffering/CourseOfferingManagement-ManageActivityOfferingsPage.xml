@@ -184,7 +184,7 @@
             <bean parent="Uif-HorizontalBoxSection">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-InputField" p:propertyName="activityActionType" p:label="Selected Offering Actions" p:labelPlacement="TOP">
+                        <bean parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Offering Actions" p:labelPlacement="TOP">
                             <property name="control">
                                 <bean parent="Uif-DropdownControl"/>
                             </property>

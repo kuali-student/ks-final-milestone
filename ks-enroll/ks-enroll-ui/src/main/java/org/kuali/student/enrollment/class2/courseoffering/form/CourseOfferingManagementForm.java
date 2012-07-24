@@ -15,7 +15,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String subjectCode;
     private String radioSelection;
     private String inputCode;
-    private String activityActionType;
+    private String selectedOfferingAction;
     private List<CourseOfferingInfo> courseOfferingList;
     private CourseOfferingInfo theCourseOffering;
     private String coViewLinkWrapper = "View"; // temp var to hold/store the View Details Link
@@ -85,12 +85,12 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.inputCode = inputCode;
     }
 
-    public String getActivityActionType() {
-        return activityActionType;
+    public String getSelectedOfferingAction() {
+        return selectedOfferingAction;
     }
 
-    public void setActivityActionType(String activityActionType) {
-        this.activityActionType = activityActionType;
+    public void setSelectedOfferingAction(String selectedOfferingAction) {
+        this.selectedOfferingAction = selectedOfferingAction;
     }
 
     public List<CourseOfferingInfo> getCourseOfferingList(){
