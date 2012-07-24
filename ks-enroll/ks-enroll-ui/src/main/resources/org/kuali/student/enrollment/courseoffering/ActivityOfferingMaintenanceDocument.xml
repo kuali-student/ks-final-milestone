@@ -437,7 +437,7 @@
                                             </property>
                                             <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
                                         </bean>
-                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" />
+                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:readOnly="true"/>
                                         <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
@@ -452,8 +452,8 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personId" p:label="ID" />
-                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name"/>
+                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personId" p:label="ID" p:readOnly="true"/>
+                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:readOnly="true"/>
                                         <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION" p:readOnly="true">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />

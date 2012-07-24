@@ -237,8 +237,19 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 scheduleComponentWrapper.setRoomFeatures(resources.toString());
             }
         }
+        else if(addLine instanceof OfferingInstructorWrapper) {
+            // set the person name if it's null, in the case of user-input personell id
+            OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
+            if (instructor.getOfferingInstructorInfo().getPersonName() == null && instructor.getOfferingInstructorInfo().getPersonId() != null) {
+                List<Person> personList = ViewHelperUtil.getInstructorByPersonId(instructor.getOfferingInstructorInfo().getPersonId());
+                if (personList.size() == 1) {
+                    instructor.getOfferingInstructorInfo().setPersonName(personList.get(0).getName());
+                }
+            }
+        }
     }
 
+    @Override
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof OfferingInstructorWrapper){
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
@@ -267,6 +278,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         return super.performAddLineValidation(view, collectionGroup, model, addLine);
     }
 
+    @Override
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof OfferingInstructorWrapper){
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
