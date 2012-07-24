@@ -35,7 +35,7 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="Hold-CreateSection"/>
+                <ref bean="Hold-ViewSection"/>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -46,7 +46,7 @@
 
     </bean>
 
-    <bean id="Hold-CreateSection" parent="Uif-HorizontalBoxSection">
+    <bean id="Hold-ViewSection" parent="Uif-HorizontalBoxSection">
         <property name="disclosure.render" value="false"/>
         <property name="style" value="margin-bottom:0;"/>
         <property name="items">

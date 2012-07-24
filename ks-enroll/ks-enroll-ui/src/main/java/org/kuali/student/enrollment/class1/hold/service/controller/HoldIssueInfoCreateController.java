@@ -83,12 +83,13 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=create")
-    public ModelAndView create(@ModelAttribute("KualiForm") HoldIssueInfoCreateForm createForm, BindingResult result,
+    public ModelAndView create(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HoldIssueInfoCreateForm createForm = (HoldIssueInfoCreateForm) form;
         holdIssueInfo = new HoldIssueInfo();
         holdIssueInfo.setName(createForm.getName());
         holdIssueInfo.setTypeKey(createForm.getTypeKey());
-        holdIssueInfo.setStateKey(createForm.getStateKey());
+        holdIssueInfo.setStateKey("Active");
         holdIssueInfo.setOrganizationId(createForm.getOrganizationId());
         RichTextInfo richTextInfo = new RichTextInfo();
         richTextInfo.setPlain(createForm.getDescr());
@@ -125,7 +126,7 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
                 throw new RuntimeException("unable to get hold issue");
             }
         }
-
+        holdIssueForm.getView().setReadOnly(true);
         return super.start(holdIssueForm, result, request, response);
     }
 
