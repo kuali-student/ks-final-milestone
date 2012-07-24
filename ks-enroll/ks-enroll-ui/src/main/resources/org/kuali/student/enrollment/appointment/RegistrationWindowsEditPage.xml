@@ -164,11 +164,11 @@
                         <bean parent="Uif-TextControl" p:size="16" />
                     </property>
                     <!--<property name="quickfinder.render" value="true"/>-->
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper" />
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
                     <property name="quickfinder.fieldConversions">
                         <map>
-                            <entry key="name" value="assignedPopulationName" />
-                            <entry key="id" value="appointmentWindowInfo.assignedPopulationId" />
+                            <entry key="populationInfo.name" value="assignedPopulationName" />
+                            <entry key="populationInfo.id" value="appointmentWindowInfo.assignedPopulationId" />
                         </map>
                     </property>
                     <!--<property name="suggest.render" value="true" />-->

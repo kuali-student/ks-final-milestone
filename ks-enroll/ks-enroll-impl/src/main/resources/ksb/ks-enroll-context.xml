@@ -556,14 +556,14 @@
     </bean>
 
     <!-- Population Mock service (currently used by AppointmentService (see below for PopulationService) -->
-    <bean id="populationServiceMock" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceMockImpl">
+    <bean id="populationServiceMock" class="org.kuali.student.r2.core.population.service.impl.mock.PopulationServiceMockImpl">
     </bean>
 
     <bean id="ks.exp.populationServiceMock" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="populationServiceMock" />
+                <property name="service" ref="populationService" />
                 <property name="serviceInterface" value="org.kuali.student.r2.core.population.service.PopulationService" />
                 <property name="localServiceName" value="PopulationMockService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/population" />
@@ -574,7 +574,7 @@
 
 
     <!--- Population Service -->
-    <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.PopulationServiceImpl">
+    <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.mock.PopulationServiceMockImpl">
         <property name="populationDao" ref="populationDao" />
         <property name="populationRuleDao" ref="populationRuleDao" />
         <property name="criteriaLookupService" ref="criteriaLookupService" />
