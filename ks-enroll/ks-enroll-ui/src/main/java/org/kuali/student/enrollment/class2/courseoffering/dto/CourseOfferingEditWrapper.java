@@ -50,6 +50,8 @@ public class CourseOfferingEditWrapper implements Serializable {
     private boolean creditOptionFixed;
     private boolean isChecked;
 
+    private String gradingOption;
+
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
@@ -173,6 +175,14 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     public void setIsChecked(boolean checked) {
         this.isChecked = checked;
+    }
+
+    public String getGradingOption() {
+        return gradingOption;
+    }
+
+    public void setGradingOption(String gradingOption) {
+        this.gradingOption = gradingOption;
     }
 
     public boolean isLegalToDelete() {

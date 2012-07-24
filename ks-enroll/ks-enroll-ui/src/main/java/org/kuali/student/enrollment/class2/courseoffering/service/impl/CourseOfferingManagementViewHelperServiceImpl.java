@@ -34,6 +34,7 @@ import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
@@ -77,6 +78,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coId, getContextInfo());
                 coInfo.setCreditCnt(getCreditCount(coInfo, null));
                 CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);
+                courseOfferingEditWrapper.setGradingOption(getGradingOption(coInfo.getGradingOptionId()));
                 form.getCourseOfferingEditWrapperList().add(courseOfferingEditWrapper);
             }
         } else {
@@ -85,6 +87,19 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             form.getCourseOfferingEditWrapperList().clear();
         }
     }
+
+
+    private String getGradingOption(String gradingOptionId)throws Exception{
+          String gradingOption = "";
+          if(StringUtils.isNotBlank(gradingOptionId)){
+              ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(gradingOptionId, getContextInfo());
+              if(rvg!= null && StringUtils.isNotBlank(rvg.getName())){
+                 gradingOption = rvg.getName();
+              }
+          }
+
+          return gradingOption;
+  }
 
     public List<CourseOfferingInfo> findCourseOfferingsByTermAndCourseOfferingCode (String termCode, String courseOfferingCode, CourseOfferingManagementForm form) throws Exception{
         List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
