@@ -117,6 +117,10 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
     // create the PopulationInfo and PopulationRuleInfo
     public PopulationWrapper createPopulation(PopulationWrapper wrapper) throws Exception {
         PopulationInfo populationInfo = getPopulationService().createPopulation(wrapper.getPopulationInfo(), getContextInfo());
+        wrapper.getPopulationRuleInfo().getChildPopulationIds().clear();
+        for(PopulationInfo childPopulation : wrapper.getChildPopulations()){
+            wrapper.getPopulationRuleInfo().getChildPopulationIds().add(childPopulation.getId());
+        }
         PopulationRuleInfo  populationRuleInfo = getPopulationService().createPopulationRule(wrapper.getPopulationRuleInfo(), getContextInfo());
         getPopulationService().applyPopulationRuleToPopulation(populationRuleInfo.getId(), populationInfo.getId(), getContextInfo());
         wrapper.setPopulationInfo(populationInfo);
@@ -126,8 +130,15 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
     }
 
     public void updatePopulation(PopulationWrapper wrapper) throws Exception {
-        getPopulationService().updatePopulation(wrapper.getId(), wrapper.getPopulationInfo(), getContextInfo());
-        getPopulationService().updatePopulationRule(wrapper.getPopulationRuleInfo().getId(), wrapper.getPopulationRuleInfo(), getContextInfo());
+        PopulationInfo populationInfo = getPopulationService().updatePopulation(wrapper.getId(), wrapper.getPopulationInfo(), getContextInfo());
+        wrapper.getPopulationRuleInfo().getChildPopulationIds().clear();
+        for(PopulationInfo childPopulation : wrapper.getChildPopulations()){
+            wrapper.getPopulationRuleInfo().getChildPopulationIds().add(childPopulation.getId());
+        }
+        PopulationRuleInfo populationRuleInfo = getPopulationService().updatePopulationRule(wrapper.getPopulationRuleInfo().getId(), wrapper.getPopulationRuleInfo(), getContextInfo());
+        wrapper.setPopulationInfo(populationInfo);
+        wrapper.setPopulationRuleInfo(populationRuleInfo);
+        wrapper.setId(populationInfo.getId());
     }
     
     public List<PopulationInfo> getChildPopulations(List<String> childPopulationIds) throws Exception{
