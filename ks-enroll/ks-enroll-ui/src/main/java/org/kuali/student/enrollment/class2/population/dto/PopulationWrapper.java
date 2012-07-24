@@ -45,6 +45,7 @@ public class PopulationWrapper implements Serializable {
     private String pageTitle;
 
     private List<PopulationInfo> childPopulations;
+    private PopulationInfo referencePopulation;
 
     public PopulationWrapper(){
         createByRule = true;
@@ -54,6 +55,7 @@ public class PopulationWrapper implements Serializable {
         populationInfo = new PopulationInfo();
         populationRuleInfo = new PopulationRuleInfo();
         childPopulations = new ArrayList<PopulationInfo>();
+        referencePopulation = new PopulationInfo();
     }
 
     public String getId() {
@@ -151,5 +153,14 @@ public class PopulationWrapper implements Serializable {
     public void setChildPopulations(List<PopulationInfo> childPopulations) {
         this.childPopulations = childPopulations;
     }
+
+    public PopulationInfo getReferencePopulation() {
+        return referencePopulation;
+    }
+
+    public void setReferencePopulation(PopulationInfo referencePopulation) {
+        this.referencePopulation = referencePopulation;
+    }
+
 
 }

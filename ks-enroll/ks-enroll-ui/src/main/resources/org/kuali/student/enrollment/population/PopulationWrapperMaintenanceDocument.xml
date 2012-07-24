@@ -129,13 +129,19 @@
                         <bean class="org.kuali.student.enrollment.class2.population.keyvalue.OperationKeyValues" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.referencePopulationId"
+                <bean parent="Uif-InputField" p:propertyName="referencePopulation.name"
                       p:label="Reference Population" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true"
                       p:refreshWhenChangedPropertyNames="@{#dp.operationType}"
                       p:progressiveRender="@{#dp.operationType eq 'kuali.population.rule.type.exclusion'}">
-        <!--p:readOnly="@{!(#dp.operationType eq 'kuali.population.rule.type.exclusion')}">-->
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="40" />
+                    </property>
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                    <property name="quickfinder.fieldConversions">
+                        <map>
+                            <entry key="populationInfo.id" value="referencePopulation.id"/>
+                            <entry key="populationInfo.name" value="referencePopulation.name"/>
+                        </map>
                     </property>
                 </bean>
                 <ref bean="KS-PopulationWrapper-AddPopulationsSection"/>
@@ -179,9 +185,9 @@
                         </list>
                     </property>
 
-                </bean>
-            </list>
-        </property>
+            </bean>
+        </list>
+    </property>
     </bean>
 
 
