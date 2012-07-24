@@ -85,18 +85,6 @@
                                             </property>
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey" >
-                                            <property name="control">
-                                                <bean parent="Uif-HorizontalRadioControl" >
-                                                    <property name="options">
-                                                        <list>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="active" p:value="Active"/>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="inactive" p:value="Inactive"/>
-                                                        </list>
-                                                    </property>
-                                                </bean>
-                                            </property>
-                                        </bean>
                                     </list>
                                 </property>
                             </bean>
