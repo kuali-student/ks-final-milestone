@@ -19,24 +19,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoCreateForm;
 import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoSearchForm;
-import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
-import org.kuali.student.enrollment.class2.acal.service.CalendarSearchViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
@@ -152,28 +143,78 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         return getUIFModelAndView(searchForm, null);
     }
 
-    /*@RequestMapping(params = "methodToCall=view")
-    public ModelAndView view(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
+    @RequestMapping(params = "methodToCall=view")
+    public ModelAndView view(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HoldIssueInfo holdIssue = getSelectedHoldIssue(searchForm, "view");
 
+        String controllerPath;
+        Properties urlParameters = new Properties();
+
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "view");
+        urlParameters.put("id", holdIssue.getId());
+        urlParameters.put(UifParameters.VIEW_ID, "holdView");
+
+        controllerPath = "createHold";
+
+        return performRedirect(searchForm, controllerPath, urlParameters);
     }
 
-    @RequestMapping(params = "methodToCall=edit")
+    /*@RequestMapping(params = "methodToCall=edit")
     public ModelAndView edit(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
 
-    }
+    }*/
 
     @RequestMapping(params = "methodToCall=delete")
-    public ModelAndView delete(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
+    public ModelAndView delete(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<HoldIssueInfo> holdIssueInfos = searchForm.getHoldIssueInfo();
+        HoldIssueInfo holdIssue = getSelectedHoldIssue(searchForm, "delete");
 
-    }*/
+        try {
+            if(holdIssue.getStateKey().equals("active")) {
+                holdIssue.setStateKey("inactive");
+                getHoldService().updateHoldIssue(holdIssue.getId(), holdIssue, getContextInfo());
+            } else {
+                System.out.println("Work Delete");
+                //GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Hold Issue already Inactive");
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error Performing Delete",e);
+        }
+
+        searchForm.setHoldIssueInfo(holdIssueInfos);
+        return getUIFModelAndView(searchForm);
+    }
 
     private void resetForm(HoldIssueInfoSearchForm searchForm) {
         searchForm.setHoldIssueInfo(new ArrayList<HoldIssueInfo>());
+    }
+
+    private HoldIssueInfo getSelectedHoldIssue(HoldIssueInfoSearchForm searchForm, String actionLink){
+        String selectedCollectionPath = searchForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("Selected collection was not set for " + actionLink);
+        }
+
+        int selectedLineIndex = -1;
+        String selectedLine = searchForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("Selected line index was not set");
+        }
+
+        Collection<HoldIssueInfo> collection = ObjectPropertyUtils.getPropertyValue(searchForm, selectedCollectionPath);
+        HoldIssueInfo holdIssue = ((List<HoldIssueInfo>) collection).get(selectedLineIndex);
+
+        return holdIssue;
     }
 
     private ContextInfo getContextInfo() {

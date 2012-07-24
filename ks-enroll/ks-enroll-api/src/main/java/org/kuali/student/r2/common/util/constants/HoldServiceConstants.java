@@ -32,6 +32,7 @@ public class HoldServiceConstants {
     public static final String SERVICE_NAME_LOCAL_PART = "HoldService";
     public static final String REF_OBJECT_URI_HOLD = NAMESPACE + "/" + AppliedHoldInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ISSUE = NAMESPACE + "/" + HoldIssueInfo.class.getSimpleName();
+    public static final String REF_OBJECT_TYPE_URI_ISSUE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "type" + "/" + HoldIssueInfo.class.getSimpleName();
     /**
      * Hold types
      */

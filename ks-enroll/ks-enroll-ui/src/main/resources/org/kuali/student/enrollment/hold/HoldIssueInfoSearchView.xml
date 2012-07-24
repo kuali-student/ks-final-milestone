@@ -122,9 +122,9 @@
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
+            <map>
                 <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+                <entry key="aaSorting" value="[[ 4, 'asc' ]]"/>
             </map>
         </property>
         <property name="items">
@@ -137,7 +137,7 @@
                       p:propertyName="typeKey"/>
                 <bean parent="Uif-DataField"
                       p:label="Hold Description"
-                      p:propertyName="descr"/>
+                      p:propertyName="descr.plain"/>
                 <bean parent="Uif-DataField"
                       p:label="Owning Organization"
                       p:propertyName="organizationId"/>
@@ -151,9 +151,9 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-SubmitActionLink" p:methodToCall="" p:actionLabel="View" />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="" p:actionLabel="Edit" />
-                <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the hold issue?')" p:methodToCall="" p:actionLabel="Delete" />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="delete" p:clientSideJs="confirmDeletion('Are you sure you want to delete this hold issue?')" p:actionLabel="Delete" />
             </list>
         </property>
     </bean>

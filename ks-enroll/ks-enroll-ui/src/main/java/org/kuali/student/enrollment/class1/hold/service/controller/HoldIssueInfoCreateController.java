@@ -16,10 +16,16 @@
 package org.kuali.student.enrollment.class1.hold.service.controller;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoCreateForm;
 import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoSearchForm;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
+import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -36,6 +42,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -90,7 +97,7 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
 
         try {
             holdService = getHoldService();
-            //HoldIssueInfo createHoldIssueInfo = holdService.createHoldIssue(holdIssueInfo.getTypeKey(), holdIssueInfo, getContextInfo() );
+            HoldIssueInfo createHoldIssueInfo = holdService.createHoldIssue(holdIssueInfo.getTypeKey(), holdIssueInfo, getContextInfo() );
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Create new failed. ", e);
@@ -100,6 +107,27 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
         return close(createForm, result, request, response);
     }
 
+    @RequestMapping(params = "methodToCall=view")
+    public ModelAndView view(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+        HoldIssueInfoCreateForm holdIssueForm = (HoldIssueInfoCreateForm) form;
+        String holdIssueId = request.getParameter("id");
+
+        if ((holdIssueId != null) && !holdIssueId.trim().isEmpty()) {
+            try {
+                HoldIssueInfo holdIssueInfo = getHoldService().getHoldIssue(holdIssueId, getContextInfo());
+                holdIssueForm.setName(holdIssueInfo.getName());
+                holdIssueForm.setTypeKey(holdIssueInfo.getTypeKey());
+                holdIssueForm.setDescr(holdIssueInfo.getDescr().getPlain());
+                holdIssueForm.setOrganizationId(holdIssueInfo.getOrganizationId());
+                holdIssueForm.setStateKey(holdIssueInfo.getStateKey());
+            } catch (Exception ex) {
+                throw new RuntimeException("unable to get hold issue");
+            }
+        }
+
+        return super.start(holdIssueForm, result, request, response);
+    }
 
     private ContextInfo getContextInfo() {
         if (null == contextInfo) {

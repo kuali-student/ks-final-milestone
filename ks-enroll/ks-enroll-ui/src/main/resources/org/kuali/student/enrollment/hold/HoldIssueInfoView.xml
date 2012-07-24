@@ -70,7 +70,7 @@
                                                 <bean parent="Uif-DropdownControl" />
                                             </property>
                                             <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class1.hold.service.keyvalues.HoldIssueInfoTypeKeyValues"/>
+                                                <bean class="org.kuali.student.enrollment.class1.hold.service.keyvalues.HoldIssueInfoTypeKeyValues" />
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop" p:label="Hold Description"  p:propertyName="descr">
@@ -83,7 +83,7 @@
                                                 <bean parent="Uif-TextControl" p:size="20" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey" >
+                                        <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey">
                                             <property name="control">
                                                 <bean parent="Uif-HorizontalRadioControl" >
                                                     <property name="options">
@@ -101,7 +101,7 @@
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
+                                        <bean parent="Uif-ActionLink" p:clientSideJs="stepBrowserBack()" p:actionLabel="Cancel"/>
                                     </list>
                                 </property>
                             </bean>
