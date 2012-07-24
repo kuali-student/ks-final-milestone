@@ -39,9 +39,9 @@
         <property name="page.footer.items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Create Population" p:performClientSideValidation="true"
-                      p:render="@{maintenanceAction eq 'New'}"/>
+                      p:render="@{(maintenanceAction eq 'New') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Update" p:performClientSideValidation="true"
-                      p:render="@{maintenanceAction eq 'Edit'}"/>
+                      p:render="@{(maintenanceAction eq 'Edit') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
