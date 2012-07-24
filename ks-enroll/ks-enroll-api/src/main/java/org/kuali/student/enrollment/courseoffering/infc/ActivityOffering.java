@@ -31,11 +31,29 @@ import org.kuali.student.r2.common.infc.IdEntity;
 public interface ActivityOffering extends IdEntity {
 
     /**
+     * Format offering Id used to create this activity
+     *
+     * @name Format Offering Id
+     * @required
+     * @readonly
+     */
+    public String getFormatOfferingId();
+
+    /**
+     * Format offering Name used to create this activity
+     *
+     * @name Format Offering Name
+     * @required
+     * @readonly
+     */
+    public String getFormatOfferingName();
+
+    /**
      * Canonical activity whose instance is this activity offering.
      *
      * @name Activity Id
      * @required
-     * @readOnly
+     * @readonly
      */
     public String getActivityId();
 
@@ -47,7 +65,7 @@ public interface ActivityOffering extends IdEntity {
      * 
      * @name Term Id
      * @required
-     * @readOnly
+     * @readonly
      * @impl map to Lui.getAtpId
      */
     public String getTermId();
@@ -60,69 +78,14 @@ public interface ActivityOffering extends IdEntity {
      *
      * @name Term Code
      * @required
-     * @readOnly
+     * @readonly
      * @impl map to Lui.getAtpCode
      */
     public String getTermCode();
 
     /**
-     * Course Offering id the activity is being offered in.
-     *
-     * @name Course Offering Id
-     * @required
-     * @readOnly
-     * @impl maps to the containing formatOffering's courseOfferingId
-     */
-    public String getCourseOfferingId();
-
-    /**
-     * Format offering Id used to create this activity
-     *
-     * @name Format Offering Id
-     * @required
-     * @readoOnly
-     */
-    public String getFormatOfferingId();
-
-    /**
-     * Format offering Name used to create this activity
-     *
-     * @name Format Offering Name
-     * @required
-     * @readOnly
-     */
-    public String getFormatOfferingName();
-
-    /**
-     * Course Offering title the activity is being offered in.
-     *
-     * @name Course Offering Title
-     * @required
-     * @readOnly
-     * @impl maps to the containing formatOffering's courseOffering's title
-     */
-    public String getCourseOfferingTitle();
-
-    /**
-     * Course Offering code the activity is being offered in.
-     *
-     * @name Course Offering Code
-     * @required
-     * @readOnly
-     * @impl maps to the containing formatOffering's courseOffering's code
-     */
-    public String getCourseOfferingCode();
-
-    /**
-     * The suffix of the identifier to append im making the
-     * activity code.
-     *
-     * @name Activity Number Suffix
-     */
-    public String getActivityNumberSuffix();
-
-    /**
-     * Identifies the section of the course offering.
+     * Alphanumeric character that identifies the section of the
+     * course offering.
      *
      * @name Activity Code
      */
@@ -145,6 +108,16 @@ public interface ActivityOffering extends IdEntity {
     public Boolean getIsHonorsOffering();
 
     /**
+     * The options/scales that indicate the allowable grades that can
+     * be awarded.  If the value is set here then the canonical course
+     * must have a grading option set on the canonical activity.
+     * 
+     * @name Grading Option Keys
+     * @impl maps to Lui.gradingOptions
+     */
+    public List<String> getGradingOptionKeys();
+
+    /**
      * Instructors for the activity. This list should be constrained
      * by the instructors listed on the course offering.
      *
@@ -152,6 +125,36 @@ public interface ActivityOffering extends IdEntity {
      * @impl maps to Lui.instructors
      */
     public List<? extends OfferingInstructor> getInstructors();
+
+    /**
+     * Course Offering id the activity is being offered in.
+     *
+     * @name Course Offering Id
+     * @required
+     * @readonly
+     * @impl maps to the containing formatOffering's courseOfferingId
+     */
+    public String getCourseOfferingId();
+
+    /**
+     * Course Offering code the activity is being offered in.
+     *
+     * @name Course Offering Code
+     * @required
+     * @readonly
+     * @impl maps to the containing formatOffering's courseOffering's code
+     */
+    public String getCourseOfferingCode();
+
+    /**
+     * Course Offering title the activity is being offered in.
+     *
+     * @name Course Offering Title
+     * @required
+     * @readonly
+     * @impl maps to the containing formatOffering's courseOffering's title
+     */
+    public String getCourseOfferingTitle();
 
     /********************** Final Exam Information ******************/
     /**
@@ -236,7 +239,7 @@ public interface ActivityOffering extends IdEntity {
      *
      * @name Activity Offering URL
      */
-    public Boolean getIsEvaluated();
+    public String getActivityOfferingURL();
     
     /**
      * Indicates whether a RegistrationGroup has a waitlist.

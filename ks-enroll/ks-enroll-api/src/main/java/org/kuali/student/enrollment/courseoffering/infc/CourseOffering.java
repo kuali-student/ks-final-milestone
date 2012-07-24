@@ -72,29 +72,6 @@ public interface CourseOffering extends IdNamelessEntity{
      * constituent parts, the subject area and the course number suffix. For
      * example: Subject Area = "ENG" and Suffix = "101" then code = "ENG101"
      *
-     * This field is differentiated from the Couurse Offering Code in
-     * that the Course Offering Code can updated while the Course Code
-     * always indicates the official canonical code.
-     * 
-     * @name Course Code
-     * @readOnly
-     * @impl this is a read only copy of the official canonical course code
-     */
-    public String getCourseCode();
-
-    /**
-     * Identifies the number of a course as reflected in the course catalog.
-     * This typically must be unique across all courses offered during that
-     * term. If the user wants to create two separate offerings for the same
-     * course they must modify this code to make it unique. For example: An
-     * on-line offering of the course might have an "O" appended to it to
-     * distinguish it from the face to face offering, i.e. ENG101 and ENG101O
-     * Initially copied from the course catalog but then, depending on the
-     * configuration it may be updatable. Often this field is configured so that
-     * it is not not directly updatable but rather is calculated from it's two
-     * constituent parts, the subject area and the course number suffix. For
-     * example: Subject Area = "ENG" and Suffix = "101" then code = "ENG101"
-     * 
      * @name Course Offering Code
      * @impl initialially this is copied from the course catalog code but then
      *       is subsequently stored in the lui as lui.officialIdentifier.code
@@ -227,26 +204,13 @@ public interface CourseOffering extends IdNamelessEntity{
      * because the canonical has more than one! Often it is just a fixed single
      * value but a ResultValuesGroup could contain a range (with increments) or
      * even a discrete list of possible credit values.
-     * These are the constraint/mapping rules:
-     * - A fixed option on clu maps to a fixed option on lui.
-     * - A variable option on clu can map to a fixed, variable or multiple option on lui constrained by the min and max
-     * - A multiple option on clu can map to a fixed or multiple option on lui constrained by the clu options
-     * It is possible that the canonical has more than one!
-     * 
+     *
      * @name Credit Option Id
      * @impl Lui.resultOptionIds returns a list of resultOptions. Filter option
      *       with credit type and that should give the resultValueGroup.
      */
     public String getCreditOptionId();
 
-    /**
-     * Gets the Credit Count
-     *
-     * @name Credit Count
-     * @readOnly
-     * @impl this is the number of credits
-     */
-    public String getCreditCnt();
 
     /******** Personnel Information *****************/
 
@@ -363,15 +327,6 @@ public interface CourseOffering extends IdNamelessEntity{
     public Boolean getIsFinancialAidEligible();
 
     /**
-     * Is this Course Offering Financial aid eligible.  (why is this
-     * here?) use getIsFinancialAidEligible().
-     *
-     * @name Financial Aid Eligible Flag
-     */
-    @Deprecated
-    public Boolean getFinancialAidEligible();
-
-    /**
      * Places where this Course offering is offered.
      *
      * @name Campus Locations
@@ -381,6 +336,7 @@ public interface CourseOffering extends IdNamelessEntity{
     /**
      * Indicates whether a final exam is to be given  for this format Offering
      * and if its true, the level at which it exists
+     * Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
      *
      * @name Final Exam Type
      */
@@ -401,5 +357,11 @@ public interface CourseOffering extends IdNamelessEntity{
      * @name Is Evaluated
      */
     public Boolean getIsEvaluated();
-}
 
+    /**
+     * Gets the Course Offering URL.
+     *
+     * @name Course Offering URL
+     */
+    public String getCourseOfferingURL();
+}
