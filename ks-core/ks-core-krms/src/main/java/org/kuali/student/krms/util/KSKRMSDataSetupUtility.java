@@ -12,6 +12,7 @@ import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.impl.repository.AgendaBoService;
 import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.rice.krms.impl.repository.RuleBoService;
+import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.rice.krms.impl.repository.TermResolverBo;
 import org.kuali.rice.krms.impl.repository.TermSpecificationBo;
@@ -68,8 +69,7 @@ public class KSKRMSDataSetupUtility {
         createKRMSContextFromPropertyFile();        // Works
         createKRMSTermSpecificationsFromPropertyFile();  // Works
         // Run the IDContext.sql to do the link between context and TermSpec - KSENROLL-1239
-        //createAllKRMSTermDefinitionsFromPropertyFile();
-        //createAllKRMSTermResolverParametersFromPropertyFile();
+        createAllKRMSTermDefinitionsFromPropertyFile();
     }
 
     //
@@ -141,8 +141,8 @@ public class KSKRMSDataSetupUtility {
 //            TermParameterDefinition.Builder.create(null, null, "testParamName", "testParamValue");
 //        termParameters.add(termParamBuilder2);
 
-        //TermDefinition termDefinition = getTermDefinition(termName);
-        TermDefinition termDefinition = null;
+        TermDefinition termDefinition = getTermDefinition(nameSpace,termName);
+        //TermDefinition termDefinition = null;
 
         if (termDefinition == null) {
             TermDefinition.Builder termDefBuilder = TermDefinition.Builder.create(
@@ -157,18 +157,17 @@ public class KSKRMSDataSetupUtility {
 
     }
 
-    private TermDefinition getTermDefinition(String termName) {
+    private TermDefinition getTermDefinition(String nameSpace,String termName) {
         Map<String, String> queryArgs = new HashMap<String, String>();
-        queryArgs.put("Descr", termName);
-        String a = queryArgs.get("Descr");
+        queryArgs.put("description", termName);
+        String a = queryArgs.get("description");
 
-        //TODO find termDefinitionBo class
-        TermResolverBo termDefBo = this.boService.findByPrimaryKey(
-                TermResolverBo.class, queryArgs);
+        TermBo termDefBo = this.boService.findByPrimaryKey(
+                TermBo.class, queryArgs);
 
         TermDefinition termDef = null;
 
-        //termDef = termDefBo.to(termDefBo);
+        termDef = termDefBo.to(termDefBo);
 
         return termDef;
     }
@@ -202,14 +201,13 @@ public class KSKRMSDataSetupUtility {
         // KrmsType for TermResolver
         KrmsTypeDefinition krmsTermResolverTypeDefinition = getKSKRMSType(KSKRMSReplaceWithPropertyFile.KSNAMESPACE, KSKRMSReplaceWithPropertyFile.KS_TERM_RESOLVER_TYPE, "ksKRMSTermResolverTypeService");
 
-        // TODO Per term resolver we have to create the Term Resolver parameters on krms_term_rslvr_parm_spec_t
         Properties properties = getProperties(PROPERTY_TERMRESOLVER);
 
         Enumeration elements = properties.elements();
         int i = 0;
         while (elements.hasMoreElements()) {
             String termParmValues = (String) elements.nextElement();
-            System.out.println(i + " - " + termParmValues);
+            //System.out.println(i + " - " + termParmValues);
 
             String delims = ",+"; // use + to treat consecutive delims as one;
             // omit to treat consecutive delims separately
