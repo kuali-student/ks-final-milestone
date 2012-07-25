@@ -50,11 +50,9 @@ public class TestFeeServiceImpl {
     @Resource
     private FeeService feeService;
     private ContextInfo contextInfo;
-    private String principalId = "123";
 
     private void before() {
         contextInfo = new ContextInfo();
-        contextInfo.setPrincipalId(principalId);
     }
     
     private EnrollmentFeeInfo createFeeInfo() {

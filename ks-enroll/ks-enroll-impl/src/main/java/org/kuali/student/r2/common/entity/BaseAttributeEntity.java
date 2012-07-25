@@ -73,7 +73,7 @@ public abstract class BaseAttributeEntity<T extends AttributeOwner<?>> extends B
     }
     
     public void fromDto(Attribute info) {
-	
+
     	setKey(info.getKey());
     	setValue(info.getValue());
 	}

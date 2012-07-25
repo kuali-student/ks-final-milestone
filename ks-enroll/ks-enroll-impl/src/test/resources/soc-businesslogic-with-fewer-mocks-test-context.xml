@@ -24,7 +24,6 @@
         <property name="courseService" ref="courseService" />
         <property name="acalService" ref="acalService" />
         <property name="businessLogic" ref="coBusinessLogic" />
-        <property name="typeService" ref="typeService" />
     </bean>
     
     <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
@@ -109,11 +108,6 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
-
-    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
-
-    <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
-    <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
     
     
 </beans>

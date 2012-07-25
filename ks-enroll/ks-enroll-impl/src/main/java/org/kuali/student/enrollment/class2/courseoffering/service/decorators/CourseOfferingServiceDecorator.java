@@ -497,7 +497,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		return getNextDecorator().addSeatPoolDefinitionToActivityOffering(seatPoolDefinitionId, activityOfferingId, contextInfo);
-				
+
 	}
 
 	@Override
@@ -516,7 +516,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 			OperationFailedException, PermissionDeniedException
 			 {
 		return getNextDecorator().deleteActivityOfferingCascaded(activityOfferingId, context);
-	} 
-    
-    
+	}
+
+
 }

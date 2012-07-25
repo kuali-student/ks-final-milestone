@@ -31,7 +31,7 @@ public interface CourseOffering extends IdNamelessEntity {
     /**
      * A unique identifier assigned to all approved courses that exist
      * in the catalog This is not updatable once initialized.
-     *
+     * 
      * @name Course Id
      * @readOnly
      * @required
@@ -43,7 +43,7 @@ public interface CourseOffering extends IdNamelessEntity {
 
     /**
      * Academic term of course offering
-     *
+     * 
      * @name Term Id
      * @readOnly on updates
      * @required
@@ -72,6 +72,29 @@ public interface CourseOffering extends IdNamelessEntity {
      * constituent parts, the subject area and the course number suffix. For
      * example: Subject Area = "ENG" and Suffix = "101" then code = "ENG101"
      *
+     * This field is differentiated from the Couurse Offering Code in
+     * that the Course Offering Code can updated while the Course Code
+     * always indicates the official canonical code.
+     *
+     * @name Course Code
+     * @readOnly
+     * @impl this is a read only copy of the official canonical course code
+     */
+    public String getCourseCode();
+
+    /**
+     * Identifies the number of a course as reflected in the course catalog.
+     * This typically must be unique across all courses offered during that
+     * term. If the user wants to create two separate offerings for the same
+     * course they must modify this code to make it unique. For example: An
+     * on-line offering of the course might have an "O" appended to it to
+     * distinguish it from the face to face offering, i.e. ENG101 and ENG101O
+     * Initially copied from the course catalog but then, depending on the
+     * configuration it may be updatable. Often this field is configured so that
+     * it is not not directly updatable but rather is calculated from it's two
+     * constituent parts, the subject area and the course number suffix. For
+     * example: Subject Area = "ENG" and Suffix = "101" then code = "ENG101"
+     *
      * @name Course Offering Code
      * @impl initialially this is copied from the course catalog code but then
      *       is subsequently stored in the lui as lui.officialIdentifier.code
@@ -84,7 +107,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * depending on the configuration it may be updatable. In most
      * configurations this should not be updatable. Often used in the
      * calculation of the courseCode
-     *
+     * 
      * @name Subject Area
      * @impl initially copied from the canonical course but then stored in the
      *       Lui as lui.officialIdentifier.division
@@ -99,7 +122,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * typically simply append something like an "O" for on-line to it to
      * differentiate multiple course offerings for the same course. Often used
      * in the calculation of the courseCode.
-     *
+     * 
      * @name Course Number Suffix
      * @impl initially copied from the canonical course but then stored in the
      *       Lui as lui.officialIdentifier.suffixCode
@@ -126,7 +149,7 @@ public interface CourseOffering extends IdNamelessEntity {
     /**
      * Indicates that the entire course offering is an Honors Course ??? Is this
      * an enrollment restriction rule or a flag or both?
-     *
+     * 
      * @name Is Honors Offering
      * @impl store in a generic lui luCodes type of field?
      */
@@ -136,7 +159,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * Total maximum number of "seats" or enrollment slots that can be filled
      * for the offering. Calculated based on sum of all the maximum seats of
      * primary activity type offerings.
-     *
+     * 
      * @name Maximum Enrollment
      * @impl maps to Lui.maximumEnrollment
      */
@@ -146,7 +169,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * Total minimum number of seats that must be filled for the offering not to
      * be canceled. Calculated based on sum of all the minimum seats of primary
      * activity type offerings
-     *
+     * 
      * @name Minimum Enrollment
      * @impl maps to Lui.minimumEnrollment
      */
@@ -155,7 +178,7 @@ public interface CourseOffering extends IdNamelessEntity {
     /**
      * The unique identifier of the other course offerings with which this
      * offering is joint-listed
-     *
+     * 
      * @name Joint Offering Ids
      * @readOnly I think?
      * @impl Canonical might suggest offerings that can be jointly offered. This
@@ -172,7 +195,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * value is set here then the Clu must have a grading option set
      * on the canonical activity. For example: an id might point to
      * Pass/Fail or Letter Graded option.
-     *
+     * 
      * @name: Grading Option Id
      * @impl Lui.resultOptionIds of type ???
      */
@@ -183,7 +206,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * grading scheme in which an eligible student can register. This
      * list of options includes the Grading Option Id plus any
      * additional grading schemes, such as P/F or Audit.
-     *
+     * 
      * @name: registration Grading Option Ids
      * @impl Lui.resultOptionIds of type ???
      */
@@ -191,7 +214,7 @@ public interface CourseOffering extends IdNamelessEntity {
 
     /**
      * A display string for the credit option.
-     *
+     * 
      * @name Credit Option Display
      * @readOnly
      */
@@ -217,7 +240,7 @@ public interface CourseOffering extends IdNamelessEntity {
     /**
      * Instructors for this course offering TODO: find out if the canonical
      * instructors should be copied down
-     *
+     * 
      * @name Instructors
      * @impl These are derived from Lui Person relations with instructor type
      */
@@ -232,7 +255,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * typically an academic department but could be for example the extended
      * studies office that is responsible for delivering the course even though
      * it's content is managed by an academic department.
-     *
+     * 
      * @name Units Deployment
      * @impl initalized from canonical course units deployment but then stored
      *       in lui.unitsDeployment
@@ -244,7 +267,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * course as approved in its canonical form. This is the organization that
      * has oversight of the curriculum. This is typically an academic
      * department.
-     *
+     * 
      * @name Units Content Owner
      * @readOnly on updates
      * @impl this is never updatable so it should just be grabbed from the
@@ -265,7 +288,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * to store this TODO: make sure we are consistent on how we spell Waitlist,
      * should be spelled Waitlist, or Wait List or Wait-List (as the
      * merriam-webster has it)
-     *
+     * 
      * @name Has Waitlist
      * @impl not sure how to store this, it depends on how we end up
      *       implementing waitlists.
@@ -280,7 +303,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * values from the type service. TODO: Decide if we need a separate
      * getHasWaitList, perhaps no value in this field means no waitlist. TODO:
      * Cross validate with hasWaitlist
-     *
+     * 
      * @name Waitlist Type Key
      * @impl TODO: decide if this this should be stored on the Lui or on a
      *       waitlist object?
@@ -301,14 +324,14 @@ public interface CourseOffering extends IdNamelessEntity {
      * @name Waitlist Maximum
      * @impl maps to Lui.waitlistMaximum
      */
-    public Integer getWaitlistMaximum();
+    public Integer getWaitlistMaximum();    
 
 
-    /************* Finances ***************************/
+  /************* Finances ***************************/
 
     /**
      * The primary source of funding for the offering.
-     *
+     * 
      * @name Funding Source
      * @impl fyi "funding source" is an enumeration values are state support,
      *       self-support, contract funding
@@ -320,7 +343,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * from course catalog (canonical) TODO: find a place to store this on the
      * canonical course because it does not currently exist there TODO: Decide
      * if this is really a rule or a CluSet or what?
-     *
+     * 
      * @name Is Financial Aid Eligible
      * @impl TODO: decide where to store
      */
@@ -375,25 +398,11 @@ public interface CourseOffering extends IdNamelessEntity {
     public String getCreditCnt();
 
     /**
-     * Identifies the number of a course as reflected in the course catalog.
-     * This typically must be unique across all courses offered during that
-     * term. If the user wants to create two separate offerings for the same
-     * course they must modify this code to make it unique. For example: An
-     * on-line offering of the course might have an "O" appended to it to
-     * distinguish it from the face to face offering, i.e. ENG101 and ENG101O
-     * Initially copied from the course catalog but then, depending on the
-     * configuration it may be updatable. Often this field is configured so that
-     * it is not not directly updatable but rather is calculated from it's two
-     * constituent parts, the subject area and the course number suffix. For
-     * example: Subject Area = "ENG" and Suffix = "101" then code = "ENG101"
+     * Gets the Grading Name
      *
-     * This field is differentiated from the Couurse Offering Code in
-     * that the Course Offering Code can updated while the Course Code
-     * always indicates the official canonical code.
-     *
-     * @name Course Code
+     * @name Grading
      * @readOnly
-     * @impl this is a read only copy of the official canonical course code
+     * @impl this is the grading name - last word in gradingOptionId
      */
-    public String getCourseCode();
+    public String getGradingOption();
 }

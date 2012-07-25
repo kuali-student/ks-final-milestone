@@ -190,7 +190,7 @@ public abstract class AbstractTransactionalDaoTest {
 	private void process(File sqlFile) throws FileNotFoundException {
 		BufferedReader in
 		   = new BufferedReader(new FileReader(sqlFile));
-		String ln = null;
+		String ln;
 		
 		//Check if oracle
 		TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
@@ -207,7 +207,6 @@ public abstract class AbstractTransactionalDaoTest {
 			jtaTxManager.commit(txStatus);
 		} catch (Exception e) {
 			LOG.error(e);
-            LOG.error("Statement in error: "  + ln);
 			jtaTxManager.rollback(txStatus);
 		}
 		finally{

@@ -21,7 +21,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
@@ -68,12 +67,10 @@ public class TestAppointmentServiceImpl {
     private AppointmentSlotInfo apptSlotInfo;
 //    private String slotId;
     private Date startDate;
-    private String principalId = "123";
 
     // No longer @Before
     public void before() {
         contextInfo = new ContextInfo();
-        contextInfo.setPrincipalId(principalId);
         makeAppointmentWindowInfo();
         makeAppointmentSlotInfo();
     }
@@ -1054,7 +1051,7 @@ public class TestAppointmentServiceImpl {
         before();
         try {
             AppointmentWindowInfo windowInfo = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
-                    apptWindowInfo, contextInfo);
+                    apptWindowInfo, new ContextInfo());
             String id = windowInfo.getId();
             // Fetch it
             AppointmentWindowInfo retrieved = appointmentService.getAppointmentWindow(id, contextInfo);

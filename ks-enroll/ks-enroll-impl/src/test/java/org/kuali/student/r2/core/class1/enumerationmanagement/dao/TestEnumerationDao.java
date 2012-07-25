@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -61,8 +60,6 @@ public class TestEnumerationDao extends AbstractTransactionalDaoTest{
         entity.setEnumerationState(existingEntity.getEnumerationState());
         entity.setEnumerationType(existingEntity.getEnumerationType());
         entity.setId("Key3");
-        entity.setCreateId("SYSTEM");
-        entity.setCreateTime(new Date());
 
         entity.setDescrPlain("desc3");
         

@@ -32,7 +32,6 @@ import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
-import javax.annotation.Resource;
 import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -78,10 +77,9 @@ public class AppointmentServiceImplHelper {
     */
     public AppointmentInfo createAppointmentNoTransact(String personId, String appointmentSlotId, String appointmentTypeKey, AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentEntity  appointmentEntity = new AppointmentEntity(appointmentInfo);
-        appointmentEntity.setCreateId(contextInfo.getPrincipalId());
-        appointmentEntity.setCreateTime(contextInfo.getCurrentDate());
-        appointmentEntity.setUpdateId(contextInfo.getPrincipalId());
-        appointmentEntity.setUpdateTime(contextInfo.getCurrentDate());
+      
+        appointmentEntity.setEntityCreated(contextInfo);
+        
         // TODO: Determine if there should be a check between apptType/slotId and apptInfo counterparts
         // Need to manually set the entity since appointmentInfo only has an id for its corresponding AppointmentSlot
         AppointmentSlotEntity slotEntity = appointmentSlotDao.find(appointmentSlotId);
@@ -235,10 +233,9 @@ public class AppointmentServiceImplHelper {
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentSlotEntity appointmentSlotEntity = new AppointmentSlotEntity(appointmentSlotTypeKey, appointmentSlotInfo);
-        appointmentSlotEntity.setCreateId(contextInfo.getPrincipalId());
-        appointmentSlotEntity.setCreateTime(contextInfo.getCurrentDate());
-        appointmentSlotEntity.setUpdateId(contextInfo.getPrincipalId());
-        appointmentSlotEntity.setUpdateTime(contextInfo.getCurrentDate());
+        
+        appointmentSlotEntity.setEntityCreated(contextInfo);
+        
         // Need to manually set the entity since appointmentSlotInfo only has an id for its corresponding AppointmentWindow
         AppointmentWindowEntity windowEntity = appointmentWindowDao.find(appointmentWindowId);
         if (null == windowEntity) {
@@ -424,7 +421,7 @@ public class AppointmentServiceImplHelper {
     }
     
     private int _computeTotalStudents(AppointmentWindowInfo apptWinInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        List<String> ids = populationService.getMembersAsOfDate(apptWinInfo.getAssignedPopulationId(), contextInfo.getCurrentDate(), contextInfo);
+        List<String> ids = populationService.getMembersAsOfDate(apptWinInfo.getAssignedPopulationId(), new Date(), contextInfo);
         if (ids != null) {
             return ids.size();
         } else {

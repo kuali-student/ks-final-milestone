@@ -256,7 +256,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
+    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
         <property name="lprDao" ref="lprDao"/>
    		<property name="lprRosterDao" ref="lprRosterDao"/>
     	<property name="lprTransDao" ref="lprTransDao"/>

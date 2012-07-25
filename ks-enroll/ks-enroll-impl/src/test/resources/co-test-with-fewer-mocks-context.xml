@@ -222,7 +222,7 @@
 
     <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
         <property name="lprDao" ref="lprDao" />
-        <property name="lprTransactionDao" ref="lprTransactionDao" />
+        <property name="lprTransctionDao" ref="lprTransactionDao" />
         <property name="lprTransactionItemDao" ref="lprTransactionItemDao" />
     </bean>
 

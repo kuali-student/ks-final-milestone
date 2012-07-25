@@ -80,7 +80,7 @@
                       p:propertyName="creditCnt"/>
                 <bean parent="Uif-DataField"
                       p:label="GRADING"
-                      p:propertyName="gradingOptionId"/>
+                      p:propertyName="gradingOption"/>
                 <!--<bean parent="Uif-DataField"-->
                       <!--p:label="STATUS"-->
                       <!--p:propertyName="stateKey"/>-->

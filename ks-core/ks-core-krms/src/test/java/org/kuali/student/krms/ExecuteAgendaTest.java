@@ -1,14 +1,10 @@
 package org.kuali.student.krms;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.joda.time.DateTime;
+import org.junit.Before;
+import org.junit.Test;
 import org.kuali.rice.kew.util.PerformanceLogger;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.EngineResults;
@@ -21,9 +17,7 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.framework.engine.Agenda;
-import org.kuali.rice.krms.framework.engine.AgendaTree;
 import org.kuali.rice.krms.framework.engine.BasicAgenda;
-import org.kuali.rice.krms.framework.engine.BasicAgendaTree;
 import org.kuali.rice.krms.impl.repository.AgendaBoService;
 import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.rice.krms.impl.repository.FunctionBoServiceImpl;
@@ -34,10 +28,13 @@ import org.kuali.rice.krms.test.KRMSTestCase;
 import org.kuali.rice.krms.test.TestActionTypeService;
 import org.kuali.rice.test.BaselineTestCase.BaselineMode;
 import org.kuali.rice.test.BaselineTestCase.Mode;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.student.core.statement.util.RulesEvaluationUtil;
 
-import org.junit.Before;
-import org.junit.Test;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -70,7 +67,7 @@ public class ExecuteAgendaTest extends KRMSTestCase {
 	    static final String BOOL2 = "bool2";
 	    static final String NULL_FACT = "nullFact";
 	//
-	//private RulesEvaluationUtil rulesEvaluationUtil;
+	private RulesEvaluationUtil rulesEvaluationUtil;
 	protected ContextBoService contextRepository;
 	protected KrmsTypeRepositoryService krmsTypeRepository;
 	private AgendaBoService agendaBoService;
@@ -232,9 +229,9 @@ public class ExecuteAgendaTest extends KRMSTestCase {
 //        executionFacts.put(KSKRMSConstants.TERM_APPROVED_COURSE, studentId);
 
         // TODO 3.  Execute the agenda...
-/*		EngineResults engineResults = rulesEvaluationUtil
+		EngineResults engineResults = rulesEvaluationUtil
 				.executeAgenda(agenda,
-						executionFacts);*/
+						executionFacts);
 
 //		List<ValidationResultInfo> resultInfos = new ArrayList<ValidationResultInfo>();
 //

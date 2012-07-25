@@ -54,7 +54,7 @@ public class StateServiceImpl implements StateService {
     public void setLifecycleDao(LifecycleDao lifecycleDao) {
         this.lifecycleDao = lifecycleDao;
     }
-
+    
     public CriteriaLookupService getCriteriaLookupService() {
         return criteriaLookupService;
     }
@@ -162,9 +162,9 @@ public class StateServiceImpl implements StateService {
 
         entity = new LifecycleEntity(lifecycleInfo);
         entity.setId(lifecycleKey);
-
+        
         entity.setEntityCreated(contextInfo);
-
+        
         lifecycleDao.persist(entity);
         return entity.toDto();
     }
@@ -178,9 +178,9 @@ public class StateServiceImpl implements StateService {
             throw new DoesNotExistException(lifecycleKey);
         }
         entity.fromDto(lifecycleInfo);
-
+        
         entity.setEntityUpdated(contextInfo);
-
+        
         lifecycleDao.merge(entity);
         return entity.toDto();
     }
@@ -276,9 +276,9 @@ public class StateServiceImpl implements StateService {
         entity = new StateEntity(stateInfo);
         entity.setId(stateKey);
         entity.setLifecycleKey(lifecycleKey);
-
+       
         entity.setEntityCreated(contextInfo);
-
+        
         stateDao.persist(entity);
         return entity.toDto();
     }
@@ -286,8 +286,8 @@ public class StateServiceImpl implements StateService {
     @Override
     @Transactional
     public StateInfo updateState(String stateKey, StateInfo stateInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException,
+            throws DataValidationErrorException, DoesNotExistException, 
+            InvalidParameterException, MissingParameterException, OperationFailedException, 
             PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         StateEntity entity = stateDao.find(stateKey);
         if (entity == null) {
@@ -296,15 +296,15 @@ public class StateServiceImpl implements StateService {
         entity.fromDto(stateInfo);
 
         entity.setEntityUpdated(contextInfo);
-
+        
         stateDao.merge(entity);
         return entity.toDto();
     }
 
     @Override
     @Transactional
-    public StatusInfo deleteState(String stateKey, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public StatusInfo deleteState(String stateKey, ContextInfo contextInfo) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
             OperationFailedException, PermissionDeniedException {
         StateEntity entity = stateDao.find(stateKey);
         if (entity == null) {

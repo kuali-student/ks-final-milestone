@@ -166,12 +166,8 @@
                                 <inputFile>ks-ActivityOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-FormatOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegistrationGroupInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-SeatPoolDefinitionInfo-dictionary.xml</inputFile>   -->
-                                <!-- Course Offering Set -->
-                                <inputFile>ks-SocRolloverResultInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-SocRolloverResultItemInfo-dictionary.xml</inputFile>
-
-                                <!-- Course Registration  -->
+                                <inputFile>ks-SeatPoolDefinitionInfo-dictionary.xml</inputFile>
+                                 Course Registration  
                                 <inputFile>ks-CourseRegistrationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ActivityRegistrationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegistrationRequestInfo-dictionary.xml</inputFile>
@@ -208,12 +204,12 @@
                                 <inputFile>ks-ActivityInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-LoDisplayInfo-dictionary.xml</inputFile>   
                                 <inputFile>ks-LoCategoryInfo-dictionary.xml</inputFile>
-                                 <!--Process -->
+                                 Process 
                                 <inputFile>ks-CheckInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-InstructionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ProcessCategoryInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-ProcessInfo-dictionary.xml</inputFile>
-<!--                                 Program
+                                <inputFile>ks-ProcessInfo-dictionary.xml</inputFile>-->
+<!--                                 Program 
                                 <inputFile>ks-CoreProgramInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-CredentialProgramInfo-dictionary.xml</inputFile> 
                                 <inputFile>ks-HonorsProgramInfo-dictionary.xml</inputFile>  
@@ -232,9 +228,9 @@
                                  State 
                                 <inputFile>ks-StateInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LifecycleInfo-dictionary.xml</inputFile>-->
-<!--                                Population
+                                <!-- Population -->
                                 <inputFile>ks-PopulationInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-PopulationRuleInfo-dictionary.xml</inputFile> -->
+                                <inputFile>ks-PopulationRuleInfo-dictionary.xml</inputFile>
                             </inputFiles>
                         </configuration>                                    
                     </execution>
@@ -313,62 +309,32 @@
                                 <className>AffiliatedOrgInfo</className>
                                 <className>MeetingScheduleInfo</className>
                                 <className>LuiLuiRelationInfo</className>
-                                <className>LuiCapacityInfo</className>     -->
-                                <!-- Course Offering      -->
-                                <className>CourseOfferingInfo</className>
-                                <className>CourseWaitlistEntryInfo</className>
-                                <className>OfferingInstructorInfo</className>
-                                <className>FormatOfferingInfo</className>
-                                <className>ActivityOfferingInfo</className>
-                                <className>RegistrationGroupInfo</className>
-                                <className>SeatPoolDefinitionInfo</className>
-                                <!-- Course Offering Set -->
-                                <className>SocRolloverResultInfo</className>
-                                <className>SocRolloverResultItemInfo</className>
-                                <!-- Course registration -->
-                                <className>CourseRegistrationInfo</className>
-                                <className>ActivityRegistrationInfo</className>
-                                <className>RegGroupRegistrationInfo</className>
-                                <className>RegRequestInfo</className>
-                                <className>RegRequestItemInfo</className>
-                                <className>RegResponseInfo</className>
-                                <className>RegResponseItemInfo</className>
-                                <!-- Exemption -->
-                                <className>ExemptionInfo</className>
-                                <className>ExemptionRequestInfo</className>
-                                <!-- Grading -->
-                                <className>GradeRosterInfo</className>
-                                <className>GradeRosterEntryInfo</className>
-                                <className>GradeValuesGroupInfo</className>
-                                <!-- LRR -->
+                                <className>LuiCapacityInfo</className>
+                                LRR 
                                 <className>LearningResultRecordInfo</className>
                                 <className>ResultSourceInfo</className>
-                                <!--LRC -->
+                                LRC 
                                 <className>ResultValuesGroupInfo</className>
                                 <className>ResultValueInfo</className>
                                 <className>ResultScaleInfo</className>      
-                                <!--Program -->
+                                Program 
                                 <className>CoreProgramInfo</className>
                                 <className>CredentialProgramInfo</className> 
                                 <className>HonorsProgramInfo</className>  
                                 <className>MajorDisciplineInfo</className>  
                                 <className>ProgramRequirementInfo</className>  
                                 <className>ProgramVariationInfo</className>
-                                <!--Process -->
-                                <className>CheckInfo</className>
+                                Process 
+-->                                <className>CheckInfo</className>
                                 <className>InstructionInfo</className>
                                 <className>ProcessCategoryInfo</className>
-                                <className>ProcessInfo</className>
-                                <!--State -->
+                                <className>ProcessInfo</className><!--
+                                State 
                                 <className>StateInfo</className>
                                 <className>LifecycleInfo</className>
-                                <!--Type -->
+                                Type 
                                 <className>TypeInfo</className>
-                                <className>TypeTypeRelationInfo</className>
-
-                                <!-- Population -->
-                                <className>PopulationInfo</className>
-                                <className>PopulationRuleInfo</className>
+                                <className>TypeTypeRelationInfo</className>-->
                             </classNames>
                         </configuration>
                     </execution>                  

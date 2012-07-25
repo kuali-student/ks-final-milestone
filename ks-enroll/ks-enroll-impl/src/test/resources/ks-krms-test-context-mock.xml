@@ -254,13 +254,9 @@
     <bean id="lprTransItemDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao">
         <property name="em" ref="entityManager"/>
     </bean>
-    
-    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
-        <property name="lprDao" ref="lprDao"/>
-   		<property name="lprRosterDao" ref="lprRosterDao"/>
-    	<property name="lprTransDao" ref="lprTransDao"/>
-    	<property name="lprTransItemDao" ref="lprTransItemDao"/>
-    	<property name="lprRosterEntryDao" ref="lprRosterEntryDao"/>
+
+    <bean id="lprService"
+          class="org.kuali.student.enrollment.class1.lpr.service.impl.mock.LuiPersonRelationServiceMockImpl">
     </bean>
 
     <bean id="gradeRosterAssembler"

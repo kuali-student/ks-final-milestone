@@ -148,7 +148,7 @@ public class TestProcessServiceModel {
         }
         // check the schema
         validateSchemaAndContent("select * from KSEN_PROCESS_CHECK", 18);
-        validateSchemaAndContent("select * from KSEN_PROCESS_CHECK_ATTR", 5);
+        validateSchemaAndContent("select * from KSEN_PROCESS_CHECK_ATTR", 3);
 
     }
 

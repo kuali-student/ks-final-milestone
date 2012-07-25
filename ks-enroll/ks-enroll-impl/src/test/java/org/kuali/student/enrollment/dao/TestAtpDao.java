@@ -99,14 +99,12 @@ public class TestAtpDao {
 
         AtpEntity atp = new AtpEntity();
         atp.setName("atpTest");
-        atp.setDescrPlain("plain");
-        atp.setDescrFormatted("formatted");
+        atp.setDescrPlain ("plain");
+        atp.setDescrFormatted ("formatted");
         atp.setAtpState(existingEntity.getAtpState());
         atp.setAtpType(existingEntity.getAtpType());
         atp.setEndDate(existingEntity.getEndDate());
         atp.setStartDate(existingEntity.getStartDate());
-        atp.setCreateId(principalId);
-        atp.setCreateTime(new Date());
         AtpAttributeEntity attr = new AtpAttributeEntity();
         attr.setKey("CredentialProgramType");
         attr.setValue("kuali.lu.type.credential.Baccalaureate");

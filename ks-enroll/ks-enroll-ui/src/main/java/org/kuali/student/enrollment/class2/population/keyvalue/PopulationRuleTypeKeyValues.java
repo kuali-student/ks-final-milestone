@@ -51,21 +51,21 @@ public class PopulationRuleTypeKeyValues extends UifKeyValuesFinderBase implemen
     public List<KeyValue> getKeyValues(ViewModel model) {
 
         List<KeyValue> keyValues = new ArrayList();
-        List<String> populationRuleTypeKeyList = new ArrayList();
+        List<String> populationTypeKeyList = new ArrayList();
         // TODO: Change hardcoded values to DB call after DB is fixed
-        List<String> populationRuleTypeList = new ArrayList(Arrays.asList("Any Type", "Core", "Union", "Intersection", "Exclusion"));
+        List<String> populationTypeList = new ArrayList(Arrays.asList("Any Type", "Core", "Union", "Intersection", "Exclusion"));
 
         try {
-            for (String populationRuleType : populationRuleTypeList ) {
-                if (populationRuleType.equalsIgnoreCase("Any Type")) {
-                    populationRuleTypeKeyList = getPopulationService().getPopulationRuleIdsByType("NONE", getContextInfo());
-                    for (String keyVal : populationRuleTypeKeyList){
-                        keyValues.add(new ConcreteKeyValue(populationRuleType, keyVal));
+            for (String populationType : populationTypeList ) {
+                if (populationType.equalsIgnoreCase("Any Type")) {
+                    populationTypeKeyList = getPopulationService().getPopulationIdsByType("NONE", getContextInfo());
+                    for (String keyVal : populationTypeKeyList){
+                        keyValues.add(new ConcreteKeyValue(populationType, keyVal));
                     }
                 } else {
-                    populationRuleTypeKeyList = getPopulationService().getPopulationIdsByType(populationRuleType, getContextInfo());
-                    for (String keyVal : populationRuleTypeKeyList){
-                        keyValues.add(new ConcreteKeyValue(populationRuleType, keyVal));
+                    populationTypeKeyList = getPopulationService().getPopulationIdsByType(populationType, getContextInfo());
+                    for (String keyVal : populationTypeKeyList){
+                        keyValues.add(new ConcreteKeyValue(populationType, keyVal));
                     }
                 }
             }
