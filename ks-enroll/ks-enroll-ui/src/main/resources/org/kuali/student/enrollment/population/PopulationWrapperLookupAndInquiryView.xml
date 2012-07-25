@@ -127,11 +127,11 @@
                                     <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationRuleTypeKeyValues"/>
                                 </property>
                             </bean>
-
+                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.name" p:label="Rule" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" />
                             <bean parent="Uif-InputField" p:propertyName="referencePopulation.name" p:label="Reference Population" p:labelPlacement="TOP" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.exclusion'}" />
 
                             <bean  parent="Uif-TableCollectionSection" p:layoutManager.style="width: 100%; display:block;" p:render="@{!#dp.childPopulations.empty}">
-                                <property name="headerText" value="Additional Population(s)" />
+                                <property name="headerText" value="Population(s)" />
                                 <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
                                 <property name="propertyName" value="childPopulations" />
                                 <property name="layoutManager.renderSequenceField" value="false" />
@@ -145,9 +145,7 @@
                                     </list>
                                 </property>
                             </bean>
-
-
-                            <bean parent="Uif-MessageField" p:label="Additional Population(s)" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No Child Population(s)" p:render="@{#dp.childPopulations.empty}"/>
+                            <!--<bean parent="Uif-MessageField" p:label="Additional Population(s)" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No Child Population(s)" p:render="@{#dp.childPopulations.empty}"/>-->
                         </list>
                     </property>
                 </bean>
