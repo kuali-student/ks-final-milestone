@@ -302,7 +302,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
     protected AcademicRecordService getAcademicRecordService() {
         if (academicRecordService == null){
-            academicRecordService = (AcademicRecordService) GlobalResourceLoader.getService(new QName(AcademicRecordServiceConstants.NAMESPACE, AcademicRecordServiceConstants.SERVICE_NAME));
+            academicRecordService = (AcademicRecordService) GlobalResourceLoader.getService(new QName(AcademicRecordServiceConstants.NAMESPACE, AcademicRecordServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return academicRecordService;
     }
