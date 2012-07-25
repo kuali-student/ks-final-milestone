@@ -43,6 +43,8 @@ import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
+
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -82,7 +84,8 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
 
             //Display credit count
             CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
-            coInfo.setCreditCnt(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
+           // coInfo.setCreditCnt(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
+            coInfo.setCreditCnt(ViewHelperUtil.getCreditCount(coInfo, courseInfo));
             CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
 
             formObject.setCourse(courseInfo);
