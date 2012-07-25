@@ -18,7 +18,7 @@ package org.kuali.student.r2.core.class1.process.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwnerNew;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
@@ -28,10 +28,12 @@ import org.kuali.student.r2.core.process.infc.ProcessCategory;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class represents the KSEN_PROCESS_CATEGORY table.
@@ -40,7 +42,7 @@ import java.util.List;
  */
 @Entity
 @Table (name = "KSEN_PROCESS_CATEGORY")
-public class ProcessCategoryEntity extends MetaEntity implements AttributeOwnerNew<ProcessCategoryAttributeEntity> {
+public class ProcessCategoryEntity extends MetaEntity implements AttributeOwner<ProcessCategoryAttributeEntity> {
 
     ////////////////////
     // DATA FIELDS
@@ -61,8 +63,8 @@ public class ProcessCategoryEntity extends MetaEntity implements AttributeOwnerN
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true)
-    private List<ProcessCategoryAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch= FetchType.EAGER)
+    private Set<ProcessCategoryAttributeEntity> attributes;
 
     //////////////////////////
     // CONSTRUCTORS ETC.
@@ -87,7 +89,7 @@ public class ProcessCategoryEntity extends MetaEntity implements AttributeOwnerN
             descrFormatted = null;
             descrPlain = null;
         }
-        this.setAttributes(new ArrayList<ProcessCategoryAttributeEntity>());
+        this.setAttributes(new HashSet<ProcessCategoryAttributeEntity>(processCategory.getAttributes().size()));
         for (Attribute att : processCategory.getAttributes()) {
             this.getAttributes().add(new ProcessCategoryAttributeEntity(att, this));
         }
@@ -161,12 +163,12 @@ public class ProcessCategoryEntity extends MetaEntity implements AttributeOwnerN
     }
 
     @Override
-    public List<ProcessCategoryAttributeEntity> getAttributes() {
+    public Set<ProcessCategoryAttributeEntity> getAttributes() {
         return attributes;
     }
 
     @Override
-    public void setAttributes(List<ProcessCategoryAttributeEntity> attributes) {
+    public void setAttributes(Set<ProcessCategoryAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 }

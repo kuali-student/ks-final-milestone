@@ -2,10 +2,13 @@ package org.kuali.student.enrollment.class1.lpr.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -22,6 +25,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
@@ -30,7 +34,7 @@ import org.kuali.student.r2.common.infc.Attribute;
  */
 @Entity
 @Table(name = "KSEN_LPR")
-public class LprEntity extends MetaEntity {
+public class LprEntity extends MetaEntity implements AttributeOwner<LprAttributeEntity>{
 
 	@Column(name = "PERS_ID")
 	private String personId;
@@ -55,11 +59,13 @@ public class LprEntity extends MetaEntity {
 	@Column(name = "LPR_STATE")
 	private String personRelationStateId;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<LprAttributeEntity> attributes;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval=true, fetch=FetchType.EAGER)
+	private final Set<LprAttributeEntity> attributes = new HashSet<LprAttributeEntity>();
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lpr")
-	private List<LprResultValueGroupEntity> resultValueGroups;
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "KSEN_LPR_RESULT_VAL_GRP", joinColumns = @JoinColumn(name = "LPR_ID"))
+	@Column(name = "RESULT_VAL_GRP_ID")
+	private final Set<String> resultValueGroups = new HashSet<String>();
 
 	public LprEntity() {
 	}
@@ -85,10 +91,9 @@ public class LprEntity extends MetaEntity {
 		
 		for (Attribute attr : dto.getAttributes()) {
 
-		EntityMergeResult<LprAttributeEntity> attributeMergeResult = attributeMergeHelper
-				.merge(this.attributes,
-						(List<Attribute>) dto.getAttributes(),
-						new EntityMergeOptions<LprAttributeEntity, Attribute>() {
+			this.attributes.add(new LprAttributeEntity(attr, this));
+		
+		}
 
 		this.resultValueGroups.clear();
 
@@ -144,14 +149,6 @@ public class LprEntity extends MetaEntity {
 		this.personRelationStateId = personRelationStateId;
 	}
 
-	public List<LprAttributeEntity> getAttributes() {
-		return attributes;
-	}
-
-	public void setAttributes(List<LprAttributeEntity> attributes) {
-		this.attributes = attributes;
-	}
-
 	public LprInfo toDto() {
 		LprInfo lprInfo = new LprInfo();
 		lprInfo.setId(getId());
@@ -189,13 +186,28 @@ public class LprEntity extends MetaEntity {
 		return lprInfo;
 	}
 
-	public List<LprResultValueGroupEntity> getResultValueGroups() {
+	
+
+	public Set<LprAttributeEntity> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(Set<LprAttributeEntity> attributes) {
+		this.attributes.clear();
+		
+		if (attributes != null)
+			this.attributes.addAll(attributes);
+	}
+
+	public Set<String> getResultValueGroups() {
 		return resultValueGroups;
 	}
 
-	public void setResultValueGroups(
-			List<LprResultValueGroupEntity> resultValueGroups) {
-		this.resultValueGroups = resultValueGroups;
+	public void setResultValueGroups(Set<String> resultValueGroups) {
+		this.resultValueGroups.clear();
+		
+		if (resultValueGroups != null)
+			this.resultValueGroups.addAll(resultValueGroups);
 	}
 
 	public BigDecimal getCommitmentPercent() {

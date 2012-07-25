@@ -1,9 +1,11 @@
 package org.kuali.student.r2.core.class1.process.model;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.infc.Check;
 
@@ -11,23 +13,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.*;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-
 @Entity
 @Table(name = "KSEN_PROCESS_CHECK")
-public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAttributeEntity> {
+public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttributeEntity> {
 
     ////////////////////
     // DATA FIELDS
@@ -57,29 +51,37 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
     @Column(name = "AGENDA_ID")
     private String agendaId;
 
-    @ElementCollection
-    @MapKeyColumn(name = "ATTR_KEY")
-    @Column(name = "ATTR_VALUE")
-    @CollectionTable(name="KSEN_PROCESS_CHECK_ATTR", joinColumns = @JoinColumn(name = "OWNER_ID"))
-    private Map<String, String> attributes;
-    /*@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<CheckAttributeEntity> attributes;*/
+    @Column(name = "RIGHT_AGENDA_ID")
+    private String rightAgendaId;
 
-    @Override
-    public void setAttributes(Set<CheckAttributeEntity> attributes) {
-        this.attributes = attributes;
-    }
+    @Column(name = "LEFT_AGENDA_ID")
+    private String leftAgendaId;
+    
+    // NOTE: in the database this is an @ManyToOne but we want to sidestep JPA
+    // loading a lot of nested data so we just store the id and manage the fetch 
+    // of the process data separately.
+    @Column(name = "CHILD_PROCESS_ID")
+    private String childProcessId;
 
-    public CheckEntity() { attributes = new Hashtable<String, String>(); }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private final Set<CheckAttributeEntity> attributes = new HashSet<CheckAttributeEntity>();
 
-    public CheckEntity(Check check) {
+    //////////////////////////
+    // CONSTRUCTORS ETC.
+    //////////////////////////
+
+	public CheckEntity(Check check) {
         super(check);
         this.setId(check.getId());
         this.setCheckType(check.getTypeKey());
         this.fromDTO(check);
     }
 
-    public void fromDTO(Check check) {
+    public CheckEntity() {
+		super();
+	}
+
+	public void fromDTO(Check check) {
         this.setCheckState(check.getStateKey());
         this.setName(check.getName());
         if (check.getDescr() != null) {
@@ -89,23 +91,19 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
             this.setDescrFormatted(null);
             this.setDescrPlain(null);
         }
-        this.setIssueId(check.getIssueId());
+        this.setIssueId(check.getHoldIssueId());
         this.setMilestoneType(check.getMilestoneTypeKey());
         this.setAgendaId(check.getAgendaId());
         this.setRightAgendaId(check.getRightComparisonValue());
         this.setLeftAgendaId(check.getLeftComparisonAgendaId());
-        this.setChildProcessId(check.getProcessKey());
-        this.attributes = new Hashtable<String, String>();
+        this.setChildProcessId(check.getChildProcessKey());
+        
+        this.attributes.clear();
+        
         for (Attribute att : check.getAttributes()) {
-            this.attributes.put(att.getKey(), att.getValue());
+            this.attributes.add(new CheckAttributeEntity(att, this));
         }
 
-        /*
-        this.setAttributes(new HashSet<CheckAttributeEntity>());
-        for (Attribute att : check.getAttributes()) {
-            this.getAttributes().add(new CheckAttributeEntity(att, this));
-        }
-        */
     }
 
     /**
@@ -118,22 +116,15 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
         checkInfo.setTypeKey(checkType);
         checkInfo.setStateKey(checkState);
         checkInfo.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
-        checkInfo.setIssueId(issueId);
+        checkInfo.setHoldIssueId(issueId);
         checkInfo.setMilestoneTypeKey(milestoneType);
         checkInfo.setAgendaId(agendaId);
         checkInfo.setRightComparisonAgendaId(rightAgendaId);
         checkInfo.setLeftComparisonAgendaId(leftAgendaId);
-        checkInfo.setProcessKey(childProcessId);
+        checkInfo.setChildProcessKey(childProcessId);
+        
         List<AttributeInfo> dtoAttributes = checkInfo.getAttributes();
         dtoAttributes.clear();
-        for (String key : this.attributes.keySet()) {
-            AttributeInfo inf = new AttributeInfo();
-            inf.setKey(key);
-            inf.setValue(attributes.get(key));
-            dtoAttributes.add(inf);
-        }
-        checkInfo.setAttributes(dtoAttributes);
-/*
         List<AttributeInfo> attributes = checkInfo.getAttributes();
         if (getAttributes() != null) {
             for (CheckAttributeEntity att : getAttributes()) {
@@ -142,7 +133,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
             }
         }
         checkInfo.setAttributes(attributes);
-*/
+        
         return checkInfo;
     }
 
@@ -237,20 +228,18 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
         this.childProcessId = childProcessId;
     }
 
-    public void addAttribute (String key, String value) {
-        attributes.put(key, value);
-    }
- /*
     @Override
     public Set<CheckAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    @Override
-    public void setAttributes(List<CheckAttributeEntity> attributes) {
-        this.attributes = attributes;
+    public void setAttributes(Set<CheckAttributeEntity> attributes) {
+    	
+    	this.attributes.clear();
+    	
+    	if (attributes != null)
+    		this.attributes.addAll(attributes);
     }
- */
 
     ///////////////////////
     // FUNCTIONALS
@@ -258,20 +247,41 @@ public class CheckEntity extends MetaEntity implements AttributeOwnerNew<CheckAt
 
     @Override
     public String toString() {
-        return "CheckEntity{" +
-                "id='" + getId() + '\'' +
-                ", checkType='" + checkType + '\'' +
-                ", checkState='" + checkState + '\'' +
-                ", name='" + name + '\'' +
-                ", descrPlain='" + descrPlain + '\'' +
-                ", descrFormatted='" + descrFormatted + '\'' +
-                ", issueId='" + issueId + '\'' +
-                ", milestoneType='" + milestoneType + '\'' +
-                ", agendaId='" + agendaId + '\'' +
-                ", rightAgendaId='" + rightAgendaId + '\'' +
-                ", leftAgendaId='" + leftAgendaId + '\'' +
-                ", childProcessId='" + childProcessId + '\'' +
-                ", attributes=" + attributes +
-                '}';
+        StringBuilder builder = new StringBuilder("CheckEntity {");
+        builder.append("id='" + getId() + '\'');
+        builder.append(", checkType='" + checkType + '\'');
+        builder.append(", checkState='" + checkState + '\'');
+        builder.append(", name='" + name + '\'');
+        builder.append(", descrPlain='" + descrPlain + '\'');
+        builder.append(", descrFormatted='" + descrFormatted + '\'');
+        builder.append(", issueId='" + issueId + '\'');
+        builder.append(", milestoneType='" + milestoneType + '\'');
+        builder.append(", agendaId='" + agendaId + '\'');
+        builder.append(", rightAgendaId='" + rightAgendaId + '\'');
+        builder.append(", leftAgendaId='" + leftAgendaId + '\'');
+        builder.append(", childProcessId='" + childProcessId + '\'');
+
+        if(!attributes.isEmpty()) {
+            builder.append(", attributes={");
+            for(CheckAttributeEntity attr : attributes) {
+                builder.append(" CheckAttributeEntity [id=");
+                builder.append(attr.getId());
+                builder.append(", key=");
+                builder.append(attr.getKey());
+                builder.append(", value=");
+                builder.append(attr.getValue());
+                builder.append("]");
+            }
+            builder.append(" }");
+        }
+
+        return builder.toString();
     }
+
+	public void addAttribute(String key, String value) {
+		
+		this.attributes.add(new CheckAttributeEntity(new AttributeInfo(key, value), this));
+		
+		
+	}
 }

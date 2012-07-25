@@ -1,9 +1,11 @@
 package org.kuali.student.r2.core.class1.process.model;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.population.model.PopulationEntity;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.infc.Instruction;
@@ -34,7 +36,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "KSEN_PROCESS_INSTRN")
-public class InstructionEntity extends MetaEntity implements AttributeOwnerNew<InstructionAttributeEntity> {
+public class InstructionEntity extends MetaEntity implements AttributeOwner<InstructionAttributeEntity> {
 
     ////////////////////
     // DATA FIELDS
@@ -54,12 +56,14 @@ public class InstructionEntity extends MetaEntity implements AttributeOwnerNew<I
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "PROCESS_ID", nullable = false)
+    // Note: in the ERD and DDL this looks like an @ManyToOne but we use a String instead because we don't want JPA to recursively load
+    // all of the related data.
+    @Column(name = "PROCESS_ID", nullable = false)
     private String processId;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "CHECK_ID", nullable = false)
+    // Note: in the ERD and DDL this looks like an @ManyToOne but we use a String instead because we don't want JPA to recursively load
+    // all of the related data.
+    @Column(name = "CHECK_ID", nullable = false)
     private String checkId;
 
     @Column(name = "APPLD_POPULATION_ID")
@@ -99,7 +103,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwnerNew<I
         super(instruction);
         this.setId(instruction.getId());
         this.processId = instruction.getProcessKey();
-        this.checkId = instruction.getCheckKey();
+        this.checkId = instruction.getCheckId();
         this.instructionType = instruction.getTypeKey();
         this.fromDTO (instruction);
     }
@@ -108,7 +112,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwnerNew<I
         this.instructionState = instruction.getStateKey();
         this.effectiveDate = instruction.getEffectiveDate();
         this.expirationDate = instruction.getExpirationDate();
-        this.appliedPopulationId = instruction.getAppliedPopulationKey();
+        this.appliedPopulationId = instruction.getAppliedPopulationId();
         if (instruction.getMessage() != null) {
             this.messageFormatted = instruction.getMessage().getFormatted();
             this.messagePlain = instruction.getMessage().getPlain();
@@ -138,12 +142,12 @@ public class InstructionEntity extends MetaEntity implements AttributeOwnerNew<I
         instructionInfo.setMeta(super.toDTO());
         instructionInfo.setId(getId());
         instructionInfo.setProcessKey(processId);
-        instructionInfo.setCheckKey(checkId);
+        instructionInfo.setCheckId(checkId);
         instructionInfo.setTypeKey(instructionType);
         instructionInfo.setStateKey(instructionState);
         instructionInfo.setEffectiveDate(effectiveDate);
         instructionInfo.setExpirationDate(expirationDate);
-        instructionInfo.setAppliedPopulationKey(appliedPopulationId);
+        instructionInfo.setAppliedPopulationId(appliedPopulationId);
         instructionInfo.setMessage(new RichTextHelper().toRichTextInfo(messagePlain, messageFormatted));
         instructionInfo.setPosition(position);
         instructionInfo.setIsWarning(warning);

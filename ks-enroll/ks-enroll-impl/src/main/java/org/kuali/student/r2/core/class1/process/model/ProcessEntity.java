@@ -1,9 +1,11 @@
 package org.kuali.student.r2.core.class1.process.model;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.infc.Process;
 
@@ -22,7 +24,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_PROCESS")
-public class ProcessEntity extends MetaEntity implements AttributeOwnerNew<ProcessAttributeEntity> {
+public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessAttributeEntity> {
 
     ////////////////////
     // DATA FIELDS

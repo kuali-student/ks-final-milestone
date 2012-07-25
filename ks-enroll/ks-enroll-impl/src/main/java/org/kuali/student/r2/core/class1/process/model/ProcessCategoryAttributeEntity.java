@@ -16,7 +16,7 @@
  */
 package org.kuali.student.r2.core.class1.process.model;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
@@ -31,45 +31,16 @@ import javax.persistence.Table;
  */
 @Entity
 @Table (name = "KSEN_PROCESS_CATEGORY_ATTR")
-public class ProcessCategoryAttributeEntity extends BaseAttributeEntityNew<ProcessCategoryEntity> {
+public class ProcessCategoryAttributeEntity extends BaseAttributeEntity<ProcessCategoryEntity> {
 
-    ////////////////////
-    // DATA FIELDS
-    ////////////////////
+	public ProcessCategoryAttributeEntity() {
+		super();
+	}
 
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private ProcessCategoryEntity owner;
+	public ProcessCategoryAttributeEntity(Attribute att,
+			ProcessCategoryEntity owner) {
+		super(att, owner);
+	}
 
-    //////////////////////////
-    // CONSTRUCTORS ETC.
-    //////////////////////////
 
-    public ProcessCategoryAttributeEntity () {
-    }
-
-    public ProcessCategoryAttributeEntity(String key, String value) {
-        super(key, value);
-    }
-
-    public ProcessCategoryAttributeEntity(Attribute att) {
-        super(att);
-    }
-
-    public ProcessCategoryAttributeEntity(Attribute att, ProcessCategoryEntity owner) {
-        super(att);
-        setOwner(owner);
-    }
-
-    ///////////////////////////
-    // GETTERS AND SETTERS
-    ///////////////////////////
-
-    public ProcessCategoryEntity getOwner() {
-        return owner;
-    }
-
-    public void setOwner(ProcessCategoryEntity owner) {
-        this.owner = owner;
-    }
 }

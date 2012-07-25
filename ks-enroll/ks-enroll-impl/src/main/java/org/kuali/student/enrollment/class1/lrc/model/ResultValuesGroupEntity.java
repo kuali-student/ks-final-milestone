@@ -124,8 +124,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
             }
         }
         for (Attribute att : dto.getAttributes()) {
-            ResultValuesGroupAttributeEntity attEntity = new ResultValuesGroupAttributeEntity(att);
-            attEntity.setOwner(this);
+            ResultValuesGroupAttributeEntity attEntity = new ResultValuesGroupAttributeEntity(att, this);
             this.getAttributes().add(attEntity);
         }
     }

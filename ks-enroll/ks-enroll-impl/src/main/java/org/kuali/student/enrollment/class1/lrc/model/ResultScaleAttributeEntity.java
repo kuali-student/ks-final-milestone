@@ -16,27 +16,11 @@ public class ResultScaleAttributeEntity extends BaseAttributeEntity<ResultScaleE
 		super();
 	}
 
-    public ResultScaleAttributeEntity() {
-    }
+	public ResultScaleAttributeEntity(Attribute att, ResultScaleEntity owner) {
+		super(att, owner);
+	}
 
-    public ResultScaleAttributeEntity(String key,
-            String value) {
-        super(key, value);
-    }
 
-    public ResultScaleAttributeEntity(Attribute att) {
-        super(att);
-    }
-
-    @Override
-    public void setOwner(ResultScaleEntity owner) {
-        this.owner = owner;
-    }
-
-    @Override
-    public ResultScaleEntity getOwner() {
-        return owner;
-    }
 //
 //    @Override
 //    public boolean equals(Object obj) {

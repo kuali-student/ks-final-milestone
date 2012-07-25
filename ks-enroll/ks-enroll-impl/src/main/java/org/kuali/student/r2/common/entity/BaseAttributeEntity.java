@@ -72,6 +72,12 @@ public abstract class BaseAttributeEntity<T extends AttributeOwner<?>> extends B
         return attributeInfo;
     }
     
+    public void fromDto(Attribute info) {
+
+    	setKey(info.getKey());
+    	setValue(info.getValue());
+	}
+
     @Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

@@ -21,7 +21,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_LPR_ATTR")
-public class LprAttributeEntity extends BaseAttributeEntityNew<LprEntity> {
+public class LprAttributeEntity extends BaseAttributeEntity<LprEntity> {
 
 	public LprAttributeEntity() {
 		super();
