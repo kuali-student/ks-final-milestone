@@ -24,7 +24,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
@@ -39,9 +40,18 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This class //TODO ...
@@ -67,10 +77,13 @@ public class TestAppointmentServiceImpl {
     private AppointmentSlotInfo apptSlotInfo;
 //    private String slotId;
     private Date startDate;
+    private String principalId = "123";
 
     // No longer @Before
     public void before() {
         contextInfo = new ContextInfo();
+        contextInfo.setPrincipalId(principalId);
+        contextInfo.setCurrentDate(new Date());
         makeAppointmentWindowInfo();
         makeAppointmentSlotInfo();
     }
@@ -1051,7 +1064,7 @@ public class TestAppointmentServiceImpl {
         before();
         try {
             AppointmentWindowInfo windowInfo = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
-                    apptWindowInfo, new ContextInfo());
+                    apptWindowInfo, contextInfo);
             String id = windowInfo.getId();
             // Fetch it
             AppointmentWindowInfo retrieved = appointmentService.getAppointmentWindow(id, contextInfo);

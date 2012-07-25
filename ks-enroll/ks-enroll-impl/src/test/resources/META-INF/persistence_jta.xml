@@ -84,6 +84,7 @@
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemRequestOptionEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryEntity</class>
         <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryAttributeEntity</class>
