@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfo", propOrder = {
         "id", "typeKey", "stateKey", "descr", "courseId",
-        "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle",
+        "termId", "courseCode", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle",
         "creditCnt", "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds",
         "unitsContentOwnerOrgIds",  "maximumEnrollment", 
         "minimumEnrollment", "jointOfferingIds", "gradingOptionId", "gradingOption",
@@ -64,6 +64,9 @@ public class CourseOfferingInfo
 
     @XmlElement
     private RichTextInfo descr;
+
+    @XmlElement
+    private String courseCode;
 
     @XmlElement
     private String courseOfferingCode;
@@ -176,6 +179,7 @@ public class CourseOfferingInfo
         
 
         this.courseOfferingTitle = offering.getCourseOfferingTitle();
+        this.courseCode = offering.getCourseCode();
         this.courseOfferingCode = offering.getCourseOfferingCode();
         this.courseOfferingCode = offering.getCourseOfferingCode();
         this.courseNumberSuffix = offering.getCourseNumberSuffix();
@@ -259,6 +263,15 @@ public class CourseOfferingInfo
 
     public void setDescr(RichTextInfo descr) {
         this.descr = descr;
+    }
+
+    @Override
+    public String getCourseCode() {
+        return this.courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
     }
 
     @Override
