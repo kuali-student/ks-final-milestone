@@ -47,6 +47,8 @@ import org.w3c.dom.Element;
     "activityOfferingsSkipped",
     "sourceTermId",
     "message",
+    "dateInitiated",
+    "dateCompleted",
     "meta",
     "attributes",
     "_futureElements"})
