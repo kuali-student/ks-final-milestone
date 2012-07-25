@@ -1,7 +1,11 @@
 package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
+import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCredentialRecordInfo;
+import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
+import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
@@ -19,8 +23,11 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +44,49 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
     private Map<String, GPAInfo> gpasMap = new LinkedHashMap<String, GPAInfo>();
     private Map<String, String> creditsMap = new LinkedHashMap<String, String>();
     private List<StudentCourseRecordInfo> courseRecordInfoList = new ArrayList<StudentCourseRecordInfo>();
+    private Map<String, LoadInfo> loadsMap = new LinkedHashMap<String, LoadInfo>();
+    private Map<String, StudentProgramRecordInfo> studentProgramRecordsMap = new LinkedHashMap<String, StudentProgramRecordInfo>();
+    private Map<String, StudentCredentialRecordInfo> studentCredentialRecordsMap = new LinkedHashMap<String, StudentCredentialRecordInfo>();
+    private Map<String, StudentTestScoreRecordInfo> studentTestScoreRecordsMap = new LinkedHashMap<String, StudentTestScoreRecordInfo>();
 
     public AcademicRecordServiceMockImpl() {
+        //StudentProgramRecordInfo
+        StudentProgramRecordInfo programRecord = new StudentProgramRecordInfo();
+        programRecord.setProgramId("mock.id.program1");
+        programRecord.setProgramTitle("Program One");
+        programRecord.setProgramCode("MP101");
+        programRecord.setProgramTypeKey("mock.program.type.graduate");
+        Calendar cal = Calendar.getInstance();
+        cal.set(2012, Calendar.JANUARY, 1);
+        programRecord.setAdmittedDate(cal.getTime().toString());
+        programRecord.setCreditsEarned("2");
+        programRecord.setClassStanding("14");
+        studentProgramRecordsMap.put("1",programRecord);
+
+        //StudentCredentialRecordInfo
+        StudentCredentialRecordInfo credentialRecord = new  StudentCredentialRecordInfo();
+        credentialRecord.setProgramId("mock.id.program1");
+        credentialRecord.setProgramCode("MP101");
+        credentialRecord.setProgramTitle("Program One");
+        credentialRecord.setAwardingInstitution("Mock University of Kuali");
+        cal = Calendar.getInstance();
+        cal.set(2012, Calendar.JANUARY, 1);
+        credentialRecord.setDateAdmitted(cal.getTime());
+        cal.set(2012, Calendar.NOVEMBER, 20);
+        credentialRecord.setDateAwarded(cal.getTime());
+        studentCredentialRecordsMap.put("1",credentialRecord);
+
+        //StudentTestScoreRecordInfo
+        StudentTestScoreRecordInfo testScoreRecord = new StudentTestScoreRecordInfo();
+        testScoreRecord.setTestCode("mock.code.test1");
+        testScoreRecord.setTestTitle("The First Mock Test");
+        testScoreRecord.setTestTypeKey("mock.test.type.first");
+        testScoreRecord.setScorePercent("70");
+        testScoreRecord.setScoreValue("70");
+        cal.set(2012, Calendar.JUNE, 03);
+        testScoreRecord.setDateTaken(cal.getTime());
+        studentTestScoreRecordsMap.put("1",testScoreRecord);
+
         //GPAInfo
         GPAInfo gpa = new GPAInfo();
         gpa.setCalculationTypeKey("mockTypeKey1");
@@ -56,6 +104,12 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
         gpa.setValue("3.9");
         gpasMap.put("gpa3", gpa);
 
+        //LoadInfo
+        LoadInfo load = new LoadInfo();
+        load.setLoadLevelTypeKey("mock.TypeKey.MediumLoad");
+        load.setTotalCredits("4");
+        loadsMap.put("mediumLoad", load);
+
         //Credits
         creditsMap.put("credits1", "1");
         creditsMap.put("credits2", "2");
@@ -69,7 +123,7 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
         courseRecord.setCourseCode("DTC101");
         courseRecord.setActivityCode("dummyActivityCode");
         courseRecord.setTermName("term1");
-        Calendar cal = Calendar.getInstance();
+        cal = Calendar.getInstance();
         cal.set(2012, Calendar.JANUARY, 1);
         courseRecord.setCourseBeginDate(cal.getTime());
         cal.set(2012, Calendar.NOVEMBER, 30);
@@ -150,7 +204,6 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
 	}
 
 	@Override
-    /* Mocked */
 	public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(
 			String personId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
@@ -178,7 +231,18 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
 		return courseRecords;
 	}
 
-	@Override
+    @Override
+    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForCourse( String personId, String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
+        for (StudentCourseRecordInfo courseRecord : courseRecordInfoList){
+            if(courseRecord.getPersonId().equals(personId) && courseRecord.getCourseCode().equals(courseId) && (courseRecord.getAssignedGradeValue()!= null || courseRecord.getAdministrativeGradeValue() != null)){
+                courseRecords.add(courseRecord);
+            }
+        }
+        return courseRecords;
+    }
+
+    @Override
 	public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(
 			String personId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
@@ -194,7 +258,6 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
 
 
 	@Override
-    /* Mocked */
 	public GPAInfo getGPAForTerm(String personId, String termId,
 			String calculationTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
@@ -202,18 +265,8 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
 		return gpasMap.get("gpa1");
 	}
 
-	@Override
-    /* Mocked */
-	public GPAInfo getGPAForAcademicCalendar(String personId,
-			String academicCalendarKey, String calculationTypeKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        return gpasMap.get("gpa2");
-	}
 
 	@Override
-    /* Mocked */
 	public GPAInfo getCumulativeGPA(String personId, String calculationTypeKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -221,8 +274,42 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
         return gpasMap.get("gpa3");
 	}
 
-	@Override
-    /* Mocked */
+    @Override
+    public GPAInfo getCumulativeGPAForProgram( String personId,  String programId, String calculationTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return gpasMap.get("gpa2");
+    }
+
+    @Override
+    public GPAInfo getCumulativeGPAForTermAndProgram( String personId,  String programId,  String termKey,  String calculationTypeKey,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return gpasMap.get("gpa2");
+    }
+
+    @Override
+    public LoadInfo getLoadForTerm(String personId,  String termId,  String calculationTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return loadsMap.get("mediumLoad");
+    }
+
+    @Override
+    public List<StudentProgramRecordInfo> getProgramRecords( String personId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return Collections.singletonList(studentProgramRecordsMap.get("1"));
+    }
+
+    @Override
+    public List<StudentCredentialRecordInfo> getAwardedCredentials( String personId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return Collections.singletonList(studentCredentialRecordsMap.get("1"));
+    }
+
+    @Override
+    public List<StudentTestScoreRecordInfo> getTestScoreRecords(String personId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return Collections.singletonList(studentTestScoreRecordsMap.get("1"));
+    }
+
+    @Override
+    public List<StudentTestScoreRecordInfo> getTestScoreRecordsByType( String personId,  String testTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return Collections.singletonList(studentTestScoreRecordsMap.get("1"));
+    }
+
+    @Override
 	public String getEarnedCreditsForTerm(String personId, String termId,
 			String calculationTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
@@ -231,22 +318,16 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
 	}
 
 	@Override
-    /* Mocked */
-	public String getEarnedCreditsForAcademicCalendar(String personId,
-			String academicCalendarKey, String calculationTypeKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        return creditsMap.get("credits2");
-	}
-
-	@Override
-    /* Mocked */
 	public String getEarnedCredits(String personId, String calculationTypeKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
         return creditsMap.get("credits3");
 	}
+
+    @Override
+    public String getEarnedCumulativeCreditsForProgramAndTerm( String personId,  String programId, String termId, String calculationTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return creditsMap.get("credits2");
+    }
 
 }
