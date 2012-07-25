@@ -181,6 +181,7 @@
                             <value>ks-borderBottom2</value>
                         </list>
                     </property>
+                    <property name="layoutManager.addLineGroup.header.render" value="false" />
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="name" p:style="font-weight:bold;">
