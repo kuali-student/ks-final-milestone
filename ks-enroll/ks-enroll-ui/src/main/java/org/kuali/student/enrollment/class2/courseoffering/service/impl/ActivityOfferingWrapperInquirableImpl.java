@@ -52,7 +52,9 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
 
             // Display the Instructor Name with the Highest % of Effort, Jira 1736
             OfferingInstructorInfo offeringInstructorInfo = ViewHelperUtil.findDisplayInstructor(activityOfferingInfo.getInstructors());
-            aoWrapper.setInstructorNameHighestPercentEffort(offeringInstructorInfo.getPersonName());
+            if (null != offeringInstructorInfo) {
+                aoWrapper.setInstructorNameHighestPercentEffort(offeringInstructorInfo.getPersonName());
+            }
 
             return aoWrapper;
         } catch (Exception e) {

@@ -95,7 +95,7 @@
                                         </bean>
 
                                         <bean parent="Uif-MessageField" p:label="Honors Flag"
-                                              p:messageText="@{dataObject.coInfo.isHonorsOffering ? 'YES':'NO'}" />
+                                              p:messageText="@{(dataObject.coInfo.isHonorsOffering eq null or !dataObject.coInfo.isHonorsOffering) ? 'NO':'YES'}" />
 
                                         <!-- PO/UX does not currently want Delivery Formats for inquiry
                                         <bean  parent="Uif-StackedCollectionSection">
