@@ -57,7 +57,7 @@ public class CourseOfferingSetServiceConstants {
     public static final String DELETE_RESULT_ITEM_TYPE_KEY = "kuali.soc.rollover.result.item.delete";
     // item  states
     public static final String SUCCESS_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.item.state.success";
-    public static final String ERROR_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.item.state.error";
+    public static final String ERROR_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.result.item.state.error";
     public static final String WARNING_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.item.state.warning";
     public static final String INFO_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.item.state.info";
     // dynamic attribute key for parameters
