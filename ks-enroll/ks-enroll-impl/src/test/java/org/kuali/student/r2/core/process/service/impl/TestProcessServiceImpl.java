@@ -1,6 +1,7 @@
 package org.kuali.student.r2.core.process.service.impl;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -26,7 +27,8 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:process-test-context.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
-@Ignore //todo fix these tests and unignore. They are breaking and process service is not currently in scope as of 7/16/2012
+@Ignore
+//todo fix these tests and unignore. They are breaking and process service is not currently in scope as of 7/16/2012
 public class TestProcessServiceImpl {
 
     @Resource(name="processServiceAuthDecorator")
@@ -60,13 +62,13 @@ public class TestProcessServiceImpl {
         // Create
         ProcessInfo process = new ProcessInfo();
         process.setOwnerOrgId("Owner1");
-        process.setStateKey(ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY);
+        process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
         processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
         process = processService.getProcess(processId, context);
         assertNotNull(process);
         assertEquals("Owner1", process.getOwnerOrgId());
         assertEquals(ProcessServiceConstants.PROCESS_TYPE_KEY, process.getTypeKey());
-        assertEquals(ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, process.getStateKey());
+        assertEquals(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY, process.getStateKey());
 
         // Update
         process.setOwnerOrgId("Owner2");
@@ -96,9 +98,9 @@ public class TestProcessServiceImpl {
         CheckInfo existingCheck = processService.getCheck("kuali.check.is.alive", context);
         assertNotNull(existingCheck);
         assertNotNull(existingCheck.getAgendaId());
-        assertNotNull(existingCheck.getIssueId());
+        assertNotNull(existingCheck.getHoldIssueId());
         assertNotNull(existingCheck.getMilestoneTypeKey());
-        assertNull(existingCheck.getProcessKey());
+        assertNull(existingCheck.getChildProcessKey());
         assertNotNull(existingCheck.getTypeKey());
         assertNotNull(existingCheck.getStateKey());
 
@@ -106,24 +108,24 @@ public class TestProcessServiceImpl {
         // Create
         CheckInfo check = new CheckInfo();
         check.setAgendaId("AgendaId-1");
-        check.setIssueId("Hold-Issue-2");
+        check.setHoldIssueId("Hold-Issue-2");
         check.setMilestoneTypeKey("milestoneTypeKey-1");
-        check.setProcessKey("kuali.process.registration.basic.eligibility");
-        check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ENABLED);
+        check.setChildProcessKey("kuali.process.registration.basic.eligibility");
+        check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE);
         CheckInfo checkR = processService.createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check, context);
         check = processService.getCheck(checkR.getId(), context);
         assertNotNull(check);
         assertEquals("AgendaId-1", check.getAgendaId());
-        assertEquals("Hold-Issue-2", check.getIssueId());
+        assertEquals("Hold-Issue-2", check.getHoldIssueId());
         assertEquals("milestoneTypeKey-1", check.getMilestoneTypeKey());
-        assertEquals("kuali.process.registration.basic.eligibility", check.getProcessKey());
+        assertEquals("kuali.process.registration.basic.eligibility", check.getChildProcessKey());
         assertEquals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check.getTypeKey());
         assertEquals("kuali.process.check.lifecycle",check.getStateKey());
 
         // Update
-        check.setIssueId("Hold-Issue-1");
+        check.setHoldIssueId("Hold-Issue-1");
         check.setMilestoneTypeKey("milestoneTypeKey-2");
-        check.setProcessKey(null);
+        check.setChildProcessKey(null);
         check.setAgendaId("AgendaId-2");
         check.setTypeKey(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY);
         check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_INACTIVE);
@@ -131,9 +133,9 @@ public class TestProcessServiceImpl {
         check = processService.getCheck(check.getId(), context);
         assertNotNull(check);
         assertEquals("AgendaId-2", check.getAgendaId());
-        assertEquals("Hold-Issue-1", check.getIssueId());
+        assertEquals("Hold-Issue-1", check.getHoldIssueId());
         assertEquals("milestoneTypeKey-2", check.getMilestoneTypeKey());
-        assertNull(check.getProcessKey());
+        assertNull(check.getChildProcessKey());
         assertEquals(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY, check.getTypeKey());
         assertEquals("kuali.process.check.lifecycle", check.getStateKey());
 
@@ -192,7 +194,7 @@ public class TestProcessServiceImpl {
 //        instruction.setMeta();
         instruction.setPosition(5);
         instruction.setProcessKey("kuali.process.registration.eligibility.for.term");
-        instruction.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
+        instruction.setStateKey(ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY);
         instruction = processService.createInstruction(instruction.getProcessKey(), instruction.getCheckId(), ProcessServiceConstants.INSTRUCTION_TYPE_KEY, instruction, context);
         String instructionId = instruction.getId();
         instruction = processService.getInstruction(instructionId, context);
@@ -210,7 +212,7 @@ public class TestProcessServiceImpl {
         assertEquals("Message-1", instruction.getMessage().getPlain());
         assertEquals(new Integer(5), instruction.getPosition());
         assertEquals("kuali.process.registration.eligibility.for.term", instruction.getProcessKey());
-        assertEquals(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY, instruction.getStateKey());
+        assertEquals(ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, instruction.getStateKey());
         assertEquals(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, instruction.getTypeKey());
 
         // Update
