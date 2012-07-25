@@ -15,14 +15,17 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -541,15 +544,27 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=markSubjectCodeReadyForScheduling")
     public ModelAndView markSubjectCodeReadyForScheduling(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseOfferingManagementViewHelperServiceImpl helperService = (CourseOfferingManagementViewHelperServiceImpl)theForm.getView().getViewHelperService();
         List<ActivityOfferingWrapper> list = theForm.getActivityWrapperList();
         for (ActivityOfferingWrapper activityOfferingWrapper : list) {
             if (DtoConstants.STATE_DRAFT.equalsIgnoreCase(activityOfferingWrapper.getStateName())) {
-                activityOfferingWrapper.setStateName(DtoConstants.STATE_SUBMITTED);
+
+                // Update the activityOfferingWrapper with the new state.
+                activityOfferingWrapper.setStateName(DtoConstants.STATE_APPROVED);
+
+                // Update the activityOfferingInfo with the new state.
+                ActivityOfferingInfo activityOfferingInfo = activityOfferingWrapper.getAoInfo();
+                activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
+
+                // Persist changes to the database.
+                CourseOfferingService courseOfferingService = helperService.getCourseOfferingService();
+                ContextInfo contextInfo = helperService.getContextInfo();
+                String activityOfferingId = activityOfferingWrapper.getId();
+                courseOfferingService.updateActivityOffering(activityOfferingId, activityOfferingInfo, contextInfo);
             }
         }
         return getUIFModelAndView(theForm);
     }
-
 
     /**
      * Method used to invoke the CO inquiry view from Manage Course Offering screen while search input is Course Offering

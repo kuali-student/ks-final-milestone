@@ -43,7 +43,7 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:clientSideJs="confirmDeletion('Really mark ready?')"
+                <bean parent="Uif-ActionLink" p:clientSideJs="confirmDeletion('This will mark all Activity Offerings in this Subject Code as \&quot;Ready for Scheduling\&quot;')"
                       p:methodToCall="markSubjectCodeReadyForScheduling"
                       p:actionLabel="Mark Subject Code Ready for Scheduling" />
                 <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingEditWrapperList.empty}"/>
