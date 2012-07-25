@@ -143,6 +143,14 @@
                             <entry key="populationInfo.name" value="referencePopulation.name"/>
                         </map>
                     </property>
+                    <!-- Hide the state option, and default it to Active -->
+                    <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
+                    <property name="quickfinder.lookupParameters">
+                        <map>
+                            <entry key="populationInfo.stateKey" value="kuali.population.population.state.active"/>
+                        </map>
+                    </property>
+
                 </bean>
                 <ref bean="KS-PopulationWrapper-AddPopulationsSection"/>
             </list>
@@ -161,7 +169,18 @@
                     <property name="propertyName" value="childPopulations" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
                     <property name="collectionLookup.quickfinderAction.render" value="false" />
-
+                    <property name="layoutManager">
+                        <ref bean="Uif-StackedCollectionLayout-WithBoxItems"/>
+                    </property>
+                    <property name="layoutManager.subCollectionFieldGroupPrototype">
+                        <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
+                              p:cssClasses="uif-subCollection"/>
+                    </property>
+                    <property name="layoutManager.lineGroupPrototype.header.cssClasses">
+                        <list merge="true">
+                            <value>ks-borderBottom2</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="name" p:style="font-weight:bold;">
@@ -175,6 +194,13 @@
                                         <entry key="populationInfo.name" value="name"/>
                                     </map>
                                 </property>
+                                <!-- Hide the state option, and default it to Active -->
+                                <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
+                                <!--<property name="quickfinder.lookupParameters">-->
+                                    <!--<map>-->
+                                        <!--<entry key="populationInfo.stateKey" value="kuali.population.population.state.active"/>-->
+                                    <!--</map>-->
+                                <!--</property>-->
                             </bean>
                         </list>
                     </property>
