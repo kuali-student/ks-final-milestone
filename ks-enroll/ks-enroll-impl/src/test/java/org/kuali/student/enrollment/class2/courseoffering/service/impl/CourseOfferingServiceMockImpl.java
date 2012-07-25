@@ -29,6 +29,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -66,6 +67,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
@@ -75,6 +77,9 @@ import javax.annotation.Resource;
 import javax.jws.WebParam;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
+
+public class CourseOfferingServiceMockImpl implements CourseOfferingService,
+		MockService {
 
 	private static Logger log = Logger
 			.getLogger(CourseOfferingServiceMockImpl.class);
@@ -303,22 +308,30 @@ import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 		return list;
 	}
 
-	@Override
-	public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termId,
-			String subjectArea, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		List<String> list = new ArrayList<String>();
-		for (CourseOfferingInfo info : courseOfferingMap.values()) {
-			if (termId.equals(info.getTermId())) {
-				if (subjectArea.equals(info.getSubjectArea())) {
-					list.add(info.getId());
-				}
-			}
-		}
-		return list;
-	}
+    @Override
+    public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey, CourseOfferingInfo courseOfferingInfo,
+    List<String> optionKeys, ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        // create
+        if (!courseOfferingTypeKey.equals(courseOfferingInfo.getTypeKey())) {
+            throw new InvalidParameterException("The type parameter does not match the type on the info object");
+        }
+        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
+        CourseOfferingInfo copy = new CourseOfferingInfo(courseOfferingInfo);
+        if (copy.getId() == null) {
+            copy.setId(courseOfferingMap.size() + "");
+        }
+        // TODO: move this logic to the calculation decorator do the persistence layer doesn't have this logic mixed in with it
+        // copy from cannonical
+        CourseInfo courseInfo = new R1CourseServiceHelper (courseService, acalService).getCourse(courseId);
+        CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
+        coTransformer.copyFromCanonical(courseInfo, courseOfferingInfo, optionKeys, context);
+        copy.setMeta(newMeta(context));
+        courseOfferingMap.put(copy.getId(), copy);
+        System.out.println ("CourseOfferingMockImpl: created course offering: " + copy.getId () + "term=" + copy.getTermId() + " for course =" + copy.getCourseId());
+        return new CourseOfferingInfo(copy);
+    }
 
 	@Override
 	public List<CourseOfferingInfo> getCourseOfferingsByTermAndInstructor(
@@ -365,69 +378,23 @@ import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 		return list;
 	}
 
-    @Override
-    public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey, CourseOfferingInfo courseOfferingInfo, 
-    List<String> optionKeys, ContextInfo context)
-            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        // create 
-        if (!courseOfferingTypeKey.equals(courseOfferingInfo.getTypeKey())) {
-            throw new InvalidParameterException("The type parameter does not match the type on the info object");
-        }
-        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
-        CourseOfferingInfo copy = new CourseOfferingInfo(courseOfferingInfo);
-        if (copy.getId() == null) {
-            copy.setId(courseOfferingMap.size() + "");
-        }
-        // TODO: move this logic to the calculation decorator do the persistence layer doesn't have this logic mixed in with it
-        // copy from cannonical
-        CourseInfo courseInfo = new R1CourseServiceHelper (courseService, acalService).getCourse(courseId);
-        CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-        coTransformer.copyFromCanonical(courseInfo, courseOfferingInfo, optionKeys, context);
-        copy.setMeta(newMeta(context));
-        courseOfferingMap.put(copy.getId(), copy);
-        System.out.println ("CourseOfferingMockImpl: created course offering: " + copy.getId () + "term=" + copy.getTermId() + " for course =" + copy.getCourseId());
-        return new CourseOfferingInfo(copy);
-    }
+	@Override
+	public List<String> getCourseOfferingIdsByType(String typeKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		List<String> list = new ArrayList<String>();
+		for (CourseOfferingInfo info : courseOfferingMap.values()) {
+			if (typeKey.equals(info.getTypeKey())) {
+				list.add(info.getId());
+			}
+		}
+		return list;
+	}
 
 	// cache variable
 	// The LinkedHashMap is just so the values come back in a predictable order
 	private Map<String, CourseOfferingInfo> courseOfferingMap = new LinkedHashMap<String, CourseOfferingInfo>();
-
-	@Override
-	public CourseOfferingInfo createCourseOffering(String courseId,
-			String termId, String courseOfferingTypeKey,
-			CourseOfferingInfo courseOfferingInfo, List<String> optionKeys,
-			ContextInfo context) throws DoesNotExistException,
-			DataValidationErrorException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, ReadOnlyException {
-		// create
-		if (!courseOfferingTypeKey.equals(courseOfferingInfo.getTypeKey())) {
-			throw new InvalidParameterException(
-					"The type parameter does not match the type on the info object");
-		}
-		// TODO: check the rest of the readonly fields that are specified on the
-		// create to make sure they match the info object
-		CourseOfferingInfo copy = new CourseOfferingInfo(courseOfferingInfo);
-		if (copy.getId() == null) {
-			copy.setId(courseOfferingMap.size() + "");
-		}
-		// TODO: move this logic to the calculation decorator do the persistence
-		// layer doesn't have this logic mixed in with it
-		// copy from cannonical
-		CourseInfo courseInfo = new R1CourseServiceHelper(courseService,
-				acalService).getCourse(courseId);
-		CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-		coTransformer.copyFromCanonical(courseInfo, courseOfferingInfo,
-				optionKeys);
-		copy.setMeta(newMeta(context));
-		courseOfferingMap.put(copy.getId(), copy);
-		log.debug("CourseOfferingMockImpl: created course offering: "
-				+ copy.getId() + "term=" + copy.getTermId() + " for course ="
-				+ copy.getCourseId());
-		return new CourseOfferingInfo(copy);
-	}
 
 	@Override
 	public CourseOfferingInfo updateCourseOffering(String courseOfferingId,
@@ -1482,6 +1449,76 @@ import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 		return meta;
 	}
 
+	private Map<String, List<String>>activityOfferingToSeatPoolMap = new HashMap<String, List<String>>();
+
+	@Override
+	public StatusInfo addSeatPoolDefinitionToActivityOffering(
+			String seatPoolDefinitionId, String activityOfferingId,
+			ContextInfo contextInfo) throws AlreadyExistsException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+
+		// first check that both the reg group and seat pool exist
+		// these will throw does not exist exceptions
+		ActivityOfferingInfo ao = getActivityOffering(activityOfferingId, contextInfo);
+
+		SeatPoolDefinitionInfo spd = getSeatPoolDefinition(seatPoolDefinitionId, contextInfo);
+
+		// now check for an existing association
+		List<String> seatPoolIds = activityOfferingToSeatPoolMap.get(activityOfferingId);
+
+		if (seatPoolIds == null) {
+			seatPoolIds = new ArrayList<String>();
+			activityOfferingToSeatPoolMap.put(activityOfferingId, seatPoolIds);
+		}
+
+		if (seatPoolIds.contains(seatPoolDefinitionId))
+			throw new AlreadyExistsException("registration group (" + activityOfferingId + ") is already associated to seat pool definition ("+seatPoolDefinitionId+")");
+
+		seatPoolIds.add(seatPoolDefinitionId);
+
+		return successStatus();
+	}
+
+	@Override
+	public StatusInfo removeSeatPoolDefinitionFromActivityOffering(
+			String seatPoolDefinitionId, String activityOfferingId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+
+		// first check that both the reg group and seat pool exist
+		// these will throw does not exist exceptions
+		ActivityOfferingInfo ao = getActivityOffering(activityOfferingId, contextInfo);
+
+		SeatPoolDefinitionInfo spd = getSeatPoolDefinition(seatPoolDefinitionId, contextInfo);
+
+		getSeatPoolDefinitionsForActivityOffering(activityOfferingId, contextInfo);
+
+		List<String>seatPoolIds = activityOfferingToSeatPoolMap.get(activityOfferingId);
+
+		if (seatPoolIds.remove(seatPoolDefinitionId))
+			return successStatus();
+		else
+			throw new DoesNotExistException("no seatpool association for spId=" + seatPoolDefinitionId + " and activityOfferingId = " + activityOfferingId);
+
+	}
+
+	@Override
+	public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(
+			String formatOfferingId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, AlreadyExistsException {
+
+		return businessLogic.generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
+	}
+
+
+
+
+
     @Override
     public TermInfo getTerm(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         TermInfo termInfo = new TermInfo();
@@ -1494,7 +1531,20 @@ import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
         return null;
     }
 
-
-	
-	
+    @Override
+    public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termId,
+                                                                 String subjectArea, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        List<String> list = new ArrayList<String>();
+        for (CourseOfferingInfo info : courseOfferingMap.values()) {
+            if (termId.equals(info.getTermId())) {
+                if (subjectArea.equals(info.getSubjectArea())) {
+                    list.add(info.getId());
+                }
+            }
+        }
+        return list;
+    }
 }
