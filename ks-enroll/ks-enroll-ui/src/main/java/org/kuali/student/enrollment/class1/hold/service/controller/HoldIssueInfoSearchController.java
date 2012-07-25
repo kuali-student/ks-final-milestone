@@ -160,13 +160,22 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         return performRedirect(searchForm, controllerPath, urlParameters);
     }
 
-    /*@RequestMapping(params = "methodToCall=edit")
-    public ModelAndView edit(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
+    @RequestMapping(params = "methodToCall=edit")
+    public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HoldIssueInfo holdIssue = getSelectedHoldIssue(searchForm, "edit");
 
+        String controllerPath;
+        Properties urlParameters = new Properties();
 
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "view");
+        urlParameters.put("id", holdIssue.getId());
+        urlParameters.put(UifParameters.VIEW_ID, "holdModifyView");
 
-    }*/
+        controllerPath = "createHold";
+
+        return performRedirect(searchForm, controllerPath, urlParameters);
+    }
 
     @RequestMapping(params = "methodToCall=delete")
     public ModelAndView delete(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,

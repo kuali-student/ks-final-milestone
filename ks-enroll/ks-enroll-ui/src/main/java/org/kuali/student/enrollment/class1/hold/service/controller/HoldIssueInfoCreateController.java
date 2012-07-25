@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.hold.service.controller;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
@@ -113,6 +114,7 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
                               HttpServletRequest request, HttpServletResponse response) {
         HoldIssueInfoCreateForm holdIssueForm = (HoldIssueInfoCreateForm) form;
         String holdIssueId = request.getParameter("id");
+        String viewType = request.getParameter(UifParameters.VIEW_ID);
 
         if ((holdIssueId != null) && !holdIssueId.trim().isEmpty()) {
             try {
@@ -126,7 +128,11 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
                 throw new RuntimeException("unable to get hold issue");
             }
         }
-        holdIssueForm.getView().setReadOnly(true);
+
+        if(viewType.equals("holdView")) {
+            holdIssueForm.getView().setReadOnly(true);
+        }
+
         return super.start(holdIssueForm, result, request, response);
     }
 
