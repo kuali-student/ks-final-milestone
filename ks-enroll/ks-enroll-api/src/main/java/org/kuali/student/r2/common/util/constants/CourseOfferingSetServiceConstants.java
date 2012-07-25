@@ -57,9 +57,16 @@ public class CourseOfferingSetServiceConstants {
     public static final String DELETE_RESULT_ITEM_TYPE_KEY = "kuali.soc.rollover.result.item.delete";
     // item  states
     public static final String SUCCESS_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.item.state.success";
-    public static final String ERROR_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.result.item.state.error";
     public static final String WARNING_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.item.state.warning";
     public static final String INFO_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.item.state.info";
+    public static final String ERROR_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.result.item.state.error";
+    public static final String CREATED_RESULT_ITEM_STATE_KEY="kuali.soc.rollover.result.item.state.processed.created";
+    public static final String UPDATED_RESULT_ITEM_STATE_KEY="kuali.soc.rollover.result.item.state.processed.updated";
+    public static final String DELETED_RESULT_ITEM_STATE_KEY="kuali.soc.rollover.result.item.state.processed.deleted";
+    public static final String CANCELED_RESULT_ITEM_STATE_KEY="kuali.soc.rollover.result.item.state.canceled";
+    public static final String NEWVERSION_RESULT_ITEM_STATE_KEY="kuali.soc.rollover.result.item.state.new.version";
+    public static final String RETIRED_RESULT_ITEM_STATE_KEY="kuali.soc.rollover.result.item.state.retired";
+
     // dynamic attribute key for parameters
     public static final String PARAMETER_SOURCE_SOC_ID_ATTR_KEY = "kuali.parameter.source.soc.id";
     public static final String PARAMETER_TARGET_TERM_ID_ATTR_KEY = "kuali.parameter.target.term.id";
