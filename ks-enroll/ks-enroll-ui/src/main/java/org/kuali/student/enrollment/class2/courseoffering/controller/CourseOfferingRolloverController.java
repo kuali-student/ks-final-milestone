@@ -526,9 +526,11 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         if (!accept) {
             // Didn't click approval
             GlobalVariables.getMessageMap().putError("approveCheckbox", "error.rollover.release.notApproved");
+            return getUIFModelAndView(form, ROLLOVER_CONFIRM_RELEASE);
         } else if (targetTerm == null) {
             // Didn't get term info from Rollover Results page
             GlobalVariables.getMessageMap().putError("approveCheckbox", "error.rollover.invalidTerm");
+            return getUIFModelAndView(form, ROLLOVER_CONFIRM_RELEASE);
         } else {
             // We're good!
             LOGGER.info("Ready to release to depts");
