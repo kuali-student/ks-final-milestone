@@ -26,7 +26,7 @@ import java.util.List;
  * @author Kamal
  */
 
-public interface CourseOffering extends IdNamelessEntity{
+public interface CourseOffering extends IdNamelessEntity {
 
     /**
      * A unique identifier assigned to all approved courses that exist
@@ -187,7 +187,7 @@ public interface CourseOffering extends IdNamelessEntity{
      * @name: registration Grading Option Ids
      * @impl Lui.resultOptionIds of type ???
      */
-    public List<String> getRegistrationGradingOptionIds();
+    public List<String> getStudentRegistrationGradingOptions();
 
     /**
      * A display string for the credit option.
@@ -364,4 +364,22 @@ public interface CourseOffering extends IdNamelessEntity{
      * @name Course Offering URL
      */
     public String getCourseOfferingURL();
+
+    /**
+     * Gets the Credit Count
+     *
+     * @name Credit Count
+     * @readOnly
+     * @impl this is the number of credits
+     */
+    public String getCreditCnt();
+
+    /**
+     * Gets the Grading Name
+     *
+     * @name Grading
+     * @readOnly
+     * @impl this is the grading name - last word in gradingOptionId
+     */
+    public String getGradingOption();
 }

@@ -37,11 +37,11 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfo", propOrder = {
         "id", "typeKey", "stateKey", "descr", "courseId",
-        "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", 
-        "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds", 
+        "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle",
+        "creditCnt", "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds",
         "unitsContentOwnerOrgIds",  "maximumEnrollment", 
-        "minimumEnrollment", "jointOfferingIds", "gradingOptionId", 
-        "registrationGradingOptionIds", "creditOptionDisplay", "creditOptionId", 
+        "minimumEnrollment", "jointOfferingIds", "gradingOptionId", "gradingOption",
+        "studentRegistrationGradingOptions", "creditOptionDisplay", "creditOptionId",
         "waitlistLevelTypeKey", "waitlistMaximum", "hasWaitlist", "waitlistTypeKey","campusLocations", 
         "isEvaluated", "fundingSource", "isFeeAtActivityOffering", 
         "isFinancialAidEligible", "courseOfferingURL", "finalExamType",
@@ -92,8 +92,14 @@ public class CourseOfferingInfo
     @XmlElement
     private String gradingOptionId;
 
+    @XmlAnyElement
+    private String gradingOption;
+
+    @XmlAnyElement
+    private String creditCnt;
+
     @XmlElement
-    private List<String> registrationGradingOptionIds;
+    private List<String> studentRegistrationGradingOptions;
 
     @XmlElement
     private String creditOptionDisplay;
@@ -171,6 +177,7 @@ public class CourseOfferingInfo
 
         this.courseOfferingTitle = offering.getCourseOfferingTitle();
         this.courseOfferingCode = offering.getCourseOfferingCode();
+        this.courseOfferingCode = offering.getCourseOfferingCode();
         this.courseNumberSuffix = offering.getCourseNumberSuffix();
         this.subjectArea = offering.getSubjectArea();
         this.isHonorsOffering = offering.getIsHonorsOffering();
@@ -184,7 +191,9 @@ public class CourseOfferingInfo
         this.unitsContentOwnerOrgIds = offering.getUnitsContentOwnerOrgIds();
 
         this.gradingOptionId =  offering.getGradingOptionId();
-        this.registrationGradingOptionIds = (null != offering.getRegistrationGradingOptionIds()) ? new ArrayList<String>(offering.getRegistrationGradingOptionIds()) : null;
+        this.creditCnt = offering.getCreditCnt();
+        this.gradingOption = offering.getGradingOption();
+        this.studentRegistrationGradingOptions = (null != offering.getStudentRegistrationGradingOptions()) ? new ArrayList<String>(offering.getStudentRegistrationGradingOptions()) : null;
         this.creditOptionDisplay = offering.getCreditOptionDisplay();
         this.creditOptionId = offering.getCreditOptionId();
 
@@ -355,16 +364,16 @@ public class CourseOfferingInfo
     }
 
     @Override
-    public List<String> getRegistrationGradingOptionIds() {
-        if (registrationGradingOptionIds == null) {
-            registrationGradingOptionIds = new ArrayList<String>();
+    public List<String> getStudentRegistrationGradingOptions() {
+        if (studentRegistrationGradingOptions == null) {
+            studentRegistrationGradingOptions = new ArrayList<String>();
         }
 
-        return this.registrationGradingOptionIds;
+        return this.studentRegistrationGradingOptions;
     }
 
-    public void setRegistrationGradingOptionIds(List<String> gradingOptionIds) {
-        this.registrationGradingOptionIds = gradingOptionIds;
+    public void setStudentRegistrationGradingOptions(List<String> gradingOptionIds) {
+        this.studentRegistrationGradingOptions = gradingOptionIds;
     }
 
     @Override
@@ -501,16 +510,33 @@ public class CourseOfferingInfo
     }
 
 	public void setFinalExamType(String value) {
-		
 		this.finalExamType = value;
-		
 	}
 
 	@Override
 	public String getFinalExamType() {
 		return this.finalExamType;
 	}
-    
+
+    @Override
+    public String getGradingOption() {
+        return gradingOption;
+    }
+
+    public void setGradingOption(String gradingOption) {
+       this.gradingOption = gradingOption;
+    }
+
+    @Override
+    public String getCreditCnt() {
+        return creditCnt;
+    }
+
+    public void setCreditCnt(String creditCnt) {
+        this.creditCnt = creditCnt;
+    }
+
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
