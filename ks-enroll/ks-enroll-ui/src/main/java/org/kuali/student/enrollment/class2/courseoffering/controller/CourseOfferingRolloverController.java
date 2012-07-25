@@ -473,6 +473,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         } else {
             TermInfo targetTerm = termList.get(0);
             form.setTargetTerm(targetTerm);
+            form.setTargetTermCode(targetTermCode);
             String targetTermId = targetTerm.getId();
             // Get rollover result info for target term
             List<SocRolloverResultInfo> socRolloverResultInfos = helper.findRolloverByTerm(targetTermId);
