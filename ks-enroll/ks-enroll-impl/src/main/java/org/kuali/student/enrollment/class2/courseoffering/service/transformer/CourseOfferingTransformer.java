@@ -86,11 +86,11 @@ public class CourseOfferingTransformer {
         co.setUnitsContentOwner(lui.getUnitsContentOwner());
 
         //Split up the result keys for student registration options into a separate field.
-        co.getStudentRegistrationOptionIds().clear();
+        co.getStudentRegistrationGradingOptions().clear();
         co.setGradingOptionId(null);
         for(String resultValueGroupKey : lui.getResultValuesGroupKeys()){
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
-                co.getStudentRegistrationOptionIds().add(resultValueGroupKey);
+                co.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
             }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 if(co.getGradingOptionId()!=null){
                     throw new RuntimeException("This course offering has multiple grading options in the data. It should only have at most one.");
@@ -268,7 +268,7 @@ public class CourseOfferingTransformer {
         // TODO: Shouldn't this be handled at the JPA level with some sort of merge?
         List<String> newOptions = new ArrayList<String>();
         newOptions.add(co.getGradingOptionId());
-        newOptions.addAll(co.getStudentRegistrationOptionIds());
+        newOptions.addAll(co.getStudentRegistrationGradingOptions());
         lui.setResultValuesGroupKeys(newOptions);
         lui.getResultValuesGroupKeys().add(co.getCreditOptionId());
 
@@ -313,11 +313,11 @@ public class CourseOfferingTransformer {
         courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
 
         //Split up the result keys for student registration options into a separate field.
-        courseOfferingInfo.getStudentRegistrationOptionIds().clear();
+        courseOfferingInfo.getStudentRegistrationGradingOptions().clear();
         courseOfferingInfo.setGradingOptionId(null);
         for(String resultValueGroupKey : courseInfo.getGradingOptions()){
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
-                courseOfferingInfo.getStudentRegistrationOptionIds().add(resultValueGroupKey);
+                courseOfferingInfo.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
             }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 if(courseOfferingInfo.getGradingOptionId()!=null){
                     //Log warning

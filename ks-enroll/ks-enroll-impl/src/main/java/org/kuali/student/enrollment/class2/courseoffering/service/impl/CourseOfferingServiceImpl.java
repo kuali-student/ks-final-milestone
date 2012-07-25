@@ -477,7 +477,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         courseOfferingTransformer.courseOffering2Lui(coInfo, lui, context);
 
         // Update lprs for offering instructors
-        List<OfferingInstructorInfo> existingLprs = OfferingInstructorTransformer.lprs2Instructors(lprService.getLprsByLui(lui.getId(), context));
+        List<OfferingInstructorInfo> existingLprs = ActivityOfferingTransformer.lprs2Instructors(lprService.getLprsByLui(lui.getId(), context));
         // map existing lprs to their person id
         Map<String, OfferingInstructorInfo> existingPersonMap = new HashMap<String, OfferingInstructorInfo>(existingLprs.size());
         for(OfferingInstructorInfo info : existingLprs) {
@@ -508,13 +508,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         Collection<OfferingInstructorInfo> deletedInstructors = existingPersonMap.values();
 
         // create the new lprs
-        List<LprInfo> createdLprs = OfferingInstructorTransformer.instructors2Lprs(lui, createdInstructors);
+        List<LprInfo> createdLprs = ActivityOfferingTransformer.instructors2Lprs(lui, createdInstructors);
         for (LprInfo lprInfo : createdLprs) {
             lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
         }
 
         // update existing lprs
-        List<LprInfo> updatedLprs = OfferingInstructorTransformer.instructors2Lprs(lui, updatedInstructors);
+        List<LprInfo> updatedLprs = ActivityOfferingTransformer.instructors2Lprs(lui, updatedInstructors);
         for(LprInfo lprInfo : updatedLprs) {
             lprService.updateLpr(lprInfo.getId(), lprInfo, context);
         }
@@ -1004,10 +1004,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         // build LPR(s) for Offering Instructor
-        List<LprInfo> lprs = OfferingInstructorTransformer.instructors2Lprs(lui, aoInfo.getInstructors());
+        List<LprInfo> lprs = ActivityOfferingTransformer.instructors2Lprs(lui, aoInfo.getInstructors());
 
         for (LprInfo lprInfo : lprs) {
-            lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
+                lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
         }
 
         // now build the lui lui relation
@@ -1110,7 +1110,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // Update lprs for offering instructors
 
-        List<OfferingInstructorInfo> existingLprs = OfferingInstructorTransformer.lprs2Instructors(lprService.getLprsByLui(lui.getId(), context));
+        List<OfferingInstructorInfo> existingLprs = ActivityOfferingTransformer.lprs2Instructors(lprService.getLprsByLui(lui.getId(), context));
         // map existing lprs to their person id
         Map<String, OfferingInstructorInfo> existingPersonMap = new HashMap<String, OfferingInstructorInfo>(existingLprs.size());
         for(OfferingInstructorInfo info : existingLprs) {
@@ -1139,13 +1139,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
 
         // create the new lprs
-        List<LprInfo> createdLprs = OfferingInstructorTransformer.instructors2Lprs(lui, createdInstructors);
+        List<LprInfo> createdLprs = ActivityOfferingTransformer.instructors2Lprs(lui, createdInstructors);
         for (LprInfo lprInfo : createdLprs) {
-            lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
+                lprService.createLpr(lprInfo.getPersonId(), lprInfo.getLuiId(), lprInfo.getTypeKey(), lprInfo, context);
         }
 
         // update existing lprs
-        List<LprInfo> updatedLprs = OfferingInstructorTransformer.instructors2Lprs(lui, updatedInstructors);
+        List<LprInfo> updatedLprs = ActivityOfferingTransformer.instructors2Lprs(lui, updatedInstructors);
         for(LprInfo lprInfo : updatedLprs) {
             lprService.updateLpr(lprInfo.getId(), lprInfo, context);
         }
@@ -1692,6 +1692,65 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public void setTermAssembler(TermAssembler termAssembler) {
         this.termAssembler = termAssembler;
     }
+
+
+	@Override
+	 @Transactional(readOnly = true)
+	public TypeInfo getCourseOfferingType(String courseOfferingTypeKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		 throw new UnsupportedOperationException();
+	}
+
+	@Override
+	 @Transactional(readOnly = true)
+	public List<TypeInfo> getCourseOfferingTypes(ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		 throw new UnsupportedOperationException();
+	}
+
+	@Override
+	 @Transactional(readOnly = true)
+	public List<TypeInfo> getInstructorTypesForCourseOfferingType(
+			String courseOfferingTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		 throw new UnsupportedOperationException();
+	}
+
+	@Override
+	 @Transactional(readOnly = true)
+	public List<TypeInfo> getInstructorTypesForActivityOfferingType(
+			String activityOfferingTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		 throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public StatusInfo addSeatPoolDefinitionToActivityOffering(
+			String seatPoolDefinitionId, String activityOfferingId,
+			ContextInfo contextInfo) throws AlreadyExistsException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// should be supported by M4
+		 throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public StatusInfo removeSeatPoolDefinitionFromActivityOffering(
+			String seatPoolDefinitionId, String activityOfferingId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// should be supported in M4
+		 throw new UnsupportedOperationException();
+	}
 
 
 }

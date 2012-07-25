@@ -4,6 +4,7 @@ import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.model.*;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -101,6 +102,8 @@ public class LuiTestDataLoader {
         //Lu Code
         LuCodeEntity luCode = new LuCodeEntity();
         luCode.setId("Lu-Code-" + id);
+        luCode.setCreateId(principalId);
+        luCode.setCreateTime(new Date());
         ArrayList<LuCodeEntity> luCodes = new ArrayList<LuCodeEntity>();
         luCodes.add(luCode);
         luiEntity.setLuiCodes(luCodes);
@@ -113,7 +116,7 @@ public class LuiTestDataLoader {
         //Attributes
         if (luiAttributes != null && luiAttributes.length > 0){
             for (String attr:luiAttributes){
-                LuiAttributeEntity luiAttr = new LuiAttributeEntity(attr, attr);
+                LuiAttributeEntity luiAttr = new LuiAttributeEntity(new AttributeInfo(attr, attr), luiEntity);
                 luiEntity.getAttributes().add(luiAttr);
             }
         }

@@ -4,15 +4,24 @@
  */
 package org.kuali.student.r2.core.class1.process;
 
+import java.util.List;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
-import org.kuali.student.r2.core.process.service.ProcessServiceDecorator;
+import org.kuali.student.r2.core.process.service.decorators.ProcessServiceDecorator;
 
 /**
  *
@@ -92,18 +101,18 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
             ContextInfo context) {
 
         InstructionInfo info = new InstructionInfo();
-        info.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
+        info.setStateKey(ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY);
         info.setProcessKey(processKey);
         // info.setAppliedPopulationKeys(Arrays.asList(populationKey));
-        info.setAppliedPopulationKey(populationKey);
-        info.setCheckKey(checkKey);
+        info.setAppliedPopulationId(populationKey);
+        info.setCheckId(checkKey);
         info.setMessage(new RichTextHelper().fromPlain(message));
         info.setPosition(position);
         info.setContinueOnFail(continueOnFail);
         info.setIsWarning(isWarning);
         info.setIsExemptible(canBeExempted);
         try {
-            info = this.createInstruction(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, info.getProcessKey(), info.getCheckKey(), info, context);
+            info = this.createInstruction(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, info.getProcessKey(), info.getCheckId(), info, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating exemption request", ex);
         }
@@ -113,7 +122,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
     private ProcessInfo _createProcess(String key, String name, String descr, ContextInfo context) {
         ProcessInfo info = new ProcessInfo();
         info.setKey(key);
-        info.setStateKey(ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY);
+        info.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
         info.setName(name);
         info.setDescr(new RichTextHelper().fromPlain(descr));
         try {
@@ -128,12 +137,12 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         CheckInfo info = new CheckInfo();
 
         info.setTypeKey(type);
-        info.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ENABLED);
+        info.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE);
         info.setName(name);
-        info.setIssueId(_toNull(issueId));
+        info.setHoldIssueId(_toNull(issueId));
         info.setMilestoneTypeKey(_toNull(milestoneTypeKey));
         info.setAgendaId(_toNull(agendaId));
-        info.setProcessKey(_toNull(processKey));
+        info.setChildProcessKey(_toNull(processKey));
         info.setDescr(new RichTextHelper().fromPlain(descr));
 
         try {
@@ -150,4 +159,19 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         }
         return str;
     }
+
+    @Override
+    public StatusInfo reorderInstructions(String processKey,
+            List<String> instructionIds,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+
 }

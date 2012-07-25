@@ -35,7 +35,7 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
@@ -112,13 +112,13 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             for (OfferingInstructorInfo offeringInstructorInfo : offeringInstructorInfos) {
                 OfferingInstructorWrapper instructor = new OfferingInstructorWrapper();
                 instructor.setOfferingInstructorInfo(offeringInstructorInfo);
-                if (offeringInstructorInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
+                if (offeringInstructorInfo.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
                     //offeringInstructorInfo.setTypeKey("Instructor");
                     instructor.setTypeName("Instructor");
-                } else if (offeringInstructorInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_ASSISTANT_TYPE_KEY)) {
+                } else if (offeringInstructorInfo.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_ASSISTANT_TYPE_KEY)) {
                     //offeringInstructorInfo.setTypeKey("Teaching Assistant");
                     instructor.setTypeName("Teaching Assistant");
-                } else if (offeringInstructorInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_SUPPORT_TYPE_KEY)) {
+                } else if (offeringInstructorInfo.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_SUPPORT_TYPE_KEY)) {
                     //TO DO: set support here
                 }
                 instructorList.add(instructor);

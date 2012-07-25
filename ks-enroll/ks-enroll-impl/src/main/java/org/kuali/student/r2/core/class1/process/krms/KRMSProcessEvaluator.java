@@ -61,7 +61,7 @@ import org.kuali.student.r2.core.class1.process.util.InstructionComparator;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.infc.DateOverride;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
@@ -153,7 +153,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             // filter out by applicable Population
             boolean skipInstruction = true;
             try {
-                if (populationService.isMember(processContext.getStudentId(), instruction.getAppliedPopulationKey(), context)) {
+                if (populationService.isMemberAsOfDate(processContext.getStudentId(), instruction.getAppliedPopulationId(), context.getCurrentDate(), context)) {
                     skipInstruction = false;
                     break;
                 }
@@ -165,7 +165,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             /*
             for (String popKey : instruction.getAppliedPopulationKeys()) {
                 try {
-                    if (populationService.isMemberAsOfDate(processContext.getStudentId(), popKey, new Date(), context)) {
+                    if (populationService.isMember(processContext.getStudentId(), popKey, context)) {
                         skipInstruction = false;
                         break;
                     }
@@ -186,7 +186,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             try {
                 exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY, 
                         processContext.getProcessKey(),
-                        instruction.getCheckKey(), 
+                        instruction.getCheckId(),
                         processContext.getStudentId(), 
                         asOfDate, 
                         context);
@@ -214,7 +214,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
 
             CheckInfo check;
             try {
-                check = processService.getCheck(instruction.getCheckKey(), context);
+                check = processService.getCheck(instruction.getCheckId(), context);
             } catch (OperationFailedException ex) {
                 throw ex;
             } catch (Exception ex) {
@@ -225,21 +225,21 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             if (check.getTypeKey().equals(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY)) {
 
                 CourseRegistrationProcessContextInfo checkContext = CourseRegistrationProcessContextInfo.createForRegistrationEligibility(processContext.getStudentId(), processContext.getTermKey());
-                checkContext.setProcessKey(check.getProcessKey());
+                checkContext.setProcessKey(check.getChildProcessKey());
 
                 propositions.put(new SubProcessProposition(checkContext, this), instruction);
             }
 
             if (check.getTypeKey().equals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY)) {
-                propositions.put(new RegistrationHoldProposition(check.getIssueId()), instruction);
+                propositions.put(new RegistrationHoldProposition(check.getHoldIssueId()), instruction);
 
                 
                 /*
                   need to handle these differently
                   
-                  } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_ALIVE)) {
+                  } else if (check.getKey().equals(ProcessServiceConstants.CHECK_ID_IS_ALIVE)) {
                   propositions.put(new PersonLivingProposition(), instruction);
-                  } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_NOT_SUMMER_TERM)) {
+                  } else if (check.getKey().equals(ProcessServiceConstants.CHECK_ID_IS_NOT_SUMMER_TERM)) {
                   propositions.put(new SummerTermProposition(term), instruction); 
 
                 */
@@ -393,7 +393,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
 
         if (warningHoldIds != null && !warningHoldIds.isEmpty()) {
             for (String holdId : warningHoldIds) {
-                HoldInfo hold = holdService.getHold(holdId, context);
+                AppliedHoldInfo hold = holdService.getAppliedHold(holdId, context);
                 ValidationResultInfo result = new ValidationResultInfo();
                 result.setWarn("The following hold was found on the student's account, but set as a warning: " + hold.getDescr().getPlain());
                 results.add(result);

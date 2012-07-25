@@ -489,5 +489,34 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return getNextDecorator().getTermTypes(context);
     }
 
-    
+	@Override
+	public StatusInfo addSeatPoolDefinitionToActivityOffering(
+			String seatPoolDefinitionId, String activityOfferingId,
+			ContextInfo contextInfo) throws AlreadyExistsException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().addSeatPoolDefinitionToActivityOffering(seatPoolDefinitionId, activityOfferingId, contextInfo);
+
+	}
+
+	@Override
+	public StatusInfo removeSeatPoolDefinitionFromActivityOffering(
+			String seatPoolDefinitionId, String activityOfferingId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().removeSeatPoolDefinitionFromActivityOffering(seatPoolDefinitionId, activityOfferingId, contextInfo);
+	}
+
+	@Override
+	public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException
+			 {
+		return getNextDecorator().deleteActivityOfferingCascaded(activityOfferingId, context);
+	}
+
+
 }

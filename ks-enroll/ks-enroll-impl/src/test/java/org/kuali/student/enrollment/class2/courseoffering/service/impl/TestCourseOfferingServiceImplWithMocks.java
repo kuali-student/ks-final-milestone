@@ -110,8 +110,8 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setCourseOfferingCode("CODE");
         orig.setCourseNumberSuffix("ABC");
         orig.setCourseOfferingTitle("Title");
-        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
-        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+        orig.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+        orig.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
         orig.setGradingOptionId(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
 
 

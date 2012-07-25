@@ -1,6 +1,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
@@ -17,7 +22,11 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ActivityOfferingTransformer {
 
@@ -63,7 +72,7 @@ public class ActivityOfferingTransformer {
         // build list of OfferingInstructors
         List<LprInfo> lprs = lprService.getLprsByLui(ao.getId(), context);
 
-        ao.setInstructors(OfferingInstructorTransformer.lprs2Instructors(lprs));
+        ao.setInstructors(lprs2Instructors(lprs));
 
     }
 
@@ -117,6 +126,69 @@ public class ActivityOfferingTransformer {
         //Honors code
         LuCodeInfo luCode = findAddLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
         luCode.setValue(String.valueOf(ao.getIsHonorsOffering()));
+    }
+
+
+    public static List<OfferingInstructorInfo> lprs2Instructors(List<LprInfo> lprs) {
+        List<OfferingInstructorInfo> results = new ArrayList<OfferingInstructorInfo>(lprs.size());
+
+        for(LprInfo lpr : lprs) {
+            OfferingInstructorInfo instructor = new OfferingInstructorInfo();
+            instructor.setPersonId(lpr.getPersonId());
+
+            instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+            instructor.setId(lpr.getId());
+            instructor.setTypeKey(lpr.getTypeKey());
+            instructor.setStateKey(lpr.getStateKey());
+
+            // Should be only one person found by person id
+            List<Person> personList = getInstructorByPersonId(instructor.getPersonId());
+            if(personList != null && !personList.isEmpty()){
+                instructor.setPersonName(personList.get(0).getName());
+            }
+
+            results.add(instructor);
+        }
+
+        return results;
+
+    }
+
+    public static List<Person> getInstructorByPersonId(String personId){
+        Map<String, String> searchCriteria = new HashMap<String, String>();
+        searchCriteria.put(KIMPropertyConstants.Person.ENTITY_ID, personId);
+        List<Person> lstPerson = getPersonService().findPeople(searchCriteria);
+        return lstPerson;
+    }
+
+    public static PersonService getPersonService() {
+        return KimApiServiceLocator.getPersonService();
+    }
+
+    public static List<LprInfo> instructors2Lprs(LuiInfo luiInfo, List<OfferingInstructorInfo> instructors) {
+
+        List<LprInfo> results = new ArrayList<LprInfo>(instructors.size());
+
+        for (OfferingInstructorInfo instructorInfo : instructors) {
+            LprInfo lprInfo = new LprInfo();
+            lprInfo.setId(instructorInfo.getId());
+
+            Float cp = instructorInfo.getPercentageEffort();
+
+            if (cp != null)
+            	lprInfo.setCommitmentPercent("" + cp);
+            else
+            	lprInfo.setCommitmentPercent(null);
+
+            lprInfo.setLuiId(luiInfo.getId());
+            lprInfo.setPersonId(instructorInfo.getPersonId());
+            lprInfo.setEffectiveDate(new Date());
+            lprInfo.setTypeKey(instructorInfo.getTypeKey());
+
+            results.add(lprInfo);
+        }
+
+        return results;
     }
 
     public static LuCodeInfo findLuCode(LuiInfo lui, String typeKey) {

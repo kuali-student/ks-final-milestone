@@ -8,7 +8,9 @@
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
@@ -414,7 +416,7 @@ public class LprServiceImpl implements LprService {
         	lprTransactionEntity.setDescrPlain(descr.getPlain());
         }
 
-        List<LprTransactionItemEntity> lprTransItemEntities = new ArrayList<LprTransactionItemEntity>();
+        Set<LprTransactionItemEntity> lprTransItemEntities = new HashSet<LprTransactionItemEntity>();
 
         for (LprTransactionItemInfo lprTransItemInfo : lprTransactionInfo.getLprTransactionItems()) {
 
@@ -453,7 +455,7 @@ public class LprServiceImpl implements LprService {
             newLprTransactionEntity.setAttributes(existingLprTransactionEntity.getAttributes());
             newLprTransactionEntity.setDescrFormatted(existingLprTransactionEntity.getDescrFormatted());
             newLprTransactionEntity.setDescrPlain(existingLprTransactionEntity.getDescrPlain());
-            List<LprTransactionItemEntity> newItems = new ArrayList(existingLprTransactionEntity.getLprTransactionItems().size());
+            Set<LprTransactionItemEntity> newItems = new HashSet<LprTransactionItemEntity>(existingLprTransactionEntity.getLprTransactionItems().size());
             for (LprTransactionItemEntity existingItem : existingLprTransactionEntity.getLprTransactionItems()) {
                 LprTransactionItemEntity newItem = new LprTransactionItemEntity();
                 newItem.setId(UUIDHelper.genStringUUID());

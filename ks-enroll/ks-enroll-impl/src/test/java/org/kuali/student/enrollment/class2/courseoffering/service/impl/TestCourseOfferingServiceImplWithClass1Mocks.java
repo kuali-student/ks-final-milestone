@@ -112,8 +112,8 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         orig.setCourseOfferingTitle("Title");
 //        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
 //        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
-        orig.getRegistrationGradingOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
-        orig.getRegistrationGradingOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE);
+        orig.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
+        orig.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE);
 
         CourseOfferingInfo info = courseOfferingService.createCourseOffering(orig.getCourseId(), orig.getTermId(), 
                 orig.getTypeKey(), orig, optionKeys, callContext);

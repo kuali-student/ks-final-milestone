@@ -10,8 +10,8 @@ import java.util.Date;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 import org.kuali.student.r2.core.hold.service.HoldServiceDecorator;
 
@@ -31,11 +31,11 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
         ContextInfo context = new ContextInfo();
         context.setPrincipalId("POC-Initializer");
 
-        IssueInfo unpaidTuitionIssue = _createIssue(HoldServiceConstants.ISSUE_KEY_UNPAID_TUITION_PRIOR_TERM,
+        HoldIssueInfo unpaidTuitionIssue = _createIssue(HoldServiceConstants.ISSUE_KEY_UNPAID_TUITION_PRIOR_TERM,
                                                     "Unpaid tuition from last term", HoldServiceConstants.FINANCIAL_ISSUE_TYPE_KEY, context);
         
         
-        IssueInfo overdueBookIssue = _createIssue(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE,
+        HoldIssueInfo overdueBookIssue = _createIssue(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE,
                                                   "Overdue Library Book", HoldServiceConstants.OVERDUE_LIBRARY_MATERIALS_ISSUE_TYPE_KEY, context);
         
         this._createHold(ProcessPocConstants.PERSON_ID_KARA_STONE_2272, unpaidTuitionIssue, context);
@@ -45,25 +45,25 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
         this._createHold(ProcessPocConstants.PERSON_ID_NINA_WELCH_2166, overdueBookIssue, context);
     }
 
-    private IssueInfo _createIssue(String key, String name, String type, ContextInfo context) {
-        IssueInfo issue = new IssueInfo();
+    private HoldIssueInfo _createIssue(String key, String name, String type, ContextInfo context) {
+        HoldIssueInfo issue = new HoldIssueInfo();
         issue.setId(key);
         issue.setName(name);
         issue.setTypeKey(type);
         issue.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
         try {
-            issue = this.createIssue(issue.getTypeKey(), issue, context);
+            issue = this.createHoldIssue(issue.getTypeKey(), issue, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating hold", ex);
         }
         return issue;
     }
 
-    private HoldInfo _createHold(String personId, IssueInfo issue, ContextInfo context)  {
-        HoldInfo hold = new HoldInfo();
+    private AppliedHoldInfo _createHold(String personId, HoldIssueInfo issue, ContextInfo context)  {
+        AppliedHoldInfo hold = new AppliedHoldInfo();
         hold.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         hold.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
-        hold.setIssueId(issue.getId());
+        hold.setHoldIssueId(issue.getId());
         hold.setName(issue.getName());
         Date effDate = null;
         try {
@@ -74,7 +74,7 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
         hold.setEffectiveDate(effDate);
         hold.setPersonId(personId);
         try {
-            hold = this.createHold(hold.getPersonId(), hold.getIssueId(), hold.getTypeKey(), hold, context);
+            hold = this.createAppliedHold(hold.getPersonId(), hold.getHoldIssueId(), hold.getTypeKey(), hold, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating hold", ex);
         }

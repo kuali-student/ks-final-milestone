@@ -323,9 +323,9 @@ public final class CourseOfferingServiceDataUtils {
 
 		orig.setDescr(new RichTextInfo(canonicalCourse.getCourseTitle(), "<b>" + canonicalCourse.getCourseTitle() + "<b>"));
 
-		orig.getRegistrationGradingOptionIds().add(
+		orig.getStudentRegistrationGradingOptions().add(
 				LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
-		orig.getRegistrationGradingOptionIds().add(
+		orig.getStudentRegistrationGradingOptions().add(
 				LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE);
 
 		return orig;

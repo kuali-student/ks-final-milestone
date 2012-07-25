@@ -29,7 +29,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 
 /**
@@ -39,7 +39,7 @@ import org.kuali.student.r2.core.hold.service.HoldService;
  * Time: 4:01 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RegistrationHoldsTermResolver implements TermResolver<List<HoldInfo>> {
+public class RegistrationHoldsTermResolver implements TermResolver<List<AppliedHoldInfo>> {
 
     private HoldService holdService;
 
@@ -76,16 +76,16 @@ public class RegistrationHoldsTermResolver implements TermResolver<List<HoldInfo
     }
 
     @Override
-    public List<HoldInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public List<AppliedHoldInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
         String issueId = parameters.get(RulesExecutionConstants.ISSUE_KEY_TERM_PROPERTY);
 
-        List<HoldInfo> studentHolds;
+        List<AppliedHoldInfo> appliedHolds;
 
         // get all the active holds for the student and the given issue
         try {
-            studentHolds = holdService.getActiveHoldsByIssueAndPerson(issueId, studentId, context);
+            appliedHolds = holdService.getActiveAppliedHoldsByIssueAndPerson(issueId, studentId, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {
@@ -96,6 +96,6 @@ public class RegistrationHoldsTermResolver implements TermResolver<List<HoldInfo
             throw new TermResolutionException(e.getMessage(), this, parameters);
         }
 
-        return studentHolds;
+        return appliedHolds;
     }
 }
