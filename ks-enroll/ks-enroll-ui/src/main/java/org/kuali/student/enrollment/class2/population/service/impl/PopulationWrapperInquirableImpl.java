@@ -55,16 +55,22 @@ public class PopulationWrapperInquirableImpl extends InquirableImpl {
             populationWrapper.setPopulationRuleInfo(populationRuleInfo);
 
             List<PopulationInfo> childPopulations = new ArrayList<PopulationInfo>();
-
             for (String childPopulationId : populationRuleInfo.getChildPopulationIds())  {
                 PopulationInfo childPopulation = populationService.getPopulation(childPopulationId, getContextInfo());
                 if (childPopulation != null) {
                     childPopulations.add(childPopulation);
                 }
             }
-
             populationWrapper.setChildPopulations(childPopulations);
-            return populationWrapper;
+
+            if (populationRuleInfo.getReferencePopulationId() != null) {
+                PopulationInfo referencePopulation = populationService.getPopulation(populationRuleInfo.getReferencePopulationId(), getContextInfo());
+                if (referencePopulation != null) {
+                    populationWrapper.setReferencePopulation(referencePopulation);
+                }
+            }
+
+return populationWrapper;
 
         } catch (Exception e) {
             throw new RuntimeException(e);
