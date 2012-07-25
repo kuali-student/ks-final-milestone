@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -42,7 +43,9 @@ public class OfferingInstructorTransformer {
         for(LprInfo lpr : lprs) {
             OfferingInstructorInfo instructor = new OfferingInstructorInfo();
             instructor.setPersonId(lpr.getPersonId());
-            instructor.setPercentageEffort(lpr.getCommitmentPercent());
+            if(!StringUtils.isEmpty(lpr.getCommitmentPercent())) {
+                instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+            }
             instructor.setId(lpr.getId());
             instructor.setTypeKey(lpr.getTypeKey());
             instructor.setStateKey(lpr.getStateKey());
@@ -78,7 +81,9 @@ public class OfferingInstructorTransformer {
         for (OfferingInstructorInfo instructorInfo : instructors) {
             LprInfo lprInfo = new LprInfo();
             lprInfo.setId(instructorInfo.getId());
-            lprInfo.setCommitmentPercent(instructorInfo.getPercentageEffort());
+            if(instructorInfo.getPercentageEffort() != null) {
+                lprInfo.setCommitmentPercent(instructorInfo.getPercentageEffort().toString());
+            }
             lprInfo.setLuiId(luiInfo.getId());
             lprInfo.setPersonId(instructorInfo.getPersonId());
             lprInfo.setEffectiveDate(new Date());
