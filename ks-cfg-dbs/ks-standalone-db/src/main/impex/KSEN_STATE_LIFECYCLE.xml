@@ -74,4 +74,10 @@
         DESCR_PLAIN="kuali.population.population.rule.lifecycle state lifecycle"
         ID="kuali.population.population.rule.lifecycle"
         NAME="kuali.population.population.rule.lifecycle" VER_NBR="0"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
+        DESCR_FORMATTED="kuali.soc.rollover.result.process state lifecycle"
+        DESCR_PLAIN="kuali.soc.rollover.result.process state lifecycle"
+        ID="kuali.soc.rollover.result.process"
+        NAME="kuali.soc.rollover.result.process" VER_NBR="1"/>
 </dataset>

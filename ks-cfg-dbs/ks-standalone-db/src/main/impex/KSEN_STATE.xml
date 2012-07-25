@@ -191,4 +191,48 @@
         ID="kuali.population.population.state.inactive"
         LIFECYCLE_KEY="kuali.population.population.lifecycle"
         NAME="Inactive" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="An existing course offering was canceled"
+        DESCR_PLAIN="An existing course offering was canceled"
+        ID="kuali.soc.rollover.result.item.state.canceled"
+        LIFECYCLE_KEY="kuali.soc.rollover.result.process"
+        NAME="Canceled" UPDATEID="SYSTEMLOADER"
+        UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="An error occurred so this course offering was not successfully processed"
+        DESCR_PLAIN="An error occurred so this course offering was not successfully processed"
+        ID="kuali.soc.rollover.result.item.state.error"
+        LIFECYCLE_KEY="kuali.soc.rollover.result.process" NAME="Error"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="An existing course offering has a new version"
+        DESCR_PLAIN="An existing course offering has a new version"
+        ID="kuali.soc.rollover.result.item.state.new.version"
+        LIFECYCLE_KEY="kuali.soc.rollover.result.process"
+        NAME="New Version" UPDATEID="SYSTEMLOADER"
+        UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="A new course offering was created"
+        DESCR_PLAIN="A new course offering was created"
+        ID="kuali.soc.rollover.result.item.state.processed.created"
+        LIFECYCLE_KEY="kuali.soc.rollover.result.process" NAME="Created"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="An existing course offering was deleted"
+        DESCR_PLAIN="An existing course offering was deleted"
+        ID="kuali.soc.rollover.result.item.state.processed.deleted"
+        LIFECYCLE_KEY="kuali.soc.rollover.result.process" NAME="Deleted"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="An existing course offering was updated"
+        DESCR_PLAIN="An existing course offering was updated"
+        ID="kuali.soc.rollover.result.item.state.processed.updated"
+        LIFECYCLE_KEY="kuali.soc.rollover.result.process" NAME="Updated"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="An existing course offering was retired"
+        DESCR_PLAIN="An existing course offering was retired"
+        ID="kuali.soc.rollover.result.item.state.retired"
+        LIFECYCLE_KEY="kuali.soc.rollover.result.process" NAME="Retired"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
 </dataset>
