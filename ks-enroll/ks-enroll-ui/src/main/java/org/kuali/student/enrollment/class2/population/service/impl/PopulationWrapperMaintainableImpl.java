@@ -176,13 +176,12 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
             PopulationRuleInfo populationRuleInfo = wrapper.getPopulationRuleInfo();
             populationRuleInfo.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
             populationRuleInfo.setVariesByTime(false);
+            populationRuleInfo.setSupportsGetMembers(false);
             if (wrapper.isCreateByRule()) {
                 populationRuleInfo.setTypeKey(PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY);
-                populationRuleInfo.setSupportsGetMembers(false);
             }
             else {
                 populationRuleInfo.setTypeKey(wrapper.getOperationType());
-                populationRuleInfo.setSupportsGetMembers(true);
             }
         }
         super.prepareForSave();
