@@ -188,9 +188,6 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
             if(holdIssue.getStateKey().equals("active")) {
                 holdIssue.setStateKey("inactive");
                 getHoldService().updateHoldIssue(holdIssue.getId(), holdIssue, getContextInfo());
-            } else {
-                System.out.println("Work Delete");
-                //GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Hold Issue already Inactive");
             }
         } catch(Exception e) {
             e.printStackTrace();
