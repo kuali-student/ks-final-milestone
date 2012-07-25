@@ -62,12 +62,12 @@
                                     <list>
                                         <bean parent="Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="name">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="20"/>
+                                                <bean parent="Uif-TextControl" p:size="20" p:disabled="true"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop" p:label="Category Name" p:propertyName="typeKey">
                                             <property name="control">
-                                                <bean parent="Uif-DropdownControl" />
+                                                <bean parent="Uif-DropdownControl" p:disabled="true"/>
                                             </property>
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class1.hold.service.keyvalues.HoldIssueInfoTypeKeyValues" />
@@ -75,21 +75,21 @@
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop" p:label="Hold Description"  p:propertyName="descr">
                                             <property name="control">
-                                                <bean parent="Uif-SmallTextAreaControl" />
+                                                <bean parent="Uif-SmallTextAreaControl"  p:disabled="true"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="organizationId">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="20" />
+                                                <bean parent="Uif-TextControl" p:size="20" p:disabled="true"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey">
                                             <property name="control">
-                                                <bean parent="Uif-HorizontalRadioControl" >
+                                                <bean parent="Uif-HorizontalRadioControl"  p:disabled="true">
                                                     <property name="options">
                                                         <list>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="active" p:value="Active"/>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="inactive" p:value="Inactive"/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="Active" p:value="Active"/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="Inactive" p:value="Inactive"/>
                                                         </list>
                                                     </property>
                                                 </bean>

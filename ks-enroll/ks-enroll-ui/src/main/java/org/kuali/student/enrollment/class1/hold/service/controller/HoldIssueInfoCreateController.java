@@ -109,6 +109,33 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
         return close(createForm, result, request, response);
     }
 
+  @RequestMapping(params = "methodToCall=modify")
+ public ModelAndView modity(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+     HoldIssueInfoCreateForm modifyForm = (HoldIssueInfoCreateForm) form;
+     holdIssueInfo = new HoldIssueInfo();
+     holdIssueInfo.setId(modifyForm.getId());
+     holdIssueInfo.setName(modifyForm.getName());
+     holdIssueInfo.setTypeKey(modifyForm.getTypeKey());
+     holdIssueInfo.setStateKey(modifyForm.getStateKey());
+     holdIssueInfo.setOrganizationId(modifyForm.getOrganizationId());
+     RichTextInfo richTextInfo = new RichTextInfo();
+     richTextInfo.setPlain(modifyForm.getDescr());
+     holdIssueInfo.setDescr(richTextInfo);
+
+
+     try {
+         holdService = getHoldService();
+         HoldIssueInfo modifyHoldIssueInfo = holdService.updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, getContextInfo() );
+     } catch (Exception e) {
+         e.printStackTrace();
+         throw new RuntimeException("Modify Hold failed. ", e);
+     }
+
+
+     return close(modifyForm, result, request, response);
+ }
+
     @RequestMapping(params = "methodToCall=view")
     public ModelAndView view(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
@@ -129,9 +156,9 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
             }
         }
 
-        if(viewType.equals("holdView")) {
+/*        if(viewType.equals("holdView")) {
             holdIssueForm.getView().setReadOnly(true);
-        }
+        }*/
 
         return super.start(holdIssueForm, result, request, response);
     }
