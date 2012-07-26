@@ -159,7 +159,7 @@
     </bean>
 
     <bean id="courseRegistrationService"
-          class="org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceMockImpl"/>
+          class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMockImpl"/>
 
 
     <!--     <bean id="exemptionService" class="org.kuali.student.r2.core.process.ProcessPocExemptionServiceDecorator"> -->
@@ -256,7 +256,7 @@
     </bean>
 
     <bean id="lprService"
-          class="org.kuali.student.enrollment.class1.lpr.service.impl.mock.LuiPersonRelationServiceMockImpl">
+          class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
     </bean>
 
     <bean id="gradeRosterAssembler"

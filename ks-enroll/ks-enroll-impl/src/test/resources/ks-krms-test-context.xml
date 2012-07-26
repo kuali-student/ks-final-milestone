@@ -160,7 +160,7 @@
         <property name="nextDecorator" ref="courseRegistrationService"/>
     </bean>
 
-    <bean id="courseRegServiceMock" class="org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceMockImpl"/>
+    <bean id="courseRegServiceMock" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMockImpl"/>
 
     <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
         <property name="lprService" ref="lprService"/>
@@ -256,7 +256,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
+    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
         <property name="lprDao" ref="lprDao"/>
    		<property name="lprRosterDao" ref="lprRosterDao"/>
     	<property name="lprTransDao" ref="lprTransDao"/>
