@@ -218,7 +218,7 @@ public class TestHoldServiceMockImpl {
         expected.setName("name of hold");
         expected.setDescr(new RichTextHelper().fromPlain("description of hold"));
         expected.setEffectiveDate(new Date());
-        expected.setReleasedDate(null);
+        expected.setReleasedDate(new Date());
         expected.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         expected.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());
