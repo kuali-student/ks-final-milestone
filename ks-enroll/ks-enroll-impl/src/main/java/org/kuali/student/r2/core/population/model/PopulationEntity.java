@@ -94,6 +94,7 @@ public class PopulationEntity extends MetaEntity implements AttributeOwner<Popul
         populationInfo.setTypeKey(populationType);
         populationInfo.setStateKey(populationState);
         populationInfo.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
+        populationInfo.setName(getName());
 
         // this rule id is thrown away when creating the dto
 
