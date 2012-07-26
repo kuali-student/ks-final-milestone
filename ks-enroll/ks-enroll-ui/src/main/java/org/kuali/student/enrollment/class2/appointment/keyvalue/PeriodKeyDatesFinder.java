@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.appointment.keyvalue;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -26,9 +27,9 @@ import java.util.List;
 
 public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger(PeriodKeyDatesFinder.class);
     private transient AcademicCalendarService acalService;
     private transient TypeService typeService;
-    private ContextInfo contextInfo;
 
     /*
      * try to generate key-value pairs based on minimal info from the form
@@ -58,23 +59,15 @@ public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Seri
                     }
 
                 }catch (Exception e){
-                    //ToDo -- Log exception
+                    LOG.error("Error getting periods", e);
                 }
 
                 if (!keyValues.isEmpty())
                     keyValues.add(new ConcreteKeyValue("all", "All Registration Periods for this Term"));
             }
 
-        }catch (DoesNotExistException dnee){
-            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get DoesNotExistException:  "+dnee.toString());
-        }catch (InvalidParameterException ipe){
-            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get InvalidParameterException:  "+ipe.toString());
-        }catch (MissingParameterException mpe){
-            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get MissingParameterException:  "+mpe.toString());
-        }catch (OperationFailedException ofe){
-            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get OperationFailedException:  "+ofe.toString());
-        }catch (PermissionDeniedException pde){
-            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get PermissionDeniedException:  "+pde.toString());
+        }catch (Exception e){
+            LOG.error("Error getting periods", e);
         }
 
         return keyValues;
@@ -93,11 +86,4 @@ public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Seri
         return this.typeService;
     }
 
-    private ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            //TODO - get real ContextInfo
-            contextInfo = TestHelper.getContext1();
-        }
-        return contextInfo;
-    }
 }

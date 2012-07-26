@@ -18,10 +18,10 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
+import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.*;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -35,20 +35,19 @@ import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
+
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class //TODO ...
@@ -80,7 +79,8 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
 
             //Display credit count
             CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
-            coInfo.setCreditCnt(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
+           // coInfo.setCreditCnt(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
+            coInfo.setCreditCnt(ViewHelperUtil.getCreditCount(coInfo, courseInfo));
             CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
 
             formObject.setCourse(courseInfo);
@@ -151,15 +151,15 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
 
             //Display student registration options
             /*List<String> studentRegOptIds = coInfo.getStudentRegistrationOptionIds();
-            String selectedstudentRegOpts = new String();
+            String selectedStudentRegOpts = new String();
             ResultValuesGroup rvGroup = null;
             if (studentRegOptIds != null && !studentRegOptIds.isEmpty()) {
                 for (String studentRegOptId: coInfo.getStudentRegistrationOptionIds()) {
                     rvGroup = getLRCService().getResultValuesGroup(studentRegOptId, getContextInfo());
-                    selectedstudentRegOpts = selectedstudentRegOpts + rvGroup.getName() + "|";
+                    selectedStudentRegOpts = selectedStudentRegOpts + rvGroup.getName() + "; ";
                 }
-                selectedstudentRegOpts = selectedstudentRegOpts.substring(0, selectedstudentRegOpts.length()-1);
-                formObject.setSelectedstudentRegOpts(selectedstudentRegOpts);
+                selectedStudentRegOpts = selectedStudentRegOpts.substring(0, selectedStudentRegOpts.length() - 2);
+                formObject.setSelectedStudentRegOpts(selectedStudentRegOpts);
             } */
 
             List<String> studentRegOptions = new ArrayList<String>();
@@ -183,25 +183,28 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             formObject.setStudentRegOptions(studentRegOptions);
             formObject.setCrsGradingOptions(crsGradingOptions);
 
-            String selectedstudentRegOpts = new String();
+            String selectedStudentRegOpts = new String();
             if (studentRegOptions != null) {
+                ResultValuesGroupInfo rvg;
+                StringBuilder sbStudentRegOpts = new StringBuilder();
                 for(String studentGradingOption : studentRegOptions) {
-                    // TODO: need to retrieve the value based on key gradingOption, however there is no table yet
-                    // (need enroll alternative of KSLR_RESCOMP that we can call with LRCService)
-                    // So for time-being putting "manual" logic
-                    if (LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT.equals(studentGradingOption)) {
-                        selectedstudentRegOpts = selectedstudentRegOpts + "Audit" + "|";
-                    } else if (LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL.equals(studentGradingOption)) {
-                        selectedstudentRegOpts = selectedstudentRegOpts + "Pass / Fail" + "|";
+                    rvg = getLRCService().getResultValuesGroup(studentGradingOption, getContextInfo());
+                    if (null != rvg) {
+                        sbStudentRegOpts.append(rvg.getName());
                     } else {
-                        selectedstudentRegOpts = selectedstudentRegOpts + studentGradingOption;
+                        sbStudentRegOpts.append(studentGradingOption);
                     }
+                    sbStudentRegOpts.append("; ");
                 }
-                if (!selectedstudentRegOpts.isEmpty()) {
-                    selectedstudentRegOpts = selectedstudentRegOpts.substring(0, selectedstudentRegOpts.length()-1);
-                }
-                formObject.setSelectedstudentRegOpts(selectedstudentRegOpts);
+                selectedStudentRegOpts = sbStudentRegOpts.toString();
             }
+            if (selectedStudentRegOpts.isEmpty()) {
+                selectedStudentRegOpts = CourseOfferingConstants.COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY;
+            }
+            else {
+                selectedStudentRegOpts = selectedStudentRegOpts.substring(0, selectedStudentRegOpts.length() - 2);
+            }
+            formObject.setSelectedStudentRegOpts(selectedStudentRegOpts);
 
             //Display the long version final exam type, comment out for now because we will use the short version for the performance concern
             /*
@@ -244,7 +247,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
 
     protected LRCService getLRCService() {
         if(lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lrc", "LrcService"));
+            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.lrcService;
     }

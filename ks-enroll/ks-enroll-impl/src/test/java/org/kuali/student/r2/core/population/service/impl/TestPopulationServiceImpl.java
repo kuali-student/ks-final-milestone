@@ -18,6 +18,8 @@ package org.kuali.student.r2.core.population.service.impl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -406,5 +408,57 @@ public class TestPopulationServiceImpl {
         }
     }
 
+    @Test
+    public void testSearchForPopulations() {
+        before();
+        PopulationInfo info = _constructPopulationInfo(null);
+
+        try {
+            // Create ref population and child population IDs
+            PopulationInfo infoCreated = populationService.createPopulation(info, contextInfo);
+
+            // Fetch it
+            PopulationInfo refFetched = populationService.getPopulation(infoCreated.getId(), contextInfo);
+
+            // Testing search
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(
+                    PredicateFactory.like("name", "Test%")));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            List<PopulationInfo> infos = populationService.searchForPopulations(criteria, contextInfo);
+            PopulationInfo infoTest = infos.get(0);
+
+            assertEquals(infos.size(), 1);
+            assertEquals(infoCreated.getName(), infoTest.getName());
+        } catch (Exception e) {
+            assert(false);
+        }
+    }
+
+    @Test
+    public void testSearchForPopulationRules() {
+        before();
+        PopulationRuleInfo ruleInfo = _constructPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, 4);
+
+        try {
+            // Create ref population and child population IDs
+            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo, contextInfo);
+
+            // Testing search
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(
+                    PredicateFactory.like("name", "TestPop%")));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            List<PopulationRuleInfo> rules = populationService.searchForPopulationRules(criteria, contextInfo);
+            PopulationRuleInfo ruleInfoTest = rules.get(0);
+
+            assertEquals(rules.size(), 1);
+            assertEquals(ruleInfoCreated.getName(), ruleInfoTest.getName());
+        } catch (Exception e) {
+            assert(false);
+        }
+    }
 
 }

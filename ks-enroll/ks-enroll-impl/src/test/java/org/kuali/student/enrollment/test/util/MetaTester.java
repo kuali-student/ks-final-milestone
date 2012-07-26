@@ -23,7 +23,7 @@ public class MetaTester {
     public void checkAfterUpdate(MetaInfo expected, MetaInfo actual) {
         assertNotNull(actual);
         assertEquals(expected.getCreateId(), actual.getCreateId());
-        assertEquals(expected.getCreateTime(), actual.getCreateTime());
+        new TimeTester ().check (expected.getCreateTime(), actual.getCreateTime());
         assertNotNull(actual.getUpdateId());
         assertNotNull(actual.getUpdateTime());
         assertNotSame(expected.getVersionInd(), actual.getVersionInd());
@@ -32,9 +32,9 @@ public class MetaTester {
     public void checkAfterGet(MetaInfo expected, MetaInfo actual) {
         assertNotNull(actual);
         assertEquals(expected.getCreateId(), actual.getCreateId());
-        assertEquals(expected.getCreateTime(), actual.getCreateTime());
+        new TimeTester ().check(expected.getCreateTime(), actual.getCreateTime());
         assertEquals(expected.getUpdateId(), actual.getUpdateId());
-        assertEquals(expected.getUpdateTime(), actual.getUpdateTime());
+        new TimeTester ().check(expected.getUpdateTime(), actual.getUpdateTime());
         assertEquals (expected.getVersionInd(), actual.getVersionInd());
     }
 }

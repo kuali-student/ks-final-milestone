@@ -16,10 +16,13 @@
  */
 package org.kuali.student.enrollment.class2.population.dto;
 
+import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 //import java.util.ArrayList;
 //import java.util.List;
 
@@ -29,16 +32,40 @@ import java.io.Serializable;
  * @author Kuali Student Team
  */
 public class PopulationWrapper implements Serializable {
+    private String id;
     private PopulationInfo populationInfo; //The core info (name+description+meta)
-    private PopulationRuleInfo  populationRuleInfo;
+    private PopulationRuleInfo populationRuleInfo;
     private String keyword;
-    private boolean showByRuleLink;
-    private boolean showLinkSection;
+    private String operationType;
+    private String operationTypeText;
+    private String populationRuleTypeKeyName;
+    private String populationStateKeyName;
+    private boolean createByRule;
+    private boolean enableCreateButton;
+    private String pageTitle;
+
+    private List<PopulationInfo> childPopulations;
+    private PopulationInfo referencePopulation;
 
     public PopulationWrapper(){
-        showByRuleLink = true;
-        showLinkSection = true;
+        createByRule = true;
+        enableCreateButton = true;
+        operationType = PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY;
+        pageTitle="Create a New Population";
+        populationInfo = new PopulationInfo();
+        populationRuleInfo = new PopulationRuleInfo();
+        childPopulations = new ArrayList<PopulationInfo>();
+        referencePopulation = new PopulationInfo();
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public PopulationInfo getPopulationInfo() {
         return populationInfo;
     }
@@ -63,20 +90,77 @@ public class PopulationWrapper implements Serializable {
         this.keyword = keyword;
     }
 
-    public boolean isShowByRuleLink() {
-        return showByRuleLink;
+    public String getOperationType() {
+        return operationType;
     }
 
-    public void setShowByRuleLink(boolean showByRuleLink) {
-        this.showByRuleLink = showByRuleLink;
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
     }
 
-    public boolean isShowLinkSection() {
-        return showLinkSection;
+    public String getOperationTypeText() {
+        return operationTypeText;
     }
 
-    public void setShowLinkSection(boolean showLinkSection) {
-        this.showLinkSection = showLinkSection;
+    public void setOperationTypeText(String operationTypeText) {
+        this.operationTypeText = operationTypeText;
     }
+
+    public String getPopulationRuleTypeKeyName() {
+        return populationRuleTypeKeyName;
+    }
+
+    public void setPopulationRuleTypeKeyName(String populationRuleTypeKeyName) {
+        this.populationRuleTypeKeyName = populationRuleTypeKeyName;
+    }
+
+    public String getPopulationStateKeyName() {
+        return populationStateKeyName;
+    }
+
+    public void setPopulationStateKeyName(String populationStateKeyName) {
+        this.populationStateKeyName = populationStateKeyName;
+    }
+
+    public boolean isCreateByRule() {
+        return createByRule;
+    }
+
+    public void setCreateByRule(boolean createByRule) {
+        this.createByRule = createByRule;
+    }
+
+    public boolean isEnableCreateButton() {
+        return enableCreateButton;
+    }
+
+    public void setEnableCreateButton(boolean enableCreateButton) {
+        this.enableCreateButton = enableCreateButton;
+    }
+
+    public String getPageTitle() {
+        return pageTitle;
+    }
+
+    public void setPageTitle(String pageTitle) {
+        this.pageTitle = pageTitle;
+    }
+
+    public List<PopulationInfo> getChildPopulations() {
+        return childPopulations;
+    }
+
+    public void setChildPopulations(List<PopulationInfo> childPopulations) {
+        this.childPopulations = childPopulations;
+    }
+
+    public PopulationInfo getReferencePopulation() {
+        return referencePopulation;
+    }
+
+    public void setReferencePopulation(PopulationInfo referencePopulation) {
+        this.referencePopulation = referencePopulation;
+    }
+
 
 }

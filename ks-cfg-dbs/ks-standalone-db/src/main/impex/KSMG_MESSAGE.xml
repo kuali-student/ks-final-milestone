@@ -919,6 +919,11 @@
         MSG_ID="validation.minLengthFailed"
         MSG_VALUE="Minimum Characters ${minLength} required"
         OBJ_ID="9767bcc6-1f66-48c4-84d0-dd2ff15fe3d7" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="6BDA41461C3247D0B712EE40F4E7893A" LOCALE="en"
+        MSG_ID="validation.validChars.positive.numeric.range"
+        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
+        OBJ_ID="B7495D63617048308BC3EEE1D9832508" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="6a9ab87f-c5d8-4c17-a415-376ba93cab7f" LOCALE="en"
         MSG_ID="cluLOSearchAgain" MSG_VALUE="Search again?"
@@ -1196,6 +1201,11 @@
         ID="891b4749-fcd1-48aa-b814-4ea6253faf24" LOCALE="en"
         MSG_ID="cluAdministrativeFee" MSG_VALUE="Administrative Fee"
         OBJ_ID="5cc7e0c4-61d0-483d-bc92-2f519c2f3d7e" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="8A05E472736A4D339D1976BE695DF2FA" LOCALE="en"
+        MSG_ID="validation.validChars.numeric.range"
+        MSG_VALUE="Single number or numeric range separated by a dash"
+        OBJ_ID="B6EA92F274A7443B8598EDE3DF32670D" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="clusetmanagement"
         ID="8a244af4-8353-4d56-bcbf-7b3113574c48" LOCALE="en"
         MSG_ID="cluSetTitleCourse" MSG_VALUE="Course Set Name"
@@ -1368,16 +1378,6 @@
         ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
         OBJ_ID="3388D5EE-A5A0-4549-8974-9DB22E7DEEA2" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="C521E9010906DCF9E040760A2C2363A9" LOCALE="en"
-        MSG_ID="validation.validChars.numeric.range"
-        MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="C521E9010907DCF9E040760A2C2363A9" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="C521E9010908DCF9E040760A2C2363A9" LOCALE="en"
-        MSG_ID="validation.validChars.positive.numeric.range"
-        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="C521E9010909DCF9E040760A2C2363A9" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="F541324F-BD0D-A2CC-1874-E7F36B73D8FD" LOCALE="en"
         MSG_ID="reqActivate" MSG_VALUE="Required for Activate"

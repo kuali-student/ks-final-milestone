@@ -81,7 +81,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         }
 
         this.setAttributes(new HashSet<LprRosterAttributeEntity>());
-        
+
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
                 LprRosterAttributeEntity attEntity = new LprRosterAttributeEntity(att, this);
@@ -160,7 +160,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
     }
 
     public LprRichTextEntity getDescr() {
-        return descr; 
+        return descr;
     }
 
     public void setDescr(LprRichTextEntity descr) {

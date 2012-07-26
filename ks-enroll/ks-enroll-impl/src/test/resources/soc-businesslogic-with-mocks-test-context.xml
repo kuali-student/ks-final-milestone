@@ -44,10 +44,10 @@
         <property name="coService" ref="coService" />
         <property name="socService" ref="socService" />
     </bean>
-
+    
     <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
 
     <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
     <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
-    
+
 </beans>

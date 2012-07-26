@@ -20,7 +20,7 @@ public class ResultScaleAttributeEntity extends BaseAttributeEntity<ResultScaleE
 		super(att, owner);
 	}
 
-   
+
 //
 //    @Override
 //    public boolean equals(Object obj) {

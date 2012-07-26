@@ -104,14 +104,14 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setWaitlistLevelTypeKey("waitlist key");
         orig.setHasWaitlist(true);
         orig.setFinalExamType(FinalExam.STANDARD.toString());
-//        orig.setEvaluated(true);
-//        orig.setFeeAtActivityOffering(false);
+        orig.setIsEvaluated(true);
+        orig.setIsFeeAtActivityOffering(false);
         orig.setFundingSource("funding source");
         orig.setCourseOfferingCode("CODE");
         orig.setCourseNumberSuffix("ABC");
         orig.setCourseOfferingTitle("Title");
-//        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
-//        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+        orig.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+        orig.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
         orig.setGradingOptionId(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
 
 
@@ -172,8 +172,8 @@ public class TestCourseOfferingServiceImplWithMocks {
 //        OfferingInstructorInfo instructor = new OfferingInstructorInfo();
 //        instructor.setPersonId("Pers-1");
 //        instructor.setPercentageEffort(Float.valueOf("60"));
-//        instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-//        instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
+//        instructor.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+//        instructor.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
         // TODO: add this back in and test for it
 //        instructors.add(instructor);
         orig.setInstructors(instructors);

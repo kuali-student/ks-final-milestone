@@ -15,11 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -45,6 +40,11 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 
@@ -81,7 +81,7 @@ public final class CourseOfferingServiceDataUtils {
 		ActivityOfferingInfo orig = new ActivityOfferingInfo();
 
 		orig.setTypeKey(activityTypeKey);
-		orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+		orig.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
 
 		orig.setCourseOfferingId(courseOffering.getId());
 		orig.setFormatOfferingId(formatOfferingId);
@@ -167,7 +167,7 @@ public final class CourseOfferingServiceDataUtils {
 
 		orig.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
 
-		orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+		orig.setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
 
 		return orig;
 	}

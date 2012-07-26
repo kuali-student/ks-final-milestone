@@ -20,10 +20,14 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -47,20 +51,18 @@ public class FormatsForCreateAOKeyValues extends UifKeyValuesFinderBase implemen
         keyValues.add(new ConcreteKeyValue("", "Select Format Type"));
         CourseOfferingInfo selectedCourseOffering = coForm.getTheCourseOffering();
 
-        List<FormatInfo> formatInfos;
         try {
-            formatInfos = helperService.getCourseService().getCourse(selectedCourseOffering.getCourseId()).getFormats();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            for (FormatInfo formatInfo : formatInfos) {
-                keyValues.add(new ConcreteKeyValue(formatInfo.getId(), formatInfo.getName()));
+            String courseOfferingId = selectedCourseOffering.getId();
+            ContextInfo contextInfo = helperService.getContextInfo();
+            CourseOfferingService courseOfferingService = helperService.getCourseOfferingService();
+            List<FormatOfferingInfo> formatOfferingInfos =
+                courseOfferingService.getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
+            for (FormatOfferingInfo formatOfferingInfo : formatOfferingInfos) {
+                keyValues.add(new ConcreteKeyValue(formatOfferingInfo.getFormatId(), formatOfferingInfo.getName()));
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException();
         }
-
         return keyValues;
     }
 }

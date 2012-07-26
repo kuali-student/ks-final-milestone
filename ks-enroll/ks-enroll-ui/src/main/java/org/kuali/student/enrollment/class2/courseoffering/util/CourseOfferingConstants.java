@@ -32,13 +32,18 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND = "error.enroll.courseoffering.noCourseOfferingIsFound";
     public static final String COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_COURSE_OFFERING = "error.enroll.courseoffering.findMoreThanOneCourseOffering";
     public static final String COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED = "error.courseoffering.no.selected.AO";
+    public static final String AO_NOT_DRAFT_FOR_DELETION_ERROR = "error.courseoffering.selected.aos.notdraft";
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE = "error.courseoffering.selected.AO.delete.confirmation";
     public static final String COURSEOFFERING_MSG_ERROR_CO_CANNOT_DELETE="error.courseoffering.selected.CO.delete.confirmation";
+    public static final String COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR = "error.courseoffering.invalid.state";
 
     public static final String ACTIVITY_OFFERING_SCHEDULING_ACTION = "Scheduling";
     public static final String ACTIVITY_OFFERING_DRAFT_ACTION = "Draft";
     public static final String ACTIVITY_OFFERING_DELETE_ACTION = "Delete";
 
     public static final String MANAGE_AO_PAGE = "manageActivityOfferingsPage";
+
+    // Display text
+    public static final String COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY = "None available";
 
 }

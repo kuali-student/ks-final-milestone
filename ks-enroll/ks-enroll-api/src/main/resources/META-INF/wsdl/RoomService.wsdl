@@ -1,0 +1,2668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="RoomServiceService" targetNamespace="http://student.kuali.org/wsdl/room" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/room" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://exceptions.common.r2.student.kuali.org/" xmlns:ns1="http://rice.kuali.org/core/v2_0" xmlns:tns="http://student.kuali.org/wsdl/room" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/room">
+<xs:import namespace="http://rice.kuali.org/core/v2_0"/>
+<xs:element name="createBuilding" type="tns:createBuilding"/>
+<xs:element name="createBuildingResponse" type="tns:createBuildingResponse"/>
+<xs:element name="createRoom" type="tns:createRoom"/>
+<xs:element name="createRoomResponse" type="tns:createRoomResponse"/>
+<xs:element name="createRoomResponsibleOrg" type="tns:createRoomResponsibleOrg"/>
+<xs:element name="createRoomResponsibleOrgResponse" type="tns:createRoomResponsibleOrgResponse"/>
+<xs:element name="deleteBuilding" type="tns:deleteBuilding"/>
+<xs:element name="deleteBuildingResponse" type="tns:deleteBuildingResponse"/>
+<xs:element name="deleteRoom" type="tns:deleteRoom"/>
+<xs:element name="deleteRoomResponse" type="tns:deleteRoomResponse"/>
+<xs:element name="deleteRoomResponsibleOrg" type="tns:deleteRoomResponsibleOrg"/>
+<xs:element name="deleteRoomResponsibleOrgResponse" type="tns:deleteRoomResponsibleOrgResponse"/>
+<xs:element name="getBuilding" type="tns:getBuilding"/>
+<xs:element name="getBuildingIdsByCampus" type="tns:getBuildingIdsByCampus"/>
+<xs:element name="getBuildingIdsByCampusResponse" type="tns:getBuildingIdsByCampusResponse"/>
+<xs:element name="getBuildingResponse" type="tns:getBuildingResponse"/>
+<xs:element name="getBuildingsByIds" type="tns:getBuildingsByIds"/>
+<xs:element name="getBuildingsByIdsResponse" type="tns:getBuildingsByIdsResponse"/>
+<xs:element name="getRoom" type="tns:getRoom"/>
+<xs:element name="getRoomIdsByBuilding" type="tns:getRoomIdsByBuilding"/>
+<xs:element name="getRoomIdsByBuildingAndFloor" type="tns:getRoomIdsByBuildingAndFloor"/>
+<xs:element name="getRoomIdsByBuildingAndFloorResponse" type="tns:getRoomIdsByBuildingAndFloorResponse"/>
+<xs:element name="getRoomIdsByBuildingAndRoomType" type="tns:getRoomIdsByBuildingAndRoomType"/>
+<xs:element name="getRoomIdsByBuildingAndRoomTypeResponse" type="tns:getRoomIdsByBuildingAndRoomTypeResponse"/>
+<xs:element name="getRoomIdsByBuildingAndRoomTypes" type="tns:getRoomIdsByBuildingAndRoomTypes"/>
+<xs:element name="getRoomIdsByBuildingAndRoomTypesResponse" type="tns:getRoomIdsByBuildingAndRoomTypesResponse"/>
+<xs:element name="getRoomIdsByBuildingResponse" type="tns:getRoomIdsByBuildingResponse"/>
+<xs:element name="getRoomIdsByType" type="tns:getRoomIdsByType"/>
+<xs:element name="getRoomIdsByTypeResponse" type="tns:getRoomIdsByTypeResponse"/>
+<xs:element name="getRoomResponse" type="tns:getRoomResponse"/>
+<xs:element name="getRoomResponsibleOrg" type="tns:getRoomResponsibleOrg"/>
+<xs:element name="getRoomResponsibleOrgIdsByRoom" type="tns:getRoomResponsibleOrgIdsByRoom"/>
+<xs:element name="getRoomResponsibleOrgIdsByRoomResponse" type="tns:getRoomResponsibleOrgIdsByRoomResponse"/>
+<xs:element name="getRoomResponsibleOrgIdsByType" type="tns:getRoomResponsibleOrgIdsByType"/>
+<xs:element name="getRoomResponsibleOrgIdsByTypeResponse" type="tns:getRoomResponsibleOrgIdsByTypeResponse"/>
+<xs:element name="getRoomResponsibleOrgIdsForBuilding" type="tns:getRoomResponsibleOrgIdsForBuilding"/>
+<xs:element name="getRoomResponsibleOrgIdsForBuildingResponse" type="tns:getRoomResponsibleOrgIdsForBuildingResponse"/>
+<xs:element name="getRoomResponsibleOrgResponse" type="tns:getRoomResponsibleOrgResponse"/>
+<xs:element name="getRoomResponsibleOrgsByIds" type="tns:getRoomResponsibleOrgsByIds"/>
+<xs:element name="getRoomResponsibleOrgsByIdsResponse" type="tns:getRoomResponsibleOrgsByIdsResponse"/>
+<xs:element name="getRoomsByBuildingAndRoomUsageTypes" type="tns:getRoomsByBuildingAndRoomUsageTypes"/>
+<xs:element name="getRoomsByBuildingAndRoomUsageTypesResponse" type="tns:getRoomsByBuildingAndRoomUsageTypesResponse"/>
+<xs:element name="getRoomsByIds" type="tns:getRoomsByIds"/>
+<xs:element name="getRoomsByIdsResponse" type="tns:getRoomsByIdsResponse"/>
+<xs:element name="searchForBuildingIds" type="tns:searchForBuildingIds"/>
+<xs:element name="searchForBuildingIdsResponse" type="tns:searchForBuildingIdsResponse"/>
+<xs:element name="searchForBuildings" type="tns:searchForBuildings"/>
+<xs:element name="searchForBuildingsResponse" type="tns:searchForBuildingsResponse"/>
+<xs:element name="searchForRoomIds" type="tns:searchForRoomIds"/>
+<xs:element name="searchForRoomIdsResponse" type="tns:searchForRoomIdsResponse"/>
+<xs:element name="searchForRoomResponsibleOrgIds" type="tns:searchForRoomResponsibleOrgIds"/>
+<xs:element name="searchForRoomResponsibleOrgIdsResponse" type="tns:searchForRoomResponsibleOrgIdsResponse"/>
+<xs:element name="searchForRoomResponsibleOrgs" type="tns:searchForRoomResponsibleOrgs"/>
+<xs:element name="searchForRoomResponsibleOrgsResponse" type="tns:searchForRoomResponsibleOrgsResponse"/>
+<xs:element name="searchForRooms" type="tns:searchForRooms"/>
+<xs:element name="searchForRoomsResponse" type="tns:searchForRoomsResponse"/>
+<xs:element name="updateBuilding" type="tns:updateBuilding"/>
+<xs:element name="updateBuildingResponse" type="tns:updateBuildingResponse"/>
+<xs:element name="updateRoom" type="tns:updateRoom"/>
+<xs:element name="updateRoomResponse" type="tns:updateRoomResponse"/>
+<xs:element name="updateRoomResponsibleOrg" type="tns:updateRoomResponsibleOrg"/>
+<xs:element name="updateRoomResponsibleOrgResponse" type="tns:updateRoomResponsibleOrgResponse"/>
+<xs:element name="validateBuilding" type="tns:validateBuilding"/>
+<xs:element name="validateBuildingResponse" type="tns:validateBuildingResponse"/>
+<xs:element name="validateRoom" type="tns:validateRoom"/>
+<xs:element name="validateRoomResponse" type="tns:validateRoomResponse"/>
+<xs:element name="validateRoomResponsibleOrg" type="tns:validateRoomResponsibleOrg"/>
+<xs:element name="validateRoomResponsibleOrgResponse" type="tns:validateRoomResponsibleOrgResponse"/>
+<xs:complexType name="validateBuilding">
+<xs:sequence>
+<xs:element minOccurs="0" name="buildingTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="buildingInfo" type="tns:BuildingInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="BuildingInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="buildingCode" type="xs:string"/>
+<xs:element minOccurs="0" name="campusKey" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="RichTextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="plain" type="xs:string"/>
+<xs:element minOccurs="0" name="formatted" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MetaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateBuildingResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ValidationResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="element" type="xs:string"/>
+<xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteBuilding">
+<xs:sequence>
+<xs:element minOccurs="0" name="buildingId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteBuildingResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="StatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="isSuccess" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createRoom">
+<xs:sequence>
+<xs:element minOccurs="0" name="buildingId" type="xs:string"/>
+<xs:element minOccurs="0" name="roomTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="roomInfo" type="tns:RoomInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RoomInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="roomCode" type="xs:string"/>
+<xs:element minOccurs="0" name="buildingId" type="xs:string"/>
+<xs:element minOccurs="0" name="floor" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roomFixedResources" type="tns:RoomFixedResourceInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roomUsages" type="tns:RoomUsageInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="accessibilityTypeKeys" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="RoomFixedResourceInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="quantity" type="xs:int"/>
+<xs:element minOccurs="0" name="resourceTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RoomUsageInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="usageTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="layoutTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="preferredCapacity" type="xs:int"/>
+<xs:element minOccurs="0" name="hardCapacity" type="xs:int"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createRoomResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:RoomInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForRooms">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForRoomsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:RoomInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomIdsByBuildingAndRoomTypes">
+<xs:sequence>
+<xs:element minOccurs="0" name="buildingId" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roomTypeKeys" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomIdsByBuildingAndRoomTypesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteRoomResponsibleOrg">
+<xs:sequence>
+<xs:element minOccurs="0" name="roomResponsibleOrgId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteRoomResponsibleOrgResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForRoomIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForRoomIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomResponsibleOrgsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roomResponsibleOrgIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomResponsibleOrgsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:RoomResponsibleOrgInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RoomResponsibleOrgInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="roomId" type="xs:string"/>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="getRoomResponsibleOrgIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="roomResponsibleOrgTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomResponsibleOrgIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateRoomResponsibleOrg">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="roomId" type="xs:string"/>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+<xs:element minOccurs="0" name="roomResponsibleOrgTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="roomResponsibleOrgInfo" type="tns:RoomResponsibleOrgInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateRoomResponsibleOrgResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getBuildingsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="buildingIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getBuildingsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:BuildingInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateBuilding">
+<xs:sequence>
+<xs:element minOccurs="0" name="buildingId" type="xs:string"/>
+<xs:element minOccurs="0" name="buildingInfo" type="tns:BuildingInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateBuildingResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:BuildingInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateRoom">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="buildingId" type="xs:string"/>
+<xs:element minOccurs="0" name="roomTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="roomInfo" type="tns:RoomInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateRoomResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomResponsibleOrg">
+<xs:sequence>
+<xs:element minOccurs="0" name="roomResponsibleOrgId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomResponsibleOrgResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:RoomResponsibleOrgInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="roomTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomIdsByBuildingAndRoomType">
+<xs:sequence>
+<xs:element minOccurs="0" name="buildingId" type="xs:string"/>
+<xs:element minOccurs="0" name="roomTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomIdsByBuildingAndRoomTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomsByBuildingAndRoomUsageTypes">
+<xs:sequence>
+<xs:element minOccurs="0" name="buildingId" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roomUsageTypeKeys" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomsByBuildingAndRoomUsageTypesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createRoomResponsibleOrg">
+<xs:sequence>
+<xs:element minOccurs="0" name="roomId" type="xs:string"/>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+<xs:element minOccurs="0" name="roomResponsibleOrgTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="roomResponsibleOrgInfo" type="tns:RoomResponsibleOrgInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createRoomResponsibleOrgResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:RoomResponsibleOrgInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForRoomResponsibleOrgs">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForRoomResponsibleOrgsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:RoomResponsibleOrgInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomResponsibleOrgIdsForBuilding">
+<xs:sequence>
+<xs:element minOccurs="0" name="buildingId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomResponsibleOrgIdsForBuildingResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomIdsByBuildingAndFloor">
+<xs:sequence>
+<xs:element minOccurs="0" name="buildingId" type="xs:string"/>
+<xs:element minOccurs="0" name="floor" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomIdsByBuildingAndFloorResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getBuilding">
+<xs:sequence>
+<xs:element minOccurs="0" name="buildingId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getBuildingResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:BuildingInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteRoom">
+<xs:sequence>
+<xs:element minOccurs="0" name="roomId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteRoomResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForRoomResponsibleOrgIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForRoomResponsibleOrgIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForBuildingIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForBuildingIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getBuildingIdsByCampus">
+<xs:sequence>
+<xs:element minOccurs="0" name="campusKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getBuildingIdsByCampusResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createBuilding">
+<xs:sequence>
+<xs:element minOccurs="0" name="buildingTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="buildingInfo" type="tns:BuildingInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createBuildingResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:BuildingInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roomIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:RoomInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoom">
+<xs:sequence>
+<xs:element minOccurs="0" name="roomId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:RoomInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomResponsibleOrgIdsByRoom">
+<xs:sequence>
+<xs:element minOccurs="0" name="roomId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomResponsibleOrgIdsByRoomResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForBuildings">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForBuildingsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:BuildingInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomIdsByBuilding">
+<xs:sequence>
+<xs:element minOccurs="0" name="buildingId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRoomIdsByBuildingResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateRoom">
+<xs:sequence>
+<xs:element minOccurs="0" name="roomId" type="xs:string"/>
+<xs:element minOccurs="0" name="roomInfo" type="tns:RoomInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateRoomResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:RoomInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateRoomResponsibleOrg">
+<xs:sequence>
+<xs:element minOccurs="0" name="roomResponsibleOrgId" type="xs:string"/>
+<xs:element minOccurs="0" name="roomResponsibleOrgInfo" type="tns:RoomResponsibleOrgInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateRoomResponsibleOrgResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:RoomResponsibleOrgInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="errorLevel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="OK"/>
+<xs:enumeration value="WARN"/>
+<xs:enumeration value="ERROR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="ReadOnlyException" nillable="true" type="ns0:ReadOnlyException"/>
+<xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+<xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://rice.kuali.org/core/v2_0" elementFormDefault="qualified" targetNamespace="http://rice.kuali.org/core/v2_0" version="1.0">
+<xs:element name="and" type="tns:AndType"/>
+<xs:element name="dateTimeValue" type="tns:CriteriaDateTimeValueType"/>
+<xs:element name="decimalValue" type="tns:CriteriaDecimalValueType"/>
+<xs:element name="equal" type="tns:EqualType"/>
+<xs:element name="greaterThan" type="tns:GreaterThanType"/>
+<xs:element name="greaterThanOrEqual" type="tns:GreaterThanOrEqualType"/>
+<xs:element name="in" type="tns:InType"/>
+<xs:element name="integerValue" type="tns:CriteriaIntegerValueType"/>
+<xs:element name="lessThan" type="tns:LessThanType"/>
+<xs:element name="lessThanOrEqual" type="tns:LessThanOrEqualType"/>
+<xs:element name="like" type="tns:LikeType"/>
+<xs:element name="notEqual" type="tns:NotEqualType"/>
+<xs:element name="notIn" type="tns:NotInType"/>
+<xs:element name="notLike" type="tns:NotLikeType"/>
+<xs:element name="notNull" type="tns:NotNullType"/>
+<xs:element name="null" type="tns:NullType"/>
+<xs:element name="or" type="tns:OrType"/>
+<xs:element name="queryByCriteria" type="tns:QueryByCriteriaType"/>
+<xs:element name="stringValue" type="tns:CriteriaStringValueType"/>
+<xs:complexType final="extension restriction" name="QueryByCriteriaType">
+<xs:sequence>
+<xs:choice minOccurs="0">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+<xs:element minOccurs="0" name="startAtIndex" type="xs:int"/>
+<xs:element minOccurs="0" name="maxResults" type="xs:int"/>
+<xs:element name="countFlag" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AndType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="CompositePredicateType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractPredicate">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="EqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:simpleType name="CriteriaStringValueType">
+<xs:restriction base="xs:string"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDateTimeValueType">
+<xs:restriction base="xs:dateTime"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDecimalValueType">
+<xs:restriction base="xs:decimal"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaIntegerValueType">
+<xs:restriction base="xs:integer"/>
+</xs:simpleType>
+<xs:complexType final="extension restriction" name="GreaterThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="GreaterThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="InType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotInType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotLikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotNullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="OrType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:element name="ReadOnlyException" type="tns:ReadOnlyException"/>
+<xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ReadOnlyException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AlreadyExistsException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionMismatchException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getRoom">
+    <wsdl:part name="parameters" element="tns:getRoom">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBuildingIdsByCampusResponse">
+    <wsdl:part name="parameters" element="tns:getBuildingIdsByCampusResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomsByBuildingAndRoomUsageTypesResponse">
+    <wsdl:part name="parameters" element="tns:getRoomsByBuildingAndRoomUsageTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomsByBuildingAndRoomUsageTypes">
+    <wsdl:part name="parameters" element="tns:getRoomsByBuildingAndRoomUsageTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomResponsibleOrgIdsByType">
+    <wsdl:part name="parameters" element="tns:getRoomResponsibleOrgIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBuildingsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getBuildingsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomIdsByBuilding">
+    <wsdl:part name="parameters" element="tns:getRoomIdsByBuilding">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateRoomResponse">
+    <wsdl:part name="parameters" element="tns:validateRoomResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForRoomIds">
+    <wsdl:part name="parameters" element="tns:searchForRoomIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomResponsibleOrgIdsByRoom">
+    <wsdl:part name="parameters" element="tns:getRoomResponsibleOrgIdsByRoom">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomIdsByBuildingAndFloorResponse">
+    <wsdl:part name="parameters" element="tns:getRoomIdsByBuildingAndFloorResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteBuildingResponse">
+    <wsdl:part name="parameters" element="tns:deleteBuildingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteRoomResponsibleOrgResponse">
+    <wsdl:part name="parameters" element="tns:deleteRoomResponsibleOrgResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteRoomResponse">
+    <wsdl:part name="parameters" element="tns:deleteRoomResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomIdsByBuildingAndRoomTypesResponse">
+    <wsdl:part name="parameters" element="tns:getRoomIdsByBuildingAndRoomTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getRoomsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateRoomResponsibleOrg">
+    <wsdl:part name="parameters" element="tns:validateRoomResponsibleOrg">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createRoomResponse">
+    <wsdl:part name="parameters" element="tns:createRoomResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomIdsByBuildingAndRoomTypes">
+    <wsdl:part name="parameters" element="tns:getRoomIdsByBuildingAndRoomTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBuildingsByIds">
+    <wsdl:part name="parameters" element="tns:getBuildingsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomResponsibleOrgIdsForBuildingResponse">
+    <wsdl:part name="parameters" element="tns:getRoomResponsibleOrgIdsForBuildingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForBuildingIds">
+    <wsdl:part name="parameters" element="tns:searchForBuildingIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomResponsibleOrgIdsByRoomResponse">
+    <wsdl:part name="parameters" element="tns:getRoomResponsibleOrgIdsByRoomResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createRoomResponsibleOrgResponse">
+    <wsdl:part name="parameters" element="tns:createRoomResponsibleOrgResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomIdsByBuildingAndRoomTypeResponse">
+    <wsdl:part name="parameters" element="tns:getRoomIdsByBuildingAndRoomTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomResponse">
+    <wsdl:part name="parameters" element="tns:getRoomResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateRoomResponsibleOrgResponse">
+    <wsdl:part name="parameters" element="tns:validateRoomResponsibleOrgResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateRoomResponsibleOrgResponse">
+    <wsdl:part name="parameters" element="tns:updateRoomResponsibleOrgResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBuilding">
+    <wsdl:part name="parameters" element="tns:getBuilding">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomResponsibleOrg">
+    <wsdl:part name="parameters" element="tns:getRoomResponsibleOrg">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomResponsibleOrgIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getRoomResponsibleOrgIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomResponsibleOrgsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getRoomResponsibleOrgsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateBuildingResponse">
+    <wsdl:part name="parameters" element="tns:validateBuildingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForRoomResponsibleOrgIds">
+    <wsdl:part name="parameters" element="tns:searchForRoomResponsibleOrgIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createBuilding">
+    <wsdl:part name="parameters" element="tns:createBuilding">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ReadOnlyException">
+    <wsdl:part name="ReadOnlyException" element="tns:ReadOnlyException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomIdsByBuildingAndRoomType">
+    <wsdl:part name="parameters" element="tns:getRoomIdsByBuildingAndRoomType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForRooms">
+    <wsdl:part name="parameters" element="tns:searchForRooms">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomResponsibleOrgsByIds">
+    <wsdl:part name="parameters" element="tns:getRoomResponsibleOrgsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateBuilding">
+    <wsdl:part name="parameters" element="tns:updateBuilding">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomIdsByBuildingResponse">
+    <wsdl:part name="parameters" element="tns:getRoomIdsByBuildingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomIdsByBuildingAndFloor">
+    <wsdl:part name="parameters" element="tns:getRoomIdsByBuildingAndFloor">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForRoomResponsibleOrgsResponse">
+    <wsdl:part name="parameters" element="tns:searchForRoomResponsibleOrgsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createRoom">
+    <wsdl:part name="parameters" element="tns:createRoom">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createBuildingResponse">
+    <wsdl:part name="parameters" element="tns:createBuildingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForBuildings">
+    <wsdl:part name="parameters" element="tns:searchForBuildings">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomsByIds">
+    <wsdl:part name="parameters" element="tns:getRoomsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateBuilding">
+    <wsdl:part name="parameters" element="tns:validateBuilding">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateBuildingResponse">
+    <wsdl:part name="parameters" element="tns:updateBuildingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateRoomResponse">
+    <wsdl:part name="parameters" element="tns:updateRoomResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getRoomIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForRoomIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForRoomIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForBuildingIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForBuildingIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteRoomResponsibleOrg">
+    <wsdl:part name="parameters" element="tns:deleteRoomResponsibleOrg">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBuildingIdsByCampus">
+    <wsdl:part name="parameters" element="tns:getBuildingIdsByCampus">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomResponsibleOrgResponse">
+    <wsdl:part name="parameters" element="tns:getRoomResponsibleOrgResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomResponsibleOrgIdsForBuilding">
+    <wsdl:part name="parameters" element="tns:getRoomResponsibleOrgIdsForBuilding">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateRoom">
+    <wsdl:part name="parameters" element="tns:updateRoom">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateRoom">
+    <wsdl:part name="parameters" element="tns:validateRoom">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateRoomResponsibleOrg">
+    <wsdl:part name="parameters" element="tns:updateRoomResponsibleOrg">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForRoomsResponse">
+    <wsdl:part name="parameters" element="tns:searchForRoomsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteRoom">
+    <wsdl:part name="parameters" element="tns:deleteRoom">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForRoomResponsibleOrgs">
+    <wsdl:part name="parameters" element="tns:searchForRoomResponsibleOrgs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomIdsByType">
+    <wsdl:part name="parameters" element="tns:getRoomIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createRoomResponsibleOrg">
+    <wsdl:part name="parameters" element="tns:createRoomResponsibleOrg">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBuildingResponse">
+    <wsdl:part name="parameters" element="tns:getBuildingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteBuilding">
+    <wsdl:part name="parameters" element="tns:deleteBuilding">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForBuildingsResponse">
+    <wsdl:part name="parameters" element="tns:searchForBuildingsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForRoomResponsibleOrgIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForRoomResponsibleOrgIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="RoomService">
+    <wsdl:operation name="validateBuilding">
+      <wsdl:input name="validateBuilding" message="tns:validateBuilding">
+    </wsdl:input>
+      <wsdl:output name="validateBuildingResponse" message="tns:validateBuildingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteBuilding">
+      <wsdl:input name="deleteBuilding" message="tns:deleteBuilding">
+    </wsdl:input>
+      <wsdl:output name="deleteBuildingResponse" message="tns:deleteBuildingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createRoom">
+      <wsdl:input name="createRoom" message="tns:createRoom">
+    </wsdl:input>
+      <wsdl:output name="createRoomResponse" message="tns:createRoomResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForRooms">
+      <wsdl:input name="searchForRooms" message="tns:searchForRooms">
+    </wsdl:input>
+      <wsdl:output name="searchForRoomsResponse" message="tns:searchForRoomsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomIdsByBuildingAndRoomTypes">
+      <wsdl:input name="getRoomIdsByBuildingAndRoomTypes" message="tns:getRoomIdsByBuildingAndRoomTypes">
+    </wsdl:input>
+      <wsdl:output name="getRoomIdsByBuildingAndRoomTypesResponse" message="tns:getRoomIdsByBuildingAndRoomTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRoomResponsibleOrg">
+      <wsdl:input name="deleteRoomResponsibleOrg" message="tns:deleteRoomResponsibleOrg">
+    </wsdl:input>
+      <wsdl:output name="deleteRoomResponsibleOrgResponse" message="tns:deleteRoomResponsibleOrgResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForRoomIds">
+      <wsdl:input name="searchForRoomIds" message="tns:searchForRoomIds">
+    </wsdl:input>
+      <wsdl:output name="searchForRoomIdsResponse" message="tns:searchForRoomIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomResponsibleOrgsByIds">
+      <wsdl:input name="getRoomResponsibleOrgsByIds" message="tns:getRoomResponsibleOrgsByIds">
+    </wsdl:input>
+      <wsdl:output name="getRoomResponsibleOrgsByIdsResponse" message="tns:getRoomResponsibleOrgsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomResponsibleOrgIdsByType">
+      <wsdl:input name="getRoomResponsibleOrgIdsByType" message="tns:getRoomResponsibleOrgIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getRoomResponsibleOrgIdsByTypeResponse" message="tns:getRoomResponsibleOrgIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateRoomResponsibleOrg">
+      <wsdl:input name="validateRoomResponsibleOrg" message="tns:validateRoomResponsibleOrg">
+    </wsdl:input>
+      <wsdl:output name="validateRoomResponsibleOrgResponse" message="tns:validateRoomResponsibleOrgResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getBuildingsByIds">
+      <wsdl:input name="getBuildingsByIds" message="tns:getBuildingsByIds">
+    </wsdl:input>
+      <wsdl:output name="getBuildingsByIdsResponse" message="tns:getBuildingsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateBuilding">
+      <wsdl:input name="updateBuilding" message="tns:updateBuilding">
+    </wsdl:input>
+      <wsdl:output name="updateBuildingResponse" message="tns:updateBuildingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateRoom">
+      <wsdl:input name="validateRoom" message="tns:validateRoom">
+    </wsdl:input>
+      <wsdl:output name="validateRoomResponse" message="tns:validateRoomResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomResponsibleOrg">
+      <wsdl:input name="getRoomResponsibleOrg" message="tns:getRoomResponsibleOrg">
+    </wsdl:input>
+      <wsdl:output name="getRoomResponsibleOrgResponse" message="tns:getRoomResponsibleOrgResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomIdsByType">
+      <wsdl:input name="getRoomIdsByType" message="tns:getRoomIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getRoomIdsByTypeResponse" message="tns:getRoomIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomIdsByBuildingAndRoomType">
+      <wsdl:input name="getRoomIdsByBuildingAndRoomType" message="tns:getRoomIdsByBuildingAndRoomType">
+    </wsdl:input>
+      <wsdl:output name="getRoomIdsByBuildingAndRoomTypeResponse" message="tns:getRoomIdsByBuildingAndRoomTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomsByBuildingAndRoomUsageTypes">
+      <wsdl:input name="getRoomsByBuildingAndRoomUsageTypes" message="tns:getRoomsByBuildingAndRoomUsageTypes">
+    </wsdl:input>
+      <wsdl:output name="getRoomsByBuildingAndRoomUsageTypesResponse" message="tns:getRoomsByBuildingAndRoomUsageTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createRoomResponsibleOrg">
+      <wsdl:input name="createRoomResponsibleOrg" message="tns:createRoomResponsibleOrg">
+    </wsdl:input>
+      <wsdl:output name="createRoomResponsibleOrgResponse" message="tns:createRoomResponsibleOrgResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForRoomResponsibleOrgs">
+      <wsdl:input name="searchForRoomResponsibleOrgs" message="tns:searchForRoomResponsibleOrgs">
+    </wsdl:input>
+      <wsdl:output name="searchForRoomResponsibleOrgsResponse" message="tns:searchForRoomResponsibleOrgsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomResponsibleOrgIdsForBuilding">
+      <wsdl:input name="getRoomResponsibleOrgIdsForBuilding" message="tns:getRoomResponsibleOrgIdsForBuilding">
+    </wsdl:input>
+      <wsdl:output name="getRoomResponsibleOrgIdsForBuildingResponse" message="tns:getRoomResponsibleOrgIdsForBuildingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomIdsByBuildingAndFloor">
+      <wsdl:input name="getRoomIdsByBuildingAndFloor" message="tns:getRoomIdsByBuildingAndFloor">
+    </wsdl:input>
+      <wsdl:output name="getRoomIdsByBuildingAndFloorResponse" message="tns:getRoomIdsByBuildingAndFloorResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getBuilding">
+      <wsdl:input name="getBuilding" message="tns:getBuilding">
+    </wsdl:input>
+      <wsdl:output name="getBuildingResponse" message="tns:getBuildingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRoom">
+      <wsdl:input name="deleteRoom" message="tns:deleteRoom">
+    </wsdl:input>
+      <wsdl:output name="deleteRoomResponse" message="tns:deleteRoomResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForRoomResponsibleOrgIds">
+      <wsdl:input name="searchForRoomResponsibleOrgIds" message="tns:searchForRoomResponsibleOrgIds">
+    </wsdl:input>
+      <wsdl:output name="searchForRoomResponsibleOrgIdsResponse" message="tns:searchForRoomResponsibleOrgIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForBuildingIds">
+      <wsdl:input name="searchForBuildingIds" message="tns:searchForBuildingIds">
+    </wsdl:input>
+      <wsdl:output name="searchForBuildingIdsResponse" message="tns:searchForBuildingIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getBuildingIdsByCampus">
+      <wsdl:input name="getBuildingIdsByCampus" message="tns:getBuildingIdsByCampus">
+    </wsdl:input>
+      <wsdl:output name="getBuildingIdsByCampusResponse" message="tns:getBuildingIdsByCampusResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createBuilding">
+      <wsdl:input name="createBuilding" message="tns:createBuilding">
+    </wsdl:input>
+      <wsdl:output name="createBuildingResponse" message="tns:createBuildingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomsByIds">
+      <wsdl:input name="getRoomsByIds" message="tns:getRoomsByIds">
+    </wsdl:input>
+      <wsdl:output name="getRoomsByIdsResponse" message="tns:getRoomsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoom">
+      <wsdl:input name="getRoom" message="tns:getRoom">
+    </wsdl:input>
+      <wsdl:output name="getRoomResponse" message="tns:getRoomResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomResponsibleOrgIdsByRoom">
+      <wsdl:input name="getRoomResponsibleOrgIdsByRoom" message="tns:getRoomResponsibleOrgIdsByRoom">
+    </wsdl:input>
+      <wsdl:output name="getRoomResponsibleOrgIdsByRoomResponse" message="tns:getRoomResponsibleOrgIdsByRoomResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForBuildings">
+      <wsdl:input name="searchForBuildings" message="tns:searchForBuildings">
+    </wsdl:input>
+      <wsdl:output name="searchForBuildingsResponse" message="tns:searchForBuildingsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomIdsByBuilding">
+      <wsdl:input name="getRoomIdsByBuilding" message="tns:getRoomIdsByBuilding">
+    </wsdl:input>
+      <wsdl:output name="getRoomIdsByBuildingResponse" message="tns:getRoomIdsByBuildingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateRoom">
+      <wsdl:input name="updateRoom" message="tns:updateRoom">
+    </wsdl:input>
+      <wsdl:output name="updateRoomResponse" message="tns:updateRoomResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateRoomResponsibleOrg">
+      <wsdl:input name="updateRoomResponsibleOrg" message="tns:updateRoomResponsibleOrg">
+    </wsdl:input>
+      <wsdl:output name="updateRoomResponsibleOrgResponse" message="tns:updateRoomResponsibleOrgResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RoomServiceServiceSoapBinding" type="tns:RoomService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="deleteBuilding">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteBuilding">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteBuildingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateBuilding">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateBuilding">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateBuildingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createRoom">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createRoom">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createRoomResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForRooms">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForRooms">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForRoomsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRoomResponsibleOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteRoomResponsibleOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteRoomResponsibleOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomIdsByBuildingAndRoomTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoomIdsByBuildingAndRoomTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomIdsByBuildingAndRoomTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForRoomIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForRoomIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForRoomIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomResponsibleOrgIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoomResponsibleOrgIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomResponsibleOrgIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomResponsibleOrgsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoomResponsibleOrgsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomResponsibleOrgsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateRoomResponsibleOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateRoomResponsibleOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateRoomResponsibleOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getBuildingsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getBuildingsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBuildingsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateBuilding">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateBuilding">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateBuildingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomResponsibleOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoomResponsibleOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomResponsibleOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateRoom">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateRoom">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateRoomResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoomIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomIdsByBuildingAndRoomType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoomIdsByBuildingAndRoomType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomIdsByBuildingAndRoomTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createRoomResponsibleOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createRoomResponsibleOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createRoomResponsibleOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomsByBuildingAndRoomUsageTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoomsByBuildingAndRoomUsageTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomsByBuildingAndRoomUsageTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForRoomResponsibleOrgs">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForRoomResponsibleOrgs">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForRoomResponsibleOrgsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomIdsByBuildingAndFloor">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoomIdsByBuildingAndFloor">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomIdsByBuildingAndFloorResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomResponsibleOrgIdsForBuilding">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoomResponsibleOrgIdsForBuilding">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomResponsibleOrgIdsForBuildingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRoom">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteRoom">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteRoomResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getBuilding">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getBuilding">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBuildingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForBuildingIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForBuildingIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForBuildingIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForRoomResponsibleOrgIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForRoomResponsibleOrgIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForRoomResponsibleOrgIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getBuildingIdsByCampus">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getBuildingIdsByCampus">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBuildingIdsByCampusResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createBuilding">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createBuilding">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createBuildingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoomsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoom">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoom">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomResponsibleOrgIdsByRoom">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoomResponsibleOrgIdsByRoom">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomResponsibleOrgIdsByRoomResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForBuildings">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForBuildings">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForBuildingsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomIdsByBuilding">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRoomIdsByBuilding">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRoomIdsByBuildingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateRoom">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateRoom">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateRoomResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateRoomResponsibleOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateRoomResponsibleOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateRoomResponsibleOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RoomServiceService">
+    <wsdl:port name="RoomServicePort" binding="tns:RoomServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/RoomServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

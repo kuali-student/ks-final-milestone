@@ -16,10 +16,12 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -42,10 +44,13 @@ public class CourseOfferingEditWrapper implements Serializable {
     private String termStartEnd;
 
     private String selectedGradingOptionName;
-    private String selectedstudentRegOpts;
+    private String selectedStudentRegOpts;
 
     private CreditOptionInfo creditOption;
     private boolean creditOptionFixed;
+    private boolean isChecked;
+
+    private String gradingOption;
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
@@ -116,12 +121,12 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.selectedGradingOptionName = selectedGradingOptionName;
     }
 
-    public String getSelectedstudentRegOpts() {
-        return selectedstudentRegOpts;
+    public String getSelectedStudentRegOpts() {
+        return selectedStudentRegOpts;
     }
 
-    public void setSelectedstudentRegOpts(String selectedstudentRegOpts) {
-        this.selectedstudentRegOpts = selectedstudentRegOpts;
+    public void setSelectedStudentRegOpts(String selectedStudentRegOpts) {
+        this.selectedStudentRegOpts = selectedStudentRegOpts;
     }
 
     public CourseInfo getCourse() {
@@ -164,7 +169,32 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.instructors = instructors;
     }
 
+    public boolean getIsChecked() {
+        return isChecked;
+    }
 
+    public void setIsChecked(boolean checked) {
+        this.isChecked = checked;
+    }
+
+    public String getGradingOption() {
+        return gradingOption;
+    }
+
+    public void setGradingOption(String gradingOption) {
+        this.gradingOption = gradingOption;
+    }
+
+    public boolean isLegalToDelete() {
+
+        if(StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_DRAFT_STATE_KEY) ||
+                StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) ||
+                StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) {
+            return true;
+        }
+
+        return false;
+    }
 
 }
 

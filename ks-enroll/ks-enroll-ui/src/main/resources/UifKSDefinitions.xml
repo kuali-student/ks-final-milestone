@@ -49,6 +49,30 @@
         </property>
     </bean>
 
+    <!-- try to override the default Uif-LookupView-ResultActions which contains edit, copy and delete.
+         Here we only need edit -->
+    <bean id="KS-LookupView-ResultActions" parent="Uif-LinkGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-lookupView-resultActions</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Link" p:order="10">
+                    <property name="linkText" value="edit"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceEdit</value>
+                        </list>
+                    </property>
+                    <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KSInquiryFooter" parent="KSInquiryFooter-parent"/>
 
     <!-- We are overriding the lookup footer bean to customize the default CLOSE button action. On Close button action(if it's not rendered in lightbox), We need to return to the enrollment

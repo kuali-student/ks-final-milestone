@@ -15,20 +15,18 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl.mock;
 
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.core.state.infc.State;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.RichText;
-
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-
-import org.kuali.student.r2.core.state.infc.State;
 
 /**
  * States for Learning Person Relations
@@ -50,7 +48,7 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
     /**
      * Instructor states
      */
-    TENATIVE(LprServiceConstants.TENATIVE_STATE_KEY, "Tentative", "The instructor is proposed to teach this course or section but it has not yet been confirmed", asDate("20010101"), null, null, null),
+    TENTATIVE(LprServiceConstants.TENTATIVE_STATE_KEY, "Tentative", "The instructor is proposed to teach this course or section but it has not yet been confirmed", asDate("20010101"), null, null, null),
     ASSIGNED(LprServiceConstants.ASSIGNED_STATE_KEY, "Assigned", "The instructor is assigned to teach this course or section.", asDate("20010101"), null, null, null),
     UNASSIGNED(LprServiceConstants.UNASSIGNED_STATE_KEY, "Unassigned", "The instructor had been assigned but then that assignment was removed", asDate("20010101"), null, null, null),
     /**
@@ -70,7 +68,7 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
     /**
      * States used for isntructors of courses
      */
-    public static final LuiPersonRelationStateEnum[] COURSE_INSTRUCTOR_STATES = {TENATIVE, ASSIGNED, UNASSIGNED};
+    public static final LuiPersonRelationStateEnum[] COURSE_INSTRUCTOR_STATES = {TENTATIVE, ASSIGNED, UNASSIGNED};
     /**
      * Types used for students in courses
      */
@@ -78,7 +76,7 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
     /**
      * States used for isntructors of PROGRAMS
      */
-    public static final LuiPersonRelationStateEnum[] PROGRAM_ADVISOR_STATES = {TENATIVE, ASSIGNED, UNASSIGNED};
+    public static final LuiPersonRelationStateEnum[] PROGRAM_ADVISOR_STATES = {TENTATIVE, ASSIGNED, UNASSIGNED};
     /**
      * Types used for students in PROGRAMS
      */

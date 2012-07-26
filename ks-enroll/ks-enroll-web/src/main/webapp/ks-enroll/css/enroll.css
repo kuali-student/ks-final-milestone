@@ -6,6 +6,10 @@
 .ks-enrollment-home > .uif-header { border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px; }
 .ks-enrollment-home-group { margin-bottom:5px; margin-top:15px; }
 
+/* currently commented out in CourseOfferingEditMaintenanceView.xml
+.ks-collection-margin-bottom-zero .uif-gridGroup,
+.ks-collection-margin-bottom-zero .uif-gridLayout { margin-bottom:0; } */
+
 .ks-termDates-table{}
 
 .ks-termDates-table tr{

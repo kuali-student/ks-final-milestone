@@ -1,5 +1,15 @@
 package org.kuali.student.enrollment.class1.lpr.service.utilities;
 
+import org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity;
+import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constants.DA_KEY_1;
 import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constants.DA_KEY_2;
 import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constants.DA_VALUE_1;
@@ -7,19 +17,6 @@ import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constant
 import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constants.LUI_ID1;
 import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constants.PERSON_ID1;
 import static org.kuali.student.enrollment.class1.lpr.service.utilities.Constants.TEST_VALUE_1;
-
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-
-import org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Igor
@@ -49,10 +46,10 @@ public class DataLoader {
 
     private Set<LprAttributeEntity> createAttributes(LprEntity personRelation) {
         Set<LprAttributeEntity> attributes = new HashSet<LprAttributeEntity>();
-        
+
         attributes.add (new LprAttributeEntity(new AttributeInfo(DA_KEY_1, DA_VALUE_1), personRelation));
         attributes.add (new LprAttributeEntity(new AttributeInfo(DA_KEY_2, DA_VALUE_2), personRelation));
-        
+
         return attributes;
     }
 

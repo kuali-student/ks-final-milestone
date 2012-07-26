@@ -172,8 +172,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
             coTransformer.copyFromCanonical(targetCourse, targetCo, optionKeys, context);
         }
-        // Rolled over CO should be in planned state
-        targetCo.setStateKey(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY);
+        // Rolled over CO should be in draft state
+        targetCo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
         targetCo = this._getCoService().createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(),
                 targetCo, optionKeys, context);
         List<FormatOfferingInfo> foInfos = this._getCoService().getFormatOfferingsByCourseOffering(sourceCo.getId(), context);
@@ -190,7 +190,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             targetFo.setMeta(null);
             CourseOfferingService locoService = this.getCoService();
             // Rolled over FO should be in planned state
-            targetFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
+            targetFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
             targetFo = locoService.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
                     targetFo.getTypeKey(), targetFo, context);
             List<ActivityOfferingInfo> aoInfoList = locoService.getActivityOfferingsByFormatOffering(sourceFo.getId(), context);

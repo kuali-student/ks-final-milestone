@@ -59,7 +59,7 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
                 courseOffering.setCourseId(courseInfo.getId());
                 courseOffering.setCourseCode(courseInfo.getCode());
                 courseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-                courseOffering.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+                courseOffering.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
 
                 CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(courseInfo.getId(), wrapper.getTerm().getId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, getContextInfo());
                 wrapper.setCoInfo(info);

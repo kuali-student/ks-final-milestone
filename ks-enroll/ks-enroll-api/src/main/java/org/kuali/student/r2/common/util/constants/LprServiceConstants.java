@@ -114,7 +114,7 @@ public class LprServiceConstants {
     /**
      * Instructor states
      */
-    public static final String TENATIVE_STATE_KEY = "kuali.lpr.state.tentative";
+    public static final String TENTATIVE_STATE_KEY = "kuali.lpr.state.tentative";
     public static final String ASSIGNED_STATE_KEY = "kuali.lpr.state.assigned";
     public static final String UNASSIGNED_STATE_KEY = "kuali.lpr.state.unassigned";
 
@@ -141,7 +141,7 @@ public class LprServiceConstants {
      * States used for isntructors of courses
      */
     public static final String INSTRUCTOR_COURSE_ASSIGNMENT_PROCESS_KEY = "kuali.lpr.process.instructor.course.assignment";
-    public static final String[] INSTRUCTOR_COURSE_ASSIGNMENT_STATE_KEYS = {TENATIVE_STATE_KEY, ASSIGNED_STATE_KEY,
+    public static final String[] INSTRUCTOR_COURSE_ASSIGNMENT_STATE_KEYS = {TENTATIVE_STATE_KEY, ASSIGNED_STATE_KEY,
         UNASSIGNED_STATE_KEY};
 
     /**

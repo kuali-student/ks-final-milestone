@@ -9,11 +9,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.common.search.dto.*;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -30,6 +26,8 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
@@ -55,6 +54,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     private CourseOfferingSetService socService;
     private ContextInfo contextInfo;
     private TypeService typeService;
+    private transient LRCService lrcService;
 
     @RequestMapping(params = "methodToCall=loadCourseCatalog")
     public ModelAndView loadCourseCatalog(@ModelAttribute("KualiForm") MaintenanceForm form, BindingResult result,
@@ -73,25 +73,10 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         // Added for Jira 1598 and 1648 Tanveer 07/10/2012
         coWrapper.setInvalidCatalogCourseCodeError("");
         coWrapper.setInvalidTargetTermError("");
-        if (course == null || term == null) {
-            if (term == null) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Target Term");
-                coWrapper.setInvalidTargetTermError("Invalid Target Term");
-            }
-            if (course == null) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Catalog Course Code");
-                coWrapper.setInvalidCatalogCourseCodeError("Invalid Catalog Course Code");
-            }
-
-            if (course == null && term == null){
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Both Catalog Course Code and Target Term are invalid");
-            }
-            return getUIFModelAndView(form);
-            }
 
         if (course != null && term != null) {
             coWrapper.setCourse(course);
-            coWrapper.setCreditCount(course.getCreditOptions().get(0).getResultValues().get(0));
+            coWrapper.setCreditCount(ViewHelperUtil.trimTrailing0(course.getCreditOptions().get(0).getResultValues().get(0)));
             coWrapper.setShowAllSections(true);
             coWrapper.setShowCatalogLink(false);
             coWrapper.setShowTermOfferingLink(true);
@@ -107,7 +92,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                 co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
                 co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
-                co.setGrading(courseOfferingInfo.getGradingOptionId());
+                co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
                 coWrapper.getExistingCourseOfferings().add(co);
             }
 
@@ -124,21 +109,40 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                 co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
                 co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
-                co.setGrading(courseOfferingInfo.getGradingOptionId());
+                co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
                 coWrapper.getExistingTermOfferings().add(co);
             }
 
         } else {
-            coWrapper.setCourse(null);
-            coWrapper.setShowAllSections(false);
-            coWrapper.setCreditCount("");
-            coWrapper.getExistingTermOfferings().clear();
-            coWrapper.getExistingCourseOfferings().clear();
-            coWrapper.setNoOfTermOfferings(0);
-            coWrapper.setEnableCreateButton(false);
+
+            if (course == null && term == null){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Both Catalog Course Code and Target Term are invalid");
+            } else {
+                if (term == null) {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Target Term");
+                    coWrapper.setInvalidTargetTermError("Invalid Target Term");
+                } else if (course == null) {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Catalog Course Code");
+                    coWrapper.setInvalidCatalogCourseCodeError("Invalid Catalog Course Code");
+                }
+            }
+            coWrapper.clear();
+            return getUIFModelAndView(form);
         }
 
         return getUIFModelAndView(form);
+    }
+
+    private String getGradingOption(String gradingOptionId)throws Exception{
+        String gradingOption = "";
+        if(StringUtils.isNotBlank(gradingOptionId)){
+            ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(gradingOptionId, getContextInfo());
+            if(rvg!= null && StringUtils.isNotBlank(rvg.getName())){
+               gradingOption = rvg.getName();
+            }
+        }
+
+        return gradingOption;
     }
 
     @RequestMapping(params = "methodToCall=createFromCatalog")
@@ -228,18 +232,13 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         List <CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
 
         SearchParam qpv1 = new SearchParam();
-        qpv1.setKey("lu.queryParam.luOptionalType");
-        qpv1.setValue("kuali.lu.type.CreditCourse");
+        qpv1.setKey("lu.criteria.code");
+        qpv1.setValue(courseName);
         searchParams.add(qpv1);
-
-        SearchParam qpv2 = new SearchParam();
-        qpv2.setKey("lu.queryParam.luOptionalCode");
-        qpv2.setValue(courseName);
-        searchParams.add(qpv2);
 
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.setParams(searchParams);
-        searchRequest.setSearchKey("lu.search.mostCurrent.union");
+        searchRequest.setSearchKey("lu.search.cluByCode");
 
         try {
             SearchResult searchResult = getLuService().search(searchRequest);
@@ -296,4 +295,10 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return socService;
     }
 
+   protected LRCService getLrcService() {
+        if(lrcService == null) {
+            lrcService = CourseOfferingResourceLoader.loadLrcService();
+        }
+        return this.lrcService;
+    }
 }

@@ -37,7 +37,11 @@
                 <value>ks-enroll/scripts/common.js</value>
             </list>
         </property>
-
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-enroll/css/acal.css</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-SearchInputPage"/>

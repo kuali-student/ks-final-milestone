@@ -19,6 +19,7 @@ import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 
 import javax.xml.namespace.QName;
 import java.util.Map;
@@ -28,11 +29,6 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
     private TypeService typeService;
     private StateService stateService;
     private AcademicCalendarService acalService;
-
-    float previousPercentEffort = 0;
-    int indexHighestPercentEffort = 0;
-    // String instructorNameHighestPercentEffort = "";
-
 
     @Override
     public ActivityOfferingWrapper retrieveDataObject(Map<String, String> parameters) {
@@ -52,22 +48,14 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
                 type = getTypeService().getType(activityOfferingInfo.getTypeKey(),getContextInfo());
                 instructorWrapper.setTypeName(type.getName());
                 aoWrapper.getInstructors().add(instructorWrapper);
-
-                // For Jira 1736 - Tanveer 07/18/2012 - If more than one instructor then only display the Instructor Name with the highest % effort
-                indexHighestPercentEffort ++;
-                if (indexHighestPercentEffort > 1){
-                    if (instructor.getPercentageEffort() > previousPercentEffort)
-                    {
-                        previousPercentEffort = instructor.getPercentageEffort();
-                        // instructorNameHighestPercentEffort.set = instructor.getPersonName();
-                        aoWrapper.setInstructorNameHighestPercentEffort(instructor.getPersonName());
-                    }
-                }
-                else    {
-                        previousPercentEffort = instructor.getPercentageEffort();
-                        aoWrapper.setInstructorNameHighestPercentEffort(instructor.getPersonName());
-                        }
             }
+
+            // Display the Instructor Name with the Highest % of Effort, Jira 1736
+            OfferingInstructorInfo offeringInstructorInfo = ViewHelperUtil.findDisplayInstructor(activityOfferingInfo.getInstructors());
+            if (null != offeringInstructorInfo) {
+                aoWrapper.setInstructorNameHighestPercentEffort(offeringInstructorInfo.getPersonName());
+            }
+
             return aoWrapper;
         } catch (Exception e) {
            throw new RuntimeException(e);

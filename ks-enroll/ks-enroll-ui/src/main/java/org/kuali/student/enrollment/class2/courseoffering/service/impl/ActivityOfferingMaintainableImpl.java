@@ -26,13 +26,19 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Formatter;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
 
@@ -41,7 +47,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient TypeService typeService;
     private transient StateService stateService;
     private transient CourseService courseService;
-    private AcademicCalendarService academicCalendarService;
+    private transient AcademicCalendarService academicCalendarService;
 
     @Override
     public void saveDataObject() {
@@ -175,6 +181,17 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         if(!StringUtils.isBlank(instructor.getsEffort())){
             instructorInfo.setPercentageEffort(new Float(instructor.getsEffort()));
         }
+
+
+        if(StringUtils.isBlank(instructorInfo.getStateKey())) {
+            try {
+                StateInfo state = getStateService().getState(LprServiceConstants.TENTATIVE_STATE_KEY, getContextInfo());
+                instructorInfo.setStateKey(state.getKey());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         return instructorInfo;
     }
 
@@ -220,8 +237,19 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 scheduleComponentWrapper.setRoomFeatures(resources.toString());
             }
         }
+        else if(addLine instanceof OfferingInstructorWrapper) {
+            // set the person name if it's null, in the case of user-input personell id
+            OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
+            if (instructor.getOfferingInstructorInfo().getPersonName() == null && instructor.getOfferingInstructorInfo().getPersonId() != null) {
+                List<Person> personList = ViewHelperUtil.getInstructorByPersonId(instructor.getOfferingInstructorInfo().getPersonId());
+                if (personList.size() == 1) {
+                    instructor.getOfferingInstructorInfo().setPersonName(personList.get(0).getName());
+                }
+            }
+        }
     }
 
+    @Override
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof OfferingInstructorWrapper){
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
@@ -250,6 +278,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         return super.performAddLineValidation(view, collectionGroup, model, addLine);
     }
 
+    @Override
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof OfferingInstructorWrapper){
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;

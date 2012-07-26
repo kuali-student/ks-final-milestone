@@ -99,36 +99,36 @@ public interface SocRolloverResult
 
     /**
      * Number of course offerings created 
-     *
+     *     
      * @name Course Offerings Created
-     * @readOnly
+     * @readOnly 
      * @impl set during the #rolloverSoc operation
      */
     public Integer getCourseOfferingsCreated();
 
     /**
      * Number of course offerings skipped (not rolled over)
-     *
+     *     
      * @name Course Offerings Skipped
-     * @readOnly
+     * @readOnly 
      * @impl set during the #rolloverSoc operation
      */
     public Integer getCourseOfferingsSkipped();
 
     /**
      * Number of activity offerings created 
-     *
+     *     
      * @name Activity Offerings Created
-     * @readOnly
+     * @readOnly 
      * @impl set during the #rolloverSoc operation
      */
     public Integer getActivityOfferingsCreated();
 
     /**
      * Number of activity offerings skipped (not rolled over)
-     *
+     *     
      * @name Activity Offerings Skipped
-     * @readOnly
+     * @readOnly 
      * @impl set during the #rolloverSoc operation
      */
     public Integer getActivityOfferingsSkipped();
@@ -137,7 +137,7 @@ public interface SocRolloverResult
      * Get the target term Id
      *
      * @name Source Term Id
-     * @readOnly
+     * @readOnly 
      * @impl set during the #rolloverSoc operation
      */
     public String getSourceTermId();

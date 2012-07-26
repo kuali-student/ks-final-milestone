@@ -16,27 +16,22 @@
 package org.kuali.student.enrollment.class1.hold.service.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.uif.widget.LightBox;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoCreateForm;
 import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoSearchForm;
-import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
-import org.kuali.student.enrollment.class2.acal.service.CalendarSearchViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
@@ -51,10 +46,20 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.notIn;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 /**
  * This class //TODO ...
@@ -63,7 +68,7 @@ import java.util.Properties;
  */
 
 @Controller
-@RequestMapping(value = "/holdSearch")
+@RequestMapping(value = "/holdIssueInfoSearch")
 public class HoldIssueInfoSearchController extends UifControllerBase {
 
     private transient HoldService holdService;
@@ -94,51 +99,13 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         String orgId = searchForm.getOrganizationId();
         String descr = searchForm.getDescr();
 
-        resetForm(searchForm);
-
-        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        if (StringUtils.isNotBlank(name) && !name.isEmpty()) {
-            if (StringUtils.isNotBlank(type) && !type.isEmpty()) {
-                if (StringUtils.isNotBlank(state) && !state.isEmpty()) {
-                    if (StringUtils.isNotBlank(orgId) && !orgId.isEmpty()) {
-                        if (StringUtils.isNotBlank(descr) && !descr.isEmpty()){
-                            qBuilder.setPredicates(PredicateFactory.or(
-                                    PredicateFactory.like("name", name),
-                                    PredicateFactory.like("typeKey", type),
-                                    PredicateFactory.like("stateKey", state),
-                                    PredicateFactory.like("organizationId", orgId),
-                                    PredicateFactory.like("descr", descr)));
-                        } else {
-                            qBuilder.setPredicates(PredicateFactory.or(
-                                    PredicateFactory.like("name",name),
-                                    PredicateFactory.like("typeKey",type),
-                                    PredicateFactory.like("stateKey",state),
-                                    PredicateFactory.like("organizationId", orgId)));
-                        }
-                    } else {
-                        qBuilder.setPredicates(PredicateFactory.or(
-                                PredicateFactory.like("name",name),
-                                PredicateFactory.like("typeKey",type),
-                                PredicateFactory.like("stateKey",state)));
-                    }
-                } else {
-                    qBuilder.setPredicates(PredicateFactory.or(
-                            PredicateFactory.like("name",name),
-                            PredicateFactory.like("typeKey",type)));
-                }
-            } else {
-                qBuilder.setPredicates(PredicateFactory.like("name",name));
-            }
-        } else if (StringUtils.isNotBlank(type) && !type.isEmpty()){
-            qBuilder.setPredicates(PredicateFactory.like("typeKey",type));
-        }
         try {
-            QueryByCriteria query = qBuilder.build();
+            QueryByCriteria.Builder query = buildQueryByCriteria(name,type,state,orgId,descr);
 
             holdService = getHoldService();
 
 
-            List<HoldIssueInfo> holdIssueInfos = holdService.searchForHoldIssues(query, getContextInfo());
+            List<HoldIssueInfo> holdIssueInfos = holdService.searchForHoldIssues(query.build(), getContextInfo());
             if (!holdIssueInfos.isEmpty()){
                 results.addAll(holdIssueInfos);
             }
@@ -147,121 +114,72 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
             throw new RuntimeException("Error Performing Search",e); //To change body of catch statement use File | Settings | File Templates.
         }
 
+        resetForm(searchForm);
+
         searchForm.setHoldIssueInfo(results);
 
         return getUIFModelAndView(searchForm, null);
     }
 
-    /*@RequestMapping(params = "methodToCall=view")
-    public ModelAndView view(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
+    @RequestMapping(params = "methodToCall=view")
+    public ModelAndView view(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HoldIssueInfo holdIssue = getSelectedHoldIssue(searchForm, "view");
 
-        Object atp = getSelectedAtp(searchForm, "view");
-        Properties urlParameters;
         String controllerPath;
-        if(atp instanceof HolidayCalendarInfo){
-            urlParameters = getViewHelperService(searchForm).buildHCalURLParameters((HolidayCalendarInfo)atp,CalendarConstants.HC_VIEW_METHOD,true,getContextInfo());
-            controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
-        } else if(atp instanceof AcademicCalendarInfo) {
-            urlParameters = getViewHelperService(searchForm).buildACalURLParameters((AcademicCalendarInfo)atp,CalendarConstants.AC_VIEW_METHOD,true,getContextInfo());
-            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-        } else if(atp instanceof TermInfo){
-            urlParameters = getViewHelperService(searchForm).buildTermURLParameters((TermInfo)atp,CalendarConstants.AC_VIEW_METHOD,true,getContextInfo());
-            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-        } else {
-            throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
-        }
+        Properties urlParameters = new Properties();
 
-        return super.performRedirect(searchForm,controllerPath, urlParameters);
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "view");
+        urlParameters.put("id", holdIssue.getId());
+        urlParameters.put(UifParameters.VIEW_ID, "holdView");
+
+        controllerPath = "createHold";
+
+        return performRedirect(searchForm, controllerPath, urlParameters);
     }
 
     @RequestMapping(params = "methodToCall=edit")
-    public ModelAndView edit(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
+    public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HoldIssueInfo holdIssue = getSelectedHoldIssue(searchForm, "edit");
 
-        Object atp = getSelectedAtp(searchForm, "edit");
-
-        Properties urlParameters;
         String controllerPath;
+        Properties urlParameters = new Properties();
 
-        if(atp instanceof HolidayCalendarInfo){
-            urlParameters = getViewHelperService(searchForm).buildHCalURLParameters((HolidayCalendarInfo) atp, CalendarConstants.HC_EDIT_METHOD, false, getContextInfo());
-            controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
-        } else if(atp instanceof AcademicCalendarInfo) {
-            urlParameters = getViewHelperService(searchForm).buildACalURLParameters((AcademicCalendarInfo) atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
-            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-        } else if(atp instanceof TermInfo){
-            urlParameters = getViewHelperService(searchForm).buildTermURLParameters((TermInfo)atp,CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
-            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-        } else {
-            throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
-        }
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "view");
+        urlParameters.put("id", holdIssue.getId());
+        urlParameters.put(UifParameters.VIEW_ID, "holdModifyView");
 
-        return super.performRedirect(searchForm,controllerPath, urlParameters);
+        controllerPath = "createHold";
 
-    }
-
-    @RequestMapping(params = "methodToCall=copy")
-    public ModelAndView copy(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        Object atp = getSelectedAtp(searchForm, "copy");
-
-        Properties urlParameters;
-        String controllerPath;
-
-        if(atp instanceof HolidayCalendarInfo){
-            controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
-            urlParameters = getViewHelperService(searchForm).buildHCalURLParameters((HolidayCalendarInfo)atp,CalendarConstants.HC_COPY_METHOD,false,getContextInfo());
-        }else if(atp instanceof AcademicCalendarInfo) {
-            urlParameters = getViewHelperService(searchForm).buildACalURLParameters((AcademicCalendarInfo)atp,CalendarConstants.AC_COPY_METHOD,false,getContextInfo());
-            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-        } else {
-            throw new RuntimeException("Invalid calendar type. This search supports Acal and HCal only");
-        }
-
-        return super.performRedirect(searchForm,controllerPath, urlParameters);
-
+        return performRedirect(searchForm, controllerPath, urlParameters);
     }
 
     @RequestMapping(params = "methodToCall=delete")
-    public ModelAndView delete(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
+    public ModelAndView delete(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object atp = getSelectedAtp(searchForm, "delete");
+        List<HoldIssueInfo> holdIssueInfos = searchForm.getHoldIssueInfo();
+        HoldIssueInfo holdIssue = getSelectedHoldIssue(searchForm, "delete");
 
-        if(atp instanceof HolidayCalendarInfo){
-            StatusInfo status = getAcademicCalendarService().deleteHolidayCalendar(((HolidayCalendarInfo)atp).getId(),getContextInfo());
-            if (status.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,CalendarConstants.MSG_INFO_SEARCH_DELETE_SUCCESS,((HolidayCalendarInfo) atp).getName());
-                searchForm.getHolidayCalendars().remove(atp);
-            } else{
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
+        try {
+            if(holdIssue.getStateKey().equals("active")) {
+                holdIssue.setStateKey("inactive");
+                getHoldService().updateHoldIssue(holdIssue.getId(), holdIssue, getContextInfo());
             }
-        } else if(atp instanceof AcademicCalendarInfo) {
-            StatusInfo status = getAcademicCalendarService().deleteAcademicCalendar(((AcademicCalendarInfo)atp).getId(),getContextInfo());
-            if (status.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,CalendarConstants.MSG_INFO_SEARCH_DELETE_SUCCESS,((AcademicCalendarInfo) atp).getName());
-                searchForm.getAcademicCalendars().remove(atp);
-            } else{
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
-            }
-        } else if(atp instanceof TermInfo){
-            StatusInfo status = getAcademicCalendarService().deleteTerm(((TermInfo)atp).getId(),getContextInfo());
-            if (status.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,CalendarConstants.MSG_INFO_SEARCH_DELETE_SUCCESS,((TermInfo) atp).getName());
-                searchForm.getTerms().remove(atp);
-            } else{
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
-            }
-        } else {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: invalid calendar type.");
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error Performing Delete",e);
         }
 
+        searchForm.setHoldIssueInfo(holdIssueInfos);
         return getUIFModelAndView(searchForm);
-
     }
 
-    private Object getSelectedAtp(CalendarSearchForm searchForm, String actionLink){
+    private void resetForm(HoldIssueInfoSearchForm searchForm) {
+        searchForm.setHoldIssueInfo(new ArrayList<HoldIssueInfo>());
+    }
+
+    private HoldIssueInfo getSelectedHoldIssue(HoldIssueInfoSearchForm searchForm, String actionLink){
         String selectedCollectionPath = searchForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
@@ -277,22 +195,10 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
             throw new RuntimeException("Selected line index was not set");
         }
 
-        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(searchForm, selectedCollectionPath);
-        Object atp = ((List<Object>) collection).get(selectedLineIndex);
+        Collection<HoldIssueInfo> collection = ObjectPropertyUtils.getPropertyValue(searchForm, selectedCollectionPath);
+        HoldIssueInfo holdIssue = ((List<HoldIssueInfo>) collection).get(selectedLineIndex);
 
-        return atp;
-    }
-
-    private CalendarSearchViewHelperService getViewHelperService(CalendarSearchForm form){
-        if (form.getView().getViewHelperServiceClass() != null){
-            return (CalendarSearchViewHelperService)form.getView().getViewHelperService();
-        } else {
-            return (CalendarSearchViewHelperService)form.getPostedView().getViewHelperService();
-        }
-    }*/
-
-    private void resetForm(HoldIssueInfoSearchForm searchForm) {
-        searchForm.setHoldIssueInfo(new ArrayList<HoldIssueInfo>());
+        return holdIssue;
     }
 
     private ContextInfo getContextInfo() {
@@ -308,5 +214,45 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
             holdService = (HoldService) GlobalResourceLoader.getService(new QName(HoldServiceConstants.NAMESPACE, HoldServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return holdService;
+    }
+
+    private static QueryByCriteria.Builder buildQueryByCriteria(String name, String type,String state, String orgId, String descr){
+
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> pList = new ArrayList<Predicate>();
+        Predicate p;
+
+        qBuilder.setPredicates();
+        if (StringUtils.isNotBlank(name)){
+            p = like("name", "%" + name + "%");
+            pList.add(p);
+        }
+
+        if (StringUtils.isNotBlank(type)){
+            p = like("holdIssueType", "%" + type + "%");
+            pList.add(p);
+        }
+
+        if (StringUtils.isNotBlank(state)){
+            p = equal("holdIssueState", state);
+            pList.add(p);
+        }
+
+        if (StringUtils.isNotBlank(orgId)){
+            p = like("organizationId", orgId);
+            pList.add(p);
+        }
+
+        if (StringUtils.isNotBlank(descr)){
+            p = like("descrPlain", "%" + descr + "%");
+            pList.add(p);
+        }
+
+        if (!pList.isEmpty()){
+            Predicate[] preds = new Predicate[pList.size()];
+            pList.toArray(preds);
+            qBuilder.setPredicates(and(preds));
+        }
+        return qBuilder;
     }
 }

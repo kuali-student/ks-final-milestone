@@ -15,19 +15,19 @@
 
 package org.kuali.student.r2.core.class1.enumerationmanagement.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.util.Date;
-import java.util.List;
-
 import org.junit.Test;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
+
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * Enumeration Dao test class.
@@ -38,6 +38,8 @@ import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationE
 public class TestEnumerationDao extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao", testSqlFile = "classpath:ks-em.sql")
     public EnumerationDao enumerationDao;
+
+    public String principalId = "123";
 
     @Test
     public void testFindEnumerations(){
@@ -61,10 +63,10 @@ public class TestEnumerationDao extends AbstractTransactionalDaoTest{
         entity.setEnumerationState(existingEntity.getEnumerationState());
         entity.setEnumerationType(existingEntity.getEnumerationType());
         entity.setId("Key3");
-        entity.setCreateId("SYSTEM");
-        entity.setCreateTime(new Date());
 
         entity.setDescrPlain("desc3");
+        entity.setCreateId(principalId);
+        entity.setCreateTime(new Date());
         
         enumerationDao.persist(entity);
         

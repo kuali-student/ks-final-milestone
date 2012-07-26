@@ -85,7 +85,7 @@
 
     <!-- LookupView -->
     <bean id="KS-AppointmentWindowWrapper-LookupView" parent="KSLookupView"
-        p:headerText="Appointment Window (with Assignments) Lookup"
+        p:title="Appointment Window (with Assignments) Lookup"
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
         p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl">
 
@@ -107,7 +107,7 @@
 
     <!-- InquiryView -->
     <bean id="KS-AppointmentWindowWrapper-InquiryView" parent="KSInquiryView"
-        p:headerText="Appointment Window and Assignment Detail"
+        p:title="Appointment Window and Assignment Detail"
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
         p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperInquiryViewHelperServiceImpl">
         <property name="page.header">
@@ -132,7 +132,7 @@
 
 
     <bean id="KS-AppointmentWindowWrapper-Assignment" parent="Uif-VerticalBoxSection"
-          p:headerText="Assignment Information">
+          p:title="Assignment Information">
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>
@@ -166,7 +166,7 @@
                             <bean parent="Uif-InputField"
                                   p:propertyName="meanStudentsPerSlot"
                                   p:label="Students Per Slot"
-                                  p:headerText="This displays the most common allotment size (mode), not the average."
+                                  p:instructionalText="This displays the most common allotment size (mode), not the average."
                                   p:readOnly="true"
                                   p:fieldLabel.renderColon="false">
                                 <property name="control">
@@ -199,7 +199,7 @@
     </bean>
 
     <bean id="KS-AppointmentWindowWrapper-Window" parent="Uif-VerticalBoxSection"
-          p:headerText="Window Information">
+          p:title="Window Information">
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>

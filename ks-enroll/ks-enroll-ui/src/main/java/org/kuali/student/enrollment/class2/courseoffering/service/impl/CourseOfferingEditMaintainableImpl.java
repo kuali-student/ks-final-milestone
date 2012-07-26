@@ -18,22 +18,25 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
@@ -44,7 +47,11 @@ import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.util.constants.*;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.constants.StateServiceConstants;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.state.service.StateService;
@@ -55,7 +62,14 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class //TODO ...
@@ -199,6 +213,36 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
         return formatOfferingIds;
     }
 
+    @Override
+    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        if (addLine instanceof OfferingInstructorInfo){
+            OfferingInstructorInfo instructorInfo = (OfferingInstructorInfo) addLine;
+
+            //check duplication
+            MaintenanceForm form = (MaintenanceForm)model;
+            CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            List<OfferingInstructorWrapper> instructors = coEditWrapper.getInstructors();
+            if(instructors != null && !instructors.isEmpty()){
+                for(OfferingInstructorWrapper thisInst : instructors){
+                    if(instructorInfo.getPersonId().equals(thisInst.getOfferingInstructorInfo().getPersonId())){
+                        GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingEdit-PersonnelSection", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_DUPLICATE, instructorInfo.getPersonId());
+                        return false;
+                    }
+                }
+            }
+
+            //validate ID
+            List<Person> lstPerson = ViewHelperUtil.getInstructorByPersonId(instructorInfo.getPersonId());
+            if(lstPerson == null || lstPerson.isEmpty()){
+                GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingEdit-PersonnelSection", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_NOTFOUND, instructorInfo.getPersonId());
+                return false;
+            }
+        }
+
+        return super.performAddLineValidation(view, collectionGroup, model, addLine);
+    }
+
+    @Override
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof FormatOfferingInfo){
             FormatOfferingInfo newLine = (FormatOfferingInfo)addLine;
@@ -211,6 +255,19 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
         }
     }
 
+    @Override
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        if(addLine instanceof OfferingInstructorInfo) {
+            // set the person name if it's null, in the case of user-input personell id
+            OfferingInstructorInfo instructorInfo = (OfferingInstructorInfo)addLine;
+            if(instructorInfo.getPersonName() == null && instructorInfo.getPersonId() != null) {
+                List<Person> personList = ViewHelperUtil.getInstructorByPersonId(instructorInfo.getPersonId());
+                if(personList.size() == 1) {
+                    instructorInfo.setPersonName(personList.get(0).getName());
+                }
+            }
+        }
+    }
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {

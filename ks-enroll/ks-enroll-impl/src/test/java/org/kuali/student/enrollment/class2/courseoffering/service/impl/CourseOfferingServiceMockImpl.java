@@ -73,7 +73,9 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+import javax.annotation.Resource;
+import javax.jws.WebParam;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService,
@@ -307,11 +309,11 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	}
 
     @Override
-    public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey, CourseOfferingInfo courseOfferingInfo, 
+    public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey, CourseOfferingInfo courseOfferingInfo,
     List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        // create 
+        // create
         if (!courseOfferingTypeKey.equals(courseOfferingInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
@@ -1448,7 +1450,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	}
 
 	private Map<String, List<String>>activityOfferingToSeatPoolMap = new HashMap<String, List<String>>();
-	
+
 	@Override
 	public StatusInfo addSeatPoolDefinitionToActivityOffering(
 			String seatPoolDefinitionId, String activityOfferingId,
@@ -1456,26 +1458,26 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		
+
 		// first check that both the reg group and seat pool exist
 		// these will throw does not exist exceptions
 		ActivityOfferingInfo ao = getActivityOffering(activityOfferingId, contextInfo);
-		
+
 		SeatPoolDefinitionInfo spd = getSeatPoolDefinition(seatPoolDefinitionId, contextInfo);
-		
+
 		// now check for an existing association
 		List<String> seatPoolIds = activityOfferingToSeatPoolMap.get(activityOfferingId);
-		
+
 		if (seatPoolIds == null) {
 			seatPoolIds = new ArrayList<String>();
 			activityOfferingToSeatPoolMap.put(activityOfferingId, seatPoolIds);
 		}
-		
+
 		if (seatPoolIds.contains(seatPoolDefinitionId))
 			throw new AlreadyExistsException("registration group (" + activityOfferingId + ") is already associated to seat pool definition ("+seatPoolDefinitionId+")");
-		
+
 		seatPoolIds.add(seatPoolDefinitionId);
-		
+
 		return successStatus();
 	}
 
@@ -1485,22 +1487,22 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		
+
 		// first check that both the reg group and seat pool exist
 		// these will throw does not exist exceptions
 		ActivityOfferingInfo ao = getActivityOffering(activityOfferingId, contextInfo);
-				
+
 		SeatPoolDefinitionInfo spd = getSeatPoolDefinition(seatPoolDefinitionId, contextInfo);
-				
+
 		getSeatPoolDefinitionsForActivityOffering(activityOfferingId, contextInfo);
-		
+
 		List<String>seatPoolIds = activityOfferingToSeatPoolMap.get(activityOfferingId);
-		
+
 		if (seatPoolIds.remove(seatPoolDefinitionId))
 			return successStatus();
 		else
 			throw new DoesNotExistException("no seatpool association for spId=" + seatPoolDefinitionId + " and activityOfferingId = " + activityOfferingId);
-		
+
 	}
 
 	@Override
@@ -1509,25 +1511,13 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, AlreadyExistsException {
-		
+
 		return businessLogic.generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
 	}
 	
-	
-	
-	
 
-    @Override
-    public TermInfo getTerm(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        TermInfo termInfo = new TermInfo();
-        termInfo.setCode("20122");
-        return termInfo;
-    }
 
-    @Override
-    public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-    }
+
 
     @Override
     public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termId,

@@ -108,7 +108,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="Delete Activity Offering(s)" p:methodToCall="deleteSelectedAoList"/>
-                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="cancel"/>
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="cancelDeleteAOs"/>
                         </list>
                     </property>
                 </bean>

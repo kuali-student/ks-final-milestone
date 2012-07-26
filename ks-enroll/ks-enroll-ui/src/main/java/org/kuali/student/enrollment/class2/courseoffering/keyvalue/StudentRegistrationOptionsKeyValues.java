@@ -24,6 +24,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
@@ -32,8 +33,11 @@ import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 //import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
@@ -50,7 +54,8 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
     private static final long serialVersionUID = 1L;
 
     private CourseService courseService;
-//    private LRCService lrcService;
+    private LRCService lrcService;
+    private ContextInfo contextInfo = null;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -69,17 +74,20 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
         }
 
         if (form.getStudentRegOptions() != null) {
-            for(String studentGradingOption : form.getStudentRegOptions()) {
-                // TODO: need to retrieve the value based on key gradingOption, however there is no table yet
-                // (need enroll alternative of KSLR_RESCOMP that we can call with LRCService)
-                // So for time-being putting "manual" logic
-                if (LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT.equals(studentGradingOption)) {
-                    keyValues.add(new ConcreteKeyValue(studentGradingOption, "Audit"));
-                } else if (LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL.equals(studentGradingOption)) {
-                    keyValues.add(new ConcreteKeyValue(studentGradingOption, "Pass / Fail"));
-                } else {
-                    keyValues.add(new ConcreteKeyValue(studentGradingOption, studentGradingOption));
+            ResultValuesGroupInfo rvg;
+            try {
+                for(String studentGradingOption : form.getStudentRegOptions()) {
+                    rvg = getLrcService().getResultValuesGroup(studentGradingOption, getContextInfo());
+                    if (null != rvg) {
+                        keyValues.add(new ConcreteKeyValue(studentGradingOption, rvg.getName()));
+                    }
+                    else {
+                        keyValues.add(new ConcreteKeyValue(studentGradingOption, studentGradingOption));
+                    }
                 }
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
 
@@ -93,10 +101,18 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
         return this.courseService;
     }
 
-/*    protected LRCService getLrcService() {
+    protected LRCService getLrcService() {
         if(lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lrc", "LrcService"));
+            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.lrcService;
-    } */
+    }
+
+    protected ContextInfo getContextInfo() {
+        if (contextInfo == null){
+            contextInfo =  ContextBuilder.loadContextInfo();
+        }
+        return contextInfo;
+    }
+
 }

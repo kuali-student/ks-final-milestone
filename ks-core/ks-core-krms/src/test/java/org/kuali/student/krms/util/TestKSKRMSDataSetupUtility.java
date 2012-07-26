@@ -12,6 +12,7 @@ import org.kuali.student.krms.KSKRMSTestCase;
  * Time: 11:51 AM
  * To change this template use File | Settings | File Templates.
  */
+@Ignore
 public class TestKSKRMSDataSetupUtility extends KSKRMSTestCase {
 
     @Test

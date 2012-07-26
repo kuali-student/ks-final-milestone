@@ -20,8 +20,6 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -33,10 +31,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "KSEN_POPULATION_RULE_ATTR")
 public class PopulationRuleAttributeEntity extends BaseAttributeEntity<PopulationRuleEntity> {
+
     ///////////////////////////
     // CONSTRUCTORS
     ///////////////////////////
-    // TODO: Heavily refactored to get past the change in BaseAttributeEntity
 
     public PopulationRuleAttributeEntity() {
         super();

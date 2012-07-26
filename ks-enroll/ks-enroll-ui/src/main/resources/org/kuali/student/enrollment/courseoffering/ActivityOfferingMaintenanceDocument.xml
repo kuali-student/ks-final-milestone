@@ -85,16 +85,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="Uif-HorizontalBoxSection">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Save" p:performClientSideValidation="true"
-                                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                                        <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
-                                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-                                    </list>
-                                </property>
-                            </bean>
+                            <ref bean="KSDocumentPageFooter_SubmitCancel"/>
 
                         </list>
                     </property>
@@ -446,7 +437,7 @@
                                             </property>
                                             <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
                                         </bean>
-                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" />
+                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:readOnly="true"/>
                                         <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
@@ -461,8 +452,8 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personId" p:label="ID" />
-                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name"/>
+                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personId" p:label="ID" p:readOnly="true"/>
+                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:readOnly="true"/>
                                         <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION" p:readOnly="true">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />

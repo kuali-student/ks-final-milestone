@@ -72,7 +72,7 @@ public class ActivityOfferingTransformer {
         // build list of OfferingInstructors
         List<LprInfo> lprs = lprService.getLprsByLui(ao.getId(), context);
 
-        ao.setInstructors(OfferingInstructorTransformer.lprs2Instructors(lprs));
+        ao.setInstructors(lprs2Instructors(lprs));
 
     }
 
@@ -135,7 +135,7 @@ public class ActivityOfferingTransformer {
         for(LprInfo lpr : lprs) {
             OfferingInstructorInfo instructor = new OfferingInstructorInfo();
             instructor.setPersonId(lpr.getPersonId());
-            
+
             instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
             instructor.setId(lpr.getId());
             instructor.setTypeKey(lpr.getTypeKey());
@@ -157,8 +157,7 @@ public class ActivityOfferingTransformer {
     public static List<Person> getInstructorByPersonId(String personId){
         Map<String, String> searchCriteria = new HashMap<String, String>();
         searchCriteria.put(KIMPropertyConstants.Person.ENTITY_ID, personId);
-        List<Person> lstPerson = getPersonService().findPeople(searchCriteria);
-        return lstPerson;
+        return getPersonService().findPeople(searchCriteria);
     }
 
     public static PersonService getPersonService() {
@@ -172,14 +171,14 @@ public class ActivityOfferingTransformer {
         for (OfferingInstructorInfo instructorInfo : instructors) {
             LprInfo lprInfo = new LprInfo();
             lprInfo.setId(instructorInfo.getId());
-            
+
             Float cp = instructorInfo.getPercentageEffort();
-            
+
             if (cp != null)
             	lprInfo.setCommitmentPercent("" + cp);
             else
             	lprInfo.setCommitmentPercent(null);
-            
+
             lprInfo.setLuiId(luiInfo.getId());
             lprInfo.setPersonId(instructorInfo.getPersonId());
             lprInfo.setEffectiveDate(new Date());

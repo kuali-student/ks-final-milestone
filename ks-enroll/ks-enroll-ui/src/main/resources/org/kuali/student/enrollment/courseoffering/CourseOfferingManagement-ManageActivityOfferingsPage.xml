@@ -37,6 +37,11 @@
     <bean id="KS-CourseOfferingManagement-ActivityOfferingResultSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="@{theCourseOffering.courseOfferingCode} - @{theCourseOffering.courseOfferingTitle} (@{theCourseOffering.creditCnt} Credits)" />
         <property name="disclosure.render" value="false"/>
+        <property name="header.cssClasses">
+          <list merge="true">
+            <value>ks-borderBottom</value>
+          </list>
+        </property>
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingLinks"/>
@@ -98,16 +103,16 @@
                                 </property>
                             </bean>
                             <bean parent="KS-SubmitActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" />
-                            <bean parent="KS-SubmitActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft'}" />
+                            <bean parent="KS-SubmitActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}" />
                         </list>
                     </property>
                 </bean>
                 <bean parent="Uif-LinkGroup" p:linkSeparator="|"  p:style="float:right">
                     <property name="items">
                         <list>
-                            <bean parent="KS-SubmitActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="Previous" />
+                            <bean parent="KS-SubmitActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="&lt; @{previousCourseOfferingCodeUI}" p:render="@{!previousCourseOfferingCodeUI?.empty}"/>
                             <bean parent="KS-SubmitActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" />
-                            <bean parent="KS-SubmitActionLink" p:methodToCall="loadNextCO" p:actionLabel="Next" />
+                            <bean parent="KS-SubmitActionLink" p:methodToCall="loadNextCO" p:actionLabel="@{nextCourseOfferingCodeUI} &gt;" p:render="@{!nextCourseOfferingCodeUI?.empty}"/>
                         </list>
                     </property>
                 </bean>
@@ -171,20 +176,18 @@
             <list>
                 <bean parent="Uif-ActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="confirmDelete" p:actionLabel="Delete" p:render = "@{#line.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.draft'}" />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="confirmDelete" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />
             </list>
         </property>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-SelectedActivityOfferingSection" parent="Uif-VerticalBoxSection">
-        <!--<property name="propertyName" value="activityWrapperList" />-->
-        <!--<property name="disclosure.render" value="false"/>-->
         <property name="items">
         <list>
             <bean parent="Uif-HorizontalBoxSection">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-InputField" p:propertyName="activityActionType" p:label="Selected Offering Actions" p:labelPlacement="TOP">
+                        <bean parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Offering Actions" p:labelPlacement="TOP">
                             <property name="control">
                                 <bean parent="Uif-DropdownControl"/>
                             </property>

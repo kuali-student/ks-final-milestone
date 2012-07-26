@@ -54,7 +54,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @WebService(name = "AppointmentWindowService", serviceName = "AppointmentWindowService", portName = "AppointmentWindowService", targetNamespace = "http://student.kuali.org/wsdl/appointmentwindow")
 public class AppointmentServiceImpl implements AppointmentService {
-    // Note: add getters/setters to instance variables otherwise, can't dependency inject!!!!
     @Resource
     private AppointmentWindowDao appointmentWindowDao;
     @Resource
@@ -185,7 +184,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<AppointmentSlotInfo> slotInfoList = getAppointmentSlotsByWindow(appointmentWindowId, contextInfo);
         statusInfo = new StatusInfo();
         // Get the population
-        List<String> studentIds = populationService.getMembersAsOfDate(populationId, contextInfo.getCurrentDate(), contextInfo);
+        List<String> studentIds = populationService.getMembersAsOfDate(populationId, new Date(), contextInfo);
         // Set the status to true here--gives the _generateAppointments method a chance to set it to
         // false, which should only happen in the max allocation
         statusInfo.setSuccess(true);
@@ -258,7 +257,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (null != apptWin) {
             helper.deleteAppointmentsByWindow(apptWin, false); // don't delete the slots
         } else {
-            throw new DoesNotExistException(apptWin.getId());
+            throw new DoesNotExistException(appointmentWindowId);
         }
         return status;
     }

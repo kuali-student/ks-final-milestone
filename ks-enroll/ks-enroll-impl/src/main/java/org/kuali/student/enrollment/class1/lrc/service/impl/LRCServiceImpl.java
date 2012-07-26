@@ -32,7 +32,6 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.lrc.service.LrcServiceBusinessLogic;
 import org.springframework.transaction.annotation.Transactional;
 
-@WebService(name = "LrcService", serviceName = "LrcService", portName = "LrcService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
 public class LRCServiceImpl implements LRCService {
 
     private ResultValuesGroupDao resultValuesGroupDao;

@@ -152,6 +152,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.PopulationServiceImpl">
         <property name="populationDao" ref="populationDao"/>
         <property name="populationRuleDao" ref="populationRuleDao"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
 
     <!-- TODO: this is a duplicate definition -->

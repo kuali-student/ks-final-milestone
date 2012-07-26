@@ -200,4 +200,14 @@ public class CourseOfferingCreateWrapper implements Serializable{
     public void setInvalidTargetTermError(String invalidTargetTermError) {
         this.invalidTargetTermError = invalidTargetTermError;
     }
+
+    public void clear(){
+        setCourse(null);
+        setShowAllSections(false);
+        setCreditCount("");
+        getExistingTermOfferings().clear();
+        getExistingCourseOfferings().clear();
+        setNoOfTermOfferings(0);
+        setEnableCreateButton(false);
+    }
 }

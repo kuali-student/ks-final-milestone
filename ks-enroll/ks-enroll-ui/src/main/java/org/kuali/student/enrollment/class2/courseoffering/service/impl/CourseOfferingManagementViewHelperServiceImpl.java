@@ -4,12 +4,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -32,6 +34,7 @@ import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
@@ -68,19 +71,33 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
     public void loadCourseOfferingsByTermAndSubjectCode (String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception{
         List<String> courseOfferingIds = _getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(termId, subjectCode, getContextInfo());
         if(courseOfferingIds.size()>0){
-            List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>(courseOfferingIds.size());
+            form.getCourseOfferingEditWrapperList().clear();
             for(String coId : courseOfferingIds) {
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coId, getContextInfo());
                 coInfo.setCreditCnt(getCreditCount(coInfo, null));
-                courseOfferings.add(coInfo);
+                CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);
+                courseOfferingEditWrapper.setGradingOption(getGradingOption(coInfo.getGradingOptionId()));
+                form.getCourseOfferingEditWrapperList().add(courseOfferingEditWrapper);
             }
-            form.setCourseOfferingList(courseOfferings);
         } else {
             LOG.error("Error: Can't find any Course Offering for a Subject Code: "+subjectCode+" in term: "+termId);
-            GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Subject", subjectCode,termId);
-            form.getCourseOfferingList().clear();
+            GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Subject", subjectCode, termId);
+            form.getCourseOfferingEditWrapperList().clear();
         }
     }
+
+
+    private String getGradingOption(String gradingOptionId)throws Exception{
+          String gradingOption = "";
+          if(StringUtils.isNotBlank(gradingOptionId)){
+              ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(gradingOptionId, getContextInfo());
+              if(rvg!= null && StringUtils.isNotBlank(rvg.getName())){
+                 gradingOption = rvg.getName();
+              }
+          }
+
+          return gradingOption;
+  }
 
     public List<CourseOfferingInfo> findCourseOfferingsByTermAndCourseOfferingCode (String termCode, String courseOfferingCode, CourseOfferingManagementForm form) throws Exception{
         List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
@@ -131,6 +148,44 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             throw new RuntimeException(e);
         }
         return courseOfferings;
+    }
+
+    public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form, CourseOfferingInfo courseOfferingInfo){
+        try{
+            List<String> coIds = getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(courseOfferingInfo.getTermId(),courseOfferingInfo.getSubjectArea(),getContextInfo());
+            List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(coIds,getContextInfo());
+
+            Collections.sort(courseOfferingInfos, new Comparator<CourseOfferingInfo>() {
+                @Override
+                public int compare(CourseOfferingInfo o1, CourseOfferingInfo o2) {
+                    if (o1.getCourseOfferingCode().length() == o2.getCourseOfferingCode().length()) {
+                        return o1.getCourseOfferingCode().compareTo(o2.getCourseOfferingCode());
+                    } else {
+                        return o1.getCourseOfferingCode().length() - o2.getCourseOfferingCode().length();
+                    }
+                }
+            });
+
+            for (CourseOfferingInfo offeringInfo : courseOfferingInfos) {
+                if (StringUtils.equals(courseOfferingInfo.getId(),offeringInfo.getId())){
+                    int currentIndex = courseOfferingInfos.indexOf(offeringInfo);
+                    if (currentIndex > 0){
+                         form.setPreviousCourseOffering(courseOfferingInfos.get(currentIndex-1));
+                    }else{
+                        form.setPreviousCourseOffering(null);
+                    }
+                    if (currentIndex < courseOfferingInfos.size()-1){
+                         form.setNextCourseOffering(courseOfferingInfos.get(currentIndex+1));
+                    }else{
+                        form.setNextCourseOffering(null);
+                    }
+                    break;
+                }
+            }
+
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     public void createActivityOfferings(String formatId, String activityId, int noOfActivityOfferings, CourseOfferingManagementForm form){
@@ -244,17 +299,66 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         StateInfo draftState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY,getContextInfo());
         StateInfo approvedState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY,getContextInfo());
 
+        boolean isErrorAdded = false;
+
         for (ActivityOfferingWrapper wrapper : aoList) {
             if (wrapper.getIsChecked()){
+
                 if (StringUtils.equals(CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION,selectedAction)){
                     wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                     wrapper.setStateName(draftState.getName());
+                    ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),getContextInfo());
+                    wrapper.setAoInfo(updatedAO);
+
                 }else if (StringUtils.equals(CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION,selectedAction)){
-                    wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
-                    wrapper.setStateName(approvedState.getName());
+
+                    if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY,wrapper.getAoInfo().getStateKey())){
+                        wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
+                        wrapper.setStateName(approvedState.getName());
+                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),getContextInfo());
+                        wrapper.setAoInfo(updatedAO);
+                    }else{
+                        //Add the validation error once
+                        if (!isErrorAdded){
+                            GlobalVariables.getMessageMap().putError("selectedOfferingAction",RiceKeyConstants.ERROR_CUSTOM,"Some Activity Offerings are not in draft state");
+                            isErrorAdded = true;
+                        }
+                    }
                 }
-                ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),getContextInfo());
-                wrapper.setAoInfo(updatedAO);
+            }
+        }
+
+    }
+
+    public void markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers) throws Exception{
+
+        boolean isErrorAdded = false;
+
+        for (CourseOfferingEditWrapper coWrapper : coWrappers) {
+            if (coWrapper.getIsChecked()){
+                if (StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY,coWrapper.getCoInfo().getStateKey()) ||
+                    StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY,coWrapper.getCoInfo().getStateKey())){
+
+                    List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCoInfo().getId(),getContextInfo());
+
+                    for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
+                        if (StringUtils.equals(activityOfferingInfo.getStateKey(),LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY)){
+                            activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
+                            getCourseOfferingService().updateActivityOffering(activityOfferingInfo.getId(),activityOfferingInfo,getContextInfo());
+                        }else{
+                            if (!isErrorAdded){
+                                GlobalVariables.getMessageMap().putError("selectedOfferingAction",CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
+                                isErrorAdded = true;
+                            }
+                        }
+                    }
+
+                }else{
+                    if (!isErrorAdded){
+                        GlobalVariables.getMessageMap().putError("selectedOfferingAction",CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
+                        isErrorAdded = true;
+                    }
+                }
             }
         }
     }

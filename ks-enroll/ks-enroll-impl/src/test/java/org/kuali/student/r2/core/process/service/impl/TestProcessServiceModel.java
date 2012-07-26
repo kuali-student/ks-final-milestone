@@ -152,7 +152,7 @@ public class TestProcessServiceModel {
 
     }
 
-    private void validateSchemaAndContent (String query, int numberOfColumnsExpected /*, int numberOfRowsExpected */) throws SQLException {
+    private void validateSchemaAndContent (String query, int numberOfColumnsExpected) throws SQLException {
         Statement stmt = dataSource.getConnection().createStatement();
         ResultSet rs = stmt.executeQuery(query);
         ResultSetMetaData meta = rs.getMetaData();

@@ -18,6 +18,7 @@ package org.kuali.student.r2.core.class1.appointment.service.impl;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
@@ -56,21 +57,6 @@ public class AppointmentServiceImplHelper {
     public AppointmentServiceImplHelper() {
     }
 
-    public void setAppointmentWindowDao(AppointmentWindowDao appointmentWindowDao) {
-        this.appointmentWindowDao = appointmentWindowDao;
-    }
-
-    public void setAppointmentSlotDao(AppointmentSlotDao appointmentSlotDao) {
-        this.appointmentSlotDao = appointmentSlotDao;
-    }
-
-    public void setAppointmentDao(AppointmentDao appointmentDao) {
-        this.appointmentDao = appointmentDao;
-    }
-
-    public void setPopulationService(PopulationService populationService) {
-        this.populationService = populationService;
-    }
 
     /*
     * This is pulled out so other methods can call this without the transactional behavior.
@@ -258,6 +244,7 @@ public class AppointmentServiceImplHelper {
             AppointmentInfo info = entity.toDto();
             apptInfoList.add(info);
         }
+
         return apptInfoList;
     }
 
@@ -421,7 +408,7 @@ public class AppointmentServiceImplHelper {
     }
     
     private int _computeTotalStudents(AppointmentWindowInfo apptWinInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        List<String> ids = populationService.getMembersAsOfDate(apptWinInfo.getAssignedPopulationId(), contextInfo.getCurrentDate(), contextInfo);
+        List<String> ids = populationService.getMembersAsOfDate(apptWinInfo.getAssignedPopulationId(), new Date(), contextInfo);
         if (ids != null) {
             return ids.size();
         } else {
@@ -595,8 +582,9 @@ public class AppointmentServiceImplHelper {
             DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
         int count = 0;
         int numStudents = studentIds.size();
-        int numSlots = slotInfoList.size();
+
         boolean done = false;
+
         for (AppointmentSlotInfo slotInfo: slotInfoList) {
             List<String> sublist = null;
 
@@ -651,7 +639,6 @@ public class AppointmentServiceImplHelper {
         if (numStudents > numSlots * maxSizePerSlot) {
             // No, so quit without doing any more
             statusInfo.setSuccess(false);
-            int diff = numStudents - (numSlots * maxSizePerSlot); // Would be unassigned
             statusInfo.setMessage("Not enough room for ["+ numStudents +"] appointments. numSlots[" + numSlots+ "] * maxPerSlot[" +maxSizePerSlot + "] = "
                     + "["+ (numSlots * maxSizePerSlot)+ "] available appointments. Please increase available slots or max per slot.");
             return; // And we're outta here
@@ -685,4 +672,22 @@ public class AppointmentServiceImplHelper {
 //            throw new OperationFailedException("Drop date milestone not found");
 //        }
     }
+
+
+    public void setAppointmentWindowDao(AppointmentWindowDao appointmentWindowDao) {
+        this.appointmentWindowDao = appointmentWindowDao;
+    }
+
+    public void setAppointmentSlotDao(AppointmentSlotDao appointmentSlotDao) {
+        this.appointmentSlotDao = appointmentSlotDao;
+    }
+
+    public void setAppointmentDao(AppointmentDao appointmentDao) {
+        this.appointmentDao = appointmentDao;
+    }
+
+    public void setPopulationService(PopulationService populationService) {
+        this.populationService = populationService;
+    }
+
 }

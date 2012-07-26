@@ -16,13 +16,13 @@
  */
 package org.kuali.student.r2.core.fee.service.impl;
 
-import org.kuali.student.r2.core.fee.dto.EnrollmentFeeAmountInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.FeeServiceConstants;
+import org.kuali.student.r2.core.fee.dto.EnrollmentFeeAmountInfo;
 import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 import org.kuali.student.r2.core.fee.infc.EnrollmentFee;
 import org.kuali.student.r2.core.fee.service.FeeService;
@@ -32,7 +32,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-
+import java.util.Date;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
@@ -50,11 +50,13 @@ public class TestFeeServiceImpl {
     @Resource
     private FeeService feeService;
     private ContextInfo contextInfo;
+
     private String principalId = "123";
 
     private void before() {
         contextInfo = new ContextInfo();
         contextInfo.setPrincipalId(principalId);
+        contextInfo.setCurrentDate(new Date());
     }
     
     private EnrollmentFeeInfo createFeeInfo() {
