@@ -148,11 +148,11 @@ public class TestProcessServiceModel {
         }
         // check the schema
         validateSchemaAndContent("select * from KSEN_PROCESS_CHECK", 18);
-        validateSchemaAndContent("select * from KSEN_PROCESS_CHECK_ATTR", 3);
+        validateSchemaAndContent("select * from KSEN_PROCESS_CHECK_ATTR", 5);
 
     }
 
-    private void validateSchemaAndContent (String query, int numberOfColumnsExpected /*, int numberOfRowsExpected */) throws SQLException {
+    private void validateSchemaAndContent (String query, int numberOfColumnsExpected) throws SQLException {
         Statement stmt = dataSource.getConnection().createStatement();
         ResultSet rs = stmt.executeQuery(query);
         ResultSetMetaData meta = rs.getMetaData();

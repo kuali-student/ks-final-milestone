@@ -15,17 +15,6 @@
 
 package org.kuali.student.common.test.spring;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -46,6 +35,16 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.jta.JtaTransactionManager;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * This test class will load your dao and gives you access to the shared
@@ -201,6 +200,7 @@ public abstract class AbstractTransactionalDaoTest {
 			while((ln=in.readLine())!=null){
 				if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
 					ln=ln.replaceFirst("[;/]\\s*$","");
+                    System.err.println(ln);
 					em.createNativeQuery(ln).executeUpdate();
 				}
 			}
