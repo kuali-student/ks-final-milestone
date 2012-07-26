@@ -85,6 +85,7 @@ public class PopulationServiceConstants {
      * Population types
      */
     public static final String POPULATION_TYPE_KEY = "kuali.population.type.population";
+    public static final String POPULATION_STUDENT_TYPE_KEY = "kuali.population.type.student";
 
     /**
      * States for Populations
