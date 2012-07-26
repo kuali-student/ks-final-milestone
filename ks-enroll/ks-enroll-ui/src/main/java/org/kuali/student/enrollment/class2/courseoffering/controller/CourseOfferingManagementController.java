@@ -181,6 +181,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
             theForm.setRadioSelection("courseOfferingCode");
             getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+            getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theCourseOffering);
+
             return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
         }
         else{
@@ -674,6 +676,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
 
     public CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm){
+
         if (viewHelperService == null) {
             if (theForm.getView().getViewHelperServiceClass() != null){
                 viewHelperService = (CourseOfferingManagementViewHelperService) theForm.getView().getViewHelperService();
@@ -681,6 +684,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 viewHelperService= (CourseOfferingManagementViewHelperService) theForm.getPostedView().getViewHelperService();
             }
         }
+
         return viewHelperService;
     }
 
