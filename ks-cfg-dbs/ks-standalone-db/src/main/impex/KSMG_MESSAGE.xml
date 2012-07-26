@@ -224,6 +224,11 @@
         ID="18926ba5-108f-419b-91bb-b18851668633" LOCALE="en"
         MSG_ID="cluFinalExamRationale" MSG_VALUE="Final Exam Rationale"
         OBJ_ID="b130a6ac-ac9c-46d9-9610-e729dd7f0852" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="18C7198D0D624FF49F02BE7F88A19548" LOCALE="en"
+        MSG_ID="validation.validChars.numeric.range"
+        MSG_VALUE="Single number or numeric range separated by a dash"
+        OBJ_ID="E938A0CDB71A42CFA81DF0B8A9859EE0" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="18DFA6DC-C32A-7E41-E410-1F6D67AA5367" LOCALE="en"
         MSG_ID="courses" MSG_VALUE="Courses"
@@ -769,6 +774,11 @@
         ID="590677d6-d5b3-4c10-99d5-754470662d67" LOCALE="en"
         MSG_ID="cluLOName" MSG_VALUE="Name"
         OBJ_ID="072fb9c0-279a-4fc0-a666-bcaa2c3660dd" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="5DD00F1D6BA643BA8959D35858A397C5" LOCALE="en"
+        MSG_ID="validation.validChars.positive.numeric.range"
+        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
+        OBJ_ID="DCCFD876705B4D75A4598EE3B6459F31" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="5a61cb87-3f1a-4f26-834a-f5a619b1554b" LOCALE="en"
         MSG_ID="cluState" MSG_VALUE="State"
@@ -919,11 +929,6 @@
         MSG_ID="validation.minLengthFailed"
         MSG_VALUE="Minimum Characters ${minLength} required"
         OBJ_ID="9767bcc6-1f66-48c4-84d0-dd2ff15fe3d7" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="6BDA41461C3247D0B712EE40F4E7893A" LOCALE="en"
-        MSG_ID="validation.validChars.positive.numeric.range"
-        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="B7495D63617048308BC3EEE1D9832508" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="6a9ab87f-c5d8-4c17-a415-376ba93cab7f" LOCALE="en"
         MSG_ID="cluLOSearchAgain" MSG_VALUE="Search again?"
@@ -1201,11 +1206,6 @@
         ID="891b4749-fcd1-48aa-b814-4ea6253faf24" LOCALE="en"
         MSG_ID="cluAdministrativeFee" MSG_VALUE="Administrative Fee"
         OBJ_ID="5cc7e0c4-61d0-483d-bc92-2f519c2f3d7e" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="8A05E472736A4D339D1976BE695DF2FA" LOCALE="en"
-        MSG_ID="validation.validChars.numeric.range"
-        MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="B6EA92F274A7443B8598EDE3DF32670D" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="clusetmanagement"
         ID="8a244af4-8353-4d56-bcbf-7b3113574c48" LOCALE="en"
         MSG_ID="cluSetTitleCourse" MSG_VALUE="Course Set Name"

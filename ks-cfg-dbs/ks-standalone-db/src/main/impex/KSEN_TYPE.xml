@@ -340,6 +340,86 @@
         NAME="Where Fees Attached Flag"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/common/AttributeInfo"
         TYPE_KEY="kuali.attribute.where.fees.attached.flag" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Advisor to students in the program"
+        DESCR_PLAIN="Advisor to students in the program" NAME="Advisor"
+        TYPE_KEY="kuali.lpr.advisor" UPDATEID="TESTUSER"
+        UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Enrollee in the program"
+        DESCR_PLAIN="Enrollee in the program" NAME="Enrollee"
+        TYPE_KEY="kuali.lpr.enrollee" UPDATEID="TESTUSER"
+        UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Person who administers a test or examination"
+        DESCR_PLAIN="Person who administers a test or examination"
+        NAME="Proctor" TYPE_KEY="kuali.lpr.exam.proctor"
+        UPDATEID="TESTUSER" UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Supervisor" DESCR_PLAIN="Supervisor"
+        NAME="Supervisor" TYPE_KEY="kuali.lpr.instructor.supervisor"
+        UPDATEID="TESTUSER" UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Roster Entry Automatic"
+        DESCR_PLAIN="Automatic Roster Entry"
+        NAME="kuali.lpr.roster.entry.type.automatic"
+        TYPE_KEY="kuali.lpr.roster.entry.type.automatic"
+        UPDATEID="TESTUSER" UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Roster final type"
+        DESCR_PLAIN="Roster final type"
+        NAME="kuali.lpr.roster.type.course.grade.final"
+        TYPE_KEY="kuali.lpr.roster.type.course.grade.final"
+        UPDATEID="TESTUSER" UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Add student to course registration group"
+        DESCR_PLAIN="Add" NAME="kuali.lpr.trans.item.type.add"
+        TYPE_KEY="kuali.lpr.trans.item.type.add" UPDATEID="TESTUSER"
+        UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Drop Type for lpr transactions"
+        DESCR_PLAIN="Drop" NAME="kuali.lpr.trans.item.type.drop"
+        TYPE_KEY="kuali.lpr.trans.item.type.drop" UPDATEID="TESTUSER"
+        UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Student registrant"
+        DESCR_PLAIN="Student registrant"
+        NAME="kuali.lpr.trans.registrant"
+        TYPE_KEY="kuali.lpr.trans.registrant" UPDATEID="TESTUSER"
+        UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Register trans type"
+        DESCR_PLAIN="Register trans type"
+        NAME="kuali.lpr.trans.type.register"
+        TYPE_KEY="kuali.lpr.trans.type.register" UPDATEID="TESTUSER"
+        UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Person who assists the main instructor but is still considered an &quot;instructor&quot;"
+        DESCR_PLAIN="Person who assists the main instructor but is still considered an &quot;instructor&quot;"
+        NAME="Assistant Instructor"
+        TYPE_KEY="kuali.lpr.type.instructor.assistant"
+        UPDATEID="TESTUSER" UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Main instructor(s) responsible for course or section"
+        DESCR_PLAIN="Main instructor(s) responsible for course or section"
+        NAME="Main Instructor" TYPE_KEY="kuali.lpr.type.instructor.main"
+        UPDATEID="TESTUSER" UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Persons who support the course but not in any official teaching role"
+        DESCR_PLAIN="Persons who support the course but not in any official teaching role"
+        NAME="Support instructor"
+        TYPE_KEY="kuali.lpr.type.instructor.support" UPDATEID="TESTUSER"
+        UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Registrant who is taking the course"
+        DESCR_PLAIN="Registrant who is taking the course"
+        NAME="Registrant" TYPE_KEY="kuali.lpr.type.registrant"
+        UPDATEID="TESTUSER" UPDATETIME="20120717000000" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="TESTUSER" CREATETIME="20120717000000"
+        DESCR_FORMATTED="Final Grade" DESCR_PLAIN="Final Grade"
+        NAME="kuali.lpr.type.roster.grade.final"
+        TYPE_KEY="kuali.lpr.type.roster.grade.final" UPDATEID="TESTUSER"
+        UPDATETIME="20120717000000" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="An course offered for academic credit"
         DESCR_PLAIN="An course offered for academic credit"
