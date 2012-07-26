@@ -557,7 +557,7 @@
     </bean>
 
     <!-- Population Mock service (currently used by AppointmentService (see below for PopulationService) -->
-    <bean id="populationServiceMock" class="org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl">
+    <bean id="populationServiceMock" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceMockImpl">
     </bean>
 
     <bean id="ks.exp.populationServiceMock" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
