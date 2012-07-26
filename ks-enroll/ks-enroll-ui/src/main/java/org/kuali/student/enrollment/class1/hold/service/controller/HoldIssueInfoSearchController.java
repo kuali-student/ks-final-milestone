@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class1.hold.service.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -25,6 +26,8 @@ import org.kuali.rice.krad.uif.widget.LightBox;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoCreateForm;
 import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoSearchForm;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
@@ -43,10 +46,20 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.notIn;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 /**
  * This class //TODO ...
@@ -86,51 +99,13 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         String orgId = searchForm.getOrganizationId();
         String descr = searchForm.getDescr();
 
-        resetForm(searchForm);
-
-        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        if (StringUtils.isNotBlank(name) && !name.isEmpty()) {
-            if (StringUtils.isNotBlank(type) && !type.isEmpty()) {
-                if (StringUtils.isNotBlank(state) && !state.isEmpty()) {
-                    if (StringUtils.isNotBlank(orgId) && !orgId.isEmpty()) {
-                        if (StringUtils.isNotBlank(descr) && !descr.isEmpty()){
-                            qBuilder.setPredicates(PredicateFactory.or(
-                                    PredicateFactory.like("name", name),
-                                    PredicateFactory.like("typeKey", type),
-                                    PredicateFactory.like("stateKey", state),
-                                    PredicateFactory.like("organizationId", orgId),
-                                    PredicateFactory.like("descr", descr)));
-                        } else {
-                            qBuilder.setPredicates(PredicateFactory.or(
-                                    PredicateFactory.like("name",name),
-                                    PredicateFactory.like("typeKey",type),
-                                    PredicateFactory.like("stateKey",state),
-                                    PredicateFactory.like("organizationId", orgId)));
-                        }
-                    } else {
-                        qBuilder.setPredicates(PredicateFactory.or(
-                                PredicateFactory.like("name",name),
-                                PredicateFactory.like("typeKey",type),
-                                PredicateFactory.like("stateKey",state)));
-                    }
-                } else {
-                    qBuilder.setPredicates(PredicateFactory.or(
-                            PredicateFactory.like("name",name),
-                            PredicateFactory.like("typeKey",type)));
-                }
-            } else {
-                qBuilder.setPredicates(PredicateFactory.like("name",name));
-            }
-        } else if (StringUtils.isNotBlank(type) && !type.isEmpty()){
-            qBuilder.setPredicates(PredicateFactory.like("typeKey",type));
-        }
         try {
-            QueryByCriteria query = qBuilder.build();
+            QueryByCriteria.Builder query = buildQueryByCriteria(name,type,state,orgId,descr);
 
             holdService = getHoldService();
 
 
-            List<HoldIssueInfo> holdIssueInfos = holdService.searchForHoldIssues(query, getContextInfo());
+            List<HoldIssueInfo> holdIssueInfos = holdService.searchForHoldIssues(query.build(), getContextInfo());
             if (!holdIssueInfos.isEmpty()){
                 results.addAll(holdIssueInfos);
             }
@@ -138,6 +113,8 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
             e.printStackTrace();
             throw new RuntimeException("Error Performing Search",e); //To change body of catch statement use File | Settings | File Templates.
         }
+
+        resetForm(searchForm);
 
         searchForm.setHoldIssueInfo(results);
 
@@ -237,5 +214,45 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
             holdService = (HoldService) GlobalResourceLoader.getService(new QName(HoldServiceConstants.NAMESPACE, HoldServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return holdService;
+    }
+
+    private static QueryByCriteria.Builder buildQueryByCriteria(String name, String type,String state, String orgId, String descr){
+
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> pList = new ArrayList<Predicate>();
+        Predicate p;
+
+        qBuilder.setPredicates();
+        if (StringUtils.isNotBlank(name)){
+            p = like("name", "%" + name + "%");
+            pList.add(p);
+        }
+
+        if (StringUtils.isNotBlank(type)){
+            p = like("holdIssueType", "%" + type + "%");
+            pList.add(p);
+        }
+
+        if (StringUtils.isNotBlank(state)){
+            p = equal("holdIssueState", state);
+            pList.add(p);
+        }
+
+        if (StringUtils.isNotBlank(orgId)){
+            p = like("organizationId", orgId);
+            pList.add(p);
+        }
+
+        if (StringUtils.isNotBlank(descr)){
+            p = like("descrPlain", "%" + descr + "%");
+            pList.add(p);
+        }
+
+        if (!pList.isEmpty()){
+            Predicate[] preds = new Predicate[pList.size()];
+            pList.toArray(preds);
+            qBuilder.setPredicates(and(preds));
+        }
+        return qBuilder;
     }
 }
