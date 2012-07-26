@@ -140,9 +140,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(theForm.getPreviousCourseOffering());
+
         theForm.getCourseOfferingEditWrapperList().clear();
         theForm.getCourseOfferingEditWrapperList().add(wrapper);
         theForm.setTheCourseOffering(theForm.getPreviousCourseOffering());
+        theForm.setInputCode(wrapper.getCoInfo().getCourseOfferingCode());
+
         getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getPreviousCourseOffering(), theForm);
         getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theForm.getPreviousCourseOffering());
 
@@ -154,9 +157,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(theForm.getNextCourseOffering());
+
         theForm.getCourseOfferingEditWrapperList().clear();
         theForm.getCourseOfferingEditWrapperList().add(wrapper);
         theForm.setTheCourseOffering(theForm.getNextCourseOffering());
+        theForm.setInputCode(wrapper.getCoInfo().getCourseOfferingCode());
+
         getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getNextCourseOffering(), theForm);
         getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theForm.getNextCourseOffering());
 
