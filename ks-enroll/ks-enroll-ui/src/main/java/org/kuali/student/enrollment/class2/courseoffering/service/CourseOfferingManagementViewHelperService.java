@@ -26,4 +26,6 @@ public interface CourseOfferingManagementViewHelperService {
     public void changeActivityOfferingsState(List<ActivityOfferingWrapper> aoList,String selectedAction) throws Exception;
 
     public void markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers) throws Exception;
+
+    public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form, CourseOfferingInfo courseOfferingInfo);
 }

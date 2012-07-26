@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -29,6 +30,11 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     private String activityIdForNewAO;
     private String noOfActivityOfferings;
+
+    private CourseOfferingInfo previousCourseOffering;
+    private CourseOfferingInfo nextCourseOffering;
+    private String previousCourseOfferingCodeUI;
+    private String nextCourseOfferingCodeUI;
 
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
@@ -154,5 +160,47 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setCourseOfferingEditWrapperList(List<CourseOfferingEditWrapper> courseOfferingEditWrapperList) {
         this.courseOfferingEditWrapperList = courseOfferingEditWrapperList;
+    }
+
+    public String getPreviousCourseOfferingCodeUI() {
+        return previousCourseOfferingCodeUI;
+    }
+
+    public void setPreviousCourseOfferingCodeUI(String previousCourseOfferingCodeUI) {
+        this.previousCourseOfferingCodeUI = previousCourseOfferingCodeUI;
+    }
+
+    public String getNextCourseOfferingCodeUI() {
+        return nextCourseOfferingCodeUI;
+    }
+
+    public void setNextCourseOfferingCodeUI(String nextCourseOfferingCodeUI) {
+        this.nextCourseOfferingCodeUI = nextCourseOfferingCodeUI;
+    }
+
+    public CourseOfferingInfo getPreviousCourseOffering() {
+        return previousCourseOffering;
+    }
+
+    public void setPreviousCourseOffering(CourseOfferingInfo previousCourseOffering) {
+        this.previousCourseOffering = previousCourseOffering;
+        if (previousCourseOffering != null){
+            setPreviousCourseOfferingCodeUI(previousCourseOffering.getCourseOfferingCode());
+        }else{
+            setPreviousCourseOfferingCodeUI(StringUtils.EMPTY);
+        }
+    }
+
+    public CourseOfferingInfo getNextCourseOffering() {
+        return nextCourseOffering;
+    }
+
+    public void setNextCourseOffering(CourseOfferingInfo nextCourseOffering) {
+        this.nextCourseOffering = nextCourseOffering;
+        if (nextCourseOffering != null){
+            setNextCourseOfferingCodeUI(nextCourseOffering.getCourseOfferingCode());
+        }else{
+            setNextCourseOfferingCodeUI(StringUtils.EMPTY);
+        }
     }
 }

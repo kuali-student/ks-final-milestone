@@ -37,6 +37,11 @@
     <bean id="KS-CourseOfferingManagement-ActivityOfferingResultSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="@{theCourseOffering.courseOfferingCode} - @{theCourseOffering.courseOfferingTitle} (@{theCourseOffering.creditCnt} Credits)" />
         <property name="disclosure.render" value="false"/>
+        <property name="header.cssClasses">
+          <list merge="true">
+            <value>ks-borderBottom</value>
+          </list>
+        </property>
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingLinks"/>
@@ -105,9 +110,9 @@
                 <bean parent="Uif-LinkGroup" p:linkSeparator="|"  p:style="float:right">
                     <property name="items">
                         <list>
-                            <bean parent="KS-SubmitActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="Previous" />
+                            <bean parent="KS-SubmitActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="&lt; @{previousCourseOfferingCodeUI}" p:render="@{!previousCourseOfferingCodeUI?.empty}"/>
                             <bean parent="KS-SubmitActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" />
-                            <bean parent="KS-SubmitActionLink" p:methodToCall="loadNextCO" p:actionLabel="Next" />
+                            <bean parent="KS-SubmitActionLink" p:methodToCall="loadNextCO" p:actionLabel="@{nextCourseOfferingCodeUI} &gt;" p:render="@{!nextCourseOfferingCodeUI?.empty}"/>
                         </list>
                     </property>
                 </bean>

@@ -104,6 +104,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 CourseOfferingInfo theCourseOffering = courseOfferingList.get(0);
                 theForm.setTheCourseOffering(theCourseOffering);
                 getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+                getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,courseOfferingList.get(0));
                 return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
             } else if (courseOfferingList.size()>1) {
                 LOG.error("Error: Found more than one Course Offering for a Course Offering Code: "+courseOfferingCode+" in term: "+termCode);
@@ -119,6 +120,36 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 return getUIFModelAndView(theForm);
             }
         }
+    }
+
+    @RequestMapping(params = "methodToCall=loadPreviousCO")
+    public ModelAndView loadPreviousCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(theForm.getPreviousCourseOffering());
+        List<CourseOfferingEditWrapper> list = new ArrayList<CourseOfferingEditWrapper> ();
+        list.add(wrapper);
+        theForm.setCourseOfferingEditWrapperList(list);
+        theForm.setTheCourseOffering(theForm.getPreviousCourseOffering());
+        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getPreviousCourseOffering(), theForm);
+        getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theForm.getPreviousCourseOffering());
+
+        return getUIFModelAndView(theForm);
+    }
+
+    @RequestMapping(params = "methodToCall=loadNextCO")
+    public ModelAndView loadNextCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(theForm.getNextCourseOffering());
+        List<CourseOfferingEditWrapper> list = new ArrayList<CourseOfferingEditWrapper> ();
+        list.add(wrapper);
+        theForm.setCourseOfferingEditWrapperList(list);
+        theForm.setTheCourseOffering(theForm.getNextCourseOffering());
+        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getNextCourseOffering(), theForm);
+        getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theForm.getNextCourseOffering());
+
+        return getUIFModelAndView(theForm);
     }
 
     @RequestMapping(params = "methodToCall=loadAOs")
@@ -634,6 +665,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
         }
         return viewHelperService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 
     public ContextInfo getContextInfo() {

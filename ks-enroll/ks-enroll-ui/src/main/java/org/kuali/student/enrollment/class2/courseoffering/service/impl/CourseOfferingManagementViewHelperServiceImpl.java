@@ -38,9 +38,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 
 public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
@@ -150,6 +148,44 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             throw new RuntimeException(e);
         }
         return courseOfferings;
+    }
+
+    public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form, CourseOfferingInfo courseOfferingInfo){
+        try{
+            List<String> coIds = getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(courseOfferingInfo.getTermId(),courseOfferingInfo.getSubjectArea(),getContextInfo());
+            List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(coIds,getContextInfo());
+
+            Collections.sort(courseOfferingInfos, new Comparator<CourseOfferingInfo>() {
+                @Override
+                public int compare(CourseOfferingInfo o1, CourseOfferingInfo o2) {
+                    if (o1.getCourseOfferingCode().length() == o2.getCourseOfferingCode().length()) {
+                        return o1.getCourseOfferingCode().compareTo(o2.getCourseOfferingCode());
+                    } else {
+                        return o1.getCourseOfferingCode().length() - o2.getCourseOfferingCode().length();
+                    }
+                }
+            });
+
+            for (CourseOfferingInfo offeringInfo : courseOfferingInfos) {
+                if (StringUtils.equals(courseOfferingInfo.getId(),offeringInfo.getId())){
+                    int currentIndex = courseOfferingInfos.indexOf(offeringInfo);
+                    if (currentIndex > 0){
+                         form.setPreviousCourseOffering(courseOfferingInfos.get(currentIndex-1));
+                    }else{
+                        form.setPreviousCourseOffering(null);
+                    }
+                    if (currentIndex < courseOfferingInfos.size()-1){
+                         form.setNextCourseOffering(courseOfferingInfos.get(currentIndex+1));
+                    }else{
+                        form.setNextCourseOffering(null);
+                    }
+                    break;
+                }
+            }
+
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     public void createActivityOfferings(String formatId, String activityId, int noOfActivityOfferings, CourseOfferingManagementForm form){
@@ -269,7 +305,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             if (wrapper.getIsChecked()){
 
                 if (StringUtils.equals(CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION,selectedAction)){
-
                     wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                     wrapper.setStateName(draftState.getName());
                     ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),getContextInfo());
