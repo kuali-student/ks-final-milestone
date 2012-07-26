@@ -132,7 +132,7 @@
                 <bean parent="Uif-InputField" p:propertyName="referencePopulation.name"
                       p:label="Reference Population" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true"
                       p:refreshWhenChangedPropertyNames="@{#dp.operationType}"
-                      p:progressiveRender="@{#dp.operationType eq 'kuali.population.rule.type.exclusion'}">
+                      p:progressiveRenderAndRefresh="@{#dp.operationType eq 'kuali.population.rule.type.exclusion'}">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="40" />
                     </property>
@@ -145,12 +145,6 @@
                     </property>
                     <!-- Hide the state option, and default it to Active -->
                     <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
-                    <property name="quickfinder.lookupParameters">
-                        <map>
-                            <entry key="populationInfo.stateKey" value="kuali.population.population.state.active"/>
-                        </map>
-                    </property>
-
                 </bean>
                 <ref bean="KS-PopulationWrapper-AddPopulationsSection"/>
             </list>
@@ -197,11 +191,6 @@
                                 </property>
                                 <!-- Hide the state option, and default it to Active -->
                                 <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
-                                <!--<property name="quickfinder.lookupParameters">-->
-                                    <!--<map>-->
-                                        <!--<entry key="populationInfo.stateKey" value="kuali.population.population.state.active"/>-->
-                                    <!--</map>-->
-                                <!--</property>-->
                             </bean>
                         </list>
                     </property>

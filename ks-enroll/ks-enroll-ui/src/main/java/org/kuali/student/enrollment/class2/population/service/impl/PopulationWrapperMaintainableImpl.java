@@ -127,13 +127,20 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
     // create the PopulationInfo and PopulationRuleInfo
     public PopulationWrapper createPopulation(PopulationWrapper wrapper) throws Exception {
         ContextInfo context = ContextInfo.createDefaultContextInfo();
+
         PopulationInfo populationInfo = getPopulationService().createPopulation(wrapper.getPopulationInfo(), context);
+
         wrapper.getPopulationRuleInfo().getChildPopulationIds().clear();
         for(PopulationInfo childPopulation : wrapper.getChildPopulations()){
             wrapper.getPopulationRuleInfo().getChildPopulationIds().add(childPopulation.getId());
         }
+        if(wrapper.getReferencePopulation()!=null){
+            wrapper.getPopulationRuleInfo().setReferencePopulationId(wrapper.getReferencePopulation().getId());
+        }
         PopulationRuleInfo  populationRuleInfo = getPopulationService().createPopulationRule(wrapper.getPopulationRuleInfo(), context);
+
         getPopulationService().applyPopulationRuleToPopulation(populationRuleInfo.getId(), populationInfo.getId(), context);
+
         wrapper.setPopulationInfo(populationInfo);
         wrapper.setPopulationRuleInfo(populationRuleInfo);
         wrapper.setId(populationInfo.getId());
@@ -142,12 +149,18 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
 
     public void updatePopulation(PopulationWrapper wrapper) throws Exception {
         ContextInfo context = ContextInfo.createDefaultContextInfo();
+
         PopulationInfo populationInfo = getPopulationService().updatePopulation(wrapper.getId(), wrapper.getPopulationInfo(), context);
+
         wrapper.getPopulationRuleInfo().getChildPopulationIds().clear();
         for(PopulationInfo childPopulation : wrapper.getChildPopulations()){
             wrapper.getPopulationRuleInfo().getChildPopulationIds().add(childPopulation.getId());
         }
+        if(wrapper.getReferencePopulation()!=null){
+            wrapper.getPopulationRuleInfo().setReferencePopulationId(wrapper.getReferencePopulation().getId());
+        }
         PopulationRuleInfo populationRuleInfo = getPopulationService().updatePopulationRule(wrapper.getPopulationRuleInfo().getId(), wrapper.getPopulationRuleInfo(), context);
+
         wrapper.setPopulationInfo(populationInfo);
         wrapper.setPopulationRuleInfo(populationRuleInfo);
         wrapper.setId(populationInfo.getId());
