@@ -184,7 +184,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<AppointmentSlotInfo> slotInfoList = getAppointmentSlotsByWindow(appointmentWindowId, contextInfo);
         statusInfo = new StatusInfo();
         // Get the population
-        List<String> studentIds = populationService.getMembersAsOfDate(populationId, contextInfo.getCurrentDate(), contextInfo);
+        List<String> studentIds = populationService.getMembersAsOfDate(populationId, new Date(), contextInfo);
         // Set the status to true here--gives the _generateAppointments method a chance to set it to
         // false, which should only happen in the max allocation
         statusInfo.setSuccess(true);

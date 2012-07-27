@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -23,7 +24,11 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class //TODO ...
@@ -38,7 +43,9 @@ public class OfferingInstructorTransformer {
         for(LprInfo lpr : lprs) {
             OfferingInstructorInfo instructor = new OfferingInstructorInfo();
             instructor.setPersonId(lpr.getPersonId());
-            instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+            if(!StringUtils.isEmpty(lpr.getCommitmentPercent())) {
+                instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+            }
             instructor.setId(lpr.getId());
             instructor.setTypeKey(lpr.getTypeKey());
             instructor.setStateKey(lpr.getStateKey());

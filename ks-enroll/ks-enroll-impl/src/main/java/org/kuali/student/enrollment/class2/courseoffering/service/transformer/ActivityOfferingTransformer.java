@@ -72,7 +72,7 @@ public class ActivityOfferingTransformer {
         // build list of OfferingInstructors
         List<LprInfo> lprs = lprService.getLprsByLui(ao.getId(), context);
 
-        ao.setInstructors(OfferingInstructorTransformer.lprs2Instructors(lprs));
+        ao.setInstructors(lprs2Instructors(lprs));
 
     }
 
@@ -129,6 +129,31 @@ public class ActivityOfferingTransformer {
     }
 
 
+    public static List<OfferingInstructorInfo> lprs2Instructors(List<LprInfo> lprs) {
+        List<OfferingInstructorInfo> results = new ArrayList<OfferingInstructorInfo>(lprs.size());
+
+        for(LprInfo lpr : lprs) {
+            OfferingInstructorInfo instructor = new OfferingInstructorInfo();
+            instructor.setPersonId(lpr.getPersonId());
+
+            instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+            instructor.setId(lpr.getId());
+            instructor.setTypeKey(lpr.getTypeKey());
+            instructor.setStateKey(lpr.getStateKey());
+
+            // Should be only one person found by person id
+            List<Person> personList = getInstructorByPersonId(instructor.getPersonId());
+            if(personList != null && !personList.isEmpty()){
+                instructor.setPersonName(personList.get(0).getName());
+            }
+
+            results.add(instructor);
+        }
+
+        return results;
+
+    }
+
     public static List<Person> getInstructorByPersonId(String personId){
         Map<String, String> searchCriteria = new HashMap<String, String>();
         searchCriteria.put(KIMPropertyConstants.Person.ENTITY_ID, personId);
@@ -137,6 +162,32 @@ public class ActivityOfferingTransformer {
 
     public static PersonService getPersonService() {
         return KimApiServiceLocator.getPersonService();
+    }
+
+    public static List<LprInfo> instructors2Lprs(LuiInfo luiInfo, List<OfferingInstructorInfo> instructors) {
+
+        List<LprInfo> results = new ArrayList<LprInfo>(instructors.size());
+
+        for (OfferingInstructorInfo instructorInfo : instructors) {
+            LprInfo lprInfo = new LprInfo();
+            lprInfo.setId(instructorInfo.getId());
+
+            Float cp = instructorInfo.getPercentageEffort();
+
+            if (cp != null)
+            	lprInfo.setCommitmentPercent("" + cp);
+            else
+            	lprInfo.setCommitmentPercent(null);
+
+            lprInfo.setLuiId(luiInfo.getId());
+            lprInfo.setPersonId(instructorInfo.getPersonId());
+            lprInfo.setEffectiveDate(new Date());
+            lprInfo.setTypeKey(instructorInfo.getTypeKey());
+
+            results.add(lprInfo);
+        }
+
+        return results;
     }
 
     public static LuCodeInfo findLuCode(LuiInfo lui, String typeKey) {

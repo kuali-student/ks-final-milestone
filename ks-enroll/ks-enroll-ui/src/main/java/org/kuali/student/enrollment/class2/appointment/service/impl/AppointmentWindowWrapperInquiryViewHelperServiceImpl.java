@@ -146,14 +146,14 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
 
     public PopulationService getPopulationService() {
         if(populationService == null) {
-            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationService.class.getSimpleName()));
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationMockService")); // TODO: Fix with real service
         }
         return populationService;
     }
 
     protected SearchService getSearchService() {
         if(searchService == null) {
-            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX+"search", SearchService.class.getSimpleName()));
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
         }
         return searchService;
     }

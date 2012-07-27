@@ -159,15 +159,15 @@
         <class>org.kuali.student.r2.core.population.model.PopulationRuleEntity</class>
         <class>org.kuali.student.r2.core.population.model.PopulationRuleAttributeEntity</class>
 
-    <!--class>org.kuali.student.r2.core.class1.process.model.CheckAttributeEntity</class>
-    <class>org.kuali.student.r2.core.class1.process.model.CheckEntity</class>
-    <class>org.kuali.student.r2.core.class1.process.model.CheckRichTextEntity</class>
-    <class>org.kuali.student.r2.core.class1.process.model.InstructionAttributeEntity</class>
-    <class>org.kuali.student.r2.core.class1.process.model.InstructionEntity</class>
-    <class>org.kuali.student.r2.core.class1.process.model.InstructionMessageEntity</class>
-    <class>org.kuali.student.r2.core.class1.process.model.ProcessAttributeEntity</class>
-    <class>org.kuali.student.r2.core.class1.process.model.ProcessEntity</class>
-    <class>org.kuali.student.r2.core.class1.process.model.ProcessRichTextEntity</class>
+    <!--class>org.kuali.student.r2.core.process.model.CheckAttributeEntity</class>
+    <class>org.kuali.student.r2.core.process.model.CheckEntity</class>
+    <class>org.kuali.student.r2.core.process.model.CheckRichTextEntity</class>
+    <class>org.kuali.student.r2.core.process.model.InstructionAttributeEntity</class>
+    <class>org.kuali.student.r2.core.process.model.InstructionEntity</class>
+    <class>org.kuali.student.r2.core.process.model.InstructionMessageEntity</class>
+    <class>org.kuali.student.r2.core.process.model.ProcessAttributeEntity</class>
+    <class>org.kuali.student.r2.core.process.model.ProcessEntity</class>
+    <class>org.kuali.student.r2.core.process.model.ProcessRichTextEntity</class>
 
     <class>org.kuali.student.r2.core.population.model.PopulationEntity</class-->
 

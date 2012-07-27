@@ -5722,6 +5722,191 @@
             <index-column name="POPULATION_RULE_ID"/>
         </index>
     </table>
+    <table name="KSEN_PROCESS">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="PROCESS_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="PROCESS_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ORG_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <index name="KSEN_PROC_I1">
+            <index-column name="PROCESS_TYPE"/>
+        </index>
+    </table>
+    <table name="KSEN_PROCESS_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_PROCESS" name="KSEN_PROC_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_PROC_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_PROCESS_CATEGORY">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="PROCESS_CATEGORY_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="PROCESS_CATEGORY_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <index name="KSEN_PROC_CAT_I1">
+            <index-column name="PROCESS_CATEGORY_TYPE"/>
+        </index>
+    </table>
+    <table name="KSEN_PROCESS_CATEGORY_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_PROCESS_CATEGORY" name="KSEN_PROC_CAT_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_PROC_CAT_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_PROCESS_CATEGORY_RELTN">
+        <column name="ID" primaryKey="true" size="255" type="CHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="PROCESS_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="PROCESS_CATEGORY_ID" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_PROCESS" name="KSEN_PROC_CAT_RELTN_FK1">
+            <reference foreign="ID" local="PROCESS_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_PROCESS_CATEGORY" name="KSEN_PROC_CAT_RELTN_FK2">
+            <reference foreign="ID" local="PROCESS_CATEGORY_ID"/>
+        </foreign-key>
+        <index name="KSEN_PROC_CAT_RELTN_IF1">
+            <index-column name="PROCESS_ID"/>
+        </index>
+        <index name="KSEN_PROC_CAT_RELTN_IF2">
+            <index-column name="PROCESS_CATEGORY_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_PROCESS_CHECK">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="PROCESS_CHECK_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="PROCESS_CHECK_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="ISSUE_ID" size="255" type="VARCHAR"/>
+        <column name="MSTONE_TYPE" size="255" type="VARCHAR"/>
+        <column name="AGENDA_ID" size="255" type="VARCHAR"/>
+        <column name="RIGHT_AGENDA_ID" size="255" type="VARCHAR"/>
+        <column name="LEFT_AGENDA_ID" size="255" type="VARCHAR"/>
+        <column name="CHILD_PROCESS_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_PROCESS" name="KSEN_PROC_CHECK_FK1">
+            <reference foreign="ID" local="CHILD_PROCESS_ID"/>
+        </foreign-key>
+        <index name="KSEN_PROCESS_CHECK_IF1">
+            <index-column name="CHILD_PROCESS_ID"/>
+        </index>
+        <index name="KSEN_PROCE_CHECK_I1">
+            <index-column name="PROCESS_CHECK_TYPE"/>
+        </index>
+    </table>
+    <table name="KSEN_PROCESS_CHECK_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_PROCESS_CHECK" name="KSEN_PROC_CHECK_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_PROCESS_CHECK_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_PROCESS_INSTRN">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="PROCESS_INSTRN_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="PROCESS_INSTRN_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="PROCESS_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="CHECK_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="APPLD_POPULATION_ID" size="255" type="VARCHAR"/>
+        <column name="MESG_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="MESG_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="POSITION" size="22" type="DECIMAL"/>
+        <column name="WARNING_IND" size="1" type="VARCHAR"/>
+        <column name="CONT_ON_FAILED_IND" size="1" type="VARCHAR"/>
+        <column name="EXEMPTABLE_IND" size="1" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="6" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_PROCESS" name="KSEN_PROC_INSTRN_FK2">
+            <reference foreign="ID" local="PROCESS_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_PROCESS_CHECK" name="KSEN_PROC_INSTN_FK1">
+            <reference foreign="ID" local="CHECK_ID"/>
+        </foreign-key>
+        <index name="KSEN_PROC_INSTRN_I1">
+            <index-column name="PROCESS_INSTRN_TYPE"/>
+        </index>
+        <index name="KSEN_PROC_INSTRN_I2">
+            <index-column name="PROCESS_ID"/>
+            <index-column name="CHECK_ID"/>
+        </index>
+        <index name="KSEN_PROC_INSTRN_IF1">
+            <index-column name="CHECK_ID"/>
+        </index>
+        <index name="KSEN_PROC_INSTRN_IF2">
+            <index-column name="PROCESS_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_PROCESS_INSTRN_AAT">
+        <column name="PROCESS_INSTRN_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="APPLD_ATP_TYPE" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_PROCESS_INSTRN" name="KSEN_PROC_INSTRN_FK1">
+            <reference foreign="ID" local="PROCESS_INSTRN_ID"/>
+        </foreign-key>
+        <index name="KSEN_PROC_INSTRN_AAT_IF1">
+            <index-column name="PROCESS_INSTRN_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_PROCESS_INSTRN_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_PROCESS_INSTRN" name="KSEN_PROC_INSTRN_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_PROC_INSTRN_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
     <table name="KSEN_RESTRICTION">
         <column name="ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>

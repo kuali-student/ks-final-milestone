@@ -12,13 +12,13 @@ import javax.persistence.Table;
 @Table(name = "KSEN_STATE_ATTR")
 public class StateAttributeEntity extends BaseAttributeEntity<StateEntity> {
 
-    public StateAttributeEntity() {
-        super();
-    }
+	public StateAttributeEntity() {
+		super();
+	}
 
-    public StateAttributeEntity(Attribute att, StateEntity owner) {
-        super(att, owner);
-    }
-
-
+	public StateAttributeEntity(Attribute att, StateEntity owner) {
+		super(att, owner);
+	}
+    
+   
 }

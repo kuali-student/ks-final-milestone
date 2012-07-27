@@ -1,15 +1,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
@@ -21,6 +17,7 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -36,7 +33,9 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CourseOfferingTransformer {
@@ -100,6 +99,10 @@ public class CourseOfferingTransformer {
             }else if(resultValueGroupKey!=null && resultValueGroupKey.startsWith("kuali.creditType.credit")){//There should be a better way of distinguishing credits from other results
                 co.setCreditOptionId(resultValueGroupKey);
             }
+        }
+
+        if ( co.getGradingOptionId() != null ) {//TODO why are we doing substrings of keys?
+            co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
         }
 
         LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
@@ -356,9 +359,7 @@ public class CourseOfferingTransformer {
         courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
     }
 
-    // this is not currently in use and needs to be revisited and plugged into the impl
-    public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LprService lprService)
-            throws OperationFailedException {
+    public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LprService lprService) {
         List<LprInfo> lprs = null;
         try {
             lprs = lprService.getLprsByLui(luiId, context);
@@ -405,7 +406,7 @@ public class CourseOfferingTransformer {
 
     public LRCService getLrcService() {
         if(lrcService == null){
-            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lrcService;
     }

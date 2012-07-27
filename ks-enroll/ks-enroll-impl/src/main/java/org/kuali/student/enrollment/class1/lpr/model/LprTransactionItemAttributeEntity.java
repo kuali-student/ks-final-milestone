@@ -36,6 +36,4 @@ public class LprTransactionItemAttributeEntity extends BaseAttributeEntity<LprTr
 		super(att, owner);
 	}
   
-	
-
 }

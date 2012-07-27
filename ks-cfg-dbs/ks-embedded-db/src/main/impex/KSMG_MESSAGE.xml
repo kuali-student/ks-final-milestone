@@ -224,6 +224,11 @@
         ID="18926ba5-108f-419b-91bb-b18851668633" LOCALE="en"
         MSG_ID="cluFinalExamRationale" MSG_VALUE="Final Exam Rationale"
         OBJ_ID="b130a6ac-ac9c-46d9-9610-e729dd7f0852" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="18C7198D0D624FF49F02BE7F88A19548" LOCALE="en"
+        MSG_ID="validation.validChars.numeric.range"
+        MSG_VALUE="Single number or numeric range separated by a dash"
+        OBJ_ID="E938A0CDB71A42CFA81DF0B8A9859EE0" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="18DFA6DC-C32A-7E41-E410-1F6D67AA5367" LOCALE="en"
         MSG_ID="courses" MSG_VALUE="Courses"
@@ -769,6 +774,11 @@
         ID="590677d6-d5b3-4c10-99d5-754470662d67" LOCALE="en"
         MSG_ID="cluLOName" MSG_VALUE="Name"
         OBJ_ID="072fb9c0-279a-4fc0-a666-bcaa2c3660dd" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="5DD00F1D6BA643BA8959D35858A397C5" LOCALE="en"
+        MSG_ID="validation.validChars.positive.numeric.range"
+        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
+        OBJ_ID="DCCFD876705B4D75A4598EE3B6459F31" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="5a61cb87-3f1a-4f26-834a-f5a619b1554b" LOCALE="en"
         MSG_ID="cluState" MSG_VALUE="State"
@@ -1368,16 +1378,6 @@
         ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
         OBJ_ID="3388D5EE-A5A0-4549-8974-9DB22E7DEEA2" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="C5AF53652EE28BE5E040760A2C235FED" LOCALE="en"
-        MSG_ID="validation.validChars.numeric.range"
-        MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="C5AF53652EE38BE5E040760A2C235FED" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="C5AF53652EE48BE5E040760A2C235FED" LOCALE="en"
-        MSG_ID="validation.validChars.positive.numeric.range"
-        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="C5AF53652EE58BE5E040760A2C235FED" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="F541324F-BD0D-A2CC-1874-E7F36B73D8FD" LOCALE="en"
         MSG_ID="reqActivate" MSG_VALUE="Required for Activate"

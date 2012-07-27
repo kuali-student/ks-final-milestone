@@ -15,17 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -60,6 +49,16 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author ocleirig
@@ -724,7 +723,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 					"format1", LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY,
 					newFO, callContext);
 			assertNotNull(fo);
-			assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY,
+			assertEquals(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY,
 					fo.getStateKey());
 			assertEquals(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY,
 					fo.getTypeKey());
@@ -743,7 +742,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 			FormatOfferingInfo fo = coService.getFormatOffering(
 					"CO-2:LEC-ONLY", callContext);
 			assertNotNull(fo);
-			assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY,
+			assertEquals(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY,
 					fo.getStateKey());
 			assertEquals(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY,
 					fo.getTypeKey());
@@ -789,7 +788,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 			assertEquals(created.getActivityId(), retrieved.getActivityId());
 			assertEquals(created.getTermId(), retrieved.getTermId());
-			assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY,
+			assertEquals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY,
 					retrieved.getStateKey());
 			assertEquals(
 					LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,

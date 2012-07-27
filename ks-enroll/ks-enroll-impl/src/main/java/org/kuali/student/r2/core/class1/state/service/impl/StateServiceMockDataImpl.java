@@ -29,11 +29,11 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
  *  example data.
  */
 
-public class StateServiceMockDataImpl
-        extends StateServiceMockImpl {
+public class StateServiceMockDataImpl 
+    extends StateServiceMockImpl {
 
     public StateServiceMockDataImpl()
-            throws Exception {
+        throws Exception {
 
         addLifecycle("kuali.atp.process", "ATP Lifecycle", "Lifecycle process for Academic Time Periods.", "");
         addState("kuali.atp.process", "kuali.atp.state.Draft", "Draft", "Indicates that this ATP is tentative.");
@@ -41,11 +41,11 @@ public class StateServiceMockDataImpl
 
         addLifecycle("kuali.milestone.process", "Milestone Lifecycle", "Lifecycle process for Milestones.", "");
         addState("kuali.milestone.process", "kuali.milestone.state.Draft", "Draft", "Indicates that this Milestone is tentative.");
-        addState("kuali.milestone.process", "kuali.milestone.state.Official", "Official", "Indicates that this Milestone has been established.");
+        addState("kuali.milestone.process", "kuali.milestone.state.Official", "Official", "Indicates that this Milestone has been established.");        
     }
 
     protected void addLifecycle(String key, String name, String desc, String ref)
-            throws Exception {
+        throws Exception {
 
         LifecycleInfo lifecycle = new LifecycleInfo();
         lifecycle.setName(name);
@@ -61,7 +61,7 @@ public class StateServiceMockDataImpl
     }
 
     protected void addState(String lifecycleKey, String key, String name, String desc)
-            throws Exception {
+        throws Exception {
 
         StateInfo state = new StateInfo();
         state.setName(name);

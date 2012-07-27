@@ -8,7 +8,8 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Helps test id enttities
@@ -24,8 +25,8 @@ public class IdEntityTester {
     }
 
     public void checkListOfInfoAgainstListOfIds (List<? extends IdEntityInfo> infos, List<String> ids) {
-        for (IdEntityInfo info: infos) {
-            assertTrue(ids.contains(info.getId()));
-        }
+         for (IdEntityInfo info: infos) {
+             assertTrue(ids.contains(info.getId()));
+         }
     }
 }

@@ -129,12 +129,12 @@
                         <bean class="org.kuali.student.enrollment.class2.population.keyvalue.OperationKeyValues" />
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalBoxSection" p:width="800">
+                <bean parent="Uif-HorizontalBoxSection" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Union.PNG"/>
-                            <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Intersection.PNG"/>
-                            <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Exclusion.PNG"/>
+                            <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Union.PNG" p:style="margin-left: 1em;"/>
+                            <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Intersection.PNG" p:style="margin-left: 1em;"/>
+                            <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Exclusion.PNG" p:style="margin-left: 3em;"/>
                         </list>
                     </property>
                 </bean>
