@@ -48,6 +48,7 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.constants.StateServiceConstants;
@@ -265,6 +266,11 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 if(personList.size() == 1) {
                     instructorInfo.setPersonName(personList.get(0).getName());
                 }
+            }
+
+            // make sure state is not null
+            if(instructorInfo.getStateKey() == null) {
+                instructorInfo.setStateKey(LprServiceConstants.TENTATIVE_STATE_KEY);
             }
         }
     }

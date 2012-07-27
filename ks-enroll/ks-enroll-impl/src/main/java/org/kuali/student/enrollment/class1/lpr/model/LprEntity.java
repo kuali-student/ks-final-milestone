@@ -82,7 +82,9 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
 
 	public void fromDto(Lpr dto) {
 
-		this.setCommitmentPercent(new BigDecimal(dto.getCommitmentPercent()));
+        if(dto.getCommitmentPercent() != null) {
+		    this.setCommitmentPercent(new BigDecimal(dto.getCommitmentPercent()));
+        }
 		this.setExpirationDate(dto.getExpirationDate());
 		this.setEffectiveDate(dto.getEffectiveDate());
 		this.setPersonRelationStateId(dto.getStateKey());
@@ -153,7 +155,9 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
 		LprInfo lprInfo = new LprInfo();
 		lprInfo.setId(getId());
 		lprInfo.setLuiId(luiId);
-		lprInfo.setCommitmentPercent("" + commitmentPercent);
+        if(commitmentPercent != null) {
+		    lprInfo.setCommitmentPercent("" + commitmentPercent);
+        }
 		lprInfo.setPersonId(personId);
 		lprInfo.setEffectiveDate(effectiveDate);
 		lprInfo.setExpirationDate(expirationDate);
