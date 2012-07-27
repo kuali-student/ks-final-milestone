@@ -181,14 +181,6 @@
         </property>
     </bean>
 
-    <bean id="KS-CreateFromTermOffering" parent="Uif-VerticalBoxSection" p:render="@{!#showTermOfferingLink and #showAllSections}">
-         <property name="items">
-            <list>
-                 <ref bean="KS-ExistingTermOfferingsSubSection"/>
-            </list>
-         </property>
-    </bean>
-
     <bean id="KS-CreateFromCatalog" parent="Uif-VerticalBoxSection" p:render="@{!#showCatalogLink and #showAllSections}">
          <property name="items">
             <list>
@@ -308,6 +300,43 @@
                 </bean>
            </list>
          </property>
+    </bean>
+
+    <bean id="KS-ConfigureCourseOfferingCopySubSection" parent="Uif-VerticalBoxSection" p:disclosure.render="true">
+        <property name="headerText" value="Configure Course Offering Copy" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="excludeCancelledActivityOfferings" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl">
+                            <property name="checkboxLabel" value="Exclude cancelled activity offerings"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="excludeSchedulingInformation" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl">
+                            <property name="checkboxLabel" value="Exclude scheduling information"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="excludeInstructorInformation" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl">
+                            <property name="checkboxLabel" value="Exclude instructor information"/>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-CreateFromTermOffering" parent="Uif-VerticalBoxSection" p:render="@{!#showTermOfferingLink and #showAllSections}">
+        <property name="items">
+        <list>
+            <ref bean="KS-ConfigureCourseOfferingCopySubSection"/>
+            <ref bean="KS-ExistingTermOfferingsSubSection"/>
+        </list>
+        </property>
     </bean>
 
     <bean id="KS-ExistingTermOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true">
