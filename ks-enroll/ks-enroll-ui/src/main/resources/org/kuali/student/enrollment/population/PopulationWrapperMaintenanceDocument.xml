@@ -141,7 +141,7 @@
                 <bean parent="Uif-InputField" p:propertyName="referencePopulation.name"
                       p:label="Reference Population" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true"
                       p:refreshWhenChangedPropertyNames="@{#dp.operationType}"
-                      p:progressiveRenderAndRefresh="@{#dp.operationType eq 'kuali.population.rule.type.exclusion'}">
+                      p:progressiveRender="@{#dp.operationType eq 'kuali.population.rule.type.exclusion'}">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="40" />
                     </property>
