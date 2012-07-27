@@ -117,13 +117,14 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
             if (course == null && term == null){
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Both Catalog Course Code and Target Term are invalid");
+                coWrapper.setInvalidTargetTermError("Target Term, Catalog Course Code invalid"); // Temp error message, will be removed once the above error works
             } else {
                 if (term == null) {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Target Term");
-                    coWrapper.setInvalidTargetTermError("Invalid Target Term");
+                    coWrapper.setInvalidTargetTermError("Invalid Target Term"); // Temp error message, will be removed once the above error works
                 } else if (course == null) {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Catalog Course Code");
-                    coWrapper.setInvalidCatalogCourseCodeError("Invalid Catalog Course Code");
+                    coWrapper.setInvalidCatalogCourseCodeError("Invalid Catalog Course Code"); // Temp error message, will be removed once the above error works
                 }
             }
             coWrapper.clear();
