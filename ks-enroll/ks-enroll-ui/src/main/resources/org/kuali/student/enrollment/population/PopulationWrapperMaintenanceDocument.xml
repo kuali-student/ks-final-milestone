@@ -129,6 +129,15 @@
                         <bean class="org.kuali.student.enrollment.class2.population.keyvalue.OperationKeyValues" />
                     </property>
                 </bean>
+                <bean parent="Uif-HorizontalBoxSection" p:width="800">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Union.PNG"/>
+                            <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Intersection.PNG"/>
+                            <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Exclusion.PNG"/>
+                        </list>
+                    </property>
+                </bean>
                 <bean parent="Uif-InputField" p:propertyName="referencePopulation.name"
                       p:label="Reference Population" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true"
                       p:refreshWhenChangedPropertyNames="@{#dp.operationType}"
