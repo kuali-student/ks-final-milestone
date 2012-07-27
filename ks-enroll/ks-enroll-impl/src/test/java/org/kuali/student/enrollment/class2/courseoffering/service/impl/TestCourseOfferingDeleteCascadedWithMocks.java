@@ -49,7 +49,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 /**
- * This class //TODO ...
+ * This class tests the deleteCourseOfferingCascaded functionality in CourseOfferingService
  *
  * @author Kuali Student Team
  */
@@ -163,7 +163,6 @@ public class TestCourseOfferingDeleteCascadedWithMocks {
         assertEquals(orig.getIsFeeAtActivityOffering(), info.getIsFeeAtActivityOffering());
         assertEquals(orig.getFundingSource(), info.getFundingSource());
         assertEquals(course.getCode(), info.getCourseOfferingCode());
-        assertEquals(course.getCourseNumberSuffix(), info.getCourseNumberSuffix());
         assertEquals(course.getSubjectArea(), info.getSubjectArea());
 
         // refetch co
