@@ -28,7 +28,6 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     private CourseInfo course;
     private CourseOfferingInfo coInfo;
-
     private TermInfo term;
 
     private List<FormatOfferingInfo> formatOfferingList;
@@ -45,16 +44,10 @@ public class CourseOfferingCreateWrapper implements Serializable{
     private boolean excludeInstructorInformation;
 
     public CourseOfferingCreateWrapper(){
-        showCatalogLink = false;
         showTermOfferingLink = true;
-        showAllSections = false;
-        enableCreateButton = false;
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
         existingCourseOfferings = new ArrayList<ExistingCourseOffering>();
         existingTermOfferings = new ArrayList<ExistingCourseOffering>();
-        setExcludeCancelledActivityOfferings(false);
-        setExcludeSchedulingInformation(false);
-        setExcludeInstructorInformation(false);
     }
 
     public String getTargetTermCode() {
@@ -208,7 +201,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
         this.invalidTargetTermError = invalidTargetTermError;
     }
 
-    public boolean getExcludeCancelledActivityOfferings() {
+    public boolean isExcludeCancelledActivityOfferings() {
         return excludeCancelledActivityOfferings;
     }
 
@@ -216,20 +209,20 @@ public class CourseOfferingCreateWrapper implements Serializable{
         this.excludeCancelledActivityOfferings = excludeCancelledActivityOfferings;
     }
 
-    private boolean getExcludeInstructorInformation() {
-        return excludeInstructorInformation;
-    }
-
-    private void setExcludeInstructorInformation(boolean excludeInstructorInformation) {
-        this.excludeInstructorInformation = excludeInstructorInformation;
-    }
-
-    private boolean getIncludeSchedulingInformation() {
+    public boolean isExcludeSchedulingInformation() {
         return excludeSchedulingInformation;
     }
 
-    private void setExcludeSchedulingInformation(boolean excludeSchedulingInformation) {
+    public void setExcludeSchedulingInformation(boolean excludeSchedulingInformation) {
         this.excludeSchedulingInformation = excludeSchedulingInformation;
+    }
+
+    public boolean isExcludeInstructorInformation() {
+        return excludeInstructorInformation;
+    }
+
+    public void setExcludeInstructorInformation(boolean excludeInstructorInformation) {
+        this.excludeInstructorInformation = excludeInstructorInformation;
     }
 
     public void clear(){

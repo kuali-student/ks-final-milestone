@@ -42,8 +42,13 @@
                       p:render="@{(maintenanceAction eq 'New') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Update" p:performClientSideValidation="true"
                       p:render="@{(maintenanceAction eq 'Edit') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
+                <bean parent="Uif-ActionLink" p:clientSideJs="stepBrowserBack()" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/common.js</value>
             </list>
         </property>
     </bean>
@@ -141,7 +146,7 @@
                 <bean parent="Uif-InputField" p:propertyName="referencePopulation.name"
                       p:label="Reference Population" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true"
                       p:refreshWhenChangedPropertyNames="@{#dp.operationType}"
-                      p:progressiveRenderAndRefresh="@{#dp.operationType eq 'kuali.population.rule.type.exclusion'}">
+                      p:progressiveRender="@{#dp.operationType eq 'kuali.population.rule.type.exclusion'}">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="40" />
                     </property>
@@ -168,7 +173,6 @@
             <list>
                 <bean id="KS-PopulationWrapper-AddPopulationsSubSection" parent="Uif-StackedCollectionSubSection" p:collectionLookup.render="false" p:required="true" p:renderLineActions="true">
                     <property name="headerText" value="Population(s)" />
-                    <property name="instructionalText" value="Add at least two different populations"/>
                     <property name="propertyName" value="childPopulations" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
                     <property name="collectionLookup.quickfinderAction.render" value="false" />

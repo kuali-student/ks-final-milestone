@@ -10,6 +10,7 @@ import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
@@ -44,6 +45,58 @@ public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
             if (!oldWrapper.getPopulationInfo().getName().equalsIgnoreCase(newWrapper.getPopulationInfo().getName())) {
                 isValid &= populationNameUniqueCheck(newWrapper);
             }             
+        }
+
+        String operationType = newWrapper.getPopulationRuleInfo().getTypeKey();
+        //Rule:
+        //by Union - must select at least 2 DIFFERENT populations in order to create
+        //by Intersection - must select at least 2 DIFFERENT populations in order to create
+        if (operationType.equals(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY)){
+            isValid &= needTwoChildPopulations(newWrapper, "Union" );
+        }
+        else if (operationType.equals(PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY)){
+
+            isValid &= needTwoChildPopulations(newWrapper, "Intersection" );
+        }
+        else if (operationType.equals(PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY)){
+            //Rule:
+            //by Exclusion - must select one reference population and at least one other DIFFERENT population in order to create
+            isValid &= checkReferneceAndChildpopulations(newWrapper);
+        }
+        return isValid;
+    }
+
+    protected boolean checkReferneceAndChildpopulations (PopulationWrapper wrapper){
+        boolean isValid  = true;
+        List<String> ids = wrapper.getPopulationRuleInfo().getChildPopulationIds();
+        String referenceId = wrapper.getPopulationRuleInfo().getReferencePopulationId();
+        if(ids.size()<1){
+//              GlobalVariables.getMessageMap().putError("newCollectionLines[document.newMaintainableObject.dataObject.childPopulations].name",
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
+                    PopulationConstants.POPULATION_MSG_ERROR_NEED_ONE_POPULATIONS, "Exclusion");
+            isValid = false;
+        }
+//        else {
+//            for (String childId : ids){
+//                if (childId.equals(referenceId)){
+//                    putFieldError(PopulationConstants.PopulationWrapper.POPULATION_NAME, PopulationConstants.POPULATION_MSG_ERROR_NAME_IS_NOT_UNIQUE, popName);
+//                    isValid = false;
+//                }
+//
+//            }
+//        }
+        return isValid;
+    }
+
+    protected boolean needTwoChildPopulations (PopulationWrapper wrapper, String operation){
+        boolean isValid  = true;
+        List<String> ids = wrapper.getPopulationRuleInfo().getChildPopulationIds();
+        if(ids.size()<2){
+//              GlobalVariables.getMessageMap().putError("newCollectionLines[document.newMaintainableObject.dataObject.childPopulations].name",
+              GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
+                    PopulationConstants.POPULATION_MSG_ERROR_NEED_TWO_DIFFERENT_POPULATIONS, operation);
+//            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Must select at least 2 different populations.");
+            isValid = false;
         }
         return isValid;
     }
