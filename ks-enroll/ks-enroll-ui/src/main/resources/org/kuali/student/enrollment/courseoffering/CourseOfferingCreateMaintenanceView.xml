@@ -99,7 +99,7 @@
                 <bean parent="Uif-MessageField" p:messageText="Create from Catalog" p:style="font-weight:bold;" p:render="@{!#showCatalogLink}"/>
                 <bean parent="Uif-MessageField" p:messageText="  |  " p:style="font-weight:bold;"/>
                 <bean parent="Uif-ActionLink" p:methodToCall="createFromTermOffering" p:style="font-weight:bold;" p:actionLabel="Create from Term Offering (@{#noOfTermOfferings})" p:render="@{#showTermOfferingLink}"/>
-                <bean parent="Uif-MessageField" p:messageText="Create from Term Offering (@{#noOfTermOfferings})" p:style="font-weight:bold;" p:render="@{!#showTermOfferingLink}"/>
+                <bean parent="Uif-MessageField" p:messageText="Create from Existing Offering (@{#noOfTermOfferings})" p:style="font-weight:bold;" p:render="@{!#showTermOfferingLink}"/>
             </list>
         </property>
     </bean>
@@ -339,7 +339,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ExistingTermOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true">
+    <bean id="KS-ExistingTermOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:renderAddLine="false">
 		<property name="headerText" value="Previous Term Offerings" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering" />
 		<property name="propertyName" value="existingTermOfferings" />
@@ -374,6 +374,11 @@
                 </bean>
            </list>
          </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:methodToCall="copyExistingCourseOffering" p:actionLabel="Copy" />
+            </list>
+        </property>
     </bean>
 
     <!-- MAINTENACE DOCUMENT DEFINITION -->
