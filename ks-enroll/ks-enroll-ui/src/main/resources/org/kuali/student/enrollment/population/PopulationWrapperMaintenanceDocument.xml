@@ -65,8 +65,8 @@
                 <bean parent="Uif-ActionLink" p:methodToCall="createByRule" p:style="font-weight:bold;" p:actionLabel="By Rule" p:render="@{!#dp.createByRule}"/>
                 <bean parent="Uif-MessageField" p:messageText="By Rule" p:style="font-weight:bold;" p:render="@{#dp.createByRule}"/>
                 <!--<bean parent="Uif-MessageField" p:messageText="  |  " p:style="font-weight:bold;"/>-->
-                <bean parent="Uif-ActionLink" p:methodToCall="createByCombiningPopulations" p:style="font-weight:bold;" p:actionLabel="By Combining Populations" p:render="@{#dp.createByRule}"/>
-                <bean parent="Uif-MessageField" p:messageText="By Combining Populations" p:style="font-weight:bold;" p:render="@{!#dp.createByRule}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="createByCombiningPopulations" p:style="font-weight:bold;" p:actionLabel="By Using Populations" p:render="@{#dp.createByRule}"/>
+                <bean parent="Uif-MessageField" p:messageText="By Using Populations" p:style="font-weight:bold;" p:render="@{!#dp.createByRule}"/>
             </list>
         </property>
     </bean>
@@ -93,7 +93,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:propertyName="operationTypeText" p:render="@{maintenanceAction eq 'Edit'}"/>
-                <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.agendaIds[0]" p:label="Rule Agenda Id">
+                <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.agendaIds[0]" p:label="Rule">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="populationRuleAgendaIds-options"/>
                     </property>
