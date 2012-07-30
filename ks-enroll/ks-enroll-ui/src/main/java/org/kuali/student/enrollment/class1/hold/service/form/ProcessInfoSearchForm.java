@@ -27,6 +27,16 @@ import java.util.List;
  */
 public class ProcessInfoSearchForm extends UifFormBase {
 
+    public String getTypeKey() {
+        return typeKey;
+    }
+
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
+    }
+
+    private String typeKey;
+
     public ProcessInfoSearchForm(){
         super();
     }

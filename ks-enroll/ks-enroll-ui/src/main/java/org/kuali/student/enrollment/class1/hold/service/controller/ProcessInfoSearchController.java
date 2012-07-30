@@ -29,8 +29,11 @@ import org.kuali.student.enrollment.class1.hold.service.form.ProcessInfoSearchFo
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
+import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
+import org.kuali.student.r2.core.process.dto.ProcessInfo;
+import org.kuali.student.r2.core.process.service.ProcessService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -60,7 +63,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 @RequestMapping(value = "/processInfoSearch")
 public class ProcessInfoSearchController extends UifControllerBase {
 
-    private transient HoldService holdService;
+    private transient ProcessService processService;
     private ContextInfo contextInfo;
 
     @Override
@@ -108,26 +111,25 @@ public class ProcessInfoSearchController extends UifControllerBase {
         searchForm.setHoldIssueInfo(results);
 
         return getUIFModelAndView(searchForm, null);
-    }
+    } */
 
     @RequestMapping(params = "methodToCall=view")
-    public ModelAndView view(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
+    public ModelAndView view(@ModelAttribute("KualiForm") ProcessInfoSearchForm searchForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HoldIssueInfo holdIssue = getSelectedHoldIssue(searchForm, "view");
-
         String controllerPath;
+        List<String> type = getProcessService().getProcessCategoryIdsByType(searchForm.getTypeKey(), getContextInfo());
         Properties urlParameters = new Properties();
 
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "view");
-        urlParameters.put("id", holdIssue.getId());
-        urlParameters.put(UifParameters.VIEW_ID, "holdView");
+        urlParameters.put("type", type);
+        urlParameters.put(UifParameters.VIEW_ID, "processInfoView");
 
-        controllerPath = "createHold";
+        controllerPath = "";
 
         return performRedirect(searchForm, controllerPath, urlParameters);
     }
 
-    @RequestMapping(params = "methodToCall=edit")
+    /*@RequestMapping(params = "methodToCall=edit")
     public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         HoldIssueInfo holdIssue = getSelectedHoldIssue(searchForm, "edit");
@@ -166,29 +168,7 @@ public class ProcessInfoSearchController extends UifControllerBase {
 
     private void resetForm(HoldIssueInfoSearchForm searchForm) {
         searchForm.setHoldIssueInfo(new ArrayList<HoldIssueInfo>());
-    }
-
-    private HoldIssueInfo getSelectedHoldIssue(HoldIssueInfoSearchForm searchForm, String actionLink){
-        String selectedCollectionPath = searchForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("Selected collection was not set for " + actionLink);
-        }
-
-        int selectedLineIndex = -1;
-        String selectedLine = searchForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        if (selectedLineIndex == -1) {
-            throw new RuntimeException("Selected line index was not set");
-        }
-
-        Collection<HoldIssueInfo> collection = ObjectPropertyUtils.getPropertyValue(searchForm, selectedCollectionPath);
-        HoldIssueInfo holdIssue = ((List<HoldIssueInfo>) collection).get(selectedLineIndex);
-
-        return holdIssue;
-    }
+    } */
 
     private ContextInfo getContextInfo() {
         if (null == contextInfo) {
@@ -198,14 +178,14 @@ public class ProcessInfoSearchController extends UifControllerBase {
         return contextInfo;
     }
 
-    protected HoldService getHoldService(){
-        if(holdService == null) {
-            holdService = (HoldService) GlobalResourceLoader.getService(new QName(HoldServiceConstants.NAMESPACE, HoldServiceConstants.SERVICE_NAME_LOCAL_PART));
+    protected ProcessService getProcessService(){
+        if(processService == null) {
+            processService = (ProcessService) GlobalResourceLoader.getService(new QName(ProcessServiceConstants.NAMESPACE, ProcessServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
-        return holdService;
+        return processService;
     }
 
-    private static QueryByCriteria.Builder buildQueryByCriteria(String name, String type,String state, String orgId, String descr){
+    /*private static QueryByCriteria.Builder buildQueryByCriteria(String name, String type,String state, String orgId, String descr){
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();

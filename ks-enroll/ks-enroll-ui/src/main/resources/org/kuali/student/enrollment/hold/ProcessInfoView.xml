@@ -20,7 +20,7 @@
     -->
 
     <bean id="KS-ProcessInfo-View" parent="KSFormView" p:applyDirtyCheck="true"
-          p:id="processInfoSearchView" p:headerText="Edit Processes">
+          p:id="processInfoView" p:headerText="Edit Processes">
         <property name="singlePageView" value="true"/>
         <property name="page">
             <bean parent="Uif-Page"/>

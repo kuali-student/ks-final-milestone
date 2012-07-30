@@ -56,7 +56,7 @@
                                 <bean parent="Uif-DropdownControl"/>
                             </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="View Processes" p:methodToCall="" p:style="font-size: 90%;"/>
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="View Processes" p:methodToCall="view" p:style="font-size: 90%;"/>
                         </list>
                     </property>
                 </bean>
