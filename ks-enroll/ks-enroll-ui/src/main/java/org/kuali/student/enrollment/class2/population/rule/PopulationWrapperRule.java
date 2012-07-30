@@ -90,8 +90,7 @@ public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
 
     protected boolean needTwoChildPopulations (PopulationWrapper wrapper, String operation){
         boolean isValid  = true;
-        List<String> ids = wrapper.getPopulationRuleInfo().getChildPopulationIds();
-        if(ids.size()<2){
+        if ( wrapper.getChildPopulations().size() < 1 ) {
 //              GlobalVariables.getMessageMap().putError("newCollectionLines[document.newMaintainableObject.dataObject.childPopulations].name",
               GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
                     PopulationConstants.POPULATION_MSG_ERROR_NEED_TWO_DIFFERENT_POPULATIONS, operation);
