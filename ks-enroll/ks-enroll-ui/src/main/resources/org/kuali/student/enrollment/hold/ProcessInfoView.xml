@@ -19,8 +19,8 @@
      limitations under the License.
     -->
 
-    <bean id="KS-ProcessInfo-Search" parent="KSFormView" p:applyDirtyCheck="true"
-          p:id="processInfoSearchView" p:headerText="Manage Processes">
+    <bean id="KS-ProcessInfo-View" parent="KSFormView" p:applyDirtyCheck="true"
+          p:id="processInfoSearchView" p:headerText="Edit Processes">
         <property name="singlePageView" value="true"/>
         <property name="page">
             <bean parent="Uif-Page"/>
@@ -37,37 +37,41 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="KS-ProcessInfoSearch-View" />
-                <ref bean="KS-ProcessInfoSearch-Create" />
+                <ref bean="KS-ProcessInfo-Result" />
             </list>
         </property>
     </bean>
 
-    <bean id="KS-ProcessInfoSearch-View" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="View Existing Processes" />
+    <bean id="KS-ProcessInfo-Result" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="3" p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.r2.core.process.dto.ProcessInfo" />
+        <property name="propertyName" value="processInfo" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+            </map>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-HeaderThree" p:headerText="Process Category" p:style="margin-bottom: -0.5em;"/>
-                <bean parent="Uif-HorizontalBoxSubSection" p:headerText="Select a Process Category to view existing Processes">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField" p:propertyName="" >
-                            <property name="control">
-                                <bean parent="Uif-DropdownControl"/>
-                            </property>
-                            </bean>
-                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="View Processes" p:methodToCall="" p:style="font-size: 90%;"/>
-                        </list>
-                    </property>
-                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="PROCESS CATEGORY"
+                      p:propertyName="typeKey" />
+                <bean parent="Uif-DataField"
+                      p:label="PROCESS"
+                      p:propertyName="name"/>
             </list>
         </property>
-    </bean>
-
-    <bean id="KS-ProcessInfoSearch-Create" parent="Uif-VerticalBoxSection" p:headerText="Create a New Process">
-        <property name="items">
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions" p:style="display:inline;"/>
+        </property>
+        <property name="lineActions">
             <list>
-                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Create Process" p:methodToCall="" p:style="font-size: 90%;"/>
+                <bean parent="KS-SubmitActionLink" p:methodToCall="" p:actionLabel="Select" />
             </list>
         </property>
     </bean>
