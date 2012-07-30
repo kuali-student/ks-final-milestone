@@ -70,6 +70,8 @@ public class CourseOfferingTransformer {
                 co.setIsFeeAtActivityOffering(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR.equals(attr.getKey())){
                 co.setFundingSource(attr.getValue());
+            } else if (CourseOfferingServiceConstants.COURSE_NUMBER_IN_SUFX_ATTR.equals(attr.getKey())){
+                co.setCourseNumberInternalSuffix(attr.getValue());
             } else {
                 attributes.add(new AttributeInfo(attr));
             }
@@ -248,6 +250,11 @@ public class CourseOfferingTransformer {
         fundingSource.setKey(CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR);
         fundingSource.setValue(co.getFundingSource());
         attributesMap.put(CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR, fundingSource);
+
+        AttributeInfo courseNumberInternalSuffix = new AttributeInfo();
+        courseNumberInternalSuffix.setKey(CourseOfferingServiceConstants.COURSE_NUMBER_IN_SUFX_ATTR);
+        whereFeesAttachedFlag.setValue(co.getCourseNumberInternalSuffix());
+        attributesMap.put(CourseOfferingServiceConstants.COURSE_NUMBER_IN_SUFX_ATTR, courseNumberInternalSuffix);
 
         for (Map.Entry<String, AttributeInfo> entry : attributesMap.entrySet()) {
             attributes.add(entry.getValue());

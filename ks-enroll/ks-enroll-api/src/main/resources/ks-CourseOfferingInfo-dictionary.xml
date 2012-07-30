@@ -100,6 +100,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
+	<bean id="CourseOfferingInfo.courseNumberInternalSuffix" parent="CourseOfferingInfo.courseNumberInternalSuffix-parent"/>
+	<bean id="CourseOfferingInfo.courseNumberInternalSuffix-parent" abstract="true" parent="CourseOfferingInfo.courseNumberInternalSuffix-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
 	<bean id="CourseOfferingInfo.courseOfferingTitle" parent="CourseOfferingInfo.courseOfferingTitle-parent"/>
 	<bean id="CourseOfferingInfo.courseOfferingTitle-parent" abstract="true" parent="CourseOfferingInfo.courseOfferingTitle-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->

@@ -405,4 +405,14 @@ public interface CourseOffering extends IdNamelessEntity {
      * @impl this is the grading name - last word in gradingOptionId
      */
     public String getGradingOption();
+
+   /**
+     * A suffix is the system generated code that is hidden from the user
+     * that parallels with courseOfferingNumberSuffix.
+     *
+     * @name Course Number Internal Suffix
+     * @impl initially copied from the canonical course but then stored in the
+     *       Lui as lui.officialIdentifier.suffixCode
+     */
+    public String getCourseNumberInternalSuffix();
 }

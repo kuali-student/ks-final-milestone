@@ -65,6 +65,7 @@ plus any of its dependencies -->
 				<ref bean="CourseOfferingInfo.courseCode"/>
 				<ref bean="CourseOfferingInfo.courseOfferingCode"/>
 				<ref bean="CourseOfferingInfo.courseNumberSuffix"/>
+                <ref bean="CourseOfferingInfo.courseNumberInternalSuffix"/>
 				<ref bean="CourseOfferingInfo.courseOfferingTitle"/>
 				<ref bean="CourseOfferingInfo.isHonorsOffering"/>
 				<ref bean="CourseOfferingInfo.subjectArea"/>
@@ -299,7 +300,23 @@ in the calculation of the courseCode.
 		</property>
 		<property name="required" value="false"/>
 	</bean>
-
+	<bean id="CourseOfferingInfo.courseNumberInternalSuffix-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseNumberInternalSuffix"/>
+		<property name="shortLabel" value="Course Number Internal Suffix"/>
+		<property name="summary">
+            <value>
+A suffix is the system generated code.
+			</value>
+		</property>
+		<property name="label" value="Course Number Internal Suffix"/>
+		<property name="description">
+			<value>
+A suffix is the system generated code that is hidden from the user
+            that parallels with courseOfferingNumberSuffix.
+            </value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
 	<bean id="CourseOfferingInfo.courseOfferingTitle-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="courseOfferingTitle"/>
 		<property name="shortLabel" value="Course Offering Title"/>

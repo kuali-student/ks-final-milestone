@@ -43,7 +43,7 @@ import org.w3c.dom.Element;
         "minimumEnrollment", "jointOfferingIds", "gradingOptionId", "gradingOption",
         "studentRegistrationGradingOptions", "creditOptionDisplay", "creditOptionId",
         "waitlistLevelTypeKey", "waitlistMaximum", "hasWaitlist", "waitlistTypeKey","campusLocations", 
-        "isEvaluated", "fundingSource", "isFeeAtActivityOffering", 
+        "isEvaluated", "fundingSource", "isFeeAtActivityOffering", "courseNumberInternalSuffix",
         "isFinancialAidEligible", "courseOfferingURL", "finalExamType",
         "meta", "attributes", "_futureElements"})
 
@@ -152,6 +152,8 @@ public class CourseOfferingInfo
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    @XmlElement
+    private String courseNumberInternalSuffix;
 
     /**
      * Constructs a new CourseOfferingInfo.
@@ -183,6 +185,7 @@ public class CourseOfferingInfo
         this.courseOfferingCode = offering.getCourseOfferingCode();
         this.courseOfferingCode = offering.getCourseOfferingCode();
         this.courseNumberSuffix = offering.getCourseNumberSuffix();
+        this.courseNumberInternalSuffix = offering.getCourseNumberInternalSuffix();
         this.subjectArea = offering.getSubjectArea();
         this.isHonorsOffering = offering.getIsHonorsOffering();
 
@@ -290,6 +293,15 @@ public class CourseOfferingInfo
 
     public void setCourseNumberSuffix(String courseNumberSuffix) {
         this.courseNumberSuffix = courseNumberSuffix;
+    }
+
+    @Override
+    public String getCourseNumberInternalSuffix() {
+        return courseNumberInternalSuffix;
+    }
+
+    public void setCourseNumberInternalSuffix(String courseNumberInternalSuffix) {
+        this.courseNumberInternalSuffix = courseNumberInternalSuffix;
     }
 
     @Override

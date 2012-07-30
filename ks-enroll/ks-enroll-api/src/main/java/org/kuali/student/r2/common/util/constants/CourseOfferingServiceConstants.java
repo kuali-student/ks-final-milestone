@@ -50,7 +50,7 @@ public class CourseOfferingServiceConstants {
     public static final String WHERE_FEES_ATTACHED_FLAG_ATTR = "kuali.attribute.where.fees.attached.flag";
     public static final String IS_MAX_ENROLLMENT_ESTIMATE_ATTR = "kuali.attribute.max.enrollment.is.estimate";
     public static final String WAIT_LIST_INDICATOR_ATTR = "kuali.attribute.wait.list.indicator";
-
+    public static final String COURSE_NUMBER_IN_SUFX_ATTR = "kuali.attribute.course.number.internal.suffix";
 
     // The type/states are defined in LuiServiceConstants.java
 
