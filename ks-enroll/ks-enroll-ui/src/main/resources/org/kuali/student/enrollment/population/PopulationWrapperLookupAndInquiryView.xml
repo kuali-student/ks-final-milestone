@@ -47,7 +47,7 @@
 
     <!-- LookupView -->
     <bean id="KS-Population-LookupView" parent="KSLookupView">
-        <property name="headerText" value="@{viewName != null ? 'Manage Populations' : 'Population Lookup'}" />
+        <property name="headerText" value="@{viewName != null ? 'Manage Populations' : 'Active Population Lookup'}" />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />
         <property name="maintenanceUrlMapping" value="population"/>
@@ -65,7 +65,7 @@
                 </bean>-->
 
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="populationInfo.stateKey"
-                      p:label="State" p:labelPlacement="TOP" p:required="true" p:defaultValue="kuali.population.population.state.active">
+                      p:label="State" p:labelPlacement="TOP" p:required="true" p:defaultValue="kuali.population.population.state.active" p:render="@{viewName != null}">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl" />
                     </property>
