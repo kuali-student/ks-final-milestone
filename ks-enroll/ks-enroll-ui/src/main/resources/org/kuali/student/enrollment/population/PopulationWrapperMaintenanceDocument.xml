@@ -191,7 +191,7 @@
                     <property name="layoutManager.addLineGroup.header.render" value="false" />
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="name" p:style="font-weight:bold;">
+                            <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="name" p:style="font-weight:bold;" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" />
                                 </property>

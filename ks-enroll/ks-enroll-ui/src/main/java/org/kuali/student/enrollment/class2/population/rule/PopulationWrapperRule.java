@@ -90,13 +90,35 @@ public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
 
     protected boolean needTwoChildPopulations (PopulationWrapper wrapper, String operation){
         boolean isValid  = true;
-        if ( wrapper.getChildPopulations().size() < 1 ) {
+        List<PopulationInfo> populationInfoList = wrapper.getChildPopulations();
+        List<PopulationInfo> populationInfoList1 = populationInfoList;
+        if(populationInfoList.size() > 1 ){     //Two or more
+            for (PopulationInfo populationInfo: populationInfoList) {
+                int duplicateCntr = 0;
+                for (PopulationInfo populationInfo1: populationInfoList1) {
+                    if (populationInfo.getId().equals(populationInfo1.getId())){
+                        duplicateCntr++;
+                    }
+                    if ( duplicateCntr > 1 ) {   //No duplicates
+                        isValid = false;
+                        break;
+                    }
+                }
+                if ( !isValid ){
+                    break;
+                }
+            }
+        } else {
+            isValid = false;
+        }
+        if ( !isValid ){
 //              GlobalVariables.getMessageMap().putError("newCollectionLines[document.newMaintainableObject.dataObject.childPopulations].name",
-              GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
                     PopulationConstants.POPULATION_MSG_ERROR_NEED_TWO_DIFFERENT_POPULATIONS, operation);
 //            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Must select at least 2 different populations.");
             isValid = false;
         }
+
         return isValid;
     }
 
