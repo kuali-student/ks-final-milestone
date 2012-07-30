@@ -96,9 +96,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             coWrapper.getExistingCourseOfferings().clear();
 
             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
-                ExistingCourseOffering co = new ExistingCourseOffering();
-                co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
-                co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
+                ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
                 co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
                 co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
                 coWrapper.getExistingCourseOfferings().add(co);
@@ -108,14 +106,12 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             coWrapper.setNoOfTermOfferings(courseOfferingInfos.size());
 
             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
-                ExistingCourseOffering co = new ExistingCourseOffering();
+                ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
                 TermInfo termInfo = getAcademicCalendarService().getTerm(courseOfferingInfo.getTermId(),getContextInfo());
                 if (StringUtils.isNotBlank(courseOfferingInfo.getGradingOptionId())){
 
                 }
                 co.setTermCode(termInfo.getName());
-                co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
-                co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
                 co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
                 co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
                 coWrapper.getExistingTermOfferings().add(co);
