@@ -3312,7 +3312,7 @@
 
  <bean id="kuali.proposal.lookup.course.advanced" class="org.kuali.student.common.assembly.data.UILookupData"
        parent="courseProposalSearch">
-  <property name="id" value="kuali.proposal.lookup.Proposals" />
+  <property name="id" value="kuali.proposal.lookup.course.advanced" />
   <property name="name" value="Find Proposal" />
   <property name="desc" value="Find Proposal" />
   <property name="title" value="Course Proposal" />
@@ -3361,7 +3361,7 @@
 
  <bean id="kuali.proposal.lookup.program.advanced" class="org.kuali.student.common.assembly.data.UILookupData"
        parent="programProposalSearch">
-  <property name="id" value="kuali.proposal.lookup.Proposals" />
+  <property name="id" value="kuali.proposal.lookup.program.advanced" />
   <property name="name" value="Find Proposal" />
   <property name="desc" value="Find Proposal" />
   <property name="title" value="Program Proposal" />
