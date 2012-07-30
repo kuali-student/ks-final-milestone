@@ -303,7 +303,9 @@
     </bean>
 
     <bean id="KS-ConfigureCourseOfferingCopySubSection" parent="Uif-VerticalBoxSection" p:disclosure.render="true">
-        <property name="headerText" value="Configure Course Offering Copy" />
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:headerText="Configure Course Offering Copy"/>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="excludeCancelledActivityOfferings" p:fieldLabel.renderColon="false">
