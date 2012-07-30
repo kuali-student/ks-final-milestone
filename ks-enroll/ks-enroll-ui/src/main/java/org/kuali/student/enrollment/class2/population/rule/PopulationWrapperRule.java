@@ -116,7 +116,6 @@ public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
                     PopulationConstants.POPULATION_MSG_ERROR_NEED_TWO_DIFFERENT_POPULATIONS, operation);
 //            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Must select at least 2 different populations.");
-            isValid = false;
         }
 
         return isValid;
