@@ -53,6 +53,14 @@
         ID="kuali.atp.state.Official" LIFECYCLE_KEY="kuali.atp.process"
         NAME="Official" UPDATEID="SYSTEMLOADER"
         UPDATETIME="19700101000000" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
+        DESCR_PLAIN="This issue is active and can be attached to holds"
+        ID="kuali.hold.issue.state.active"
+        LIFECYCLE_KEY="kuali.hold.issue.process" NAME="Active" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120717000000"
+        DESCR_PLAIN="The issue is inactive an cannot be attached to new holds"
+        ID="kuali.hold.issue.state.inactive"
+        LIFECYCLE_KEY="kuali.hold.issue.process" NAME="Inactive" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_FORMATTED="The instructor is assigned to teach this course or section"
         DESCR_PLAIN="The instructor is assigned to teach this course or section"
