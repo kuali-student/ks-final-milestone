@@ -299,7 +299,7 @@
         DOC_TYP_NM="ActivityOfferingInfoMaintenanceDocument"
         DOC_TYP_VER_NBR="0" GRP_ID="1"
         LBL="org.kuali.student.r2.lum.course.infc.Activity Offering Info Maintenance Document"
-        OBJ_ID="C60C040E343086CFE040760A2C237959" PARNT_ID="2681"
+        OBJ_ID="C60E92B281012804E040760A2C2313FF" PARNT_ID="2681"
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
@@ -309,7 +309,7 @@
         DOC_TYP_NM="FormatOfferingInfoMaintenanceDocument"
         DOC_TYP_VER_NBR="0" GRP_ID="1"
         LBL="org.kuali.student.r2.lum.course.infc.Format Offering Info Maintenance Document"
-        OBJ_ID="C60C040E343186CFE040760A2C237959" PARNT_ID="2681"
+        OBJ_ID="C60E92B281022804E040760A2C2313FF" PARNT_ID="2681"
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
@@ -319,7 +319,7 @@
         DOC_TYP_NM="CourseOfferingEditMaintenanceDocument"
         DOC_TYP_VER_NBR="0" GRP_ID="1"
         LBL="org.kuali.student.r2.lum.course.infc.Course Offering Info Edit Maintenance Document"
-        OBJ_ID="C60C040E343286CFE040760A2C237959" PARNT_ID="2681"
+        OBJ_ID="C60E92B281032804E040760A2C2313FF" PARNT_ID="2681"
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
@@ -329,7 +329,17 @@
         DOC_TYP_NM="CourseOfferingCreateMaintenanceDocument"
         DOC_TYP_VER_NBR="0" GRP_ID="1"
         LBL="org.kuali.student.r2.lum.course.infc.Course Offering Info Maintenance Document"
-        OBJ_ID="C60C040E343386CFE040760A2C237959" PARNT_ID="2681"
+        OBJ_ID="C60E92B281042804E040760A2C2313FF" PARNT_ID="2681"
+        POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
+        RTE_VER_NBR="2" VER_NBR="1"/>
+    <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
+        DOC_HDLR_URL="${application.url}/kr-krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"
+        DOC_TYP_DESC="Create Population Maintenance Document"
+        DOC_TYP_ID="3029"
+        DOC_TYP_NM="PopulationWrapperMaintenanceDocument"
+        DOC_TYP_VER_NBR="0" GRP_ID="1"
+        LBL="Population Maintenance Document"
+        OBJ_ID="C60E92B281052804E040760A2C2313FF" PARNT_ID="2681"
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
 </dataset>
