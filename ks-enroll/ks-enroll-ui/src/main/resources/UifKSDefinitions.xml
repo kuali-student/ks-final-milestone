@@ -204,8 +204,8 @@
         <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
     </bean>
 
+    <!-- currently not being used
     <bean id="KS-Disclosure-HorizontalCollectionSection" parent="KS-Disclosure-HorizontalCollectionSection-parentBean"/>
-
     <bean id="KS-Disclosure-HorizontalCollectionSection-parentBean" parent="Uif-StackedCollectionSection">
         <property name="layoutManager">
           <bean parent="Uif-StackedCollectionLayout-WithGridItems">
@@ -233,6 +233,60 @@
             </property>
           </bean>
         </property>
+    </bean>
+    -->
+
+    <bean id="KS-HorizontalCollectionSection" parent="KS-HorizontalCollectionSection-parent"/>
+    <bean id="KS-HorizontalCollectionSection-parent" parent="Uif-StackedCollectionSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <!-- IMPORTANT NOTE:
+                     Rice 2.2.0-M1 has a bug such that StackedCollectionLayout-WithBoxItems does not
+                     assign the correct horizontal class to each item, so the items will incorrectly
+                     stack vertically.  To fix this, put the items in a HorizontalFieldGroup element:
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+                    <property name="items">
+                        <list>
+                            { actual list of items }
+                        </list>
+                    </property>
+                </bean>
+                -->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Disclosure-HorizontalCollectionSection" parent="KS-Disclosure-HorizontalCollectionSection-parent"/>
+    <bean id="KS-Disclosure-HorizontalCollectionSection-parent" parent="KS-HorizontalCollectionSection">
+        <property name="disclosure.render" value="true"/>
+    </bean>
+
+    <bean id="KS-HorizontalCollectionSubSection" parent="KS-HorizontalCollectionSubSection-parent"/>
+    <bean id="KS-HorizontalCollectionSubSection-parent" parent="Uif-StackedCollectionSubSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <!-- IMPORTANT NOTE: See note in KS-HorizontalCollectionSection -->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Disclosure-HorizontalCollectionSubSection" parent="KS-Disclosure-HorizontalCollectionSubSection-parent"/>
+    <bean id="KS-Disclosure-HorizontalCollectionSubSection-parent" parent="KS-HorizontalCollectionSubSection">
+        <property name="disclosure.render" value="true"/>
     </bean>
 
 </beans>

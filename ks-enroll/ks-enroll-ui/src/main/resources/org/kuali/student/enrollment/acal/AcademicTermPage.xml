@@ -18,23 +18,17 @@
             </list>
         </property>
     </bean>
-    <bean id="KS-AcademicTerm-EditSection-Main" parent="Uif-Disclosure-StackedCollectionSection"
-          p:id="acal-term" p:style="min-width:70em;" p:readOnly="@{#view.readOnly}">
-        <property name="header.render" value="false" />
+
+    <bean id="KS-AcademicTerm-EditSection-Main" parent="KS-HorizontalCollectionSection">
+        <property name="id" value="acal-term"/>
+        <property name="readOnly" value="@{#view.readOnly}"/>
+        <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
+        <property name="style" value="min-width:70em;"/>
+        <property name="header.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.termNameForUI}"/>
-        <property name="propertyName" value="termWrapperList" />
         <property name="layoutManager.addLineGroup.header.render" value="false"/>
-        <!-- the following commented-out configuration doesn't match the wireframe (as of 6/22/12)
-        <property name="layoutManager.lineGroupPrototype.instructionalText" value="@{#line.termNameForUI} Information"/>
-        <property name="layoutManager.lineGroupPrototype.instructionalMessage.cssClasses">
-            <list merge="true">
-                <value>ks-header-boldWithLine</value>
-            </list>
-        </property>
-        <property name="layoutManager.addLineGroup.style" value="margin-top:1em;"/>
-        -->
         <property name="lineActions">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{!#line.official ? 'Make Official' : 'Update Official'}"  p:disabled="@{!#line.official}" p:methodToCall="makeTermOfficial" p:render="@{!#view.readOnly}"/>
@@ -42,20 +36,9 @@
                 <bean parent="Uif-ActionLink" p:methodToCall="cancelTerm" p:actionLabel="Cancel"/>
             </list>
         </property>
-        <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-                <property name="subCollectionFieldGroupPrototype">
-                    <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false"/>
-                </property>
-            </bean>
-        </property>
-
         <property name="items">
             <list>
-                <!-- layoutManager StackedCollectionLayout-WithBoxItems should have arranged field
-                     horizontally by default but there's a bug (2.2.0-M1) which doesn't apply the
-                     correct class to each item.  Adding HorizontalFieldGroup here solves that.
-                     -->
+                <!-- HorizontalFieldGroup added as bug fix; see note in KS-HorizontalCollectionSection -->
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
                     <property name="items">
                         <list>
@@ -106,12 +89,15 @@
         </property>
     </bean>
 
-    <bean id="KS-KeyDatesGroup-EditSubSection" parent="Uif-Disclosure-StackedCollectionSubSection"
-          p:id="acal-term-keydatesgroup" p:readOnly="@{#view.readOnly}">
-        <property name="headerText" value="Key Dates" />
-        <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false"/>
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
+    <bean id="KS-KeyDatesGroup-EditSubSection" parent="KS-Disclosure-HorizontalCollectionSubSection">
+        <property name="id" value="acal-term-keydatesgroup"/>
+        <property name="readOnly" value="@{#view.readOnly}"/>
         <property name="propertyName" value="keyDatesGroupWrappers" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
+        <property name="headerText" value="Key Dates" />
+        <property name="header.render" value="@{!#view.readOnly}"/>
+        <property name="layoutManager.addLineGroup.header.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.keyDateGroupNameUI} Key Dates"/>
         <property name="layoutManager.lineGroupPrototype.header.cssClasses">
             <list merge="true">
@@ -122,22 +108,6 @@
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteKeyDateGroup" p:actionLabel="delete keydate group"/>
             </list>
-        </property>
-        <property name="header.render" value="@{!#view.readOnly}"/>
-        <!-- doesn't match wireframe as of 6/22/12
-        <property name="header.cssClasses">
-            <list merge="true">
-                <value>ks-borderBottom2</value>
-            </list>
-        </property>
-        -->
-        <property name="layoutManager.addLineGroup.header.render" value="false"/>
-        <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-                <property name="subCollectionFieldGroupPrototype">
-                    <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false"/>
-                </property>
-            </bean>
         </property>
         <property name="items">
             <list>
@@ -158,15 +128,15 @@
 
     <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSubSection"
           p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}">
-        <!--<property name="layoutManager.numberOfColumns" value="@{#view.readOnly ? 3 : 9}"/>-->
+        <property name="propertyName" value="keydates" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
+        <property name="header.render" value="false"/>
+        <!--<property name="layoutManager.numberOfColumns" value="@{#view.readOnly ? 3 : 9}"/>-->
         <property name="layoutManager.style" value="width:100%;"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <!--<property name="validationMessages.displayMessages" value="false"/>-->
         <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
-        <property name="propertyName" value="keydates" />
-        <property name="header.render" value="false"/>
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-tablecollection-table</value>

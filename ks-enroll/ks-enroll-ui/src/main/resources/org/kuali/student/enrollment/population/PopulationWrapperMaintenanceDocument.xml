@@ -107,14 +107,14 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="populationInfo.name" p:label="Name"
-                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="populationInfo.name" p:label="Name"
+                      p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="40" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="populationInfo.descr.plain" p:label="Description"
-                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="populationInfo.descr.plain" p:label="Description"
+                      p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
                     </property>
@@ -124,9 +124,11 @@
                         <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:propertyName="operationTypeText" p:render="@{maintenanceAction eq 'Edit'}"/>
-                <bean parent="Uif-InputField" p:propertyName="operationType" p:label="Operation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
-                      p:defaultValue="kuali.population.rule.type.union" p:required="true" p:render="@{maintenanceAction eq 'New'}">
+                <bean parent="Uif-DataField-LabelTop" p:label="Operation" p:propertyName="operationTypeText"
+                      p:render="@{maintenanceAction eq 'Edit'}"/>
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="operationType" p:label="Operation"
+                      p:defaultValue="kuali.population.rule.type.union" p:required="true"
+                      p:render="@{maintenanceAction eq 'New'}">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl" />
                     </property>
@@ -143,8 +145,8 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="referencePopulation.name"
-                      p:label="Reference Population" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true"
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="referencePopulation.name"
+                      p:label="Reference Population" p:required="true"
                       p:refreshWhenChangedPropertyNames="@{#dp.operationType}"
                       p:progressiveRender="@{#dp.operationType eq 'kuali.population.rule.type.exclusion'}">
                     <property name="control">
@@ -171,18 +173,12 @@
         <property name="headerText" value=""/>
         <property name="items">
             <list>
-                <bean id="KS-PopulationWrapper-AddPopulationsSubSection" parent="Uif-StackedCollectionSubSection" p:collectionLookup.render="false" p:required="true" p:renderLineActions="true">
+                <bean id="KS-PopulationWrapper-AddPopulationsSubSection" parent="KS-HorizontalCollectionSubSection"
+                      p:collectionLookup.render="false" p:required="true" p:renderLineActions="true">
                     <property name="headerText" value="Population(s)" />
                     <property name="propertyName" value="childPopulations" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
                     <property name="collectionLookup.quickfinderAction.render" value="false" />
-                    <property name="layoutManager">
-                        <ref bean="Uif-StackedCollectionLayout-WithBoxItems"/>
-                    </property>
-                    <property name="layoutManager.subCollectionFieldGroupPrototype">
-                        <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
-                              p:cssClasses="uif-subCollection"/>
-                    </property>
                     <property name="layoutManager.lineGroupPrototype.header.cssClasses">
                         <list merge="true">
                             <value>ks-borderBottom2</value>
@@ -191,7 +187,8 @@
                     <property name="layoutManager.addLineGroup.header.render" value="false" />
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="name" p:style="font-weight:bold;" p:required="true">
+                            <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="name"
+                                  p:style="font-weight:bold;" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" />
                                 </property>

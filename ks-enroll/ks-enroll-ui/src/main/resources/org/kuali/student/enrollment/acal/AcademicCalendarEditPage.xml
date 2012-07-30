@@ -248,22 +248,16 @@
             </list>
         </property>
     </bean>-->
-    <bean id="KS-AcademicCalendar-HolidaySubSection" parent="Uif-Disclosure-StackedCollectionSubSection" p:id="acal-holidays" >
+    <bean id="KS-AcademicCalendar-HolidaySubSection" parent="KS-Disclosure-HorizontalCollectionSubSection">
+        <property name="id" value="acal-holidays" />
         <property name="headerText" value="Holidays" />
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
-        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
-        <property name="layoutManager">
-             <ref bean="Uif-StackedCollectionLayout-WithBoxItems"/>
-        </property>
         <property name="propertyName" value="holidayCalendarList" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarInfo.name}"/>
         <property name="layoutManager.lineGroupPrototype.footer.render" value="@{#isAddLine}"/>
-        <property name="layoutManager.lineGroupPrototype.header.style" value="margin-bottom:1em;"/>
-        <property name="layoutManager.subCollectionFieldGroupPrototype">
-          <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
-                p:cssClasses="uif-subCollection"/>
-        </property>
+        <property name="layoutManager.lineGroupPrototype.header.style" value="margin-bottom:5px;padding-bottom:0;"/>
         <property name="addLineLabel.labelText" value=""/>
         <property name="layoutManager.lineGroupPrototype.header.cssClasses">
           <list merge="true">
@@ -310,7 +304,6 @@
                       p:fieldLabel.width="40%"
                       p:width="60%"
                       p:readOnly="true"
-                      p:fieldLabel.renderColon="false"
                       p:render="@{!#isAddLine}"   >
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
@@ -320,7 +313,6 @@
                       p:propertyName="adminOrgName"
                       p:label="Organization"
                       p:readOnly="true"
-                      p:fieldLabel.renderColon="false"
                       p:render="@{!#isAddLine}"   >
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
@@ -330,7 +322,6 @@
                       p:propertyName="holidayCalendarInfo.startDate"
                       p:label="Start Date"
                       p:readOnly="true"
-                      p:fieldLabel.renderColon="false"
                       p:render="@{!#isAddLine}" >
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
@@ -340,7 +331,6 @@
                       p:propertyName="holidayCalendarInfo.endDate"
                       p:label="End Date"
                       p:readOnly="true"
-                      p:fieldLabel.renderColon="false"
                       p:render="@{!#isAddLine}" >
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
@@ -367,7 +357,7 @@
      <property name="layoutManager.generateAutoSequence" value="false" />
      <property name="layoutManager.separateAddLine" value="false" />
      <property name="layoutManager.richTable.render" value="false" />
-     <property name="header.style" value="margin-bottom:1em;"/>
+     <property name="header.style" value="margin-top:1em;"/>
      <!--<property name="header.cssClasses">
       <list merge="true">
         <value>ks-borderBottom1</value>
