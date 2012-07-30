@@ -38,3 +38,7 @@ INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCL
 /
 INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.population.population.rule.state.inactive', null, 'Inactive','The inactive state for this Population Rule','The inactive state for this Population Rule', 'kuali.population.population.rule.lifecycle', null, null, 0, to_date('2012-07-16', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
+INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.hold.issue.state.active', null, 'Active','This issue is active and can be attached to holds','', 'kuali.hold.issue.process', null, null, 0, to_date('2012-07-17', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+/
+INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.hold.issue.state.inactive', null, 'Inactive','The issue is inactive an cannot be attached to new holds','', 'kuali.hold.issue.process', null, null, 0, to_date('2012-07-17', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+/
