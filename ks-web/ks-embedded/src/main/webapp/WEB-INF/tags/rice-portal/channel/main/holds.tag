@@ -10,7 +10,7 @@
     </ul>
     <strong>Processes</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Create Process" url= "" /></li>
+        <li><portal:portalLink displayTitle="true" title="Create Process" url= "${ConfigProperties.application.url}/kr-krad/createProcess?viewId=processCreateView&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Create Check" url=" "/></li>
         <li><portal:portalLink displayTitle="true" title="Manage Process" url="${ConfigProperties.application.url}/kr-krad/processInfoSearch?viewId=processInfoSearchView&methodToCall=start"/></li>
         <li><portal:portalLink displayTitle="true" title="Manage Check" url="" /></li>
