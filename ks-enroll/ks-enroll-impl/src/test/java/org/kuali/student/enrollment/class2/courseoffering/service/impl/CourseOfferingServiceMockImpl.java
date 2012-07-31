@@ -326,7 +326,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         // copy from cannonical
         CourseInfo courseInfo = new R1CourseServiceHelper (courseService, acalService).getCourse(courseId);
         CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-        coTransformer.copyFromCanonical(courseInfo, courseOfferingInfo, optionKeys, context);
+        coTransformer.copyFromCanonical(courseInfo, copy, optionKeys, context);
         copy.setMeta(newMeta(context));
         courseOfferingMap.put(copy.getId(), copy);
         System.out.println ("CourseOfferingMockImpl: created course offering: " + copy.getId () + "term=" + copy.getTermId() + " for course =" + copy.getCourseId());
@@ -1415,6 +1415,19 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException {
 		return this.businessLogic.rolloverCourseOffering(
+				sourceCourseOfferingId, targetTermId, optionKeys, context);
+	}
+
+    @Override
+	public CourseOfferingInfo copyCourseOffering(
+			String sourceCourseOfferingId, String targetTermId,
+			List<String> optionKeys, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			DoesNotExistException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException {
+		return this.businessLogic.copyCourseOffering(
 				sourceCourseOfferingId, targetTermId, optionKeys, context);
 	}
 

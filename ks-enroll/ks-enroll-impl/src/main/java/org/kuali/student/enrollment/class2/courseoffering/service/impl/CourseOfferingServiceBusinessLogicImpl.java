@@ -228,7 +228,95 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         properties.put(CourseOfferingInfoExtended.ACTIVITY_OFFERINGS_CREATED, new Integer(aoCount));
         return targetCoX;
     }
-    
+
+    @Override
+    public CourseOfferingInfo copyCourseOffering(String sourceCoId, String targetTermId, List<String> optionKeys, ContextInfo context)
+            throws AlreadyExistsException,
+            DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException{
+        CourseOfferingInfo sourceCo = this._getCoService().getCourseOffering(sourceCoId, context);
+        CourseOfferingInfo targetCo = generateTargetCourseOffering(sourceCo, targetTermId, optionKeys, context);
+        return targetCo;
+
+    }
+
+    private CourseOfferingInfo generateTargetCourseOffering(CourseOfferingInfo sourceCo, String targetTermId, List<String> optionKeys, ContextInfo context)
+        throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, DataValidationErrorException{
+        CourseOfferingInfo targetCo = new CourseOfferingInfo(sourceCo);
+        targetCo.setId(null);
+        // clear out the ids on the internal sub-objects too
+        for (OfferingInstructorInfo instr : targetCo.getInstructors()) {
+            instr.setId(null);
+        }
+//        for (RevenueInfo rev : targetCo.getRevenues()) {
+//            rev.setId(null);
+//        }
+//        for (FeeInfo fee : targetCo.getFees()) {
+//            fee.setId(null);
+//        }
+        for (AttributeInfo attr : targetCo.getAttributes()) {
+            attr.setId(null);
+        }
+
+        targetCo.setTermId(targetTermId);
+        targetCo.setMeta(null);
+        if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
+            targetCo.getInstructors().clear();
+        }
+
+        // Rolled over CO should be in draft state
+        targetCo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
+        targetCo = this._getCoService().createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(),
+                targetCo, optionKeys, context);
+        List<FormatOfferingInfo> foInfos = this._getCoService().getFormatOfferingsByCourseOffering(sourceCo.getId(), context);
+
+        for (FormatOfferingInfo sourceFo : foInfos) {
+            FormatOfferingInfo targetFo = new FormatOfferingInfo(sourceFo);
+            targetFo.setId(null);
+            // clear out the ids on the internal sub-objects
+            for (AttributeInfo attr : targetFo.getAttributes()) {
+                attr.setId(null);
+            }
+            targetFo.setCourseOfferingId(targetCo.getId());
+            targetFo.setTermId(targetTermId);
+            targetFo.setMeta(null);
+            CourseOfferingService locoService = this.getCoService();
+            // Rolled over FO should be in planned state
+            targetFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
+            targetFo = locoService.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
+                    targetFo.getTypeKey(), targetFo, context);
+            List<ActivityOfferingInfo> aoInfoList = locoService.getActivityOfferingsByFormatOffering(sourceFo.getId(), context);
+            for (ActivityOfferingInfo sourceAo : aoInfoList) {
+                ActivityOfferingInfo targetAo = new ActivityOfferingInfo(sourceAo);
+                targetAo.setId(null);
+                // clear out the ids on the internal sub-objects
+                for (AttributeInfo attr : targetAo.getAttributes()) {
+                    attr.setId(null);
+                }
+                for (OfferingInstructorInfo instr : targetAo.getInstructors()) {
+                    instr.setId(null);
+                }
+                targetAo.setFormatOfferingId(targetFo.getId());
+                targetAo.setTermId(targetTermId);
+                targetAo.setMeta(null);
+                if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
+                    targetAo.setScheduleId(null);
+                    // TODO: set the schedule request to null as well
+                }
+                if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
+                    targetAo.getInstructors().clear();
+                }
+                // Rolled over AO should be in draft state
+                targetAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+                targetAo = this._getCoService().createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
+                        targetAo.getTypeKey(), targetAo, context);
+            }
+        }
+
+        return targetCo;
+    }
+
     @Override
     public CourseOfferingInfo updateCourseOfferingFromCanonical(String courseOfferingId, List<String> optionKeys, ContextInfo context)
             throws DataValidationErrorException,
