@@ -6,3 +6,9 @@ insert into KSEN_STATE_LIFECYCLE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED
 /
 insert into KSEN_STATE_LIFECYCLE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.hold.issue.process', null, 'kuali.hold.issue.process', 'kuali.hold.issue.process state lifecycle', 'kuali.hold.issue.process state lifecycle', null, 1, TIMESTAMP '2012-07-17 00:00:00', 'SYSTEMLOADER', null, null)
 /
+insert into KSEN_STATE_LIFECYCLE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.process.check.lifecycle', null, 'kuali.process.check.lifecycle', 'kuali.process.check.lifecycle state lifecycle', 'kuali.process.check.lifecycle state lifecycle', null, 1, TIMESTAMP '2012-07-30 00:00:00', 'SYSTEMLOADER', null, null)
+/
+insert into KSEN_STATE_LIFECYCLE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.process.instruction.lifecycle', null, 'kuali.process.instruction.lifecycle', 'kuali.process.instruction.lifecycle state lifecycle', 'kuali.process.instruction.lifecycle state lifecycle', null, 1, TIMESTAMP '2012-07-30 00:00:00', 'SYSTEMLOADER', null, null)
+/
+insert into KSEN_STATE_LIFECYCLE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.process.process.lifecycle', null, 'kuali.process.process.lifecycle', 'kuali.process.process.lifecycle state lifecycle', 'kuali.process.process.lifecycle state lifecycle', null, 1, TIMESTAMP '2012-07-30 00:00:00', 'SYSTEMLOADER', null, null)
+/

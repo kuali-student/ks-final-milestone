@@ -42,3 +42,19 @@ INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCL
 /
 INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.hold.issue.state.inactive', null, 'Inactive','The issue is inactive an cannot be attached to new holds','', 'kuali.hold.issue.process', null, null, 0, to_date('2012-07-17', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
+INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.process.check.state.active', null, 'Active','Indicates that this Check is active and should be checked across all Processes.','', 'kuali.process.check.lifecycle', null, null, 0, to_date('2012-07-30', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+/
+INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.process.check.state.disabled', null, 'Disabled','Indicates that this Check is disabled across all Processes and should be skipped with a success.','', 'kuali.process.check.lifecycle', null, null, 0, to_date('2012-07-30', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+/
+INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.process.check.state.inactive', null, 'Inactive','Indicates that this Check is inactive (out to pasture) across all Processes and should fail.','', 'kuali.process.check.lifecycle', null, null, 0, to_date('2012-07-30', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+/
+INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.process.instruction.state.active', null, 'Active','Indicates that this Instruction is active and enabled','', 'kuali.process.instruction.lifecycle', null, null, 0, to_date('2012-07-30', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+/
+INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.process.instruction.state.disabled', null, 'Disabled','Indicates that this Instruction is disabled and should be skipped.','', 'kuali.process.instruction.lifecycle', null, null, 0, to_date('2012-07-30', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+/
+INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.process.process.state.active', null, 'Active','Indicates that this Process is active and enabled.','', 'kuali.process.process.lifecycle', null, null, 0, to_date('2012-07-30', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+/
+INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.process.process.state.disabled', null, 'Disabled','Indicates that this Process is disabled and should be skipped resulting in success.','', 'kuali.process.process.lifecycle', null, null, 0, to_date('2012-07-30', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+/
+INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.process.process.state.inactive', null, 'Inactive','Indicates that this Process is inactive because it was put out to pasture. Any checks for this process should fail.','', 'kuali.process.process.lifecycle', null, null, 0, to_date('2012-07-30', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+/
