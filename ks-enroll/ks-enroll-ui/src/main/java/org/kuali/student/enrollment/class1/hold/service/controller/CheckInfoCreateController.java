@@ -16,16 +16,15 @@
 package org.kuali.student.enrollment.class1.hold.service.controller;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class1.hold.service.form.CheckInfoCreateForm;
 import org.kuali.student.enrollment.class1.hold.service.form.ProcessInfoCreateForm;
-import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
-import org.kuali.student.r2.core.process.dto.ProcessInfo;
+import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -33,7 +32,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.kuali.student.r2.common.dto.RichTextInfo;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
@@ -45,16 +44,16 @@ import javax.xml.namespace.QName;
  */
 
 @Controller
-@RequestMapping(value = "/createProcess")
-public class ProcessInfoCreateController extends UifControllerBase {
+@RequestMapping(value = "/createCheck")
+public class CheckInfoCreateController extends UifControllerBase {
 
     private transient ProcessService processService;
     private ContextInfo contextInfo;
-    private ProcessInfo processInfo;
+    private CheckInfo checkInfo;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
-        return new ProcessInfoCreateForm();
+        return new CheckInfoCreateForm();
     }
 
     /**
@@ -70,7 +69,7 @@ public class ProcessInfoCreateController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        ProcessInfoCreateForm processForm = (ProcessInfoCreateForm) form;
+        CheckInfoCreateForm checkForm = (CheckInfoCreateForm) form;
 
         return super.start(form, result, request, response);
     }
@@ -78,31 +77,25 @@ public class ProcessInfoCreateController extends UifControllerBase {
    @RequestMapping(params = "methodToCall=create")
     public ModelAndView create(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProcessInfoCreateForm createForm = (ProcessInfoCreateForm) form;
-        processInfo = new ProcessInfo();
-        processInfo.setKey("kuali.process."+ createForm.getTypeKey() + "."+createForm.getName() );
-        String key =  processInfo.getKey().replaceAll(" ", ".");
-        processInfo.setKey(key);
-        processInfo.setName(createForm.getName());
-        processInfo.setTypeKey(createForm.getTypeKey());
-        processInfo.setStateKey(createForm.getStateKey());
-        processInfo.setOwnerOrgId(createForm.getOwnerOrgId());
+       CheckInfoCreateForm createForm = (CheckInfoCreateForm) form;
+       checkInfo = new CheckInfo();
+       checkInfo.setName(createForm.getName());
+       checkInfo.setTypeKey(createForm.getTypeKey());
+       checkInfo.setStateKey(createForm.getStateKey());
         RichTextInfo richTextInfo = new RichTextInfo();
         richTextInfo.setPlain(createForm.getDescr());
-        processInfo.setDescr(richTextInfo);
+       checkInfo.setDescr(richTextInfo);
 
 
         try {
             processService = getProcessService();
-           // ProcessInfo createProcessInfo = processService.createProcess(processInfo.getKey(), processInfo.getTypeKey(), processInfo, getContextInfo());
+           //CheckInfo createCheckInfo = processService.createCheck(checkInfo.getTypeKey(), checkInfo, getContextInfo());
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Create new failed. ", e);
         }
-       createForm.setProcessInfo(processInfo);
-       createForm.setKey(processInfo.getKey());
-       //GlobalVariables.getMessageMap().addGrowlMessage("Saved!", "Save Successful");
-       return getUIFModelAndView(createForm, null);
+
+       return close(createForm, result, request, response);
     }
 
  /* @RequestMapping(params = "methodToCall=modify")

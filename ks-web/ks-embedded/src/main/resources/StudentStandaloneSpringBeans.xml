@@ -134,6 +134,7 @@
                 <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoSearchView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoCreateView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/hold/CheckInfoCreateView.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
