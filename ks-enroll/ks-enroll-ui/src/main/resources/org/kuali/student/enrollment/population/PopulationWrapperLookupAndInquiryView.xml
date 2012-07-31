@@ -54,16 +54,6 @@
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:label="Keyword" p:propertyName="keyword" />
-                <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="populationRuleInfo.typeKey"
-                      p:label="Type" p:labelPlacement="TOP">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" />
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationRuleTypeKeyValues"/>
-                    </property>
-                </bean>-->
-
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="populationInfo.stateKey"
                       p:label="State" p:labelPlacement="TOP" p:required="true" p:defaultValue="kuali.population.population.state.active" p:render="@{viewName != null}">
                     <property name="control">
@@ -107,11 +97,8 @@
         <property name="Items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
-                    <!--<property name="layoutManager.numberOfColumns" value="2"/>-->
-                    <!--<property name="headerText" value="CourseOfferingInfo Inquiry"/>-->
                     <property name="items">
                         <list>
-                            <!--<bean parent="Uif-InputField" p:propertyName="populationInfo.id"/>-->
                             <bean parent="Uif-InputField" p:propertyName="populationInfo.name" p:labelPlacement="TOP"/>
                             <bean parent="Uif-InputField" p:propertyName="populationInfo.descr.plain" p:label="Description" p:labelPlacement="TOP"/>
                             <bean parent="Uif-InputField" p:propertyName="populationInfo.stateKey"
@@ -129,22 +116,16 @@
                             <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.name" p:label="Rule" p:inquiry.render="false" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" />
                             <bean parent="Uif-InputField" p:propertyName="referencePopulation.name" p:label="Reference Population" p:labelPlacement="TOP" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.exclusion'}" />
 
-                            <bean  parent="Uif-TableCollectionSection" p:layoutManager.style="width:30%;" p:render="@{!#dp.childPopulations.empty}">
-                                <property name="headerText" value="Population(s)" />
+                            <bean parent="Uif-ListCollectionSection" p:header.headerTagStyle="font-size:1em;" p:render="@{!#dp.childPopulations.empty}">
+                                <property name="headerText" value="Population(s):" />
                                 <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
                                 <property name="propertyName" value="childPopulations" />
-                                <property name="layoutManager.renderSequenceField" value="false" />
-                                <property name="layoutManager.separateAddLine" value="false" />
-                                <property name="layoutManager.richTable.render" value="false" />
-                                <property name="layoutManager.applyDefaultCellWidths" value="false" />
-                                <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                                 <property name="Items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:label="Name" p:propertyName="name" />
+                                        <bean parent="Uif-DataField" p:fieldLabel.render="false" p:propertyName="name" p:style="margin-top: -.4em;"/>
                                     </list>
                                 </property>
                             </bean>
-                            <!--<bean parent="Uif-MessageField" p:label="Additional Population(s)" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No Child Population(s)" p:render="@{#dp.childPopulations.empty}"/>-->
                         </list>
                     </property>
                 </bean>
