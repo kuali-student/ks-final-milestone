@@ -80,6 +80,24 @@
         ID="kuali.population.population.rule.lifecycle"
         NAME="kuali.population.population.rule.lifecycle" VER_NBR="0"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120730000000"
+        DESCR_FORMATTED="kuali.process.check.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.process.check.lifecycle state lifecycle"
+        ID="kuali.process.check.lifecycle"
+        NAME="kuali.process.check.lifecycle" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120730000000"
+        DESCR_FORMATTED="kuali.process.instruction.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.process.instruction.lifecycle state lifecycle"
+        ID="kuali.process.instruction.lifecycle"
+        NAME="kuali.process.instruction.lifecycle" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120730000000"
+        DESCR_FORMATTED="kuali.process.process.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.process.process.lifecycle state lifecycle"
+        ID="kuali.process.process.lifecycle"
+        NAME="kuali.process.process.lifecycle" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
         DESCR_FORMATTED="kuali.soc.rollover.result.process state lifecycle"
         DESCR_PLAIN="kuali.soc.rollover.result.process state lifecycle"
