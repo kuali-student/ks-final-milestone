@@ -120,9 +120,8 @@
                                     <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationStateKeyValues" />
                                 </property>
                             </bean>
-
                             <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.typeKey"
-                                  p:label="Operation" p:labelPlacement="TOP">
+                                  p:label="Operation" p:labelPlacement="TOP" p:render="@{#dp.populationRuleInfo.typeKey != 'kuali.population.rule.type.rule'}">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationRuleTypeKeyValues"/>
                                 </property>
@@ -130,7 +129,7 @@
                             <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.name" p:label="Rule" p:inquiry.render="false" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" />
                             <bean parent="Uif-InputField" p:propertyName="referencePopulation.name" p:label="Reference Population" p:labelPlacement="TOP" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.exclusion'}" />
 
-                            <bean  parent="Uif-TableCollectionSection" p:layoutManager.style="width: 100%; display:block;" p:render="@{!#dp.childPopulations.empty}">
+                            <bean  parent="Uif-TableCollectionSection" p:layoutManager.style="width:30%;" p:render="@{!#dp.childPopulations.empty}">
                                 <property name="headerText" value="Population(s)" />
                                 <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
                                 <property name="propertyName" value="childPopulations" />
