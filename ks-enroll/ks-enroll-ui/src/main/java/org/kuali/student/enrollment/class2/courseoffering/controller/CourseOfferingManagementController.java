@@ -12,6 +12,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
@@ -191,6 +192,28 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
     }
+
+    @RequestMapping(params = "methodToCall=copyCourseOffering")
+    public ModelAndView copyCourseOffering(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Object selectedObject = _getSelectedObject(theForm, "Copy");
+
+        if(selectedObject instanceof CourseOfferingEditWrapper){
+            CourseOfferingEditWrapper coWrapper =  (CourseOfferingEditWrapper)selectedObject;
+            CourseOfferingInfo theCourseOffering = coWrapper.getCoInfo();
+            theForm.setTheCourseOffering(theCourseOffering);
+            theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
+            theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
+            theForm.setRadioSelection("courseOfferingCode");
+            getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+            return getUIFModelAndView(theForm, "copyCourseOfferingPage");
+        }
+        else{
+            //TODO log error
+            return getUIFModelAndView(theForm, "copyCourseOfferingPage");
+        }
+    }
+
 
 
     @RequestMapping(params = "methodToCall=selectAllActivityOfferings")
@@ -431,7 +454,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
 
-        return super.performRedirect(theForm,controllerPath, urlParameters);
+        return super.performRedirect(theForm, controllerPath, urlParameters);
 
     }
 

@@ -100,6 +100,7 @@
         </property>
         <property name="lineActions">
             <list>
+                <bean parent="KS-SubmitActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
                 <bean parent="KS-SubmitActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />

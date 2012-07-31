@@ -20,12 +20,12 @@
     -->
 
     <bean id="KS-CourseOfferingManagement-View" parent="KSFormView" p:applyDirtyCheck="true"
-          p:id="courseOfferingManagementView" p:headerText="Manage Course Offerings"
+          p:id="courseOfferingManagementView"
           p:entryPageId="searchInputPage"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm">
         <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
+            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" p:render="true"/>
         </property>
 
         <property name="footer">
@@ -46,6 +46,7 @@
             <list>
                 <ref bean="KS-CourseOfferingManagement-SearchInputPage"/>
                 <ref bean="KS-CourseOfferingManagement-ManageCourseOfferingsPage"/>
+                <ref bean="KS-CourseOfferingManagement-CopyCourseOfferingPage"/>
                 <ref bean="KS-CourseOfferingManagement-ManageActivityOfferingsPage"/>
                 <ref bean="KS-CourseOfferingManagement-CoDeleteConfirmationPage"/>
                 <ref bean="KS-CourseOfferingManagement-SelectedAoDeleteConfirmationPage"/>

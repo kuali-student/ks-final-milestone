@@ -1,10 +1,14 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CourseOfferingCopyWrapper implements Serializable{
+
+    private CourseOfferingInfo coInfo;
 
     // Course Info
     private String courseOfferingCode;
@@ -26,7 +30,17 @@ public class CourseOfferingCopyWrapper implements Serializable{
     private boolean excludeSchedulingInformation;
     private boolean excludeInstructorInformation;
 
-    public CourseOfferingCopyWrapper() {
+    public CourseOfferingInfo getCoInfo() {
+        return coInfo;
+    }
+
+    public void setCoInfo(CourseOfferingInfo coInfo) {
+        this.coInfo = coInfo;
+    }
+
+    public CourseOfferingCopyWrapper(CourseOfferingInfo info){
+        super();
+        coInfo = info;
         clear();
     }
     
