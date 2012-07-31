@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
@@ -24,6 +25,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private List<ActivityOfferingWrapper> activityWrapperList;
     private List<ActivityOfferingWrapper> selectedToDeleteList;
     private List<CourseOfferingEditWrapper> courseOfferingEditWrapperList;
+    private List<CourseOfferingCopyWrapper> courseOfferingCopyWrapperList;
 
     //For Adding Activity
     private String formatIdForNewAO;
@@ -40,6 +42,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
+        courseOfferingCopyWrapperList = new ArrayList<CourseOfferingCopyWrapper>();
     }
 
     public String getTermCode(){
@@ -160,6 +163,14 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setCourseOfferingEditWrapperList(List<CourseOfferingEditWrapper> courseOfferingEditWrapperList) {
         this.courseOfferingEditWrapperList = courseOfferingEditWrapperList;
+    }
+
+    public List<CourseOfferingCopyWrapper> getCourseOfferingCopyWrapperList() {
+        return courseOfferingCopyWrapperList;
+    }
+
+    public void setCourseOfferingCopyWrapperList(List<CourseOfferingCopyWrapper> courseOfferingCopyWrapperList) {
+        this.courseOfferingCopyWrapperList = courseOfferingCopyWrapperList;
     }
 
     public String getPreviousCourseOfferingCodeUI() {

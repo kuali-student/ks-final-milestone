@@ -194,26 +194,45 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     @RequestMapping(params = "methodToCall=copyCourseOffering")
-    public ModelAndView copyCourseOffering(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object selectedObject = _getSelectedObject(theForm, "Copy");
-
+    public ModelAndView copyCourseOffering(
+            @ModelAttribute("KualiForm") CourseOfferingManagementForm theForm,
+            BindingResult result,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        Object selectedObject = _getSelectedObject(theForm, "Copy"); // Receives edit wrapper, "Copy" for error message.
         if(selectedObject instanceof CourseOfferingEditWrapper){
-            CourseOfferingEditWrapper coWrapper =  (CourseOfferingEditWrapper)selectedObject;
-            CourseOfferingInfo theCourseOffering = coWrapper.getCoInfo();
-            theForm.setTheCourseOffering(theCourseOffering);
-            theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
-            theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
-            theForm.setRadioSelection("courseOfferingCode");
-            getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
-            return getUIFModelAndView(theForm, "copyCourseOfferingPage");
-        }
-        else{
-            //TODO log error
-            return getUIFModelAndView(theForm, "copyCourseOfferingPage");
-        }
-    }
 
+            // Get the selected CourseOfferingEditWrapper.
+            CourseOfferingEditWrapper courseOfferingEditWrapper = (CourseOfferingEditWrapper)selectedObject;
+            CourseOfferingInfo courseOfferingInfo = courseOfferingEditWrapper.getCoInfo();
+
+            // Load activity offerings.
+            getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(courseOfferingInfo, theForm);
+
+            // Create a new CourseOfferingCopyWrapper from the Course Offering information.
+            CourseOfferingCopyWrapper coCopyWrapper = new CourseOfferingCopyWrapper();
+
+            // Add items that the page wrapper intends to displaying.
+            coCopyWrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
+            coCopyWrapper.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
+            coCopyWrapper.setTermId(courseOfferingInfo.getTermId());
+            coCopyWrapper.setCreditCount(courseOfferingInfo.getCreditCnt());
+            coCopyWrapper.setGradingOptions(courseOfferingInfo.getGradingOption());
+            coCopyWrapper.setStudentRegistrationOptions(courseOfferingInfo.getStudentRegistrationGradingOptions());
+            coCopyWrapper.setFinalExamType(courseOfferingInfo.getFinalExamType());
+            coCopyWrapper.setWaitlistLevelTypeKey(courseOfferingInfo.getWaitlistLevelTypeKey());
+            coCopyWrapper.setWaitlistTypeKey(courseOfferingInfo.getWaitlistTypeKey());
+            coCopyWrapper.setIsHonors(courseOfferingInfo.getIsHonorsOffering());
+            coCopyWrapper.setActivityOfferingWrapperList(theForm.getActivityWrapperList());
+
+            // Add it to the Copy Wrapper List.
+            theForm.getCourseOfferingCopyWrapperList().clear();
+            theForm.getCourseOfferingCopyWrapperList().add(coCopyWrapper);
+        } else { //TODO log error
+            theForm.getCourseOfferingCopyWrapperList().clear();
+        }
+        return getUIFModelAndView(theForm, "copyCourseOfferingPage");
+    }
 
 
     @RequestMapping(params = "methodToCall=selectAllActivityOfferings")

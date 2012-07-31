@@ -38,9 +38,8 @@ public class CourseOfferingCopyWrapper implements Serializable{
         this.coInfo = coInfo;
     }
 
-    public CourseOfferingCopyWrapper(CourseOfferingInfo info){
+    public CourseOfferingCopyWrapper() {
         super();
-        coInfo = info;
         clear();
     }
     
@@ -49,12 +48,13 @@ public class CourseOfferingCopyWrapper implements Serializable{
         setCourseTitle("");
         setTermId("");
         setCreditCount("");
-        setGradingOptionsId("");
-        setStudentRegistrationOptionsList(new ArrayList<String>());
+        setGradingOptions("");
+        setStudentRegistrationOptions(new ArrayList<String>());
         setFinalExamType("");
         setWaitlistLevelTypeKey("");
         setWaitlistTypeKey("");
         setIsHonors(false);
+
         setIsExcludeCancelledActivityOfferings(false);
         setIsExcludeSchedulingInformation(false);
         setIsExcludeInstructorInformation(false);
@@ -100,19 +100,19 @@ public class CourseOfferingCopyWrapper implements Serializable{
         this.creditCount = creditCount;
     }
 
-    public String getGradingOptionsId() {
+    public String getGradingOptions() {
         return gradingOptionsId;
     }
 
-    public void setGradingOptionsId(String gradingOptionsId) {
+    public void setGradingOptions(String gradingOptionsId) {
         this.gradingOptionsId = gradingOptionsId;
     }
 
-    public List<String> getStudentRegistrationGradingOptionsList() {
-        return studentRegistrationGradingOptionsList;
+    public String getStudentRegistrationGradingOptions() {
+        return studentRegistrationGradingOptionsList.toString();
     }
 
-    public void setStudentRegistrationOptionsList(List<String> studentRegistrationGradingOptionsList) {
+    public void setStudentRegistrationOptions(List<String> studentRegistrationGradingOptionsList) {
         this.studentRegistrationGradingOptionsList = studentRegistrationGradingOptionsList;
     }
 

@@ -25,7 +25,8 @@
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm">
         <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" p:render="true"/>
+            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings"
+                  p:render="@{(theCourseOffering.pageId eq null) or (theCourseOffering.pageId ne 'copyCourseOfferingPage')}"/>
         </property>
 
         <property name="footer">
