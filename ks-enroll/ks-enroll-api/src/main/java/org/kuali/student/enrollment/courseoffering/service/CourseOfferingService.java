@@ -474,35 +474,6 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
             OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
-    * Creates a new course offering based on the source course offering.
-    *
-    * Fields in course offering will be initialized with data from the source
-    * course offering.
-    * .
-    *
-    * @param sourceCourseOfferingId  The id of the course offering to be rolled over.
-    * @param targetTermId Unique key of the term in which the course is rolled over into
-    * @param optionKeys keys that control optional processing
-    * @param context      Context information containing the principalId and locale
-    *                     information about the caller of service operation
-    * @return newly created CourseOfferingInfo
-    * @throws DoesNotExistException        sourceCoId not found
-    * @throws AlreadyExistsException       if the course offering already exists in the target term and
-    *                                      skip if already exists option is specified
-    * @throws DataValidationErrorException data in system is not valid or not valid for an option key specified
-    * @throws InvalidParameterException    One or more parameters invalid
-    * @throws MissingParameterException    One or more parameters missing
-    * @throws OperationFailedException     unable to complete request
-    * @throws PermissionDeniedException    authorization failure
-    */
-   @Override
-   public CourseOfferingInfo copyCourseOffering(@WebParam(name = "sourceCourseOfferingId") String sourceCourseOfferingId,  @WebParam(name = "targetTermId") String targetTermId, @WebParam(name = "optionKeys") List<String> optionKeys,  @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
-           DoesNotExistException, DataValidationErrorException,
-           InvalidParameterException, MissingParameterException,
-           OperationFailedException, PermissionDeniedException, ReadOnlyException;
-
-
-    /**
      * Updates an existing CourseOffering.
      *
      * @param courseOfferingId   Id of CourseOffering to be updated

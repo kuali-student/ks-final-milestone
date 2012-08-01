@@ -433,14 +433,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public CourseOfferingInfo copyCourseOffering(String sourceCourseOfferingId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return this.businessLogic.copyCourseOffering(sourceCourseOfferingId, targetTermId, optionKeys, context);
-    }
-
-    @Override
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey,
                                                    CourseOfferingInfo coInfo,
                                                    List<String> optionKeys, ContextInfo context)
