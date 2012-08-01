@@ -479,7 +479,7 @@
                                   p:layoutManager.numberOfColumns="6"
                                   p:id="ao-seatpoolgroup"
                                   p:layoutManager.style="width: 100%; display:block;">
-                                <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo" />
+                                <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
                                 <property name="propertyName" value="seatpools" />
                                 <property name="layoutManager.renderSequenceField" value="false" />
                                 <property name="layoutManager.separateAddLine" value="false" />
@@ -488,31 +488,31 @@
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                                 <property name="addLineItems">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="processingPriority" p:label="PRIORITY" p:maxLength="2">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:maxLength="2">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="2" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="seatLimit" p:label="SEATS" p:maxLength="3">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="3" />
                                             </property>
                                         </bean>
                                         <bean parent="Uif-MessageField" p:messageText="???" p:label="PERCENT" p:readOnly="true" />
-                                        <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="name">
-                                        <property name="control">
+                                        <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
+                                            <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="40" p:disabled="true" />
                                             </property>
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                                             <property name="quickfinder.fieldConversions">
                                                 <map>
-                                                    <entry key="populationInfo.id" value="id"/>
-                                                    <entry key="populationInfo.name" value="name"/>
+                                                    <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
+                                                    <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
                                                 </map>
                                             </property>
-                                            <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
+                                            <!--<property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />-->
                                         </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="expirationMilestoneTypeKey" p:label="EXPIRATION MILESTONE">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:label="EXPIRATION MILESTONE">
                                             <!-- property name="control">
                                                 <bean parent="Uif-DropdownControl"/>
                                             </property>
@@ -527,31 +527,31 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="processingPriority" p:label="PRIORITY" p:maxLength="2">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:maxLength="2">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="2" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="seatLimit" p:label="SEATS" p:maxLength="3">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="3" />
                                             </property>
                                         </bean>
                                         <bean parent="Uif-MessageField" p:messageText="???" p:label="PERCENT" p:readOnly="true" />
-                                        <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="name">
+                                        <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="40" p:disabled="true" />
                                             </property>
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                                             <property name="quickfinder.fieldConversions">
                                                 <map>
-                                                    <entry key="populationInfo.id" value="id"/>
-                                                    <entry key="populationInfo.name" value="name"/>
+                                                    <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
+                                                    <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
                                                 </map>
                                             </property>
-                                            <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
+                                            <!--<property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />-->
                                         </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="expirationMilestoneTypeKey" p:label="EXPIRATION MILESTONE">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:label="EXPIRATION MILESTONE">
                                             <!-- property name="control">
                                                 <bean parent="Uif-DropdownControl"/>
                                             </property>

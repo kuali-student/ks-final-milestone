@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 
 import java.io.Serializable;
@@ -27,9 +28,27 @@ import java.io.Serializable;
  */
 public class SeatPoolWrapper implements Serializable {
     private String id;
-    private PopulationInfo populationInfo;
+    private SeatPoolDefinitionInfo seatPool;
+    private PopulationInfo seatPoolPopulation;
+
+    public SeatPoolDefinitionInfo getSeatPool() {
+        return seatPool;
+    }
+
+    public void setSeatPool(SeatPoolDefinitionInfo seatPool) {
+        this.seatPool = seatPool;
+    }
+
+    public PopulationInfo getSeatPoolPopulation() {
+        return seatPoolPopulation;
+    }
+
+    public void setSeatPoolPopulation(PopulationInfo seatPoolPopulation) {
+        this.seatPoolPopulation = seatPoolPopulation;
+    }
 
     public String getId() {
+
         return id;
     }
 
@@ -37,11 +56,5 @@ public class SeatPoolWrapper implements Serializable {
         this.id = id;
     }
 
-    public PopulationInfo getPopulationInfo() {
-        return populationInfo;
-    }
 
-    public void setPopulationInfo(PopulationInfo populationInfo) {
-        this.populationInfo = populationInfo;
-    }
 }
