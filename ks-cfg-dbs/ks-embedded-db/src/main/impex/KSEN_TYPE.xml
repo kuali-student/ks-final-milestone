@@ -268,6 +268,29 @@
         NAME="Veterans Day observed"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_KEY="kuali.atp.milestone.VeteransDayObserved" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120801000000"
+        DESCR_FORMATTED="End of first week of classes"
+        DESCR_PLAIN="End of first week of classes"
+        NAME="End of first week of classes"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.milestone.endoffirstweekofclasses" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120801000000"
+        DESCR_FORMATTED="First day of classes"
+        DESCR_PLAIN="First day of classes" NAME="First day of classes"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.milestone.firstdayofclasses" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120801000000"
+        DESCR_FORMATTED="Last day of registration"
+        DESCR_PLAIN="Last day of registration"
+        NAME="Last day of registration"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.milestone.lastdayofregistration" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120801000000"
+        DESCR_FORMATTED="Month prior to start of classes"
+        DESCR_PLAIN="Month prior to start of classes"
+        NAME="Month prior to start of classes"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.milestone.monthpriortostartofclasses" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         NAME="Academic Calendar"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
@@ -784,6 +807,12 @@
         NAME="Registration"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_KEY="kuali.milestone.type.group.registration" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120801000000"
+        DESCR_FORMATTED="Grouping type for seatpool milestone types"
+        DESCR_PLAIN="Grouping type for seatpool milestone types"
+        NAME="Grouping type for seatpool milestone types"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/AtpInfo"
+        TYPE_KEY="kuali.milestone.type.group.seatpool" VER_NBR="1"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
         DESCR_FORMATTED="A list of populations (childPopulationIds) and the reference population (referencePopulationId) must be supplied; results of the reference populations (e.g., all students) less the populations represented in the list (not in) determine the membership"
         DESCR_PLAIN="A list of populations (childPopulationIds) and the reference population (referencePopulationId) must be supplied; results of the reference populations (e.g., all students) less the populations represented in the list (not in) determine the membership"
