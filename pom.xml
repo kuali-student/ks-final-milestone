@@ -98,11 +98,13 @@
       </modules>
     </profile>
   </profiles>
+
   <scm>
     <connection>scm:svn:https://svn.kuali.org/repos/student/branches/ks-1.3-services</connection>
     <developerConnection>scm:svn:https://svn.kuali.org/repos/student/branches/ks-1.3-services</developerConnection>
     <url>https://svn.kuali.org/repos/student/branches/ks-1.3-services</url>
   </scm>
+
   <properties>
     <kuali.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</kuali.clover.exclude.pattern.1>
     <kuali.clover.exclude.pattern.2>org/kuali/**/ui/client/**/*.java</kuali.clover.exclude.pattern.2>
