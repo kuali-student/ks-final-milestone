@@ -100,7 +100,7 @@
   </profiles>
   <scm>
     <connection>scm:svn:https://svn.kuali.org/repos/student/branches/ks-1.3-services</connection>
-    <developerConnection>scm:svn:https://svn.kuali.org/repos/student/branches/ks-1.3i-services</developerConnection>
+    <developerConnection>scm:svn:https://svn.kuali.org/repos/student/branches/ks-1.3-services</developerConnection>
     <url>https://svn.kuali.org/repos/student/branches/ks-1.3-services</url>
   </scm>
   <properties>
