@@ -16,10 +16,11 @@
 package org.kuali.student.enrollment.class1.hold.service.controller;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class1.hold.service.form.CheckInfoCreateForm;
-import org.kuali.student.enrollment.class1.hold.service.form.ProcessInfoCreateForm;
+import org.kuali.student.enrollment.class1.hold.service.form.CheckInfoForm;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -36,6 +37,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.util.Properties;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * This controller handles all the request from Academic calendar UI.
@@ -45,7 +50,7 @@ import javax.xml.namespace.QName;
 
 @Controller
 @RequestMapping(value = "/createCheck")
-public class CheckInfoCreateController extends UifControllerBase {
+public class CheckInfoController extends UifControllerBase {
 
     private transient ProcessService processService;
     private ContextInfo contextInfo;
@@ -53,7 +58,7 @@ public class CheckInfoCreateController extends UifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
-        return new CheckInfoCreateForm();
+        return new CheckInfoForm();
     }
 
     /**
@@ -69,7 +74,7 @@ public class CheckInfoCreateController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        CheckInfoCreateForm checkForm = (CheckInfoCreateForm) form;
+        CheckInfoForm checkForm = (CheckInfoForm) form;
 
         return super.start(form, result, request, response);
     }
@@ -77,7 +82,7 @@ public class CheckInfoCreateController extends UifControllerBase {
    @RequestMapping(params = "methodToCall=create")
     public ModelAndView create(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-       CheckInfoCreateForm createForm = (CheckInfoCreateForm) form;
+       CheckInfoForm createForm = (CheckInfoForm) form;
        checkInfo = new CheckInfo();
        checkInfo.setName(createForm.getName());
        checkInfo.setTypeKey(createForm.getTypeKey());
@@ -97,7 +102,35 @@ public class CheckInfoCreateController extends UifControllerBase {
 
        return close(createForm, result, request, response);
     }
+    @RequestMapping(params = "methodToCall=view")
+    public ModelAndView view(@ModelAttribute("KualiForm") CheckInfoForm searchForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String controllerPath;
+        List<String> type = new ArrayList(); //getProcessService().getCheckIdsByType(searchForm.getTypeKey(), getContextInfo());
+        Properties urlParameters = new Properties();
 
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+        urlParameters.put("type", type);
+        urlParameters.put(UifParameters.VIEW_ID, "checkInfoView");
+
+        controllerPath = "createCheck";
+
+        return performRedirect(searchForm, controllerPath, urlParameters);
+    }
+    @RequestMapping(params = "methodToCall=openCreateForm")
+    public ModelAndView openCreateForm(@ModelAttribute("KualiForm") CheckInfoForm searchForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String controllerPath;
+        Properties urlParameters = new Properties();
+
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+        urlParameters.put(UifParameters.VIEW_ID, "checkCreateView");
+
+        controllerPath = "createCheck";
+
+        return performRedirect(searchForm, controllerPath, urlParameters);
+       // return getUIFModelAndView(searchForm,  "checkCreateView");
+    }
  /* @RequestMapping(params = "methodToCall=modify")
  public ModelAndView modity(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                             HttpServletRequest request, HttpServletResponse response) throws Exception {

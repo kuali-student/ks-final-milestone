@@ -13,7 +13,7 @@
         <li><portal:portalLink displayTitle="true" title="Create Process" url= "${ConfigProperties.application.url}/kr-krad/createProcess?viewId=processCreateView&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Create Check" url="${ConfigProperties.application.url}/kr-krad/createCheck?viewId=checkCreateView&methodToCall=start"/></li>
         <li><portal:portalLink displayTitle="true" title="Manage Process" url="${ConfigProperties.application.url}/kr-krad/processInfoSearch?viewId=processInfoSearchView&methodToCall=start"/></li>
-        <li><portal:portalLink displayTitle="true" title="Manage Check" url="" /></li>
+        <li><portal:portalLink displayTitle="true" title="Manage Check" url="${ConfigProperties.application.url}/kr-krad/createCheck?viewId=checkInfoSearchView&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Manage Instruction" url=" " /></li>
     </ul>
 </div>

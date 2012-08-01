@@ -34,6 +34,11 @@
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-enrollment-home</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:label="Process Name" p:propertyName="name"
