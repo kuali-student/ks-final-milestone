@@ -20,12 +20,12 @@
     limitations under the License.
     -->
 
-  <bean id="Uif-KS-CollectionGroupBase-parentBean" abstract="true"
+  <!--<bean id="Uif-KS-CollectionGroupBase-parentBean" abstract="true"
         class="org.kuali.student.enrollment.uif.container.KSCollectionGroup"
         parent="Uif-CollectionGroupBase-parentBean">
   </bean>
 
-  <bean id="Uif-CollectionGroupBase" abstract="true" parent="Uif-KS-CollectionGroupBase-parentBean"/>
+  <bean id="Uif-CollectionGroupBase" abstract="true" parent="Uif-KS-CollectionGroupBase-parentBean"/>-->
 
   <!--<bean id="Uif-GroupValidationMessages" parent="Uif-KSGroupValidationMessages-parentBean"/>
 

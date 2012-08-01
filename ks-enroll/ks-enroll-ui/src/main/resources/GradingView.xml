@@ -104,6 +104,9 @@ limitations under the License.
       <property name="instructionalText" value="@{selectedTerm}"/>
       <property name="cssClasses" value="group-border"/>
       <property name="instructionalMessage.cssClasses" value="font-bold"/>
+      <property name="instructionalMessage">
+          <bean parent="Uif-InstructionalMessage"/>
+      </property>
       <property name="disclosure.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
       <property name="propertyName" value="courseOfferingInfoList"/>

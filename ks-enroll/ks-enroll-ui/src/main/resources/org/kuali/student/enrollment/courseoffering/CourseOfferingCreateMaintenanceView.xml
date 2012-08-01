@@ -126,11 +126,10 @@
                         </map>
                     </property>
                     <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Search" p:style="display:block" p:methodToCall="performLookup">
-                        <property name="lightBoxLookup">
-                          <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
-                        </property>
-                        </bean>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Search" p:style="display:block" p:methodToCall="performLookup"/>
+                    </property>
+                    <property name="quickfinder.lightBoxLookup">
+                        <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                     </property>
                 </bean>
 
@@ -151,7 +150,9 @@
 
                 <bean parent="Uif-VerticalFieldGroup" p:style="margin-left:100px;">
                   <property name="group.instructionalText" value="Course Catalog Details"/>
-                  <property name="group.instructionalMessage.style" value="font-weight:bold;font-size:15px;"/>
+                  <property name="group.instructionalMessage">
+                      <bean parent="Uif-InstructionalMessage" p:style="font-weight:bold;font-size:15px;"/>
+                  </property>
                   <property name="group.instructionalMessage.cssClasses">
                       <list merge="true">
                         <value>ks-borderBottom</value>

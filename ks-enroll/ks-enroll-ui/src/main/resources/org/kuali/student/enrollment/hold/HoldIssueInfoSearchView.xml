@@ -152,9 +152,9 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="KS-SubmitActionLink" p:methodToCall="delete" p:hidden="@{#line.state eq 'inactive'}" p:actionScript="confirmDeletion('Are you sure you want to delete this hold issue?')" p:actionLabel="Delete" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="delete" p:hidden="@{#line.state eq 'inactive'}" p:actionScript="confirmDeletion('Are you sure you want to delete this hold issue?')" p:actionLabel="Delete" />
             </list>
         </property>
     </bean>

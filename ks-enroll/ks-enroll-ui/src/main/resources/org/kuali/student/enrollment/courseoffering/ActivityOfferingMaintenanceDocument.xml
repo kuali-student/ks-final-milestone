@@ -472,7 +472,7 @@
                 </bean>
 
                 <bean parent="Uif-VerticalBoxSection">
-                    <property name="headerText" value="Waitlists and Seatpools"/>
+                    <!--<property name="headerText" value="Waitlists and Seatpools"/>-->
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="waitListText" p:label="Waitlists" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>

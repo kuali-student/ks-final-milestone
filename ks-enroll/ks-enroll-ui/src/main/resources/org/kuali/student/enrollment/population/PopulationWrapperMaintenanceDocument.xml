@@ -24,9 +24,12 @@
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
         <property name="singlePageView" value="true"/>
-        <property name="page.header.lowerGroup.render" value="false"/>
-        <property name="header">
-            <ref bean="KSHeader_Empty" />
+        <property name="page.header.lowerGroup.items">
+            <list/>
+        </property>
+        <property name="header.render" value="false"/>
+        <property name="header.rightGroup.items">
+          <list/>
         </property>
 
         <property name="items">
@@ -63,9 +66,9 @@
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink" p:methodToCall="createByRule" p:style="font-weight:bold;" p:actionLabel="By Rule" p:render="@{!#dp.createByRule}"/>
-                <bean parent="Uif-Message" p:messageText="By Rule" p:style="font-weight:bold;" p:render="@{#dp.createByRule}"/>
+                <bean parent="Uif-MessageField" p:messageText="By Rule" p:style="font-weight:bold;" p:render="@{#dp.createByRule}"/>
                 <bean parent="Uif-ActionLink" p:methodToCall="createByCombiningPopulations" p:style="font-weight:bold;" p:actionLabel="By Using Populations" p:render="@{#dp.createByRule}"/>
-                <bean parent="Uif-Message" p:messageText="By Using Populations" p:style="font-weight:bold;" p:render="@{!#dp.createByRule}"/>
+                <bean parent="Uif-MessageField" p:messageText="By Using Populations" p:style="font-weight:bold;" p:render="@{!#dp.createByRule}"/>
             </list>
         </property>
     </bean>
