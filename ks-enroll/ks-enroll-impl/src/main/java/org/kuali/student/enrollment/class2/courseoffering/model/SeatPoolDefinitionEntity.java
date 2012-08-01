@@ -47,7 +47,7 @@ public class SeatPoolDefinitionEntity extends MetaEntity implements AttributeOwn
     private String expirationMilestoneTypeKey;
 
     @Column(name = "PERCENTAGE_IND")
-    private Boolean isPercentage;
+    private String isPercentage;
 
     @Column(name = "SEAT_LIMIT")
     private Integer seatLimit;
@@ -85,7 +85,7 @@ public class SeatPoolDefinitionEntity extends MetaEntity implements AttributeOwn
         this.setSeatPoolDefnType(pool.getTypeKey());
         this.setName(pool.getName());
         this.setExpirationMilestoneTypeKey(pool.getExpirationMilestoneTypeKey());
-        this.setIsPercentage(pool.getIsPercentage());
+//        this.setPercentage(pool.getIsPercentage());
         this.setSeatLimit(pool.getSeatLimit());
         this.setProcessingPriority(pool.getProcessingPriority());
         this.setPopulationId(pool.getPopulationId());
@@ -105,7 +105,7 @@ public class SeatPoolDefinitionEntity extends MetaEntity implements AttributeOwn
         // Then, all the instance variables that are specific to SeatPoolDefinitionEntity
         poolInfo.setName(getName());
         poolInfo.setExpirationMilestoneTypeKey(getExpirationMilestoneTypeKey());
-        poolInfo.setIsPercentage(getIsPercentage());
+//        poolInfo.setIsPercentage(getIsPercentage());
         poolInfo.setSeatLimit(getSeatLimit());
         poolInfo.setProcessingPriority(getProcessingPriority());
         poolInfo.setPopulationId(getPopulationId());
@@ -143,11 +143,11 @@ public class SeatPoolDefinitionEntity extends MetaEntity implements AttributeOwn
         this.expirationMilestoneTypeKey = expirationMilestoneTypeKey;
     }
 
-    public Boolean getIsPercentage() {
+    public String getIsPercentage() {
         return isPercentage;
     }
 
-    public void setIsPercentage(Boolean percentage) {
+    public void setIsPercentage(String percentage) {
         isPercentage = percentage;
     }
 
