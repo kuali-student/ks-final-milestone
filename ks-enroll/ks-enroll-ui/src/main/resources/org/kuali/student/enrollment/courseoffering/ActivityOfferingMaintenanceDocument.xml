@@ -109,8 +109,9 @@
                     </property>
                 </bean>
 
+                <!-- until KSENROLL-1191 is worked on again:
                 <bean parent="Uif-VerticalBoxSection">
-                    <!-- until KSENROLL-1191 is worked on again: -->
+
                     <property name="render" value="false"/>
                     <property name="headerText" value="Requested Delivery Logistics"/>
                     <property name="items">
@@ -128,7 +129,7 @@
                                 <property name="layoutManager.richTable.render" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="false" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-                                <!--<property name="addLineLabel.render" value="false" />-->
+                                <property name="addLineLabel.render" value="false" />
                                 <property name="addLineLabel">
                                     <bean parent="Uif-Label" p:render="false"/>
                                 </property>
@@ -305,7 +306,6 @@
                                                                 <bean parent="Uif-InputField-LabelTop"
                                                                       p:propertyName="building"
                                                                       p:label="Building">
-                                                                    <!--
                                                                     <property name="suggest.render" value="true" />
                                                                     <property name="suggest.sourcePropertyName" value="building" />
                                                                     <property name="attributeQuery">
@@ -316,7 +316,6 @@
                                                                                       value="building"/>
                                                                         </bean>
                                                                     </property>
-                                                                    -->
                                                                     <property name="control">
                                                                         <bean parent="Uif-TextControl" p:size="15">
                                                                         </bean>
@@ -325,7 +324,6 @@
                                                                 <bean parent="Uif-InputField-LabelTop"
                                                                       p:propertyName="room"
                                                                       p:label="Room">
-                                                                    <!--
                                                                     <property name="suggest.render" value="true" />
                                                                     <property name="suggest.sourcePropertyName" value="room" />
                                                                     <property name="suggest.suggestQuery.dataObjectClassName"
@@ -339,7 +337,6 @@
                                                                                       value="building"/>
                                                                         </bean>
                                                                     </property>
-                                                                    -->
                                                                     <property name="refreshWhenChangedPropertyNames"
                                                                               value="#lp.building"/>
                                                                     <property name="control">
@@ -357,7 +354,7 @@
                                                                                   p:propertyName="addRoomResources"
                                                                                   p:label="Room Resources"
                                                                                   p:style="margin-bottom:2px">
-                                                                                <!--  p:finalizeMethodToCall="populateGradeOptions" -->
+                                                                                //  p:finalizeMethodToCall="populateGradeOptions"
                                                                                 <property name="control">
                                                                                     <bean parent="Uif-DropdownControl"
                                                                                           p:multiple="true" p:size="5"
@@ -367,7 +364,6 @@
                                                                                     <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.ActivityOfferingRoomResourcesListFinder"
                                                                                           p:addBlankOption="false"/>
                                                                                 </property>
-                                                                                <!--
                                                                                 <property name="propertyReplacers">
                                                                                     <list>
                                                                                         <bean parent="Uif-ConditionalBeanPropertyReplacer"
@@ -379,7 +375,6 @@
                                                                                         </bean>
                                                                                     </list>
                                                                                 </property>
-                                                                                -->
                                                                             </bean>
                                                                             <bean parent="Uif-ActionLink"
                                                                                   p:actionLabel="Clear resource selections"
@@ -405,6 +400,7 @@
                         </list>
                     </property>
                 </bean>
+                -->
 
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="headerText" value="Personnel"/>
@@ -415,9 +411,9 @@
                                   p:id="ao-personnelgroup"
                                   p:layoutManager.style="width: 100%; display:block;">
                                 <property name="headerText" value="Affiliated Personnel" />
-                                <property name="header">
+                                <!-- <property name="header">
                                     <bean parent="Uif-HeaderFour"/>
-                                </property>
+                                </property> -->
                                 <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
                                 <property name="propertyName" value="instructors" />
                                 <property name="layoutManager.renderSequenceField" value="false" />
