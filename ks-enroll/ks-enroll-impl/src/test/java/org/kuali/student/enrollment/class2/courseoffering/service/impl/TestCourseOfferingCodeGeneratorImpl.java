@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.junit.Test;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,5 +77,28 @@ public class TestCourseOfferingCodeGeneratorImpl {
         assertEquals("AZAC",impl.getNextCode("AZAB"));
         assertEquals("ZZZD",impl.getNextCode("ZZZC"));
         assertEquals("AAAAA",impl.getNextCode("ZZZZ"));
+    }
+
+    @Test
+    public void testGenerateCourseOfferingInternalCode(){
+        CourseOfferingCodeGeneratorImpl impl = new CourseOfferingCodeGeneratorImpl();
+        String code;
+        code = impl.generateCourseOfferingInternalCode(new ArrayList<CourseOfferingInfo>());
+        assertEquals("A",code);
+
+        List<CourseOfferingInfo> cos = new ArrayList<CourseOfferingInfo>();
+        for(char c='A';c<='Z';c++){
+            CourseOfferingInfo a = new CourseOfferingInfo();
+            a.setCourseNumberInternalSuffix(String.valueOf(c));
+
+            cos.add(a);
+        }
+        code = impl.generateCourseOfferingInternalCode(cos);
+        assertEquals("AA",code);
+
+        cos.remove(3);
+
+        code = impl.generateCourseOfferingInternalCode(cos);
+        assertEquals("D",code);
     }
 }

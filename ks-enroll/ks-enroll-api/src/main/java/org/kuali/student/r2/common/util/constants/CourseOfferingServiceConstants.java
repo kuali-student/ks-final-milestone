@@ -81,4 +81,5 @@ public class CourseOfferingServiceConstants {
             LrcServiceConstants.RESULT_GROUP_KEY_GRADE_RECITALREVIEW};
 
     public static final String APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY = "kuali.course.offering.optionkey.append.course.offering.suffix";
+    public static final String APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY = "kuali.course.offering.optionkey.append.course.offering.internal.suffix";
 }

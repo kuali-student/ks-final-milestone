@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.UUIDHelper;
@@ -25,6 +26,7 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupTemplateInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -52,10 +54,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.common.util.constants.*;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.state.service.StateService;
@@ -465,6 +464,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // copy from canonical
         CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
         coTransformer.copyFromCanonical(courseInfo, coInfo, optionKeys, context);
+        //generate internal suffix code
+        List<CourseOfferingInfo> existingCourseOfferings = findCourseOfferingsByTermAndCourseCode(term.getId(), courseInfo.getCode());
+        String internalSufx = offeringCodeGenerator.generateCourseOfferingInternalCode(existingCourseOfferings);
+        coInfo.setCourseNumberInternalSuffix(internalSufx);
+        if (optionKeys.contains(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY)) {
+            coInfo.setCourseNumberSuffix(internalSufx);
+            coInfo.setCourseOfferingCode(courseInfo.getCode() + internalSufx);
+        }
         // copy to lui
         LuiInfo lui = new LuiInfo();
         coTransformer.courseOffering2Lui(coInfo, lui, context);
@@ -474,6 +481,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         CourseOfferingInfo createdCo = new CourseOfferingInfo();
         new CourseOfferingTransformer().lui2CourseOffering(lui, createdCo, context);
         return createdCo;
+    }
+
+    private List<CourseOfferingInfo> findCourseOfferingsByTermAndCourseCode (String termId, String courseCode)
+            throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
+        if (StringUtils.isNotBlank(courseCode) && StringUtils.isNotBlank(termId)) {
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.and(
+                        PredicateFactory.like("courseOfferingCode", courseCode + "%"),
+                        PredicateFactory.equalIgnoreCase("atpId", termId)));
+                QueryByCriteria criteria = qbcBuilder.build();
+
+                //Do search. In ideal case, returns one element, which is the desired CO.
+                courseOfferings = searchForCourseOfferings(criteria, new ContextInfo());
+        }
+        return  courseOfferings;
     }
 
     private CourseInfo getCourse(String courseId) throws DoesNotExistException, OperationFailedException {
