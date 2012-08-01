@@ -94,7 +94,7 @@
                                             </property>
                                         </bean>
 
-                                        <bean parent="Uif-Message" p:label="Honors Flag"
+                                        <bean parent="Uif-MessageField" p:label="Honors Flag"
                                               p:messageText="@{(dataObject.coInfo.isHonorsOffering eq null or !dataObject.coInfo.isHonorsOffering) ? 'NO':'YES'}" />
 
                                         <!-- PO/UX does not currently want Delivery Formats for inquiry
@@ -285,7 +285,7 @@
                               p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-Message" p:label="Student Registration Options"
+                <bean parent="Uif-MessageField" p:label="Student Registration Options"
                       p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
                       p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}"/>
             </list>
@@ -421,8 +421,8 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriverKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-Message" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'ALTERNATE'}" />
-                            <bean parent="Uif-Message" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'NONE'}" />
+                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'ALTERNATE'}" />
+                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'NONE'}" />
                         </list>
                     </property>
                 </bean>

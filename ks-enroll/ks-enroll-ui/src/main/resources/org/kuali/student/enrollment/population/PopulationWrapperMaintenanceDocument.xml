@@ -24,14 +24,6 @@
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
         <property name="singlePageView" value="true"/>
-        <property name="page.header.lowerGroup.items">
-            <list/>
-        </property>
-        <property name="header.render" value="false"/>
-        <property name="header.rightGroup.items">
-          <list/>
-        </property>
-
         <property name="items">
             <list>
                 <ref bean="KS-PopulationWrapper-LinkSection"/>

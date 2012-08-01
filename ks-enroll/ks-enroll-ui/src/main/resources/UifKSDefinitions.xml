@@ -73,41 +73,21 @@
         </property>
     </bean>
 
-    <bean id="KSInquiryFooter" parent="KSInquiryFooter-parent"/>
-
-    <!-- We are overriding the lookup footer bean to customize the default CLOSE button action. On Close button action(if it's not rendered in lightbox), We need to return to the enrollment
-      home page instead of closing the window (window.close). As the rice uses nested beans, it's not possible to override the close button bean. But, looks like rice team is working
-      on creating seperate beans instead of nested beans. Once we get that, we should be able to override just the close button bean instead of overriding the entire footer bean-->
-    <bean id="KSInquiryFooter-parent" parent="Uif-InquiryFooter" abstract="true">
-    <property name="items">
-      <list>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="export" p:actionLabel="export"
-              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EXPORT]}"
-              p:onClickScript="writeHiddenToForm(&quot;unblockUIOnLoading&quot;, &quot;true&quot;);"/>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="returnToPrevious" p:actionLabel="Cancel"
-              p:render="@{#view.renderedInLightBox and formHistory != null and !formHistory?.historyEntries?.empty}"/>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="returnToHub" p:actionLabel="Home"
-              p:render="@{#view.renderedInLightBox and formHistory != null and (formHistory?.historyEntries?.size() > 1)}"/>
-        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{#view.renderedInLightBox}"
-              p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
-        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{!#view.renderedInLightBox}"
-              p:methodToCall="close"/>
-      </list>
-    </property>
-  </bean>
-
     <bean id="KSInquiryView" abstract="true" parent="Uif-InquiryView">
         <property name="theme">
             <bean parent="KSTheme"/>
-        </property>
-        <property name="footer">
-            <ref bean="KSInquiryFooter"/>
         </property>
     </bean>
 
     <bean id="KSMaintenanceView" abstract="true" parent="Uif-MaintenanceView">
         <property name="theme">
             <bean parent="KSTheme"/>
+        </property>
+        <property name="header.rightGroup.items">      <!-- In KS, document overview section not needed(document status, create time, doc number etc)-->
+          <list/>
+        </property>
+        <property name="page.header.lowerGroup.items">   <!-- Also, expandall/collapseall not needed-->
+            <list/>
         </property>
     </bean>
 
