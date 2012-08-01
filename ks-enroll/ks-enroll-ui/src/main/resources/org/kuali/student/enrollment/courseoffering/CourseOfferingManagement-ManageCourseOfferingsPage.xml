@@ -39,7 +39,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-CourseOfferingResultSection" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="@{subjectCode}" />
+        <property name="headerText" value="@{subjectCode} - @{subjectCodeDescription}" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>

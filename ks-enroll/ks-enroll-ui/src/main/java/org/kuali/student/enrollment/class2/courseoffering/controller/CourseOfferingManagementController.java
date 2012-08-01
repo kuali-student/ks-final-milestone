@@ -2,6 +2,9 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -24,9 +27,12 @@ import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -46,6 +53,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementController.class);
 
     private CourseOfferingManagementViewHelperService viewHelperService;
+    private OrganizationService organizationService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -90,7 +98,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
             //load all courseofferings based on subject Code
             theForm.setSubjectCode(theForm.getInputCode());
+            theForm.setSubjectCodeDescription("");
             getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
+            if(!theForm.getCourseOfferingEditWrapperList().isEmpty()) {
+                theForm.setSubjectCode(theForm.getCourseOfferingEditWrapperList().get(0).getCoInfo().getSubjectArea());
+                String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
+                theForm.setSubjectCodeDescription(longNameDescr);
+            }
 
             return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
 
@@ -717,6 +731,33 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
 
+    public String getOrgNameDescription(String orgShortName) {
+        String shortName = "shortName";
+        String longName = "";
+
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        if (StringUtils.isNotBlank(orgShortName) && !orgShortName.isEmpty()) {
+            qBuilder.setPredicates(PredicateFactory.or(
+                    PredicateFactory.equal(shortName, orgShortName)));
+        } else {
+            throw new RuntimeException("Org short name is null!");
+        }
+        try {
+            QueryByCriteria query = qBuilder.build();
+
+            OrganizationService  organizationService = getOrganizationService();
+
+            java.util.List<OrgInfo> orgInfos = organizationService.searchForOrgs(query, getContextInfo());
+            if (!orgInfos.isEmpty()){
+                longName = orgInfos.get(0).getLongName();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error! No long name description found.",e); //To change body of catch statement use File | Settings | File Templates.
+        }
+        return longName;
+    }
+
     public CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm){
 
         if (viewHelperService == null) {
@@ -732,6 +773,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     public CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
+    }
+
+    private OrganizationService getOrganizationService(){
+        if(organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
+
+        }
+        return organizationService;
     }
 
     public ContextInfo getContextInfo() {

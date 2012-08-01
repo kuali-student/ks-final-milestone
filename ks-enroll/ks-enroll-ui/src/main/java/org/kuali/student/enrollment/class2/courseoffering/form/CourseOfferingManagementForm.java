@@ -16,6 +16,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private TermInfo termInfo;
     private String courseOfferingCode;
     private String subjectCode;
+    private String subjectCodeDescription;
     private String radioSelection;
     private String inputCode;
     private String selectedOfferingAction;
@@ -204,6 +205,14 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public CourseOfferingInfo getNextCourseOffering() {
         return nextCourseOffering;
+    }
+
+    public String getSubjectCodeDescription() {
+        return subjectCodeDescription;
+    }
+
+    public void setSubjectCodeDescription(String subjectCodeDescription) {
+        this.subjectCodeDescription = subjectCodeDescription;
     }
 
     public void setNextCourseOffering(CourseOfferingInfo nextCourseOffering) {
