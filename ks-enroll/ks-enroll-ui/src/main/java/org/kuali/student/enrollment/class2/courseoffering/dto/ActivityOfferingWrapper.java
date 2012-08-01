@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private TermInfo term;
     private List<OfferingInstructorWrapper> instructors;
     private List<ScheduleComponentWrapper> scheduleComponentWrappers;
+    private List<SeatPoolDefinitionInfo> seatpools;
     private boolean readOnlyView;
     private boolean isChecked;
     private String courseOfferingId;
@@ -144,6 +146,7 @@ public class ActivityOfferingWrapper implements Serializable{
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
+        seatpools = new ArrayList<SeatPoolDefinitionInfo>();
         aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         formatOffering = new FormatOfferingInfo();
@@ -158,6 +161,7 @@ public class ActivityOfferingWrapper implements Serializable{
         super();
         aoInfo = info;
         instructors = new ArrayList<OfferingInstructorWrapper>();
+        seatpools = new ArrayList<SeatPoolDefinitionInfo>();
     }
 
     public FormatOfferingInfo getFormatOffering() {
@@ -238,6 +242,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setInstructors(List<OfferingInstructorWrapper> instructors) {
         this.instructors = instructors;
+    }
+
+    public List<SeatPoolDefinitionInfo> getSeatpools() {
+        return seatpools;
+    }
+
+    public void setSeatpools(List<SeatPoolDefinitionInfo> seatpools) {
+        this.seatpools = seatpools;
     }
 
     public String getFirstInstructorDisplayName() {
