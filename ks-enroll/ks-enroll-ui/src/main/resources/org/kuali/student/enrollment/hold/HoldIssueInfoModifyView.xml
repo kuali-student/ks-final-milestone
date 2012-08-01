@@ -103,7 +103,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-SecondaryActionButton" p:actionLabel="Save" p:methodToCall="modify"/>
-                                        <bean parent="Uif-ActionLink" p:clientSideJs="stepBrowserBack()" p:actionLabel="Cancel"/>
+                                        <bean parent="Uif-ActionLink" p:actionScript="stepBrowserBack()" p:actionLabel="Cancel"/>
                                     </list>
                                 </property>
                             </bean>

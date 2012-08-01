@@ -203,7 +203,7 @@
                                                                                     </bean>
                                                                                 </property>
                                                                             </bean>
-                                                                            <bean parent="Uif-MessageField"
+                                                                            <bean parent="Uif-Message"
                                                                                   p:messageText="Days set as &amp;quot;To Be Announced&amp;quot;"
                                                                                   p:progressiveRender="@{#lp.addDaysSpecifiedBoolean eq '0'}" />
                                                                         </list>
@@ -242,7 +242,7 @@
                                                                                     </list>
                                                                                 </property>
                                                                             </bean>
-                                                                            <bean parent="Uif-MessageField"
+                                                                            <bean parent="Uif-Message"
                                                                                   p:messageText="hh:mm or &amp;quot;TBA&amp;quot;"/>
                                                                         </list>
                                                                     </property>
@@ -285,7 +285,7 @@
                                                                                     </list>
                                                                                 </property>
                                                                             </bean>
-                                                                            <bean parent="Uif-MessageField"
+                                                                            <bean parent="Uif-Message"
                                                                                   p:messageText="hh:mm or &amp;quot;TBA&amp;quot;"/>
                                                                         </list>
                                                                     </property>
@@ -383,7 +383,7 @@
                                                                             </bean>
                                                                             <bean parent="Uif-ActionLink"
                                                                                   p:actionLabel="Clear resource selections"
-                                                                                  p:clientSideJs="clearRoomResourcesSelections(jq(this))"/>
+                                                                                  p:actionScript="clearRoomResourcesSelections(jq(this))"/>
                                                                         </list>
                                                                     </property>
                                                                 </bean>

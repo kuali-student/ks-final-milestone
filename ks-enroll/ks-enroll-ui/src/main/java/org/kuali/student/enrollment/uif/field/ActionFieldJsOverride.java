@@ -11,9 +11,9 @@ import org.kuali.rice.krad.uif.field.ActionField;
 public class ActionFieldJsOverride extends ActionField{
 
     @Override
-    public void setClientSideJs(String js){
-        if(StringUtils.isEmpty(this.getClientSideJs())){
-            super.setClientSideJs(js);
+    public void setActionScript(String js){
+        if(StringUtils.isEmpty(this.getActionScript())){
+            super.setActionScript(js);
         }
     }
 

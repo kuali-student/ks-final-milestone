@@ -13,7 +13,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Cancel Adding Term" p:render="@{!#view.readOnly}"
-                      p:methodToCall="cancelAddingTerm" p:clientSideJs="performCollectionAction('acal-term');"/>
+                      p:methodToCall="cancelAddingTerm" p:actionScript="performCollectionAction('acal-term');"/>
                 <ref bean="KS-AcademicTerm-EditSection-Main"/>
             </list>
         </property>

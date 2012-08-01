@@ -85,7 +85,7 @@
 
     <!-- LookupView -->
     <bean id="KS-AppointmentWindowWrapper-LookupView" parent="KSLookupView"
-        p:title="Appointment Window (with Assignments) Lookup"
+        p:headerText="Appointment Window (with Assignments) Lookup"
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
         p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl">
 
@@ -107,7 +107,7 @@
 
     <!-- InquiryView -->
     <bean id="KS-AppointmentWindowWrapper-InquiryView" parent="KSInquiryView"
-        p:title="Appointment Window and Assignment Detail"
+        p:headerText="Appointment Window and Assignment Detail"
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
         p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperInquiryViewHelperServiceImpl">
         <property name="page.header">
@@ -132,7 +132,7 @@
 
 
     <bean id="KS-AppointmentWindowWrapper-Assignment" parent="Uif-VerticalBoxSection"
-          p:title="Assignment Information">
+          p:headerText="Assignment Information">
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>
@@ -199,7 +199,7 @@
     </bean>
 
     <bean id="KS-AppointmentWindowWrapper-Window" parent="Uif-VerticalBoxSection"
-          p:title="Window Information">
+          p:headerText="Window Information">
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>

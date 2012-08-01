@@ -145,7 +145,7 @@
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:actionScript="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -193,7 +193,7 @@
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the academic calendar?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:actionScript="confirmDeletion('Are you sure you want to delete the academic calendar?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -240,7 +240,7 @@
               <list>
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the term?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:actionScript="confirmDeletion('Are you sure you want to delete the term?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>

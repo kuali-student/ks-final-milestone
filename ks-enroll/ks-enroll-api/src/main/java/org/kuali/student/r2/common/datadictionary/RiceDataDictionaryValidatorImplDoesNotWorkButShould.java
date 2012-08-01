@@ -63,7 +63,7 @@ public class RiceDataDictionaryValidatorImplDoesNotWorkButShould implements Data
        if (validationType.equals(DataDictionaryValidator.ValidationType.SKIP_REQUREDNESS_VALIDATIONS)) {
            doOptionalProcessing = false;
        }
-        DictionaryValidationResult dvr = riceService.validate(info, doOptionalProcessing);
+        DictionaryValidationResult dvr = riceService.validate(info);
         Rice2ValidationResultConverter converter = new Rice2ValidationResultConverter ();
         List<ValidationResultInfo> vrs = converter.convert(dvr);
         return vrs;

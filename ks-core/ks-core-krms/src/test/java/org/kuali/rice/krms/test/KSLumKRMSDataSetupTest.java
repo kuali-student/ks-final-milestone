@@ -643,7 +643,7 @@ public class KSLumKRMSDataSetupTest extends KSLumAbstractBoTest {
 		TermDefinition termDefinition = TermDefinition.Builder.create(null,
 				TermSpecificationDefinition.Builder.create(termSpec), null)
 				.build();
-		termDefinition = termBoService.createTermDefinition(termDefinition);
+		termDefinition = termBoService.createTerm(termDefinition);
 
 		return termDefinition;
 	}
@@ -785,7 +785,7 @@ public class KSLumKRMSDataSetupTest extends KSLumAbstractBoTest {
 		TermDefinition termDefinition2 = TermDefinition.Builder.create(null,
 				TermSpecificationDefinition.Builder.create(outputTermSpec),
 				Collections.singletonList(termParamBuilder2)).build();
-		termDefinition2 = termBoService.createTermDefinition(termDefinition2);
+		termDefinition2 = termBoService.createTerm(termDefinition2);
 
 		// KrmsType for TermResolver
 		KrmsTypeDefinition.Builder krmsTermResolverTypeDefnBuilder = KrmsTypeDefinition.Builder
@@ -877,7 +877,7 @@ public class KSLumKRMSDataSetupTest extends KSLumAbstractBoTest {
 				null,
 				TermSpecificationDefinition.Builder.create(termSpec), null).build();
 		
-		termDefinition = termBoService.createTermDefinition(termDefinition);
+		termDefinition = termBoService.createTerm(termDefinition);
 
 	}
 
@@ -927,7 +927,7 @@ public class KSLumKRMSDataSetupTest extends KSLumAbstractBoTest {
 				TermSpecificationDefinition.Builder.create(termSpec), null)
 				.build();
 		
-		termDefinition = termBoService.createTermDefinition(termDefinition);
+		termDefinition = termBoService.createTerm(termDefinition);
 
 	}
 
@@ -956,7 +956,7 @@ public class KSLumKRMSDataSetupTest extends KSLumAbstractBoTest {
 				TermSpecificationDefinition.Builder.create(termSpec), null)
 				.build();
 		
-		termDefinition = termBoService.createTermDefinition(termDefinition);
+		termDefinition = termBoService.createTerm(termDefinition);
 
 	}
 
@@ -985,7 +985,7 @@ public class KSLumKRMSDataSetupTest extends KSLumAbstractBoTest {
 				TermSpecificationDefinition.Builder.create(termSpec), null)
 				.build();
 		
-		termDefinition = termBoService.createTermDefinition(termDefinition);
+		termDefinition = termBoService.createTerm(termDefinition);
 
 	}
 }

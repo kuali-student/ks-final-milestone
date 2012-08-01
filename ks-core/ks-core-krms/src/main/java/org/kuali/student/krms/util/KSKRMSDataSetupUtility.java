@@ -152,7 +152,7 @@ public class KSKRMSDataSetupUtility {
 
             termDefinition = termDefBuilder.build();
 
-            termDefinition = termBoService.createTermDefinition(termDefinition);
+            termDefinition = termBoService.createTerm(termDefinition);
         }
 
     }

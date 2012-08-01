@@ -82,7 +82,7 @@
                                         <!--<bean parent="Uif-DataField" p:label="Final Exam" p:propertyName="finalExam" />-->
                                         <bean parent="Uif-DataField" p:propertyName="coInfo.finalExamType" />
 
-                                        <!--<bean parent="Uif-MessageField" p:label="Has waitlist" p:messageText="@{dataObject.coInfo.hasWaitlist ? 'YES':'NO'}" />-->
+                                        <!--<bean parent="Uif-Message" p:label="Has waitlist" p:messageText="@{dataObject.coInfo.hasWaitlist ? 'YES':'NO'}" />-->
                                         <bean parent="Uif-InputField" p:propertyName="coInfo.waitlistLevelTypeKey" p:label="Waitlist Level">
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues" />
@@ -94,7 +94,7 @@
                                             </property>
                                         </bean>
 
-                                        <bean parent="Uif-MessageField" p:label="Honors Flag"
+                                        <bean parent="Uif-Message" p:label="Honors Flag"
                                               p:messageText="@{(dataObject.coInfo.isHonorsOffering eq null or !dataObject.coInfo.isHonorsOffering) ? 'NO':'YES'}" />
 
                                         <!-- PO/UX does not currently want Delivery Formats for inquiry
@@ -128,10 +128,10 @@
                                                             <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriverKeyValues"/>
                                                         </property>
                                                     </bean>
-                                                    <bean parent="Uif-MessageField" p:label="Final Exam Driver"
+                                                    <bean parent="Uif-Message" p:label="Final Exam Driver"
                                                           p:messageText="Alternate exam for this offering"
                                                           p:render="@{#dp.coInfo.finalExamType eq 'ALTERNATE'}" />
-                                                    <bean parent="Uif-MessageField" p:label="Final Exam Driver"
+                                                    <bean parent="Uif-Message" p:label="Final Exam Driver"
                                                           p:messageText="No final exam for this offering"
                                                           p:render="@{#dp.coInfo.finalExamType eq 'NONE'}" />
                                                 </list>
@@ -232,7 +232,7 @@
     <bean id="KS-CourseOfferingEdit-CourseOfferingInformation" parent="Uif-VerticalBoxSection" p:headerText="Course Offering Information">
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
                 <bean parent="Uif-HorizontalBoxSubSection">
                     <property name="items">
                         <list>
@@ -285,7 +285,7 @@
                               p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:label="Student Registration Options"
+                <bean parent="Uif-Message" p:label="Student Registration Options"
                       p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
                       p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}"/>
             </list>
@@ -348,7 +348,7 @@
     <bean id="KS-CourseOfferingEdit-DeliveryAndAssessment" parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
 
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
@@ -421,8 +421,8 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriverKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'ALTERNATE'}" />
-                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'NONE'}" />
+                            <bean parent="Uif-Message" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'ALTERNATE'}" />
+                            <bean parent="Uif-Message" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'NONE'}" />
                         </list>
                     </property>
                 </bean>
@@ -433,7 +433,7 @@
     <bean id="KS-CourseOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlists">
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
@@ -477,7 +477,7 @@
         <property name="headerText" value="Personnel"/>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
                 <bean id="KS-ActivityOffering-PersonnelSection" parent="Uif-TableCollectionSection"
                       p:layoutManager.numberOfColumns="6"
                       p:layoutManager.style="width: 100%; display:block;">
@@ -531,7 +531,7 @@
     <bean id="KS-CourseOfferingEdit-MiscSection" parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;" p:headerText="Miscellaneous">
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="&lt;hr&gt;"/>
+                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
                 <ref bean="KS-CourseOfferingEdit-OrganizationSection"/>
                 <ref bean="KS-CourseOfferingEdit-HonorsOffering"/>
             </list>
@@ -578,7 +578,7 @@
     <bean id="KS-CourseOfferingEdit-HonorsOffering" parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;">
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText=""/>
+                <bean parent="Uif-Message" p:messageText=""/>
                 <bean parent="Uif-InputField" p:propertyName="coInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">

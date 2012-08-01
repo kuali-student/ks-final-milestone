@@ -19,7 +19,7 @@
                     <list>
                         <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
                         <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
-                        <bean parent="Uif-ActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete this academic calendar?')" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;" p:render="@{#view.readOnly and !officialUI}"/>
+                        <bean parent="Uif-ActionLink" p:actionScript="confirmDeletion('Are you sure you want to delete this academic calendar?')" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;" p:render="@{#view.readOnly and !officialUI}"/>
                     </list>
                 </property>
             </bean>
@@ -53,9 +53,9 @@
                               p:performClientSideValidation="true" p:render="@{!officialCalendar and !#view.readOnly}"/>
                         <bean parent="Uif-ActionLink" p:methodToCall="delete"
                               p:actionLabel="Delete Draft"
-                              p:clientSideJs="confirmDeletion('Are you sure you want to delete this academic calendar?')"
+                              p:actionScript="confirmDeletion('Are you sure you want to delete this academic calendar?')"
                               p:render="@{!newCalendar and !#view.readOnly and !officialUI}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()" p:render="@{!#view.readOnly}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()" p:render="@{!#view.readOnly}"/>
                     </list>
                 </property>
             </bean>
@@ -117,7 +117,7 @@
                         This hidden button defeats a KRAD 2.0 bug which causes Enter to fire the next action
                         found - in this case, the "add" button of the addline for the Holidays collection.
                 -->
-                <bean parent="Uif-SecondaryActionButton-Small" p:style="visibility:hidden;width:2px;" p:clientSideJs="void(0);"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:style="visibility:hidden;width:2px;" p:actionScript="void(0);"/>
                 <!-- END OF KRAD WORK-AROUND -->
             </list>
         </property>
@@ -272,7 +272,7 @@
                        <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
                        <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"
                              p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
-                             p:clientSideJs="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>
+                             p:actionScript="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>
                     </list>
                  </property>
              </bean>
@@ -282,7 +282,7 @@
                  <property name="items">
                     <list>
                        <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingHoliday" p:actionLabel="Cancel Adding Holiday Calendar"
-                             p:clientSideJs="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>
+                             p:actionScript="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>
                     </list>
                  </property>
              </bean>

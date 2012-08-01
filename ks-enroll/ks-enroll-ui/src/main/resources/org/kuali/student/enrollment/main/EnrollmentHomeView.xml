@@ -83,11 +83,11 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="Manage General Environment" p:style="color:#777"/>
+                <bean parent="Uif-Message" p:messageText="Manage General Environment" p:style="color:#777"/>
                 <bean parent="Uif-Link" p:linkText="Manage Registration Windows and Appointments"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/registrationWindows?viewId=registrationWindowsManagementView&amp;pageId=selectTermForRegWindows&amp;methodToCall=start"/>
-                <bean parent="Uif-MessageField" p:messageText="Assign Registration Appointments" p:style="color:#777"/>
-                <bean parent="Uif-MessageField" p:messageText="Manage Individual Student Appointments" p:style="color:#777"/>
+                <bean parent="Uif-Message" p:messageText="Assign Registration Appointments" p:style="color:#777"/>
+                <bean parent="Uif-Message" p:messageText="Manage Individual Student Appointments" p:style="color:#777"/>
             </list>
         </property>
     </bean>

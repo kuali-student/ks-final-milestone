@@ -28,8 +28,8 @@ public class KSCollectionGroupBuilder extends CollectionGroupBuilder{
 			action.addActionParameter(UifParameters.SELECTED_LINE_INDEX, Integer.toString(lineIndex));
 			action.setJumpToIdAfterSubmit(collectionGroup.getId() + "_div");
 
-            if (StringUtils.isBlank(action.getClientSideJs())){
-                action.setClientSideJs("performCollectionAction('"+collectionGroup.getId()+"');");
+            if (StringUtils.isBlank(action.getActionScript())){
+                action.setActionScript("performCollectionAction('"+collectionGroup.getId()+"');");
             }
 		}
 

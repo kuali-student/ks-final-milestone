@@ -327,7 +327,7 @@ public class TestKRMSCreateTermSpecificationPhase1 extends KRMSTestCase {
 
 		TermDefinition termDefinition = termDefBuilder.build();
 
-		termDefinition = termBoService.createTermDefinition(termDefinition);
+		termDefinition = termBoService.createTerm(termDefinition);
 
 	}
 

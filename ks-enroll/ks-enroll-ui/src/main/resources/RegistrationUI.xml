@@ -290,16 +290,16 @@
         <property name="lineActions">
             <list>
                 <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="addToCart"
-                      p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
+                      p:actionScript="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
                       p:actionLabel="Add to Cart"/>
                 <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="registerClass"
-                      p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
+                      p:actionScript="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
                       p:actionLabel="1-Click Registration"/>
                 <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="dropClass"
-                      p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
+                      p:actionScript="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
                       p:actionLabel="Drop Course"/>
                 <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="removeFromCart"
-                      p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
+                      p:actionScript="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
                       p:actionLabel="Remove From Cart"/>
             </list>
         </property>
