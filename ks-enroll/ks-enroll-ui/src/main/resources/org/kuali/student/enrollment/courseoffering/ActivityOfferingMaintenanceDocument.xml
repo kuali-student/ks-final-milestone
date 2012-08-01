@@ -472,10 +472,99 @@
                 </bean>
 
                 <bean parent="Uif-VerticalBoxSection">
-                    <property name="headerText" value="Waitlists and Seatpools"/>
+                    <property name="headerText" value="Seatpools"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="waitListText" p:label="Waitlists" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="KS-ActivityOffering-SeatpoolsSection" parent="Uif-TableCollectionSection"
+                                  p:layoutManager.numberOfColumns="6"
+                                  p:id="ao-seatpoolgroup"
+                                  p:layoutManager.style="width: 100%; display:block;">
+                                <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo" />
+                                <property name="propertyName" value="seatpools" />
+                                <property name="layoutManager.renderSequenceField" value="false" />
+                                <property name="layoutManager.separateAddLine" value="false" />
+                                <property name="layoutManager.richTable.render" value="false" />
+                                <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                                <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="addLineItems">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="processingPriority" p:label="PRIORITY" p:maxLength="2">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="2" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="seatLimit" p:label="SEATS" p:maxLength="3">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="3" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-MessageField" p:messageText="???" p:label="PERCENT" p:readOnly="true" />
+                                        <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="name">
+                                        <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="40" p:disabled="true" />
+                                            </property>
+                                            <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                                            <property name="quickfinder.fieldConversions">
+                                                <map>
+                                                    <entry key="populationInfo.id" value="id"/>
+                                                    <entry key="populationInfo.name" value="name"/>
+                                                </map>
+                                            </property>
+                                            <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="expirationMilestoneTypeKey" p:label="EXPIRATION MILESTONE">
+                                            <!-- property name="control">
+                                                <bean parent="Uif-DropdownControl"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ExpirationMilestoneKeyValues" p:addBlankOption="false" />
+                                            </property -->
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:options-ref="expMilestones-options" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="processingPriority" p:label="PRIORITY" p:maxLength="2">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="2" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="seatLimit" p:label="SEATS" p:maxLength="3">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="3" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-MessageField" p:messageText="???" p:label="PERCENT" p:readOnly="true" />
+                                        <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="name">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="40" p:disabled="true" />
+                                            </property>
+                                            <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                                            <property name="quickfinder.fieldConversions">
+                                                <map>
+                                                    <entry key="populationInfo.id" value="id"/>
+                                                    <entry key="populationInfo.name" value="name"/>
+                                                </map>
+                                            </property>
+                                            <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="expirationMilestoneTypeKey" p:label="EXPIRATION MILESTONE">
+                                            <!-- property name="control">
+                                                <bean parent="Uif-DropdownControl"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ExpirationMilestoneKeyValues" p:addBlankOption="false" />
+                                            </property -->
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:options-ref="expMilestones-options" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
@@ -571,6 +660,12 @@
     <util:list id="ampm-options">
         <bean parent="Uif-KeyLabelPair" p:key="am" />
         <bean parent="Uif-KeyLabelPair" p:key="pm" />
+    </util:list>
+
+    <util:list id="expMilestones-options">
+        <bean parent="Uif-KeyLabelPair" p:key="Test1" p:value="Test1"/>
+        <bean parent="Uif-KeyLabelPair" p:key="Test2" p:value="Test2"/>
+        <bean parent="Uif-KeyLabelPair" p:key="Test3" p:value="Test3"/>
     </util:list>
 
 </beans>
