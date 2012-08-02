@@ -520,7 +520,10 @@
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ExpirationMilestoneKeyValues" p:addBlankOption="false" />
                                             </property -->
                                             <property name="control">
-                                                <bean parent="Uif-DropdownControl" p:options-ref="expMilestones-options" />
+                                                <bean parent="Uif-DropdownControl" />
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SeatPoolExpirationMilestoneTypeKeyValues" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
                                     </list>
@@ -559,7 +562,10 @@
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ExpirationMilestoneKeyValues" p:addBlankOption="false" />
                                             </property -->
                                             <property name="control">
-                                                <bean parent="Uif-DropdownControl" p:options-ref="expMilestones-options" />
+                                                <bean parent="Uif-DropdownControl" />
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SeatPoolExpirationMilestoneTypeKeyValues" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
                                     </list>
