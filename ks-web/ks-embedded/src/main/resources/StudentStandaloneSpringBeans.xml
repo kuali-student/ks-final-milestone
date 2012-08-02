@@ -132,7 +132,13 @@
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoSearchView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoCreateView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoView.xml</value>                
+                
+                <!-- Type -->
+                <value>classpath:org/kuali/student/enrollment/type/TypeInfoAdminLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/type/TypeInfoAdminInquiryView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/type/TypeTypeRelationInfoAdminLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/type/TypeTypeRelationInfoAdminInquiryView.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
