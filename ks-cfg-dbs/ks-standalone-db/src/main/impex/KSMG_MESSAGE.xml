@@ -1045,6 +1045,11 @@
         ID="76f0c638-7441-451e-af57-1d99860ce868" LOCALE="en"
         MSG_ID="createCourse" MSG_VALUE="Create a Course"
         OBJ_ID="d90add57-04e3-484a-bfc8-2ffc4a98cece" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="77B60348ECB043C69C00C91BB2EDB659" LOCALE="en"
+        MSG_ID="validation.validChars.numeric.range"
+        MSG_VALUE="Single number or numeric range separated by a dash"
+        OBJ_ID="EE031190AD2346E49BC75559EEC4D576" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="7813b3ea-7f72-4f08-9981-3f97d32ed8a3" LOCALE="en"
         MSG_ID="cluAddExisting" MSG_VALUE="Add Another Course"
@@ -1369,15 +1374,10 @@
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
         OBJ_ID="3388D5EE-A5A0-4549-8974-9DB22E7DEEA2" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="C61D727905722CD6E040760A2C232722" LOCALE="en"
-        MSG_ID="validation.validChars.numeric.range"
-        MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="C61D727905732CD6E040760A2C232722" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="C61D727905742CD6E040760A2C232722" LOCALE="en"
+        ID="DE058AF08F6C46E4B49179A4F916A58C" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="C61D727905752CD6E040760A2C232722" VER_NBR="1"/>
+        OBJ_ID="666537DFA1134593916607E3A3DC76F3" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="F541324F-BD0D-A2CC-1874-E7F36B73D8FD" LOCALE="en"
         MSG_ID="reqActivate" MSG_VALUE="Required for Activate"
