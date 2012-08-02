@@ -169,6 +169,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             for (CourseOfferingInfo offeringInfo : courseOfferingInfos) {
                 if (StringUtils.equals(courseOfferingInfo.getId(),offeringInfo.getId())){
                     int currentIndex = courseOfferingInfos.indexOf(offeringInfo);
+                    form.setInputCode(offeringInfo.getCourseOfferingCode());
                     if (currentIndex > 0){
                          form.setPreviousCourseOffering(courseOfferingInfos.get(currentIndex-1));
                     }else{
