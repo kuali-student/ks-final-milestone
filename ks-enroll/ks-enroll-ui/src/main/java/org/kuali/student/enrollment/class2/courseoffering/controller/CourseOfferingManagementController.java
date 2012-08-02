@@ -240,10 +240,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             coCopyWrapper.setActivityOfferingWrapperList(theForm.getActivityWrapperList());
 
             // Add it to the Copy Wrapper List.
-            theForm.getCourseOfferingCopyWrapperList().clear();
-            theForm.getCourseOfferingCopyWrapperList().add(coCopyWrapper);
+            theForm.setCourseOfferingCopyWrapper(coCopyWrapper);
         } else { //TODO log error
-            theForm.getCourseOfferingCopyWrapperList().clear();
+            theForm.setCourseOfferingCopyWrapper(null);
         }
         return getUIFModelAndView(theForm, "copyCourseOfferingPage");
     }

@@ -26,7 +26,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private List<ActivityOfferingWrapper> activityWrapperList;
     private List<ActivityOfferingWrapper> selectedToDeleteList;
     private List<CourseOfferingEditWrapper> courseOfferingEditWrapperList;
-    private List<CourseOfferingCopyWrapper> courseOfferingCopyWrapperList;
+    private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
 
     //For Adding Activity
     private String formatIdForNewAO;
@@ -43,7 +43,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
-        courseOfferingCopyWrapperList = new ArrayList<CourseOfferingCopyWrapper>();
+        setCourseOfferingCopyWrapper(null);
     }
 
     public String getTermCode(){
@@ -166,12 +166,12 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.courseOfferingEditWrapperList = courseOfferingEditWrapperList;
     }
 
-    public List<CourseOfferingCopyWrapper> getCourseOfferingCopyWrapperList() {
-        return courseOfferingCopyWrapperList;
+    public CourseOfferingCopyWrapper getCourseOfferingCopyWrapper() {
+        return courseOfferingCopyWrapper;
     }
 
-    public void setCourseOfferingCopyWrapperList(List<CourseOfferingCopyWrapper> courseOfferingCopyWrapperList) {
-        this.courseOfferingCopyWrapperList = courseOfferingCopyWrapperList;
+    public void setCourseOfferingCopyWrapper(CourseOfferingCopyWrapper courseOfferingCopyWrapper) {
+        this.courseOfferingCopyWrapper = courseOfferingCopyWrapper;
     }
 
     public String getPreviousCourseOfferingCodeUI() {
