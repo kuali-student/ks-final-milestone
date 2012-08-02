@@ -23,7 +23,7 @@
         <property name="id" value="processCreateView"/>
         <property name="headerText" value="Create Process"/>
         <property name="formClass"
-                  value="org.kuali.student.enrollment.class1.hold.service.form.ProcessInfoCreateForm"/>
+                  value="org.kuali.student.enrollment.class1.hold.service.form.ProcessInfoForm"/>
         <property name="singlePageView" value="true"/>
         <property name="page">
             <bean parent="Uif-Page"/>
@@ -90,7 +90,7 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Save" p:methodToCall="create"/>
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Save" p:methodToCall="save"/>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="close"/>
                         </list>
                     </property>

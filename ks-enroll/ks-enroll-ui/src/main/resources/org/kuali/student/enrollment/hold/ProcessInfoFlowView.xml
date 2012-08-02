@@ -19,10 +19,8 @@
      limitations under the License.
     -->
 
-    <bean id="KS-ProcessInfo-Edit" parent="KSFormView" p:applyDirtyCheck="true"
-          p:id="processInfoResultView" p:headerText="Edit Processes" p:entryPageId="processInfoEdit">
-        <property name="formClass"
-                  value="org.kuali.student.enrollment.class1.hold.service.form.ProcessInfoForm"/>
+    <bean id="KS-ProcessInfo-Search" parent="KSFormView" p:applyDirtyCheck="true"
+          p:id="processInfoFormView" p:headerText="Manage Processes" p:entryPageId="processInfoSearch">
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
@@ -36,13 +34,48 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="KS-ProcessInfoPage-Edit" />
+                <ref bean="KS-ProcessInfoPage-Search" />
             </list>
         </property>
     </bean>
 
-    <bean name="KS-ProcessInfoPage-Edit" parent="Uif-Page">
-        <property name="id" value="processInfoEdit" />
+    <bean id="KS-ProcessInfoPage-Search" parent="Uif-Page">
+        <property name="id" value="processInfoSearch" />
+        <property name="headerText" value="View Existing Processes" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HeaderThree" p:headerText="Process Category" p:style="margin-bottom: -0.5em;"/>
+                            <bean parent="Uif-HorizontalBoxSubSection" p:headerText="Select a Process Category to view existing Processes">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="" >
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="View Processes" p:methodToCall="search" p:style="font-size: 90%;"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Create a New Process">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Create Process" p:methodToCall="create" p:style="font-size: 90%;"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KS-ProcessInfoPage-View" parent="Uif-Page" p:headerText="Processes">
+        <property name="id" value="processInfoView" />
         <property name="items">
             <list>
                 <bean parent="Uif-TableCollectionSection"
@@ -83,5 +116,4 @@
             </list>
         </property>
     </bean>
-
 </beans>
