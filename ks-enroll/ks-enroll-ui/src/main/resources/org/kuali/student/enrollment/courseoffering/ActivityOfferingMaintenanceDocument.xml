@@ -492,10 +492,16 @@
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="2" />
                                             </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="IntegerPatternConstraint" />
+                                            </property>
                                         </bean>
                                         <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="3" />
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="IntegerPatternConstraint" />
                                             </property>
                                         </bean>
                                         <bean parent="Uif-MessageField" p:messageText="???" p:label="PERCENT" p:readOnly="true" />
