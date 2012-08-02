@@ -262,14 +262,16 @@
     </bean>
     <bean id="KS-CourseOfferingEdit-GradingOptions" parent="Uif-VerticalBoxSection">
         <property name="items">
-            <bean parent="Uif-InputField" p:propertyName="coInfo.gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
-                <property name="control">
-                    <bean parent="Uif-VerticalRadioControl"/>
-                </property>
-                <property name="optionsFinder">
-                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" p:addBlankOption="false" />
-                </property>
-            </bean>
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="coInfo.gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
+            </list>
         </property>
     </bean>
     <bean id="KS-CourseOfferingEdit-StudentRegOptions" parent="Uif-VerticalBoxSection">
