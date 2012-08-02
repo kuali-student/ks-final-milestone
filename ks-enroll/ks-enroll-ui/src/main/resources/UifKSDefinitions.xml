@@ -97,11 +97,10 @@
     <bean id="KSDocumentPageFooter_SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
         <property name="items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                                                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
+                                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
     </bean>
