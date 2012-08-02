@@ -1,6 +1,15 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues;
+import org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.WaitlistLevel;
+import org.springframework.ui.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +24,7 @@ public class CourseOfferingCopyWrapper implements Serializable{
     private String courseTitle;
     private String termId;
     private String creditCount;
-    private String gradingOptionsId;
+    private String gradingOption;
     private List<String> studentRegistrationGradingOptionsList;
     private String finalExamType;
     private String waitlistLevelTypeKey;
@@ -48,8 +57,8 @@ public class CourseOfferingCopyWrapper implements Serializable{
         setCourseTitle("");
         setTermId("");
         setCreditCount("");
-        setGradingOptions("");
-        setStudentRegistrationOptions(new ArrayList<String>());
+        setGradingOption("");
+        setStudentRegistrationGradingOptionsList(new ArrayList<String>());
         setFinalExamType("");
         setWaitlistLevelTypeKey("");
         setWaitlistTypeKey("");
@@ -92,6 +101,10 @@ public class CourseOfferingCopyWrapper implements Serializable{
         this.termId = termId;
     }
 
+    public String getCreditCountUI() {
+        return getCreditCount() + ".0";
+    }
+
     public String getCreditCount() {
         return creditCount;
     }
@@ -100,19 +113,34 @@ public class CourseOfferingCopyWrapper implements Serializable{
         this.creditCount = creditCount;
     }
 
-    public String getGradingOptions() {
-        return gradingOptionsId;
+    public String getGradingOption() {
+        return gradingOption;
     }
 
-    public void setGradingOptions(String gradingOptionsId) {
-        this.gradingOptionsId = gradingOptionsId;
+    public void setGradingOption(String gradingOption) {
+        this.gradingOption = gradingOption;
     }
 
-    public String getStudentRegistrationGradingOptions() {
-        return studentRegistrationGradingOptionsList.toString();
+    public String getStudentRegistrationGradingOptionsUI() {
+        String returnString = CourseOfferingConstants.COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY;
+        StringBuffer sb = new StringBuffer();
+        List<String> studentGradingOptionsList = getStudentRegistrationGradingOptionsList();
+        if (studentGradingOptionsList.size() > 0) {
+            sb.append(studentGradingOptionsList.get(0));
+            for (int i = 0; i < studentGradingOptionsList.size(); i++) {
+                sb.append(",");
+                sb.append(studentGradingOptionsList.get(i+1));
+            }
+            returnString = sb.toString();
+        }
+        return returnString;
     }
 
-    public void setStudentRegistrationOptions(List<String> studentRegistrationGradingOptionsList) {
+    public List<String> getStudentRegistrationGradingOptionsList() {
+        return studentRegistrationGradingOptionsList;
+    }
+
+    public void setStudentRegistrationGradingOptionsList(List<String> studentRegistrationGradingOptionsList) {
         this.studentRegistrationGradingOptionsList = studentRegistrationGradingOptionsList;
     }
 
@@ -124,6 +152,18 @@ public class CourseOfferingCopyWrapper implements Serializable{
         this.finalExamType = finalExamType;
     }
 
+    public String getWaitlistLevelUI() {
+        WaitlistLevelOptionsKeyValues waitlistLevelOptionsKeyValues = new WaitlistLevelOptionsKeyValues();
+        String waitlistLevelTypeKey = getWaitlistLevelTypeKey();
+        String uiString = "None";
+        for (KeyValue keyValue : waitlistLevelOptionsKeyValues.getKeyValues()) {
+            if (keyValue.getKey().equalsIgnoreCase(waitlistLevelTypeKey)) {
+                uiString = keyValue.getValue();
+            }
+        }
+        return uiString;
+    }
+
     public String getWaitlistLevelTypeKey() {
         return waitlistLevelTypeKey;
     }
@@ -132,12 +172,32 @@ public class CourseOfferingCopyWrapper implements Serializable{
         this.waitlistLevelTypeKey = waitlistLevelTypeKey;
     }
 
+    public String getWaitlistTypeUI() {
+        WaitlistTypeOptionsKeyValues waitlistTypeOptionsKeyValues = new WaitlistTypeOptionsKeyValues();
+        String waitlistTypeKey = getWaitlistTypeKey();
+        String uiString = "None";
+        ViewModel nullViewModelThatSetsTheKeyValues = null;
+        List<KeyValue> list = waitlistTypeOptionsKeyValues.getKeyValues(nullViewModelThatSetsTheKeyValues);
+        if (list != null) {
+            for (KeyValue keyValue : list) {
+                if (keyValue.getKey().equalsIgnoreCase(waitlistTypeKey)) {
+                    uiString = keyValue.getValue();
+                }
+            }
+        }
+        return uiString;
+    }
+
     public String getWaitlistTypeKey() {
         return waitlistTypeKey;
     }
 
     public void setWaitlistTypeKey(String waitlistTypeKey) {
         this.waitlistTypeKey = waitlistTypeKey;
+    }
+
+    public String getIsHonorsUI() {
+        return StringUtils.capitalize(BooleanUtils.toStringYesNo(isHonors()));
     }
 
     public boolean isHonors() {

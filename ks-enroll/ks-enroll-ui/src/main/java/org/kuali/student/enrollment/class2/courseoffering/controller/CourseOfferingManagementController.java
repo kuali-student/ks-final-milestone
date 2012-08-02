@@ -207,6 +207,24 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     }
 
+    @RequestMapping(params = "methodToCall=copyCourseOfferingCreateCopy")
+    public ModelAndView copyCourseOfferingCreateCopy(
+            @ModelAttribute("KualiForm") CourseOfferingManagementForm theForm,
+            BindingResult result,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+    }
+
+    @RequestMapping(params = "methodToCall=copyCourseOfferingCancel")
+    public ModelAndView copyCourseOfferingCancel(
+            @ModelAttribute("KualiForm") CourseOfferingManagementForm theForm,
+            BindingResult result,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+    }
+
     @RequestMapping(params = "methodToCall=copyCourseOffering")
     public ModelAndView copyCourseOffering(
             @ModelAttribute("KualiForm") CourseOfferingManagementForm theForm,
@@ -231,8 +249,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             coCopyWrapper.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
             coCopyWrapper.setTermId(courseOfferingInfo.getTermId());
             coCopyWrapper.setCreditCount(courseOfferingInfo.getCreditCnt());
-            coCopyWrapper.setGradingOptions(courseOfferingInfo.getGradingOption());
-            coCopyWrapper.setStudentRegistrationOptions(courseOfferingInfo.getStudentRegistrationGradingOptions());
+            coCopyWrapper.setGradingOption(courseOfferingInfo.getGradingOption());
+            coCopyWrapper.setStudentRegistrationGradingOptionsList(courseOfferingInfo.getStudentRegistrationGradingOptions());
             coCopyWrapper.setFinalExamType(courseOfferingInfo.getFinalExamType());
             coCopyWrapper.setWaitlistLevelTypeKey(courseOfferingInfo.getWaitlistLevelTypeKey());
             coCopyWrapper.setWaitlistTypeKey(courseOfferingInfo.getWaitlistTypeKey());
