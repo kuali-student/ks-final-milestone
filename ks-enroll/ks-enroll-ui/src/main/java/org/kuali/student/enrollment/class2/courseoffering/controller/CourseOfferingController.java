@@ -93,17 +93,16 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(),term.getId(),getContextInfo());
 
             coWrapper.getExistingTermOfferings().clear();
-            coWrapper.getExistingCourseOfferings().clear();
+            coWrapper.getExistingOfferingsInCurrentTerm().clear();
 
             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
                 ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
                 co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
                 co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
-                coWrapper.getExistingCourseOfferings().add(co);
+                coWrapper.getExistingOfferingsInCurrentTerm().add(co);
             }
 
             courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourse(coWrapper.getCourse().getId(),getContextInfo());
-            coWrapper.setNoOfTermOfferings(courseOfferingInfos.size());
 
             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
                 ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
@@ -167,37 +166,31 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CourseOfferingInfo existingCO = ((ExistingCourseOffering)getSelectedObject(form)).getCourseOfferingInfo();
-        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseOfferingCreateWrapper createWrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         List<String> optionKeys = new ArrayList<String>();
 
-        if (wrapper.isExcludeInstructorInformation()){
+        if (createWrapper.isExcludeInstructorInformation()){
             optionKeys.add(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);
         }
 
-        if (wrapper.isExcludeCancelledActivityOfferings()){
-            optionKeys.add("exclude cancel AO");
-        }
-
-        if (wrapper.isExcludeSchedulingInformation()){
+        if (createWrapper.isExcludeSchedulingInformation()){
             optionKeys.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
         }
 
-        if (wrapper.isExcludeInstructorInformation()){
+        if (createWrapper.isExcludeInstructorInformation()){
             optionKeys.add(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);
         }
 
-        CourseOfferingInfo newCO = copyCourseOffering(wrapper,existingCO,optionKeys);
+        if (createWrapper.isExcludeCancelledActivityOfferings()){
+            optionKeys.add(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY);
+        }
 
-        CourseOfferingCreateWrapper createWrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-
-        ExistingCourseOffering newWrapper = new ExistingCourseOffering(newCO);
-
-        CourseInfo course = getCourseInfo(existingCO.getCourseCode());
-        newWrapper.setCredits(ViewHelperUtil.getCreditCount(newCO, course));
-        newWrapper.setGrading(getGradingOption(newCO.getGradingOptionId()));
-        createWrapper.getExistingTermOfferings().add(newWrapper);
-
+        CourseOfferingInfo co = getCourseOfferingService().rolloverCourseOffering(existingCO.getId(),createWrapper.getTerm().getId(),optionKeys,getContextInfo());
+        ExistingCourseOffering newWrapper = new ExistingCourseOffering(co);
+        newWrapper.setCredits(ViewHelperUtil.getCreditCount(co, createWrapper.getCourse()));
+        newWrapper.setGrading(getGradingOption(co.getGradingOptionId()));
+        createWrapper.getExistingOfferingsInCurrentTerm().add(newWrapper);
 
         return getUIFModelAndView(form);
 

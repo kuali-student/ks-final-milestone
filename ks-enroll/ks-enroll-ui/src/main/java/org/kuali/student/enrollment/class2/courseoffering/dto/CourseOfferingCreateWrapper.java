@@ -31,7 +31,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
     private TermInfo term;
 
     private List<FormatOfferingInfo> formatOfferingList;
-    private List<ExistingCourseOffering> existingCourseOfferings;
+    private List<ExistingCourseOffering> existingOfferingsInCurrentTerm;
     private List<ExistingCourseOffering> existingTermOfferings;
 
     private String createErrorMessage;
@@ -46,7 +46,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
     public CourseOfferingCreateWrapper(){
         showTermOfferingLink = true;
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
-        existingCourseOfferings = new ArrayList<ExistingCourseOffering>();
+        existingOfferingsInCurrentTerm = new ArrayList<ExistingCourseOffering>();
         existingTermOfferings = new ArrayList<ExistingCourseOffering>();
     }
 
@@ -130,12 +130,12 @@ public class CourseOfferingCreateWrapper implements Serializable{
         this.showAllSections = showAllSections;
     }
 
-    public List<ExistingCourseOffering> getExistingCourseOfferings() {
-        return existingCourseOfferings;
+    public List<ExistingCourseOffering> getExistingOfferingsInCurrentTerm() {
+        return existingOfferingsInCurrentTerm;
     }
 
-    public void setExistingCourseOfferings(List<ExistingCourseOffering> existingCourseOfferings) {
-        this.existingCourseOfferings = existingCourseOfferings;
+    public void setExistingOfferingsInCurrentTerm(List<ExistingCourseOffering> existingOfferingsInCurrentTerm) {
+        this.existingOfferingsInCurrentTerm = existingOfferingsInCurrentTerm;
     }
 
     public TermInfo getTerm() {
@@ -155,11 +155,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
     }
 
     public int getNoOfTermOfferings() {
-        return noOfTermOfferings;
-    }
-
-    public void setNoOfTermOfferings(int noOfTermOfferings) {
-        this.noOfTermOfferings = noOfTermOfferings;
+        return getExistingTermOfferings().size();
     }
 
     public boolean isEnableCreateButton() {
@@ -230,8 +226,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
         setShowAllSections(false);
         setCreditCount("");
         getExistingTermOfferings().clear();
-        getExistingCourseOfferings().clear();
-        setNoOfTermOfferings(0);
+        getExistingOfferingsInCurrentTerm().clear();
         setEnableCreateButton(false);
         setExcludeCancelledActivityOfferings(false);
         setExcludeSchedulingInformation(false);
