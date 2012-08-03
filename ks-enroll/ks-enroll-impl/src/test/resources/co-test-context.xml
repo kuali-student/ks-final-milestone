@@ -166,8 +166,10 @@
     <property name="typeService" ref="typeService"/>
     <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
     <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
+    <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao"/>
   </bean>
 
+    <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao"/>
     <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
     <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
         <property name="lprService" ref="lprPersistenceService" />

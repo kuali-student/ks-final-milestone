@@ -10,6 +10,8 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
+import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao;
+import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
@@ -89,6 +91,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private TermAssembler termAssembler = null;
     private CourseOfferingCodeGenerator offeringCodeGenerator;
     private CourseOfferingTransformer courseOfferingTransformer;
+    private SeatPoolDefinitionDao seatPoolDefinitionDao;
 
     public CourseOfferingServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
@@ -225,6 +228,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         this.lprService = lprService;
     }
 
+    public SeatPoolDefinitionDao getSeatPoolDefinitionDao() {
+        return seatPoolDefinitionDao;
+    }
+
+    public void setSeatPoolDefinitionDao(SeatPoolDefinitionDao seatPoolDefinitionDao) {
+        this.seatPoolDefinitionDao = seatPoolDefinitionDao;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -1475,7 +1485,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public SeatPoolDefinitionInfo getSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
+        SeatPoolDefinitionEntity poolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
+        if (null == poolEntity) {
+            throw new DoesNotExistException(seatPoolDefinitionId);
+        }
+        return poolEntity.toDto();
     }
 
     @Override
@@ -1489,7 +1504,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SeatPoolDefinitionInfo createSeatPoolDefinition(SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new UnsupportedOperationException();
+        SeatPoolDefinitionEntity poolEntity = new SeatPoolDefinitionEntity(seatPoolDefinitionInfo);
+        try {
+            poolEntity.setCreateId(context.getPrincipalId());
+            poolEntity.setCreateTime(context.getCurrentDate());
+            poolEntity.setUpdateId(context.getPrincipalId());
+            poolEntity.setUpdateTime(context.getCurrentDate());
+            seatPoolDefinitionDao.persist(poolEntity);
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
+        return poolEntity.toDto();
     }
 
     @Override
