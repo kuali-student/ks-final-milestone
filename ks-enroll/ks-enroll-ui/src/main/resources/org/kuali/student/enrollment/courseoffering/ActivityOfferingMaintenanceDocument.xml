@@ -482,6 +482,19 @@
                                 <property name="layoutManager.richTable.render" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="false" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="addLineActions">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
+                                              p:actionEvent="addLine" />
+                                    </list>
+                                </property>
+                                <property name="lineActions">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="remove"
+                                              p:actionEvent="deleteLine" />
+                                    </list>
+                                </property>
+
                                 <property name="addLineItems">
                                     <list>
                                         <bean parent="Uif-InputField" p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:maxLength="2">
