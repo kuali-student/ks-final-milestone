@@ -16,11 +16,11 @@
 
 package org.kuali.student.r2.core.organization.infc;
 
-import java.util.List;
-
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
+
+import java.util.List;
 
 /**
  * Information about a single organization. 
@@ -53,7 +53,6 @@ public interface Org
      * by shortName or longName is undesirable.
      *
      * @name Sort Name
-     * @required
      */
     public String getSortName();
 
@@ -78,7 +77,6 @@ public interface Org
      * categories.
      *
      * @name Org Codes
-     * @required
      */
     public List<? extends OrgCode> getOrgCodes();
 }
