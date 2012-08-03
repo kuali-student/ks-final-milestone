@@ -1,3 +1,22 @@
+
+/**
+ * Fix for KULRICE-7795 as suggested by Brian. We need to remove this method once we get the same in next rice upgrade M3/M4
+ */
+writeMessagesForPage = function() {
+    var page = jQuery("[data-type='Page']");
+    var pageId = page.attr("id");
+    var data = page.data(kradVariables.VALIDATION_MESSAGES);
+    var messageMap = data.messageMap;
+    if (!messageMap) {
+        messageMap = {};
+        data.messageMap = messageMap;
+    }
+    writeMessagesForGroup(pageId, data);
+    writeMessagesForChildGroups(pageId);
+    jQuery(".uif-errorMessageItem > div").show();
+}
+
+/*
 function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
     if(jqObject && collectionGroupId){
         collectionGroupId = jqObject.closest("[id^='" + collectionGroupId + "']").attr("id");
@@ -48,4 +67,4 @@ function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfter
             writeHiddenToForm('actionParameters[itemId]' , id);
             jq('#kualiForm').submit();
         }
-    }
+    }*/
