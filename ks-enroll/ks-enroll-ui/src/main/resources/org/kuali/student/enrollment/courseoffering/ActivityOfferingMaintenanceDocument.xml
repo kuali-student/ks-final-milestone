@@ -503,7 +503,7 @@
                                         <bean parent="Uif-MessageField" p:messageText="???" p:label="PERCENT" p:readOnly="true" />
                                         <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="40" p:disabled="true" />
+                                                <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="true" />
                                             </property>
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                                             <property name="quickfinder.fieldConversions">
@@ -543,8 +543,8 @@
                                             </property>
                                         </bean>
                                         <bean parent="Uif-MessageField" p:messageText="???" p:label="PERCENT" p:readOnly="true" />
-                                        <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
-                                            <property name="control">
+                                        <bean parent="Uif-DataField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
+                                            <!--<property name="control">
                                                 <bean parent="Uif-TextControl" p:size="40" p:disabled="true" />
                                             </property>
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
@@ -553,7 +553,7 @@
                                                     <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
                                                     <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
                                                 </map>
-                                            </property>
+                                            </property>-->
                                             <!--<property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />-->
                                         </bean>
                                         <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:label="EXPIRATION MILESTONE">
