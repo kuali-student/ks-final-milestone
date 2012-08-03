@@ -74,6 +74,7 @@ public class SeatPoolExpirationMilestoneTypeKeyValues extends UifKeyValuesFinder
             throw new RuntimeException(e);
         }
 
+        keyValues.add(new ConcreteKeyValue("NONE", "NONE"));
         return keyValues;
     }
 

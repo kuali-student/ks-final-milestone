@@ -514,7 +514,7 @@
                                             </property>
                                             <!--<property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />-->
                                         </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:label="EXPIRATION MILESTONE">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:defaultValue="kuali.atp.milestone.firstdayofclasses" p:label="EXPIRATION MILESTONE">
                                             <!-- property name="control">
                                                 <bean parent="Uif-DropdownControl"/>
                                             </property>
