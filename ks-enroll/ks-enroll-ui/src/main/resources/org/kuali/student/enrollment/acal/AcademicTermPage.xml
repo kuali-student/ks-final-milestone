@@ -38,7 +38,7 @@
         </property>
         <property name="items">
             <list>
-                <!-- Commented out the field group as we have issue with rice m2. (KULRICE-7794). Should uncomment once we get the fix in m4
+                <!-- Commented out the field group as we have issue with rice m2. (KULRICE-7794). Should uncomment once we get the fix in m4  -->
                 <!-- HorizontalFieldGroup added as bug fix; see note in KS-HorizontalCollectionSection -->
                 <!--<bean parent="Uif-HorizonFieldGroup" p:fieldLabel.render="false">-->
                     <!--<property name="items">
