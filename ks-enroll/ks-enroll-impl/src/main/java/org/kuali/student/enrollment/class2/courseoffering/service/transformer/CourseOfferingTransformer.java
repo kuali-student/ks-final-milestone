@@ -253,7 +253,7 @@ public class CourseOfferingTransformer {
 
         AttributeInfo courseNumberInternalSuffix = new AttributeInfo();
         courseNumberInternalSuffix.setKey(CourseOfferingServiceConstants.COURSE_NUMBER_IN_SUFX_ATTR);
-        whereFeesAttachedFlag.setValue(co.getCourseNumberInternalSuffix());
+        courseNumberInternalSuffix.setValue(co.getCourseNumberInternalSuffix());
         attributesMap.put(CourseOfferingServiceConstants.COURSE_NUMBER_IN_SUFX_ATTR, courseNumberInternalSuffix);
 
         for (Map.Entry<String, AttributeInfo> entry : attributesMap.entrySet()) {

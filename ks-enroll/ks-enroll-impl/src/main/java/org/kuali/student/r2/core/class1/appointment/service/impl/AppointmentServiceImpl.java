@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
+import org.kuali.student.r2.common.util.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;

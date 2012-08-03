@@ -15,23 +15,16 @@
  */
 package org.kuali.student.enrollment.class1.hold.service.controller;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoSearchForm;
-import org.kuali.student.enrollment.class1.hold.service.form.ProcessInfoSearchForm;
+import org.kuali.student.enrollment.class1.hold.service.form.ProcessInfoForm;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
-import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
-import org.kuali.student.r2.core.hold.service.HoldService;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.springframework.stereotype.Controller;
@@ -45,13 +38,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
-
-import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 
 /**
  * This class //TODO ...
@@ -60,79 +48,101 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
  */
 
 @Controller
-@RequestMapping(value = "/processInfoSearch")
-public class ProcessInfoSearchController extends UifControllerBase {
+@RequestMapping(value = "/processInfoController")
+public class ProcessInfoController extends UifControllerBase {
 
     private transient ProcessService processService;
     private ContextInfo contextInfo;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
-        return new ProcessInfoSearchForm();
+        return new ProcessInfoForm();
     }
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        ProcessInfoSearchForm processInfoSearchForm = (ProcessInfoSearchForm)form;
+        ProcessInfoForm processInfoForm = (ProcessInfoForm)form;
 
         return super.start(form, result, request, response);
     }
 
-    /*@RequestMapping(params = "methodToCall=search")
-    public ModelAndView search(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
+    @RequestMapping(params = "methodToCall=save")
+    public ModelAndView save(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<HoldIssueInfo> results = new ArrayList<HoldIssueInfo>();
-
-        String name = searchForm.getName();
-        String type = searchForm.getTypeKey();
-        String state = searchForm.getStateKey();
-        String orgId = searchForm.getOrganizationId();
-        String descr = searchForm.getDescr();
+        ProcessInfo processInfo = new ProcessInfo();
+        processInfo.setKey("kuali.process."+ form.getTypeKey() + "."+form.getName() );
+        String key =  processInfo.getKey().replaceAll(" ", ".");
+        processInfo.setKey(key);
+        processInfo.setName(form.getName());
+        processInfo.setTypeKey(form.getTypeKey());
+        processInfo.setStateKey(form.getStateKey());
+        processInfo.setOwnerOrgId(form.getOwnerOrgId());
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain(form.getDescr());
+        processInfo.setDescr(richTextInfo);
 
         try {
-            QueryByCriteria.Builder query = buildQueryByCriteria(name,type,state,orgId,descr);
+            processService = getProcessService();
+            // ProcessInfo createProcessInfo = processService.createProcess(processInfo.getKey(), processInfo.getTypeKey(), processInfo, getContextInfo());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Create new failed. ", e);
+        }
+        form.setProcessInfo(processInfo);
+        form.setKey(processInfo.getKey());
+        //GlobalVariables.getMessageMap().addGrowlMessage("Saved!", "Save Successful");
+        return getUIFModelAndView(form, null);
+    }
 
-            holdService = getHoldService();
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=create")
+    public ModelAndView create(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Properties urlParameters = new Properties();
+
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+        urlParameters.put(UifParameters.VIEW_ID, "processCreateView");
+
+        return super.performRedirect(form, "processInfoController", urlParameters);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=search")
+    public ModelAndView view(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<ProcessInfo> results = new ArrayList<ProcessInfo>();
+
+        /*List<String> type = getProcessService().getProcessCategoryIdsByType(form.getTypeKey(), getContextInfo());
+
+        try {
+            processService = getProcessService();
 
 
-            List<HoldIssueInfo> holdIssueInfos = holdService.searchForHoldIssues(query.build(), getContextInfo());
-            if (!holdIssueInfos.isEmpty()){
-                results.addAll(holdIssueInfos);
+            List<ProcessInfo> processInfos = processService.getProcessesForProcessCategory(type.get(type.size()-1), getContextInfo());
+            if (!processInfos.isEmpty()){
+                results.addAll(processInfos);
             }
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error Performing Search",e); //To change body of catch statement use File | Settings | File Templates.
-        }
+        }*/
 
-        resetForm(searchForm);
+        resetForm(form);
 
-        searchForm.setHoldIssueInfo(results);
+        form.setProcessInfos(results);
 
-        return getUIFModelAndView(searchForm, null);
-    } */
-
-    @RequestMapping(params = "methodToCall=view")
-    public ModelAndView view(@ModelAttribute("KualiForm") ProcessInfoSearchForm searchForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String controllerPath;
-        List<String> type = getProcessService().getProcessCategoryIdsByType(searchForm.getTypeKey(), getContextInfo());
         Properties urlParameters = new Properties();
 
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "view");
-        urlParameters.put("type", type);
-        urlParameters.put(UifParameters.VIEW_ID, "processInfoView");
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+        urlParameters.put(UifParameters.VIEW_ID, "processInfoResultView");
 
-        controllerPath = "";
-
-        return performRedirect(searchForm, controllerPath, urlParameters);
+        return super.performRedirect(form, "processInfoController", urlParameters);
     }
 
     /*@RequestMapping(params = "methodToCall=edit")
-    public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
+    public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HoldIssueInfo holdIssue = getSelectedHoldIssue(searchForm, "edit");
+        HoldIssueInfo holdIssue = getSelectedHoldIssue(form, "edit");
 
         String controllerPath;
         Properties urlParameters = new Properties();
@@ -143,14 +153,14 @@ public class ProcessInfoSearchController extends UifControllerBase {
 
         controllerPath = "createHold";
 
-        return performRedirect(searchForm, controllerPath, urlParameters);
+        return performRedirect(form, controllerPath, urlParameters);
     }
 
     @RequestMapping(params = "methodToCall=delete")
-    public ModelAndView delete(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
+    public ModelAndView delete(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<HoldIssueInfo> holdIssueInfos = searchForm.getHoldIssueInfo();
-        HoldIssueInfo holdIssue = getSelectedHoldIssue(searchForm, "delete");
+        List<HoldIssueInfo> holdIssueInfos = form.getHoldIssueInfo();
+        HoldIssueInfo holdIssue = getSelectedHoldIssue(form, "delete");
 
         try {
             if(holdIssue.getStateKey().equals("active")) {
@@ -162,12 +172,12 @@ public class ProcessInfoSearchController extends UifControllerBase {
             throw new RuntimeException("Error Performing Delete",e);
         }
 
-        searchForm.setHoldIssueInfo(holdIssueInfos);
-        return getUIFModelAndView(searchForm);
+        form.setHoldIssueInfo(holdIssueInfos);
+        return getUIFModelAndView(form);
     }
 
-    private void resetForm(HoldIssueInfoSearchForm searchForm) {
-        searchForm.setHoldIssueInfo(new ArrayList<HoldIssueInfo>());
+    private void resetForm(HoldIssueInfoSearchForm form) {
+        form.setHoldIssueInfo(new ArrayList<HoldIssueInfo>());
     } */
 
     private ContextInfo getContextInfo() {
@@ -183,6 +193,10 @@ public class ProcessInfoSearchController extends UifControllerBase {
             processService = (ProcessService) GlobalResourceLoader.getService(new QName(ProcessServiceConstants.NAMESPACE, ProcessServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return processService;
+    }
+
+    private void resetForm(ProcessInfoForm form) {
+        form.setProcessInfos(new ArrayList<ProcessInfo>());
     }
 
     /*private static QueryByCriteria.Builder buildQueryByCriteria(String name, String type,String state, String orgId, String descr){

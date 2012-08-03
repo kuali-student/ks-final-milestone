@@ -186,6 +186,13 @@ public class AtpServiceConstants {
     public static final String MILESTONE_REFUND_50_TYPE_KEY = "kuali.atp.milestone.Refund50";
     public static final String MILESTONE_REFUND_40_TYPE_KEY = "kuali.atp.milestone.Refund40";
     public static final String MILESTONE_REFUND_20_TYPE_KEY = "kuali.atp.milestone.Refund20";
+    // Seatpool milestones
+    public static final String MILESTONE_SEATPOOL_FIRST_DAY_OF_CLASSES_TYPE_KEY = "kuali.atp.milestone.firstdayofclasses";
+    public static final String MILESTONE_SEATPOOL_LAST_DAY_OF_REGISTRATION_TYPE_KEY = "kuali.atp.milestone.lastdayofregistration";
+    public static final String MILESTONE_SEATPOOL_END_OF_FIRST_WEEK_OF_CLASSES_TYPE_KEY = "kuali.atp.milestone.endoffirstweekofclasses";
+    public static final String MILESTONE_SEATPOOL_MONTH_PRIOR_TO_START_OF_CLASSES_TYPE_KEY = "kuali.atp.milestone.monthpriortostartofclasses";
+    // Seatpool milestone grouping type (used in type-type relations to group seatpool milestones)
+    public static final String MILESTONE_SEATPOOL_GROUPING_TYPE_KEY = "kuali.milestone.type.group.seatpool";
 
     /**
      * Duration Types

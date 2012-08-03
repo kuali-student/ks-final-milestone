@@ -44,7 +44,7 @@
         <property name="stateService" ref="stateService" />
         <property name="typeService" ref="typeService" />
         <property name="lprService" ref="lprService" />
-<!--    <property name="criteriaLookupService" ref="coCriteriaLookupService"/>-->
+        <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
         <property name="businessLogic" ref="businessLogic" />
         <property name="atpService" ref="atpService"/>
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
@@ -80,6 +80,8 @@
     
     <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
 	 <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
+
+    <bean id="coCriteriaLookupService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CriteriaLookupServiceMockImpl" />
 
 
 </beans>

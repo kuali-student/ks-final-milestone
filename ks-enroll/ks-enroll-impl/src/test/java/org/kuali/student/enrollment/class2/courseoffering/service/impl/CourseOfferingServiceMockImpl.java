@@ -1418,19 +1418,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 				sourceCourseOfferingId, targetTermId, optionKeys, context);
 	}
 
-    @Override
-	public CourseOfferingInfo copyCourseOffering(
-			String sourceCourseOfferingId, String targetTermId,
-			List<String> optionKeys, ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException,
-			DoesNotExistException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			ReadOnlyException {
-		return this.businessLogic.copyCourseOffering(
-				sourceCourseOfferingId, targetTermId, optionKeys, context);
-	}
-
 	private MetaInfo newMeta(ContextInfo context) {
 		MetaInfo meta = new MetaInfo();
 		meta.setCreateId(context.getPrincipalId());

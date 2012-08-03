@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,13 +47,35 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
             aoCodes.add(aoInfo.getActivityCode());
         }
 
+        return CalculateNextCode(aoCodes);
+    }
+
+    @Override
+    public String generateCourseOfferingInternalCode(List<CourseOfferingInfo> existingCourseOfferings) {
+
+        //If this is the first code, send back "A"
+        if(existingCourseOfferings==null||existingCourseOfferings.isEmpty()){
+            return "A";
+        }
+
+        List<String> internalCodes = new ArrayList<String>();
+        for(CourseOfferingInfo coInfo:existingCourseOfferings){
+            if(coInfo.getCourseNumberInternalSuffix() != null){
+                internalCodes.add(coInfo.getCourseNumberInternalSuffix());
+            }
+        }
+
+        return CalculateNextCode(internalCodes);
+    }
+
+    public String CalculateNextCode(List<String> codes){
         //Always start with A if it's not there
-        if(!aoCodes.contains("A")){
+        if(!codes.contains("A")){
             return "A";
         }
 
         //Sort the list so we can fill in gaps
-        Collections.sort(aoCodes,new Comparator<String>() {
+        Collections.sort(codes,new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
                 if(o1.length() == o2.length()){
@@ -64,10 +87,10 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
         });
 
         //Fill in the gaps of letters
-        for(String s:aoCodes){
+        for(String s:codes){
             //For each existing code, find the next valid generated code and see if it exists
-            String nextCode = getNextCode(s);
-            if(!aoCodes.contains(nextCode)){
+             String nextCode = getNextCode(s);
+             if(!codes.contains(nextCode)){
                 return nextCode;
             }
         }
@@ -75,7 +98,6 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
         //This should never be reached unless there is an infinite list of strings passed in
         throw new RuntimeException("Error generating codes");
     }
-
     /**
      * Gets the next letter of the alphabet in caps in the form A,B...Z,AA,AB...AZ,BA,BB..BZ,CA,CB....ZZ,AAA,AAB...
      *

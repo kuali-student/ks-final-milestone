@@ -19,15 +19,12 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="CourseOfferingInfo" parent="CourseOfferingInfo-parent">
-        <property name="titleAttribute" value="id"/>
-    </bean>
-
     <bean id="KS-CourseOfferingManagement-CopyCourseOfferingPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="copyCourseOfferingPage">
         <property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Copy Course Offering" />
         </property>
+
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-CopyCourseOfferingSection"/>
@@ -36,9 +33,26 @@
                 <ref bean="KS-CourseOfferingManagement-CopyCancelSection"/>
             </list>
         </property>
+
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-CopyCourseOfferingSection" parent="Uif-VerticalBoxSection"/>
+    <bean id="KS-CourseOfferingManagement-CopyCourseOfferingSection" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="Course Offering Code"/>
+                <bean parent="Uif-DataField"
+                    p:fieldLabel.renderColon="false"
+                    p:readOnly="true"
+                    p:propertyName="courseOfferingCopyWrapper.courseOfferingCode"/>
+
+                <bean parent="Uif-Label" p:labelText="Course Title"/>
+                <bean parent="Uif-DataField"
+                    p:fieldLabel.renderColon="false"
+                    p:readOnly="true"
+                    p:propertyName="courseOfferingCopyWrapper.courseTitle"/>
+            </list>
+        </property>
+    </bean>
     <bean id="KS-CourseOfferingManagement-ActivityOfferingsSection" parent="Uif-VerticalBoxSection"/>
     <bean id="KS-CourseOfferingManagement-ConfigureCourseOfferingCopySection" parent="Uif-VerticalBoxSection"/>
     <bean id="KS-CourseOfferingManagement-CopyCancelSection" parent="Uif-VerticalBoxSection"/>

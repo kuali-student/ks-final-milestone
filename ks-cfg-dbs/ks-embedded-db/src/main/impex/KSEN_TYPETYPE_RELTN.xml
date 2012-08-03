@@ -804,4 +804,36 @@
         RELATED_TYPE_ID="kuali.atp.milestone.RegistrationPeriod6"
         TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
         TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
+    <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
+        CREATETIME="20120801000000" EFF_DT="20110101000000"
+        EXPIR_DT="21000101000000"
+        ID="kuali.type.type.relation.type.group.kuali.milestone.type.group.seatpool.kuali.atp.milestone.endoffirstweekofclasses"
+        OWNER_TYPE_ID="kuali.milestone.type.group.seatpool" RANK="0"
+        RELATED_TYPE_ID="kuali.atp.milestone.endoffirstweekofclasses"
+        TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
+        TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
+    <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
+        CREATETIME="20120801000000" EFF_DT="20110101000000"
+        EXPIR_DT="21000101000000"
+        ID="kuali.type.type.relation.type.group.kuali.milestone.type.group.seatpool.kuali.atp.milestone.firstdayofclasses"
+        OWNER_TYPE_ID="kuali.milestone.type.group.seatpool" RANK="0"
+        RELATED_TYPE_ID="kuali.atp.milestone.firstdayofclasses"
+        TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
+        TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
+    <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
+        CREATETIME="20120801000000" EFF_DT="20110101000000"
+        EXPIR_DT="21000101000000"
+        ID="kuali.type.type.relation.type.group.kuali.milestone.type.group.seatpool.kuali.atp.milestone.lastdayofregistration"
+        OWNER_TYPE_ID="kuali.milestone.type.group.seatpool" RANK="0"
+        RELATED_TYPE_ID="kuali.atp.milestone.lastdayofregistration"
+        TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
+        TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
+    <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
+        CREATETIME="20120801000000" EFF_DT="20110101000000"
+        EXPIR_DT="21000101000000"
+        ID="kuali.type.type.relation.type.group.kuali.milestone.type.group.seatpool.kuali.atp.milestone.monthpriortostartofclasses"
+        OWNER_TYPE_ID="kuali.milestone.type.group.seatpool" RANK="0"
+        RELATED_TYPE_ID="kuali.atp.milestone.monthpriortostartofclasses"
+        TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
+        TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
 </dataset>

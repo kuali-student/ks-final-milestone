@@ -5659,7 +5659,6 @@
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1000"/>
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2000"/>
-    <sequence name="KRNS_MAINT_DOC_ATT_S" nextval="10000"/>
     <sequence name="KRNS_MAINT_LOCK_S" nextval="2020"/>
     <sequence name="KRNS_NTE_S" nextval="2020"/>
     <sequence name="KRSB_BAM_PARM_S" nextval="2000"/>

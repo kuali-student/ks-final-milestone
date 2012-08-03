@@ -72,35 +72,31 @@
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="121" NM="viewId" NMSPC_CD="KR-KRAD"
-        OBJ_ID="47C4BC9F36D04C10BB89FFE6C429EFC7" VER_NBR="1"/>
+        OBJ_ID="C659B3D03BFA67FFE040760A2C237C81" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="122" NM="actionEvent" NMSPC_CD="KR-KRAD"
-        OBJ_ID="21C156EF679A44FD805F0D9265896228" VER_NBR="1"/>
+        OBJ_ID="C659B3D03BFB67FFE040760A2C237C81" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="123" NM="collectionPropertyName"
-        NMSPC_CD="KR-KRAD" OBJ_ID="A102133AFE9945D9A1F2EFF6BE8AD9D9" VER_NBR="1"/>
+        NMSPC_CD="KR-KRAD" OBJ_ID="C659B3D03BFC67FFE040760A2C237C81" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="124" NM="fieldId" NMSPC_CD="KR-KRAD"
-        OBJ_ID="9B9057BE86B34F7AB685DBF0EF9D0FB1" VER_NBR="1"/>
+        OBJ_ID="C659B3D03BFD67FFE040760A2C237C81" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="125" NM="groupId" NMSPC_CD="KR-KRAD"
-        OBJ_ID="D6DA4D30030B41888E5A6D0620009300" VER_NBR="1"/>
+        OBJ_ID="C659B3D03BFE67FFE040760A2C237C81" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="126" NM="widgetId" NMSPC_CD="KR-KRAD"
-        OBJ_ID="B1D300631A9C4E5FB6E940D0A2B6DD3B" VER_NBR="1"/>
+        OBJ_ID="C659B3D03BFF67FFE040760A2C237C81" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="127" NM="actionId" NMSPC_CD="KR-KRAD"
-        OBJ_ID="681195530AE445EF99818F0406B0A968" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
-        CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
-        KIM_ATTR_DEFN_ID="128" NM="appDocStatus" NMSPC_CD="KR-WKFLW"
-        OBJ_ID="04EF2680D51B4943A2E4A274AF3251AD" VER_NBR="1"/>
+        OBJ_ID="C659B3D03C0067FFE040760A2C237C81" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="13" NM="documentTypeName" NMSPC_CD="KR-WKFLW"

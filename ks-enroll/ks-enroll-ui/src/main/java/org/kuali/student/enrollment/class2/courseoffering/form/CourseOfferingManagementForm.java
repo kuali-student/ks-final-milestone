@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
@@ -15,6 +16,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private TermInfo termInfo;
     private String courseOfferingCode;
     private String subjectCode;
+    private String subjectCodeDescription;
     private String radioSelection;
     private String inputCode;
     private String selectedOfferingAction;
@@ -24,6 +26,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private List<ActivityOfferingWrapper> activityWrapperList;
     private List<ActivityOfferingWrapper> selectedToDeleteList;
     private List<CourseOfferingEditWrapper> courseOfferingEditWrapperList;
+    private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
 
     //For Adding Activity
     private String formatIdForNewAO;
@@ -40,6 +43,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
+        setCourseOfferingCopyWrapper(null);
     }
 
     public String getTermCode(){
@@ -162,6 +166,14 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.courseOfferingEditWrapperList = courseOfferingEditWrapperList;
     }
 
+    public CourseOfferingCopyWrapper getCourseOfferingCopyWrapper() {
+        return courseOfferingCopyWrapper;
+    }
+
+    public void setCourseOfferingCopyWrapper(CourseOfferingCopyWrapper courseOfferingCopyWrapper) {
+        this.courseOfferingCopyWrapper = courseOfferingCopyWrapper;
+    }
+
     public String getPreviousCourseOfferingCodeUI() {
         return previousCourseOfferingCodeUI;
     }
@@ -193,6 +205,14 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public CourseOfferingInfo getNextCourseOffering() {
         return nextCourseOffering;
+    }
+
+    public String getSubjectCodeDescription() {
+        return subjectCodeDescription;
+    }
+
+    public void setSubjectCodeDescription(String subjectCodeDescription) {
+        this.subjectCodeDescription = subjectCodeDescription;
     }
 
     public void setNextCourseOffering(CourseOfferingInfo nextCourseOffering) {

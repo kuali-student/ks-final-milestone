@@ -44,7 +44,7 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
                 CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)getDataObject();
                 CourseOfferingInfo courseOffering = new CourseOfferingInfo();
                 List<String> optionKeys = new ArrayList<String>();
-
+                optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
                 CourseInfo courseInfo = wrapper.getCourse();
                 courseOffering.setTermId(wrapper.getTerm().getId());
                 courseOffering.setCourseOfferingTitle(courseInfo.getCourseTitle());
@@ -54,7 +54,7 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
                 if (!StringUtils.isEmpty(wrapper.getCourseOfferingSuffix())) {
                     courseOffering.setCourseOfferingCode(wrapper.getCourseOfferingSuffix());
                     courseOffering.setCourseNumberSuffix(wrapper.getCourseOfferingSuffix());
-                    optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY);
+                    //optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY);
                 }
                 courseOffering.setCourseId(courseInfo.getId());
                 courseOffering.setCourseCode(courseInfo.getCode());

@@ -60,17 +60,17 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
             throws InvalidParameterException {
 
         if (scaleKey.equals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE)) {
-            return "kuali.creditType.credit." + creditValue;
+            return LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + creditValue;
         }
         if (scaleKey.equals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_REMEDIAL)) {
-            return "kuali.result.group.credit.remedial.fixed." + creditValue;
+            return LrcServiceConstants.RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_BASE + creditValue;
         }
         throw new InvalidParameterException("unknown/unhandled credit type scale key " + scaleKey);
     }
 
     /** 
      * Calculate the result values group key for the range credit value
-     * @param creditValue
+     * @param value
      * @param scaleKey
      * @return
      * @throws InvalidParameterException 
@@ -181,8 +181,11 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
 
     /** 
      * Calculate the result values group key for the range credit value
-     * @param creditValue
+     * @param creditValueMin
+     * @param creditValueMax
+     * @param creditValueIncrement
      * @param scaleKey
+     * @param contextInfo
      * @return
      * @throws InvalidParameterException 
      */
@@ -195,7 +198,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
 
         if (scaleKey.equals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE)) {
             StringBuilder sb = new StringBuilder();
-            sb.append("kuali.creditType.credit.");
+            sb.append(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE);
             sb.append(creditValueMin).append("-").append(creditValueMax);
             if (!creditValueIncrement.equals("1")) {
                 sb.append(".by.").append(creditValueIncrement);
@@ -204,6 +207,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         }
         if (scaleKey.equals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_REMEDIAL)) {
             StringBuilder sb = new StringBuilder();
+            //TODO this needs to be a constant and the DB needs to match these values.
             sb.append("kuali.result.group.credit.remedial.range.").append(creditValueMin).append("-").append(creditValueMax);
             if (creditValueIncrement.equals("1")) {
                 sb.append(".by.").append(creditValueIncrement);
@@ -215,8 +219,11 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
 
     /** 
      * Calculate the result values group key for the range credit value
-     * @param creditValue
+     * @param creditValueMin
+     * @param creditValueMax
+     * @param creditValueIncrement
      * @param scaleKey
+     * @param contextInfo
      * @return
      * @throws InvalidParameterException 
      */
@@ -299,8 +306,9 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
 
     /** 
      * Calculate the result values group key for the range credit value
-     * @param creditValue
+     * @param values
      * @param scaleKey
+     * @param contextInfo
      * @return
      * @throws InvalidParameterException 
      */
@@ -311,7 +319,13 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
 
         if (scaleKey.equals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE)) {
             StringBuilder sb = new StringBuilder();
-            sb.append("kuali.creditType.credit");
+
+            // so the base string has a "." at the end... remove it
+            String baseType = LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.substring(0,
+                                LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.length() - 1);
+
+            sb.append(baseType);
+
             for (String value : values) {
                 sb.append(".");
                 sb.append(value);
@@ -332,8 +346,9 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
 
     /** 
      * Calculate the result values group key for the range credit value
-     * @param creditValue
+     * @param values
      * @param scaleKey
+     * @param contextInfo
      * @return
      * @throws InvalidParameterException 
      */
@@ -454,7 +469,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
     /**
      * Calculate key to use for the result value
      * @param resultValue the value of the result
-     * @param groupInfo the group to which it is associated
+     * @param scaleKey key used for getting the proper scale.
      * @param contextInfo context
      * @return the calculated value
      */

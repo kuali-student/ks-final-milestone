@@ -2,6 +2,9 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -24,9 +27,12 @@ import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -46,6 +53,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementController.class);
 
     private CourseOfferingManagementViewHelperService viewHelperService;
+    private OrganizationService organizationService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -90,7 +98,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
             //load all courseofferings based on subject Code
             theForm.setSubjectCode(theForm.getInputCode());
+            theForm.setSubjectCodeDescription("");
             getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
+            if(!theForm.getCourseOfferingEditWrapperList().isEmpty()) {
+                theForm.setSubjectCode(theForm.getCourseOfferingEditWrapperList().get(0).getCoInfo().getSubjectArea());
+                String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
+                theForm.setSubjectCodeDescription(longNameDescr);
+            }
 
             return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
 
@@ -193,27 +207,63 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     }
 
-    @RequestMapping(params = "methodToCall=copyCourseOffering")
-    public ModelAndView copyCourseOffering(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object selectedObject = _getSelectedObject(theForm, "Copy");
-
-        if(selectedObject instanceof CourseOfferingEditWrapper){
-            CourseOfferingEditWrapper coWrapper =  (CourseOfferingEditWrapper)selectedObject;
-            CourseOfferingInfo theCourseOffering = coWrapper.getCoInfo();
-            theForm.setTheCourseOffering(theCourseOffering);
-            theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
-            theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
-            theForm.setRadioSelection("courseOfferingCode");
-            getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
-            return getUIFModelAndView(theForm, "copyCourseOfferingPage");
-        }
-        else{
-            //TODO log error
-            return getUIFModelAndView(theForm, "copyCourseOfferingPage");
-        }
+    @RequestMapping(params = "methodToCall=copyCourseOfferingCreateCopy")
+    public ModelAndView copyCourseOfferingCreateCopy(
+            @ModelAttribute("KualiForm") CourseOfferingManagementForm theForm,
+            BindingResult result,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
     }
 
+    @RequestMapping(params = "methodToCall=copyCourseOfferingCancel")
+    public ModelAndView copyCourseOfferingCancel(
+            @ModelAttribute("KualiForm") CourseOfferingManagementForm theForm,
+            BindingResult result,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+    }
+
+    @RequestMapping(params = "methodToCall=copyCourseOffering")
+    public ModelAndView copyCourseOffering(
+            @ModelAttribute("KualiForm") CourseOfferingManagementForm theForm,
+            BindingResult result,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        Object selectedObject = _getSelectedObject(theForm, "Copy"); // Receives edit wrapper, "Copy" for error message.
+        if(selectedObject instanceof CourseOfferingEditWrapper){
+
+            // Get the selected CourseOfferingEditWrapper.
+            CourseOfferingEditWrapper courseOfferingEditWrapper = (CourseOfferingEditWrapper)selectedObject;
+            CourseOfferingInfo courseOfferingInfo = courseOfferingEditWrapper.getCoInfo();
+
+            // Load activity offerings.
+            getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(courseOfferingInfo, theForm);
+
+            // Create a new CourseOfferingCopyWrapper from the Course Offering information.
+            CourseOfferingCopyWrapper coCopyWrapper = new CourseOfferingCopyWrapper();
+
+            // Add items that the page wrapper intends to displaying.
+            coCopyWrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
+            coCopyWrapper.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
+            coCopyWrapper.setTermId(courseOfferingInfo.getTermId());
+            coCopyWrapper.setCreditCount(courseOfferingInfo.getCreditCnt());
+            coCopyWrapper.setGradingOption(courseOfferingInfo.getGradingOption());
+            coCopyWrapper.setStudentRegistrationGradingOptionsList(courseOfferingInfo.getStudentRegistrationGradingOptions());
+            coCopyWrapper.setFinalExamType(courseOfferingInfo.getFinalExamType());
+            coCopyWrapper.setWaitlistLevelTypeKey(courseOfferingInfo.getWaitlistLevelTypeKey());
+            coCopyWrapper.setWaitlistTypeKey(courseOfferingInfo.getWaitlistTypeKey());
+            coCopyWrapper.setIsHonors(courseOfferingInfo.getIsHonorsOffering());
+            coCopyWrapper.setActivityOfferingWrapperList(theForm.getActivityWrapperList());
+
+            // Add it to the Copy Wrapper List.
+            theForm.setCourseOfferingCopyWrapper(coCopyWrapper);
+        } else { //TODO log error
+            theForm.setCourseOfferingCopyWrapper(null);
+        }
+        return getUIFModelAndView(theForm, "copyCourseOfferingPage");
+    }
 
 
     @RequestMapping(params = "methodToCall=selectAllActivityOfferings")
@@ -698,6 +748,33 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
 
+    public String getOrgNameDescription(String orgShortName) {
+        String shortName = "shortName";
+        String longName = "";
+
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        if (StringUtils.isNotBlank(orgShortName) && !orgShortName.isEmpty()) {
+            qBuilder.setPredicates(PredicateFactory.or(
+                    PredicateFactory.equal(shortName, orgShortName)));
+        } else {
+            throw new RuntimeException("Org short name is null!");
+        }
+        try {
+            QueryByCriteria query = qBuilder.build();
+
+            OrganizationService  organizationService = getOrganizationService();
+
+            java.util.List<OrgInfo> orgInfos = organizationService.searchForOrgs(query, getContextInfo());
+            if (!orgInfos.isEmpty()){
+                longName = orgInfos.get(0).getLongName();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error! No long name description found.",e); //To change body of catch statement use File | Settings | File Templates.
+        }
+        return longName;
+    }
+
     public CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm){
 
         if (viewHelperService == null) {
@@ -713,6 +790,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     public CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
+    }
+
+    private OrganizationService getOrganizationService(){
+        if(organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
+
+        }
+        return organizationService;
     }
 
     public ContextInfo getContextInfo() {

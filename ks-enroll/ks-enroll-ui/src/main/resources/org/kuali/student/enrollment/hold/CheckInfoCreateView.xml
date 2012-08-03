@@ -23,7 +23,7 @@
         <property name="id" value="checkCreateView"/>
         <property name="headerText" value="Create Checks"/>
         <property name="formClass"
-                  value="org.kuali.student.enrollment.class1.hold.service.form.CheckInfoCreateForm"/>
+                  value="org.kuali.student.enrollment.class1.hold.service.form.CheckInfoForm"/>
         <property name="singlePageView" value="true"/>
         <property name="page">
             <bean parent="Uif-Page"/>
@@ -33,6 +33,11 @@
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-enrollment-home</value>
+            </list>
         </property>
         <property name="items">
             <list>
