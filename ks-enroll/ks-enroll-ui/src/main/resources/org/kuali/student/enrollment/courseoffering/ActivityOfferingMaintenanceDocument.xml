@@ -468,7 +468,7 @@
                 </bean>
 
                 <bean parent="Uif-VerticalBoxSection">
-                    <!--<property name="headerText" value="Seatpools"/>-->
+                    <property name="headerText" value="Seatpools"/>
                     <property name="items">
                         <list>
                             <bean id="KS-ActivityOffering-SeatpoolsSection" parent="Uif-TableCollectionSection"
