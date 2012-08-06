@@ -21,20 +21,18 @@
             </bean>
         </property>
         <property name="header.lowerGroup">
-            <list>
-                <bean parent="Uif-VerticalBoxGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Message"
-                                  p:messageText="When copying a Holiday Calendar, all holiday names as well as dates and times from the source calendar are copied."
-                                  p:style="margin-bottom:0;"/>
-                            <bean parent="Uif-ActionLink"
-                                  p:methodToCall="toCreate"
-                                  p:actionLabel="Start a blank calendar instead?"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-Message"
+                              p:messageText="When copying a Holiday Calendar, all holiday names as well as dates and times from the source calendar are copied."
+                              p:style="margin-bottom:0;"/>
+                        <bean parent="Uif-ActionLink"
+                              p:methodToCall="toCreate"
+                              p:actionLabel="Start a blank calendar instead?"/>
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>
