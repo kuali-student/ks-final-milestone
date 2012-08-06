@@ -16,14 +16,14 @@ function calculatePercent(jqObject){
         var element = jQuery('#' + currentId);
         var numValue = element.val();
         var numericExpression = /^[0-9]+$/;
-        if(!numValue.match(numericExpression)) {
+        if(!numValue.match(numericExpression) && numValue != '') {
             if (currentId == 'maximumEnrollment') {
                 alert("Maximum enrollment must be a number!");
             } else {
                 alert("Number of seats must be a number!");
             }
             element.val('');
-            return false;        }
+        }
     }
 
 //    var seatLimitAdd =  jQuery('#seatLimit_add_control');
