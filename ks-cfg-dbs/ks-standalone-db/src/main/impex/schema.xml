@@ -1067,7 +1067,7 @@
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="ACTIVITY_OFFERING_ID" size="255" type="VARCHAR"/>
         <column name="EXPIR_MSTONE_TYPE" size="255" type="VARCHAR"/>
-        <column name="PERCENTAGE_IND" size="1" type="VARCHAR"/>
+        <column name="PERCENTAGE_IND" size="1" type="DECIMAL"/>
         <column name="SEAT_LIMIT" size="22" type="DECIMAL"/>
         <column name="PROCESSING_PRIORITY" size="22" type="DECIMAL"/>
         <column name="POPULATION_ID" size="255" type="VARCHAR"/>
