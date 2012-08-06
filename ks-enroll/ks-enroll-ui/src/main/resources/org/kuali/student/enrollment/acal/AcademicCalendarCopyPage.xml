@@ -20,8 +20,7 @@
                 </property>
             </bean>
         </property>
-        <property name="header.items">
-            <list>
+        <property name="header.lowerGroup">
                 <bean parent="Uif-VerticalBoxGroup">
                     <property name="items">
                         <list>
@@ -32,7 +31,6 @@
                         </list>
                     </property>
                 </bean>
-            </list>
         </property>
         <property name="items">
             <list>
