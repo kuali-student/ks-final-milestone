@@ -37,6 +37,7 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -245,6 +246,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             if (copyWrapper.isExcludeCancelledActivityOfferings()){
                 optionKeys.add(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY);
             }
+
+            //Generate Ids
+            optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
 
             CourseOfferingInfo courseOffering =
                 getCourseOfferingService().rolloverCourseOffering(
