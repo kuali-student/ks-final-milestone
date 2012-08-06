@@ -139,6 +139,11 @@
                 <value>classpath:org/kuali/student/enrollment/type/TypeInfoAdminInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/type/TypeTypeRelationInfoAdminLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/type/TypeTypeRelationInfoAdminInquiryView.xml</value>
+                <!-- State -->
+                <value>classpath:org/kuali/student/enrollment/state/StateInfoAdminLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/state/StateInfoAdminInquiryView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/state/LifecycleInfoAdminLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/state/LifecycleInfoAdminInquiryView.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">

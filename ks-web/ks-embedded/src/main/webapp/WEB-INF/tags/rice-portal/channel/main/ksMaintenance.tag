@@ -42,6 +42,8 @@
      <ul class="chan">
          <li><portal:portalLink displayTitle="true" title="Type Lookup" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.type.dto.TypeInfo&viewId=KS-TypeInfo-AdminLookupView&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
          <li><portal:portalLink displayTitle="true" title="Type-Type Relation Lookup" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo&viewId=KS-TypeTypeRelationInfo-AdminLookupView&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+         <li><portal:portalLink displayTitle="true" title="State Lookup" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.state.dto.StateInfo&viewId=KS-StateInfo-AdminLookupView&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+         <li><portal:portalLink displayTitle="true" title="Lifecycle Lookup" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.state.dto.LifecycleInfo&viewId=KS-LifecycleInfo-AdminLookupView&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
      </ul>
 </div>
 <channel:portalChannelBottom />
