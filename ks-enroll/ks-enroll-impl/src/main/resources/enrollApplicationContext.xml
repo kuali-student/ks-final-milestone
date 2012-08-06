@@ -59,11 +59,22 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <!-- <property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
   </bean>
 
+
+    <bean id="stateCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        <property name="predicateTransforms">
+            <list>
+                <ref bean="attributeTransform"/>
+            </list>
+        </property>
+    </bean>
+
   <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
     <property name="stateDao" ref="stateDao" />
     <property name="lifecycleDao" ref="lifecycleDao" />
+    <property name="criteriaLookupService" ref="stateCriteriaLookupService" />
   </bean>
-
+    
     <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
         <property name="typeDao" ref="typeDao"/>
         <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>

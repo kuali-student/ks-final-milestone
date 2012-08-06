@@ -156,9 +156,19 @@
 
   <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
 
+  <bean id="stateCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+      <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+      <property name="predicateTransforms">
+          <list>
+              <ref bean="attributeTransform"/>
+          </list>
+      </property>
+  </bean>
+    
   <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
     <property name="stateDao" ref="stateDao" />
     <property name="lifecycleDao" ref="lifecycleDao" />
+    <property name="criteriaLookupService" ref="stateCriteriaLookupService" />
   </bean>
 
     <bean id="stateServiceCacheDecorator" class="org.kuali.student.r2.core.class1.state.decorators.StateServiceCacheDecorator">
@@ -600,8 +610,15 @@
 
 
     <!-- Search service -->
-    <bean id="searchService" class="org.kuali.student.r2.core.class1.search.SearchServiceHardwiredImpl">
-        <property name="enrollmentDao" ref="searchDao"/>
+    <bean id="apptWindowCountsSearchImpl" class="org.kuali.student.r2.core.class1.search.ApptWindowCountsSearchImpl">
+        <property name="genericEntityDao" ref="searchDao"/>
+    </bean>
+    <bean id="searchService" class="org.kuali.student.r2.core.class1.search.SearchServiceDispatcherImpl">
+        <property name="searchServices">
+            <list>
+                 <ref bean="apptWindowCountsSearchImpl" /> 
+            </list>
+        </property>                
     </bean>
 
     <bean id="ks.exp.searchService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
