@@ -399,11 +399,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 			
 			rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
 			
-			// out of scope for M4.  Defined for the purposes of satisfying the dictionary
-			rg.setIsHonorsOffering(false);
-			rg.setMaximumEnrollment(100);
-			
-
 			try {
 				coService.createRegistrationGroup(formatOfferingId,
 						LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg,
