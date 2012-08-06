@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:process-test-context.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
-@Ignore
+//@Ignore
 //todo fix these tests and unignore. They are breaking and process service is not currently in scope as of 7/16/2012
 public class TestProcessServiceImpl {
 
@@ -52,14 +52,14 @@ public class TestProcessServiceImpl {
     public void testCrudProcess() throws DependentObjectsExistException, InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, AlreadyExistsException, ReadOnlyException, VersionMismatchException {
 
         // Read
-        ProcessInfo existingProcess = processService.getProcess("kuali.process.registration.basic.eligibility", context);
-        assertNotNull(existingProcess);
-        assertNotNull(existingProcess.getStateKey());
-        assertNotNull(existingProcess.getTypeKey());
+//        ProcessInfo existingProcess = processService.getProcess("kuali.process.registration.basic.eligibility", context);
+//        assertNotNull(existingProcess);
+//        assertNotNull(existingProcess.getStateKey());
+//        assertNotNull(existingProcess.getTypeKey());
 
         final String processId = "newProcess";
 
-        // Create
+        // Create & Read
         ProcessInfo process = new ProcessInfo();
         process.setOwnerOrgId("Owner1");
         process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
@@ -95,17 +95,23 @@ public class TestProcessServiceImpl {
     public void testCrudCheck() throws DependentObjectsExistException, InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, AlreadyExistsException, ReadOnlyException, VersionMismatchException {
 
         // Read
-        CheckInfo existingCheck = processService.getCheck("kuali.check.is.alive", context);
-        assertNotNull(existingCheck);
-        assertNotNull(existingCheck.getAgendaId());
-        assertNotNull(existingCheck.getHoldIssueId());
-        assertNotNull(existingCheck.getMilestoneTypeKey());
-        assertNull(existingCheck.getChildProcessKey());
-        assertNotNull(existingCheck.getTypeKey());
-        assertNotNull(existingCheck.getStateKey());
+//        CheckInfo existingCheck = processService.getCheck("kuali.check.is.alive", context);
+//        assertNotNull(existingCheck);
+//        assertNotNull(existingCheck.getAgendaId());
+//        assertNotNull(existingCheck.getHoldIssueId());
+//        assertNotNull(existingCheck.getMilestoneTypeKey());
+//        assertNull(existingCheck.getChildProcessKey());
+//        assertNotNull(existingCheck.getTypeKey());
+//        assertNotNull(existingCheck.getStateKey());
 
 
-        // Create
+        // Create Process for testing
+        final String processId = "kuali.process.registration.basic.eligibility";
+        ProcessInfo process = new ProcessInfo();
+        process.setOwnerOrgId("Owner1");
+        process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
+        processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
+        // Create & Read
         CheckInfo check = new CheckInfo();
         check.setAgendaId("AgendaId-1");
         check.setHoldIssueId("Hold-Issue-2");
@@ -150,35 +156,50 @@ public class TestProcessServiceImpl {
     }
 
     @Test
-    public void testCrudInstruction() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
+    public void testCrudInstruction() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException, AlreadyExistsException {
 
         // Read
-        InstructionInfo existingInstruction = processService.getInstruction("KUALI.PROCESS.REGISTRATION.BASIC.ELIGIBILITY.1", context);
-        assertNotNull(existingInstruction);
+//        InstructionInfo existingInstruction = processService.getInstruction("KUALI.PROCESS.REGISTRATION.BASIC.ELIGIBILITY.1", context);
+//        assertNotNull(existingInstruction);
+//
+//        assertNotNull(existingInstruction.getAppliedAtpTypeKeys());
+//        assertTrue(existingInstruction.getAppliedAtpTypeKeys().isEmpty()); // TODO
+//        assertNotNull(existingInstruction.getAppliedPopulationId());
+//        assertFalse(existingInstruction.getAppliedPopulationId().isEmpty());
+//        // assertEquals(1, existingInstruction.getAppliedPopulationKeys().size());
+//        // assertTrue(existingInstruction.getAppliedPopulationKeys().contains("kuali.population.everyone"));
+//        assertEquals(existingInstruction.getAppliedPopulationId(), "kuali.population.everyone");
+//        assertNotNull(existingInstruction.getAttributes());
+//        assertNotNull(existingInstruction.getCheckId());
+//        assertNotNull(existingInstruction.getContinueOnFail());
+//        assertNotNull(existingInstruction.getEffectiveDate());
+//        assertNull(existingInstruction.getExpirationDate());
+//        assertNotNull(existingInstruction.getId());
+//        assertNotNull(existingInstruction.getIsExemptible());
+//        assertNotNull(existingInstruction.getIsWarning());
+//        assertNotNull(existingInstruction.getMessage());
+//        assertNotNull(existingInstruction.getPosition());
+//        assertNotNull(existingInstruction.getProcessKey());
+//        assertNotNull(existingInstruction.getStateKey());
+//        assertNotNull(existingInstruction.getTypeKey());
 
-        assertNotNull(existingInstruction.getAppliedAtpTypeKeys());
-        assertTrue(existingInstruction.getAppliedAtpTypeKeys().isEmpty()); // TODO
-        assertNotNull(existingInstruction.getAppliedPopulationId());
-        assertFalse(existingInstruction.getAppliedPopulationId().isEmpty());
-        // assertEquals(1, existingInstruction.getAppliedPopulationKeys().size());
-        // assertTrue(existingInstruction.getAppliedPopulationKeys().contains("kuali.population.everyone"));
-        assertEquals(existingInstruction.getAppliedPopulationId(), "kuali.population.everyone");
-        assertNotNull(existingInstruction.getAttributes());
-        assertNotNull(existingInstruction.getCheckId());
-        assertNotNull(existingInstruction.getContinueOnFail());
-        assertNotNull(existingInstruction.getEffectiveDate());
-        assertNull(existingInstruction.getExpirationDate());
-        assertNotNull(existingInstruction.getId());
-        assertNotNull(existingInstruction.getIsExemptible());
-        assertNotNull(existingInstruction.getIsWarning());
-        assertNotNull(existingInstruction.getMessage());
-        assertNotNull(existingInstruction.getPosition());
-        assertNotNull(existingInstruction.getProcessKey());
-        assertNotNull(existingInstruction.getStateKey());
-        assertNotNull(existingInstruction.getTypeKey());
-        
 
-        // Create
+        // Create Process and Check for testing
+        String processId = "kuali.process.registration.eligibility.for.term";
+        ProcessInfo process = new ProcessInfo();
+        process.setOwnerOrgId("Owner1");
+        process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
+        processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
+        CheckInfo check = new CheckInfo();
+        check.setId("kuali.check.has.not.paid.bill.from.prior.term");
+        check.setAgendaId("AgendaId-1");
+        check.setHoldIssueId("Hold-Issue-2");
+        check.setMilestoneTypeKey("milestoneTypeKey-1");
+        check.setChildProcessKey(processId);
+        check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE);
+        CheckInfo checkR = processService.createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check, context);
+
+        // Create & Read
         InstructionInfo instruction = new InstructionInfo();
         instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add("kuali.atp.type.Fall");}});
         instruction.setAppliedPopulationId("Population-1");
@@ -214,6 +235,21 @@ public class TestProcessServiceImpl {
         assertEquals("kuali.process.registration.eligibility.for.term", instruction.getProcessKey());
         assertEquals(ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY, instruction.getStateKey());
         assertEquals(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, instruction.getTypeKey());
+
+        // Create Process and Check for testing
+        processId = "kuali.process.registration.register.for.courses";
+        process = new ProcessInfo();
+        process.setOwnerOrgId("Owner1");
+        process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
+        processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
+        check = new CheckInfo();
+        check.setId("kuali.check.has.overdue.library.book");
+        check.setAgendaId("AgendaId-1");
+        check.setHoldIssueId("Hold-Issue-2");
+        check.setMilestoneTypeKey("milestoneTypeKey-1");
+        check.setChildProcessKey(processId);
+        check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE);
+        processService.createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check, context);
 
         // Update
         instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add("kuali.atp.type.Spring");}});
@@ -251,6 +287,14 @@ public class TestProcessServiceImpl {
         assertEquals(ProcessServiceConstants.INSTRUCTION_DISABLED_STATE_KEY, instruction.getStateKey());
         assertEquals(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, instruction.getTypeKey());
 
+        // Test get instructions by process
+        List<InstructionInfo> instructions = processService.getInstructionsByProcess(processId, context);
+        if(instructions != null && !(instructions.isEmpty())){
+            //expected
+        }else{
+            fail("getInstructionsByProcess failed to return results");
+        }
+
         // Delete
         processService.deleteInstruction(instruction.getId(), context);
         try {
@@ -261,11 +305,4 @@ public class TestProcessServiceImpl {
         }
     }
 
-    @Test
-    public void testGetInstructionsByProcess() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        List<InstructionInfo> instructions = processService.getInstructionsByProcess("kuali.process.registration.basic.eligibility", context);
-        assertNotNull(instructions);
-        assertFalse(instructions.isEmpty());
-    }
-
-}
+ }

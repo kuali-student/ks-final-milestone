@@ -297,3 +297,5 @@ ALTER TABLE KSEN_PROCESS_INSTRN_ATTR
 	ADD CONSTRAINT  KSEN_PROC_INSTRN_ATTR_P PRIMARY KEY (ID)
 /
 
+insert into KSEN_PROCESS (ID, OBJ_ID, NAME, OWNER_ORG_ID, RT_DESCR_ID, STATE_ID, TYPE_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME) values ('kuali.process.registration.basic.eligibility', '1', 'Basic Registration Eligibility Process', '1', 'RICHTEXT-223', 'kuali.process.process.state.active', 'kuali.process.process.type', 1,'TESTUSER', {ts '2012-07-01 00:00:00.0'},'TESTUSER', {ts '2012-07-01 00:00:00.0'})
+/

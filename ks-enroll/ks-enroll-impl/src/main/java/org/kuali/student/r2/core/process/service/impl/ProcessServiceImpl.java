@@ -3,6 +3,7 @@ package org.kuali.student.r2.core.process.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -285,6 +286,7 @@ public class ProcessServiceImpl implements ProcessService {
 
         process.setId(processKey);
         process.setProcessType(processTypeKey);
+        process.setEntityCreated(contextInfo);
         processDao.persist(process);
 
         ProcessEntity retrieved = processDao.find(processKey);
@@ -312,7 +314,7 @@ public class ProcessServiceImpl implements ProcessService {
         toUpdate.setProcessState(ProcessServiceConstants.PROCESS_LIFECYCLE_KEY);
 
         toUpdate.setProcessType(processInfo.getTypeKey());
-
+        toUpdate.setEntityUpdated(contextInfo);
         processDao.merge(toUpdate);
         return processDao.find(toUpdate.getId()).toDto();
 
@@ -438,7 +440,7 @@ public class ProcessServiceImpl implements ProcessService {
         } else {
             checkEntity.setChildProcessId(null);
         }
-
+        checkEntity.setEntityCreated(contextInfo);
         checkDao.persist(checkEntity);
         return checkEntity.toDto();
 
@@ -472,7 +474,7 @@ public class ProcessServiceImpl implements ProcessService {
         } else {
             toUpdate.setChildProcessId(null);
         }
-
+        toUpdate.setEntityUpdated(contextInfo);
         checkDao.merge(toUpdate);
 
         CheckEntity retrieved = checkDao.find(checkInfo.getId());
@@ -659,7 +661,7 @@ public class ProcessServiceImpl implements ProcessService {
             throw new InvalidParameterException("checkId");
         }
         instruction.setCheckId(check.getId());
-
+        instruction.setEntityCreated(contextInfo);
         instructionDao.persist(instruction);
         return instruction.toDto();
     }
@@ -700,7 +702,7 @@ public class ProcessServiceImpl implements ProcessService {
             throw new InvalidParameterException("Instruction checkId");
         }
         toUpdate.setCheckId(check.getId());
-
+        toUpdate.setEntityUpdated(contextInfo);
         instructionDao.merge(toUpdate);
 
         return instructionDao.find(instructionId).toDto();

@@ -18,6 +18,16 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_PROCESS_INSTRN")
+@NamedQueries({
+        @NamedQuery(name = "InstructionEntity.getByInstructionTypeId",
+                query = "select a from InstructionEntity a where a.instructionType=:instructionTypeId"),
+        @NamedQuery(name = "InstructionEntity.getByProcess",
+                query = "select a from InstructionEntity a where a.processId=:processId"),
+        @NamedQuery(name = "InstructionEntity.getByCheck",
+                query = "select a from InstructionEntity a where a.checkId=:checkId"),
+        @NamedQuery(name = "InstructionEntity.getByProcessAndCheck",
+                query = "select a from InstructionEntity a where a.processId=:processId and a.checkId=:checkId")
+})
 public class InstructionEntity extends MetaEntity implements AttributeOwner<InstructionAttributeEntity> {
 
     ////////////////////

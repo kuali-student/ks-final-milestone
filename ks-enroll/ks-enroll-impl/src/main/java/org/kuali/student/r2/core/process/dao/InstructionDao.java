@@ -3,23 +3,33 @@ package org.kuali.student.r2.core.process.dao;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.process.model.InstructionEntity;
 
+import javax.persistence.Query;
 import java.util.List;
 
 public class InstructionDao extends GenericEntityDao<InstructionEntity> {
 
     public List<InstructionEntity> getByInstructionTypeId(String instructionTypeId) {
-        return em.createQuery("from InstructionEntity a where a.instructionType.id=:instructionTypeId").setParameter("instructionTypeId", instructionTypeId).getResultList();
+        Query query = em.createNamedQuery("InstructionEntity.getByInstructionTypeId");
+        query.setParameter("instructionTypeId", instructionTypeId);
+        return query.getResultList();
     }
 
     public List<InstructionEntity> getByProcess(String processId) {
-        return em.createQuery("from InstructionEntity a where a.process.id=:processId").setParameter("processId", processId).getResultList();
+        Query query = em.createNamedQuery("InstructionEntity.getByProcess");
+        query.setParameter("processId", processId);
+        return query.getResultList();
     }
 
     public List<InstructionEntity> getByCheck(String checkId) {
-        return em.createQuery("from InstructionEntity a where a.check.id=:checkId").setParameter("checkId", checkId).getResultList();
+        Query query = em.createNamedQuery("InstructionEntity.getByCheck");
+        query.setParameter("checkId", checkId);
+        return query.getResultList();
     }
 
     public List<InstructionEntity> getByProcessAndCheck(String processId, String checkId) {
-        return em.createQuery("from InstructionEntity a where a.process.id=:processId and a.check.id=:checkId").setParameter("processId", processId).setParameter("checkId", checkId).getResultList();
+        Query query = em.createNamedQuery("InstructionEntity.getByProcessAndCheck");
+        query.setParameter("checkId", checkId);
+        query.setParameter("processId", processId);
+        return query.getResultList();
     }
 }
