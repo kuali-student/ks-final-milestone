@@ -19,21 +19,16 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCrea
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -194,99 +189,6 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         return getUIFModelAndView(form);
 
-    }
-
-    private CourseOfferingInfo copyCourseOffering(CourseOfferingCreateWrapper wrapper,CourseOfferingInfo sourceCo,List<String> optionKeys){
-        CourseOfferingInfo targetCo = new CourseOfferingInfo(sourceCo);
-        targetCo.setId(null);
-
-        // clear out the ids on the internal sub-objects too
-        for (OfferingInstructorInfo instr : targetCo.getInstructors()) {
-            instr.setId(null);
-        }
-
-        for (AttributeInfo attr : targetCo.getAttributes()) {
-            attr.setId(null);
-        }
-        targetCo.setMeta(null);
-
-        if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
-            targetCo.getInstructors().clear();
-        }
-
-        targetCo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
-
-        try{
-            targetCo = getCourseOfferingService().createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(), targetCo, optionKeys, getContextInfo());
-        }catch(Exception e){
-            throw new RuntimeException(e);
-        }
-
-        List<FormatOfferingInfo> foInfos = null;
-        try {
-            foInfos = this.getCourseOfferingService().getFormatOfferingsByCourseOffering(sourceCo.getId(), getContextInfo());
-        }catch(Exception e){
-            throw new RuntimeException(e);
-        }
-
-
-        int aoCount = 0;
-        for (FormatOfferingInfo sourceFo : foInfos) {
-            FormatOfferingInfo targetFo = new FormatOfferingInfo(sourceFo);
-            targetFo.setId(null);
-            // clear out the ids on the internal sub-objects
-            for (AttributeInfo attr : targetFo.getAttributes()) {
-                attr.setId(null);
-            }
-            targetFo.setCourseOfferingId(targetCo.getId());
-            targetFo.setMeta(null);
-            targetFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
-
-            try {
-                targetFo = getCourseOfferingService().createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(), targetFo.getTypeKey(), targetFo, getContextInfo());
-            }catch(Exception e){
-                throw new RuntimeException(e);
-            }
-
-            List<ActivityOfferingInfo> aoInfoList = null;
-            try {
-                aoInfoList = getCourseOfferingService().getActivityOfferingsByFormatOffering(sourceFo.getId(), getContextInfo());
-            }catch(Exception e){
-                throw new RuntimeException(e);
-            }
-
-            for (ActivityOfferingInfo sourceAo : aoInfoList) {
-                ActivityOfferingInfo targetAo = new ActivityOfferingInfo(sourceAo);
-                targetAo.setId(null);
-                // clear out the ids on the internal sub-objects
-                for (AttributeInfo attr : targetAo.getAttributes()) {
-                    attr.setId(null);
-                }
-                for (OfferingInstructorInfo instr : targetAo.getInstructors()) {
-                    instr.setId(null);
-                }
-                targetAo.setFormatOfferingId(targetFo.getId());
-                targetAo.setMeta(null);
-
-                if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
-                    targetAo.setScheduleId(null);
-                    // TODO: set the schedule request to null as well
-                }
-
-                if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
-                    targetAo.getInstructors().clear();
-                }
-
-                targetAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
-                try {
-                    targetAo = getCourseOfferingService().createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),targetAo.getTypeKey(), targetAo, getContextInfo());
-                }catch(Exception e){
-                    throw new RuntimeException(e);
-                }
-                aoCount++;
-            }
-        }
-        return targetCo;
     }
 
     @RequestMapping(params = "methodToCall=createFromTermOffering")
