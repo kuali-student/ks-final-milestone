@@ -31,6 +31,7 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.type.service.TypeService;
@@ -178,13 +179,12 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             optionKeys.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
         }
 
-        if (createWrapper.isExcludeInstructorInformation()){
-            optionKeys.add(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);
-        }
-
         if (createWrapper.isExcludeCancelledActivityOfferings()){
             optionKeys.add(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY);
         }
+
+        //Generate Ids
+        optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
 
         CourseOfferingInfo co = getCourseOfferingService().rolloverCourseOffering(existingCO.getId(),createWrapper.getTerm().getId(),optionKeys,getContextInfo());
         ExistingCourseOffering newWrapper = new ExistingCourseOffering(co);
