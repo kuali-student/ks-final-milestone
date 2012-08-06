@@ -308,6 +308,7 @@
         <property name="businessLogic" ref="coBusinessLogic" />
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator" />
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
+        <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao" />
   </bean>
 
    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>

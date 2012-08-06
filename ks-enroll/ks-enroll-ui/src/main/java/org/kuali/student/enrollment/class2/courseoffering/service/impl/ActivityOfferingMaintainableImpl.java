@@ -1,6 +1,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -14,6 +18,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -23,15 +28,21 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.population.dto.PopulationInfo;
+import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
+import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,19 +59,43 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient StateService stateService;
     private transient CourseService courseService;
     private transient AcademicCalendarService academicCalendarService;
+    private transient PopulationService populationService;
 
     @Override
     public void saveDataObject() {
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
             disassembleInstructorsWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
+
+            List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
+
+
             try {
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
+
+                // Save the SeatPools
+                if(seatPools != null){
+                    for(SeatPoolDefinitionInfo pool : seatPools){
+                        if(pool.getId() != null){
+                            getCourseOfferingService().updateSeatPoolDefinition(pool.getId(),pool,getContextInfo());
+                        }   else {
+                            // create New
+                            pool.setTypeKey("MAKE ME REAL, SIR");
+                            pool.setStateKey("I WISH I WAS A REAL STATE");
+                            pool = getCourseOfferingService().createSeatPoolDefinition(pool,getContextInfo());
+                            getCourseOfferingService().addSeatPoolDefinitionToActivityOffering(pool.getId(),activityOfferingWrapper.getAoInfo().getId(), getContextInfo() );
+                        }
+                    }
+                }
+
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
     }
+
+
+
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -125,19 +160,65 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), getContextInfo());
             wrapper.setTypeName(typeInfo.getName());
 
+            // Get/Set SeatPools
+            List<SeatPoolDefinitionInfo> seatPoolDefinitionInfoList = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(info.getId(), getContextInfo());
+            List<SeatPoolWrapper> seatPoolWrapperList = new ArrayList<SeatPoolWrapper>();
+
+            for(SeatPoolDefinitionInfo seatPoolDefinitionInfo :  seatPoolDefinitionInfoList){
+                SeatPoolWrapper spWrapper = new SeatPoolWrapper();
+
+                PopulationInfo pInfo = getPopulationService().getPopulation(seatPoolDefinitionInfo.getPopulationId(), getContextInfo());
+                spWrapper.setSeatPoolPopulation(pInfo);
+                spWrapper.setSeatPool(seatPoolDefinitionInfo);
+                spWrapper.setId(seatPoolDefinitionInfo.getId());
+                seatPoolWrapperList.add(spWrapper);
+            }
+            wrapper.setSeatpools(seatPoolWrapperList);
+
             return wrapper;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-//    private String getCodeTypeString(ActivityOfferingInfo info) throws Exception {
-//        String codeTypeString = "GHI(LEC)";
-//        TypeInfo typeInfo = getTypeService().getType(info.getTypeKey(), getContextInfo());
-//        String typeName = typeInfo.getName().toUpperCase().substring(0,3);
-//        codeTypeString = info.getActivityCode() + "(" + typeName + ")";
-//        return codeTypeString;
-//    }
+    /**
+     *
+     * unwrap seatPoolWrapper. If the seatPoolWrapper is null or contains no seatPools, return null
+     *
+     * @param seatPoolWrappers
+     * @return
+     */
+    private List<SeatPoolDefinitionInfo> getSeatPoolDefinitions(List<SeatPoolWrapper> seatPoolWrappers)   {
+        if(seatPoolWrappers == null) return null;
+
+        List<SeatPoolDefinitionInfo> spRet = null;
+
+        for(SeatPoolWrapper seatPoolWrapper : seatPoolWrappers){
+            if(spRet == null){
+                spRet = new ArrayList<SeatPoolDefinitionInfo>();
+            }
+            SeatPoolDefinitionInfo seatPool = seatPoolWrapper.getSeatPool();
+            seatPool.setPopulationId(seatPoolWrapper.getSeatPoolPopulation().getId());
+            spRet.add(seatPool);
+        }
+
+        return spRet;
+    }
+
+    private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
+        String aoId = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID);
+
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if (StringUtils.isNotBlank(aoId)) {
+            predicates.add(PredicateFactory.equalIgnoreCase("id", aoId));
+        }
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+        QueryByCriteria qbc = qbcBuilder.build();
+
+        return qbc;
+    }
 
     private String getTermDisplayString(String termId, TermInfo term) {
         // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
@@ -329,6 +410,13 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
 
         return academicCalendarService;
+    }
+
+    private PopulationService getPopulationService() {
+        if(populationService == null) {
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationService"));
+        }
+        return populationService;
     }
 
     /**

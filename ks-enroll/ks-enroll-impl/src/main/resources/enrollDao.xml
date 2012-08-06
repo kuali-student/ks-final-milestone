@@ -174,5 +174,8 @@
         <property name="em" ref="enrollEntityManager" />
     </bean>
 
+    <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao">
+    <property name="em" ref="enrollEntityManager" />
+</bean>
 
 </beans>

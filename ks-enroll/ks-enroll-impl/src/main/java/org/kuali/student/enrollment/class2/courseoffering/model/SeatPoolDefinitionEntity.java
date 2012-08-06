@@ -85,7 +85,7 @@ public class SeatPoolDefinitionEntity extends MetaEntity implements AttributeOwn
         this.setSeatPoolDefnType(pool.getTypeKey());
         this.setName(pool.getName());
         this.setExpirationMilestoneTypeKey(pool.getExpirationMilestoneTypeKey());
-        this.setIsPercentage(pool.getIsPercentage());
+        this.setIsPercentage(defaultFalse(pool.getIsPercentage()));
         this.setSeatLimit(pool.getSeatLimit());
         this.setProcessingPriority(pool.getProcessingPriority());
         this.setPopulationId(pool.getPopulationId());
@@ -201,6 +201,13 @@ public class SeatPoolDefinitionEntity extends MetaEntity implements AttributeOwn
 
     public void setAttributes(Set<SeatPoolDefinitionAttributeEntity> attributes) {
         this.attributes = attributes;
+    }
+
+    private boolean defaultFalse(Boolean b) {
+        if (b == null) {
+            return false;
+        }
+        return b.booleanValue();
     }
 
 }

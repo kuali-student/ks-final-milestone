@@ -1496,7 +1496,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForActivityOffering(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+
+        List<SeatPoolDefinitionInfo> seatPoolDefinitionInfos = new ArrayList<SeatPoolDefinitionInfo>();
+        if (StringUtils.isNotBlank(activityOfferingId) ) {
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(
+                    PredicateFactory.equalIgnoreCase("activityOfferingId", activityOfferingId));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            //Do search. In ideal case, returns one element, which is the desired SeatPool.
+            seatPoolDefinitionInfos = searchForSeatpoolDefinitions(criteria, new ContextInfo());
+        }
+        return  seatPoolDefinitionInfos;
+
     }
 
     @Override
@@ -1505,10 +1517,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         SeatPoolDefinitionEntity poolEntity = new SeatPoolDefinitionEntity(seatPoolDefinitionInfo);
         try {
-            poolEntity.setCreateId(context.getPrincipalId());
-            poolEntity.setCreateTime(context.getCurrentDate());
-            poolEntity.setUpdateId(context.getPrincipalId());
-            poolEntity.setUpdateTime(context.getCurrentDate());
+
+            poolEntity.setEntityCreated(context);
+            poolEntity.setEntityUpdated(context);
             seatPoolDefinitionDao.persist(poolEntity);
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
@@ -1520,7 +1531,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SeatPoolDefinitionInfo updateSeatPoolDefinition(String seatPoolDefinitionId,
                                                            SeatPoolDefinitionInfo seatPoolDefinitionInfo,
-                                                           ContextInfo contextInfo)
+                                                           ContextInfo context)
             throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException,
@@ -1528,14 +1539,24 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         SeatPoolDefinitionEntity seatPoolDefinitionEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
         if (null != seatPoolDefinitionEntity) {
             seatPoolDefinitionEntity.fromDto(seatPoolDefinitionInfo);
-            seatPoolDefinitionEntity.setUpdateId(contextInfo.getPrincipalId());
-            seatPoolDefinitionEntity.setUpdateTime(contextInfo.getCurrentDate());
-            seatPoolDefinitionDao.merge(seatPoolDefinitionEntity);
-            return seatPoolDefinitionEntity.toDto();
+            seatPoolDefinitionEntity.setEntityUpdated(context);
+            return seatPoolDefinitionDao.merge(seatPoolDefinitionEntity).toDto();
         } else {
-            throw new DoesNotExistException(seatPoolDefinitionId);
+            throw new DoesNotExistException("No SeatPool found for seatPoolDefinitionId=" + seatPoolDefinitionId);
         }
     }
+
+
+    /*
+     SeatPoolDefinitionEntity spEntity = this.getSeatPoolDefinitionDao().find(seatPoolDefinitionId);
+
+            if(spEntity == null){
+                throw new DoesNotExistException("No Seatpool with id=" + seatPoolDefinitionId);
+            }
+
+            spEntity.fromDto(seatPoolDefinitionInfo);
+            return seatPoolDefinitionDao.merge(spEntity).toDto();
+     */
 
     @Override
     public List<ValidationResultInfo> validateSeatPoolDefinition(String validationTypeKey,
@@ -1650,7 +1671,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<SeatPoolDefinitionInfo> searchForSeatpoolDefinitions(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        GenericQueryResults<SeatPoolDefinitionEntity> results = criteriaLookupService.lookup(SeatPoolDefinitionEntity.class, criteria);
+        List<SeatPoolDefinitionInfo> seatPoolDefinitions = new ArrayList<SeatPoolDefinitionInfo>(results.getResults().size());
+        for (SeatPoolDefinitionEntity seatPoolEntity : results.getResults()) {
+
+
+            SeatPoolDefinitionInfo sp = seatPoolEntity.toDto();
+            seatPoolDefinitions.add(sp);
+
+        }
+        return seatPoolDefinitions;
     }
 
     @Override
