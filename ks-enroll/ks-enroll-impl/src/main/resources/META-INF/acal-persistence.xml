@@ -159,6 +159,12 @@
         <class>org.kuali.student.r2.core.population.model.PopulationRuleEntity</class>
         <class>org.kuali.student.r2.core.population.model.PopulationRuleAttributeEntity</class>
 
+        <!-- Seat Pools -->
+        <class>org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity</class>
+        <class>org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionAttributeEntity</class>
+
+
+
     <!--class>org.kuali.student.r2.core.process.model.CheckAttributeEntity</class>
     <class>org.kuali.student.r2.core.process.model.CheckEntity</class>
     <class>org.kuali.student.r2.core.process.model.CheckRichTextEntity</class>

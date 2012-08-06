@@ -41,13 +41,13 @@ public class SeatPoolDefinitionEntity extends MetaEntity implements AttributeOwn
     private String name;
 
     @Column(name = "ACTIVITY_OFFERING_ID")
-    private Integer activityOfferingId;
+    private String activityOfferingId;
 
     @Column(name = "EXPIR_MSTONE_TYPE")
     private String expirationMilestoneTypeKey;
 
     @Column(name = "PERCENTAGE_IND")
-    private Boolean isPercentage;
+    private boolean isPercentage;
 
     @Column(name = "SEAT_LIMIT")
     private Integer seatLimit;
@@ -127,11 +127,11 @@ public class SeatPoolDefinitionEntity extends MetaEntity implements AttributeOwn
         this.name = name;
     }
 
-    public Integer getActivityOfferingId() {
+    public String getActivityOfferingId() {
         return activityOfferingId;
     }
 
-    public void setActivityOfferingId(Integer activityOfferingId) {
+    public void setActivityOfferingId(String activityOfferingId) {
         this.activityOfferingId = activityOfferingId;
     }
 
