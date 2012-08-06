@@ -30,6 +30,7 @@ public class CourseOfferingCopyWrapper implements Serializable{
     private String waitlistLevelTypeKey;
     private String waitlistTypeKey;
     private boolean isHonorsOffering;
+    private List<ExistingCourseOffering> existingOfferingsInCurrentTerm;
 
     // Activity Offerings
     private List<ActivityOfferingWrapper> activityOfferingWrapperList;
@@ -67,6 +68,15 @@ public class CourseOfferingCopyWrapper implements Serializable{
         setIsExcludeCancelledActivityOfferings(false);
         setIsExcludeSchedulingInformation(false);
         setIsExcludeInstructorInformation(false);
+        setExistingOfferingsInCurrentTerm(new ArrayList<ExistingCourseOffering>());
+    }
+
+    public List<ExistingCourseOffering> getExistingOfferingsInCurrentTerm() {
+        return existingOfferingsInCurrentTerm;
+    }
+
+    public void setExistingOfferingsInCurrentTerm(List<ExistingCourseOffering> existingOfferingsInCurrentTerm) {
+        this.existingOfferingsInCurrentTerm = existingOfferingsInCurrentTerm;
     }
 
     public List<ActivityOfferingWrapper> getActivityOfferingWrapperList() {

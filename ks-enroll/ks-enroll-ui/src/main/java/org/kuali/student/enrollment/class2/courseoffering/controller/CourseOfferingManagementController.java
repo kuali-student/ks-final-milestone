@@ -2,9 +2,11 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -13,26 +15,34 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.search.dto.*;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseoffering.dto.*;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,15 +52,18 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
+import java.util.*;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 @Controller
 @RequestMapping(value = "/courseOfferingManagement")
 public class CourseOfferingManagementController extends UifControllerBase  {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementController.class);
+    private LuService luService;
+    private transient LRCService lrcService;
+    private CourseService courseService;
+    private AcademicCalendarService academicCalendarService;
 
     private CourseOfferingManagementViewHelperService viewHelperService;
     private OrganizationService organizationService;
@@ -213,7 +226,157 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             BindingResult result,
             HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+
+        Object selectedObject = _getSelectedObject(theForm, "Copy");
+        if(selectedObject instanceof CourseOfferingCopyWrapper){
+            CourseOfferingCopyWrapper copyWrapper = (CourseOfferingCopyWrapper)selectedObject;
+            CourseOfferingInfo courseOfferingInfo = copyWrapper.getCoInfo();
+
+            List<String> optionKeys = new ArrayList<String>();
+
+            if (copyWrapper.isExcludeSchedulingInformation()){
+                optionKeys.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
+            }
+
+            if (copyWrapper.isExcludeInstructorInformation()){
+                optionKeys.add(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);
+            }
+
+            if (copyWrapper.isExcludeCancelledActivityOfferings()){
+                optionKeys.add(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY);
+            }
+
+            CourseOfferingInfo courseOffering =
+                getCourseOfferingService().rolloverCourseOffering(
+                    courseOfferingInfo.getId(),copyWrapper.getTermId(),optionKeys,getContextInfo());
+            ExistingCourseOffering newWrapper = new ExistingCourseOffering(courseOffering);
+
+            CourseInfo course = getCourseInfo(copyWrapper.getCourseOfferingCode());
+
+            newWrapper.setCredits(ViewHelperUtil.getCreditCount(courseOffering, course));
+            newWrapper.setGrading(getGradingOption(courseOffering.getGradingOptionId()));
+            copyWrapper.getExistingOfferingsInCurrentTerm().add(newWrapper);
+        }
+
         return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+    }
+
+    private TermInfo getTerm(String termCode){
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> pList = new ArrayList<Predicate>();
+        Predicate p = null;
+
+        qBuilder.setPredicates();
+        if (StringUtils.isNotBlank(termCode)){
+            p = equal("atpCode", termCode);
+            pList.add(p);
+        }
+
+        qBuilder.setPredicates(p);
+
+        try {
+            List<TermInfo> terms = getAcademicCalendarService().searchForTerms(qBuilder.build(),getContextInfo());
+            if (terms.size() > 1){
+                //GlobalVariables.getMessageMap().putError("asf","asdf");//FIXME
+                return null;
+            }else if (terms.isEmpty()){
+                return null;
+            }
+            return terms.get(0);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private CourseInfo getCourseInfo(String courseName) {
+
+        CourseInfo        returnCourseInfo = null;
+        String            courseId         = null;
+        List<SearchParam> searchParams     = new ArrayList<SearchParam>();
+        List <CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
+
+        SearchParam qpv1 = new SearchParam();
+        qpv1.setKey("lu.criteria.code");
+        qpv1.setValue(courseName);
+        searchParams.add(qpv1);
+
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setParams(searchParams);
+        searchRequest.setSearchKey("lu.search.cluByCode");
+
+        try {
+            SearchResult searchResult = getLuService().search(searchRequest);
+            if (searchResult.getRows().size() > 0) {
+                for(SearchResultRow row : searchResult.getRows()){
+                    List<SearchResultCell> srCells = row.getCells();
+                    if(srCells != null && srCells.size() > 0){
+                        for(SearchResultCell cell : srCells){
+                            if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                                courseId = cell.getValue();
+                                returnCourseInfo = getCourseService().getCourse(courseId);
+                                courseInfoList.add(returnCourseInfo);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (courseInfoList.size() > 1){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Multiple matches found for the course code");
+            return null;
+        }
+
+        if (courseInfoList.isEmpty()){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "No match found for the course code");
+            return null;
+        }
+
+        return courseInfoList.get(0);
+
+    }
+
+    private String getGradingOption(String gradingOptionId)throws Exception{
+        String gradingOption = "";
+        if(StringUtils.isNotBlank(gradingOptionId)){
+            ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(gradingOptionId, getContextInfo());
+            if(rvg!= null && StringUtils.isNotBlank(rvg.getName())){
+                gradingOption = rvg.getName();
+            }
+        }
+
+        return gradingOption;
+    }
+
+    protected AcademicCalendarService getAcademicCalendarService() {
+        if(academicCalendarService == null) {
+            academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.academicCalendarService;
+    }
+
+    private LuService getLuService() {
+        if(luService == null) {
+            luService = CourseOfferingResourceLoader.loadLuService();
+        }
+        return luService;
+    }
+
+    protected LRCService getLrcService() {
+        if(lrcService == null) {
+            lrcService = CourseOfferingResourceLoader.loadLrcService();
+        }
+        return this.lrcService;
+    }
+
+    private CourseService getCourseService() {
+        if(courseService == null) {
+            courseService = CourseOfferingResourceLoader.loadCourseService();
+        }
+        return courseService;
     }
 
     @RequestMapping(params = "methodToCall=copyCourseOfferingCancel")
