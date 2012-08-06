@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Decorator for TypeService to add caching to select type service methods.
@@ -128,19 +130,26 @@ public class StateServiceCacheDecorator extends StateServiceDecorator{
 
     @Override
     public List<LifecycleInfo> searchForLifecycles(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //NOTE: This is duplicating storage of lifecycle info objects in the cache. Better solution?
-        MultiKey cacheKey = new MultiKey("searchForLifecycles", criteria.toString());
-
-        Element cachedResult = cacheManager.getCache(STATE_SERVICE_CACHE).get(cacheKey);
-        Object result = null;
-        if (cachedResult == null) {
-            result = getNextDecorator().searchForLifecycleKeys(criteria, contextInfo);
-            cacheManager.getCache(STATE_SERVICE_CACHE).put(new Element(cacheKey, result));
-        } else {
-            result = cachedResult.getValue();
+        List<String> keys = this.searchForLifecycleKeys(criteria, contextInfo);
+        try {
+            return this.getLifecyclesByKeys(keys, contextInfo);
+        } catch (DoesNotExistException ex) {
+           throw new OperationFailedException ("unexpected", ex);
         }
-
-        return (List<LifecycleInfo>)result;
+        // NORM: 8/6/2012 replaced below which I don't understand and is returning a list of keys with the above
+//        //NOTE: This is duplicating storage of lifecycle info objects in the cache. Better solution?
+//        MultiKey cacheKey = new MultiKey("searchForLifecycles", criteria.toString());
+//
+//        Element cachedResult = cacheManager.getCache(STATE_SERVICE_CACHE).get(cacheKey);
+//        Object result = null;
+//        if (cachedResult == null) {
+//            result = getNextDecorator().searchForLifecycleKeys(criteria, contextInfo);
+//            cacheManager.getCache(STATE_SERVICE_CACHE).put(new Element(cacheKey, result));
+//        } else {
+//            result = cachedResult.getValue();
+//        }
+//
+//        return (List<LifecycleInfo>)result;
     }
 
     @Override
