@@ -91,7 +91,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-VerticalBoxSection">
+                <bean parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="calculatePercent()">
                     <property name="headerText" value="Activity Offering Information"/>
                     <property name="items">
                         <list>
@@ -100,7 +100,8 @@
                                     <bean parent="Uif-TextControl" p:size="1"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment">
+                            <bean parent="Uif-InputField" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
+                                  p:id="maximumEnrollment" p:onKeyDownScript="calculatePercent(jQuery(this))">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3"/>
                                 </property>
@@ -469,7 +470,7 @@
 
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="headerText" value="Seatpools"/>
-                    <property name="items">
+                     <property name="items">
                         <list>
                             <bean id="KS-ActivityOffering-SeatpoolsSection" parent="Uif-TableCollectionSection"
                                   p:layoutManager.numberOfColumns="6"
@@ -485,13 +486,13 @@
                                 <property name="addLineActions">
                                     <list>
                                         <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
-                                              p:actionEvent="addLine" />
+                                              p:actionEvent="addLine" p:onDocumentReadyScript="calculatePercent()" />
                                     </list>
                                 </property>
                                 <property name="lineActions">
                                     <list>
                                         <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="remove"
-                                              p:actionEvent="deleteLine" />
+                                              p:actionEvent="deleteLine" p:onDocumentReadyScript="calculatePercent()" />
                                     </list>
                                 </property>
 
@@ -505,15 +506,16 @@
                                                 <bean parent="IntegerPatternConstraint" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit">
                                             <property name="control">
+                                                <!--bean parent="Uif-TextControl" p:size="3" p:onKeyDownScript="calculatePercent(jq(this))"/-->
                                                 <bean parent="Uif-TextControl" p:size="3" />
                                             </property>
                                             <property name="validCharactersConstraint">
                                                 <bean parent="IntegerPatternConstraint" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-MessageField" p:messageText="???" p:label="PERCENT" p:readOnly="true" />
+                                        <bean parent="Uif-MessageField" p:messageText="" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
                                         <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="true" />
@@ -550,12 +552,12 @@
                                                 <bean parent="Uif-TextControl" p:size="2" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="3" />
+                                                <bean parent="Uif-TextControl" p:size="3" p:onKeyDownScript="calculatePercent(jQuery(this))" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-MessageField" p:messageText="???" p:label="PERCENT" p:readOnly="true" />
+                                        <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
                                         <bean parent="Uif-DataField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
                                             <!--<property name="control">
                                                 <bean parent="Uif-TextControl" p:size="40" p:disabled="true" />
@@ -586,6 +588,8 @@
                                     </list>
                                 </property>
                             </bean>
+                            <bean parent="Uif-MessageField" p:label="Seatpools" p:messageText="0" p:id="seatpoolCount" />
+                            <bean parent="Uif-MessageField" p:label="Seats Remaining" p:messageText="N/A" p:id="seatsRemaining" />
                         </list>
                     </property>
                 </bean>
