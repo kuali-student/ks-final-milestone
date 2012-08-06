@@ -8,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -22,6 +24,11 @@ import org.kuali.student.r2.core.process.infc.Process;
 
 @Entity
 @Table(name = "KSEN_PROCESS")
+@NamedQueries({
+        @NamedQuery(name = "ProcessEntity.getByProcessTypeId",
+                query = "select a from ProcessEntity a where a.processType=:processTypeId")
+})
+
 public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessAttributeEntity> {
 
     ////////////////////

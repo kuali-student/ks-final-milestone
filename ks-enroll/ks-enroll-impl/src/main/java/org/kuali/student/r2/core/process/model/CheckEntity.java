@@ -13,6 +13,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
@@ -21,6 +23,13 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_PROCESS_CHECK")
+@NamedQueries({
+        @NamedQuery(name = "CheckEntity.getByCheckType",
+                query = "select a from CheckEntity a where a.checkType=:checkType"),
+        @NamedQuery(name = "CheckEntity.getByName",
+                query = "select a from CheckEntity a where a.name=:name")
+})
+
 public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttributeEntity> {
 
     ////////////////////

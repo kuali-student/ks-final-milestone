@@ -3,15 +3,20 @@ package org.kuali.student.r2.core.process.dao;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.process.model.CheckEntity;
 
+import javax.persistence.Query;
 import java.util.List;
 
 public class CheckDao extends GenericEntityDao<CheckEntity> {
 
     public List<CheckEntity> getByCheckType(String checkType) {
-        return em.createQuery("from CheckEntity a where a.checkType=:checkType").setParameter("checkType", checkType).getResultList();
+        Query query = em.createNamedQuery("CheckEntity.getByCheckType");
+        query.setParameter("checkType", checkType);
+        return query.getResultList();
     }
 
     public List<CheckEntity> getByName(String name) {
-        return em.createQuery("from CheckEntity a where a.name=:name").setParameter("name", name).getResultList();
+        Query query = em.createNamedQuery("CheckEntity.getByName");
+        query.setParameter("name", name);
+        return query.getResultList();
     }
 }
