@@ -1485,8 +1485,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public SeatPoolDefinitionInfo getSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-//        throw new UnsupportedOperationException();
-        SeatPoolDefinitionEntity poolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
+        SeatPoolDefinitionEntity poolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId); // throws DoesNotExistException
         if (null == poolEntity) {
             throw new DoesNotExistException(seatPoolDefinitionId);
         }
@@ -1521,12 +1520,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SeatPoolDefinitionInfo updateSeatPoolDefinition(String seatPoolDefinitionId,
                                                            SeatPoolDefinitionInfo seatPoolDefinitionInfo,
-                                                           ContextInfo context)
+                                                           ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException,
             ReadOnlyException, ReadOnlyException, VersionMismatchException {
-        throw new UnsupportedOperationException();
+        SeatPoolDefinitionEntity seatPoolDefinitionEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
+        if (null != seatPoolDefinitionEntity) {
+            seatPoolDefinitionEntity.fromDto(seatPoolDefinitionInfo);
+            seatPoolDefinitionEntity.setUpdateId(contextInfo.getPrincipalId());
+            seatPoolDefinitionEntity.setUpdateTime(contextInfo.getCurrentDate());
+            seatPoolDefinitionDao.merge(seatPoolDefinitionEntity);
+            return seatPoolDefinitionEntity.toDto();
+        } else {
+            throw new DoesNotExistException(seatPoolDefinitionId);
+        }
     }
 
     @Override
@@ -1539,8 +1547,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+            InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        SeatPoolDefinitionEntity popEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
+        if (null != popEntity) {
+            seatPoolDefinitionDao.remove(popEntity);
+        } else {
+            throw new DoesNotExistException(seatPoolDefinitionId);
+        }
+        return status;
     }
 
     @Override
@@ -1739,14 +1757,25 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 	}
 
 	@Override
-	public StatusInfo addSeatPoolDefinitionToActivityOffering(
-			String seatPoolDefinitionId, String activityOfferingId,
-			ContextInfo contextInfo) throws AlreadyExistsException,
+	public StatusInfo addSeatPoolDefinitionToActivityOffering(String seatPoolDefinitionId, String activityOfferingId,
+			ContextInfo contextInfo)
+            throws AlreadyExistsException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		// should be supported by M4
-		 throw new UnsupportedOperationException();
+        LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
+        if (lui == null) {
+            throw new DoesNotExistException("Activity offering ID does not exist: " + activityOfferingId);
+        }
+        // The seat pool definition is connected only via the entity.  The DTO does not store the
+        // activity offering ID.
+        SeatPoolDefinitionEntity seatPoolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
+        seatPoolEntity.setActivityOfferingId(activityOfferingId);
+        seatPoolDefinitionDao.merge(seatPoolEntity);
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+        return statusInfo;
 	}
 
 	@Override
@@ -1756,7 +1785,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// should be supported in M4
-		 throw new UnsupportedOperationException();
+        LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
+        if (lui == null) {
+            throw new DoesNotExistException("Activity offering ID does not exist: " + activityOfferingId);
+        }
+        // The seat pool definition is connected only via the entity.  The DTO does not store the
+        // activity offering ID.
+        SeatPoolDefinitionEntity seatPoolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
+        String fetchedId = seatPoolEntity.getActivityOfferingId();
+        if (!fetchedId.equals(activityOfferingId)) {
+            throw new InvalidParameterException("activityOfferingId does not match the one in seatpool: " + activityOfferingId);
+        }
+        seatPoolEntity.setActivityOfferingId(null); // Remove the activity offering ID.
+        seatPoolDefinitionDao.merge(seatPoolEntity);
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+        return statusInfo;
 	}
 
 

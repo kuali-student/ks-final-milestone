@@ -252,6 +252,10 @@
         <class>org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionAttributeEntity</class>
 
+        <class>org.kuali.student.r2.core.population.model.PopulationEntity</class>
+        <class>org.kuali.student.r2.core.population.model.PopulationRuleEntity</class>
+        <class>org.kuali.student.r2.core.population.model.PopulationAttributeEntity</class>
+        <class>org.kuali.student.r2.core.population.model.PopulationRuleAttributeEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
     </persistence-unit>

@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import junit.framework.Assert;
 import org.junit.Ignore;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.junit.Before;
@@ -15,6 +16,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -25,6 +27,12 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.population.dto.PopulationInfo;
+import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
+import org.kuali.student.r2.core.population.infc.Population;
+import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -58,7 +66,8 @@ import static org.junit.Assert.assertEquals;
 public class TestCourseOfferingServiceImplM4 {
     @Resource
     private CourseOfferingService coServiceImpl;
-
+    @Resource
+    private PopulationService populationService;
     private SeatPoolDefinitionDao seatPoolDefinitionDao;
     private ContextInfo contextInfo;
 
@@ -96,7 +105,80 @@ public class TestCourseOfferingServiceImplM4 {
         return poolList;
     }
 
+    private PopulationInfo _constructPopulationInfo(Integer val) {
+        String extension = "";
+        if (val != null) {
+            extension += val;
+        }
+        PopulationInfo populationInfo = new PopulationInfo();
+        populationInfo.setName("TestPop" + extension);
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain("plain" + extension);
+        richTextInfo.setFormatted("formatted" + extension);
+        populationInfo.setDescr(richTextInfo);
+        populationInfo.setStateKey(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
+        populationInfo.setTypeKey(PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY);
+        return populationInfo;
+    }
+
+    private List<PopulationInfo> _constructPopulationList() {
+        PopulationInfo ref = _constructPopulationInfo(2);
+        PopulationInfo three = _constructPopulationInfo(3);
+        PopulationInfo four = _constructPopulationInfo(4);
+        PopulationInfo five = _constructPopulationInfo(5);
+        List<PopulationInfo> popList = new ArrayList<PopulationInfo>();
+        popList.add(ref);
+        popList.add(three);
+        popList.add(four);
+        popList.add(five);
+        return popList;
+    }
+
+    private PopulationRuleInfo _constructExclusionPopulationRuleInfo() {
+        PopulationRuleInfo populationRuleInfo = new PopulationRuleInfo();
+        populationRuleInfo.setName("TestPopRule");
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain("rule-plain");
+        richTextInfo.setFormatted("rule-formatted");
+        populationRuleInfo.setDescr(richTextInfo);
+        populationRuleInfo.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
+        populationRuleInfo.setTypeKey(PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY);
+        return populationRuleInfo;
+    }
+
     // ============================================== TESTS ======================================================
+    @Test
+    public void testPopulation() {
+        before();
+        List<PopulationInfo> popList = _constructPopulationList();
+        try {
+            PopulationInfo refCreated = populationService.createPopulation(popList.get(0), contextInfo);
+            PopulationInfo threeCreated = populationService.createPopulation(popList.get(1), contextInfo);
+            PopulationInfo fourCreated = populationService.createPopulation(popList.get(2), contextInfo);
+            // Now the pop rule
+            PopulationRuleInfo ruleInfo = _constructExclusionPopulationRuleInfo();
+            ruleInfo.setReferencePopulationId(refCreated.getId());
+            List<String> childIds = new ArrayList<String>();
+            childIds.add(threeCreated.getId());
+            childIds.add(fourCreated.getId());
+            ruleInfo.setChildPopulationIds(childIds);
+            // Create the rule info
+            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo, contextInfo);
+            // Fetch it
+            PopulationRuleInfo ruleInfoFetched = populationService.getPopulationRule(ruleInfoCreated.getId(), contextInfo);
+            PopulationInfo combined = populationService.createPopulation(popList.get(3), contextInfo);
+            populationService.applyPopulationRuleToPopulation(ruleInfoFetched.getId(), combined.getId(), contextInfo);
+            SeatPoolDefinitionInfo info = _constructSeatPoolDefinitionInfoById(null);
+            info.setPopulationId(combined.getId());
+            SeatPoolDefinitionInfo created = coServiceImpl.createSeatPoolDefinition(info, contextInfo);
+            PopulationInfo retrieved = populationService.getPopulation(created.getPopulationId(), contextInfo);
+            assertEquals(combined.getId(), retrieved.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+
     @Test
     public void testCreateSeatPoolDefinitionGet() {
         before();
@@ -117,8 +199,32 @@ public class TestCourseOfferingServiceImplM4 {
         }
     }
 
-
-
-
-
+    @Test
+    public void testCreateSeatPoolDefinitionUpdateDelete() {
+        before();
+        SeatPoolDefinitionInfo info = _constructSeatPoolDefinitionInfoById(null);
+        try {
+            SeatPoolDefinitionInfo created = coServiceImpl.createSeatPoolDefinition(info, contextInfo);
+            SeatPoolDefinitionInfo fetched = coServiceImpl.getSeatPoolDefinition(created.getId(), contextInfo);
+            fetched.setSeatLimit(5);
+            fetched.setExpirationMilestoneTypeKey(AtpServiceConstants.MILESTONE_SEATPOOL_FIRST_DAY_OF_CLASSES_TYPE_KEY);
+            coServiceImpl.updateSeatPoolDefinition(fetched.getId(), fetched, contextInfo);
+            SeatPoolDefinitionInfo fetched2 = coServiceImpl.getSeatPoolDefinition(created.getId(), contextInfo);
+            assertEquals(new Integer(5), fetched2.getSeatLimit());
+            assertEquals(AtpServiceConstants.MILESTONE_SEATPOOL_FIRST_DAY_OF_CLASSES_TYPE_KEY, fetched2.getExpirationMilestoneTypeKey());
+            coServiceImpl.deleteSeatPoolDefinition(fetched.getId(), contextInfo);
+            boolean found = true;
+            try {
+                coServiceImpl.getSeatPoolDefinition(fetched.getId(), contextInfo);
+            } catch (DoesNotExistException e) {
+                found = false;
+            }
+            if (found) {
+                assert(false); // Exception should have been thrown
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
 }
