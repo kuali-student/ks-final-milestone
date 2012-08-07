@@ -218,7 +218,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             //TODO log error
             return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
         }
-
     }
 
     @RequestMapping(params = "methodToCall=copyCourseOfferingCreateCopy")
@@ -228,40 +227,30 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        Object selectedObject = _getSelectedObject(theForm, "Copy");
-        if(selectedObject instanceof CourseOfferingCopyWrapper){
-            CourseOfferingCopyWrapper copyWrapper = (CourseOfferingCopyWrapper)selectedObject;
-            CourseOfferingInfo courseOfferingInfo = copyWrapper.getCoInfo();
+        CourseOfferingCopyWrapper copyWrapper = theForm.getCourseOfferingCopyWrapper();
+        CourseOfferingInfo courseOfferingInfo = copyWrapper.getCoInfo();
+        List<String> optionKeys = new ArrayList<String>();
 
-            List<String> optionKeys = new ArrayList<String>();
-
-            if (copyWrapper.isExcludeSchedulingInformation()){
-                optionKeys.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
-            }
-
-            if (copyWrapper.isExcludeInstructorInformation()){
-                optionKeys.add(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);
-            }
-
-            if (copyWrapper.isExcludeCancelledActivityOfferings()){
-                optionKeys.add(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY);
-            }
-
-            //Generate Ids
-            optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
-
-            CourseOfferingInfo courseOffering =
-                getCourseOfferingService().rolloverCourseOffering(
-                    courseOfferingInfo.getId(),copyWrapper.getTermId(),optionKeys,getContextInfo());
-            ExistingCourseOffering newWrapper = new ExistingCourseOffering(courseOffering);
-
-            CourseInfo course = getCourseInfo(copyWrapper.getCourseOfferingCode());
-
-            newWrapper.setCredits(ViewHelperUtil.getCreditCount(courseOffering, course));
-            newWrapper.setGrading(getGradingOption(courseOffering.getGradingOptionId()));
-            copyWrapper.getExistingOfferingsInCurrentTerm().add(newWrapper);
+        if (copyWrapper.isExcludeSchedulingInformation()) {
+            optionKeys.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
         }
+        if (copyWrapper.isExcludeInstructorInformation()) {
+            optionKeys.add(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);
+        }
+        if (copyWrapper.isExcludeCancelledActivityOfferings()) {
+            optionKeys.add(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY);
+        }
+        //Generate Ids
+        optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
 
+        CourseOfferingInfo courseOffering =
+            getCourseOfferingService().rolloverCourseOffering(
+                courseOfferingInfo.getId(), copyWrapper.getTermId(), optionKeys, getContextInfo());
+        ExistingCourseOffering newWrapper = new ExistingCourseOffering(courseOffering);
+        CourseInfo course = getCourseInfo(copyWrapper.getCourseOfferingCode());
+        newWrapper.setCredits(ViewHelperUtil.getCreditCount(courseOffering, course));
+        newWrapper.setGrading(getGradingOption(courseOffering.getGradingOptionId()));
+        copyWrapper.getExistingOfferingsInCurrentTerm().add(newWrapper);
         return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
     }
 
@@ -412,6 +401,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             CourseOfferingCopyWrapper coCopyWrapper = new CourseOfferingCopyWrapper();
 
             // Add items that the page wrapper intends to displaying.
+            coCopyWrapper.setCoInfo(courseOfferingInfo);
             coCopyWrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
             coCopyWrapper.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
             coCopyWrapper.setTermId(courseOfferingInfo.getTermId());

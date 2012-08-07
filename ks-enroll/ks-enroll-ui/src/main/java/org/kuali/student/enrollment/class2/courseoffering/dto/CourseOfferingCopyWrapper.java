@@ -54,6 +54,7 @@ public class CourseOfferingCopyWrapper implements Serializable{
     }
     
     public void clear() {
+        setCoInfo(null);
         setCourseOfferingCode("");
         setCourseTitle("");
         setTermId("");
