@@ -16,7 +16,7 @@
 package org.kuali.student.enrollment.class1.hold.service.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.class1.hold.service.keyvalues.HoldIssueInfoTypeKeyValues;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.List;
@@ -94,5 +94,13 @@ public class HoldIssueInfoSearchForm extends UifFormBase {
 
     public void setHoldIssueInfo(List<HoldIssueInfo> holdIssueInfo) {
         this.holdIssueInfo = holdIssueInfo;
+    }
+
+    public void clearValues() {
+        setName("");
+        setDescr("");
+        setStateKey("");
+        setTypeKey("");
+        setOrganizationId("");
     }
 }

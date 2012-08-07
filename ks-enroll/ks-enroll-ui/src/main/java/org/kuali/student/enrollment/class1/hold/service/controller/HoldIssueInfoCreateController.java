@@ -90,7 +90,7 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
         holdIssueInfo = new HoldIssueInfo();
         holdIssueInfo.setName(createForm.getName());
         holdIssueInfo.setTypeKey(createForm.getTypeKey());
-        holdIssueInfo.setStateKey("Active");
+        holdIssueInfo.setStateKey("kuali.hold.issue.state.active");
         holdIssueInfo.setOrganizationId(createForm.getOrganizationId());
         RichTextInfo richTextInfo = new RichTextInfo();
         richTextInfo.setPlain(createForm.getDescr());

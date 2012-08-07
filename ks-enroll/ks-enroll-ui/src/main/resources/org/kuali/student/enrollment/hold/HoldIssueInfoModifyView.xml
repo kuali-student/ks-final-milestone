@@ -89,8 +89,8 @@
                                                 <bean parent="Uif-HorizontalRadioControl" >
                                                     <property name="options">
                                                         <list>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="active" p:value="Active"/>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="inactive" p:value="Inactive"/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="kuali.hold.issue.state.active" p:value="Active"/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="kuali.hold.issue.state.inactive" p:value="Inactive"/>
                                                         </list>
                                                     </property>
                                                 </bean>

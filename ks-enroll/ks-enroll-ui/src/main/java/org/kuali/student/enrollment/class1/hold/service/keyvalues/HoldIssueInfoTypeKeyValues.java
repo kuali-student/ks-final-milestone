@@ -52,6 +52,26 @@ public class HoldIssueInfoTypeKeyValues extends UifKeyValuesFinderBase implement
         return keyValues;
     }
 
+    public KeyValue getTypeKeyValue(String typeKey) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        ConcreteKeyValue keyValue = new ConcreteKeyValue();
+
+        ContextInfo context = TestHelper.getContext1();
+
+        try {
+            List<TypeInfo> types = getTypeService().getTypesByRefObjectUri(HoldServiceConstants.REF_OBJECT_TYPE_URI_ISSUE, context);
+            for (TypeInfo type : types) {
+                if(type.getKey().equals(typeKey)) { //TODO remove check after data is fixed
+                    keyValue.setKey(type.getKey());
+                    keyValue.setValue(type.getName());
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return keyValue;
+    }
+
     protected TypeService getTypeService() {
         if(typeService == null) {
             typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));

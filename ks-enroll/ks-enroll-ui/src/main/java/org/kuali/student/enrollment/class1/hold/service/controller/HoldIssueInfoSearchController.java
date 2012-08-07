@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConsta
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoCreateForm;
 import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoSearchForm;
+import org.kuali.student.enrollment.class1.hold.service.keyvalues.HoldIssueInfoTypeKeyValues;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.mock.utilities.TestHelper;
@@ -92,7 +93,6 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
     public ModelAndView search(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<HoldIssueInfo> results = new ArrayList<HoldIssueInfo>();
-
         String name = searchForm.getName();
         String type = searchForm.getTypeKey();
         String state = searchForm.getStateKey();
@@ -107,7 +107,11 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
 
             List<HoldIssueInfo> holdIssueInfos = holdService.searchForHoldIssues(query.build(), getContextInfo());
             if (!holdIssueInfos.isEmpty()){
-                results.addAll(holdIssueInfos);
+                for(HoldIssueInfo holdIssue : holdIssueInfos) {
+                    holdIssue.setStateKey(setStateName(holdIssue.getStateKey()));
+                    holdIssue.setTypeKey(setTypeName(holdIssue.getTypeKey()));
+                    results.add(holdIssue);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,6 +123,13 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         searchForm.setHoldIssueInfo(results);
 
         return getUIFModelAndView(searchForm, null);
+    }
+
+    @RequestMapping(params = "methodToCall=clear")
+    public ModelAndView clear(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        searchForm.clearValues();
+        return getUIFModelAndView(searchForm);
     }
 
     @RequestMapping(params = "methodToCall=view")
@@ -162,8 +173,8 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         HoldIssueInfo holdIssue = getSelectedHoldIssue(searchForm, "delete");
 
         try {
-            if(holdIssue.getStateKey().equals("active")) {
-                holdIssue.setStateKey("inactive");
+            if(holdIssue.getStateKey().equals("kuali.hold.issue.state.active")) {
+                holdIssue.setStateKey("kuali.hold.issue.state.inactive");
                 getHoldService().updateHoldIssue(holdIssue.getId(), holdIssue, getContextInfo());
             }
         } catch(Exception e) {
@@ -239,7 +250,7 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         }
 
         if (StringUtils.isNotBlank(orgId)){
-            p = like("organizationId", orgId);
+            p = equal("organizationId", orgId);
             pList.add(p);
         }
 
@@ -254,5 +265,19 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
             qBuilder.setPredicates(and(preds));
         }
         return qBuilder;
+    }
+
+    private String setStateName(String stateKey) {
+        if(stateKey.equals("kuali.hold.issue.state.active")) {
+            return "Active";
+        } else {
+            return "Inactive";
+        }
+    }
+
+    private String setTypeName(String typeKey) {
+        HoldIssueInfoTypeKeyValues keyValue = new HoldIssueInfoTypeKeyValues();
+        String typeName = keyValue.getTypeKeyValue(typeKey).getValue();
+        return typeName;
     }
 }
