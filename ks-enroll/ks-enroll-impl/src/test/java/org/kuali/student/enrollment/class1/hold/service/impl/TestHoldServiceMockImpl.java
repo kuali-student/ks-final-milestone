@@ -354,7 +354,7 @@ public class TestHoldServiceMockImpl {
         expIds.add(finAidHoldStudent1.getId());
         expIds.add(acadHoldActiveStudent1.getId());
         for (AppliedHoldInfo hold : holds) {
-            if (!expIds.remove(hold.getId())) {
+            if ( ! expIds.remove(hold.getId())) {
                 fail(hold.getId());
             }
         }
@@ -367,19 +367,19 @@ public class TestHoldServiceMockImpl {
 
         // test get by student1
         holds = holdService.getActiveAppliedHoldsByPerson("student1", callContext);
+        assertEquals(2, holds.size());
+
         expIds = new ArrayList<String>();
         expIds.add(finAidHoldStudent1.getId());
         expIds.add(acadHoldActiveStudent1.getId());
-        System.out.println (holds.size() + " active applied holds found for student1");
         for (AppliedHoldInfo hold : holds) {
-            System.out.println ("active applied hold id=" + hold.getId());
-            if (!expIds.remove(hold.getId())) {
+            if ( ! expIds.remove(hold.getId())) {
                 fail(hold.getId());
             }
         }
         assertEquals(0, expIds.size());
 
-//        getHoldsByIssue
+        //  getHoldsByIssue
         actIds = holdService.getAppliedHoldIdsByIssue(acadIssue.getId(), callContext);
         expIds = new ArrayList<String>();
         expIds.add(acadHoldReleasedStudent1.getId());

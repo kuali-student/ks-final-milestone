@@ -43,6 +43,12 @@ import org.kuali.student.r2.core.hold.service.HoldService;
 public class HoldServiceMockImpl
         implements HoldService {
 
+    // cache variable
+    // The LinkedHashMap is just so the values come back in a predictable order
+    private Map<String, AppliedHoldInfo> holdMap = new LinkedHashMap<String, AppliedHoldInfo>();
+
+    private int nextId = 0;
+
     @Override
     public AppliedHoldInfo getAppliedHold(String holdId,
             ContextInfo contextInfo)
@@ -207,7 +213,6 @@ public class HoldServiceMockImpl
             PermissionDeniedException {
         throw new OperationFailedException("searchForHolds has not been implemented");
     }
-
     @Override
     public List<ValidationResultInfo> validateAppliedHold(String validationTypeKey,
             AppliedHoldInfo holdInfo,
@@ -219,9 +224,6 @@ public class HoldServiceMockImpl
         // validate
         return new ArrayList<ValidationResultInfo>();
     }
-    // cache variable 
-    // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, AppliedHoldInfo> holdMap = new LinkedHashMap<String, AppliedHoldInfo>();
 
     @Override
     public AppliedHoldInfo createAppliedHold(String personId,
@@ -242,7 +244,7 @@ public class HoldServiceMockImpl
         // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
         AppliedHoldInfo copy = new AppliedHoldInfo(holdInfo);
         if (copy.getId() == null) {
-            copy.setId(holdMap.size() + "");
+            copy.setId(String.valueOf(nextId++));
         }
         copy.setMeta(newMeta(contextInfo));
         holdMap.put(copy.getId(), copy);
@@ -422,7 +424,7 @@ public class HoldServiceMockImpl
         }
         HoldIssueInfo copy = new HoldIssueInfo(issueInfo);
         if (copy.getId() == null) {
-            copy.setId(issueMap.size() + "");
+            copy.setId(String.valueOf(nextId++));
         }
         copy.setMeta(newMeta(contextInfo));
         issueMap.put(copy.getId(), copy);
