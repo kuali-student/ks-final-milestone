@@ -102,17 +102,17 @@
                                     <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="theCourseOffering.id" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-NavigationActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" />
-                            <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}" />
+                            <bean parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" />
+                            <bean parent="Uif-ActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}" />
                         </list>
                     </property>
                 </bean>
                 <bean parent="Uif-LinkGroup" p:linkSeparator="|"  p:style="float:right">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-NavigationActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="&lt; @{previousCourseOfferingCodeUI}" p:render="@{!previousCourseOfferingCodeUI?.empty}"/>
-                            <bean parent="Uif-NavigationActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" />
-                            <bean parent="Uif-NavigationActionLink" p:methodToCall="loadNextCO" p:actionLabel="@{nextCourseOfferingCodeUI} &gt;" p:render="@{!nextCourseOfferingCodeUI?.empty}"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="&lt; @{previousCourseOfferingCodeUI}" p:render="@{!previousCourseOfferingCodeUI?.empty}"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" />
+                            <bean parent="Uif-ActionLink" p:methodToCall="loadNextCO" p:actionLabel="@{nextCourseOfferingCodeUI} &gt;" p:render="@{!nextCourseOfferingCodeUI?.empty}"/>
                         </list>
                     </property>
                 </bean>
@@ -174,9 +174,9 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="confirmDelete" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />
+                <bean parent="Uif-ActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
+                <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                <bean parent="Uif-ActionLink" p:methodToCall="confirmDelete" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />
             </list>
         </property>
     </bean>

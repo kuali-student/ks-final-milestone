@@ -142,10 +142,10 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="Uif-NavigationActionLink" p:actionScript="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="Uif-ActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
+                  <bean parent="Uif-ActionLink"  p:actionScript="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -190,10 +190,10 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="Uif-NavigationActionLink" p:actionScript="confirmDeletion('Are you sure you want to delete the academic calendar?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="Uif-ActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
+                  <bean parent="Uif-ActionLink"  p:actionScript="confirmDeletion('Are you sure you want to delete the academic calendar?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -238,9 +238,9 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="Uif-NavigationActionLink" p:actionScript="confirmDeletion('Are you sure you want to delete the term?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="Uif-ActionLink" p:actionScript="confirmDeletion('Are you sure you want to delete the term?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>

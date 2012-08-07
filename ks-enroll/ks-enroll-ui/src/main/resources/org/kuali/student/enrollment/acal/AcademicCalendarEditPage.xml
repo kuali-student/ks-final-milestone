@@ -273,7 +273,7 @@
                     <list>
                         <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
                        <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
-                       <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                       <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
                              p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
                              p:actionScript="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>
                     </list>
