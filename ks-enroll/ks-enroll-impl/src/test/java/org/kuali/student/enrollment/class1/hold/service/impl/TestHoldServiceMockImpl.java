@@ -282,7 +282,7 @@ public class TestHoldServiceMockImpl {
         finAidHoldStudent1.setHoldIssueId(finAidIssue.getId());
         finAidHoldStudent1.setName("name of hold");
         finAidHoldStudent1.setDescr(new RichTextHelper().fromPlain("description of hold"));
-        finAidHoldStudent1.setEffectiveDate(new Date());
+        finAidHoldStudent1.setEffectiveDate(new Date(0));
         finAidHoldStudent1.setReleasedDate(null);
         finAidHoldStudent1.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         finAidHoldStudent1.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
@@ -296,7 +296,7 @@ public class TestHoldServiceMockImpl {
         acadHoldActiveStudent1.setHoldIssueId(acadIssue.getId());
         acadHoldActiveStudent1.setName("name of hold");
         acadHoldActiveStudent1.setDescr(new RichTextHelper().fromPlain("description of hold"));
-        acadHoldActiveStudent1.setEffectiveDate(new Date());
+        acadHoldActiveStudent1.setEffectiveDate(new Date(0));
         acadHoldActiveStudent1.setReleasedDate(null);
         acadHoldActiveStudent1.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         acadHoldActiveStudent1.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
@@ -311,7 +311,7 @@ public class TestHoldServiceMockImpl {
         acadHoldActiveInstructor1.setHoldIssueId(acadIssue.getId());
         acadHoldActiveInstructor1.setName("name of hold");
         acadHoldActiveInstructor1.setDescr(new RichTextHelper().fromPlain("description of hold"));
-        acadHoldActiveInstructor1.setEffectiveDate(new Date());
+        acadHoldActiveInstructor1.setEffectiveDate(new Date(0));
         acadHoldActiveInstructor1.setReleasedDate(null);
         acadHoldActiveInstructor1.setTypeKey(HoldServiceConstants.INTRUCTOR_HOLD_TYPE_KEY);
         acadHoldActiveInstructor1.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
@@ -429,6 +429,5 @@ public class TestHoldServiceMockImpl {
         status = holdService.deleteAppliedHold(acadHoldActiveInstructor1.getId(), callContext);
         
         return acadHoldReleasedStudent1;
-
     }
 }
