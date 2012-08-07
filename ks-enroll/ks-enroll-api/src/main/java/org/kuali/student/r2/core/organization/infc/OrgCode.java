@@ -33,7 +33,8 @@ public interface OrgCode
     /**
      * The code value.
      * 
-     * @name Value 
+     * @name Value
+     * @required
      */
     public String getValue ();
     

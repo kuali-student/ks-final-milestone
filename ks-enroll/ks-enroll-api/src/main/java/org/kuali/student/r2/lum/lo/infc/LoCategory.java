@@ -16,6 +16,8 @@ public interface LoCategory extends IdEntity {
      * creation, this is immutable.
      * 
      * @name LO Repository
+     * @required
+     * @readOnly
      */
     public String getLoRepositoryKey();
 
@@ -25,7 +27,7 @@ public interface LoCategory extends IdEntity {
      * When an expiration date has been specified, this field must be less than
      * or equal to the expiration date.
      * 
-     * @name Effectvie Date
+     * @name Effective Date
      */
     public Date getEffectiveDate();
 

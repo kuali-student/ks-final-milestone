@@ -17,7 +17,8 @@ public interface Lo extends IdEntity {
      * immutable once set during creation.
      * 
      * @name LO Repository Key
-     * @Required
+     * @required
+     * @readOnly
      */
     public String getLoRepositoryKey();
 
@@ -28,7 +29,6 @@ public interface Lo extends IdEntity {
      * to the expiration date.
      * 
      * @name Effective Date
-     * @Required
      */
     public Date getEffectiveDate();
 
@@ -40,7 +40,6 @@ public interface Lo extends IdEntity {
      * should automatically be considered greater than the effective date.
      * 
      * @name Expiration Date
-     * @required
      */
     public Date getExpirationDate();
 

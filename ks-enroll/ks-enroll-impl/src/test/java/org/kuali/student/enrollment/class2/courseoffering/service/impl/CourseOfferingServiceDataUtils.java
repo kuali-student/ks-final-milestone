@@ -252,8 +252,6 @@ public final class CourseOfferingServiceDataUtils {
 		rg.setFormatOfferingId(formatOfferingId);
 
 		rg.setIsGenerated(generated);
-		rg.setIsHonorsOffering(honorsOffering);
-		rg.setMaximumEnrollment(maximumEnrollment);
 		rg.setName(name);
 		rg.setRegistrationCode(registrationCode);
 

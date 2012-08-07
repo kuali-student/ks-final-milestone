@@ -15,12 +15,10 @@ public class RegistrationGroupTransformer {
         regDateGroup.setTypeKey(lui.getTypeKey());
         regDateGroup.setDescr(lui.getDescr());
         regDateGroup.setAttributes(lui.getAttributes());
-        regDateGroup.setMaximumEnrollment(lui.getMaximumEnrollment());
         //regDateGroup.setMinimumEnrollment(lui.getMinimumEnrollment());
         regDateGroup.setName(lui.getName());
         regDateGroup.setFormatOfferingId(lui.getCluId());
         regDateGroup.setTermId(lui.getAtpId());
-        // TODO: co.setIsHonorsOffering(isHonorsOffering) -- lui.getLuiCodes() ?
 
         // below undecided
         // co.setHasWaitlist(lui.getHasWaitlist());
@@ -45,11 +43,8 @@ public class RegistrationGroupTransformer {
         lui.setAttributes(regGroup.getAttributes());
         lui.setName(regGroup.getName());
         lui.setCluId(regGroup.getFormatOfferingId());
-        lui.setMaximumEnrollment(regGroup.getMaximumEnrollment());
         // lui.setMinimumEnrollment(regGroup.getMinimumEnrollment());
         lui.setAtpId(regGroup.getTermId());
-        
-        //TODO: co.getIsHonorsOffering() --store in a generic lui luCodes type of field?
         
         //below undecided
         //lui.setHasWaitlist(rg.getHasWaitlist());

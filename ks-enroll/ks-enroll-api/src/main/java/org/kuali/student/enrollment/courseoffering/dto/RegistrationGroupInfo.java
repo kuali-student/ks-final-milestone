@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
                 "id", "typeKey", "stateKey", "name", "descr", 
                 "formatOfferingId",  "courseOfferingId", "termId", 
                 "registrationCode", "activityOfferingIds", 
-                "isHonorsOffering", "maximumEnrollment", "isGenerated",
+                "isGenerated",
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationGroupInfo 
@@ -61,12 +61,6 @@ public class RegistrationGroupInfo
 
     @XmlElement
     private List<String> activityOfferingIds;
-
-    @XmlElement
-    private Integer maximumEnrollment;
-
-    @XmlElement
-    private Boolean isHonorsOffering;
 
     @XmlElement
     private Boolean isGenerated;
@@ -104,9 +98,6 @@ public class RegistrationGroupInfo
             this.activityOfferingIds = new ArrayList<String>(registrationGroup.getActivityOfferingIds());
         }
 
-        this.isHonorsOffering = registrationGroup.getIsHonorsOffering();
-        this.maximumEnrollment = registrationGroup.getMaximumEnrollment();
-        
         this.isGenerated = registrationGroup.getIsGenerated();
         
     }
@@ -161,24 +152,6 @@ public class RegistrationGroupInfo
     }
 
     @Override
-    public Boolean getIsHonorsOffering() {
-        return isHonorsOffering;
-    }
-
-    public void setIsHonorsOffering(Boolean isHonorsOffering) {
-        this.isHonorsOffering = isHonorsOffering;
-    }
-
-    @Override
-    public Integer getMaximumEnrollment() {
-        return maximumEnrollment;
-    }
-
-    public void setMaximumEnrollment(Integer maximumEnrollment) {
-        this.maximumEnrollment = maximumEnrollment;
-    }
-
-    @Override
     public Boolean getIsGenerated() {
         return isGenerated;
     }
@@ -202,10 +175,6 @@ public class RegistrationGroupInfo
         builder.append(StringUtils.join(activityOfferingIds, ", "));
         builder.append(", registrationCode=");
         builder.append(registrationCode);
-        builder.append(", maximumEnrollment=");
-        builder.append(maximumEnrollment);
-        builder.append(", isHonorsOffering=");
-        builder.append(isHonorsOffering);
         builder.append(", isGenerated=");
         builder.append(isGenerated);
         builder.append("]");

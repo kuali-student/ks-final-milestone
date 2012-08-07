@@ -7,12 +7,16 @@ public interface LoLoRelation extends Relationship {
     /**
      * Unique identifier for a learning objective record. This is the "From" or
      * "Parent" in the relation.
+     * @required
+     * @readOnly
      */
     public String getLoId();
 
     /**
      * Unique identifier for a learning objective record. This is the "To" or
      * "Child" of the relation.
+     * @required
+     * @readOnly
      */
     public String getRelatedLoId();
 

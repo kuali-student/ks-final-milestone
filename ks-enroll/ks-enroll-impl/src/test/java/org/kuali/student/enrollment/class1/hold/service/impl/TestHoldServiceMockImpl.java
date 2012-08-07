@@ -161,7 +161,7 @@ public class TestHoldServiceMockImpl {
             if (!ids.remove(issue.getId())) {
                 fail(issue.getId());
             }
-        }
+        }// here
         assertEquals(0, ids.size());
 
 

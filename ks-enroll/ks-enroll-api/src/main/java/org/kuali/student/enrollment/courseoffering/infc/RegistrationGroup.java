@@ -86,24 +86,6 @@ public interface RegistrationGroup
      *       registration group.
      */
     public List<String> getActivityOfferingIds();            
-    
-    /**
-     * Indicates that the entire course offering is an Honors Course.
-     *
-     * @name Is Honors Offering
-     * @readOnly
-     */
-    public Boolean getIsHonorsOffering();
-
-    /**
-     * Total maximum number of "seats" or enrollment slots that can be
-     * filled for the offering. Constrained by smallest activity.
-     *
-     * @name Maximum Enrollment
-     * @readOnly
-     * @impl maps to Lui.maximumEnrollment
-     */
-    public Integer getMaximumEnrollment();
 
     /**
      * Tests if this registration group wa sthe product of an
