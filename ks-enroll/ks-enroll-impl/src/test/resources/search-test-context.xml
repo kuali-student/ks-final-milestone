@@ -37,12 +37,14 @@
   	<bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
     	<property name="entityManager" ref="entityManager"/>
   	</bean>
-  	
-  	<bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
-    	<property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
-  	</bean>
-  	
-  	<!-- Atp Service - Criteria Lookup Service -->
+
+    <bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+    </bean>
+
+    <bean id="coCodeTransform" class=" org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingTransform"/>
+
+    <!-- Atp Service - Criteria Lookup Service -->
   	<bean id="atpCriteriaLookupService" parent="criteriaLookupService">
     	<property name="predicateTransforms">
     		<list>
@@ -54,5 +56,10 @@
   	</bean>
         <bean id="coCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
            <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
-        </bean>  			
+            <property name="predicateTransforms">
+                <list>
+                    <ref bean="coCodeTransform"/>
+                </list>
+            </property>
+        </bean>
 </beans>
