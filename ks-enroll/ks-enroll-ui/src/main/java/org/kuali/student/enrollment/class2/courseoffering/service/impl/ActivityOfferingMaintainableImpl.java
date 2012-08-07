@@ -72,6 +72,16 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
             try {
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
+                List<SeatPoolDefinitionInfo> seatPoolsOld = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(activityOfferingWrapper.getAoInfo().getId(),getContextInfo());
+                List<SeatPoolDefinitionInfo> seatPoolDeleteList = this.getSeatPoolDeleteList(seatPools, seatPoolsOld);
+
+                // delete seat pools
+                for(SeatPoolDefinitionInfo deletePool: seatPoolDeleteList){
+                    // remove relationship first
+                    getCourseOfferingService().removeSeatPoolDefinitionFromActivityOffering(deletePool.getId(), activityOfferingWrapper.getAoInfo().getId(), getContextInfo());
+                    // now delete pool
+                    getCourseOfferingService().deleteSeatPoolDefinition(deletePool.getId(), getContextInfo());
+                }
 
                 // Save the SeatPools
                 if(seatPools != null){
@@ -95,7 +105,33 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     }
 
 
+    private  List<SeatPoolDefinitionInfo> getSeatPoolDeleteList(List<SeatPoolDefinitionInfo> newList, List<SeatPoolDefinitionInfo> oldList){
+        List<SeatPoolDefinitionInfo> deleteList = new ArrayList<SeatPoolDefinitionInfo>();
+        // loop through old list, add items that don't exist in new list to ret list
 
+        if(oldList == null) return deleteList;
+        else{
+            for(SeatPoolDefinitionInfo oldPool : oldList){
+                if(newList == null){
+                   deleteList.add(oldPool);
+                } else {
+                    if(!seatPoolListContains(newList, oldPool.getId())){
+                        deleteList.add(oldPool);
+                    }
+                }
+            }
+        }
+        return deleteList;
+    }
+
+    private boolean seatPoolListContains(List<SeatPoolDefinitionInfo> poolList, String poolId){
+        for(SeatPoolDefinitionInfo pool : poolList){
+            if(poolId != null && poolId.equalsIgnoreCase(pool.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
