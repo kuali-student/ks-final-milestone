@@ -753,6 +753,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         // GlobalVariables.getMessageMap().putErrorForSectionId("add_planned_course", PlanConstants.ERROR_KEY_UNKNOWN_COURSE);
 
+/*
         Integer toBeDeleted = selectedIndexList.size();
 
         if(selectedIndexList.size() >= 1) {
@@ -760,6 +761,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE, toBeDeleted.toString());
         }
 
+*/
         return getUIFModelAndView(theForm, "selectedAoDeleteConfirmationPage");
     }
 
