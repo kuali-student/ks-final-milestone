@@ -20,7 +20,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructor
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
-import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolPriorityService;
+import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
@@ -33,7 +33,6 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
@@ -61,7 +60,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient CourseService courseService;
     private transient AcademicCalendarService academicCalendarService;
     private transient PopulationService populationService;
-    private transient SeatPoolPriorityService seatPoolPriorityService;
+    private transient SeatPoolUtilityService seatPoolUtilityService;
 
     @Override
     public void saveDataObject() {
@@ -70,44 +69,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             disassembleInstructorsWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
 
             List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
-            SeatPoolPriorityServiceImpl spServiceImpl = new SeatPoolPriorityServiceImpl();
+            SeatPoolUtilityServiceImpl spServiceImpl = new SeatPoolUtilityServiceImpl();
             spServiceImpl.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo() );
-            //getSeatPoolPriorityService().updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo());
-            //System.out.println("here");
-
-
-            /*
-            try {
-                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
-                List<SeatPoolDefinitionInfo> seatPoolsOld = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(activityOfferingWrapper.getAoInfo().getId(),getContextInfo());
-                List<SeatPoolDefinitionInfo> seatPoolDeleteList = this.getSeatPoolDeleteList(seatPools, seatPoolsOld);
-
-                // delete seat pools
-                for(SeatPoolDefinitionInfo deletePool: seatPoolDeleteList){
-                    // remove relationship first
-                    getCourseOfferingService().removeSeatPoolDefinitionFromActivityOffering(deletePool.getId(), activityOfferingWrapper.getAoInfo().getId(), getContextInfo());
-                    // now delete pool
-                    getCourseOfferingService().deleteSeatPoolDefinition(deletePool.getId(), getContextInfo());
-                }
-
-                // Save the SeatPools
-                if(seatPools != null){
-                    for(SeatPoolDefinitionInfo pool : seatPools){
-                        if(pool.getId() != null){
-                            getCourseOfferingService().updateSeatPoolDefinition(pool.getId(),pool,getContextInfo());
-                        }   else {
-                            // create New
-                            pool.setTypeKey("MAKE ME REAL, SIR");
-                            pool.setStateKey("I WISH I WAS A REAL STATE");
-                            pool = getCourseOfferingService().createSeatPoolDefinition(pool,getContextInfo());
-                            getCourseOfferingService().addSeatPoolDefinitionToActivityOffering(pool.getId(),activityOfferingWrapper.getAoInfo().getId(), getContextInfo() );
-                        }
-                    }
-                }
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }*/
         }
     }
 
@@ -476,12 +439,12 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         return populationService;
     }
 
-    public SeatPoolPriorityService getSeatPoolPriorityService() {
-        return seatPoolPriorityService;
+    public SeatPoolUtilityService getSeatPoolUtilityService() {
+        return seatPoolUtilityService;
     }
 
-    public void setSeatPoolPriorityService(SeatPoolPriorityService seatPoolPriorityService) {
-        this.seatPoolPriorityService = seatPoolPriorityService;
+    public void setSeatPoolUtilityService(SeatPoolUtilityService seatPoolUtilityService) {
+        this.seatPoolUtilityService = seatPoolUtilityService;
     }
 
 

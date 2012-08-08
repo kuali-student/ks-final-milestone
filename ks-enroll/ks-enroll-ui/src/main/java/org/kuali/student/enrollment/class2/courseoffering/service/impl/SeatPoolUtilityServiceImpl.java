@@ -17,12 +17,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolPriorityService;
+import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
@@ -34,7 +32,7 @@ import java.util.*;
  *
  * @author Kuali Student Team
  */
-public class SeatPoolPriorityServiceImpl implements SeatPoolPriorityService {
+public class SeatPoolUtilityServiceImpl implements SeatPoolUtilityService {
     private transient CourseOfferingService courseOfferingService = null;
 
 

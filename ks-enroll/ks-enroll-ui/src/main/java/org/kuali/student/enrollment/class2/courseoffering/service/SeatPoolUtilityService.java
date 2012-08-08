@@ -11,6 +11,6 @@ import java.util.List;
  * Time: 1:52 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface SeatPoolPriorityService {
+public interface SeatPoolUtilityService {
     public void updateSeatPoolDefinitionList (List<SeatPoolDefinitionInfo> updatedSeatPoolList, String activityOfferingId, ContextInfo context);
 }
