@@ -152,9 +152,6 @@
                 <value>classpath:org/kuali/student/enrollment/state/StateInfoAdminInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/state/LifecycleInfoAdminLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/state/LifecycleInfoAdminInquiryView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/CheckInfoCreateView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/CheckInfoSearchView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/CheckInfoView.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
