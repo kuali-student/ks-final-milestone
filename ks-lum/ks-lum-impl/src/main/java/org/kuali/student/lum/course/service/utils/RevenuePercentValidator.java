@@ -5,22 +5,23 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
 
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.BeanConstraintDataProvider;
-import org.kuali.student.common.validator.ConstraintDataProvider;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.validator.BeanConstraintDataProvider;
+import org.kuali.student.r1.common.validator.ConstraintDataProvider;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 
 public class RevenuePercentValidator extends DefaultValidatorImpl {
 
     private static final String COURSE_REVENUE_FIELD = "revenues";
 
     @Override
-    public List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure) {
+    public List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, ContextInfo contextInfo) {
         // Custom validators are required to only override the other validateObject method
         return null;
     }
@@ -30,7 +31,7 @@ public class RevenuePercentValidator extends DefaultValidatorImpl {
      *      java.lang.Object, org.kuali.student.common.dictionary.dto.ObjectStructureDefinition, java.util.Stack)
      */
     @Override
-    public List<ValidationResultInfo> validateObject(FieldDefinition field, Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack) {
+    public List<ValidationResultInfo> validateObject(FieldDefinition field, Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack, ContextInfo contextInfo) {
 
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
@@ -69,7 +70,7 @@ public class RevenuePercentValidator extends DefaultValidatorImpl {
         if (((Collection<?>) revenuesObj).size() > 0 && totalOrgPercent != 100l) {
             ValidationResultInfo valRes = new ValidationResultInfo(getElementXpath(elementStack));
             valRes.setElement("/revenues");
-            valRes.setError(MessageUtils.interpolate(getMessage("validation.revenueTotal"), toMap(field)));
+            valRes.setError(MessageUtils.interpolate(getMessage("validation.revenueTotal", contextInfo), toMap(field)));
             results.add(valRes);
         }
 

@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 /**
  * Course Offering Service Constants

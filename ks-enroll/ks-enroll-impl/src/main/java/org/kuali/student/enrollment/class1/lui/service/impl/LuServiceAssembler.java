@@ -13,14 +13,14 @@ import java.util.Map.Entry;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.kuali.student.common.entity.Amount;
-import org.kuali.student.common.entity.CurrencyAmount;
-import org.kuali.student.common.entity.TimeAmount;
+import org.kuali.student.r1.common.entity.Amount;
+import org.kuali.student.r1.common.entity.CurrencyAmount;
+import org.kuali.student.r1.common.entity.TimeAmount;
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
@@ -276,7 +276,7 @@ public class LuServiceAssembler extends BaseAssembler {
             CluSet c;
             try {
                 c = luDao.fetch(CluSet.class, cluSetId);
-            } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
+            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
                 throw new DoesNotExistException(cluSetId);
             }
             if (cluSet.getCluSets() == null) {
@@ -584,7 +584,7 @@ public class LuServiceAssembler extends BaseAssembler {
         if (isUpdate) {
             try {
                 lui = dao.fetch(Lui.class, luiInfo.getId());
-            } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
+            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
                 throw new DoesNotExistException (luiInfo.getId());
             }
             if (null == lui) {
@@ -608,7 +608,7 @@ public class LuServiceAssembler extends BaseAssembler {
         Clu clu;
         try {
             clu = dao.fetch(Clu.class, luiInfo.getCluId());
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException (luiInfo.getCluId());
         }
         if (null == clu) {

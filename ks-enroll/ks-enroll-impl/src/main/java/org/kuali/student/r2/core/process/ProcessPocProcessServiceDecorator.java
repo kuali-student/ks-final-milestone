@@ -16,7 +16,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;

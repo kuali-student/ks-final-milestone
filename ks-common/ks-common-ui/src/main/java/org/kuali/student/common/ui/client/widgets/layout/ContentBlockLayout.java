@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class ContentBlockLayout extends VerticalFlowPanel{
 	
 	private SectionTitle sectionTitle = SectionTitle.generateH1Title("");

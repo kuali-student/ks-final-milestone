@@ -24,7 +24,7 @@ import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 

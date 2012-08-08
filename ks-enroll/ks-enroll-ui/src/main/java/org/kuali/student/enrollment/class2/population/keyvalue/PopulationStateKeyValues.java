@@ -26,8 +26,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
-import org.kuali.student.r2.common.util.constants.StateServiceConstants;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
+import org.kuali.student.r2.common.constants.StateServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 

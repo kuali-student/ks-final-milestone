@@ -4,8 +4,11 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 
@@ -35,18 +38,35 @@ public class ProgramDataGeneratorUtils {
 		}
 		
 		BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
+		
+		// KSCM-621 Get all the fields including inherited fields...
+		ArrayList<Field> fields = new ArrayList<Field>();
+	    fields = getAllFields(fields, clazz);
+	    ArrayList<Method> methods= new ArrayList<Method>();
+	    methods = getAllMethods(methods, clazz);
+	    
+	    
 		for(PropertyDescriptor pd:beanInfo.getPropertyDescriptors()){
 
 			if(ignoreProperty(pd)){
 				continue;
 			}
 			propertyIndex++;
+
 			Object value = null;
-			Class<?> pt = pd.getPropertyType();
+			Class<?> pt = pd.getPropertyType();	// KSCM-621
+			Field declaredField = findField(pd.getName(), fields);	 // KSCM-621
+			
+			// We're not interested in the Interface, List, Map but in the actual class
+			if (pt.isInterface() && !List.class.equals(pt) && !Map.class.equals(pt)) {
+				pt = declaredField.getType();
+			} 
+			
 			if(List.class.equals(pt)){
 				//If this is a list then make a new list and make x amount of test data of that list type
 				//Get the list type:
-				Class<?> nestedClass = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
+				Class<?> nestedClass = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[0];			
+				
 				List list = new ArrayList();
 				for(int i=0;i<2;i++){
 					propertyIndex++;
@@ -62,8 +82,8 @@ public class ProgramDataGeneratorUtils {
 				}
 				value = list;
 			}else if(Map.class.equals(pt)){
-				Class<?> keyType = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
-				Class<?> valueType = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[1];
+				Class<?> keyType = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[0];
+				Class<?> valueType = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[1];
 				Map map = new HashMap();
 				for(int i=0;i<2;i++){
 					propertyIndex++;
@@ -87,7 +107,12 @@ public class ProgramDataGeneratorUtils {
 			}else{
 				value = generateTestData(pt,programType, propertyIndex,sameClassNestLevel,pd.getName(), false);
 			}
-			pd.getWriteMethod().invoke(instance, value);
+			Method writeMethod = pd.getWriteMethod();
+			
+			if (writeMethod == null) {
+				writeMethod = findSetMethod(pd.getName(), methods);
+			}
+			writeMethod.invoke(instance, value);
 		}
 		return instance;
 	}
@@ -97,7 +122,7 @@ public class ProgramDataGeneratorUtils {
 		if("class".equals(name)){
 			return true;
 		}
-		if("metaInfo".equals(name)){
+		if("meta".equals(name)){
 			return true;
 		}
 		
@@ -130,7 +155,7 @@ public class ProgramDataGeneratorUtils {
 			return ProgramAssemblerConstants.CATALOG;
 		}
         
-		if("type".equals(name)){
+		if("typeKey".equals(name)){
 			
 			if(null==parentPropertyName){
 				return programType;
@@ -169,7 +194,7 @@ public class ProgramDataGeneratorUtils {
 			}
 		}
 
-		if("state".equals(name)){
+		if("stateKey".equals(name)){
 			return DtoConstants.STATE_DRAFT;
 		}
 
@@ -188,4 +213,48 @@ public class ProgramDataGeneratorUtils {
 			return name+"-"+"test";
 	}
 
+	// KSCM-621
+	public static ArrayList<Field> getAllFields(ArrayList<Field> fields, Class<?> type) {
+	    for (Field field: type.getDeclaredFields()) {
+	        fields.add(field);
+	    }
+
+	    if (type.getSuperclass() != null) {
+	        fields = getAllFields(fields, type.getSuperclass());
+	    }
+
+	    return fields;
+	}
+	
+	// KSCM-621
+	public static ArrayList<Method> getAllMethods(ArrayList<Method> methods, Class<?> type) {
+	    for (Method method: type.getMethods()) {
+	        methods.add(method);
+	    }
+
+	    if (type.getSuperclass() != null) {
+	        methods = getAllMethods(methods, type.getSuperclass());
+	    }
+
+	    return methods;
+	}
+	// KSCM-621
+	public static Field findField(String fieldName, ArrayList<Field> fields) {
+		for (Field field : fields) {
+			if (field.getName().equals(fieldName)) {
+				return field;
+			}
+		}
+		return null;
+	}
+	// KSCM-621
+	public static Method findSetMethod(String fieldName, ArrayList<Method> methods) {
+		fieldName = ("set" + fieldName);
+		for (Method method : methods) {
+			if (method.getName().compareToIgnoreCase(fieldName) == 0) {
+				return method;
+			}
+		}
+		return null;
+	}
 }

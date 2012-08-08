@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.service.LogRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+@Deprecated
 public class LogRpcGwtServlet extends RemoteServiceServlet implements LogRpcService {
 	private static final long serialVersionUID = 1L;
 

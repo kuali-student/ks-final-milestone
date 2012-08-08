@@ -23,8 +23,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
@@ -35,7 +35,6 @@ import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
-
 
 public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 
@@ -248,6 +247,29 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 	}
 
 	@Override
+	public List<Clu> getClusByRelationSt(String cluId, String luLuRelationTypeId, List<String> luStateList) {
+		Query query = em.createNamedQuery("CluCluRelation.getRelatedClusByCluIdSt");
+		query.setParameter("cluId", cluId);
+		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+		query.setParameter("luStateList", luStateList);
+		@SuppressWarnings("unchecked")
+		List<Clu> resultList = query.getResultList();
+		
+		query = em.createNamedQuery("CluCluRelation.getClusByRelatedCluIdSt");
+		query.setParameter("relatedCluId", cluId);
+		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+		query.setParameter("luStateList", luStateList);		
+		List<Clu> resultListRel = query.getResultList();
+		if(resultListRel != null)
+			for(Clu clu:resultListRel) {
+				if (!resultList.contains(clu))
+					resultList.add(clu);
+			}
+		
+		return resultList;
+	}
+	
+	@Override
 	public List<CluLoRelation> getCluLoRelationsByClu(String cluId) {
 		Query query = em
 				.createNamedQuery("CluLoRelation.getCluLoRelationByClu");
@@ -409,7 +431,7 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
         query.setParameter("versionIndId", cluVersionIndId);
         query.setParameter("currentTime", new Date());
         VersionDisplayInfo versionDisplayInfo = (VersionDisplayInfo)query.getSingleResult();
-        versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        versionDisplayInfo.setRefObjectUri(objectTypeURI);
         return versionDisplayInfo;
 	}
 
@@ -420,7 +442,7 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
         query.setParameter("versionIndId", versionIndId);
         query.setParameter("date", date);
         VersionDisplayInfo versionDisplayInfo = (VersionDisplayInfo)query.getSingleResult();
-        versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        versionDisplayInfo.setRefObjectUri(objectTypeURI);
         return versionDisplayInfo;
 	}
 
@@ -430,7 +452,7 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
         Query query = em.createNamedQuery("Clu.findFirstVersion");
         query.setParameter("versionIndId", versionIndId);
         VersionDisplayInfo versionDisplayInfo = (VersionDisplayInfo)query.getSingleResult();
-        versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        versionDisplayInfo.setRefObjectUri(objectTypeURI);
         return versionDisplayInfo;
 	}
 
@@ -440,7 +462,7 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
         Query query = em.createNamedQuery("Clu.findLatestVersion");
         query.setParameter("versionIndId", versionIndId);
         VersionDisplayInfo versionDisplayInfo = (VersionDisplayInfo)query.getSingleResult();
-        versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        versionDisplayInfo.setRefObjectUri(objectTypeURI);
         return versionDisplayInfo;
 	}
 
@@ -451,7 +473,7 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
         query.setParameter("versionIndId", versionIndId);
         query.setParameter("sequenceNumber", sequenceNumber);
         VersionDisplayInfo versionDisplayInfo = (VersionDisplayInfo)query.getSingleResult();
-        versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        versionDisplayInfo.setRefObjectUri(objectTypeURI);
         return versionDisplayInfo;
 	}
 
@@ -465,7 +487,7 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
         	versionDisplayInfos = Collections.emptyList();
         }
         for(VersionDisplayInfo versionDisplayInfo:versionDisplayInfos){
-        	versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        	versionDisplayInfo.setRefObjectUri(objectTypeURI);
         }
         return versionDisplayInfos;
 	}
@@ -497,7 +519,7 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
         	versionDisplayInfos = Collections.emptyList();
         }
         for(VersionDisplayInfo versionDisplayInfo:versionDisplayInfos){
-        	versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        	versionDisplayInfo.setRefObjectUri(objectTypeURI);
         }
         return versionDisplayInfos;
 	}

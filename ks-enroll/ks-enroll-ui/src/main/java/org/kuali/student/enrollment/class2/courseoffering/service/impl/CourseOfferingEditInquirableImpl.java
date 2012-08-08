@@ -35,7 +35,7 @@ import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;

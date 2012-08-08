@@ -30,7 +30,7 @@ import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;

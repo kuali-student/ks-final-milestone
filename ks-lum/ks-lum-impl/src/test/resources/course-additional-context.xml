@@ -35,15 +35,15 @@
 
 
 	<bean id="statementService"
-		class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+		class="org.kuali.student.r1.core.statement.service.impl.StatementServiceImpl">
 	</bean>
 
 	<bean id="orgService"
-		class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
+		class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
 	</bean>
 
 	<bean id="atpService"
-		class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
+		class="org.kuali.student.r1.core.atp.service.impl.AtpServiceImpl">
 	</bean>
 
 	<bean id="loService"

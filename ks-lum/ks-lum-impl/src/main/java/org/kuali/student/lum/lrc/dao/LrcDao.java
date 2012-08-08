@@ -17,13 +17,13 @@ package org.kuali.student.lum.lrc.dao;
 
 import java.util.List;
 
-import org.kuali.student.common.dao.CrudDao;
-import org.kuali.student.common.dao.SearchableDao;
-import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.r1.common.dao.CrudDao;
+import org.kuali.student.r1.common.dao.SearchableDao;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lrc.entity.ResultComponentType;
 
 public interface LrcDao extends CrudDao, SearchableDao  {
-    public List<String> getResultComponentIdsByResult(String resultValueId, String resultComponentTypeKey);
+    public List<String> getResultComponentIdsByResult(String resultValueId);
     public List<String> getResultComponentIdsByResultComponentType(String resultComponentTypeKey);
     public ResultComponentType getResultComponentType(String resultComponentTypeKey) throws DoesNotExistException;
 }

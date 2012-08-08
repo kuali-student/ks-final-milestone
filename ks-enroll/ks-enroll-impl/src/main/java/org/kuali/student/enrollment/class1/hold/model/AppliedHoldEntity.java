@@ -1,12 +1,12 @@
 package org.kuali.student.enrollment.class1.hold.model;
 
-import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
-import org.kuali.student.r2.core.hold.infc.AppliedHold;
+import org.kuali.student.r2.core.hold.dto.HoldInfo;
+import org.kuali.student.r2.core.hold.infc.Hold;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -80,7 +80,7 @@ public class AppliedHoldEntity
     public AppliedHoldEntity() {
     }
 
-    public AppliedHoldEntity(AppliedHold hold) {
+    public AppliedHoldEntity(Hold hold) {
         super(hold);
         this.setId(hold.getId());
         this.personId = hold.getPersonId();
@@ -90,7 +90,7 @@ public class AppliedHoldEntity
         this.fromDto(hold);
     }
 
-    public void fromDto(AppliedHold dto) {
+    public void fromDto(Hold dto) {
         this.setName(dto.getName());
         this.setHoldState(dto.getStateKey());
         if (dto.getDescr() != null) {
@@ -111,8 +111,8 @@ public class AppliedHoldEntity
         }
     }
 
-    public AppliedHoldInfo toDto() {
-        AppliedHoldInfo info = new AppliedHoldInfo();
+    public HoldInfo toDto() {
+        HoldInfo info = new HoldInfo();
         info.setId(getId());
         info.setName(name);
         info.setEffectiveDate(effectiveDate);

@@ -3,8 +3,8 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
-import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+
+import com.google.gwt.core.client.GWT;
 
 public class ViewCourseParentController extends BasicLayout{
 	
@@ -20,7 +20,8 @@ public class ViewCourseParentController extends BasicLayout{
     }
 
     private void setupDefaultView() {
-        view = new ViewCourseController(Views.VIEW);
+        view = GWT.create(ViewCourseController.class);
+        view.initialize(Views.VIEW);
         view.setParentController(this);
         versions = new VersionsController(Views.VERSIONS);
         view.setParentController(this);

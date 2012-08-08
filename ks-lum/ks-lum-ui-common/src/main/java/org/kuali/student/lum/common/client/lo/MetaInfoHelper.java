@@ -18,8 +18,8 @@ package org.kuali.student.lum.common.client.lo;
 
 import java.util.Date;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.helper.PropertyEnum;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.helper.PropertyEnum;
 
 
 public class MetaInfoHelper

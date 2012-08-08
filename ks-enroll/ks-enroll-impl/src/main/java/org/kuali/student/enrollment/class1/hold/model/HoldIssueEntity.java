@@ -15,14 +15,14 @@
  */
 package org.kuali.student.enrollment.class1.hold.model;
 
-import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
-import org.kuali.student.r2.core.hold.infc.HoldIssue;
+import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.infc.Issue;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -72,14 +72,14 @@ public class HoldIssueEntity
     public HoldIssueEntity() {
     }
 
-    public HoldIssueEntity(HoldIssue dto) {
+    public HoldIssueEntity(Issue dto) {
         super(dto);
         this.setId(dto.getId());
         this.setHoldIssueType(dto.getTypeKey());
         this.fromDto(dto);
     }
 
-    public void fromDto(HoldIssue dto) {
+    public void fromDto(Issue dto) {
         setName(dto.getName());
         setHoldIssueState(dto.getStateKey());
         setOrganizationId(dto.getOrganizationId());
@@ -160,8 +160,8 @@ public class HoldIssueEntity
         this.descrFormatted = formatted;
     }
 
-    public HoldIssueInfo toDto() {
-        HoldIssueInfo info = new HoldIssueInfo();
+    public IssueInfo toDto() {
+        IssueInfo info = new IssueInfo();
         info.setId(getId());
         info.setName(getName());
         info.setTypeKey(getHoldIssueType());

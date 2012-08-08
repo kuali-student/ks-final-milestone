@@ -13,8 +13,8 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -362,8 +362,8 @@ public class CourseOfferingTransformer {
             LOG.warn("When Copying from Course CLU, multiple credit options were found");
         }
 
-        courseOfferingInfo.setDescr(new R1ToR2CopyHelper().copyRichText(courseInfo.getDescr()));
-        courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
+        courseOfferingInfo.setDescr(courseInfo.getDescr());
+//        courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
     }
 
     public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LprService lprService) {

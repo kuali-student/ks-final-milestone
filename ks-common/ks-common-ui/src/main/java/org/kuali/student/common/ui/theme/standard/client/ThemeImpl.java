@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.theme.Theme;
 
 import com.google.gwt.core.client.GWT;
 
+@Deprecated
 public class ThemeImpl implements Theme{
 
 	private final CommonImages commonImages = GWT.create(CommonImagesImpl.class);

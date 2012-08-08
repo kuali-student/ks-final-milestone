@@ -3,12 +3,7 @@
  */
 package org.kuali.student.lum.workflow.qualifierresolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.namespace.QName;
 import javax.xml.xpath.XPath;
@@ -24,12 +19,12 @@ import org.kuali.rice.kew.role.QualifierResolver;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -115,7 +110,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
         List<SearchResultRow> results = null;
         if (null != orgId) {
-            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
+            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(3);
             SearchParam qpRelType = new SearchParam();
             qpRelType.setKey("org.queryParam.relationType");
             qpRelType.setValue(relationType);
@@ -135,7 +130,8 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
             searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
             searchRequest.setParams(queryParamValues);
             try {
-                SearchResult result = getOrganizationService().search(searchRequest);
+                SearchResult result = null;
+                result = getOrganizationService().search(searchRequest);
                 results = result.getRows();
             } catch (Exception e) {
                 LOG.error("Error calling org service");

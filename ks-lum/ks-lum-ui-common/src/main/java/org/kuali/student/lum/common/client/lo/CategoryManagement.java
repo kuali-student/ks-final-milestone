@@ -17,8 +17,9 @@ package org.kuali.student.lum.common.client.lo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
-import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -43,8 +44,8 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -316,14 +317,15 @@ public class CategoryManagement extends Composite {
 
         List<ResultRow> bufferList = new ArrayList<ResultRow>();
         if(subjectCheckBox.getValue() == true){
-            bufferList.addAll(categoryManagementTable.getRowsByType("subject"));
+            bufferList.addAll(categoryManagementTable.getRowsByType("loCategoryType.subject"));
         }
         if(skillCheckBox.getValue() == true){
-            bufferList.addAll(categoryManagementTable.getRowsByType("skill"));
+            bufferList.addAll(categoryManagementTable.getRowsByType("loCategoryType.skillarea"));
         }
         if(accreditationCheckBox.getValue() == true){
-            bufferList.addAll(categoryManagementTable.getRowsByType("accreditation"));
+            bufferList.addAll(categoryManagementTable.getRowsByType("loCategoryType.accreditation"));
         }
+        Collections.sort(bufferList);
         categoryManagementTable.redraw(bufferList);
 
     }
@@ -387,7 +389,7 @@ public class CategoryManagement extends Composite {
                 @Override
                 public void onClick(ClickEvent event) {
                     // not really deleting; rather 'retiring' LoCategory, but switching state to "inactive"
-                	categoryInfo.setState("inactive");
+                	categoryInfo.setStateKey("inactive");
                     loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(categoryInfo), new KSAsyncCallback<DataSaveResult>(){
                         @Override
                         public void handleFailure(Throwable caught) {
@@ -434,7 +436,14 @@ public class CategoryManagement extends Composite {
         public void setCategory(LoCategoryInfo cate) {
             categoryInfo = cate;
             categoryNameLabel.setText(categoryInfo.getName());
-            categoryTypeLabel.setText(categoryInfo.getType());
+            if (categoryTypeList != null) {
+                for (LoCategoryTypeInfo catTypeInfo : categoryTypeList) {
+                    if (catTypeInfo.getId() != null && catTypeInfo.getId().equals(categoryInfo.getTypeKey())) {
+                        categoryTypeLabel.setText(catTypeInfo.getName());
+                        break;
+                    }
+                }
+            }
         }
     }
     class UpdateCategoryDialog extends KSLightBox {
@@ -468,7 +477,7 @@ public class CategoryManagement extends Composite {
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
                     boolean error = false;
-                    layout.clearValidation();
+                    layout.clearValidationErrors();
                     if(nameTextBox.getText().isEmpty()){
                     	layout.addValidationErrorMessage("Category", "Required");
                     	error = true;
@@ -534,13 +543,13 @@ public class CategoryManagement extends Composite {
         public void setCategory(LoCategoryInfo cate) {
             categoryInfo = cate;
             nameTextBox.setText(categoryInfo.getName());
-           	typeListBox.selectItem(categoryInfo.getType());
+           	typeListBox.selectItem(categoryInfo.getTypeKey());
         }
 
         public LoCategoryInfo getCategory() {
             categoryInfo.setName(nameTextBox.getText());
             //categoryInfo.setType(typeListBox.getItemText(typeListBox.getSelectedIndex()));
-            categoryInfo.setType(typeListBox.getSelectedItem());
+            categoryInfo.setTypeKey(typeListBox.getSelectedItem());
             return categoryInfo;
         }
     }
@@ -575,7 +584,7 @@ public class CategoryManagement extends Composite {
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
                     boolean error = false;
-                    layout.clearValidation();
+                    layout.clearValidationErrors();
                     if(nameTextBox.getText().isEmpty()){
                     	layout.addValidationErrorMessage("Category", "Required");
                     	error = true;
@@ -637,9 +646,9 @@ public class CategoryManagement extends Composite {
         public LoCategoryInfo getCategory() {
             LoCategoryInfo info = new LoCategoryInfo();
             info.setName(nameTextBox.getText());
-            info.setType(typeListBox.getSelectedItem());
-            info.setState("active");
-            info.setLoRepository("kuali.loRepository.key.singleUse");
+            info.setTypeKey(typeListBox.getSelectedItem());
+            info.setStateKey("Active");
+            info.setLoRepositoryKey("kuali.loRepository.key.singleUse");
             // FIXME [KSCOR-225] user needs to specify what LoRepository they want category to tagged with
             return info;
         }

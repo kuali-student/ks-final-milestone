@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.workflow;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.student.StudentStandaloneTestBase;
 
@@ -22,6 +23,7 @@ import org.kuali.rice.student.StudentStandaloneTestBase;
  * @author delyea
  *
  */
+@Ignore
 public class HierarchyNodeDocumentTest extends StudentStandaloneTestBase {
 
 	@Override

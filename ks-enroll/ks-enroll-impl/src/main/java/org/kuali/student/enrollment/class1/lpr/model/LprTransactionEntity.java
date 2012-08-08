@@ -27,7 +27,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.infc.LprTransaction;

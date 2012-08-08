@@ -44,6 +44,10 @@
       <artifactId>rice-kim-api</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-kim-impl</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
       <version>${project.version}</version>

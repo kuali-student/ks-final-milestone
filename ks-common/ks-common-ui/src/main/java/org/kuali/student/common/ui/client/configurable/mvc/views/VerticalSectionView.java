@@ -31,12 +31,15 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class VerticalSectionView extends SectionView {
 
+    public VerticalSectionView() {
+        super();
+    }
 
     /**
      * Same as VerticalSectionView(Enum<?> viewEnum, String name, String modelId, true)
      */
     public VerticalSectionView(Enum<?> viewEnum, String name, String modelId) {
-        this(viewEnum, name, modelId, true);
+        init(viewEnum, name, modelId, true);
     }
 
     /**
@@ -72,6 +75,22 @@ public class VerticalSectionView extends SectionView {
         super(viewEnum, name);
         this.modelId = modelId;
         layout = new VerticalFieldLayout(titleWidget);
+        this.add(layout);
+    }
+
+    public void init(Enum<?> viewEnum, String name, String modelId, boolean showTitle) {
+        super.init(viewEnum, name);
+        this.modelId = modelId;
+        if (name != null && !name.isEmpty()) {
+            SectionTitle sectionTitle = SectionTitle.generateH2Title(getName());
+            if (showTitle) {
+                layout = new VerticalFieldLayout(sectionTitle);
+            } else {
+                layout = new VerticalFieldLayout();
+            }
+        } else {
+            layout = new VerticalFieldLayout();
+        }
         this.add(layout);
     }
 

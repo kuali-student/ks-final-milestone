@@ -20,15 +20,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.dao.CrudDao;
+import org.kuali.student.r1.common.dao.CrudDao;
 
-import org.kuali.student.common.entity.Attribute;
-import org.kuali.student.common.entity.AttributeOwner;
-import org.kuali.student.common.entity.Meta;
-import org.kuali.student.common.entity.MetaEntity;
-import org.kuali.student.common.entity.RichText;
-import org.kuali.student.common.entity.Type;
-import org.kuali.student.common.entity.Version;
+import org.kuali.student.r1.common.entity.Attribute;
+import org.kuali.student.r1.common.entity.AttributeOwner;
+import org.kuali.student.r1.common.entity.Meta;
+import org.kuali.student.r1.common.entity.MetaEntity;
+import org.kuali.student.r1.common.entity.RichText;
+import org.kuali.student.r1.common.entity.Type;
+import org.kuali.student.r1.common.entity.Version;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -36,7 +36,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.springframework.beans.BeanUtils;
 

@@ -25,6 +25,7 @@ import java.util.Map;
  * @author Daniel Epstein
  *
  */
+@Deprecated
 public class MockProxy implements InvocationHandler {
     private Map<String,Object> methodReturnMap;
     

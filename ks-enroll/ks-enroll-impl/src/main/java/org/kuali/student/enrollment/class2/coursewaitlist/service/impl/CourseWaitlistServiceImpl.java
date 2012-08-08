@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.coursewaitlist.service.impl;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
@@ -18,6 +17,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.statement.service.StatementService;
 
 public class CourseWaitlistServiceImpl implements CourseWaitlistService {
 

@@ -2,10 +2,10 @@ package org.kuali.student.lum.common.client.lo;
 
 import com.google.gwt.user.client.ui.Label;
 
-import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
+import org.kuali.student.r1.common.assembly.data.Data;
 
 import java.util.*;
 
@@ -35,7 +35,7 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
             Data loDisplayInfoData = property.getValue();
             LoDisplayInfoHelper loDisplayInfoHelper = new LoDisplayInfoHelper(loDisplayInfoData);
             LoInfoHelper loInfoHelper = new LoInfoHelper(loDisplayInfoHelper.getLoInfo());
-            RichTextHelper descriptionHelper = new RichTextHelper(loInfoHelper.getDesc());
+            RichTextHelper descriptionHelper = new RichTextHelper(loInfoHelper.getDescr());
             Data categoriesData = loDisplayInfoHelper.getCategoryInfoList();
             List<String> categories = new ArrayList<String>();
 
@@ -49,18 +49,20 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
                     categories.add(category.getName());
                 }
             }
+            
+            int index = 0;
             String sequence = loInfoHelper.getSequence();
             if (sequence != null) {
-                int index = Integer.parseInt(sequence);
-                StringTreeStructure childModel = new StringTreeStructure(index, descriptionHelper.getPlain(), categories);
-                transform(loDisplayInfoHelper.getDisplayInfoList(), childModel);
-                rootModel.addChild(childModel);
-            }
+                index = Integer.parseInt(sequence);
+            } 
+            StringTreeStructure childModel = new StringTreeStructure(index, descriptionHelper.getPlain(), categories);
+            transform(loDisplayInfoHelper.getDisplayInfoList(), childModel);
+            rootModel.addChild(childModel);
         }
     }
 
     private void bind(StringTreeStructure stringTreeStructure, KSListPanel ksListPanel) {
-    	stringTreeStructure.sortChildren();
+        stringTreeStructure.sortChildren();
         List<StringTreeStructure> firstLevelChildren = stringTreeStructure.getChildren();
         for (StringTreeStructure firstLevelChild : firstLevelChildren) {
             addElement(firstLevelChild, ksListPanel);
@@ -106,15 +108,13 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
             Collections.sort(children, new Comparator<StringTreeStructure>() {
 
                 @Override
-                public int compare(StringTreeStructure o1,
-                                   StringTreeStructure o2) {
+                public int compare(StringTreeStructure o1, StringTreeStructure o2) {
                     return o1.getIndex() - o2.getIndex();
                 }
             });
         }
 
-        public StringTreeStructure() {
-        }
+        public StringTreeStructure() {}
 
         public List<String> getCategories() {
             return categories;

@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-                        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="LuType" parent="LuType-parentBean" />
     <bean id="LuType-parentBean" abstract="true" parent="BusinessObjectEntry">
@@ -31,7 +31,7 @@
     </bean>
 
     <alias alias="LuType-id" name="CoreTypeReference-id" />
-    <alias alias="LuType-name" name="CoreTypeReference-name" />
+    <bean id="LuType-name" parent="CoreTypeReference-name" />
     <alias alias="LuType-description" name="CoreTypeReference-description" />
     <alias alias="LuType-activeFromDate" name="CoreTypeReference-activeFromDate" />
     <alias alias="LuType-activeToDate" name="CoreTypeReference-activeToDate" />

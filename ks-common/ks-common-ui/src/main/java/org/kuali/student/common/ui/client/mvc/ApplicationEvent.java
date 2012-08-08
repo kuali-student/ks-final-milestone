@@ -27,6 +27,7 @@ import com.google.gwt.event.shared.GwtEvent;
  * @param <H>
  *            The type of handler associated with the event
  */
+@Deprecated
 public abstract class ApplicationEvent<H extends ApplicationEventHandler> extends GwtEvent<H> {
 
 }

@@ -18,9 +18,11 @@ package org.kuali.student.lum.statement.config.context;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+
 
 /**
  * This class creates the template context for grade check type.
@@ -33,10 +35,13 @@ public class GpaContextImpl extends BasicContextImpl {
     /**
      * Creates the context map (template data) for the requirement component.
      * 
+     *
+     *
      * @param reqComponent Requirement component
+     * @param contextInfo
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
     	Map<String, Object> contextMap = new HashMap<String, Object>();
     	String gpa = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GPA_KEY.getId());
     	if(gpa != null) {

@@ -11,10 +11,11 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 public class RemoteOrganizationValuesFinder extends KeyValuesBase {
 
@@ -30,7 +31,8 @@ public class RemoteOrganizationValuesFinder extends KeyValuesBase {
         searchRequest.setSearchKey("org.search.generic");
 
         try {
-            for (SearchResultRow result : getOrganizationService().search(searchRequest).getRows()) {
+            SearchResult results = getOrganizationService().search(searchRequest);
+            for (SearchResultRow result : results.getRows()) {
                 String orgId = "";
                 String orgShortName = "";
                 String orgOptionalLongName = "";
@@ -60,8 +62,9 @@ public class RemoteOrganizationValuesFinder extends KeyValuesBase {
 
     protected OrganizationService getOrganizationService() {
         if (organizationService == null) {
-            organizationService = (OrganizationService) GlobalResourceLoader
-                .getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
+            organizationService = (OrganizationService)
+                    GlobalResourceLoader
+                .getService(new QName("http://student.kuali.org/wsdl/organization", "OrganizationService"));
         }
         return organizationService;
     }
@@ -76,12 +79,12 @@ public class RemoteOrganizationValuesFinder extends KeyValuesBase {
      * @param orgType
      * @return
      */
+
     protected KeyValue buildKeyValue(String orgId, String orgShortName, String orgLongName, String orgType) {
         if (StringUtils.isBlank(orgShortName)) {
             throw new IllegalArgumentException("Blank value for orgShortName is invalid.");
         }
-        
+
         return new ConcreteKeyValue(orgId, (StringUtils.isNotBlank(orgLongName) ? orgLongName : orgShortName) );
     }
-
 }

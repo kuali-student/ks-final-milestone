@@ -21,42 +21,42 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 import javax.xml.namespace.QName;
 import java.util.*;
 
 public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
-	
-	private static final org.apache.log4j.Logger LOG = 
+
+	private static final org.apache.log4j.Logger LOG =
 			org.apache.log4j.Logger.getLogger(OrgDerivedRoleTypeServiceImpl.class);
-	
+
 	private OrganizationService orgService;
 	private List<String> includedOrgPersonRelationTypes = null;
 	private List<String> excludedOrgPersonRelationTypes = null;
-	
-	
+
+
 	/**
-	 * This method should grab the orgId from the qualification 
+	 * This method should grab the orgId from the qualification
 	 * use the org service to find person-org relations (getPersonIdsForOrgByRelationType)
 	 * return the members.
-	 * 
+	 *
 	 * See DerivedRoleTypeServiceBase
 	 */
 	/* (non-Javadoc)
-	 * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromDerivedRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+	 * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
-	@Override
-	public List<RoleMembership> getRoleMembersFromDerivedRole(
-			String namespaceCode, String roleName, Map<String,String> qualification) {
+	public List<RoleMembership> getRoleMembersFromApplicationRole(
+			String namespaceCode, String roleName, Map<String,String> qualification, ContextInfo contextInfo) {
 		if (null == orgService) {
 		   	orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
 		}
-		
+
 		validateRequiredAttributesAgainstReceived(qualification);
 		List<RoleMembership> members = new ArrayList<RoleMembership>();
-		
+
 		String orgId = qualification.get(KualiStudentKimAttributes.QUALIFICATION_ORG_ID);
 //		String org = qualification.get(KualiStudentKimAttributes.QUALIFICATION_ORG);
 		if (LOG.isDebugEnabled()) {
@@ -75,7 +75,11 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 			//If the includedOrgPersonRelationType is set, restrict members to that relationship type
 			if(includedOrgPersonRelationTypes!=null){
 				for(String orgPersonRelationType:includedOrgPersonRelationTypes){
-					List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationType);
+					List<String> principalIds = new ArrayList<String>();
+					List<OrgPersonRelationInfo> orgPersonRelationInfos = orgService.getOrgPersonRelationsByTypeAndOrg(orgPersonRelationType, orgId, contextInfo);
+					for (OrgPersonRelationInfo orgPersonRelationInfo : orgPersonRelationInfos) {
+					    principalIds.add(orgPersonRelationInfo.getPersonId());
+                    }
 					for(String principalId:principalIds){
 						RoleMembership member = RoleMembership.Builder.create(null/*roleId*/, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, attributes).build();
 						members.add(member);
@@ -85,9 +89,10 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 			}else{
 			    //getCurrent Date
 			    Date now = new Date();
-				List<OrgPersonRelationInfo> relations = orgService.getAllOrgPersonRelationsByOrg(orgId);
+				List<OrgPersonRelationInfo> relations = null;
+				relations = orgService.getOrgPersonRelationsByOrg(orgId, contextInfo);
 				for(OrgPersonRelationInfo relation:relations){
-					if(excludedOrgPersonRelationTypes==null||!excludedOrgPersonRelationTypes.contains(relation.getType())){
+					if(excludedOrgPersonRelationTypes==null||!excludedOrgPersonRelationTypes.contains(relation.getTypeKey())){
 					    //Add role membership only for memberships that are valid meaning expiration date is greater than or equal to current date.
 					    if(relation.getExpirationDate()!=null){
 					        if(relation.getExpirationDate().compareTo(now)>=0){
@@ -104,8 +109,8 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 			}
 		} catch (Exception e) {
 			LOG.warn("Error getting relations from Org Service for Org:"+orgId+". ",e);
-		} 
-	
+		}
+
 		return members;
 	}
 

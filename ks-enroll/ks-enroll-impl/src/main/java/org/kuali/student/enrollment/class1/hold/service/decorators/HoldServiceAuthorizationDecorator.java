@@ -18,8 +18,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
-import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
-import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
+import org.kuali.student.r2.core.hold.dto.HoldInfo;
+import org.kuali.student.r2.core.hold.dto.IssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldServiceDecorator;
 
 public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator implements HoldsPermissionService {
@@ -39,13 +39,13 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
     }
 
     @Override
-    public AppliedHoldInfo getAppliedHold(String holdId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public HoldInfo getAppliedHold(String holdId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHold", null)) {
-            return getNextDecorator().getAppliedHold(holdId, context);
+            return getNextDecorator().getHold(holdId, context);
         } else {
             throw new PermissionDeniedException();
         }
@@ -79,38 +79,38 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
     }
 
     @Override
-    public List<AppliedHoldInfo> searchForAppliedHolds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<HoldInfo> searchForAppliedHolds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHolds", null)) {
-            return getNextDecorator().searchForAppliedHolds(criteria, context);
+            return getNextDecorator().searchForHolds(criteria, context);
         } else {
             throw new PermissionDeniedException();
         }
     }
 
     @Override
-    public List<ValidationResultInfo> validateAppliedHold(String validationTypeKey, AppliedHoldInfo holdInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<ValidationResultInfo> validateAppliedHold(String validationTypeKey, HoldInfo holdInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateHold", null)) {
-            return getNextDecorator().validateAppliedHold(validationTypeKey, holdInfo, context);
+            return getNextDecorator().validateHold(validationTypeKey, holdInfo, context);
         } else {
             throw new OperationFailedException("Permission Denied.");
         }
     }
 
     @Override
-    public AppliedHoldInfo createAppliedHold(String personId,
+    public HoldInfo createAppliedHold(String personId,
             String issueId,
             String holdTypeKey,
-            AppliedHoldInfo holdInfo, ContextInfo context)
+            HoldInfo holdInfo, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (null == context) {
@@ -118,35 +118,35 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createHold", null)) {
-            return getNextDecorator().createAppliedHold(personId, issueId, holdTypeKey, holdInfo, context);
+            return getNextDecorator().createHold(personId, issueId, holdTypeKey, holdInfo, context);
         } else {
             throw new PermissionDeniedException();
         }
     }
 
     @Override
-    public AppliedHoldInfo updateAppliedHold(String holdId, AppliedHoldInfo holdInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public HoldInfo updateAppliedHold(String holdId, HoldInfo holdInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, VersionMismatchException, ReadOnlyException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateHold", null)) {
-            return getNextDecorator().updateAppliedHold(holdId, holdInfo, context);
+            return getNextDecorator().updateHold(holdId, holdInfo, context);
         } else {
             throw new PermissionDeniedException();
         }
     }
 
     @Override
-    public AppliedHoldInfo releaseAppliedHold(String holdId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public HoldInfo releaseAppliedHold(String holdId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "releaseHold", null)) {
-            return getNextDecorator().releaseAppliedHold(holdId, context);
+            return getNextDecorator().releaseHold(holdId, context);
         } else {
             throw new PermissionDeniedException();
         }
@@ -160,90 +160,90 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteHold", null)) {
-            return getNextDecorator().deleteAppliedHold(holdId, context);
+            return getNextDecorator().deleteHold(holdId, context);
         } else {
             throw new PermissionDeniedException();
         }
     }
 
     @Override
-    public HoldIssueInfo getHoldIssue(String issueId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public IssueInfo getHoldIssue(String issueId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getIssue", null)) {
-            return getNextDecorator().getHoldIssue(issueId, context);
+            return getNextDecorator().getIssue(issueId, context);
         } else {
             throw new PermissionDeniedException();
         }
     }
 
     @Override
-    public List<HoldIssueInfo> getHoldIssuesByOrg(String organizationId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<IssueInfo> getHoldIssuesByOrg(String organizationId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getIssuesByOrg", null)) {
-            return getNextDecorator().getHoldIssuesByOrg(organizationId, context);
+            return getNextDecorator().getIssuesByOrg(organizationId, context);
         } else {
             throw new PermissionDeniedException();
         }
     }
 
     @Override
-    public List<HoldIssueInfo> searchForHoldIssues(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<IssueInfo> searchForHoldIssues(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForIssues", null)) {
-            return getNextDecorator().searchForHoldIssues(criteria, context);
+            return getNextDecorator().searchForIssues(criteria, context);
         } else {
             throw new PermissionDeniedException();
         }
     }
 
     @Override
-    public List<ValidationResultInfo> validateHoldIssue(String validationTypeKey, HoldIssueInfo issueInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<ValidationResultInfo> validateHoldIssue(String validationTypeKey, IssueInfo issueInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateIssue", null)) {
-            return getNextDecorator().validateHoldIssue(validationTypeKey, issueInfo, context);
+            return getNextDecorator().validateIssue(validationTypeKey, issueInfo, context);
         } else {
             throw new OperationFailedException("Permission Denied.");
         }
     }
 
     @Override
-    public HoldIssueInfo createHoldIssue(String issueTypeKey, HoldIssueInfo issueInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public IssueInfo createHoldIssue(String issueTypeKey, IssueInfo issueInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (null == context) {
             throw new MissingParameterException("Missing context parameter");
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createIssue", null)) {
-            return getNextDecorator().createHoldIssue(issueTypeKey, issueInfo, context);
+            return getNextDecorator().createIssue(issueTypeKey, issueInfo, context);
         } else {
             throw new PermissionDeniedException("Permission Denied.");
         }
     }
 
     @Override
-    public HoldIssueInfo updateHoldIssue(String issueId, HoldIssueInfo issueInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public IssueInfo updateHoldIssue(String issueId, IssueInfo issueInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, ReadOnlyException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateIssue", null)) {
-            return getNextDecorator().updateHoldIssue(issueId, issueInfo, context);
+            return getNextDecorator().updateIssue(issueId, issueInfo, context);
         } else {
             throw new PermissionDeniedException();
         }
@@ -257,7 +257,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteIssue", null)) {
-            return getNextDecorator().deleteHoldIssue(issueId, context);
+            return getNextDecorator().deleteIssue(issueId, context);
         } else {
             throw new PermissionDeniedException();
         }

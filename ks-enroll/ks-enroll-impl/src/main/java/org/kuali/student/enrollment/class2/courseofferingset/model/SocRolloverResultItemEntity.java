@@ -1,6 +1,6 @@
 package org.kuali.student.enrollment.class2.courseofferingset.model;
 
-import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResultItem;
 import org.kuali.student.r2.common.dto.AttributeInfo;

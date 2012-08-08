@@ -21,7 +21,7 @@ import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;

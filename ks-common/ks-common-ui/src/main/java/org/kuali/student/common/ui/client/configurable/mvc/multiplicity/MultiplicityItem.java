@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @deprecated
  */
+@Deprecated
 public abstract class MultiplicityItem extends Composite{
     private Integer itemKey;      
     private Widget itemWidget;

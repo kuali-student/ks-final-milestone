@@ -23,8 +23,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
-import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lrc.dao.LrcDao;
 import org.kuali.student.lum.lrc.entity.ResultComponentType;
 
@@ -36,10 +36,9 @@ public class LrcDaoImpl extends AbstractSearchableCrudDaoImpl implements LrcDao 
 	}
 
 	@Override
-    public List<String> getResultComponentIdsByResult(String resultValueId, String resultComponentTypeKey) {
+    public List<String> getResultComponentIdsByResult(String resultValueId) {
         Query query = em.createNamedQuery("ResultComponent.getResultComponentIdsByResult");
         query.setParameter("resultValueId", resultValueId);
-        query.setParameter("resultComponentTypeKey", resultComponentTypeKey);
         @SuppressWarnings("unchecked")
         List<String> resultList = query.getResultList();
         return resultList;

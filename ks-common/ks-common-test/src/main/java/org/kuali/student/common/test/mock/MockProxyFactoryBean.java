@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.FactoryBean;
 
+@Deprecated
 public class MockProxyFactoryBean implements FactoryBean {
 	private Class<?> interfaceClass;
 	private Map<String,Object> methodReturnMap;

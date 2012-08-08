@@ -15,7 +15,6 @@
 
 package org.kuali.student.common.ui.client.widgets.layout;
 
-
 public class HorizontalInlineFlowPanel extends CustomFlowPanel{
 
     @Override

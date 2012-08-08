@@ -176,10 +176,10 @@ margin-bottom: 10px;
 margin-bottom: 15px;
 }
 .KS-LONodeIndent {
-	width:50px;
+	width:49px;
 }
 .KS-LONodeIndentToolbar {
-    width:47px;
+    width:28px;
     background-color: white;/* so class isn't merged with KS-LONodeIndent */
 }
 .KS-LOaNode {
@@ -689,4 +689,16 @@ a.KS-Program-Rule-ObjectView-Button{
 .KS-Filter-Item .gwt-CheckBox{
 	display: block;
 	margin: 10px;
+}
+
+
+.ks-course-admin .ks-menu-layout-menu {
+}
+
+.ks-course-admin .ks-menu-layout-leftColumn{
+	position: fixed;
+}
+
+.ks-course-admin .ks-menu-layout-rightColumn{
+	margin-left: 180px;
 }

@@ -35,6 +35,7 @@ import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.servlet.ServletMapping;
 import org.springframework.web.context.ContextLoaderListener;
 
+@Deprecated
 public class ServiceTestClassRunner extends JUnit4ClassRunner {
 	private final Class<?> testImplClass;
 	private Server server;

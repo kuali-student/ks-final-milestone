@@ -5,8 +5,8 @@ import java.util.List;
 
 
 import org.aspectj.lang.JoinPoint;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 /**
  * 

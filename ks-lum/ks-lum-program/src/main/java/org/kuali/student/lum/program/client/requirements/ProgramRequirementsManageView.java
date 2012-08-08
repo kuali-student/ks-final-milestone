@@ -19,7 +19,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -32,18 +43,16 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.*;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqCompEditWidget;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RuleManageWidget;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.client.widgets.*;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 
 import com.google.gwt.core.client.GWT;
@@ -106,7 +115,9 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
     private void setupHandlers() {
         editReqCompWidget.setReqCompConfirmButtonClickCallback(actionButtonClickedReqCompCallback);
+    // 
         editReqCompWidget.setNewReqCompSelectedCallbackCallback(newReqCompSelectedCallbackCallback);
+
         editReqCompWidget.setRetrieveCompositionTemplateCallback(retrieveCompositionTemplateCallback);
         editReqCompWidget.setRetrieveFieldsMetadataCallback(retrieveFieldsMetadataCallback);
         editReqCompWidget.setRetrieveCustomWidgetCallback(retrieveCustomWidgetCallback);
@@ -119,17 +130,16 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         layout.clear();
 
         //STEP 1
-        SectionTitle title = SectionTitle.generateH3Title(ProgramProperties.get().programRequirements_manageViewPageStep1Title());
+        SectionTitle title = SectionTitle.generateH3Title(getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_MANAGEVIEWPAGESTEP1TITLE));
         title.setStyleName("KS-Program-Requirements-Manage-Step-header1");  //make the header orange
         layout.add(title);
 
         layout.add(editReqCompWidget);
 
         //STEP 2
-        title = SectionTitle.generateH3Title(ProgramProperties.get().programRequirements_manageViewPageStep2Title());
+        title = SectionTitle.generateH3Title(getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_MANAGEVIEWPAGESTEP2TITLE));
         title.setStyleName("KS-Program-Requirements-Manage-Step-header2");  //make the header orange
         layout.add(title);
-
         layout.add(ruleManageWidget);
 
         //add progressive indicator when rules are being simplified
@@ -152,7 +162,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                     @Override
                     public void exec(View preview) {
                         //update rules data model and summary view
-                        if ((result == ButtonEnumerations.SaveCancelEnum.SAVE) && isDirty()) {
+                    	         if ((result == ButtonEnumerations.SaveCancelEnum.SAVE) && isDirty()) {
                             ProgramRequirementInfo affectedRule = ((ProgramRequirementsSummaryView) preview).getRules().updateRules(getRuleTree(), internalProgReqID, isNewRule());
                             ((ProgramRequirementsSummaryView) preview).updateRequirementWidgets(affectedRule);                            
                         }
@@ -201,6 +211,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     protected Callback<ReqComponentInfo> editReqCompCallback = new Callback<ReqComponentInfo>(){
         public void exec(ReqComponentInfo reqComp) {
             setEnabled(false);
+       
             editReqCompWidget.setupExistingReqComp(reqComp);
             editedReqCompInfo = reqComp;
         }
@@ -287,14 +298,15 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                             newStatementTreeViewInfo.getReqComponents().add(reqComp);
                             rule.getStatements().add(newStatementTreeViewInfo);
                         } else {
-                            rule.getReqComponents().add(reqComp);
+                        	rule.getReqComponents().add(reqComp);
                             //set default operator between req. components of the rule
-                            if (rule.getOperator() == null) {
-                                rule.setOperator(StatementOperatorTypeKey.AND);
-                            }
+                         if (rule.getOperator() == null) {                               
+                        	 rule.setOperator(StatementOperatorTypeKey.AND);
+                          }
                         }
                     } else {    //update req. component
                         editedReqCompInfo.setNaturalLanguageTranslation(reqComp.getNaturalLanguageTranslation());
+                                                
                         editedReqCompInfo.setReqCompFields(reqComp.getReqCompFields());
                         editedReqCompInfo.setType(reqComp.getType());
                         editedReqCompInfo = null;  //de-reference from existing req. component
@@ -315,8 +327,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     };
 
     private void retrieveAndSetupReqCompTypes() {
-
-        statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
+    
+       statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
             public void handleFailure(Throwable cause) {
             	GWT.log("Failed to get req. component types for statement of type:" + rule.getType(), cause);
             	Window.alert("Failed to get req. component types for statement of type:" + rule.getType());
@@ -343,7 +355,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                     customWidgets.put("kuali.reqComponent.field.type.grade.id", new GradeWidget());
                 } else if (RulesUtil.isCourseWidget(fieldTypeInfo.getId())) {
 
-                    final CourseWidget courseWidget = new CourseWidget();
+                    final CourseWidget courseWidget = GWT.create(CourseWidget.class);
                     
                     courseWidget.addGetCluNameCallback(new Callback() {
 
@@ -421,9 +433,10 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     }
 
     //called when user selects a rule type in the rule editor
-    protected Callback<ReqComponentInfo> retrieveCompositionTemplateCallback = new Callback<ReqComponentInfo>(){
-        public void exec(final ReqComponentInfo reqComp) {
-            statementRpcServiceAsync.translateReqComponentToNL(reqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
+     protected Callback<ReqComponentInfo> retrieveCompositionTemplateCallback = new Callback<ReqComponentInfo>(){
+       public void exec(final ReqComponentInfo reqComp) {
+    	   
+    	   statementRpcServiceAsync.translateReqComponentToNL(reqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
                 public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     GWT.log("translateReqComponentToNL failed for req. comp. type: '" + reqComp.getType() + "'",caught);
@@ -470,5 +483,9 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
     public Integer getInternalProgReqID() {
         return internalProgReqID;
+    }
+    
+    private String getLabel(String messageKey) {
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey);
     }
 }

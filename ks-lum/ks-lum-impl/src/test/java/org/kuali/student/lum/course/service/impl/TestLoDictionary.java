@@ -4,9 +4,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
-import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 import static org.junit.Assert.*;
 
 public class TestLoDictionary

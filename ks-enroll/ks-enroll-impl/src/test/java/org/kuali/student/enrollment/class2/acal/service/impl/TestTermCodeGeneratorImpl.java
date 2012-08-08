@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 import org.junit.Test;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.acal.service.TermCodeGenerator;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

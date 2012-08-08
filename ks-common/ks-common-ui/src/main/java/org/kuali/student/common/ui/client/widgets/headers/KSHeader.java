@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSHeader extends Composite {
 
 	private static KSHeaderUiBinder uiBinder = GWT
@@ -20,34 +21,38 @@ public class KSHeader extends Composite {
 	}
 
 	@UiField
-	FlowPanel hiPanel;
+    public FlowPanel hiPanel;
 
     @UiField
-    FlowPanel userNamePanel;
+    public FlowPanel userNamePanel;
     
     @UiField
-    FlowPanel logoutPanel;
+    public FlowPanel logoutPanel;
     
     @UiField
-    FlowPanel leftPartPanel;
+    public FlowPanel leftPartPanel;
 
     @UiField
-    Label applicationTitleLabel;
+    public Label applicationTitleLabel;
     
     @UiField
-    FlowPanel bottomContainer;
+    public FlowPanel bottomContainer;
 
     
-    Label userNameLabel =  new Label("");
-    Label hiLabel = new Label("Hi,");
+    protected Label userNameLabel = new Label("");
+    protected Label hiLabel = new Label("Hi,");
 	public KSHeader() {
-		initWidget(uiBinder.createAndBindUi(this));
+        initialize();
+    }
+
+    protected void initialize() {
+        initWidget(uiBinder.createAndBindUi(this));
 		hiPanel.add(hiLabel);
 		userNamePanel.add(userNameLabel);
 		applicationTitleLabel.setText("Kuali Student");
 		//logoutPanel.add(new Anchor("LL"));
 		//leftPartPanel.add(new StylishDropDown("Navigation"));
-	}
+    }
 	public void addLogout(Widget w){
 	    logoutPanel.add(w);
 	}

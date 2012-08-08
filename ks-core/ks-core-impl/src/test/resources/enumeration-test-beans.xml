@@ -29,8 +29,8 @@
 		</property>
 	</bean>
    <bean id="enumerationMetaEntity1"
-	      class="org.kuali.student.core.enumerationmanagement.entity.Enumeration">
-		<property name="descr" value="desc 1" />
+	      class="org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity">
+		<property name="descrPlain" value="desc 1" />
 		<property name="id"         value="key 1" />
 		<property name="name"                   value="name 1" />
 	</bean>

@@ -29,8 +29,8 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -137,7 +137,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
         // TODO: Not hard code "Active" but use a constant ... except these are R1 States
         if (optionKeys.contains(CourseOfferingSetServiceConstants.STILL_OFFERABLE_OPTION_KEY)) {
-            if (!targetCourse.getState().equals("Active")) {
+            if (!targetCourse.getStateKey().equals(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)) {
                 throw new DataValidationErrorException("skipped because canonical course is no longer active");
             }
         }

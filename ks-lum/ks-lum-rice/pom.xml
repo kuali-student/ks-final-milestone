@@ -29,6 +29,11 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
@@ -49,9 +54,15 @@
       <version>${kuali.rice.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.common</groupId>
-      <artifactId>ks-common-api</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-edl-impl</artifactId>
+      <version>${kuali.rice.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-it-internal-tools</artifactId>
+      <version>${kuali.rice.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>

@@ -124,11 +124,15 @@
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
     </dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>${aspectj.version}</version>
-		</dependency>
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjweaver</artifactId>
+		<version>${aspectj.version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>net.sf.dozer</groupId>
+	    <artifactId>dozer</artifactId>
+	</dependency>
 
 
     <!-- Message builder dependencies-->
@@ -147,6 +151,12 @@
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-krms-impl</artifactId>
       <version>${kuali.rice.version}</version>
+      <exclusions>
+      	<exclusion>
+        	<groupId>com.lowagie</groupId>
+        	<artifactId>itext</artifactId>
+       	</exclusion>
+   	  </exclusions>
     </dependency>
   </dependencies>
   <profiles>

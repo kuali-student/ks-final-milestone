@@ -46,7 +46,7 @@
     <param name="rice.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
     <param name="rice.jpa.UseSerialization">false</param>
 
-    <param name="datasource.ojb.platform">Derby</param>
+    <param name="datasource.ojb.platform">Oracle</param>
  
     <param name="datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
     <param name="datasource.url.derby">jdbc:derby://localhost:1527/derby/rice-db;create=true</param>
@@ -65,7 +65,7 @@
 	<param name="datasource.username.oracle">RICEKS</param>
 	<param name="datasource.password.oracle">RICEKS</param>
 	<param name="datasource.pool.validationQuery.oracle">select 1 from dual</param>
-	<param name="rice.ksb.jpa.enabled.oracle">true</param>  
+	<param name="rice.ksb.jpa.enabled.oracle">false</param>  
 	
 	<param name="rice.jpa.DatabasePlatform">${rice.jpa.DatabasePlatform.${db.vendor}}</param>
 	<param name="datasource.driver.name">${datasource.driver.name.${db.vendor}}</param>

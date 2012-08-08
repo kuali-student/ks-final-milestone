@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.class1.atp.service.impl.DateUtil;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.springframework.test.context.ContextConfiguration;

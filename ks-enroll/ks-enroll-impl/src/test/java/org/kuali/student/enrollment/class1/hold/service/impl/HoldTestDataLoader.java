@@ -12,8 +12,8 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
-import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
+import org.kuali.student.r2.core.hold.dto.HoldInfo;
+import org.kuali.student.r2.core.hold.dto.IssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 
 import java.text.DateFormat;
@@ -61,26 +61,26 @@ public class HoldTestDataLoader {
     }
 
     private void loadHoldIssue(String id, String name, String typeKey, String stateKey, String descrFormatted, String descrPlain, String orgID) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
-        HoldIssueInfo issueInfo = new HoldIssueInfo();
+        IssueInfo issueInfo = new IssueInfo();
         issueInfo.setId(id);
         issueInfo.setStateKey(stateKey);
         issueInfo.setTypeKey(typeKey);
         issueInfo.setOrganizationId(orgID);
         issueInfo.setDescr(new RichTextInfo(descrPlain, descrFormatted));
         issueInfo.setName(name);
-        holdService.createHoldIssue(issueInfo.getTypeKey(), issueInfo, context);
+        holdService.createIssue(issueInfo.getTypeKey(), issueInfo, context);
     }
 
     private void loadHold(String typeKey, String stateKey, String descrFormatted, String descrPlain, String issueID, String personID, Date effectiveDate, Date releaseDate) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
-        AppliedHoldInfo holdInfo = new AppliedHoldInfo();
+        HoldInfo holdInfo = new HoldInfo();
         holdInfo.setTypeKey(typeKey);
         holdInfo.setStateKey(stateKey);
         holdInfo.setDescr(new RichTextInfo(descrPlain,descrFormatted));
-        holdInfo.setHoldIssueId(issueID);
+        holdInfo.setIssueId(issueID);
         holdInfo.setPersonId(personID);
         holdInfo.setEffectiveDate(effectiveDate);
         holdInfo.setReleasedDate(releaseDate);
-        holdService.createAppliedHold(personID,issueID,typeKey, holdInfo,context);
+        holdService.createHold(personID,issueID,typeKey, holdInfo,context);
     }
 
     public List<AttributeInfo> createAttributes() {

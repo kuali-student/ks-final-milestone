@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 /**
  * @deprecated
  */
+@Deprecated
 public class RemovableItemWithHeader extends MultiplicityItem{
 
 	private MultiplicityHeader header;
