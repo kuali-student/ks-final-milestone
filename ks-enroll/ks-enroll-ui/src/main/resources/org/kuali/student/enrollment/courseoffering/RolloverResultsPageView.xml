@@ -114,20 +114,20 @@
                                                 <property name="items">
                                                     <list>
                                                         <bean parent="Uif-InputField" p:labelPlacement="TOP"
-                                                              p:propertyName="displayedTargetTermCode"
+                                                              p:propertyName="configurationOptions"
                                                               p:fieldLabel.renderColon="false" p:label="Configuration Options">
-                                                            <!--<property name="control">-->
-                                                                <!--<bean parent="Uif-VerticalCheckboxesControl" p:disabled="@{isConfigurationOptionsDisabled}">-->
-                                                                    <!--<property name="options">-->
-                                                                        <!--<list>-->
-                                                                            <!--<bean parent="Uif-KeyLabelPair" p:key="checkBox1" p:value="Exclude canceled course offerings"/>-->
-                                                                            <!--<bean parent="Uif-KeyLabelPair" p:key="checkBox2" p:value="Refresh rollover with catalog versions"/>-->
-                                                                            <!--<bean parent="Uif-KeyLabelPair" p:key="checkBox3" p:value="Exclude scheduling information"/>-->
-                                                                            <!--<bean parent="Uif-KeyLabelPair" p:key="checkBox4" p:value="Exclude instructor information"/>-->
-                                                                        <!--</list>-->
-                                                                    <!--</property>-->
-                                                                <!--</bean>-->
-                                                            <!--</property>-->
+                                                            <property name="control">
+                                                                <bean parent="Uif-VerticalCheckboxesControl" p:disabled="@{isConfigurationOptionsDisabled}">
+                                                                    <property name="options">
+                                                                        <list>
+                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox1" p:value="Exclude canceled course offerings"/>
+                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox2" p:value="Refresh rollover with catalog versions"/>
+                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox3" p:value="Exclude scheduling information"/>
+                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox4" p:value="Exclude instructor information"/>
+                                                                        </list>
+                                                                    </property>
+                                                                </bean>
+                                                            </property>
                                                         </bean>
                                                     </list>
                                                 </property>

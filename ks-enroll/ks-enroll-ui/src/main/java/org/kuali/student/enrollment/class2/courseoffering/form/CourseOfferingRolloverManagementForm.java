@@ -39,6 +39,7 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private String sourceTermStartDate;
     private String sourceTermEndDate;
     private String statusField;
+    private List<String> configurationOptions;
     private TermInfo sourceTerm;
     private TermInfo targetTerm;
     private boolean isGoSourceButtonDisabled = true;
@@ -331,6 +332,17 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
 
     public void setSocReleasedToDepts(boolean releasedToDepts) {
         socReleasedToDepts = releasedToDepts;
+    }
+
+    public List<String> getConfigurationOptions() {
+        if(configurationOptions == null){
+            configurationOptions = new ArrayList<String>();
+        }
+        return configurationOptions;
+    }
+
+    public void setConfigurationOptions(List<String> configurationOptions) {
+        this.configurationOptions = configurationOptions;
     }
 
     public void resetForm(){
