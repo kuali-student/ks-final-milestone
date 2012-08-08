@@ -131,9 +131,16 @@
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoCreateView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoModifyView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoFlowView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoCreateView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoView.xml</value>                
+
+                <!-- Process -->
+                <value>classpath:org/kuali/student/enrollment/process/ProcessInfoSearchView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/process/ProcessInfoCreateView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/process/ProcessInfoView.xml</value>
+
+                <!-- Checks -->
+                <value>classpath:org/kuali/student/enrollment/check/CheckInfoCreateView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/check/CheckInfoSearchView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/check/CheckInfoView.xml</value>
                 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeInfoAdminLookupView.xml</value>
