@@ -174,9 +174,9 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
-                <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="Uif-ActionLink" p:methodToCall="confirmDelete" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="confirmDelete" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />
             </list>
         </property>
     </bean>
