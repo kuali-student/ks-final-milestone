@@ -55,7 +55,7 @@
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:label="Keyword" p:propertyName="keyword" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="populationInfo.stateKey"
-                      p:label="State" p:labelPlacement="TOP" p:required="true" p:defaultValue="kuali.population.population.state.active" p:render="@{viewName != null}">
+                      p:label="State" p:required="true" p:defaultValue="kuali.population.population.state.active" p:render="@{viewName != null}">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl" />
                     </property>
