@@ -71,8 +71,6 @@ public class CourseOfferingSetServiceConstants {
             UPDATED_RESULT_ITEM_STATE_KEY,
             DELETED_RESULT_ITEM_STATE_KEY ));
 
-    public static final String SUCCESS_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.item.state.success";
-    public static final String WARNING_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.item.state.warning";
     public static final String INFO_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.item.state.info";
 
     // dynamic attribute key for parameters
