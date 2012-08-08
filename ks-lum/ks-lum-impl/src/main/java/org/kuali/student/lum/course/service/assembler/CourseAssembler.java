@@ -265,7 +265,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 //Set Credit and Grading options
                 List<CluResultInfo> cluResults = cluService.getCluResultByClu(course.getId(),contextInfo);
 
-				List<ResultComponentInfo> creditOptions = assembleCreditOptions(cluResults, contextInfo);
+				List<ResultValuesGroupInfo> creditOptions = assembleCreditOptions(cluResults, contextInfo);
                 course.setCreditOptions(creditOptions);
 
                 List<String> gradingOptions = assembleGradingOptions(cluResults);
@@ -758,18 +758,18 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         return results;
     }
 
-	private List<ResultComponentInfo> assembleCreditOptions(
+	private List<ResultValuesGroupInfo> assembleCreditOptions(
             List<CluResultInfo> cluResults, ContextInfo contextInfo) throws AssemblyException {
         String courseResultType = CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS;
-		List<ResultComponentInfo> results = new ArrayList<ResultComponentInfo>();
+		List<ResultValuesGroupInfo> results = new ArrayList<ResultValuesGroupInfo>();
         //Loop through all the CluResults to find the one with the matching type
         for(CluResultInfo cluResult:cluResults){
             if(courseResultType.equals(cluResult.getTypeKey())){
                 //Loop through all options and add to the list of Strings
                 for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
                     try {
-						ResultComponentInfo resultComponent = lrcService.getResultComponent(resultOption.getResultComponentId());
-						results.add(resultComponent);
+                        ResultValuesGroupInfo resultValuesGroup = lrcService.getResultValuesGroup(resultOption.getResultComponentId(), contextInfo);
+                        results.add(resultValuesGroup);
                     } catch (DoesNotExistException e) {
 						LOG.warn("Course Credit option:"+resultOption.getId()+" refers to non-existant ResultComponentInfo "+resultOption.getResultComponentId());
                     } catch (Exception e) {
