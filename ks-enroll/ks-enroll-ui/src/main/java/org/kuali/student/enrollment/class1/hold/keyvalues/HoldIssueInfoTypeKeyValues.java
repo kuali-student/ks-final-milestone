@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.hold.service.keyvalues;
+package org.kuali.student.enrollment.class1.hold.keyvalues;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;

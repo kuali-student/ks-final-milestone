@@ -13,20 +13,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.kuali.student.enrollment.class1.hold.service.controller;
+package org.kuali.student.enrollment.class1.hold.controller;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoCreateForm;
-import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoSearchForm;
-import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
-import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
-import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoCreateForm;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -43,8 +36,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * This controller handles all the request from Academic calendar UI.

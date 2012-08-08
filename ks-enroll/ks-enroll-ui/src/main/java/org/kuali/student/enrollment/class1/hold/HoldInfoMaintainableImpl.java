@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.hold.service;
+package org.kuali.student.enrollment.class1.hold;
 
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 

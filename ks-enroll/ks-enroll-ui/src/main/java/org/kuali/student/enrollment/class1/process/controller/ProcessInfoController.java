@@ -13,14 +13,14 @@
  * permissions and limitations under the License.
  *
  */
-package org.kuali.student.enrollment.class1.hold.service.controller;
+package org.kuali.student.enrollment.class1.process.controller;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class1.hold.service.form.ProcessInfoForm;
+import org.kuali.student.enrollment.class1.process.form.ProcessInfoForm;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;

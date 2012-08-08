@@ -1,18 +1,19 @@
-/* Copyright 2011 The Kuali Foundation
- * 
- * Licensed under the Educational Community License, Version 1.0 (the
- * "License"); you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.opensource.org/licenses/ecl1.php
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+/**
+ * Copyright 2012 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
  */
-package org.kuali.student.enrollment.class1.hold.service.form;
+package org.kuali.student.enrollment.class1.hold.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
@@ -24,11 +25,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-
-public class HoldIssueInfoCreateForm extends UifFormBase {
-    private static final long serialVersionUID = 4898118410378641665L;
-
-
+public class HoldIssueInfoSearchForm extends UifFormBase {
     private String id;
     private String name;
     private String typeKey;
@@ -36,13 +33,12 @@ public class HoldIssueInfoCreateForm extends UifFormBase {
     private String descr;
     private String organizationId;
 
-   private HoldIssueInfo holdIssueInfo;
+    private List<HoldIssueInfo> holdIssueInfo;
 
-    public HoldIssueInfoCreateForm() {
+    public HoldIssueInfoSearchForm(){
         super();
-        holdIssueInfo = new HoldIssueInfo();
-
     }
+
     public String getId() {
         return id;
     }
@@ -91,11 +87,19 @@ public class HoldIssueInfoCreateForm extends UifFormBase {
         this.organizationId = organizationId;
     }
 
-    public HoldIssueInfo getHoldIssueInfo() {
+    public List<HoldIssueInfo> getHoldIssueInfo() {
         return holdIssueInfo;
     }
 
-    public void setHoldIssueInfo(HoldIssueInfo holdIssueInfo) {
+    public void setHoldIssueInfo(List<HoldIssueInfo> holdIssueInfo) {
         this.holdIssueInfo = holdIssueInfo;
+    }
+
+    public void clearValues() {
+        setName("");
+        setDescr("");
+        setStateKey("");
+        setTypeKey("");
+        setOrganizationId("");
     }
 }

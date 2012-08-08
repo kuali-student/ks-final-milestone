@@ -44,7 +44,7 @@
 
     <bean id="KS-CheckInfo-Result" parent="Uif-TableCollectionSection"
           p:layoutManager.numberOfColumns="3" p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.hold.service.form.CheckInfoForm" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.check.form.CheckInfoForm" />
         <property name="propertyName" value="checkInfoList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />

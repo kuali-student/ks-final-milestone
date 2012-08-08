@@ -13,25 +13,19 @@
  * permissions and limitations under the License.
  *
  */
-package org.kuali.student.enrollment.class1.hold.service.controller;
+package org.kuali.student.enrollment.class1.hold.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.widget.LightBox;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoCreateForm;
-import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoSearchForm;
-import org.kuali.student.enrollment.class1.hold.service.keyvalues.HoldIssueInfoTypeKeyValues;
-import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoSearchForm;
+import org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
@@ -47,7 +41,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -55,12 +48,7 @@ import java.util.Properties;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.notIn;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 /**
  * This class //TODO ...

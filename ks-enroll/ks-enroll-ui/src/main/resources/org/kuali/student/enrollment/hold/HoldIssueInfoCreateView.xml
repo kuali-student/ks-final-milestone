@@ -22,7 +22,7 @@
     <bean id="HoldIssueInfo-CreateView" parent="KSFormView">
         <property name="id" value="holdCreateView"/>
         <property name="headerText" value="Add Hold"/>
-        <property name="formClass" value="org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoCreateForm" />
+        <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoCreateForm" />
         <property name="singlePageView" value="true"/>
         <property name="page">
             <bean parent="Uif-Page"/>
@@ -71,7 +71,7 @@
                                                 <bean parent="Uif-DropdownControl" />
                                             </property>
                                             <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class1.hold.service.keyvalues.HoldIssueInfoTypeKeyValues"/>
+                                                <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop" p:label="Hold Description"  p:propertyName="descr" >

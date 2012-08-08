@@ -22,7 +22,7 @@
     <bean id="KS-ProcessInfo-Edit" parent="KSFormView" p:applyDirtyCheck="true"
           p:id="processInfoResultView" p:headerText="Edit Processes" p:entryPageId="processInfoEdit">
         <property name="formClass"
-                  value="org.kuali.student.enrollment.class1.hold.service.form.ProcessInfoForm"/>
+                  value="org.kuali.student.enrollment.class1.process.form.ProcessInfoForm"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
