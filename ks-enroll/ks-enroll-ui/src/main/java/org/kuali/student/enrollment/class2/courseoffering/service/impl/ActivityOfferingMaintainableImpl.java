@@ -71,6 +71,13 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
             SeatPoolUtilityServiceImpl spServiceImpl = new SeatPoolUtilityServiceImpl();
             spServiceImpl.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo() );
+
+            try {
+                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
