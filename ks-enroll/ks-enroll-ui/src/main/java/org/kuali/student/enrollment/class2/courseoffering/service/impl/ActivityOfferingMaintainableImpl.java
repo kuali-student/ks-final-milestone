@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructor
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
+import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolPriorityService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
@@ -60,6 +61,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient CourseService courseService;
     private transient AcademicCalendarService academicCalendarService;
     private transient PopulationService populationService;
+    private transient SeatPoolPriorityService seatPoolPriorityService;
 
     @Override
     public void saveDataObject() {
@@ -68,8 +70,13 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             disassembleInstructorsWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
 
             List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
+            SeatPoolPriorityServiceImpl spServiceImpl = new SeatPoolPriorityServiceImpl();
+            spServiceImpl.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo() );
+            //getSeatPoolPriorityService().updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo());
+            //System.out.println("here");
 
 
+            /*
             try {
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
                 List<SeatPoolDefinitionInfo> seatPoolsOld = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(activityOfferingWrapper.getAoInfo().getId(),getContextInfo());
@@ -100,7 +107,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
-            }
+            }*/
         }
     }
 
@@ -454,6 +461,15 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
         return populationService;
     }
+
+    public SeatPoolPriorityService getSeatPoolPriorityService() {
+        return seatPoolPriorityService;
+    }
+
+    public void setSeatPoolPriorityService(SeatPoolPriorityService seatPoolPriorityService) {
+        this.seatPoolPriorityService = seatPoolPriorityService;
+    }
+
 
     /**
      * Mock data that was being used in the Delivery Logistics section of Edit Activity Offering

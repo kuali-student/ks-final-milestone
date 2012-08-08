@@ -26,7 +26,7 @@ import java.io.Serializable;
  *
  * @author Kuali Student Team
  */
-public class SeatPoolWrapper implements Serializable {
+public class SeatPoolWrapper implements Serializable, Comparable<SeatPoolWrapper> {
     private String id;
     private SeatPoolDefinitionInfo seatPool;
     private PopulationInfo seatPoolPopulation;
@@ -57,4 +57,8 @@ public class SeatPoolWrapper implements Serializable {
     }
 
 
+    @Override
+    public int compareTo(SeatPoolWrapper seatPoolToCompare) {
+        return this.getSeatPool().getProcessingPriority()-seatPoolToCompare.getSeatPool().getProcessingPriority();
+    }
 }
