@@ -69,33 +69,50 @@ public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
     protected boolean checkReferneceAndChildpopulations (PopulationWrapper wrapper){
         boolean isValid  = true;
         List<PopulationInfo> populationInfoList = wrapper.getChildPopulations();
-        String referenceId = wrapper.getPopulationRuleInfo().getReferencePopulationId();
+        String referenceId = wrapper.getReferencePopulation().getId();
         if(populationInfoList == null || populationInfoList.isEmpty()){
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
                     PopulationConstants.POPULATION_MSG_ERROR_NEED_ONE_POPULATIONS, "Exclusion");
             isValid = false;
         }
+
+        // the ref population cannot be in the  source populations.
+        if(this.containsPopulation(populationInfoList,referenceId)){
+            isValid = false;
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
+                    PopulationConstants.POPULATION_MSG_ERROR_REF_NOT_ALLOWED_IN_SOURCE_POPULATIONS, "Exclusion");
+        }
+
         if(populationInfoList!= null && populationInfoList.size() > 1 ){     //Two or more
-            boolean hasDuplicates = false;
-            //Compare and make sure there is no duplication
-            List<PopulationInfo> populationInfoList1 = populationInfoList;
-            for (PopulationInfo populationInfo: populationInfoList) {
-                for (PopulationInfo populationInfo1: populationInfoList1) {
-                    if (populationInfo.getId().equals(populationInfo1.getId())){
-                        hasDuplicates = true;
-                        isValid = false;
-                        GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
-                                PopulationConstants.POPULATION_MSG_ERROR_NEED_TWO_DIFFERENT_POPULATIONS, "Exclusion");
-                        break;
-                    }
-                }
-                if ( hasDuplicates ){
-                    break;
-                }
+            if(this.hasDuplicates(populationInfoList)){
+                isValid = false;
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
+                        PopulationConstants.POPULATION_MSG_ERROR_NEED_TWO_DIFFERENT_POPULATIONS, "Exclusion");
             }
         }
 
         return isValid;
+    }
+
+    protected boolean containsPopulation(List<PopulationInfo> populationInfoList, String populationId){
+       for(PopulationInfo population : populationInfoList){
+           if(population.getId().equalsIgnoreCase(populationId))
+               return true;
+       }
+       return false;
+    }
+
+    protected boolean hasDuplicates(List<PopulationInfo> populationInfoList){
+        //Compare and make sure there is no duplication
+        List<PopulationInfo> populationInfoList1 = populationInfoList;
+        for (int i= 0; i < populationInfoList.size(); i++) {
+            for (int j= 0; j < populationInfoList1.size(); j++) {
+                if (populationInfoList.get(i).getId().equals(populationInfoList1.get(j).getId()) && i != j){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     protected boolean needTwoChildPopulations (PopulationWrapper wrapper, String operation){
