@@ -544,7 +544,7 @@
                 <bean parent="Uif-InputField"  p:label="Organization ID"  p:propertyName="id" p:required="true"
                       p:style="font-weight:bold;white-space:nowrap;">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="16" p:disabled="true" />
+                        <bean parent="Uif-TextControl" p:size="16" p:ReadOnly="true" />
                     </property>
                     <!--<property name="quickfinder.render" value="true"/>-->
                     <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
