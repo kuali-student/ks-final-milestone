@@ -582,7 +582,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
        
         entity.setEntityUpdated(context);
         
-        socDao.merge(entity);
+        entity = socDao.merge(entity);
         return entity.toDto();
     }
 
