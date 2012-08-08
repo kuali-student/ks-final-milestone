@@ -9,7 +9,7 @@
 
     <bean id="KS-HoldSearch-View" parent="KSFormView">
         <property name="id" value="holdSearchView"/>
-        <property name="headerText" value="Hold Issue Lookup"/>
+        <property name="headerText" value="Hold Lookup"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoSearchForm"/>
         <property name="singlePageView" value="true"/>
         <property name="page">
