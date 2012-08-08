@@ -9,9 +9,9 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.versionmanagement.dto;
+package org.kuali.student.r2.common.versionmanagement.dto;
 
-import org.kuali.student.r2.core.versionmanagement.infc.VersionDisplay;
+import org.kuali.student.r2.common.versionmanagement.infc.VersionDisplay;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;

@@ -9,7 +9,7 @@
 	<!-- mapping>
 		<class-a>org.kuali.student.r1.common.versionmanagement.dto.VersionInfo
 		</class-a>
-		<class-b>org.kuali.student.r2.core.versionmanagement.dto.VersionInfo
+		<class-b>org.kuali.student.r2.common.versionmanagement.dto.VersionInfo
 		</class-b>
 	</mapping -->
 

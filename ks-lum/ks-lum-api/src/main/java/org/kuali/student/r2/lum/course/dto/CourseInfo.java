@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
+import org.kuali.student.r2.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 import org.kuali.student.r2.lum.course.infc.CourseFee;
@@ -41,7 +41,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 /**
  * This is a description of what this class does - sambit don't forget to fill
  * this in.
- * 
+ *
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 @XmlType(name = "CourseInfo", propOrder = {"id",
@@ -274,7 +274,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
         }
     }
 
-   
+
     @Override
     public String getCode() {
         return code;
@@ -297,7 +297,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     /**
      * A code that indicates what level 100, 200 or upper division, lower
      * division etc
-     * 
+     *
      * @return
      */
     @Override

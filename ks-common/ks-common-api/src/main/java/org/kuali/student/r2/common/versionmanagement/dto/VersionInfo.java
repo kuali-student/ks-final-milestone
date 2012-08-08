@@ -9,10 +9,9 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.versionmanagement.dto;
+package org.kuali.student.r2.common.versionmanagement.dto;
 
-import org.kuali.student.r2.core.versionmanagement.infc.Version;
-//import org.w3c.dom.Element;
+import org.kuali.student.r2.common.versionmanagement.infc.Version;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -20,6 +19,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Date;
+
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "VersionInfo", propOrder = {"versionIndId", "sequenceNumber", "currentVersionStart", "currentVersionEnd", "versionComment", "versionedFromId"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})

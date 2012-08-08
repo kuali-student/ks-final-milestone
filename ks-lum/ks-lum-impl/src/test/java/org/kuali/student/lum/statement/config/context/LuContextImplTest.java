@@ -246,43 +246,43 @@ public class LuContextImplTest {
 		}
 
         @Override
-        public List<org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo> getVersions(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        public List<org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo> getVersions(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
 
         @Override
-        public org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo getFirstVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        public org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo getFirstVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
 
         @Override
-        public org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo getLatestVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        public org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo getLatestVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
 
         @Override
-        public org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo getCurrentVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        public org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo getCurrentVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
 
         @Override
-        public org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo getVersionBySequenceNumber(String refObjectUri, String refObjectId, Long sequence, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        public org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo getVersionBySequenceNumber(String refObjectUri, String refObjectId, Long sequence, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
 
         @Override
-        public org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo getCurrentVersionOnDate(String refObjectUri, String refObjectId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        public org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo getCurrentVersionOnDate(String refObjectUri, String refObjectId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
 
         @Override
-        public List<org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo> getVersionsInDateRange(String refObjectUri, String refObjectId, Date from, Date to, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        public List<org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo> getVersionsInDateRange(String refObjectUri, String refObjectId, Date from, Date to, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
