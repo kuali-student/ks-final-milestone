@@ -375,7 +375,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     @Override
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (addLine instanceof OfferingInstructorWrapper){
+        if (addLine instanceof OfferingInstructorWrapper){   //Personnel
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
 
             //check duplication
@@ -398,7 +398,21 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 return false;
             }
         }
-
+        else if (addLine instanceof SeatPoolWrapper){   //Seat Pool
+            SeatPoolWrapper seatPool = (SeatPoolWrapper) addLine;
+            //check duplication
+            MaintenanceForm form = (MaintenanceForm)model;
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            List<SeatPoolWrapper> pools = activityOfferingWrapper.getSeatpools();
+            if(pools != null && !pools.isEmpty()){
+                for (SeatPoolWrapper pool : pools ) {
+                    if (seatPool.getSeatPoolPopulation().getId().equals( pool.getSeatPoolPopulation().getId())) {
+                        GlobalVariables.getMessageMap().putErrorForSectionId("ao-seatpoolgroup", ActivityOfferingConstants.MSG_ERROR_SEATPOOL_DUPLICATE, pool.getSeatPoolPopulation().getName());
+                        return false;
+                    }
+                }
+            }
+        }
         return super.performAddLineValidation(view, collectionGroup, model, addLine);
     }
 

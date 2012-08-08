@@ -469,13 +469,13 @@
                 </bean>
 
                 <bean parent="Uif-VerticalBoxSection">
-                    <property name="headerText" value="Seat Pools"/>
                      <property name="items">
                         <list>
                             <bean id="KS-ActivityOffering-SeatpoolsSection" parent="Uif-TableCollectionSection"
                                   p:layoutManager.numberOfColumns="6"
                                   p:id="ao-seatpoolgroup"
                                   p:layoutManager.style="width: 100%; display:block;">
+                                <property name="headerText" value="Seat Pools"/>
                                 <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
                                 <property name="propertyName" value="seatpools" />
                                 <property name="layoutManager.renderSequenceField" value="false" />
