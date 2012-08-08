@@ -17,12 +17,17 @@ package org.kuali.student.enrollment.class1.hold.controller;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoCreateForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
+import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
@@ -103,28 +108,36 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
   @RequestMapping(params = "methodToCall=modify")
  public ModelAndView modity(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-     HoldIssueInfoCreateForm modifyForm = (HoldIssueInfoCreateForm) form;
-     holdIssueInfo = new HoldIssueInfo();
-     holdIssueInfo.setId(modifyForm.getId());
-     holdIssueInfo.setName(modifyForm.getName());
-     holdIssueInfo.setTypeKey(modifyForm.getTypeKey());
-     holdIssueInfo.setStateKey(modifyForm.getStateKey());
-     holdIssueInfo.setOrganizationId(modifyForm.getOrganizationId());
-     RichTextInfo richTextInfo = new RichTextInfo();
-     richTextInfo.setPlain(modifyForm.getDescr());
-     holdIssueInfo.setDescr(richTextInfo);
+      HoldIssueInfoCreateForm modifyForm = (HoldIssueInfoCreateForm) form;
+      if (modifyForm.getTypeKey().equals("") || modifyForm.getTypeKey().length() == 0) {
+          GlobalVariables.getMessageMap().putError("typeKey", "error.enroll.hold.type.empty");
+          return getUIFModelAndView(form);
+      }
 
+      if (modifyForm.getOrganizationId().equals("") || modifyForm.getOrganizationId().length() == 0) {
+          GlobalVariables.getMessageMap().putError("organizationId", "error.enroll.hold.organization.empty");
+          return getUIFModelAndView(form);
+      }
 
-     try {
-         holdService = getHoldService();
-         HoldIssueInfo modifyHoldIssueInfo = holdService.updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, getContextInfo() );
-     } catch (Exception e) {
-         e.printStackTrace();
-         throw new RuntimeException("Modify Hold failed. ", e);
-     }
+      holdIssueInfo = new HoldIssueInfo();
+      holdIssueInfo.setId(modifyForm.getId());
+      holdIssueInfo.setName(modifyForm.getName());
+      holdIssueInfo.setTypeKey(modifyForm.getTypeKey());
+      holdIssueInfo.setStateKey(modifyForm.getStateKey());
+      holdIssueInfo.setOrganizationId(modifyForm.getOrganizationId());
+      RichTextInfo richTextInfo = new RichTextInfo();
+      richTextInfo.setPlain(modifyForm.getDescr());
+      holdIssueInfo.setDescr(richTextInfo);
 
-
-     return close(modifyForm, result, request, response);
+      try {
+          holdService = getHoldService();
+          HoldIssueInfo modifyHoldIssueInfo = holdService.updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, getContextInfo() );
+      } catch (Exception e) {
+          e.printStackTrace();
+          throw new RuntimeException("Modify Hold failed. ", e);
+      }
+      GlobalVariables.getMessageMap().putInfo("holdIssueInfo", "info.enroll.hold.modify.success");
+      return getUIFModelAndView(form);
  }
 
     @RequestMapping(params = "methodToCall=view")
