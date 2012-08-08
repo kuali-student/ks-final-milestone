@@ -144,7 +144,7 @@
                       p:refreshWhenChangedPropertyNames="@{#dp.operationType}"
                       p:progressiveRender="@{#dp.operationType eq 'kuali.population.rule.type.exclusion'}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="40" p:disabled="true" />
+                        <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="true" />
                     </property>
 
                     <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
@@ -185,7 +185,7 @@
                             <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="name"
                                   p:style="font-weight:bold;" p:required="true">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="40" p:disabled="true" />
+                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="true" />
                                 </property>
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                                 <property name="quickfinder.fieldConversions">
