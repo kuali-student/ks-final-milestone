@@ -69,6 +69,8 @@ import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1506,6 +1508,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
             //Do search. In ideal case, returns one element, which is the desired SeatPool.
             seatPoolDefinitionInfos = searchForSeatpoolDefinitions(criteria, new ContextInfo());
+            Collections.sort(seatPoolDefinitionInfos, new Comparator<SeatPoolDefinitionInfo>() {
+                @Override
+                public int compare(SeatPoolDefinitionInfo o1, SeatPoolDefinitionInfo o2) {
+                    if (o1.getProcessingPriority() == null) {
+                        return -1;
+                    } else if (o2.getProcessingPriority() == null) {
+                        return 1;
+                    }
+                    return o1.getProcessingPriority().compareTo(o2.getProcessingPriority());
+                }
+            });
         }
         return  seatPoolDefinitionInfos;
 

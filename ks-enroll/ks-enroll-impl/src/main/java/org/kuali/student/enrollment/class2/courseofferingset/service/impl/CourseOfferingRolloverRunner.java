@@ -149,7 +149,8 @@ public class CourseOfferingRolloverRunner implements Runnable {
         }
         loadOptionKeys();
         // mark running
-        result = this.socService.getSocRolloverResult(result.getId(), context);
+        String resultId = result.getId();
+        result = this.socService.getSocRolloverResult(resultId, context);
         result.setStateKey(CourseOfferingSetServiceConstants.RUNNING_RESULT_STATE_KEY);
         this.socService.updateSocRolloverResult(result.getId(), result, context);
         // Check if there are any course in the target soc
