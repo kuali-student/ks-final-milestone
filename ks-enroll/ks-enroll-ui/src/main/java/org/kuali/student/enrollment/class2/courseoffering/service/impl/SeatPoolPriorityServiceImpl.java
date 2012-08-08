@@ -41,7 +41,7 @@ public class SeatPoolPriorityServiceImpl implements SeatPoolPriorityService {
     @Override
     public void updateSeatPoolDefinitionList(List<SeatPoolDefinitionInfo> updatedSeatPoolList, String activityOfferingId, ContextInfo context) {
         List<SeatPoolDefinitionInfo> updatedSeatPoolFinalList = new ArrayList<SeatPoolDefinitionInfo>();
-        List <String> currentSeatPoolIds = getExistingSeatPoolIds(activityOfferingId);
+        List <String> currentSeatPoolIds = getExistingSeatPoolIds(activityOfferingId, context);
 
         try {
             if (updatedSeatPoolList != null && !updatedSeatPoolList.isEmpty())  {
@@ -57,15 +57,15 @@ public class SeatPoolPriorityServiceImpl implements SeatPoolPriorityService {
                     seatPool.setProcessingPriority(seatPoolPriority);
                     if(seatPool.getId()!=null && !seatPool.getId().isEmpty() && currentSeatPoolIds.contains(seatPool.getId())) {
                         //update SP
-                        SeatPoolDefinitionInfo seatPoolUpdated = getCourseOfferingService().updateSeatPoolDefinition(seatPool.getId(), seatPool, getContextInfo());
+                        SeatPoolDefinitionInfo seatPoolUpdated = getCourseOfferingService().updateSeatPoolDefinition(seatPool.getId(), seatPool, context);
                         updatedSeatPoolFinalList.add(seatPoolUpdated);
                         currentSeatPoolIds.remove(seatPool.getId());
                     } else {
                         //create new SP
                         seatPool.setTypeKey(LuiServiceConstants.SEATPOOL_LUI_CAPACITY_TYPE_KEY);
                         seatPool.setStateKey(LuiServiceConstants.LUI_CAPACITY_ACTIVE_STATE_KEY);
-                        SeatPoolDefinitionInfo seatPoolCreated = getCourseOfferingService().createSeatPoolDefinition(seatPool,getContextInfo());
-                        getCourseOfferingService().addSeatPoolDefinitionToActivityOffering(seatPoolCreated.getId(),activityOfferingId, getContextInfo());
+                        SeatPoolDefinitionInfo seatPoolCreated = getCourseOfferingService().createSeatPoolDefinition(seatPool,context);
+                        getCourseOfferingService().addSeatPoolDefinitionToActivityOffering(seatPoolCreated.getId(),activityOfferingId, context);
                         updatedSeatPoolFinalList.add(seatPoolCreated);
 
                     }
@@ -75,7 +75,7 @@ public class SeatPoolPriorityServiceImpl implements SeatPoolPriorityService {
                 //delete SPs that have been removed by the user
                 if (currentSeatPoolIds != null && currentSeatPoolIds.size() > 0){
                     for(String seatPoolId: currentSeatPoolIds){
-                        getCourseOfferingService().deleteSeatPoolDefinition(seatPoolId, getContextInfo());
+                        getCourseOfferingService().deleteSeatPoolDefinition(seatPoolId, context);
                     }
                 }
 
@@ -83,15 +83,11 @@ public class SeatPoolPriorityServiceImpl implements SeatPoolPriorityService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-
-
     }
 
-    private List<String> getExistingSeatPoolIds(String activityOfferingId) {
+    private List<String> getExistingSeatPoolIds(String activityOfferingId, ContextInfo context) {
         try {
-            List<SeatPoolDefinitionInfo> seatPoolList = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(activityOfferingId, getContextInfo());
+            List<SeatPoolDefinitionInfo> seatPoolList = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
             List<String> seatPoolIds = new ArrayList<String>();
 
             if(seatPoolList != null && !seatPoolList.isEmpty()){
@@ -104,8 +100,6 @@ public class SeatPoolPriorityServiceImpl implements SeatPoolPriorityService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     private CourseOfferingService getCourseOfferingService() {
@@ -117,14 +111,5 @@ public class SeatPoolPriorityServiceImpl implements SeatPoolPriorityService {
     }
 
 
-    public ContextInfo getContextInfo() {
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-        contextInfo.setLocale(localeInfo);
-        return contextInfo;
-    }
+
 }
