@@ -427,7 +427,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         form.getSocRolloverResultItems().clear();
 
         for (SocRolloverResultItemInfo socRolloverResultItemInfo : socRolloverResultItemInfosCopy) {
-            if (CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY.equalsIgnoreCase(socRolloverResultItemInfo.getStateKey())) {
+            if (CourseOfferingSetServiceConstants.SUCCESSFUL_RESULT_ITEM_STATES.contains(socRolloverResultItemInfo.getStateKey())) {
                 socRolloverResultItemInfos.remove(socRolloverResultItemInfo);
             } else {
                 String courseOfferingId = socRolloverResultItemInfo.getTargetCourseOfferingId();
