@@ -15,8 +15,7 @@
 
 package org.kuali.student.r2.core.class1.scheduling.util;
 
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.common.util.constants.SchedulingServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Calendar;
