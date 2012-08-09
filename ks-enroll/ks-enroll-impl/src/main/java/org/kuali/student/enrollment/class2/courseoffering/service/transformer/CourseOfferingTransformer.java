@@ -306,7 +306,7 @@ public class CourseOfferingTransformer {
     public void copyFromCanonical(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo, List<String> optionKeys, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         courseOfferingInfo.setCourseId(courseInfo.getId());
         if (!optionKeys.contains(CourseOfferingSetServiceConstants.NOT_COURSE_TITLE_OPTION_KEY)) {
-         courseOfferingInfo.setCourseOfferingTitle(courseInfo.getCourseTitle());
+            courseOfferingInfo.setCourseOfferingTitle(courseInfo.getCourseTitle());
         }
         courseOfferingInfo.setSubjectArea(courseInfo.getSubjectArea());
 
@@ -337,23 +337,7 @@ public class CourseOfferingTransformer {
 
         //Set the credit options as the first option from the clu
         if (courseInfo.getCreditOptions() != null && !courseInfo.getCreditOptions().isEmpty()) {
-            //Convert R1 to R2 LRC data
-            ResultComponentInfo resultComponent = courseInfo.getCreditOptions().get(0);
-
-            // Credit Options (also creates extra-line)
-            if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED.equals(resultComponent.getType())) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_FIXED_CREDITS),
-                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
-                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
-            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_RANGE.equals(resultComponent.getType())) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS),
-                        resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
-                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
-            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_MULTIPLE.equals(resultComponent.getType())) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(resultComponent.getResultValues(),
-                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
-                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
-            }
+            courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getKey());
         }else{
             courseOfferingInfo.setCreditOptionId(null);
         }
@@ -427,7 +411,7 @@ public class CourseOfferingTransformer {
                 instructor.setTypeKey(lpr.getTypeKey());
                 instructor.setStateKey(lpr.getStateKey());
 
-                 // Should be only one person found by person id
+                // Should be only one person found by person id
                 List<Person> personList = OfferingInstructorTransformer.getInstructorByPersonId(instructor.getPersonId());
                 if(personList != null && !personList.isEmpty()){
                     instructor.setPersonName(personList.get(0).getName());
