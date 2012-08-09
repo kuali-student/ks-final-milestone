@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lrc.entity;
+package org.kuali.student.r1.lum.lrc.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.BaseEntity;
-import org.kuali.student.r2.lum.lrc.entity.ResultComponent;
+import org.kuali.student.r1.lum.lrc.entity.ResultComponent;
 
 /*
  * Copyright 2009 The Kuali Foundation

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lrc.entity;
+package org.kuali.student.r1.lum.lrc.entity;
 
 import java.util.Date;
 import java.util.List;
@@ -32,10 +32,10 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.r1.common.entity.AttributeOwner;
 import org.kuali.student.r1.common.entity.MetaEntity;
-import org.kuali.student.r2.lum.lrc.entity.LrcRichText;
-import org.kuali.student.r2.lum.lrc.entity.ResultComponentAttribute;
-import org.kuali.student.r2.lum.lrc.entity.ResultComponentType;
-import org.kuali.student.r2.lum.lrc.entity.ResultValue;
+import org.kuali.student.r1.lum.lrc.entity.LrcRichText;
+import org.kuali.student.r1.lum.lrc.entity.ResultComponentAttribute;
+import org.kuali.student.r1.lum.lrc.entity.ResultComponentType;
+import org.kuali.student.r1.lum.lrc.entity.ResultValue;
 
 @Entity
 @Table(name = "KSLR_RESCOMP")

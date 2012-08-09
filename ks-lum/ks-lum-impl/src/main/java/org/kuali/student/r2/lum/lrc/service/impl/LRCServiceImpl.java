@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.lrc.service.impl;
+package org.kuali.student.r2.lum.lrc.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,12 +7,12 @@ import java.util.Set;
 import javax.jws.WebService;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao;
-import org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao;
-import org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao;
-import org.kuali.student.enrollment.class1.lrc.model.ResultScaleEntity;
-import org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity;
-import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
+import org.kuali.student.r2.lum.lrc.dao.ResultScaleDao;
+import org.kuali.student.r2.lum.lrc.dao.ResultValueDao;
+import org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao;
+import org.kuali.student.r2.lum.lrc.model.ResultScaleEntity;
+import org.kuali.student.r2.lum.lrc.model.ResultValueEntity;
+import org.kuali.student.r2.lum.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;

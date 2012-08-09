@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lrc.entity;
+package org.kuali.student.r1.lum.lrc.entity;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.Type;
-import org.kuali.student.r2.lum.lrc.entity.ResultComponentTypeAttribute;
+import org.kuali.student.r1.lum.lrc.entity.ResultComponentTypeAttribute;
 
 @Entity
 @Table(name = "KSLR_RESCOMP_TYPE")

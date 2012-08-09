@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lrc.entity;
+package org.kuali.student.r1.lum.lrc.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
