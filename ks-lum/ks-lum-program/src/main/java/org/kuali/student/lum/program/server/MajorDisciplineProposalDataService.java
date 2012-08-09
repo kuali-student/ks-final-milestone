@@ -88,7 +88,7 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
 				String startTerm = latestStartAtp.getId();
 		    	String endTerm = mdInfo.getEndTerm();
 		    	String endProgramEntryTerm = mdInfo.getEndProgramEntryTerm();
-				String endInstAdmitTerm = mdInfo.getAttributeInfoValue(mdInfo.getAttributes(), ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
+				String endInstAdmitTerm = mdInfo.getAttributeValue(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
 		    	
 		    	//
 		    	Map<String,String> proposalAttributes = new HashMap<String,String>();

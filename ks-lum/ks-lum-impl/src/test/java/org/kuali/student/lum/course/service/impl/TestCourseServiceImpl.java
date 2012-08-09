@@ -177,7 +177,7 @@ public class TestCourseServiceImpl{
             attrs.put("key-4", "value-5");
             attrs.put("key-5", "value-6");
             for (String key : attrs.keySet()) {
-                String value = retrievedCourse.getAttributeInfoValue(retrievedCourse.getAttributes(), key);
+                String value = retrievedCourse.getAttributeValue(key);
                 assertNotNull(value);
                 assertEquals(value, attrs.get(key));
             }

@@ -74,4 +74,27 @@ public abstract class HasAttributesInfo
     public void setAttributes(List<AttributeInfo> attributes) {
         this.attributes = attributes;
     }
+
+
+    public String getAttributeValue(String key) {
+        for (AttributeInfo attr: attributes) {
+            if(attr.getKey().equals(key)) {
+                return attr.getValue();
+            }
+        }
+
+        return null;
+    }
+
+    public List<String> getAttributeValueList(String key) {
+        List<String> results = new ArrayList<String>();
+
+        for (AttributeInfo attr: attributes) {
+            if(attr.getKey().equals(key)) {
+                results.add(attr.getValue());
+            }
+        }
+
+        return results;
+    }
 }

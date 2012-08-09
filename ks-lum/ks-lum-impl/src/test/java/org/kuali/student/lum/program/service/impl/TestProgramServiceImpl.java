@@ -251,8 +251,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(core.getAttributes());
             assertTrue(core.getAttributes().size() ==2);
-            assertEquals("GINGER GEM", core.getAttributeInfoValue(core.getAttributes(),"COOKIES"));
-            assertEquals("JAM TART", core.getAttributeInfoValue(core.getAttributes(),"CAKES"));
+            assertEquals("GINGER GEM", core.getAttributeValue("COOKIES"));
+            assertEquals("JAM TART", core.getAttributeValue("CAKES"));
 
             assertNotNull(core.getMeta());
             assertEquals("1", core.getMeta().getVersionInd());
@@ -402,8 +402,8 @@ public class TestProgramServiceImpl {
             assertEquals(major.getUnitsFinancialControl().get(1), "47");
             assertNotNull(major.getAttributes());
             assertEquals(2, major.getAttributes().size());
-            assertEquals("GINGER GEM", major.getAttributeInfoValue(major.getAttributes(),"COOKIES"));
-            assertEquals("JAM TART", major.getAttributeInfoValue(major.getAttributes(),"CAKES"));
+            assertEquals("GINGER GEM", major.getAttributeValue("COOKIES"));
+            assertEquals("JAM TART", major.getAttributeValue("CAKES"));
 
             assertNotNull(major.getMeta());
             assertEquals("1", major.getMeta().getVersionInd());
@@ -621,8 +621,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(createdMD.getAttributes());
             assertTrue(createdMD.getAttributes().size() ==2);
-            assertEquals("value-8", createdMD.getAttributeInfoValue(createdMD.getAttributes(),"key-7"));
-            assertEquals("value-9", createdMD.getAttributeInfoValue(createdMD.getAttributes(),"key-8"));
+            assertEquals("value-8", createdMD.getAttributeValue("key-7"));
+            assertEquals("value-9", createdMD.getAttributeValue("key-8"));
 
             assertNotNull(createdMD.getMeta());
             assertEquals("0", createdMD.getMeta().getVersionInd());

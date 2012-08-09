@@ -1495,8 +1495,10 @@ public class ProgramServiceImpl implements ProgramService{
 
 	private void validateMajorDisciplineAtps(MajorDisciplineInfo majorDisciplineInfo, List<ValidationResultInfo> validationResults,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		String startTerm = majorDisciplineInfo.getStartTerm();
-		if(!isEmpty(majorDisciplineInfo.getAttributeInfoValue(majorDisciplineInfo.getAttributes(), "endInstAdmitTerm"))){
-				compareAtps(startTerm, majorDisciplineInfo.getAttributeInfoValue(majorDisciplineInfo.getAttributes(), "endInstAdmitTerm"), validationResults, "End Inst Admin Term", "endInstAdmitTerm",contextInfo);
+
+        String endInstAdmitTerm = majorDisciplineInfo.getAttributeValue("endInstAdmitTerm");
+		if(endInstAdmitTerm != null) {
+            compareAtps(startTerm, endInstAdmitTerm, validationResults, "End Inst Admin Term", "endInstAdmitTerm",contextInfo);
 		}
 		if(!isEmpty(majorDisciplineInfo.getEndProgramEntryTerm())){
 			compareAtps(startTerm, majorDisciplineInfo.getEndTerm(), validationResults, "End Program Entry Term", "endProgramEntryTerm",contextInfo);
@@ -1520,9 +1522,9 @@ public class ProgramServiceImpl implements ProgramService{
 	private void validateVariationAtps(ProgramVariationInfo programVariationInfo, List<ValidationResultInfo> validationResults, int idx,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,PermissionDeniedException{
 		
 		String startTerm = programVariationInfo.getStartTerm();
-
-		if(!isEmpty(programVariationInfo.getAttributeInfoValue(programVariationInfo.getAttributes(),"endInstAdmitTerm"))){
-			compareAtps(startTerm, programVariationInfo.getAttributeInfoValue(programVariationInfo.getAttributes(),"endInstAdmitTerm"), validationResults, "End Inst Admin Term",  "variations/" + idx + "/endInstAdmitTerm",contextInfo);
+        String endInstAdmitTerm = programVariationInfo.getAttributeValue("endInstAdmitTerm");
+		if(endInstAdmitTerm != null) {
+            compareAtps(startTerm, endInstAdmitTerm, validationResults, "End Inst Admin Term",  "variations/" + idx + "/endInstAdmitTerm",contextInfo);
 		}
 	
 		if(!isEmpty(programVariationInfo.getEndProgramEntryTerm())){
