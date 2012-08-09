@@ -132,7 +132,7 @@
     </bean>
     
     <bean id="luDao"
-        class="org.kuali.student.lum.lu.dao.impl.LuDaoImpl">
+        class="org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl">
         <property name="em" ref="luEntityManager" />        
     </bean>
 
@@ -230,7 +230,7 @@
     </bean>
 
     <bean id="luServiceImpl"
-        class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
+        class="org.kuali.student.r2.lum.lu.service.impl.LuServiceImpl">
         <property name="luDao" ref="luDao"/>
         <property name="searchManager" ref="luSearchManager"/>
     </bean>
@@ -320,7 +320,7 @@
     </bean>
 
     <bean id="lrcDao"
-        class="org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl">
+        class="org.kuali.student.r2.lum.lrc.dao.impl.LrcDaoImpl">
         <property name="em" ref="lrcEntityManager" />
     </bean>
 

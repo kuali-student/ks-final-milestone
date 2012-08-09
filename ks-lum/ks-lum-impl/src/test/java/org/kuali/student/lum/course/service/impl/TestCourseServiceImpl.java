@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.conversion.util.converter.AttributeInfoConverter;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;

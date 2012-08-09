@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.Attribute;
+import org.kuali.student.r2.lum.lrc.entity.ResultComponent;
 
 @Entity
 @Table(name = "KSLR_RESCOMP_ATTR")

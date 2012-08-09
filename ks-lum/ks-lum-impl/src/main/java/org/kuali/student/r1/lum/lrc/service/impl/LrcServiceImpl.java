@@ -21,10 +21,10 @@ import java.util.List;
 import javax.jws.WebService;
 
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
-import org.kuali.student.lum.lrc.dao.LrcDao;
-import org.kuali.student.lum.lrc.entity.ResultComponent;
-import org.kuali.student.lum.lrc.entity.ResultComponentType;
-import org.kuali.student.lum.lrc.entity.Scale;
+import org.kuali.student.r1.lum.lrc.dao.LrcDao;
+import org.kuali.student.r1.lum.lrc.entity.ResultComponent;
+import org.kuali.student.r1.lum.lrc.entity.ResultComponentType;
+import org.kuali.student.r1.lum.lrc.entity.Scale;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;

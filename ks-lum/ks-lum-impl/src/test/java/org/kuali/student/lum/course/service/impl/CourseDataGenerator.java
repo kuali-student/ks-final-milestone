@@ -1,7 +1,7 @@
 package org.kuali.student.lum.course.service.impl;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;

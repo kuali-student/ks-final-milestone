@@ -285,7 +285,7 @@
     	<property name="gradeValuesGroupAssembler" ref="gradeValuesGroupAssembler"/>
     </bean>
     
-    <bean id="luDao" class="org.kuali.student.lum.lu.dao.impl.LuDaoImpl">
+    <bean id="luDao" class="org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl">
         <property name="em" ref="entityManager"/>
     </bean>
     
@@ -311,7 +311,7 @@
 	</bean>
     
     <bean id="loServiceImpl"
-		class="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl">
+		class="org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl">
 		<property name="loDao" ref="loDao" />
         <property name="searchManager" ref="loSearchManager" />
 		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
@@ -323,7 +323,7 @@
   	</bean>
 	
 	<bean id="loDao"
-		class="org.kuali.student.lum.lo.dao.impl.LoDaoImpl">
+		class="org.kuali.student.r2.lum.lo.dao.impl.LoDaoImpl">
         <property name="em" ref="entityManager" />
 	</bean>
     
@@ -335,7 +335,7 @@
 	
     
     <bean id="luServiceImpl"
-		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
+		class="org.kuali.student.r2.lum.lu.service.impl.LuServiceImpl">
 		<property name="luDao" ref="luDao" />
         <property name="searchManager" ref="luSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
@@ -350,7 +350,7 @@
         <property name="validatorFactory" ref="validatorFactory"/>
 	</bean>
 	<bean id="lrcDao"
-		class="org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl">
+		class="org.kuali.student.r2.lum.lrc.dao.impl.LrcDaoImpl">
         <property name="em" ref="entityManager" />
 	</bean>
 	<bean id="lrcSearchManager"
@@ -362,7 +362,7 @@
     <bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
     </bean>
     
-    <bean id="courseServiceImpl" class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
+    <bean id="courseServiceImpl" class="org.kuali.student.r2.lum.course.service.impl.CourseServiceImpl">
 		<property name="luService" ref="luServiceImpl"/>
 		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
 		<property name="courseAssembler" ref="courseAssembler"/>
@@ -371,7 +371,7 @@
 		<property name="statementService" ref="statementServiceImpl"/>
 	</bean>
 
-	<bean id="courseServiceMethodInvoker" class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
+	<bean id="courseServiceMethodInvoker" class="org.kuali.student.r2.lum.course.service.impl.CourseServiceMethodInvoker">
 		<property name="luService" ref="luServiceImpl"/>
 		<property name="loService" ref="loServiceImpl"/>
 		<property name="statementService" ref="statementServiceImpl"/>
@@ -397,7 +397,7 @@
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
    		<property name="validatorFactory" ref="validatorFactory"/>
     </bean>
-	<bean id="courseAssembler" class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
+	<bean id="courseAssembler" class="org.kuali.student.r2.lum.course.service.assembler.CourseAssembler">
 		<property name="formatAssembler" ref="formatAssembler"/>
 		<property name="courseJointAssembler" ref="courseJointAssembler"/>
 		<property name="luService" ref="luServiceImpl"/>
@@ -407,25 +407,25 @@
         <property name="loAssembler" ref="loAssembler"/>
 	</bean>
 
-	<bean id="loAssembler" class="org.kuali.student.lum.course.service.assembler.LoAssembler">
+	<bean id="loAssembler" class="org.kuali.student.r2.lum.course.service.assembler.LoAssembler">
 		<property name="loService" ref="loServiceImpl"/>
 	</bean>
 
-	<bean id="formatAssembler" class="org.kuali.student.lum.course.service.assembler.FormatAssembler">
+	<bean id="formatAssembler" class="org.kuali.student.r2.lum.course.service.assembler.FormatAssembler">
 		<property name="activityAssembler" ref="activityAssembler"/>
 		<property name="luService" ref="luServiceImpl"/>
 	</bean>
 
-	<bean id="activityAssembler" class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
+	<bean id="activityAssembler" class="org.kuali.student.r2.lum.course.service.assembler.ActivityAssembler">
 		<property name="luService" ref="luServiceImpl"/>
 	</bean>
 
-	<bean id="courseJointAssembler" class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
+	<bean id="courseJointAssembler" class="org.kuali.student.r2.lum.course.service.assembler.CourseJointAssembler">
 		<property name="luService" ref="luServiceImpl"/>
 	</bean>
 
     <bean id="cluAssemblerUtils"
-          class="org.kuali.student.lum.service.assembler.CluAssemblerUtils">
+          class="org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils">
         <property name="luService" ref="luServiceImpl"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
@@ -494,15 +494,15 @@
     	<property name="resultSourceDao" ref="resultSourceDao"/>
     </bean>
     
-    <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
+    <bean id="resultValuesGroupDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="resultValueDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao">
+    <bean id="resultValueDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValueDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="resultScaleDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao">
+    <bean id="resultScaleDao" class="org.kuali.student.r2.lum.lrc.dao.ResultScaleDao">
         <property name="em" ref="entityManager"/>
     </bean>
     

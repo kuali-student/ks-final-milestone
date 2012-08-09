@@ -26,8 +26,8 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.lum.lrc.dao.LrcDao;
-import org.kuali.student.lum.lrc.entity.ResultComponentType;
+import org.kuali.student.r2.lum.lrc.dao.LrcDao;
+import org.kuali.student.r2.lum.lrc.entity.ResultComponentType;
 
 @PersistenceFileLocation("classpath:META-INF/lrc-persistence.xml")
 public class TestLrcDaoImpl extends AbstractTransactionalDaoTest {

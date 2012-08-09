@@ -26,11 +26,11 @@
 	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<bean id="luService"
-		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
+		class="org.kuali.student.r2.lum.lu.service.impl.LuServiceImpl">
 	</bean>
 
 	<bean id="luDao"
-		class="org.kuali.student.lum.lu.dao.impl.LuDaoImpl">
+		class="org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl">
 	</bean>
 
 
@@ -47,7 +47,7 @@
 	</bean>
 
 	<bean id="loService"
-		class="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl">
+		class="org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl">
 	</bean>
 
 </beans>

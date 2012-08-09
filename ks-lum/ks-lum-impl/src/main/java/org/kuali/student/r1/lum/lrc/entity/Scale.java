@@ -30,6 +30,8 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.r1.common.entity.AttributeOwner;
 import org.kuali.student.r1.common.entity.MetaEntity;
+import org.kuali.student.r2.lum.lrc.entity.LrcRichText;
+import org.kuali.student.r2.lum.lrc.entity.ScaleAttribute;
 
 @Entity
 @Table(name = "KSLR_SCALE")

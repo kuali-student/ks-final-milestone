@@ -3,7 +3,7 @@ package org.kuali.student.lum.statement.config.context;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.lum.statement.config.context.util.NLCluSet;
+import org.kuali.student.r2.lum.statement.config.context.util.NLCluSet;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
@@ -15,6 +15,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.lum.clu.dto.*;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.statement.config.context.CluContextImpl;
 
 import java.util.*;
 

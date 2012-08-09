@@ -63,7 +63,7 @@
 	<import resource="classpath:ks-spring-security.xml" />
 	
 	<!-- CourseService -->
-	<bean id="courseServiceImpl" class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
+	<bean id="courseServiceImpl" class="org.kuali.student.r2.lum.course.service.impl.CourseServiceImpl">
 		<property name="cluService" ref="cluClient"/>
 		<property name="courseAssembler" ref="courseAssembler"/>
 		<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
@@ -71,26 +71,26 @@
 		<property name="validatorFactory" ref="validatorFactory"/>
 	</bean>
 	
-	<bean id="courseServiceMethodInvoker" class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
+	<bean id="courseServiceMethodInvoker" class="org.kuali.student.r2.lum.course.service.impl.CourseServiceMethodInvoker">
 		<property name="cluService" ref="cluClient"/>
 	</bean>
 	
-	<bean id="courseAssembler" class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
+	<bean id="courseAssembler" class="org.kuali.student.r2.lum.course.service.assembler.CourseAssembler">
 		<property name="formatAssembler" ref="formatAssembler"/>
 		<property name="courseJointAssembler" ref="courseJointAssembler"/>
 		<property name="CluService" ref="cluClient"/>
 	</bean>
 	
-	<bean id="formatAssembler" class="org.kuali.student.lum.course.service.assembler.FormatAssembler">
+	<bean id="formatAssembler" class="org.kuali.student.r2.lum.course.service.assembler.FormatAssembler">
 		<property name="activityAssembler" ref="activityAssembler"/>
 		<property name="CluService" ref="cluClient"/>
 	</bean>
 	
-	<bean id="activityAssembler" class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
+	<bean id="activityAssembler" class="org.kuali.student.r2.lum.course.service.assembler.ActivityAssembler">
 		<property name="cluService" ref="cluClient"/>
 	</bean>
 
-	<bean id="courseJointAssembler" class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
+	<bean id="courseJointAssembler" class="org.kuali.student.r2.lum.course.service.assembler.CourseJointAssembler">
 		<property name="cluService" ref="cluClient"/>
 	</bean>
 	
