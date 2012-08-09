@@ -234,7 +234,7 @@
     <aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
       <aop:after-throwing pointcut="execution(* org.kuali.student.lum.lu.service.impl.LuServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
-      <aop:after-throwing pointcut="execution(* org.kuali.student.lum.lrc.service.impl.LrcServiceImpl.*(..))"
+      <aop:after-throwing pointcut="execution(* org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
       <aop:after-throwing pointcut="execution(* org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
@@ -440,8 +440,8 @@
     <property name="resultSourceDao" ref="resultSourceDao" />
   </bean>
 
-  <bean id="lrcServiceBusinessLogic" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceBusinessLogicImpl" />
-  <bean id="lrcPersistenceService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LRCServiceImpl">
+  <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
+  <bean id="lrcPersistenceService" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
     <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
     <property name="resultValueDao" ref="resultValueDao" />
     <property name="resultScaleDao" ref="resultScaleDao" />

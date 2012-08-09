@@ -341,7 +341,7 @@
     </bean>
 
     <bean id="lrcServiceImpl"
-          class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+          class="org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl">
         <property name="lrcDao" ref="lrcDao"/>
         <!--<property name="searchManager" ref="lrcSearchManager" />-->
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
@@ -498,19 +498,19 @@
         <property name="resultSourceDao" ref="resultSourceDao"/>
     </bean>
 
-    <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
+    <bean id="resultValuesGroupDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao">
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <bean id="resultValueDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao">
+    <bean id="resultValueDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValueDao">
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <bean id="resultScaleDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao">
+    <bean id="resultScaleDao" class="org.kuali.student.r2.lum.lrc.dao.ResultScaleDao">
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <bean id="lrcService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LRCServiceImpl">
+    <bean id="lrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
         <property name="resultValuesGroupDao" ref="resultValuesGroupDao"/>
         <property name="resultValueDao" ref="resultValueDao"/>
         <property name="resultScaleDao" ref="resultScaleDao"/>
