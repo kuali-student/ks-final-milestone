@@ -21,8 +21,8 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
-import org.kuali.student.r2.core.hold.infc.Issue;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
+import org.kuali.student.r2.core.hold.infc.HoldIssue;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -72,14 +72,14 @@ public class HoldIssueEntity
     public HoldIssueEntity() {
     }
 
-    public HoldIssueEntity(Issue dto) {
+    public HoldIssueEntity(HoldIssue dto) {
         super(dto);
         this.setId(dto.getId());
         this.setHoldIssueType(dto.getTypeKey());
         this.fromDto(dto);
     }
 
-    public void fromDto(Issue dto) {
+    public void fromDto(HoldIssue dto) {
         setName(dto.getName());
         setHoldIssueState(dto.getStateKey());
         setOrganizationId(dto.getOrganizationId());
@@ -160,8 +160,8 @@ public class HoldIssueEntity
         this.descrFormatted = formatted;
     }
 
-    public IssueInfo toDto() {
-        IssueInfo info = new IssueInfo();
+    public HoldIssueInfo toDto() {
+        HoldIssueInfo info = new HoldIssueInfo();
         info.setId(getId());
         info.setName(getName());
         info.setTypeKey(getHoldIssueType());

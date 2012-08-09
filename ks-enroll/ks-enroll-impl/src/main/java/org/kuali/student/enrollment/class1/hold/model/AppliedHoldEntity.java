@@ -5,8 +5,8 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.infc.Hold;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.infc.AppliedHold;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -80,7 +80,7 @@ public class AppliedHoldEntity
     public AppliedHoldEntity() {
     }
 
-    public AppliedHoldEntity(Hold hold) {
+    public AppliedHoldEntity(AppliedHold hold) {
         super(hold);
         this.setId(hold.getId());
         this.personId = hold.getPersonId();
@@ -90,7 +90,7 @@ public class AppliedHoldEntity
         this.fromDto(hold);
     }
 
-    public void fromDto(Hold dto) {
+    public void fromDto(AppliedHold dto) {
         this.setName(dto.getName());
         this.setHoldState(dto.getStateKey());
         if (dto.getDescr() != null) {
@@ -111,8 +111,8 @@ public class AppliedHoldEntity
         }
     }
 
-    public HoldInfo toDto() {
-        HoldInfo info = new HoldInfo();
+    public AppliedHoldInfo toDto() {
+        AppliedHoldInfo info = new AppliedHoldInfo();
         info.setId(getId());
         info.setName(name);
         info.setEffectiveDate(effectiveDate);

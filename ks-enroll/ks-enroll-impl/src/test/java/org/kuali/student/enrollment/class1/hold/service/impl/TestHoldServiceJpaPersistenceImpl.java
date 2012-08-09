@@ -14,8 +14,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -37,20 +37,20 @@ public class TestHoldServiceJpaPersistenceImpl extends TestHoldServiceMockImpl {
 
 
     @Test
-    public void testSearchForAppliedHoldIds() throws AlreadyExistsException, InvalidParameterException, DataValidationErrorException, MissingParameterException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+    public void testSearchForAppliedHoldIds() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
         //Create a Hold Issue
-        IssueInfo myIssue = new IssueInfo();
+        HoldIssueInfo myIssue = new HoldIssueInfo();
         myIssue.setName("name of issue");
         myIssue.setDescr(new RichTextHelper().fromPlain("description of issue"));
         myIssue.setOrganizationId("org1");
         myIssue.setTypeKey(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY);
         myIssue.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(myIssue.getAttributes());
-        IssueInfo actualIssue = getHoldService().createIssue(myIssue.getTypeKey(), myIssue, callContext);
+        HoldIssueInfo actualIssue = getHoldService().createHoldIssue(myIssue.getTypeKey(), myIssue, callContext);
         // Create an Applied Hold
-        HoldInfo expected = new HoldInfo();
+        AppliedHoldInfo expected = new AppliedHoldInfo();
         expected.setPersonId("student1");
-        expected.setIssueId(actualIssue.getId());
+        expected.setHoldIssueId(actualIssue.getId());
         expected.setName("name of hold");
         expected.setDescr(new RichTextHelper().fromPlain("description of hold"));
         expected.setEffectiveDate(new Date());
@@ -58,14 +58,14 @@ public class TestHoldServiceJpaPersistenceImpl extends TestHoldServiceMockImpl {
         expected.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         expected.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());
-        HoldInfo actual = getHoldService().createHold(expected.getPersonId(), expected.getIssueId(), expected.getTypeKey(), expected,
+        AppliedHoldInfo actual = getHoldService().createAppliedHold(expected.getPersonId(), expected.getHoldIssueId(), expected.getTypeKey(), expected,
                 callContext);
         assertNotNull(actual.getId());
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.equal("id", actual.getId()));
         QueryByCriteria qbc = qbcBuilder.build();
-        List<String> results = getHoldService().searchForHoldIds(qbc, callContext);
+        List<String> results = getHoldService().searchForAppliedHoldIds(qbc, callContext);
 
         assertTrue(results.size() == 1);
         String myResult = results.get(0);
@@ -73,20 +73,20 @@ public class TestHoldServiceJpaPersistenceImpl extends TestHoldServiceMockImpl {
     }
 
     @Test
-    public void testSearchForAppliedHolds() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+    public void testSearchForAppliedHolds() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException {
         //Create a Hold Issue
-        IssueInfo myIssue = new IssueInfo();
+        HoldIssueInfo myIssue = new HoldIssueInfo();
         myIssue.setName("name of issue");
         myIssue.setDescr(new RichTextHelper().fromPlain("description of issue"));
         myIssue.setOrganizationId("org1");
         myIssue.setTypeKey(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY);
         myIssue.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(myIssue.getAttributes());
-        IssueInfo actualIssue = getHoldService().createIssue(myIssue.getTypeKey(), myIssue, callContext);
+        HoldIssueInfo actualIssue = getHoldService().createHoldIssue(myIssue.getTypeKey(), myIssue, callContext);
         // Create an Applied Hold
-        HoldInfo expected = new HoldInfo();
+        AppliedHoldInfo expected = new AppliedHoldInfo();
         expected.setPersonId("student1");
-        expected.setIssueId(actualIssue.getId());
+        expected.setHoldIssueId(actualIssue.getId());
         expected.setName("name of hold");
         expected.setDescr(new RichTextHelper().fromPlain("description of hold"));
         expected.setEffectiveDate(new Date());
@@ -94,7 +94,7 @@ public class TestHoldServiceJpaPersistenceImpl extends TestHoldServiceMockImpl {
         expected.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         expected.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());
-        HoldInfo actual = getHoldService().createHold(expected.getPersonId(), expected.getIssueId(), expected.getTypeKey(), expected,
+        AppliedHoldInfo actual = getHoldService().createAppliedHold(expected.getPersonId(), expected.getHoldIssueId(), expected.getTypeKey(), expected,
                 callContext);
         assertNotNull(actual.getId());
 
@@ -102,31 +102,31 @@ public class TestHoldServiceJpaPersistenceImpl extends TestHoldServiceMockImpl {
         qbcBuilder.setPredicates(PredicateFactory.equal("id", actual.getId()),
                 PredicateFactory.equal("attributes[attribute.key1]", "attribute value1"));
         QueryByCriteria qbc = qbcBuilder.build();
-        List<HoldInfo> results = getHoldService().searchForHolds(qbc, callContext);
+        List<AppliedHoldInfo> results = getHoldService().searchForAppliedHolds(qbc, callContext);
 
         assertTrue(results.size() == 1);
-        HoldInfo myResult = results.get(0);
+        AppliedHoldInfo myResult = results.get(0);
         assertEquals(actual.getId(), myResult.getId());
         new AttributeTester().check(actual.getAttributes(), myResult.getAttributes());
     }
 
     @Test
-    public void testSearchForHoldIssueIds() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, ReadOnlyException, PermissionDeniedException, OperationFailedException, AlreadyExistsException {
+    public void testSearchForHoldIssueIds() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
         //Create a Hold Issue
-        IssueInfo myIssue = new IssueInfo();
+        HoldIssueInfo myIssue = new HoldIssueInfo();
         myIssue.setName("name of issue");
         myIssue.setDescr(new RichTextHelper().fromPlain("description of issue"));
         myIssue.setOrganizationId("org1");
         myIssue.setTypeKey(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY);
         myIssue.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(myIssue.getAttributes());
-        IssueInfo actualIssue = getHoldService().createIssue(myIssue.getTypeKey(), myIssue, callContext);
+        HoldIssueInfo actualIssue = getHoldService().createHoldIssue(myIssue.getTypeKey(), myIssue, callContext);
         assertNotNull(actualIssue.getId());
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.equal("id", actualIssue.getId()));
         QueryByCriteria qbc = qbcBuilder.build();
-        List<String> results = getHoldService().searchForIssueIds(qbc, callContext);
+        List<String> results = getHoldService().searchForHoldIssueIds(qbc, callContext);
 
         assertTrue(results.size() == 1);
         String myResult = results.get(0);
@@ -134,25 +134,25 @@ public class TestHoldServiceJpaPersistenceImpl extends TestHoldServiceMockImpl {
     }
 
     @Test
-    public void testSearchForHoldIssues() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, ReadOnlyException, PermissionDeniedException, OperationFailedException, AlreadyExistsException {
+    public void testSearchForHoldIssues() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
         //Create a Hold Issue
-        IssueInfo myIssue = new IssueInfo();
+        HoldIssueInfo myIssue = new HoldIssueInfo();
         myIssue.setName("name of issue");
         myIssue.setDescr(new RichTextHelper().fromPlain("description of issue"));
         myIssue.setOrganizationId("org1");
         myIssue.setTypeKey(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY);
         myIssue.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(myIssue.getAttributes());
-        IssueInfo actualIssue = getHoldService().createIssue(myIssue.getTypeKey(), myIssue, callContext);
+        HoldIssueInfo actualIssue = getHoldService().createHoldIssue(myIssue.getTypeKey(), myIssue, callContext);
         assertNotNull(actualIssue.getId());
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.equal("id", actualIssue.getId()));
         QueryByCriteria qbc = qbcBuilder.build();
-        List<IssueInfo> results = getHoldService().searchForIssues(qbc, callContext);
+        List<HoldIssueInfo> results = getHoldService().searchForHoldIssues(qbc, callContext);
 
         assertTrue(results.size() == 1);
-        IssueInfo myResult = results.get(0);
+        HoldIssueInfo myResult = results.get(0);
         assertEquals(actualIssue.getId(), myResult.getId());
         new AttributeTester().check(actualIssue.getAttributes(), myResult.getAttributes());
     }
