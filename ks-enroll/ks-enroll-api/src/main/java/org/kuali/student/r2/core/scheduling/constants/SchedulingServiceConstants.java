@@ -57,7 +57,7 @@ public class SchedulingServiceConstants {
     public static final String REF_OBJECT_URI_SCHEDULE_RESP_ITEM = NAMESPACE + "/" + ScheduleRespItemInfo.class.getSimpleName();
 
     // Schedule request types
-    public static final String SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE = "kuali.scheduling.schedule.request.type.request";
+    public static final String SCHEDULE_REQUEST_TYPE = "kuali.scheduling.schedule.request.type";
 
     // Schedule request states
     public static final String SCHEDULE_REQUEST_STATE_LIFECYCLE_KEY = "kuali.scheduling.schedule.request.lifecycle";
