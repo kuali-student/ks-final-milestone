@@ -1,16 +1,23 @@
-package org.kuali.student.enrollment.class1.lrc.service.impl;
+package org.kuali.student.lum.lrc.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.jws.WebParam;
+import javax.jws.WebService;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.lum.lrc.dao.LrcDao;
 import org.kuali.student.lum.lrc.dao.ResultScaleDao;
 import org.kuali.student.lum.lrc.dao.ResultValueDao;
 import org.kuali.student.lum.lrc.dao.ResultValuesGroupDao;
 import org.kuali.student.lum.lrc.model.ResultScaleEntity;
 import org.kuali.student.lum.lrc.model.ResultValueEntity;
 import org.kuali.student.lum.lrc.model.ResultValuesGroupEntity;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -33,9 +40,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class LRCServiceImpl implements LRCService {
 
     private ResultValuesGroupDao resultValuesGroupDao;
+    private LrcDao lrcDao;
     private ResultValueDao resultValueDao;
     private ResultScaleDao resultScaleDao;
     private LrcServiceBusinessLogic lrcServiceBusinessLogic;
+    private SearchManager searchManager;
 
     public LrcServiceBusinessLogic getLrcServiceBusinessLogic() {
         return lrcServiceBusinessLogic;
@@ -72,8 +81,8 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultScaleInfo createResultScale(String typeKey,
-            ResultScaleInfo info,
-            ContextInfo contextInfo)
+                                             ResultScaleInfo info,
+                                             ContextInfo contextInfo)
             throws AlreadyExistsException,
             DataValidationErrorException,
             InvalidParameterException,
@@ -94,9 +103,9 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValueInfo createResultValue(String resultScaleKey,
-            String typeKey,
-            ResultValueInfo info,
-            ContextInfo contextInfo)
+                                             String typeKey,
+                                             ResultValueInfo info,
+                                             ContextInfo contextInfo)
             throws AlreadyExistsException,
             DataValidationErrorException,
             DoesNotExistException,
@@ -119,9 +128,9 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValuesGroupInfo createResultValuesGroup(String resultScaleKey,
-            String typeKey,
-            ResultValuesGroupInfo info,
-            ContextInfo contextInfo)
+                                                         String typeKey,
+                                                         ResultValuesGroupInfo info,
+                                                         ContextInfo contextInfo)
             throws AlreadyExistsException,
             DataValidationErrorException,
             InvalidParameterException,
@@ -143,7 +152,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteResultScale(String key,
-            ContextInfo contextInfo)
+                                        ContextInfo contextInfo)
             throws DoesNotExistException,
             DependentObjectsExistException,
             InvalidParameterException,
@@ -171,7 +180,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteResultValue(String key,
-            ContextInfo contextInfo)
+                                        ContextInfo contextInfo)
             throws DoesNotExistException,
             DependentObjectsExistException,
             InvalidParameterException,
@@ -195,7 +204,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteResultValuesGroup(String key,
-            ContextInfo contextInfo)
+                                              ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -214,8 +223,8 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValuesGroupInfo getCreateFixedCreditResultValuesGroup(String creditValue,
-            String scaleKey,
-            ContextInfo context)
+                                                                       String scaleKey,
+                                                                       ContextInfo context)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -226,10 +235,10 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValuesGroupInfo getCreateRangeCreditResultValuesGroup(String creditValueMin,
-            String creditValueMax,
-            String creditValueIncrement,
-            String scaleKey,
-            ContextInfo context)
+                                                                       String creditValueMax,
+                                                                       String creditValueIncrement,
+                                                                       String scaleKey,
+                                                                       ContextInfo context)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -244,8 +253,8 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValuesGroupInfo getCreateMultipleCreditResultValuesGroup(List<String> creditValues,
-            String scaleKey,
-            ContextInfo context)
+                                                                          String scaleKey,
+                                                                          ContextInfo context)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -256,8 +265,8 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValueInfo getCreateResultValueForScale(String resultValue,
-            String scaleKey,
-            ContextInfo context)
+                                                        String scaleKey,
+                                                        ContextInfo context)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -268,7 +277,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public ResultScaleInfo getResultScale(String key,
-            ContextInfo contextInfo)
+                                          ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -284,7 +293,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<String> getResultScaleKeysByType(String resultScaleTypeKey,
-            ContextInfo contextInfo)
+                                                 ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -296,7 +305,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<ResultScaleInfo> getResultScalesByKeys(List<String> keys,
-            ContextInfo contextInfo)
+                                                       ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -314,7 +323,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public ResultValueInfo getResultValue(String key,
-            ContextInfo contextInfo)
+                                          ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -330,8 +339,8 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public ResultValueInfo getResultValueForScaleAndValue(String resultScaleKey,
-            String value,
-            ContextInfo contextInfo)
+                                                          String value,
+                                                          ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -348,7 +357,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<String> getResultValueKeysByType(String resultValueTypeKey,
-            ContextInfo contextInfo)
+                                                 ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -360,7 +369,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<ResultValueInfo> getResultValuesByKeys(List<String> keys,
-            ContextInfo contextInfo)
+                                                       ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -378,7 +387,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<ResultValueInfo> getResultValuesForResultValuesGroup(String resultValuesGroupKey,
-            ContextInfo contextInfo)
+                                                                     ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -392,7 +401,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<ResultValueInfo> getResultValuesForResultValuesGroups(List<String> resultValuesGroupKeys,
-            ContextInfo contextInfo)
+                                                                      ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -416,7 +425,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<ResultValueInfo> getResultValuesForScale(String resultScaleKey,
-            ContextInfo contextInfo)
+                                                         ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -434,7 +443,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public ResultValuesGroupInfo getResultValuesGroup(String key,
-            ContextInfo contextInfo)
+                                                      ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -450,7 +459,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<String> getResultValuesGroupKeysByType(String resultValuesGroupTypeKey,
-            ContextInfo contextInfo)
+                                                       ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -462,7 +471,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<ResultValuesGroupInfo> getResultValuesGroupsByKeys(List<String> keys,
-            ContextInfo contextInfo)
+                                                                   ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -480,7 +489,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScale(String resultScaleKey,
-            ContextInfo contextInfo)
+                                                                          ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -498,7 +507,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScaleType(String resultScaleTypeKey,
-            ContextInfo contextInfo)
+                                                                              ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -516,7 +525,7 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<ResultValuesGroupInfo> getResultValuesGroupsByResultValue(String resultValueKey,
-            ContextInfo contextInfo)
+                                                                          ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -532,8 +541,8 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultScaleInfo updateResultScale(String key,
-            ResultScaleInfo info,
-            ContextInfo contextInfo)
+                                             ResultScaleInfo info,
+                                             ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -558,8 +567,8 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValueInfo updateResultValue(String key,
-            ResultValueInfo info,
-            ContextInfo contextInfo)
+                                             ResultValueInfo info,
+                                             ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -584,8 +593,8 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultValuesGroupInfo updateResultValuesGroup(String key,
-            ResultValuesGroupInfo info,
-            ContextInfo contextInfo)
+                                                         ResultValuesGroupInfo info,
+                                                         ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -609,8 +618,8 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public List<ValidationResultInfo> validateResultScale(String validationType,
-            ResultScaleInfo gradeScaleInfo,
-            ContextInfo contextInfo)
+                                                          ResultScaleInfo gradeScaleInfo,
+                                                          ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -620,8 +629,8 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public List<ValidationResultInfo> validateResultValue(String validationType,
-            ResultValueInfo resultValueInfo,
-            ContextInfo contextInfo)
+                                                          ResultValueInfo resultValueInfo,
+                                                          ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -631,12 +640,102 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public List<ValidationResultInfo> validateResultValuesGroup(String validationType,
-            ResultValuesGroupInfo gradeValuesGroupInfo,
-            ContextInfo contextInfo)
+                                                                ResultValuesGroupInfo gradeValuesGroupInfo,
+                                                                ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
         throw new OperationFailedException("Should have been implemented in the Validation Decorator");
+    }
+
+    /**
+     * Check for missing parameter and throw localized exception if missing
+     *
+     * @param param
+     * @param paramName name
+     * @throws MissingParameterException
+     */
+    private void checkForMissingParameter(Object param, String paramName)
+            throws MissingParameterException {
+        if (param == null) {
+            throw new MissingParameterException(paramName + " can not be null");
+        }
+    }
+
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(
+            String searchCriteriaTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+
+    }
+
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchCriteriaTypes();
+    }
+
+    @Override
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchResultType(searchResultTypeKey);
+    }
+
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchResultTypes();
+    }
+
+    @Override
+    public SearchTypeInfo getSearchType(String searchTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchTypeKey, "searchTypeKey");
+        return searchManager.getSearchType(searchTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchTypes();
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(
+            String searchCriteriaTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByResult(
+            String searchResultTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+    }
+
+    public SearchManager getSearchManager() {
+        return searchManager;
+    }
+
+    public void setSearchManager(SearchManager searchManager) {
+        this.searchManager = searchManager;
+    }
+
+    @Override
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        checkForMissingParameter(searchRequest, "searchRequest");
+        return searchManager.search(searchRequest, lrcDao);
     }
 }

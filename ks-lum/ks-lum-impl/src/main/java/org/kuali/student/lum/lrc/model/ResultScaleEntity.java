@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.lrc.model;
+package org.kuali.student.lum.lrc.model;
 
 import java.util.ArrayList;
 import org.kuali.student.r1.common.entity.KSEntityConstants;

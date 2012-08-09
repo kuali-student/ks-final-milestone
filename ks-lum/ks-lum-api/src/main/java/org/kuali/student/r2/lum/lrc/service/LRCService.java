@@ -53,7 +53,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
  */
 @WebService(name = "LrcService", targetNamespace = LrcServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LRCService extends SearchService, DictionaryService, LrcServiceBusinessLogic {
+public interface LRCService extends SearchService, LrcServiceBusinessLogic {
 
     /**
      * Retrieves existing result values group by an identifier.

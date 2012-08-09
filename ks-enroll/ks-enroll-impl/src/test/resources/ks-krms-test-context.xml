@@ -494,15 +494,15 @@
     	<property name="resultSourceDao" ref="resultSourceDao"/>
     </bean>
     
-    <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
+    <bean id="resultValuesGroupDao" class="org.kuali.student.lum.lrc.dao.ResultValuesGroupDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="resultValueDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao">
+    <bean id="resultValueDao" class="org.kuali.student.lum.lrc.dao.ResultValueDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="resultScaleDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao">
+    <bean id="resultScaleDao" class="org.kuali.student.lum.lrc.dao.ResultScaleDao">
         <property name="em" ref="entityManager"/>
     </bean>
     

@@ -125,8 +125,8 @@
         <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceRichTextEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueAttributeEntity</class>
+        <class>org.kuali.student.lum.lrc.model.ResultValuesGroupEntity</class>
+        <class>org.kuali.student.lum.lrc.model.ResultValueAttributeEntity</class>
         <class>org.kuali.student.r2.core.population.model.PopulationEntity</class>
         <class>org.kuali.student.r2.core.population.model.PopulationAttributeEntity</class>
         <class>org.kuali.student.r2.core.population.model.PopulationRuleEntity</class>

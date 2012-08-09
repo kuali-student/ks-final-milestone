@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.lrc.model;
+package org.kuali.student.lum.lrc.model;
 
 import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;

@@ -1,9 +1,9 @@
-package org.kuali.student.enrollment.class1.lrc.dao;
+package org.kuali.student.lum.lrc.dao;
 
 import java.util.List;
 import javax.persistence.Query;
-import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
-import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.lum.lrc.model.ResultValuesGroupEntity;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 public class ResultValuesGroupDao extends GenericEntityDao<ResultValuesGroupEntity> {
 

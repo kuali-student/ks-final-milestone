@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.lrc.model;
+package org.kuali.student.lum.lrc.model;
 /**
  * Copyright 2010 The Kuali Foundation Licensed under the Educational Community
  * License, Version 2.0 (the "License"); you may not use this file except in
