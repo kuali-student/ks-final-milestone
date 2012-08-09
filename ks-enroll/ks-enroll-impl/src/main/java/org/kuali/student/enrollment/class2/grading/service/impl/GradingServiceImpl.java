@@ -34,7 +34,7 @@ import java.util.*;
 import org.kuali.student.enrollment.roster.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.roster.dto.LprRosterInfo;
 import org.kuali.student.enrollment.roster.service.LprRosterService;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 
 public class GradingServiceImpl implements GradingService {
     private LprService lprService;

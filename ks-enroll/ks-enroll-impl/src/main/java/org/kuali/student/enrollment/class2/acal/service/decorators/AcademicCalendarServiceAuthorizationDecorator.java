@@ -29,7 +29,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
 import org.kuali.student.r2.common.state.dto.StateInfo;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 
 public class AcademicCalendarServiceAuthorizationDecorator 
     extends AcademicCalendarServiceDecorator 
