@@ -34,11 +34,6 @@ public class CourseOfferingCreateWrapper implements Serializable{
     private List<ExistingCourseOffering> existingOfferingsInCurrentTerm;
     private List<ExistingCourseOffering> existingTermOfferings;
 
-    private String createErrorMessage;
-
-    private String invalidCatalogCourseCodeError;
-    private String invalidTargetTermError;
-
     private boolean excludeCancelledActivityOfferings;
     private boolean excludeSchedulingInformation;
     private boolean excludeInstructorInformation;
@@ -172,29 +167,6 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     public void setFormatOfferingList(List<FormatOfferingInfo> formatOfferingList) {
         this.formatOfferingList = formatOfferingList;
-    }
-
-    public String getCreateErrorMessage() {
-        return createErrorMessage;
-    }
-
-    public void setCreateErrorMessage(String createErrorMessage) {
-        this.createErrorMessage = createErrorMessage;
-    }
-    public String getInvalidCatalogCourseCodeError() {
-        return invalidCatalogCourseCodeError;
-    }
-
-    public void setInvalidCatalogCourseCodeError(String invalidCatalogCourseCodeError) {
-        this.invalidCatalogCourseCodeError = invalidCatalogCourseCodeError;
-    }
-
-    public String getInvalidTargetTermError() {
-        return invalidTargetTermError;
-    }
-
-    public void setInvalidTargetTermError(String invalidTargetTermError) {
-        this.invalidTargetTermError = invalidTargetTermError;
     }
 
     public boolean isExcludeCancelledActivityOfferings() {

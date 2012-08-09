@@ -71,14 +71,13 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         TermInfo term = getTerm(termCode);
         coWrapper.setTerm(term);
 
-        CourseInfo course = getCourseInfo(courseCode);
-        coWrapper.setCourse(course);
+        List<CourseInfo> matchingCourses = retrieveMatchingCourses(courseCode);
 
-        // Added for Jira 1598 and 1648 Tanveer 07/10/2012
-        coWrapper.setInvalidCatalogCourseCodeError("");
-        coWrapper.setInvalidTargetTermError("");
 
-        if (course != null && term != null) {
+        if (matchingCourses.size() == 1 && term != null) {
+            CourseInfo course = matchingCourses.get(0);
+            coWrapper.setCourse(course);
+
             coWrapper.setCourse(course);
             coWrapper.setCreditCount(ViewHelperUtil.trimTrailing0(course.getCreditOptions().get(0).getResultValues().get(0)));
             coWrapper.setShowAllSections(true);
@@ -114,16 +113,17 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         } else {
 
-            if (course == null && term == null){
+            if (matchingCourses.size() > 1){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Multiple matches found for the course code");
+                return null;
+            }
+            else if (matchingCourses.isEmpty() && term == null){
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Both Catalog Course Code and Target Term are invalid");
-                coWrapper.setInvalidTargetTermError("Target Term, Catalog Course Code invalid"); // Temp error message, will be removed once the above error works
             } else {
                 if (term == null) {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Target Term");
-                    coWrapper.setInvalidTargetTermError("Invalid Target Term"); // Temp error message, will be removed once the above error works
-                } else if (course == null) {
+                } else if (matchingCourses.isEmpty()) {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Catalog Course Code");
-                    coWrapper.setInvalidCatalogCourseCodeError("Invalid Catalog Course Code"); // Temp error message, will be removed once the above error works
                 }
             }
             coWrapper.clear();
@@ -280,7 +280,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return courseOfferingService;
     }
 
-    private CourseInfo getCourseInfo(String courseName) {
+    private List<CourseInfo> retrieveMatchingCourses(String courseName) {
 
         CourseInfo        returnCourseInfo = null;
         String            courseId         = null;
@@ -316,17 +316,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             throw new RuntimeException(e);
         }
 
-        if (courseInfoList.size() > 1){
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Multiple matches found for the course code");
-            return null;
-        }
-
-        if (courseInfoList.isEmpty()){
-           GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "No match found for the course code");
-            return null;
-        }
-
-        return courseInfoList.get(0);
+        return courseInfoList;
 
     }
 
