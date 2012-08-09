@@ -459,7 +459,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
         //Disassemble the CluResults (grading and credit options)
         //Special code to take audit from attributes and put into options
-		if(course.getAttributes().containsKey(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)&&"true".equals(course.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
+        String courseResultCompAttrAudit = course.getAttributeValue(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT);
+		if(courseResultCompAttrAudit!=null&&"true".equals(courseResultCompAttrAudit)){
                 	if(!course.getGradingOptions().contains(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT)){
                     	course.getGradingOptions().add(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
                 	}
@@ -717,12 +718,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
                 results.add(cluResultNode);
             } else if (NodeOperation.UPDATE == operation
-                    && currentResults.containsKey(creditOption.getKey())) {
+                    && currentResults.containsKey(creditOption.getId())) {
                 //Get the list from the map and remove an entry, if the list is empty then remove it from the map
-                List<CluResultInfo> cluResults = currentResults.get(creditOption.getKey());
+                List<CluResultInfo> cluResults = currentResults.get(creditOption.getId());
                 cluResults.remove(cluResults.size()-1);
                 if(cluResults.isEmpty()){
-                    currentResults.remove(creditOption.getKey());
+                    currentResults.remove(creditOption.getId());
                 }
             }
         }
