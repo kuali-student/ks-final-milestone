@@ -69,7 +69,7 @@ public class R1CourseServiceHelper {
             course = courseService.getCourse(courseId, null);
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("The course does not exist. course: " + courseId, e);
-        } catch (org.kuali.student.common.exceptions.OperationFailedException ex) {
+        } catch (org.kuali.student.r2.common.exceptions.OperationFailedException ex) {
             throw new OperationFailedException("Bad data. Couldn't create course offering with id: " + courseId, ex);
         } catch (Exception e) {
             throw new OperationFailedException("Bad data. Couldn't create course offering with id: " + courseId, e);
