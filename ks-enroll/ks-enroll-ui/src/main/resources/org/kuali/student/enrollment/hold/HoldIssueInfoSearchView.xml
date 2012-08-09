@@ -155,7 +155,7 @@
             <list>
                 <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
                 <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="Uif-ActionLink" p:methodToCall="delete" p:hidden="@{#line.state eq 'inactive'}" p:actionScript="confirmDeletion('Are you sure you want to delete this hold issue?')" p:actionLabel="Delete" />
+                <bean parent="Uif-ActionLink" p:methodToCall="delete" p:hidden="@{#line.state eq 'inactive'}" p:preSubmitCall="confirmDeletionResponse('Are you sure you want to delete this hold issue?')" p:actionLabel="Delete" />
             </list>
         </property>
     </bean>

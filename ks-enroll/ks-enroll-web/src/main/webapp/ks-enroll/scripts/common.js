@@ -22,8 +22,14 @@ function confirmDeletion(msg){
     var response = confirm(msg);
 
     if( response == true ){
-      submitForm();
+        submitForm();
     }
+}
+
+function confirmDeletionResponse(msg){
+    var response = confirm(msg);
+
+    return response;
 }
 
 function stepBrowserBack(){
