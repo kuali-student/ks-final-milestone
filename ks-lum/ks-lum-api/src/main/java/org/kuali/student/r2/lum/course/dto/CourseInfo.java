@@ -45,45 +45,45 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 @XmlType(name = "CourseInfo", propOrder = {"id",
-    "typeKey",
-    "stateKey",
-    "name",
-    "descr",
-    "code",
-    "courseNumberSuffix",
-    "level",
-    "courseTitle",
-    "transcriptTitle",
-    "formats",
-    "termsOffered",
-    "duration",
-    "joints",
-    "crossListings",
-    "variations",
-    "subjectArea",
-    "campusLocations",
-    "outOfClassHours",
-    "primaryInstructor",
-    "instructors",
-    "unitsDeployment",
-    "feeJustification",
-    "unitsContentOwner",
-    "fees",
-    "revenues",
-    "expenditure",
-    "courseSpecificLOs",
-    "gradingOptions",
-    "creditOptions",
-    "specialTopicsCourse",
-    "pilotCourse",
-    "startTerm",
-    "endTerm",
-    "effectiveDate",
-    "expirationDate",
-    "versionInfo",
-    "meta",
-    "attributes",
-    "versionInfo"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+        "typeKey",
+        "stateKey",
+        "name",
+        "descr",
+        "code",
+        "courseNumberSuffix",
+        "level",
+        "courseTitle",
+        "transcriptTitle",
+        "formats",
+        "termsOffered",
+        "duration",
+        "joints",
+        "crossListings",
+        "variations",
+        "subjectArea",
+        "campusLocations",
+        "outOfClassHours",
+        "primaryInstructor",
+        "instructors",
+        "unitsDeployment",
+        "feeJustification",
+        "unitsContentOwner",
+        "fees",
+        "revenues",
+        "expenditure",
+        "courseSpecificLOs",
+        "gradingOptions",
+        "creditOptions",
+        "specialTopicsCourse",
+        "pilotCourse",
+        "startTerm",
+        "endTerm",
+        "effectiveDate",
+        "expirationDate",
+        "versionInfo",
+        "meta",
+        "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
@@ -136,7 +136,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     @XmlElement
     private List<String> gradingOptions;
     @XmlElement
-    private List<String> creditOptions;
+    private List<ResultValuesGroupInfo> creditOptions;
     @XmlElement
     private boolean specialTopicsCourse;
     @XmlElement
@@ -154,6 +154,10 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
+
+    public CourseInfo() {
+        super();
+    }
 
     public CourseInfo(Course courseInfo) {
         super(courseInfo);
@@ -238,6 +242,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
             this.revenues = courseRevList;
 
             this.expenditure = new CourseExpenditureInfo(courseInfo.getExpenditure());
+            this.expenditure.setAffiliatedOrgs(new ArrayList<AffiliatedOrgInfo>(0));
 
             List<LoDisplayInfo> courseLos = new ArrayList<LoDisplayInfo>();
 
@@ -250,7 +255,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
             this.gradingOptions = new ArrayList<String>(courseInfo.getGradingOptions());
 
-            this.creditOptions = new ArrayList<String>(courseInfo.getCreditOptions());
+            this.creditOptions = new ArrayList<ResultValuesGroupInfo>(courseInfo.getCreditOptions());
 
             this.specialTopicsCourse = courseInfo.isSpecialTopicsCourse();
 
@@ -540,19 +545,19 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     }
 
     @Override
-    public List<String> getCreditOptions() {
+    public List<ResultValuesGroupInfo> getCreditOptions() {
         if (creditOptions == null) {
-            creditOptions = new ArrayList<String>(0);
+            creditOptions = new ArrayList<ResultValuesGroupInfo>(0);
         }
         return creditOptions;
     }
 
-    public void setCreditOptions(List<String> creditOptions) {
+    public void setCreditOptions(List<ResultValuesGroupInfo> creditOptions) {
         this.creditOptions = creditOptions;
     }
 
     @Override
-    public Boolean isSpecialTopicsCourse() {
+    public boolean isSpecialTopicsCourse() {
         return specialTopicsCourse;
     }
 
@@ -561,7 +566,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     }
 
     @Override
-    public Boolean isPilotCourse() {
+    public boolean isPilotCourse() {
         return pilotCourse;
     }
 
