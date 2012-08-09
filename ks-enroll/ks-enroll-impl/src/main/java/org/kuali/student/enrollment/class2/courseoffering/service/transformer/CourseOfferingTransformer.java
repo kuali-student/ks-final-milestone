@@ -13,6 +13,7 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -363,8 +364,35 @@ public class CourseOfferingTransformer {
         }
 
         courseOfferingInfo.setDescr(courseInfo.getDescr());
-//        courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
+        courseOfferingInfo.setInstructors(copyInstructors(courseInfo.getInstructors()));
     }
+
+    public List<OfferingInstructorInfo> copyInstructors(List<CluInstructorInfo> cluInstructors) {
+        if (cluInstructors == null) {
+            return null;
+        }
+        List<OfferingInstructorInfo> coInstructors = new ArrayList<OfferingInstructorInfo>(cluInstructors.size());
+        for (CluInstructorInfo cluInstructor : cluInstructors) {
+            coInstructors.add(copyInstructor(cluInstructor));
+        }
+        return coInstructors;
+    }
+
+    public OfferingInstructorInfo copyInstructor(CluInstructorInfo cluInstructor) {
+        if (cluInstructor == null) {
+            return null;
+        }
+        OfferingInstructorInfo coInstructor = new OfferingInstructorInfo();
+        List<AttributeInfo> attrs = new ArrayList<AttributeInfo>();
+        for (AttributeInfo attr : cluInstructor.getAttributes()) {
+            attrs.add(new AttributeInfo(attr));
+        }
+        coInstructor.setAttributes(attrs);
+        coInstructor.setPersonId(cluInstructor.getPersonId());
+
+        return coInstructor;
+    }
+
 
     public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LprService lprService) {
         List<LprInfo> lprs = null;

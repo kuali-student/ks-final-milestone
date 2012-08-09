@@ -137,7 +137,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
         // TODO: Not hard code "Active" but use a constant ... except these are R1 States
         if (optionKeys.contains(CourseOfferingSetServiceConstants.STILL_OFFERABLE_OPTION_KEY)) {
-            if (!targetCourse.getStateKey().equals(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)) {
+            if (!targetCourse.getState().equals("Active")) {
                 throw new DataValidationErrorException("skipped because canonical course is no longer active");
             }
         }

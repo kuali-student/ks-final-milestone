@@ -127,7 +127,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-//@WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
+//@WebService(endpointInterface = "org.kuali.student.r2.lum.clu.service.CluService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 //@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CluServiceImpl implements CluService {
 

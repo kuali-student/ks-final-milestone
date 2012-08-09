@@ -13,9 +13,9 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 
 public class CredentialProgramTypeKeyValues extends KeyValuesBase implements Serializable{

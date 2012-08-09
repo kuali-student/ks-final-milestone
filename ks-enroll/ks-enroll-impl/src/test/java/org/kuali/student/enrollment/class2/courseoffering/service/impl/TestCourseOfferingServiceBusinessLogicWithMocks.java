@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import java.util.Arrays;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;

@@ -6,6 +6,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -66,7 +67,7 @@ public class R1CourseServiceHelper {
     public CourseInfo getCourse(String courseId) throws DoesNotExistException, OperationFailedException {
         CourseInfo course = null;
         try {
-            course = courseService.getCourse(courseId, null);
+            course = courseService.getCourse(courseId, ContextUtils.getContextInfo());
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("The course does not exist. course: " + courseId, e);
         } catch (org.kuali.student.r2.common.exceptions.OperationFailedException ex) {
@@ -106,7 +107,7 @@ public class R1CourseServiceHelper {
         // all versions of the course
         List<VersionDisplayInfo> versions;
         try {
-            versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, versionIndCourseId, null);
+            versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, versionIndCourseId);
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("The course does not exist. course: " + versionIndCourseId, e);
         } catch (Exception e) {

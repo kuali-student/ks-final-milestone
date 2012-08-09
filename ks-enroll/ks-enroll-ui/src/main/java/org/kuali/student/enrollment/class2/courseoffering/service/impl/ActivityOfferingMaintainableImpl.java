@@ -30,15 +30,15 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
-import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.common.state.dto.StateInfo;
+import org.kuali.student.r2.common.state.service.StateService;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.type.service.TypeService;
 

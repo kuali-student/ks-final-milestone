@@ -85,7 +85,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 	protected AtpService atpService;
 
 	@Resource
-	protected org.kuali.student.r2.lum.course.service.CourseService canonicalCourseService;
+	protected org.kuali.student.lum.course.service.CourseService canonicalCourseService;
 	
 	@Resource
 	protected CourseOfferingServiceTestDataLoader dataLoader;
@@ -189,7 +189,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 	}
 	
 	@Test
-	public void testGenerateAndDeleteRegistrationGroups() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
+	public void testGenerateAndDeleteRegistrationGroups() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
 		
 		List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsForCourseOffering("CO-1", callContext);
 		
@@ -369,11 +369,11 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException,
-			org.kuali.student.r2.common.exceptions.DoesNotExistException,
-			org.kuali.student.r2.common.exceptions.InvalidParameterException,
-			org.kuali.student.r2.common.exceptions.MissingParameterException,
-			org.kuali.student.r2.common.exceptions.OperationFailedException,
-			org.kuali.student.r2.common.exceptions.PermissionDeniedException {
+			org.kuali.student.common.exceptions.DoesNotExistException,
+			org.kuali.student.common.exceptions.InvalidParameterException,
+			org.kuali.student.common.exceptions.MissingParameterException,
+			org.kuali.student.common.exceptions.OperationFailedException,
+			org.kuali.student.common.exceptions.PermissionDeniedException {
 
 		List<CourseOfferingInfo> offerings = coService
 				.getCourseOfferingsByCourse("CLU-1", callContext);
@@ -622,11 +622,11 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException,
-			org.kuali.student.r2.common.exceptions.DoesNotExistException,
-			org.kuali.student.r2.common.exceptions.InvalidParameterException,
-			org.kuali.student.r2.common.exceptions.MissingParameterException,
-			org.kuali.student.r2.common.exceptions.OperationFailedException,
-			org.kuali.student.r2.common.exceptions.PermissionDeniedException {
+			org.kuali.student.common.exceptions.DoesNotExistException,
+			org.kuali.student.common.exceptions.InvalidParameterException,
+			org.kuali.student.common.exceptions.MissingParameterException,
+			org.kuali.student.common.exceptions.OperationFailedException,
+			org.kuali.student.common.exceptions.PermissionDeniedException {
 
 		CourseInfo canonicalCourse = canonicalCourseService.getCourse("CLU-1");
 

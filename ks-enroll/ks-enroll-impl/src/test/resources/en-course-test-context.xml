@@ -171,7 +171,7 @@
 	</bean>
 
 	<bean id="luClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.clu.service.CluService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />
 	</bean>
 

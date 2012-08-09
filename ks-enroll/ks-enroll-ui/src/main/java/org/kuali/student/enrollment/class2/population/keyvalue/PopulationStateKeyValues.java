@@ -28,8 +28,8 @@ import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.common.constants.StateServiceConstants;
-import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.common.state.dto.StateInfo;
+import org.kuali.student.r2.common.state.service.StateService;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;

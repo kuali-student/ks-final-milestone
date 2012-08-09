@@ -4,7 +4,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
 import java.util.ArrayList;
 import java.util.List;

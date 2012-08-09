@@ -17,11 +17,15 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.common.search.dto.*;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.r2.core.search.infc.SearchResultCell;
+import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.kuali.student.r2.core.search.infc.SearchRequest;
+import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 /**
  * @deprecated This class is leftover from Core Slice. Delete when no longer needed or un deprecate if needed.
@@ -30,7 +34,7 @@ import org.kuali.student.lum.lu.service.LuServiceConstants;
 public class CourseOfferingRule extends MaintenanceDocumentRuleBase {
      private static final String COURSE_CODE_PROPERTY_PATH = "document.newMaintainableObject.dataObject.courseOfferingCode";
 
-     private transient LuService luService;
+     private transient CluService luService;
      private transient IdentityService identityService;
 
     /**
@@ -91,10 +95,10 @@ public class CourseOfferingRule extends MaintenanceDocumentRuleBase {
     }
 */
 
-    //Note: here I am using r1 LuService implementation!!!
-    protected LuService getLuService() {
+    //Note: here I am using r1 CluService implementation!!!
+    protected CluService getCluService() {
         if(luService == null) {
-            luService = (LuService)GlobalResourceLoader.getService(new QName(LuServiceConstants.LU_NAMESPACE,"LuService"));
+            luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.LU_NAMESPACE,"CluService"));
         }
         return this.luService;
     }
@@ -121,7 +125,7 @@ public class CourseOfferingRule extends MaintenanceDocumentRuleBase {
         }
     }
     /*
-     * Use LuService for a general search to retrieve the courseId based on a specified course code in the search criteria
+     * Use CluService for a general search to retrieve the courseId based on a specified course code in the search criteria
      */
     private List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List <String> courseIds = new ArrayList<String>();
@@ -140,7 +144,7 @@ public class CourseOfferingRule extends MaintenanceDocumentRuleBase {
         searchRequest.setSearchKey("lu.search.mostCurrent.union");
 
         try {
-            SearchResult searchResult = getLuService().search(searchRequest);
+            SearchResult searchResult = getCluService().search(searchRequest);
 
             if (searchResult.getRows().size() > 0) {
                 for(SearchResultRow srrow : searchResult.getRows()){

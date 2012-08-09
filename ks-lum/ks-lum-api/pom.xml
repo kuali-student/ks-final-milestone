@@ -42,7 +42,7 @@
                         <id>lu-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.lum.lu.service.LuService</className>
+                            <className>org.kuali.student.r2.lum.clu.service.CluService</className>
                             <serviceName>LuService</serviceName>
                             <targetNameSpace>http://student.kuali.org/wsdl/lu</targetNameSpace>
                         </configuration>

@@ -22,6 +22,7 @@ import org.kuali.student.r2.lum.clu.dto.FeeInfo;
  *
  * @author nwright
  */
+@Deprecated
 public class R1ToR2CopyHelper {
 
 /*    public ExpenditureInfo copyCourseExpenditure(org.kuali.student.lum.course.dto.CourseExpenditureInfo r1) {
@@ -29,7 +30,7 @@ public class R1ToR2CopyHelper {
             return null;
         }
         ExpenditureInfo r2 = new ExpenditureInfo();
-        // TODO: worry about using the toString method for the id
+        // TODO: worry about using the toString method for the id 
         r2.setId(r1.toString());
         r2.setAffiliatedOrgs(copyAffiliatedOrgList(r1.getAffiliatedOrgs()));
         r2.setAttributes(copyAttributes(r1.getAttributes()));
