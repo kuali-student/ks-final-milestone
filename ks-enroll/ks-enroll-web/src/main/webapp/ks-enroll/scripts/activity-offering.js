@@ -61,7 +61,7 @@ function calculatePercent(jqObject){
             jq(seatsRemaining).css('color', 'black');
         } else {
             seatsRemaining.text(percRemain + "% | " + seatsRemain + " Seats (Max Enrollment = " + maxEnroll.val() + ")" +
-            " - WARNING: Total seats exceeding the total max enrolment quantity!");
+            " - WARNING: Total seats exceeding the total max enrollment quantity by " + (seatsTotal-maxEnroll.val()) + " seats!");
             jq(seatsRemaining).css('color', 'red');
         }
 
