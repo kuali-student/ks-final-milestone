@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.lu.service;
+package org.kuali.student.r2.lum.lu.service.impl;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r2.lum.lu.dao.LuDao;
@@ -84,7 +84,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.lum.lu.service.impl.CluServiceAssembler;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
@@ -92,7 +91,6 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
