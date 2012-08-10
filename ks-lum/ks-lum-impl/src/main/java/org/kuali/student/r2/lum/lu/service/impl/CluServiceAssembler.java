@@ -1,41 +1,8 @@
-/**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
-//
 package org.kuali.student.r2.lum.lu.service.impl;
-
-import org.kuali.student.r2.lum.lu.dao.LuDao;
-import org.kuali.student.r2.common.dto.AmountInfo;
-import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r1.common.entity.Amount;
-import org.kuali.student.r1.common.entity.CurrencyAmount;
-import org.kuali.student.r1.common.entity.TimeAmount;
-import org.kuali.student.r1.common.entity.Version;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.service.impl.BaseAssembler;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
-import org.kuali.student.r1.lum.lu.dto.*;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.service.util.AssemblerHelper;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
-import org.kuali.student.r2.lum.lu.entity.*;
-import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,17 +10,96 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class LuServiceAssembler extends BaseAssembler {
 
-    //public static List<CluLoRelationTypeInfo> toCluLoRelationTypeInfos(
-    //        List<CluLoRelationType> entities) {
-    //    return toGenericTypeInfoList(CluLoRelationTypeInfo.class, entities);
-    //}
+import org.kuali.student.r1.common.entity.Amount;
+import org.kuali.student.r1.common.entity.CurrencyAmount;
+import org.kuali.student.r1.common.entity.TimeAmount;
+import org.kuali.student.r2.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 
-    //public static CluLoRelationTypeInfo toCluLoRelationTypeInfo(
-    //        CluLoRelationType entity) {
-    //    return toGenericTypeInfo(CluLoRelationTypeInfo.class, entity);
-    //}
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
+import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.CluAccountingInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCreditInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.dto.FieldInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
+import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
+
+
+import org.kuali.student.r2.lum.lu.dao.LuDao;
+import org.kuali.student.r2.lum.lu.entity.AffiliatedOrg;
+import org.kuali.student.r2.lum.lu.entity.Clu;
+import org.kuali.student.r2.lum.lu.entity.CluAccounting;
+import org.kuali.student.r2.lum.lu.entity.CluAccreditation;
+import org.kuali.student.r2.lum.lu.entity.CluAdminOrg;
+import org.kuali.student.r2.lum.lu.entity.CluAtpTypeKey;
+import org.kuali.student.r2.lum.lu.entity.CluCampusLocation;
+import org.kuali.student.r2.lum.lu.entity.CluCluRelation;
+import org.kuali.student.r2.lum.lu.entity.CluCredit;
+import org.kuali.student.r2.lum.lu.entity.CluFee;
+import org.kuali.student.r2.lum.lu.entity.CluFeeAmount;
+import org.kuali.student.r2.lum.lu.entity.CluFeeAttribute;
+import org.kuali.student.r2.lum.lu.entity.CluFeeRecord;
+import org.kuali.student.r2.lum.lu.entity.CluFeeRecordAttribute;
+import org.kuali.student.r2.lum.lu.entity.CluIdentifier;
+import org.kuali.student.r2.lum.lu.entity.CluIdentifierAttribute;
+import org.kuali.student.r2.lum.lu.entity.CluInstructor;
+import org.kuali.student.r2.lum.lu.entity.CluLoRelation;
+import org.kuali.student.r2.lum.lu.entity.CluLoRelationType;
+import org.kuali.student.r2.lum.lu.entity.CluPublication;
+import org.kuali.student.r2.lum.lu.entity.CluPublicationVariant;
+import org.kuali.student.r2.lum.lu.entity.CluResult;
+import org.kuali.student.r2.lum.lu.entity.CluResultType;
+import org.kuali.student.r2.lum.lu.entity.CluSet;
+import org.kuali.student.r2.lum.lu.entity.CluSetAttribute;
+import org.kuali.student.r2.lum.lu.entity.CluSetJoinVersionIndClu;
+import org.kuali.student.r2.lum.lu.entity.CluSetType;
+import org.kuali.student.r2.lum.lu.entity.DeliveryMethodType;
+import org.kuali.student.r2.lum.lu.entity.InstructionalFormatType;
+import org.kuali.student.r2.lum.lu.entity.LuCode;
+import org.kuali.student.r2.lum.lu.entity.LuCodeType;
+import org.kuali.student.r2.lum.lu.entity.LuLuRelationType;
+import org.kuali.student.r2.lum.lu.entity.LuPublicationType;
+import org.kuali.student.r2.lum.lu.entity.LuRichText;
+import org.kuali.student.r2.lum.lu.entity.LuType;
+import org.kuali.student.r2.lum.lu.entity.MembershipQuery;
+import org.kuali.student.r2.lum.lu.entity.ResultOption;
+import org.kuali.student.r2.lum.lu.entity.ResultUsageType;
+import org.kuali.student.r2.lum.lu.entity.SearchParameter;
+import org.kuali.student.r2.lum.lu.entity.SearchParameterValue;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.service.impl.BaseAssembler;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.springframework.beans.BeanUtils;
+
+public class CluServiceAssembler extends BaseAssembler {
+
+    public static List<TypeInfo> toCluLoRelationTypeInfos(
+            List<CluLoRelationType> entities) {
+        return toGenericTypeInfoList(CluLoRelationInfo.class, entities);
+    }
+
+    public static TypeInfo toCluLoRelationTypeInfo(
+            CluLoRelationType entity) {
+        return toGenericTypeInfo(CluLoRelationInfo.class, entity);
+    }
 
     public static List<CluCluRelationInfo> toCluCluRelationInfos(
             List<CluCluRelation> entities) {
@@ -75,14 +121,14 @@ public class LuServiceAssembler extends BaseAssembler {
         CluCluRelationInfo dto = new CluCluRelationInfo();
         BeanUtils.copyProperties(entity, dto,
                 new String[]{"cluId", "relatedCluId", "cluRelationRequired",
-                        "attributes", "metaInfo"});
+                        "attributes", "meta"});
 
         dto.setIsCluRelationRequired(entity.isCluRelationRequired());
         dto.setCluId(entity.getClu().getId());
         dto.setRelatedCluId(entity.getRelatedClu().getId());
-        dto.setType(entity.getLuLuRelationType().getId());
+        dto.setTypeKey(entity.getLuLuRelationType().getId());
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         return dto;
 
@@ -107,12 +153,12 @@ public class LuServiceAssembler extends BaseAssembler {
         }
         CluLoRelationInfo dto = new CluLoRelationInfo();
         BeanUtils.copyProperties(entity, dto, new String[]{"cluId",
-                "attributes", "metaInfo", "type"});
+                "attributes", "meta", "type"});
 
         dto.setCluId(entity.getClu().getId());
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-        dto.setType(entity.getType().getId());
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setTypeKey(entity.getType().getId());
 
         return dto;
     }
@@ -145,30 +191,24 @@ public class LuServiceAssembler extends BaseAssembler {
                 "stdDuration", "luCodes", "credit", "offeredAtpTypes", "fee",
                 "accounting", "intensity",
                 "campusLocationList", "accreditationList",
-                "adminOrgs", "attributes", "metaInfo", "versionInfo"});
-        dto.setOfficialIdentifier(toCluIdentifierInfo(entity
-                .getOfficialIdentifier()));
-        dto.setAlternateIdentifiers(toCluIdentifierInfos(entity
-                .getAlternateIdentifiers()));
-
+                "adminOrgs", "attributes", "meta", "versionInfo"});
+        dto.setOfficialIdentifier(toCluIdentifierInfo(entity.getOfficialIdentifier()));
+        dto.setAlternateIdentifiers(toCluIdentifierInfos(entity.getAlternateIdentifiers()));
         dto.setDescr(toRichTextInfo(entity.getDescr()));
 
         // accreditingOrg Deprecated in v 1.0-rc2 Replaced by Primary and
         // Alternate admin orgs
         dto.setAccreditations(toAccreditationInfos(entity.getAccreditations()));
 
-        dto.setAdminOrgs(toCluAdminOrgInfos(entity
-                .getAdminOrgs()));
+        dto.setAdminOrgs(toCluAdminOrgInfos(entity.getAdminOrgs()));
 
-        dto.setPrimaryInstructor(toCluInstructorInfo(entity
-                .getPrimaryInstructor()));
+        dto.setPrimaryInstructor(toCluInstructorInfo(entity.getPrimaryInstructor()));
         dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
         dto.setStdDuration(toTimeAmountInfo(entity.getStdDuration()));
         dto.setLuCodes(toLuCodeInfos(entity.getLuCodes()));
 
         if (entity.getOfferedAtpTypes() != null) {
-            List<String> offeredAtpTypes = new ArrayList<String>(entity
-                    .getOfferedAtpTypes().size());
+            List<String> offeredAtpTypes = new ArrayList<String>(entity.getOfferedAtpTypes().size());
             for (CluAtpTypeKey key : entity.getOfferedAtpTypes()) {
                 offeredAtpTypes.add(key.getAtpTypeKey());
             }
@@ -179,13 +219,12 @@ public class LuServiceAssembler extends BaseAssembler {
         dto.setAccountingInfo(toCluAccountingInfo(entity.getAccounting()));
 
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
-        dto.setType(entity.getLuType().getId());
+        dto.setTypeKey(entity.getLuType().getId());
 
         if (entity.getCampusLocations() != null) {
-            List<String> campusLocations = new ArrayList<String>(entity
-                    .getCampusLocations().size());
+            List<String> campusLocations = new ArrayList<String>(entity.getCampusLocations().size());
             for (CluCampusLocation cluCamp : entity.getCampusLocations()) {
                 campusLocations.add(cluCamp.getCampusLocation());
             }
@@ -199,21 +238,6 @@ public class LuServiceAssembler extends BaseAssembler {
         return dto;
 
     }
-    
-    public static VersionInfo toVersionInfo(Version version) {
-        if(version==null){
-            return null;
-        }
-        VersionInfo versionInfo = new VersionInfo();
-        versionInfo.setCurrentVersionStart(version.getCurrentVersionStart());
-        versionInfo.setCurrentVersionEnd(version.getCurrentVersionEnd());
-        versionInfo.setSequenceNumber(version.getSequenceNumber());
-        versionInfo.setVersionComment(version.getVersionComment());
-        versionInfo.setVersionIndId(version.getVersionIndId());
-        versionInfo.setVersionedFromId(version.getVersionedFromId());
-        
-        return versionInfo;
-    }
 
     public static List<CluSetInfo> toCluSetInfos(List<CluSet> entities) {
         List<CluSetInfo> dtos = new ArrayList<CluSetInfo>(entities.size());
@@ -225,16 +249,14 @@ public class LuServiceAssembler extends BaseAssembler {
         return dtos;
     }
 
-    public static CluSet toCluSetEntity(CluSetInfo cluSetInfo, LuDao luDao) throws InvalidParameterException,
-            DoesNotExistException {
+    public static CluSet toCluSetEntity(CluSetInfo cluSetInfo, LuDao luDao) throws InvalidParameterException, DoesNotExistException {
         CluSet cluSet = new CluSet();
 
         BeanUtils.copyProperties(cluSetInfo, cluSet, new String[]{"id",
-                "descr", "attributes", "metaInfo", "membershipQuery"});
-
-        cluSet.setAttributes(toGenericAttributes(CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
-        cluSet.setType(cluSetInfo.getType());
-
+                "descr", "attributes", "meta", "membershipQuery"});
+        cluSet.setAttributes(toGenericAttributes(
+                CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
+        cluSet.setType(cluSetInfo.getTypeKey());
         cluSet.setDescr(toRichText(LuRichText.class, cluSetInfo.getDescr()));
 
         for (String cluId : cluSetInfo.getCluIds()) {
@@ -244,7 +266,12 @@ public class LuServiceAssembler extends BaseAssembler {
             cluSet.getCluVerIndIds().add(join);
         }
         for (String cluSetId : cluSetInfo.getCluSetIds()) {
-            CluSet c = luDao.fetch(CluSet.class, cluSetId);
+            CluSet c;
+            try {
+                c = luDao.fetch(CluSet.class, cluSetId);
+            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+                throw new DoesNotExistException(cluSetId);
+            }
             if (cluSet.getCluSets() == null) {
                 cluSet.setCluSets(new ArrayList<CluSet>());
             }
@@ -262,14 +289,12 @@ public class LuServiceAssembler extends BaseAssembler {
         CluSetInfo dto = new CluSetInfo();
 
         BeanUtils.copyProperties(entity, dto, new String[]{"descr",
-                "cluCriteria", "cluSets", "clus", "attributes", "metaInfo", "membershipQuery"});
-
+                "cluCriteria", "cluSets", "clus", "attributes", "meta", "membershipQuery"});
 
         dto.setDescr(toRichTextInfo(entity.getDescr()));
-        // TODO dto.setCluCriteria();
+        // TODO dto.setCluCriteria()
         if (entity.getCluSets() != null) {
-            List<String> cluSetIds = new ArrayList<String>(entity.getCluSets()
-                    .size());
+            List<String> cluSetIds = new ArrayList<String>(entity.getCluSets().size());
             for (CluSet id : entity.getCluSets()) {
                 cluSetIds.add(id.getId());
             }
@@ -283,7 +308,7 @@ public class LuServiceAssembler extends BaseAssembler {
         dto.setCluIds(cluIds);
 
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         MembershipQueryInfo mqInfo = toMembershipQueryInfo(entity.getMembershipQuery());
         dto.setMembershipQuery(mqInfo);
@@ -300,27 +325,24 @@ public class LuServiceAssembler extends BaseAssembler {
         MembershipQueryInfo dto = new MembershipQueryInfo();
         dto.setId(entity.getId());
         dto.setSearchTypeKey(entity.getSearchTypeKey());
-        List<SearchParam> list = new ArrayList<SearchParam>();
+        List<SearchParamInfo> list = new ArrayList<SearchParamInfo>();
         for (SearchParameter param : entity.getSearchParameters()) {
-            SearchParam sp = toSearchParam(param);
+            SearchParamInfo sp = toSearchParam(param);
             list.add(sp);
         }
-        dto.setQueryParamValueList(list);
+        dto.setQueryParamValues(list);
 
         return dto;
     }
 
-    public static SearchParam toSearchParam(SearchParameter entity) {
-        SearchParam dto = new SearchParam();
+    public static SearchParamInfo toSearchParam(SearchParameter entity) {
+        SearchParamInfo dto = new SearchParamInfo();
         dto.setKey(entity.getKey());
         List<String> values = new ArrayList<String>();
         for (SearchParameterValue value : entity.getValues()) {
             values.add(value.getValue());
         }
-        dto.setValue(values);
-        if (entity.getValues().size() == 1) {
-            dto.setValue(entity.getValues().get(0).getValue());
-        }
+        dto.setValues(values);
         return dto;
     }
 
@@ -331,11 +353,10 @@ public class LuServiceAssembler extends BaseAssembler {
         MembershipQuery entity = new MembershipQuery();
         entity.setSearchTypeKey(dto.getSearchTypeKey());
         List<SearchParameter> list = new ArrayList<SearchParameter>();
-        for (SearchParam param : dto.getQueryParamValueList()) {
+        for (SearchParam param : dto.getQueryParamValues()) {
             SearchParameter sp = toSearchParameterEntity(param);
             list.add(sp);
         }
-
         entity.setSearchParameters(list);
 
         return entity;
@@ -348,79 +369,72 @@ public class LuServiceAssembler extends BaseAssembler {
         SearchParameter entity = new SearchParameter();
         entity.setKey(dto.getKey());
         List<SearchParameterValue> values = new ArrayList<SearchParameterValue>();
-        if (dto.getValue() instanceof String) {
+        for (String s : dto.getValues()) {
             SearchParameterValue value = new SearchParameterValue();
-            value.setValue((String) dto.getValue());
+            value.setValue(s);
             values.add(value);
-        } else if (dto.getValue() instanceof List<?>) {
-            List<String> stringList = (List<String>) dto.getValue();
-            for (String s : stringList) {
-                SearchParameterValue value = new SearchParameterValue();
-                value.setValue(s);
-                values.add(value);
-            }
         }
         entity.setValues(values);
         return entity;
     }
 
-    //public static List<ResultUsageTypeInfo> toResultUsageTypeInfos(
-    //        List<ResultUsageType> entities) {
-    //    return toGenericTypeInfoList(ResultUsageTypeInfo.class, entities);
-    //}
+    public static List<TypeInfo> toResultUsageTypeInfos(
+            List<ResultUsageType> entities) {
+        return toGenericTypeInfoList(TypeInfo.class, entities);
+    }
 
-    //public static ResultUsageTypeInfo toResultUsageTypeInfo(
-    //        ResultUsageType entity) {
-    //    return toGenericTypeInfo(ResultUsageTypeInfo.class, entity);
-    //}
+    public static TypeInfo toResultUsageTypeInfo(
+            ResultUsageType entity) {
+        return toGenericTypeInfo(TypeInfo.class, entity);
+    }
 
-    //public static List<DeliveryMethodTypeInfo> toDeliveryMethodTypeInfos(
-    //        List<DeliveryMethodType> entities) {
-    //    return toGenericTypeInfoList(DeliveryMethodTypeInfo.class, entities);
-    //}
+    public static List<TypeInfo> toDeliveryMethodTypeInfos(
+            List<DeliveryMethodType> entities) {
+        return toGenericTypeInfoList(TypeInfo.class, entities);
+    }
 
-    //public static DeliveryMethodTypeInfo toDeliveryMethodTypeInfo(
-    //        DeliveryMethodType entity) {
-    //    return toGenericTypeInfo(DeliveryMethodTypeInfo.class, entity);
-    //}
+    public static TypeInfo toDeliveryMethodTypeInfo(
+            DeliveryMethodType entity) {
+        return toGenericTypeInfo(TypeInfo.class, entity);
+    }
 
-    //public static List<InstructionalFormatTypeInfo> toInstructionalFormatTypeInfos(
-    //        List<InstructionalFormatType> entities) {
-    //    return toGenericTypeInfoList(InstructionalFormatTypeInfo.class,
-    //            entities);
-    //}
+    public static List<TypeInfo> toInstructionalFormatTypeInfos(
+            List<InstructionalFormatType> entities) {
+        return toGenericTypeInfoList(TypeInfo.class,
+                entities);
+    }
 
-    //public static InstructionalFormatTypeInfo toInstructionalFormatTypeInfo(
-    //        InstructionalFormatType entity) {
-    //    return toGenericTypeInfo(InstructionalFormatTypeInfo.class, entity);
-    //}
+    public static TypeInfo toInstructionalFormatTypeInfo(
+            InstructionalFormatType entity) {
+        return toGenericTypeInfo(TypeInfo.class, entity);
+    }
 
-    //public static List<LuCodeTypeInfo> toLuCodeTypeInfos(
-    //        List<LuCodeType> entities) {
-    //    return toGenericTypeInfoList(LuCodeTypeInfo.class, entities);
-    //}
+    public static List<TypeInfo> toLuCodeTypeInfos(
+            List<LuCodeType> entities) {
+        return toGenericTypeInfoList(TypeInfo.class, entities);
+    }
 
-    //public static LuCodeTypeInfo toLuCodeTypeInfo(LuCodeType entity) {
-    //    return toGenericTypeInfo(LuCodeTypeInfo.class, entity);
-    //}
+    public static TypeInfo toLuCodeTypeInfo(LuCodeType entity) {
+        return toGenericTypeInfo(TypeInfo.class, entity);
+    }
 
-    public static List<CluResultTypeInfo> toCluResultTypeInfos(
+    public static List<TypeInfo> toCluResultTypeInfos(
             List<CluResultType> entities) {
-        return toGenericTypeInfoList(CluResultTypeInfo.class, entities);
+        return toGenericTypeInfoList(TypeInfo.class, entities);
     }
 
-    public static CluResultTypeInfo toCluResultTypeInfo(CluResultType entity) {
-        return toGenericTypeInfo(CluResultTypeInfo.class, entity);
+    public static TypeInfo toCluResultTypeInfo(CluResultType entity) {
+        return toGenericTypeInfo(TypeInfo.class, entity);
     }
 
-    //public static CluSetTypeInfo toCluSetTypeInfo(CluSetType entity) {
-    //    return toGenericTypeInfo(CluSetTypeInfo.class, entity);
-    //}
+    public static TypeInfo toCluSetTypeInfo(CluSetType entity) {
+        return toGenericTypeInfo(TypeInfo.class, entity);
+    }
 
-    //public static List<CluSetTypeInfo> toCluSetTypeInfos(
-    //        List<CluSetType> entities) {
-    //    return toGenericTypeInfoList(CluSetTypeInfo.class, entities);
-    //}
+    public static List<TypeInfo> toCluSetTypeInfos(
+            List<CluSetType> entities) {
+        return toGenericTypeInfoList(TypeInfo.class, entities);
+    }
 
     public static CluResultInfo toCluResultInfo(CluResult entity) {
         if (entity == null) {
@@ -433,14 +447,13 @@ public class LuServiceAssembler extends BaseAssembler {
 
         List<ResultOptionInfo> resultOptions = toResultOptionInfos(entity.getResultOptions());
         dto.setResultOptions(resultOptions);
-
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setDescr(toRichTextInfo(entity.getDesc()));
         dto.setCluId(entity.getClu().getId());
-        CluResultTypeInfo type = toCluResultTypeInfo(entity.getCluResultType());
+        TypeInfo type = toCluResultTypeInfo(entity.getCluResultType());
         if (type != null) {
-            dto.setType(type.getId());
+            dto.setTypeKey(type.getKey());
         }
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         return dto;
     }
@@ -477,150 +490,154 @@ public class LuServiceAssembler extends BaseAssembler {
         if (entity.getResultUsageType() != null) {
             dto.setResultUsageTypeKey(entity.getResultUsageType().getId());
         }
-
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setDescr(toRichTextInfo(entity.getDesc()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         return dto;
     }
 
-    //public static List<LuLuRelationTypeInfo> toLuLuRelationTypeInfos(
-    //        List<LuLuRelationType> entities) {
-    //    List<LuLuRelationTypeInfo> dtos = new ArrayList<LuLuRelationTypeInfo>(
-   //             entities.size());
-    //    if (entities != null) {
-    //        for (LuLuRelationType entity : entities) {
-    //            dtos.add(toLuLuRelationTypeInfo(entity));
-    //        }
-    //    }
-    //    return dtos;
-
-    //}
-
-    //public static LuLuRelationTypeInfo toLuLuRelationTypeInfo(
-    //        LuLuRelationType entity) {
-    //    if (entity == null) {
-    //        return null;
-    //    }
-    //    LuLuRelationTypeInfo dto = new LuLuRelationTypeInfo();
-//
-    //    BeanUtils.copyProperties(entity, dto, new String[]{"attributes"});
-    //    dto.setAttributes(toAttributeMap(entity.getAttributes()));
-
-    //    return dto;
-    //}
-
-    //public static List<LuTypeInfo> toLuTypeInfos(List<LuType> entities) {
-    //    return toGenericTypeInfoList(LuTypeInfo.class, entities);
-    //}
-
-   // public static LuTypeInfo toLuTypeInfo(LuType entity) {
-    //    LuTypeInfo typeInfo = toGenericTypeInfo(LuTypeInfo.class, entity);
-    //    typeInfo.setDeliveryMethod(entity.getDeliveryMethod());
-    //    typeInfo.setInstructionalFormat(entity.getInstructionalFormat());
-
-    //    return typeInfo;
-    //}
-
-    public static List<LuiInfo> toLuiInfos(List<Lui> entities) {
-        List<LuiInfo> dtos = new ArrayList<LuiInfo>(entities.size());
-        if (entities != null) {
-            for (Lui entity : entities) {
-                dtos.add(toLuiInfo(entity));
-            }
-        }
-        return dtos;
-
-    }
-
-    public static LuiInfo toLuiInfo(Lui entity) {
-        if (entity == null) {
-            return null;
-        }
-        LuiInfo luiInfo = new LuiInfo();
-
-        BeanUtils.copyProperties(entity, luiInfo, new String[]{"clu",
-                "metaInfo", "attributes"});
-
-        luiInfo.setCluId(entity.getClu().getId());
-
-        luiInfo
-                .setMetaInfo(toMetaInfo(entity.getMeta(), entity
-                        .getVersionNumber()));
-
-        luiInfo.setAttributes(toAttributeMap(entity.getAttributes()));
-
-        return luiInfo;
-    }
-
-    public static Lui toLui(boolean isUpdate, LuiInfo luiInfo, LuDao dao)
-            throws DoesNotExistException, VersionMismatchException,
-            InvalidParameterException {
-        if (luiInfo == null) {
-            return null;
-        }
-        Lui lui;
-
-        if (isUpdate) {
-            lui = dao.fetch(Lui.class, luiInfo.getId());
-            if (null == lui) {
-                throw new DoesNotExistException((new StringBuilder()).append(
-                        "Lui does not exist for id: ").append(luiInfo.getId())
-                        .toString());
-            }
-            if (!String.valueOf(lui.getVersionNumber()).equals(
-                    luiInfo.getMetaInfo().getVersionInd())) {
-                throw new VersionMismatchException(
-                        "Lui to be updated is not the current version");
-            }
-        } else {
-            lui = new Lui();
-        }
-
-        BeanUtils.copyProperties(luiInfo, lui, new String[]{"cluId",
-                "attributes", "metaInfo"});
-
-        lui.setAttributes(toGenericAttributes(LuiAttribute.class, luiInfo
-                .getAttributes(), lui, dao));
-
-        Clu clu = dao.fetch(Clu.class, luiInfo.getCluId());
-        if (null == clu) {
-            throw new InvalidParameterException((new StringBuilder()).append(
-                    "Clu does not exist for id: ").append(luiInfo.getCluId())
-                    .toString());
-        }
-        lui.setClu(clu);
-        return lui;
-    }
-
-    public static List<LuiLuiRelationInfo> toLuiLuiRelationInfos(
-            List<LuiLuiRelation> entities) {
-        List<LuiLuiRelationInfo> dtos = new ArrayList<LuiLuiRelationInfo>(
+    public static List<TypeInfo> toLuLuRelationTypeInfos(
+            List<LuLuRelationType> entities) {
+        List<TypeInfo> dtos = new ArrayList<TypeInfo>(
                 entities.size());
         if (entities != null) {
-            for (LuiLuiRelation entity : entities) {
-                dtos.add(toLuiLuiRelationInfo(entity));
+            for (LuLuRelationType entity : entities) {
+                dtos.add(toLuLuRelationTypeInfo(entity));
             }
         }
         return dtos;
+
     }
 
-    public static LuiLuiRelationInfo toLuiLuiRelationInfo(LuiLuiRelation entity) {
+    public static TypeInfo toLuLuRelationTypeInfo(
+            LuLuRelationType entity) {
         if (entity == null) {
             return null;
         }
-        LuiLuiRelationInfo dto = new LuiLuiRelationInfo();
+        TypeInfo dto = new TypeInfo();
 
-        BeanUtils.copyProperties(entity, dto, new String[]{"lui",
-                "relatedLui", "attributes"});
-
-        dto.setLuiId(entity.getLui().getId());
-        dto.setRelatedLuiId(entity.getRelatedLui().getId());
-        dto.setType(entity.getLuLuRelationType().getId());
+        BeanUtils.copyProperties(entity, dto, new String[]{"attributes"});
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+
         return dto;
     }
+
+    public static List<TypeInfo> toLuTypeInfos(List<LuType> entities) {
+        return toGenericTypeInfoList(TypeInfo.class, entities);
+    }
+
+    public static TypeInfo toLuTypeInfo(LuType entity) {
+        TypeInfo typeInfo = toGenericTypeInfo(TypeInfo.class, entity);
+//		typeInfo.setDeliveryMethod(entity.getDeliveryMethod());
+//		typeInfo.setInstructionalFormat(entity.getInstructionalFormat());
+
+        return typeInfo;
+    }
+
+// TODO: CM2.0 MERGE :: removed lui methods (this is LU)
+//    public static List<LuiInfo> toLuiInfos(List<Lui> entities) {
+//        List<LuiInfo> dtos = new ArrayList<LuiInfo>(entities.size());
+//        if (entities != null) {
+//            for (Lui entity : entities) {
+//                dtos.add(toLuiInfo(entity));
+//            }
+//        }
+//        return dtos;
+//
+//    }
+//
+//    public static LuiInfo toLuiInfo(Lui entity) {
+//        if (entity == null) {
+//            return null;
+//        }
+//        LuiInfo luiInfo = new LuiInfo();
+//
+//        BeanUtils.copyProperties(entity, luiInfo, new String[]{"clu",
+//                    "meta", "attributes"});
+//
+//        luiInfo.setCluId(entity.getClu().getId());
+//
+//        luiInfo.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+//
+//        luiInfo.setAttributes(toAttributeMap(entity.getAttributes()));
+//
+//        return luiInfo;
+//    }
+//
+//    public static Lui toLui(boolean isUpdate, LuiInfo luiInfo, LuDao dao)
+//            throws DoesNotExistException, VersionMismatchException,
+//            InvalidParameterException {
+//        if (luiInfo == null) {
+//            return null;
+//        }
+//        Lui lui;
+//
+//        if (isUpdate) {
+//            try {
+//                lui = dao.fetch(Lui.class, luiInfo.getId());
+//            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+//                throw new DoesNotExistException (luiInfo.getId());
+//            }
+//            if (null == lui) {
+//                throw new DoesNotExistException((new StringBuilder()).append(
+//                        "Lui does not exist for id: ").append(luiInfo.getId()).toString());
+//            }
+//            if (!String.valueOf(lui.getVersionNumber()).equals(
+//                    luiInfo.getMeta().getVersionInd())) {
+//                throw new VersionMismatchException(
+//                        "Lui to be updated is not the current version");
+//            }
+//        } else {
+//            lui = new Lui();
+//        }
+//
+//        BeanUtils.copyProperties(luiInfo, lui, new String[]{"cluId",
+//                    "attributes", "meta"});
+//
+//        lui.setAttributes(toGenericAttributes(LuiAttribute.class, luiInfo.getAttributes(), lui, dao));
+//
+//        Clu clu;
+//        try {
+//            clu = dao.fetch(Clu.class, luiInfo.getCluId());
+//        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+//            throw new DoesNotExistException (luiInfo.getCluId());
+//        }
+//        if (null == clu) {
+//            throw new InvalidParameterException((new StringBuilder()).append(
+//                    "Clu does not exist for id: ").append(luiInfo.getCluId()).toString());
+//        }
+//        lui.setClu(clu);
+//        return lui;
+//    }
+//
+//    public static List<LuiLuiRelationInfo> toLuiLuiRelationInfos(
+//            List<LuiLuiRelation> entities) {
+//        List<LuiLuiRelationInfo> dtos = new ArrayList<LuiLuiRelationInfo>(
+//                entities.size());
+//        if (entities != null) {
+//            for (LuiLuiRelation entity : entities) {
+//                dtos.add(toLuiLuiRelationInfo(entity));
+//            }
+//        }
+//        return dtos;
+//    }
+//
+//    public static LuiLuiRelationInfo toLuiLuiRelationInfo(LuiLuiRelation entity) {
+//        if (entity == null) {
+//            return null;
+//        }
+//        LuiLuiRelationInfo dto = new LuiLuiRelationInfo();
+//
+//        BeanUtils.copyProperties(entity, dto, new String[]{"lui",
+//                    "relatedLui", "attributes"});
+//
+//        dto.setLuiId(entity.getLui().getId());
+//        dto.setRelatedLuiId(entity.getRelatedLui().getId());
+//        dto.setTypeKey(entity.getLuLuRelationType().getId());
+//        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+//        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+//        return dto;
+//    }
 
     public static List<CluIdentifierInfo> toCluIdentifierInfos(
             List<CluIdentifier> entities) {
@@ -666,8 +683,8 @@ public class LuServiceAssembler extends BaseAssembler {
         CluInstructorInfo dto = new CluInstructorInfo();
 
         BeanUtils.copyProperties(entity, dto,
-                new String[]{"attributes"});
-        dto.setAttributes(AssemblerHelper.toAttributeList(entity.getAttributes()));
+                new String[]{"id", "attributes"});
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
         return dto;
     }
@@ -677,9 +694,9 @@ public class LuServiceAssembler extends BaseAssembler {
             return null;
         }
         AmountInfo dto = new AmountInfo();
-        dto.setUnitQuantity(entity.getUnitQuantity());
-        dto.setUnitTypeKey(entity.getUnitType());
-        
+
+        BeanUtils.copyProperties(entity, dto);
+
         return dto;
     }
 
@@ -711,23 +728,39 @@ public class LuServiceAssembler extends BaseAssembler {
         LuCodeInfo dto = new LuCodeInfo();
 
         BeanUtils.copyProperties(entity, dto, new String[]{"attributes",
-                "metaInfo", "descr"});
-        RichTextInfo desc = new RichTextInfo();
-        desc.setPlain(entity.getDescr());
-        dto.setDescr(desc);
+                "metInfo"});
+
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         return dto;
     }
 
-    public static List<ResultComponentTypeInfo> toResultComponentTypeInfo(
+    public static CluCreditInfo toCluCreditInfos(CluCredit entity) {
+        if (entity == null) {
+            return null;
+        }
+        CluCreditInfo dto = new CluCreditInfo();
+
+        BeanUtils.copyProperties(entity, dto, new String[]{"id",
+                "repeatTime", "minTimeToComplete", "maxTimeToComplete",
+                "maxAllowableInactivity", "maxTimeResultsRecognized"});
+        dto.setRepeatTime(toTimeAmountInfo(entity.getRepeatTime()));
+        dto.setMinTimeToComplete(toTimeAmountInfo(entity.getMinTimeToComplete()));
+        dto.setMaxTimeToComplete(toTimeAmountInfo(entity.getMaxTimeToComplete()));
+        dto.setMaxAllowableInactivity(toTimeAmountInfo(entity.getMaxAllowableInactivity()));
+        dto.setMaxTimeResultsRecognized(toTimeAmountInfo(entity.getMaxTimeResultsRecognized()));
+
+        return dto;
+    }
+
+    public static List<TypeInfo> toResultComponentTypeInfo(
             List<String> componentIds) {
-        List<ResultComponentTypeInfo> dtos = new ArrayList<ResultComponentTypeInfo>();
+        List<TypeInfo> dtos = new ArrayList<TypeInfo>();
         if (componentIds != null) {
             for (String id : componentIds) {
-                ResultComponentTypeInfo comp = new ResultComponentTypeInfo();
-                comp.setId(id);
+                TypeInfo comp = new TypeInfo();
+                comp.setKey(id);
                 dtos.add(comp);
             }
         }
@@ -743,9 +776,8 @@ public class LuServiceAssembler extends BaseAssembler {
         dto.setCluFeeRecords(toCluFeeRecordInfos(entity.getCluFeeRecords()));
         dto.setId(entity.getId());
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-
         dto.setDescr(toRichTextInfo(entity.getDescr()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         return dto;
     }
@@ -772,12 +804,10 @@ public class LuServiceAssembler extends BaseAssembler {
                 new String[]{"affiliatedOrgs", "currencyAmount", "attributes", "descr"});
 
         dto.setAffiliatedOrgs(toAffiliatedOrgInfos(entity.getAffiliatedOrgs()));
-
         dto.setFeeAmounts(toFeeAmounts(entity.getFeeAmounts()));
-
         dto.setDescr(toRichTextInfo(entity.getDescr()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         return dto;
     }
@@ -838,8 +868,7 @@ public class LuServiceAssembler extends BaseAssembler {
             return null;
         }
         Amount amount = new Amount();
-        amount.setUnitQuantity(amountInfo.getUnitQuantity());
-        amount.setUnitType(amountInfo.getUnitTypeKey());
+        BeanUtils.copyProperties(amountInfo, amount);
         return amount;
     }
 
@@ -850,6 +879,63 @@ public class LuServiceAssembler extends BaseAssembler {
         TimeAmount timeAmount = new TimeAmount();
         BeanUtils.copyProperties(timeAmountInfo, timeAmount);
         return timeAmount;
+    }
+
+    public static CluCredit toCluCredit(CluCreditInfo cluCreditInfo) {
+        if (cluCreditInfo == null) {
+            return null;
+        }
+        CluCredit cluCredit = new CluCredit();
+
+        cluCredit.setMaxAllowableInactivity(CluServiceAssembler.toTimeAmount(cluCreditInfo.getMaxAllowableInactivity()));
+        cluCredit.setMaxTimeResultsRecognized(CluServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeResultsRecognized()));
+        cluCredit.setMaxTimeToComplete(CluServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeToComplete()));
+        cluCredit.setMinTimeToComplete(CluServiceAssembler.toTimeAmount(cluCreditInfo.getMinTimeToComplete()));
+        cluCredit.setRepeatTime(CluServiceAssembler.toTimeAmount(cluCreditInfo.getRepeatTime()));
+
+        BeanUtils.copyProperties(cluCreditInfo, cluCredit, new String[]{
+                "repeatTime", "minTimeToComplete", "maxTimeToComplete",
+                "maxAllowableInactivity", "maxTimeResultsRecognized"});
+
+        return cluCredit;
+    }
+
+    public static void copyCluCredit(CluCreditInfo cluCreditInfo,
+                                     CluCredit entity) {
+        if (entity == null) {
+            return;
+        }
+        if (entity.getMaxAllowableInactivity() == null) {
+            entity.setMaxAllowableInactivity(new TimeAmount());
+        }
+        BeanUtils.copyProperties(cluCreditInfo.getMaxAllowableInactivity(),
+                entity.getMaxAllowableInactivity());
+
+        if (entity.getMaxTimeResultsRecognized() == null) {
+            entity.setMaxTimeResultsRecognized(new TimeAmount());
+        }
+        BeanUtils.copyProperties(cluCreditInfo.getMaxTimeResultsRecognized(),
+                entity.getMaxTimeResultsRecognized());
+
+        if (entity.getMaxTimeToComplete() == null) {
+            entity.setMaxTimeToComplete(new TimeAmount());
+        }
+        BeanUtils.copyProperties(cluCreditInfo.getMaxTimeToComplete(), entity.getMaxTimeToComplete());
+
+        if (entity.getMinTimeToComplete() == null) {
+            entity.setMinTimeToComplete(new TimeAmount());
+        }
+        BeanUtils.copyProperties(cluCreditInfo.getMinTimeToComplete(), entity.getMinTimeToComplete());
+
+        if (entity.getRepeatTime() == null) {
+            entity.setRepeatTime(new TimeAmount());
+        }
+        BeanUtils.copyProperties(cluCreditInfo.getRepeatTime(), entity.getRepeatTime());
+
+        BeanUtils.copyProperties(cluCreditInfo, entity, new String[]{
+                "repeatTime", "minTimeToComplete", "maxTimeToComplete",
+                "maxAllowableInactivity", "maxTimeResultsRecognized"});
+
     }
 
     public static List<AccreditationInfo> toAccreditationInfos(
@@ -900,18 +986,18 @@ public class LuServiceAssembler extends BaseAssembler {
         return dto;
     }
 
-    //public static List<LuPublicationTypeInfo> toLuPublicationTypeInfos(
-    //        List<LuPublicationType> entities) {
-    //    return toGenericTypeInfoList(LuPublicationTypeInfo.class, entities);
-    //}
+    public static List<TypeInfo> toLuPublicationTypeInfos(
+            List<LuPublicationType> entities) {
+        return toGenericTypeInfoList(TypeInfo.class, entities);
+    }
 
-    //public static LuPublicationTypeInfo toLuPublicationTypeInfo(
-    //        LuPublicationType entity) {
-    //    return toGenericTypeInfo(LuPublicationTypeInfo.class, entity);
-    //}
+    public static TypeInfo toLuPublicationTypeInfo(
+            LuPublicationType entity) {
+        return toGenericTypeInfo(TypeInfo.class, entity);
+    }
 
     public static CluFee toCluFee(Clu clu, boolean isUpdate, CluFeeInfo feeInfo,
-            LuDao dao) throws DoesNotExistException, VersionMismatchException,
+                                  LuDao dao) throws DoesNotExistException, VersionMismatchException,
             InvalidParameterException {
         if (feeInfo == null) {
             return null;
@@ -922,7 +1008,7 @@ public class LuServiceAssembler extends BaseAssembler {
         if (isUpdate) {
             fee = clu.getFee();
             if (!String.valueOf(fee.getVersionNumber()).equals(
-                    feeInfo.getMetaInfo().getVersionInd())) {
+                    feeInfo.getMeta().getVersionInd())) {
                 throw new VersionMismatchException(
                         "CluFee to be updated is not the current version");
             }
@@ -931,8 +1017,7 @@ public class LuServiceAssembler extends BaseAssembler {
             fee = new CluFee();
         }
 
-        if (feeInfo.getDescr() != null
-                && (feeInfo.getDescr().getPlain() != null || feeInfo.getDescr().getFormatted() != null)) {
+        if (feeInfo.getDescr() != null && (feeInfo.getDescr().getPlain() != null || feeInfo.getDescr().getFormatted() != null)) {
             if (fee.getDescr() == null) {
                 fee.setDescr(new LuRichText());
             }
@@ -942,16 +1027,15 @@ public class LuServiceAssembler extends BaseAssembler {
             fee.setDescr(null);
         }
 
-
-        fee.setAttributes(LuServiceAssembler.toGenericAttributes(CluFeeAttribute.class, feeInfo.getAttributes(), fee,
-                dao));
+        fee.setAttributes(CluServiceAssembler.toGenericAttributes(
+                CluFeeAttribute.class, feeInfo.getAttributes(), fee, dao));
         toCluFeeRecords(isUpdate, fee, feeInfo.getCluFeeRecords(), dao);
 
         return fee;
     }
 
     public static void toCluFeeRecords(boolean isUpdate,
-            CluFee cluFee, List<CluFeeRecordInfo> cluFeeRecords, LuDao dao) throws InvalidParameterException {
+                                       CluFee cluFee, List<CluFeeRecordInfo> cluFeeRecords, LuDao dao) throws InvalidParameterException {
 
         if (cluFeeRecords == null) {
             return;
@@ -961,17 +1045,13 @@ public class LuServiceAssembler extends BaseAssembler {
 
             for (CluFeeRecordInfo feeRecordInfo : cluFeeRecords) {
                 CluFeeRecord feeRec = new CluFeeRecord();
-                feeRec.setAffiliatedOrgs(toAffiliatedOrgs(isUpdate, feeRec.getAffiliatedOrgs(),
-                        feeRecordInfo.getAffiliatedOrgs(), dao));
+                feeRec.setAffiliatedOrgs(toAffiliatedOrgs(isUpdate, feeRec.getAffiliatedOrgs(), feeRecordInfo.getAffiliatedOrgs(), dao));
                 feeRec.setFeeType(feeRecordInfo.getFeeType());
                 feeRec.setRateType(feeRecordInfo.getRateType());
-
                 feeRec.setDescr(toRichText(LuRichText.class, feeRecordInfo.getDescr()));
-
                 feeRec.setFeeAmounts(toFeeAmounts(isUpdate, feeRec.getFeeAmounts(), feeRecordInfo.getFeeAmounts(), dao));
-
-                feeRec.setAttributes(LuServiceAssembler.toGenericAttributes(CluFeeRecordAttribute.class,
-                        feeRecordInfo.getAttributes(), feeRec, dao));
+                feeRec.setAttributes(CluServiceAssembler.toGenericAttributes(
+                        CluFeeRecordAttribute.class, feeRecordInfo.getAttributes(), feeRec, dao));
                 if (cluFee.getCluFeeRecords() == null) {
                     cluFee.setCluFeeRecords(new ArrayList<CluFeeRecord>());
                 }
@@ -995,18 +1075,13 @@ public class LuServiceAssembler extends BaseAssembler {
                     feeRec = new CluFeeRecord();
                 }
 
-                feeRec.setAffiliatedOrgs(toAffiliatedOrgs(isUpdate, feeRec.getAffiliatedOrgs(),
-                        feeRecordInfo.getAffiliatedOrgs(), dao));
+                feeRec.setAffiliatedOrgs(toAffiliatedOrgs(isUpdate, feeRec.getAffiliatedOrgs(), feeRecordInfo.getAffiliatedOrgs(), dao));
                 feeRec.setFeeType(feeRecordInfo.getFeeType());
                 feeRec.setRateType(feeRecordInfo.getRateType());
-
                 feeRec.setDescr(toRichText(LuRichText.class, feeRecordInfo.getDescr()));
-
                 feeRec.setFeeAmounts(toFeeAmounts(isUpdate, feeRec.getFeeAmounts(), feeRecordInfo.getFeeAmounts(), dao));
-
-                feeRec.setAttributes(LuServiceAssembler.toGenericAttributes(
-                        CluFeeRecordAttribute.class, feeRecordInfo
-                                .getAttributes(), feeRec, dao));
+                feeRec.setAttributes(CluServiceAssembler.toGenericAttributes(
+                        CluFeeRecordAttribute.class, feeRecordInfo.getAttributes(), feeRec, dao));
                 if (cluFee.getCluFeeRecords() == null) {
                     cluFee.setCluFeeRecords(new ArrayList<CluFeeRecord>());
                 }
@@ -1020,8 +1095,7 @@ public class LuServiceAssembler extends BaseAssembler {
         }
     }
 
-    public static List<AffiliatedOrg> toAffiliatedOrgs(boolean isUpdate, List<AffiliatedOrg> orgList,
-            List<AffiliatedOrgInfo> affiliatedOrgInfoList, LuDao dao) {
+    public static List<AffiliatedOrg> toAffiliatedOrgs(boolean isUpdate, List<AffiliatedOrg> orgList, List<AffiliatedOrgInfo> affiliatedOrgInfoList, LuDao dao) {
         if (null == affiliatedOrgInfoList) {
             return orgList;
         }
@@ -1063,8 +1137,7 @@ public class LuServiceAssembler extends BaseAssembler {
         return orgList;
     }
 
-    public static List<CluFeeAmount> toFeeAmounts(boolean isUpdate, List<CluFeeAmount> caList,
-            List<CurrencyAmountInfo> caInfoList, LuDao dao) {
+    public static List<CluFeeAmount> toFeeAmounts(boolean isUpdate, List<CluFeeAmount> caList, List<CurrencyAmountInfo> caInfoList, LuDao dao) {
         if (null == caInfoList) {
             return caList;
         }
@@ -1106,10 +1179,8 @@ public class LuServiceAssembler extends BaseAssembler {
         CluIdentifier officialIdentifier = new CluIdentifier();
         BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(),
                 officialIdentifier, new String[]{"attributes"});
-
-        officialIdentifier.setAttributes(LuServiceAssembler.toGenericAttributes(
-                CluIdentifierAttribute.class, cluInfo.getOfficialIdentifier()
-                        .getAttributes(), officialIdentifier, dao));
+        officialIdentifier.setAttributes(CluServiceAssembler.toGenericAttributes(
+                CluIdentifierAttribute.class, cluInfo.getOfficialIdentifier().getAttributes(), officialIdentifier, dao));
 
         return officialIdentifier;
     }
@@ -1118,25 +1189,20 @@ public class LuServiceAssembler extends BaseAssembler {
         if (clu.getOfficialIdentifier() == null) {
             clu.setOfficialIdentifier(new CluIdentifier());
         }
-        BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu
-                .getOfficialIdentifier(), new String[]{"id", "attributes"});
+        BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu.getOfficialIdentifier(), new String[]{"id", "attributes"});
 
-
-        clu.getOfficialIdentifier().setAttributes(LuServiceAssembler.toGenericAttributes(
-                CluIdentifierAttribute.class, cluInfo.getOfficialIdentifier()
-                        .getAttributes(), clu.getOfficialIdentifier(), dao));
+        clu.getOfficialIdentifier().setAttributes(CluServiceAssembler.toGenericAttributes(
+                CluIdentifierAttribute.class, cluInfo.getOfficialIdentifier().getAttributes(), clu.getOfficialIdentifier(), dao));
 
     }
 
-    public static List<CluIdentifier> createAlternateIdentifiers(CluInfo cluInfo, LuDao dao)
-            throws InvalidParameterException {
+    public static List<CluIdentifier> createAlternateIdentifiers(CluInfo cluInfo, LuDao dao) throws InvalidParameterException {
         List<CluIdentifier> alternateIdentifiers = new ArrayList<CluIdentifier>(0);
         for (CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()) {
             CluIdentifier identifier = new CluIdentifier();
             BeanUtils.copyProperties(cluIdInfo, identifier, new String[]{"attributes"});
 
-
-            identifier.setAttributes(LuServiceAssembler.toGenericAttributes(
+            identifier.setAttributes(CluServiceAssembler.toGenericAttributes(
                     CluIdentifierAttribute.class, cluIdInfo.getAttributes(), identifier, dao));
 
             alternateIdentifiers.add(identifier);
@@ -1144,8 +1210,7 @@ public class LuServiceAssembler extends BaseAssembler {
         return alternateIdentifiers;
     }
 
-    public static void updateAlternateIdentifier(Map<String, CluIdentifier> oldAltIdMap, Clu clu, CluInfo cluInfo,
-            LuDao dao) throws InvalidParameterException {
+    public static void updateAlternateIdentifier(Map<String, CluIdentifier> oldAltIdMap, Clu clu, CluInfo cluInfo, LuDao dao) throws InvalidParameterException {
         for (CluIdentifier altIdentifier : clu.getAlternateIdentifiers()) {
             oldAltIdMap.put(altIdentifier.getId(), altIdentifier);
         }
@@ -1162,8 +1227,7 @@ public class LuServiceAssembler extends BaseAssembler {
             // Do Copy
             BeanUtils.copyProperties(cluIdInfo, identifier, new String[]{"attributes"});
 
-
-            identifier.setAttributes(LuServiceAssembler.toGenericAttributes(
+            identifier.setAttributes(CluServiceAssembler.toGenericAttributes(
                     CluIdentifierAttribute.class, cluIdInfo.getAttributes(), identifier, dao));
 
             clu.getAlternateIdentifiers().add(identifier);
@@ -1206,11 +1270,11 @@ public class LuServiceAssembler extends BaseAssembler {
         cluPubInfo.setStartCycle(cluPub.getStartCycle());
         cluPubInfo.setEffectiveDate(cluPub.getEffectiveDate());
         cluPubInfo.setExpirationDate(cluPub.getExpirationDate());
-        cluPubInfo.setState(cluPub.getState());
-        cluPubInfo.setType(cluPub.getType().getId());
-        cluPubInfo.setMetaInfo(toMetaInfo(cluPub.getMeta(), cluPub.getVersionNumber()));
-        cluPubInfo.setAttributes(LuServiceAssembler.toAttributeMap(cluPub.getAttributes()));
-        cluPubInfo.setVariants(LuServiceAssembler.toCluPublicationVariantInfos(cluPub.getVariants()));
+        cluPubInfo.setStateKey(cluPub.getState());
+        cluPubInfo.setTypeKey(cluPub.getType().getId());
+        cluPubInfo.setMeta(toMetaInfo(cluPub.getMeta(), cluPub.getVersionNumber()));
+        cluPubInfo.setAttributes(CluServiceAssembler.toAttributeMap(cluPub.getAttributes()));
+        cluPubInfo.setVariants(CluServiceAssembler.toCluPublicationVariantInfos(cluPub.getVariants()));
 
         return cluPubInfo;
     }

@@ -22,7 +22,7 @@ import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r1.lum.lrc.service.LrcService;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -32,13 +32,13 @@ import org.kuali.student.r2.common.dto.ContextInfo;
  */
 public class LrcContextImpl extends BasicContextImpl {
 	
-	private LRCService lrcService;
+	private LrcService lrcService;
 	
 	/** Total credits template token */ 
 	public final static String GRADE_TOKEN = "grade";
     public final static String GRADE_TYPE_TOKEN = "gradeType";	
 
-	public void setLrcService(LRCService lrcService) {
+	public void setLrcService(LrcService lrcService) {
 		this.lrcService = lrcService;
 	}
 

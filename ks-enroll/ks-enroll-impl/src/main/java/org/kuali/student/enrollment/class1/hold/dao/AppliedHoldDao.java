@@ -3,7 +3,7 @@ package org.kuali.student.enrollment.class1.hold.dao;
 import java.util.List;
 import javax.persistence.Query;
 import org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity;
-import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 public class AppliedHoldDao
         extends GenericEntityDao<AppliedHoldEntity> {

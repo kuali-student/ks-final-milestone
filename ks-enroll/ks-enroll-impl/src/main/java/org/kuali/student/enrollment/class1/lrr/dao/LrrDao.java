@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class1.lrr.dao;
 
 import org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity;
-import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 import java.util.List;
 

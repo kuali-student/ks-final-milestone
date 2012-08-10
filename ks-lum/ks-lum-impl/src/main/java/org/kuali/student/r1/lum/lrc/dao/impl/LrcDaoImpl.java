@@ -25,8 +25,8 @@ import javax.persistence.Query;
 
 import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.lum.lrc.dao.LrcDao;
-import org.kuali.student.r2.lum.lrc.entity.ResultComponentType;
+import org.kuali.student.r1.lum.lrc.dao.LrcDao;
+import org.kuali.student.r1.lum.lrc.entity.ResultComponentType;
 
 public class LrcDaoImpl extends AbstractSearchableCrudDaoImpl implements LrcDao {
 	@PersistenceContext(unitName = "Lrc")

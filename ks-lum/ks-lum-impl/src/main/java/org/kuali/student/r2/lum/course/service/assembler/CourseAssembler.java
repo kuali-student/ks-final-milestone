@@ -579,13 +579,13 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
             try{
                 try {
-                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupIdsByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED, contextInfo));
+                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupKeysByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED, contextInfo));
                 } catch (DoesNotExistException e) {}
                 try {
-                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupIdsByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE, contextInfo));
+                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupKeysByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE, contextInfo));
                 } catch (DoesNotExistException e) {}
                 try {
-                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupIdsByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE, contextInfo));
+                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupKeysByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE, contextInfo));
                 } catch (DoesNotExistException e) {}
 
                 //Create any LRCs that do not yet exist

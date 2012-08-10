@@ -91,14 +91,14 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	 * @throws UnsupportedOperationException
 	 * @throws CircularReferenceException
 	 * @throws ReadOnlyException 
-	 * @throws org.kuali.student.common.exceptions.DataValidationErrorException 
-	 * @throws org.kuali.student.common.exceptions.DoesNotExistException 
-	 * @throws org.kuali.student.common.exceptions.InvalidParameterException 
-	 * @throws org.kuali.student.common.exceptions.MissingParameterException 
-	 * @throws org.kuali.student.common.exceptions.OperationFailedException 
-	 * @throws org.kuali.student.common.exceptions.PermissionDeniedException 
-	 * @throws org.kuali.student.common.exceptions.VersionMismatchException 
-	 * @throws org.kuali.student.common.exceptions.AlreadyExistsException 
+	 * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException
+	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
+	 * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
+	 * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
+	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
+	 * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
+	 * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException
+	 * @throws org.kuali.student.r2.common.exceptions.AlreadyExistsException
 	 */
 	protected void invokeServiceCallOnResult(BaseDTOAssemblyNode results, ContextInfo contextInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
@@ -231,7 +231,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 		    ResultValuesGroupInfo resultComponent = (ResultValuesGroupInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				ResultValuesGroupInfo createdResultComponent = lrcService.createResultValuesGroup(resultComponent, contextInfo);
+				ResultValuesGroupInfo createdResultComponent = lrcService.createResultValuesGroup(resultComponent.getResultScaleKey(), resultComponent.getTypeKey(), resultComponent, contextInfo);
 				//Copy the created back to the reference Should there be an assembler for this?
 				if(results.getBusinessDTORef()!=null&& results.getBusinessDTORef() instanceof ResultValuesGroupInfo){
 				    ResultValuesGroupInfo resultComponentToUpdate = (ResultValuesGroupInfo) results.getBusinessDTORef();

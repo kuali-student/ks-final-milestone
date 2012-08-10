@@ -21,21 +21,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.kuali.student.r1.lum.lrc.entity.ResultComponent;
+import org.kuali.student.r1.lum.lrc.entity.ResultValue;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.core.service.util.AssemblerHelper;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r1.common.service.impl.BaseAssembler;
-import org.kuali.student.r2.lum.lrc.dao.LrcDao;
+import org.kuali.student.r1.lum.lrc.dao.LrcDao;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
-import org.kuali.student.r2.lum.lrc.entity.LrcRichText;
-import org.kuali.student.r2.lum.lrc.entity.ResultComponent;
-import org.kuali.student.r2.lum.lrc.entity.ResultComponentAttribute;
-import org.kuali.student.r2.lum.lrc.entity.ResultComponentType;
-import org.kuali.student.r2.lum.lrc.entity.ResultValue;
-import org.kuali.student.r2.lum.lrc.entity.Scale;
+import org.kuali.student.r1.lum.lrc.entity.LrcRichText;
+import org.kuali.student.r1.lum.lrc.entity.ResultComponent;
+import org.kuali.student.r1.lum.lrc.entity.ResultComponentAttribute;
+import org.kuali.student.r1.lum.lrc.entity.ResultComponentType;
+import org.kuali.student.r1.lum.lrc.entity.ResultValue;
+import org.kuali.student.r1.lum.lrc.entity.Scale;
 import org.springframework.beans.BeanUtils;
 
 public class LrcServiceAssembler extends BaseAssembler {

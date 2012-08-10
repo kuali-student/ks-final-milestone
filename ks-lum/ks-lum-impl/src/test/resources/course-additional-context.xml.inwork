@@ -38,10 +38,10 @@
 	-->
 	
 	<jaxws:endpoint id="luServiceWS" implementor="#luClient"
-		implementorClass="org.kuali.student.lum.lu.service.impl.LuServiceImpl" address="/luService" />
+		implementorClass="org.kuali.student.lum.lu.service.impl.CLuServiceImpl" address="/luService" />
 	
 	<bean id="luClient"
-		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl" />
+		class="org.kuali.student.lum.lu.service.impl.CLuServiceImpl" />
 		
 	<bean id="searchManager"
 		class="org.kuali.student.common.search.service.impl.SearchManagerImpl"

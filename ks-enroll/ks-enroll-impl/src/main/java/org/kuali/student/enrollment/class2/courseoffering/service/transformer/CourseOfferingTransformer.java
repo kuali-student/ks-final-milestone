@@ -338,22 +338,23 @@ public class CourseOfferingTransformer {
         //Set the credit options as the first option from the clu
         if (courseInfo.getCreditOptions() != null && !courseInfo.getCreditOptions().isEmpty()) {
             //Convert R1 to R2 LRC data
-            ResultComponentInfo resultComponent = courseInfo.getCreditOptions().get(0);
-
-            // Credit Options (also creates extra-line)
-            if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED.equals(resultComponent.getType())) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_FIXED_CREDITS),
-                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
-                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
-            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_RANGE.equals(resultComponent.getType())) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS),
-                        resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
-                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
-            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_MULTIPLE.equals(resultComponent.getType())) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(resultComponent.getResultValues(),
-                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
-                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
-            }
+            courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getKey());
+//            ResultComponentInfo resultComponent = courseInfo.getCreditOptions().get(0);
+//
+//            // Credit Options (also creates extra-line)
+//            if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED.equals(resultComponent.getType())) {
+//                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_FIXED_CREDITS),
+//                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
+//                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
+//            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_RANGE.equals(resultComponent.getType())) {
+//                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS),
+//                        resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
+//                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
+//            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_MULTIPLE.equals(resultComponent.getType())) {
+//                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(resultComponent.getResultValues(),
+//                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
+//                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
+//            }
         }else{
             courseOfferingInfo.setCreditOptionId(null);
         }

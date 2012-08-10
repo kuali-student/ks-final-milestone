@@ -13,14 +13,14 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lrc.dao;
+package org.kuali.student.r1.lum.lrc.dao;
 
 import java.util.List;
 
 import org.kuali.student.r1.common.dao.CrudDao;
 import org.kuali.student.r1.common.dao.SearchableDao;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.lum.lrc.entity.ResultComponentType;
+import org.kuali.student.r1.lum.lrc.entity.ResultComponentType;
 
 public interface LrcDao extends CrudDao, SearchableDao  {
     public List<String> getResultComponentIdsByResult(String resultValueId);
