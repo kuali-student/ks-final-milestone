@@ -47,13 +47,36 @@
         </property>
         <property name="Items">
             <list>
-                <bean parent="Uif-VerticalBoxSection"
-                      p:header.render="false"
-                      p:disclosure.render="false"
-                      p:id="KS-HolidayCalendar-View-Page">
+                <bean parent="Uif-DataField" p:propertyName="aoInfo.courseOfferingCode" />
+                <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" />
+                <bean parent="Uif-DataField" p:propertyName="aoInfo.courseOfferingTitle" />
+                <bean parent="Uif-DataField" p:propertyName="termName" p:label="Term"/>
+                <bean parent="Uif-DataField" p:propertyName="typeName" p:label="Type"/>
+                <bean parent="Uif-DataField" p:propertyName="formatOfferingName" p:label="Format Offering"/>
+                <bean parent="Uif-DataField" p:propertyName="aoInfo.maximumEnrollment" p:label="Total Maximum Enrollment"/>
+                <bean parent="Uif-DataField" p:propertyName="stateName" p:label="State"/>
+                <bean parent="Uif-DataField" p:propertyName="isEvaluatedUI" p:label="This course requires an evaluation"/>
+                <bean parent="Uif-DataField" p:propertyName="isHonorsOfferingUI" p:label="Honors Offering"/>
+                <bean parent="Uif-DataField" p:propertyName="aoInfo.activityOfferingURL"/>
+                <bean parent="Uif-DataField" p:propertyName="instructorNameHighestPercentEffort" p:label="Affiliated Personnel"/>
+                <bean parent="Uif-DataField" p:propertyName="aoInfo.maximumEnrollment" p:label="Maximum Enrollment"/>
+                <bean parent="Uif-TableSubCollection-WithinSubSection"  p:layoutManager.numberOfColumns="4" p:render="@{!#dp.seatpools.empty}"
+                      p:layoutManager.style="width: 50%;">
+                    <property name="headerText" value="Seat Pool(s):" />
+                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
+                    <property name="propertyName" value="seatpools" />
+                    <property name="layoutManager.renderSequenceField" value="false" />
+                    <property name="layoutManager.separateAddLine" value="false" />
+                    <property name="layoutManager.richTable.render" value="false" />
+                    <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                     <property name="items">
                         <list>
-                            <ref bean="KS-ActivityOfferingWrapper-MetaSection"/>
+                            <bean parent="Uif-DataField"  p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:style="width:100%"/>
+                            <bean parent="Uif-DataField"  p:propertyName="seatPool.seatLimit" p:label="SEATS" p:style="width:100%"/>
+                            <bean parent="Uif-DataField"  p:propertyName="seatPoolPopulation.name" p:label="POPULATION NAME" p:style="width:100%"/>
+                            <bean parent="Uif-InputField"  p:propertyName="seatPool.expirationMilestoneTypeKey"  p:label="EXPIRATION MILESTONE"  p:ReadOnly="true"
+                                  p:optionsFinderClass="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SeatPoolExpirationMilestoneTypeKeyValues" p:style="width:100%"/>
                         </list>
                     </property>
                 </bean>
@@ -61,33 +84,5 @@
         </property>
     </bean>
 
-    <bean id="KS-ActivityOfferingWrapper-MetaSection" parent="Uif-VerticalBoxSection">
-        <property name="header">
-            <bean parent="Uif-HeaderThree"/>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-GridGroup"
-                      p:layoutManager.numberOfColumns="2"
-                      p:layoutManager.applyDefaultCellWidths="false">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-DataField" p:propertyName="aoInfo.courseOfferingCode" />
-                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" />
-                            <bean parent="Uif-DataField" p:propertyName="aoInfo.courseOfferingTitle" />
-                            <bean parent="Uif-DataField" p:propertyName="termName" p:label="Term"/>
-                            <bean parent="Uif-DataField" p:propertyName="typeName" p:label="Type"/>
-                            <bean parent="Uif-DataField" p:propertyName="formatOfferingName" p:label="Format Offering"/>
-                            <bean parent="Uif-DataField" p:propertyName="aoInfo.maximumEnrollment" p:label="Total Maximum Enrollment"/>
-                            <bean parent="Uif-DataField" p:propertyName="stateName" p:label="State"/>
-                            <bean parent="Uif-DataField" p:propertyName="isEvaluatedUI" p:label="This course requires an evaluation"/>
-                            <bean parent="Uif-DataField" p:propertyName="isHonorsOfferingUI" p:label="Honors Offering"/>
-                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityOfferingURL"/>
-                           <bean parent="Uif-DataField" p:propertyName="instructorNameHighestPercentEffort" p:label="Affiliated Personnel"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
+
 </beans>
