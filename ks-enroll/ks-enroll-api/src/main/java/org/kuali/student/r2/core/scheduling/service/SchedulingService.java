@@ -20,21 +20,9 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchRespInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRespInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.dto.*;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -964,7 +952,7 @@ public interface SchedulingService {
     public TimeSlotInfo updateTimeSlot(@WebParam(name = "timeSlotId") String timeSlotId, @WebParam(name = "timeSlotInfo") TimeSlotInfo timeSlotInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
-     * Removes scheduleResp relationship between a person and a slot.
+     * Removes timeslot relationship between a person and a slot.
      *
      * @param timeSlotId  TimeSlot  identifier
      * @param contextInfo context information containing the principalId and
@@ -995,7 +983,7 @@ public interface SchedulingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public ScheduleRespInfo getScheduleResp(@WebParam(name = "scheduleRespId") String scheduleRespId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /*public ScheduleRespInfo getScheduleResp(@WebParam(name = "scheduleRespId") String scheduleRespId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;*/
 
     /**
      * Retrieves a list of ScheduleResps corresponding to the given list of
@@ -1013,7 +1001,7 @@ public interface SchedulingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ScheduleRespInfo> getScheduleRespsByIds(@WebParam(name = "scheduleRespIds") List<String> scheduleRespIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /*public List<ScheduleRespInfo> getScheduleRespsByIds(@WebParam(name = "scheduleRespIds") List<String> scheduleRespIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;*/
 
     /**
      * Retrieves a list of ScheduleResp Ids by ScheduleResp Type.
@@ -1030,7 +1018,7 @@ public interface SchedulingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getScheduleRespIdsByType(@WebParam(name = "scheduleRespTypeKey") String scheduleRespTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /*public List<String> getScheduleRespIdsByType(@WebParam(name = "scheduleRespTypeKey") String scheduleRespTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;*/
 
     /**
      * Retrieves a list of ScheduleResps corresponding to the given list of
@@ -1048,7 +1036,7 @@ public interface SchedulingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ScheduleRespInfo> getScheduleRespsByScheduleRequestIds(@WebParam(name = "scheduleRequestIds") List<String> scheduleRequestIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /*public List<ScheduleRespInfo> getScheduleRespsByScheduleRequestIds(@WebParam(name = "scheduleRequestIds") List<String> scheduleRequestIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;*/
 
     /**
      * Retrieves a list of ScheduleResps corresponding to the given list of
@@ -1067,7 +1055,7 @@ public interface SchedulingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ScheduleRespInfo> getScheduleRespsByScheduleBatchResp(@WebParam(name = "scheduleBatchRespId") String scheduleBatchRespId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /*public List<ScheduleRespInfo> getScheduleRespsByScheduleBatchResp(@WebParam(name = "scheduleBatchRespId") String scheduleBatchRespId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;*/
 
     /**
      * Calls R25 in our implementation ... the scheduled results may not be
@@ -1086,7 +1074,7 @@ public interface SchedulingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public ScheduleRespInfo submitScheduleBatch(@WebParam(name = "scheduleBatchId") String scheduleBatchId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /*public ScheduleRespInfo submitScheduleBatch(@WebParam(name = "scheduleBatchId") String scheduleBatchId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;*/
 
     /**
      * Saves the scheduleIds to the referenced objects
@@ -1121,5 +1109,294 @@ public interface SchedulingService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<Integer> getValidDaysOfWeekByTimeSlotType(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ScheduleBatches associated with a ScheduleTransaction
+     *
+     * @param scheduleTransactionId an identifier for a ScheduleBatch
+     * @param contextInfo           Context information containing the principalId
+     *                              and locale information about the caller of
+     *                              service operation
+     * @return a list of ScheduleTransaction identifiers matching
+     *         scheduleTransactionTypeKey or an empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleTransactionTypeKey or contextInfo
+     *                                   is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ScheduleBatchInfo> getScheduleBatchesForScheduleTransaction(@WebParam(name = "scheduleTransactionId") String scheduleTransactionId,
+                                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Adds schedule transactions to the batch
+     *
+     * @param scheduleTransactionIds    schedule transactions to be added to the batch
+     * @param scheduleBatchId           batch identifier
+     * @param contextInfo               information containing the principalId and
+     *                                  locale information about the caller of service
+     *                                  operation
+     * @return status of the operation  (success, failed)
+     * @throws DoesNotExistException    one of the scheduleTransactionIds or
+     *                                  scheduleBatchId is not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleTransactionIds, scheduleBatchId or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo addScheduleTransactionsToScheduleBatch(@WebParam(name = "scheduleTransactionIds") List<String> scheduleTransactionIds,
+                                                             @WebParam(name = "scheduleBatchId") List<String> scheduleBatchId,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Removes schedule transactions from the batch
+     *
+     * @param scheduleTransactionIds schedule transactions to be added to the batch
+     * @param scheduleBatchId    batch identifier
+     * @param contextInfo        information containing the principalId and
+     *                           locale information about the caller of service
+     *                           operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     one of the scheduleTransactionIds or
+     *                                   scheduleBatchId is not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleTransactionIds, scheduleBatchId or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo removeScheduleTransactionsFromScheduleBatch(@WebParam(name = "scheduleTransactionIds") List<String> scheduleTransactionIds, @WebParam(name = "scheduleBatchId") List<String> scheduleBatchId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a ScheduleTransaction
+     *
+     * @param scheduleTransactionId a unique Id of a ScheduleTransaction
+     * @param contextInfo       Context information containing the principalId
+     *                          and locale information about the caller of
+     *                          service operation
+     * @return the ScheduleTransaction
+     * @throws DoesNotExistException     scheduleTransactionId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleTransactionId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public ScheduleTransactionInfo getScheduleTransaction(@WebParam(name = "scheduleTransactionId") String scheduleTransactionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ScheduleTransactions corresponding to the given list of
+     * ScheduleTransaction Ids.
+     *
+     * @param scheduleTransactionIds list of ScheduleTransactions to be retrieved
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return a list of ScheduleTransactions
+     * @throws DoesNotExistException     a scheduleTransactionId in list not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing scheduleTransactionId or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ScheduleTransactionInfo> getScheduleTransactionsByIds(@WebParam(name = "scheduleTransactionIds") List<String> scheduleTransactionIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ScheduleTransaction Ids by ScheduleTransaction Type.
+     *
+     * @param scheduleTransactionTypeKey an identifier for a ScheduleTransaction Type
+     * @param contextInfo            Context information containing the
+     *                               principalId and locale information about
+     *                               the caller of service operation
+     * @return a list of ScheduleTransaction identifiers matching
+     *         scheduleTransactionTypeKey or an empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleTransactionTypeKey or contextInfo
+     *                                   is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getScheduleTransactionIdsByType(@WebParam(name = "scheduleTransactionTypeKey") String scheduleTransactionTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ScheduleTransaction Ids by Ref Object Type.
+     *
+     * @param refObjectType an identifier for a ref object Type
+     * @param refObjectId   an
+     * @param contextInfo   Context information containing the principalId and
+     *                      locale information about the caller of service
+     *                      operation
+     * @return a list of ScheduleTransaction identifiers matching
+     *         scheduleTransactionTypeKey or an empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleTransactionTypeKey or contextInfo
+     *                                   is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+
+    public List<String> getScheduleTransactionsByRefObject(@WebParam(name = "refObjectType") String refObjectType, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ScheduleTransactions associated with a ScheduleBatch
+     *
+     * @param scheduleBatchId an identifier for a ScheduleBatch
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return a list of ScheduleTransaction identifiers matching
+     *         scheduleTransactionTypeKey or an empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleTransactionTypeKey or contextInfo
+     *                                   is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ScheduleTransactionInfo> getScheduleTransactionsForScheduleBatch(@WebParam(name = "scheduleBatchId") String scheduleBatchId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for ScheduleTransactions based on the criteria and returns a list of
+     * ScheduleTransaction identifiers which match the search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return list of ScheduleTransaction Ids
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForScheduleTransactionIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for ScheduleTransactions based on the criteria and returns a list of
+     * ScheduleTransactions which match the search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return list of ScheduleTransactions
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ScheduleTransactionInfo> searchForScheduleTransactions(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates a ScheduleTransaction. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current
+     * ScheduleTransaction and its directly contained sub-objects or expanded to
+     * perform all tests related to this ScheduleTransaction. If an identifier is
+     * present for the ScheduleTransaction (and/or one of its contained sub-objects)
+     * and a record is found for that identifier, the validation checks if the
+     * ScheduleTransaction can be updated to the new values. If an identifier is not
+     * present or a record does not exist, the validation checks if the object
+     * with the given data can be created.
+     *
+     * @param validationTypeKey             the identifier for the validation Type
+     * @param scheduleTransactionTypeKey    the identifier for the scheduleTransaction
+     *                                      Type
+     * @param scheduleTransactionInfo       detailed information about the
+     *                                      scheduleTransaction
+     * @param contextInfo                   Context information containing the
+     *                                      principalId and locale information about
+     *                                      the caller of service operation
+     * @return a list of validation results or an empty list if validation
+     *         succeeded
+     * @throws DoesNotExistException     validationTypeKey, scheduleTransactionId,
+     *                                   not found
+     * @throws InvalidParameterException invalid scheduleTransactionInfo or
+     *                                   contextInfo
+     * @throws MissingParameterException validationTypeKey, scheduleTransactionId or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateScheduleTransaction(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "scheduleTransactionTypeKey") String scheduleRequestTypeKey, @WebParam(name = "scheduleTransactionInfo") ScheduleRequestInfo scheduleTransactionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a ScheduleTransaction
+     *
+     * @param scheduleTransactionTypeKey the identifier for the scheduleTransaction
+     *                               Type
+     * @param scheduleTransactionInfo    detailed information about the
+     *                               scheduleTransaction
+     * @param contextInfo            Context information containing the
+     *                               principalId and locale information about
+     *                               the caller of service operation
+     * @return detailed information about the scheduleTransaction
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        scheduleTransactionId does not exist
+     * @throws InvalidParameterException    invalid scheduleTransactionInfo or
+     *                                      contextInfo
+     * @throws MissingParameterException    scheduleTransactionId or contextInfo is
+     *                                      missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
+     */
+    public ScheduleTransactionInfo createScheduleTransaction(@WebParam(name = "scheduleTransactionTypeKey") String scheduleTransactionTypeKey, @WebParam(name = "scheduleTransactionInfo") ScheduleTransactionInfo scheduleTransactionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates a scheduleTransaction.
+     *
+     * @param scheduleTransactionId   identifier of the scheduleTransaction to be
+     *                            updated
+     * @param scheduleTransactionInfo information about the object scheduleTransactionInfo
+     *                            to be updated
+     * @param contextInfo         context information containing the principalId
+     *                            and locale information about the caller of
+     *                            service operation
+     * @return updated scheduleTransaction information
+     * @throws DataValidationErrorException one or more values invalid for this
+     *                                      operation
+     * @throws DoesNotExistException        scheduleTransactionId not found
+     * @throws InvalidParameterException    invalid scheduleTransactionInfo or
+     *                                      contextInfo
+     * @throws MissingParameterException    scheduleTransactionId, scheduleTransactionInfo
+     *                                      or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete Transaction
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read-only
+     * @throws VersionMismatchException     optimistic locking failure or the
+     *                                      action was attempted on an out of
+     *                                      date version
+     */
+    public ScheduleTransactionInfo updateScheduleTransaction(@WebParam(name = "scheduleTransactionId") String scheduleTransactionId, @WebParam(name = "scheduleTransactionInfo") ScheduleTransactionInfo scheduleTransactionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Removes scheduleTransaction relationship between a person and a slot.
+     *
+     * @param scheduleTransactionId ScheduleTransaction  identifier
+     * @param contextInfo       context information containing the principalId
+     *                          and locale information about the caller of
+     *                          service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     scheduleTransactionId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleTransactionId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete Transaction
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteScheduleTransaction(@WebParam(name = "scheduleTransactionId") String scheduleTransactionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 }
 

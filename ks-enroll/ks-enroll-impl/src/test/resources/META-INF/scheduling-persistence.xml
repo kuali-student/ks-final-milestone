@@ -8,8 +8,8 @@
   <!-- JPA test "unit" -->
   <persistence-unit name="persistentUnit" transaction-type="JTA">
 
-    <class>org.kuali.student.r2.core.class1.scheduling.model.TimeSlotEntity</class>
-    <class>org.kuali.student.r2.core.class1.scheduling.model.TimeSlotAttributeEntity</class>
+    <class>org.kuali.student.r2.core.scheduling.model.TimeSlotEntity</class>
+    <class>org.kuali.student.r2.core.scheduling.model.TimeSlotAttributeEntity</class>
 
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

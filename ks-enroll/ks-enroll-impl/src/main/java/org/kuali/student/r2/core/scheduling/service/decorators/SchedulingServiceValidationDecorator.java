@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.scheduling.service.decorators;
+package org.kuali.student.r2.core.scheduling.service.decorators;
 
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;

@@ -1,14 +1,12 @@
-package org.kuali.student.r2.core.class1.scheduling.model;
+package org.kuali.student.r2.core.scheduling.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
-import org.kuali.student.enrollment.class1.lui.model.LuCodeEntity;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequest;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
-import org.kuali.student.r2.lum.clu.infc.LuCode;
 
 import javax.persistence.*;
 import java.util.*;

@@ -13,10 +13,10 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.scheduling.dao;
+package org.kuali.student.r2.core.scheduling.dao;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
-import org.kuali.student.r2.core.class1.scheduling.model.TimeSlotEntity;
+import org.kuali.student.r2.core.scheduling.model.TimeSlotEntity;
 
 import javax.persistence.Query;
 import java.util.List;

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.scheduling;
+package org.kuali.student.r2.core.scheduling;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -30,7 +30,6 @@ import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
-import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import java.util.ArrayList;

@@ -14,7 +14,7 @@
  *
  * Created by Mezba Mahtab on 5/29/12
  */
-package org.kuali.student.r2.core.class1.scheduling.service.impl;
+package org.kuali.student.r2.core.scheduling.service.impl;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.scheduling.service.impl;
+package org.kuali.student.r2.core.scheduling.service.impl;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.core.class1.scheduling.SchedulingServiceDataLoader;
+import org.kuali.student.r2.core.scheduling.SchedulingServiceDataLoader;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;

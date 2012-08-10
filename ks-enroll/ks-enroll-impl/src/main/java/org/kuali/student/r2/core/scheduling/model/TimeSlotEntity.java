@@ -13,14 +13,14 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.scheduling.model;
+package org.kuali.student.r2.core.scheduling.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.core.class1.scheduling.util.SchedulingServiceUtil;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 

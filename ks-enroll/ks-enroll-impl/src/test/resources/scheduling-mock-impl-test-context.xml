@@ -20,6 +20,6 @@
         <property name="properties" value="${propertiesPrefix.systemProperties}" />
     </bean>
     
-    <bean id="schedulingService" class="org.kuali.student.r2.core.class1.scheduling.service.impl.SchedulingServiceMockImpl">
+    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
     </bean>
 </beans>

@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroupTemplate;
-import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingTemplate;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingCluster;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingSet;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import org.w3c.dom.Element;
@@ -35,14 +35,14 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegistrationGroupTemplateInfo", propOrder = {
+@XmlType(name = "ActivityOfferingClusterInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
                 "formatOfferingId",  "activityOfferingTemplates",
                 "meta", "attributes", "_futureElements"})
 
-public class RegistrationGroupTemplateInfo 
+public class ActivityOfferingClusterInfo
     extends IdEntityInfo 
-    implements RegistrationGroupTemplate {
+    implements ActivityOfferingCluster {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,25 +50,25 @@ public class RegistrationGroupTemplateInfo
     private String formatOfferingId;
 
     @XmlElement
-    private List<ActivityOfferingTemplateInfo> activityOfferingTemplates;
+    private List<ActivityOfferingSetInfo> activityOfferingTemplates;
 
     @XmlAnyElement
     private List<Element> _futureElements;
 
     
     /**
-     * Constructs a new RegistrationGroupTemplateInfo.
+     * Constructs a new ActivityOfferingClusterInfo.
      */
-    public RegistrationGroupTemplateInfo() {
+    public ActivityOfferingClusterInfo() {
     }
 
     /**
-     * Constructs a new RegistrationGroupTemplateInfo from another
-     * RegistrationGroupTemplate.
+     * Constructs a new ActivityOfferingClusterInfo from another
+     * ActivityOfferingCluster.
      *
      * @param template the registration group template to copy
      */
-    public RegistrationGroupTemplateInfo(RegistrationGroupTemplate template) {
+    public ActivityOfferingClusterInfo(ActivityOfferingCluster template) {
         super(template); 
         
         if (template == null) {
@@ -77,9 +77,9 @@ public class RegistrationGroupTemplateInfo
 
         this.formatOfferingId = template.getFormatOfferingId();
         if (template.getActivityOfferingTemplates() != null) {
-            this.activityOfferingTemplates = new ArrayList<ActivityOfferingTemplateInfo>(template.getActivityOfferingTemplates().size());
-            for (ActivityOfferingTemplate aotemplate : template.getActivityOfferingTemplates()) {
-                this.activityOfferingTemplates.add(new ActivityOfferingTemplateInfo(aotemplate));
+            this.activityOfferingTemplates = new ArrayList<ActivityOfferingSetInfo>(template.getActivityOfferingTemplates().size());
+            for (ActivityOfferingSet aotemplate : template.getActivityOfferingTemplates()) {
+                this.activityOfferingTemplates.add(new ActivityOfferingSetInfo(aotemplate));
             }
         }
     }
@@ -94,15 +94,15 @@ public class RegistrationGroupTemplateInfo
     }
 
     @Override
-    public List<ActivityOfferingTemplateInfo> getActivityOfferingTemplates() {
+    public List<ActivityOfferingSetInfo> getActivityOfferingTemplates() {
         if (activityOfferingTemplates == null) {
-            activityOfferingTemplates = new ArrayList<ActivityOfferingTemplateInfo>();
+            activityOfferingTemplates = new ArrayList<ActivityOfferingSetInfo>();
         }
 
         return activityOfferingTemplates;
     }
 
-    public void setActivityOfferingTemplates(List<ActivityOfferingTemplateInfo> activityOfferingTemplates) {
+    public void setActivityOfferingTemplates(List<ActivityOfferingSetInfo> activityOfferingTemplates) {
         this.activityOfferingTemplates = activityOfferingTemplates;
     }
 }

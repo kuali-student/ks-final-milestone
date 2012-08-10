@@ -13,9 +13,8 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.scheduling.util;
+package org.kuali.student.r2.core.scheduling.util;
 
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 
 import java.util.ArrayList;

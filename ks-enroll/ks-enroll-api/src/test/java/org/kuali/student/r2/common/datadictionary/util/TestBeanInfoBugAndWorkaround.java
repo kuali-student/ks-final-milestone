@@ -85,7 +85,7 @@ public class TestBeanInfoBugAndWorkaround {
         }
     }
 
-    @Test
+    //    @Test
     public void testBeanInfo() {
         System.out.println("testing beanInfo bug and workaround introspection");
         BeanInfo beanInfo;
