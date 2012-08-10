@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.lu.service.impl;
+package org.kuali.student.r2.lum.lu.service;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r2.lum.lu.dao.LuDao;
@@ -84,6 +84,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.lu.service.impl.CluServiceAssembler;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
@@ -127,7 +128,7 @@ import java.util.Set;
 
 //@WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 //@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-public class CLuServiceImpl implements CluService {
+public class CluServiceImpl implements CluService {
 
     private static final String SEARCH_KEY_DEPENDENCY_ANALYSIS = "lu.search.dependencyAnalysis";
     private static final String SEARCH_KEY_BROWSE_PROGRAM = "lu.search.browseProgram";
