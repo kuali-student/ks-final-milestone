@@ -16,7 +16,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.lum.lu.dto.LuTypeInfo;
+import org.kuali.student.r2.lum.lu.dto.LuTypeInfo;
 
 public class CredentialProgramTypeKeyValues extends KeyValuesBase implements Serializable{
 	public static final String CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX = "kuali.lu.type.credential.";

@@ -22,7 +22,8 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
-import org.kuali.student.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
@@ -54,7 +55,7 @@ public class ActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase imple
 
         if(!StringUtils.isEmpty(formatId)) {
             try {
-                CourseInfo course = helperService.getCourseService().getCourse(courseId);
+                CourseInfo course = helperService.getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
                 FormatInfo foundFormat = null;
                 for (FormatInfo info : course.getFormats()) {
                     if (info.getId().equals(formatId)) {
@@ -69,7 +70,7 @@ public class ActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase imple
 
                 List<ActivityInfo> activityInfos = foundFormat.getActivities();
                 for (ActivityInfo activityInfo : activityInfos) {
-                    TypeInfo activityType = helperService.getTypeService().getType(activityInfo.getActivityType(), helperService.getContextInfo());
+                    TypeInfo activityType = helperService.getTypeService().getType(activityInfo.getTypeKey(), helperService.getContextInfo());
                     keyValues.add(new ConcreteKeyValue(activityInfo.getId(), activityType.getName()));
                 }
             } catch (Exception e) {

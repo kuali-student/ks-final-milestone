@@ -14,8 +14,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.search.dto.*;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -61,7 +62,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 @RequestMapping(value = "/courseOfferingManagement")
 public class CourseOfferingManagementController extends UifControllerBase  {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementController.class);
-    private LuService luService;
+    private CluService luService;
     private transient LRCService lrcService;
     private CourseService courseService;
     private AcademicCalendarService academicCalendarService;
@@ -299,7 +300,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         searchRequest.setSearchKey("lu.search.cluByCode");
 
         try {
-            SearchResult searchResult = getLuService().search(searchRequest);
+            SearchResult searchResult = getCluService().search(searchRequest);
             if (searchResult.getRows().size() > 0) {
                 for(SearchResultRow row : searchResult.getRows()){
                     List<SearchResultCell> srCells = row.getCells();
@@ -307,7 +308,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                         for(SearchResultCell cell : srCells){
                             if ("lu.resultColumn.cluId".equals(cell.getKey())) {
                                 courseId = cell.getValue();
-                                returnCourseInfo = getCourseService().getCourse(courseId);
+                                returnCourseInfo = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
                                 courseInfoList.add(returnCourseInfo);
                             }
                         }
@@ -351,9 +352,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return this.academicCalendarService;
     }
 
-    private LuService getLuService() {
+    private CluService getCluService() {
         if(luService == null) {
-            luService = CourseOfferingResourceLoader.loadLuService();
+            luService = CourseOfferingResourceLoader.loadCluService();
         }
         return luService;
     }

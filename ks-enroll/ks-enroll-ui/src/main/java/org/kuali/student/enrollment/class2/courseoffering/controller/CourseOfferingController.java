@@ -11,7 +11,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
-import org.kuali.student.common.search.dto.*;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -22,6 +21,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -51,7 +51,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 @RequestMapping(value = "/courseOffering")
 public class CourseOfferingController extends MaintenanceDocumentController {
 
-    private LuService luService;
+    private CluService luService;
     private CourseService courseService;
     private AcademicCalendarService academicCalendarService;
     private CourseOfferingService courseOfferingService;
@@ -297,7 +297,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         searchRequest.setSearchKey("lu.search.cluByCode");
 
         try {
-            SearchResult searchResult = getLuService().search(searchRequest);
+            SearchResult searchResult = getCluService().search(searchRequest);
             if (searchResult.getRows().size() > 0) {
                 for(SearchResultRow row : searchResult.getRows()){
                     List<SearchResultCell> srCells = row.getCells();
@@ -305,7 +305,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                         for(SearchResultCell cell : srCells){
                             if ("lu.resultColumn.cluId".equals(cell.getKey())) {
                                 courseId = cell.getValue();
-                                returnCourseInfo = getCourseService().getCourse(courseId);
+                                returnCourseInfo = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
                                 courseInfoList.add(returnCourseInfo);
                             }
                         }
@@ -337,9 +337,9 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return typeService;
     }
 
-    private LuService getLuService() {
+    private CluService getCluService() {
         if(luService == null) {
-            luService = CourseOfferingResourceLoader.loadLuService();
+            luService = CourseOfferingResourceLoader.loadCluService();
         }
         return luService;
     }

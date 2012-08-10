@@ -4,10 +4,11 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r2.common.infc.SearchParam;
-import org.kuali.student.r2.core.search.infc.SearchRequest;
-import org.kuali.student.r2.core.search.infc.SearchResult;
-import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
@@ -83,7 +84,7 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
                         for(SearchResultCell srcell : srCells){
                             if (srcell.getKey().equals("lu.resultColumn.cluId")) {
                                 courseId = srcell.getValue();
-                                CourseInfo course = getCourseService().getCourse(courseId);
+                                CourseInfo course = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
                                 courseInfoList.add(course);
                             }
                         }
@@ -100,7 +101,7 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
     //Note: here I am using r1 CluService implementation!!!
     protected CluService getCluService() {
         if(luService == null) {
-            luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.LU_NAMESPACE,"CluService"));
+            luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,"CluService"));
         }
         return this.luService;
     }

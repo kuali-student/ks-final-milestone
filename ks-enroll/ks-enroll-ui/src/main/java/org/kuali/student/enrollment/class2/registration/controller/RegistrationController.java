@@ -26,8 +26,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.MeetingScheduleWrapper;
@@ -248,7 +248,7 @@ public class RegistrationController extends UifControllerBase {
                 String prereq = "none";
                 courseOfferingWrapper.setCourseOffering(getCourseOfferingService().getCourseOffering(coId, context));
 //    TODO statement service wasnt working correctly when tested, commented out for now
-                List<StatementTreeViewInfo> statements = getCourseService().getCourseStatements(courseOfferingWrapper.getCourseOffering().getCourseId(),"KUALI.RULE", "en");
+                List<StatementTreeViewInfo> statements = getCourseService().getCourseStatements(courseOfferingWrapper.getCourseOffering().getCourseId(),"KUALI.RULE", "en", context);
                 if(statements != null && !statements.isEmpty()){
                     for(StatementTreeViewInfo statement: statements){
                         if(statement.getType().equals("kuali.statement.type.course.academicReadiness.studentEligibilityPrereq")){
