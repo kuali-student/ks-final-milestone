@@ -491,7 +491,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         try{
             for(ActivityOfferingWrapper ao : selectedAolist)  {
-                CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOffering(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+                CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

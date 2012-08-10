@@ -1243,14 +1243,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException
 			 {
-        // TODO: getSeatPoolDefinitionsForActivityOffering and Delete dependent seatpool
+
+        // get seat pools to delete
+        List<SeatPoolDefinitionInfo> seatPools = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
+
+        // remove seat pool reference  to AO then delete orphaned seat pool
+        for(SeatPoolDefinitionInfo seatPool : seatPools){
+            removeSeatPoolDefinitionFromActivityOffering(seatPool.getId(), activityOfferingId, context);
+            deleteSeatPoolDefinition(seatPool.getId(),context);
+        }
 
         // Delete the Activity offering
-        deleteActivityOffering(activityOfferingId, context);
-
-        StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(true);
-        return statusInfo;
+        return deleteActivityOffering(activityOfferingId, context);
 
 	}
 
