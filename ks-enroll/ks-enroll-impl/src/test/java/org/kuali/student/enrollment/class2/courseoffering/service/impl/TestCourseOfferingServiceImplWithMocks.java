@@ -13,6 +13,7 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -89,7 +90,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         // get course
         CourseInfo course;
         try {
-            course = courseService.getCourse("COURSE1");
+            course = courseService.getCourse("COURSE1", ContextUtils.getContextInfo());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -132,8 +133,8 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(orig.getCourseNumberSuffix(), info.getCourseNumberSuffix());
         assertEquals(course.getSubjectArea(), info.getSubjectArea());
         if (course.getDescr() != null) {
-            assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getPlain(), info.getDescr().getPlain());
-            assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getFormatted(), info.getDescr().getFormatted());
+            assertEquals(course.getDescr().getPlain(), info.getDescr().getPlain());
+            assertEquals(course.getDescr().getFormatted(), info.getDescr().getFormatted());
         }
 //        assertEquals(2,info.getStudentRegistrationOptionIds().size());
 //        assertTrue(info.getStudentRegistrationOptionIds().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT));

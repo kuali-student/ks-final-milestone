@@ -10,8 +10,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
@@ -23,38 +25,31 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.mock.MockService;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.common.versionmanagement.dto.VersionInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.common.versionmanagement.dto.VersionInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 
 /**
  *
  * @author nwright
  */
-public class CourseServiceR1MockImpl implements CourseService, MockService {
+public class CourseServiceR1MockImpl implements CourseService {
 
     private Map<String, CourseInfo> courses = new LinkedHashMap<String, CourseInfo>();
-    
-    
 
     @Override
-	public void clear() {
-    	this.courses.clear();
-	}
-
-	@Override
-    public CourseInfo createCourse(CourseInfo courseInfo) 
-            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
+    public CourseInfo createCourse(CourseInfo courseInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         if (courseInfo.getId() == null) {
             courseInfo.setId(courses.size() + "");
         }
@@ -71,17 +66,17 @@ public class CourseServiceR1MockImpl implements CourseService, MockService {
     }
 
     @Override
-    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
+    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public CourseInfo createNewCourseVersion(String courseId, String versionComment) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public CourseInfo createNewCourseVersion(String courseId, String versionComment, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public StatusInfo deleteCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
+    public StatusInfo deleteCourse(String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
         if (!courses.containsKey(courseId)) {
             throw new DoesNotExistException(courseId);
         }
@@ -92,12 +87,12 @@ public class CourseServiceR1MockImpl implements CourseService, MockService {
     }
 
     @Override
-    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public CourseInfo getCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public CourseInfo getCourse(String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (!courses.containsKey(courseId)) {
             throw new DoesNotExistException(courseId);
         }
@@ -105,7 +100,7 @@ public class CourseServiceR1MockImpl implements CourseService, MockService {
     }
 
     @Override
-    public List<ActivityInfo> getCourseActivities(String formatId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ActivityInfo> getCourseActivitiesByCourseFormat(String formatId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ActivityInfo> list = new ArrayList<ActivityInfo>();
         for (CourseInfo course : this.courses.values()) {
             for (FormatInfo format : course.getFormats()) {
@@ -120,9 +115,9 @@ public class CourseServiceR1MockImpl implements CourseService, MockService {
     }
 
     @Override
-    public List<FormatInfo> getCourseFormats(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<FormatInfo> getCourseFormatsByCourse(String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<FormatInfo> list = new ArrayList<FormatInfo>();
-        CourseInfo course = this.getCourse(courseId);
+        CourseInfo course = this.getCourse(courseId, null);
         for (FormatInfo format : course.getFormats()) {
             list.add(format);
         }
@@ -130,22 +125,22 @@ public class CourseServiceR1MockImpl implements CourseService, MockService {
     }
 
     @Override
-    public List<LoDisplayInfo> getCourseLos(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoDisplayInfo> getCourseLearningObjectivesByCourse(String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public StatusInfo setCurrentCourseVersion(String courseVersionId, Date currentVersionStart) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo setCurrentCourseVersion(String courseVersionId, Date currentVersionStart, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
+    public CourseInfo updateCourse(String courseId, CourseInfo courseInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException, ReadOnlyException {
         if (!courses.containsKey(courseInfo.getId())) {
             throw new DoesNotExistException(courseInfo.getId());
         }
@@ -154,17 +149,17 @@ public class CourseServiceR1MockImpl implements CourseService, MockService {
     }
 
     @Override
-    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
+    public StatementTreeViewInfo updateCourseStatement(String courseId, String statementId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -179,57 +174,28 @@ public class CourseServiceR1MockImpl implements CourseService, MockService {
     }
 
     @Override
-    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+
+    @Override
+    public List<CourseInfo> getCoursesByIds(List<String> courseIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI, String refObjectId, Date date)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForCourseIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public VersionDisplayInfo getFirstVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<CourseInfo> searchForCourses(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public VersionDisplayInfo getLatestVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public VersionDisplayInfo getVersionBySequenceNumber(String refObjectTypeURI, String refObjectId, Long sequence) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<VersionDisplayInfo> getVersions(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-      
-        // Note: the refObjectTypeURI should only be clus because that is the only object that is versioned
-        List<VersionDisplayInfo> list = new ArrayList<VersionDisplayInfo> ();
-        for (CourseInfo info : this.courses.values()) {
-            // the refObjectid is the VERSION INDEPENDENT ID See LuDaoImpl from CM
-            if (refObjectId.equals(info.getVersionInfo().getVersionIndId())) {
-                VersionInfo vi = info.getVersionInfo();
-                VersionDisplayInfo vd = new VersionDisplayInfo ();
-                vd.setId(info.getId());
-                vd.setObjectTypeURI(LuServiceConstants.CLU_NAMESPACE_URI);
-                vd.setVersionedFromId(vi.getVersionedFromId());
-                vd.setCurrentVersionStart(vi.getCurrentVersionStart());
-                vd.setCurrentVersionEnd(vi.getCurrentVersionEnd());
-                vd.setSequenceNumber(vi.getSequenceNumber());
-                vd.setVersionComment(vi.getVersionComment());
-                vd.setVersionIndId(vi.getVersionIndId());
-                list.add (vd);
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectTypeURI, String refObjectId, Date from, Date to) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<VersionDisplayInfo> getVersions(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

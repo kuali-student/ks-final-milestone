@@ -40,6 +40,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.lrc.service.LrcServiceBusinessLogic;
+import org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl;
 
 public class LrcServiceMockImpl implements LRCService {
 
