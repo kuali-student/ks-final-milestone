@@ -27,6 +27,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.test.util.AttributeTester;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -47,6 +48,7 @@ import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -85,7 +87,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 	protected AtpService atpService;
 
 	@Resource
-	protected org.kuali.student.lum.course.service.CourseService canonicalCourseService;
+	protected CourseService canonicalCourseService;
 	
 	@Resource
 	protected CourseOfferingServiceTestDataLoader dataLoader;
@@ -189,7 +191,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 	}
 	
 	@Test
-	public void testGenerateAndDeleteRegistrationGroups() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
+	public void testGenerateAndDeleteRegistrationGroups() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
 		
 		List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsForCourseOffering("CO-1", callContext);
 		
@@ -369,11 +371,11 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException,
-			org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
+			DoesNotExistException,
+			InvalidParameterException,
+			MissingParameterException,
+			OperationFailedException,
+			PermissionDeniedException {
 
 		List<CourseOfferingInfo> offerings = coService
 				.getCourseOfferingsByCourse("CLU-1", callContext);
@@ -382,7 +384,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 		List<String> optionKeys = new ArrayList<String>();
 		CourseInfo canonicalCourse = this.canonicalCourseService
-				.getCourse("CLU-1");
+				.getCourse("CLU-1", ContextUtils.getContextInfo());
 		CourseOfferingInfo coInfo = CourseOfferingServiceDataUtils
 				.createCourseOffering(canonicalCourse, "2012FA");
 		CourseOfferingInfo created = coService.createCourseOffering("CLU-1",
@@ -622,13 +624,13 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException,
-			org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
+			DoesNotExistException,
+			InvalidParameterException,
+			MissingParameterException,
+			OperationFailedException,
+			PermissionDeniedException {
 
-		CourseInfo canonicalCourse = canonicalCourseService.getCourse("CLU-1");
+		CourseInfo canonicalCourse = canonicalCourseService.getCourse("CLU-1", ContextUtils.getContextInfo());
 
 		// Create a CO
 		CourseOfferingInfo coInfo = CourseOfferingServiceDataUtils

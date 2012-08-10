@@ -1521,13 +1521,6 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals(crReltnInfo.getTypeKey(), "kuali.lu.lo.relation.type.includes");
 
 		try {
-			client.createCluLoRelation("CLU-1", "LO-1", "kuali.lu.lo.relation.type.includes", reltnInfo, contextInfo);
-			fail("Should have thrown AlreadyExistsException");
-		} catch (AlreadyExistsException e) {
-
-		}
-
-		try {
 			reltnInfo.setCluId("MISSING CLU");
 			client.createCluLoRelation("MISSING CLU", "LO-1", "kuali.lu.lo.relation.type.includes",
 					reltnInfo, contextInfo);

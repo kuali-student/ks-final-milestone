@@ -11,15 +11,17 @@ package org.kuali.student.r2.core.class1.organization.service.impl;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.common.validator.old.Validator;
-import org.kuali.student.core.organization.dao.OrganizationDao;
-import org.kuali.student.core.organization.entity.Org;
-import org.kuali.student.core.organization.entity.OrgOrgRelation;
-import org.kuali.student.core.organization.entity.OrgPersonRelation;
-import org.kuali.student.core.organization.entity.OrgPersonRelationType;
-import org.kuali.student.core.organization.entity.OrgPositionRestriction;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.common.validator.old.Validator;
+import org.kuali.student.r1.core.organization.dao.OrganizationDao;
+import org.kuali.student.r1.core.organization.entity.Org;
+import org.kuali.student.r1.core.organization.entity.OrgOrgRelation;
+import org.kuali.student.r1.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.r1.core.organization.entity.OrgPersonRelationType;
+import org.kuali.student.r1.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -42,6 +44,7 @@ import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.common.dto.TypeInfo;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -293,6 +296,11 @@ public class OrganizationServiceMockImpl implements OrganizationService {
     @Override
     public List<TypeInfo> getOrgOrgRelationTypesForOrgType(String orgTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("getOrgOrgRelationTypesForOrgType(String, ContextInfo) is not mocked yet!");
+    }
+
+    @Override
+    public TypeInfo getOrgOrgRelationTypeForOrgType(@WebParam(name = "orgTypeKey") String orgTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -560,6 +568,11 @@ public class OrganizationServiceMockImpl implements OrganizationService {
             }
         }
         return results;
+    }
+
+    @Override
+    public OrgPersonRelationInfo getOrgPersonRelationByTypeAndOrg(@WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey, @WebParam(name = "orgId") String orgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -850,8 +863,8 @@ public class OrganizationServiceMockImpl implements OrganizationService {
         List<OrgTreeInfo> results = new ArrayList<OrgTreeInfo>();
 
         if (maxLevels == 0 || currentLevel < maxLevels) {
-            List<org.kuali.student.core.organization.dto.OrgTreeInfo> orgTreeInfos = this.organizationDao.getOrgTreeInfo(rootOrgId, orgHierarchyId);
-            for (org.kuali.student.core.organization.dto.OrgTreeInfo orgTreeInfo : orgTreeInfos) {
+            List<OrgTreeInfo> orgTreeInfos = this.organizationDao.getOrgTreeInfo(rootOrgId, orgHierarchyId);
+            for (OrgTreeInfo orgTreeInfo : orgTreeInfos) {
 
                 OrgTreeInfo treeInfo = new OrgTreeInfo();
                 treeInfo.setOrgId(orgTreeInfo.getOrgId());
@@ -860,8 +873,8 @@ public class OrganizationServiceMockImpl implements OrganizationService {
                 treeInfo.setParentId(orgTreeInfo.getParentId());
                 treeInfo.setPersonId(orgTreeInfo.getPersonId());
                 treeInfo.setPositionId(orgTreeInfo.getPositionId());
-                treeInfo.setRelationTypeKey(orgTreeInfo.getRelationType());
-                treeInfo.setPositions(this.organizationDao.getOrgMemebershipCount(orgTreeInfo.getOrgId()));
+                treeInfo.setRelationTypeKey(orgTreeInfo.getRelationTypeKey());
+                treeInfo.setPositions(this.organizationDao.getOrgMembershipCount(orgTreeInfo.getOrgId()));
 
                 results.add(treeInfo);
 
@@ -872,7 +885,52 @@ public class OrganizationServiceMockImpl implements OrganizationService {
         return results;
     }
 
-    public org.kuali.student.common.dictionary.dto.ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public SearchTypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public SearchResultTypeInfo getSearchResultType(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

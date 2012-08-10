@@ -1,7 +1,9 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import java.util.Arrays;
-import org.kuali.student.lum.course.dto.ActivityInfo;
+
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
@@ -90,7 +92,7 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
         // get course
         CourseInfo course;
         try {
-            course = courseService.getCourse("COURSE1");
+            course = courseService.getCourse("COURSE1", ContextUtils.getContextInfo());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

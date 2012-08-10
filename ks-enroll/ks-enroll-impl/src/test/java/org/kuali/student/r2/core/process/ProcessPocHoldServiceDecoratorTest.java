@@ -4,7 +4,7 @@
  */
 package org.kuali.student.r2.core.process;
 
-import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
+import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;

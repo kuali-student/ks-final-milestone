@@ -107,7 +107,7 @@ public class R1CourseServiceHelper {
         // all versions of the course
         List<VersionDisplayInfo> versions;
         try {
-            versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, versionIndCourseId);
+            versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, versionIndCourseId, context);
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("The course does not exist. course: " + versionIndCourseId, e);
         } catch (Exception e) {
