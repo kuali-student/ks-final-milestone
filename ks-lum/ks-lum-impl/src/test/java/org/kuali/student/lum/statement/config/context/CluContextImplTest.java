@@ -26,7 +26,7 @@ import org.kuali.student.r2.lum.statement.config.context.CluContextImpl;
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class CluContextImplTest extends AbstractServiceTest {
 
-    @Client(value = "org.kuali.student.lum.lu.service.impl.CLuServiceImpl", additionalContextFile = "classpath:clu-additional-context.xml")
+    @Client(value = "org.kuali.student.lum.lu.service.impl.CluServiceImpl", additionalContextFile = "classpath:clu-additional-context.xml")
     private CluService cluService;
 	private CluContextImpl cluContext = new CluContextImpl();
 

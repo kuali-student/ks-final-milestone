@@ -101,7 +101,7 @@ public class CourseServiceUtils {
 				   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
 				   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
 					try {
-						CluSetInfo cluSet = cluService.getCluSetInfo(field.getValue(), contextInfo);
+						CluSetInfo cluSet = cluService.getCluSet(field.getValue(), contextInfo);
 						cluSet.setId(null);
 						cluSet.setStateKey(newState);
 						//Clear clu ids if membership info exists, they will be re-added based on membership info
