@@ -649,6 +649,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if(selectedObject instanceof CourseOfferingEditWrapper){
             CourseOfferingInfo courseOfferingInfo = ((CourseOfferingEditWrapper) selectedObject).getCoInfo();
             urlParameters = _buildCOURLParameters(courseOfferingInfo,"maintenanceEdit",false,getContextInfo());
+            urlParameters.put(UifParameters.RETURN_FORM_KEY, theForm.getFormKey());
+            urlParameters.put(UifParameters.RETURN_LOCATION, theForm.getFormPostUrl());
         }
         else if(selectedObject instanceof ActivityOfferingWrapper) {
             ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper)selectedObject;
@@ -657,6 +659,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, theForm.getTheCourseOffering().getId());
             urlParameters.put("dataObjectClassName", ActivityOfferingWrapper.class.getName());
             urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+            urlParameters.put(UifParameters.RETURN_FORM_KEY, theForm.getFormKey());
+            urlParameters.put(UifParameters.RETURN_LOCATION, theForm.getFormPostUrl());
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
