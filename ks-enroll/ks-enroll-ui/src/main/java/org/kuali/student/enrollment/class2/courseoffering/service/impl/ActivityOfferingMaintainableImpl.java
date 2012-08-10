@@ -44,12 +44,7 @@ import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Formatter;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
 
@@ -60,7 +55,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient CourseService courseService;
     private transient AcademicCalendarService academicCalendarService;
     private transient PopulationService populationService;
-    private transient SeatPoolUtilityService seatPoolUtilityService;
+    private transient SeatPoolUtilityService seatPoolUtilityService = new SeatPoolUtilityServiceImpl();
 
     @Override
     public void saveDataObject() {
@@ -69,11 +64,12 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             disassembleInstructorsWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
 
             List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
-            SeatPoolUtilityServiceImpl spServiceImpl = new SeatPoolUtilityServiceImpl();
-            spServiceImpl.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo() );
+
+            seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo());
 
             try {
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
+                activityOfferingWrapper.setAoInfo(activityOfferingInfo);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -175,6 +171,15 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
             // Get/Set SeatPools
             List<SeatPoolDefinitionInfo> seatPoolDefinitionInfoList = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(info.getId(), getContextInfo());
+
+            //Sort the seatpools by priority order
+            Collections.sort(seatPoolDefinitionInfoList, new Comparator<SeatPoolDefinitionInfo>() {
+                @Override
+                public int compare(SeatPoolDefinitionInfo sp1, SeatPoolDefinitionInfo sp2) {
+                    return sp1.getProcessingPriority().compareTo(sp2.getProcessingPriority());
+                }
+            });
+
             List<SeatPoolWrapper> seatPoolWrapperList = new ArrayList<SeatPoolWrapper>();
 
             for(SeatPoolDefinitionInfo seatPoolDefinitionInfo :  seatPoolDefinitionInfoList){
@@ -202,17 +207,15 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
      * @return
      */
     private List<SeatPoolDefinitionInfo> getSeatPoolDefinitions(List<SeatPoolWrapper> seatPoolWrappers)   {
-        if(seatPoolWrappers == null) return null;
 
-        List<SeatPoolDefinitionInfo> spRet = null;
+        List<SeatPoolDefinitionInfo> spRet = new ArrayList<SeatPoolDefinitionInfo>();
 
-        for(SeatPoolWrapper seatPoolWrapper : seatPoolWrappers){
-            if(spRet == null){
-                spRet = new ArrayList<SeatPoolDefinitionInfo>();
+        if(seatPoolWrappers != null){
+            for(SeatPoolWrapper seatPoolWrapper : seatPoolWrappers){
+                SeatPoolDefinitionInfo seatPool = seatPoolWrapper.getSeatPool();
+                seatPool.setPopulationId(seatPoolWrapper.getSeatPoolPopulation().getId());
+                spRet.add(seatPool);
             }
-            SeatPoolDefinitionInfo seatPool = seatPoolWrapper.getSeatPool();
-            seatPool.setPopulationId(seatPoolWrapper.getSeatPoolPopulation().getId());
-            spRet.add(seatPool);
         }
 
         return spRet;
@@ -445,15 +448,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
         return populationService;
     }
-
-    public SeatPoolUtilityService getSeatPoolUtilityService() {
-        return seatPoolUtilityService;
-    }
-
-    public void setSeatPoolUtilityService(SeatPoolUtilityService seatPoolUtilityService) {
-        this.seatPoolUtilityService = seatPoolUtilityService;
-    }
-
 
     /**
      * Mock data that was being used in the Delivery Logistics section of Edit Activity Offering

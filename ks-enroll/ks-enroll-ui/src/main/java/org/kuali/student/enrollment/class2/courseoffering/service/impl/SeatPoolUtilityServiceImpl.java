@@ -42,7 +42,7 @@ public class SeatPoolUtilityServiceImpl implements SeatPoolUtilityService {
         List <String> currentSeatPoolIds = getExistingSeatPoolIds(activityOfferingId, context);
 
         try {
-            if (updatedSeatPoolList != null && !updatedSeatPoolList.isEmpty())  {
+            if (updatedSeatPoolList != null)  {
                 Collections.sort(updatedSeatPoolList, new Comparator<SeatPoolDefinitionInfo>() {
                     @Override
                     public int compare(SeatPoolDefinitionInfo sp1, SeatPoolDefinitionInfo sp2) {
