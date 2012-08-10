@@ -680,6 +680,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)){
             getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(),theForm.getSelectedOfferingAction());
         }
+        // reload the AOs
+        CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();
+        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+        getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theCourseOffering);
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
 
