@@ -21,7 +21,7 @@ import org.kuali.student.r2.common.infc.HasId;
 import java.util.List;
 
 /**
- * The ActivityOfferingTemplate is a component of a
+ * The ActivityOfferingSet is a component of a
  * registratinGroupTemplate. 
  * 
  * (needs example)
@@ -29,7 +29,7 @@ import java.util.List;
  * @author tom
  */
 
-public interface ActivityOfferingTemplate
+public interface ActivityOfferingSet
     extends HasId {
 
     /**

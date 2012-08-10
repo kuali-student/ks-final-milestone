@@ -16,28 +16,26 @@
 
 package org.kuali.student.enrollment.courseoffering.dto;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingSet;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingTemplate;
-
-import org.w3c.dom.Element;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ActivityOfferingTemplateInfo", propOrder = {
+@XmlType(name = "ActivityOfferingSetInfo", propOrder = {
                 "id", "activityOfferingIds", "_futureElements"})
 
-public class ActivityOfferingTemplateInfo 
-    implements ActivityOfferingTemplate {
+public class ActivityOfferingSetInfo
+    implements ActivityOfferingSet {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,26 +50,26 @@ public class ActivityOfferingTemplateInfo
 
     
     /**
-     * Constructs a new ActivityOfferingTemplateInfo.
+     * Constructs a new ActivityOfferingSetInfo.
      */
-    public ActivityOfferingTemplateInfo() {
+    public ActivityOfferingSetInfo() {
     }
 
     /**
-     * Constructs a new ActivityOfferingTemplateInfo from another
-     * ActivityOfferingTemplate.
+     * Constructs a new ActivityOfferingSetInfo from another
+     * ActivityOfferingSet.
      *
-     * @param template the registration group template to copy
+     * @param activityOfferingSet the registration group activityOfferingSet to copy
      */
-    public ActivityOfferingTemplateInfo(ActivityOfferingTemplate template) {
-        this.id = template.getId();
+    public ActivityOfferingSetInfo(ActivityOfferingSet activityOfferingSet) {
+        this.id = activityOfferingSet.getId();
 
-        if (template == null) {
+        if (activityOfferingSet == null) {
             return;      
         }
 
-        if (template.getActivityOfferingIds() != null) {
-            this.activityOfferingIds = new ArrayList<String>(template.getActivityOfferingIds());
+        if (activityOfferingSet.getActivityOfferingIds() != null) {
+            this.activityOfferingIds = new ArrayList<String>(activityOfferingSet.getActivityOfferingIds());
         }
     }
 

@@ -20,15 +20,14 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Co
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.FormatOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.OfferingInstructorTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingAdminDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingAdminDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupTemplateInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -39,7 +38,6 @@ import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -61,7 +59,6 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -958,23 +955,28 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<ActivityOfferingInfo> getActivityOfferingsByFormatOffering(String formatOfferingId, ContextInfo context)
+    public List<ActivityOfferingInfo> getActivityOfferingsByFormatOffering(String formatOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ActivityOfferingInfo> activityOfferings = new ArrayList<ActivityOfferingInfo>();
 
         //Find all related luis to the course Offering
-        List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY,context);
+        List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, contextInfo);
         for (LuiInfo lui:luis) {
 
             //Filter out only course offerings (the relation type seems to vague to only hold format offerings)
-            if (_isActivityType(lui.getTypeKey(), context)) {
+            if (_isActivityType(lui.getTypeKey(), contextInfo)) {
                 ActivityOfferingInfo activityOffering = new ActivityOfferingInfo();
-                ActivityOfferingTransformer.lui2Activity(activityOffering, lui, lprService, context);
-                populateActivityOfferingRelationships(activityOffering, context);
+                ActivityOfferingTransformer.lui2Activity(activityOffering, lui, lprService, contextInfo);
+                populateActivityOfferingRelationships(activityOffering, contextInfo);
                 activityOfferings.add(activityOffering);
             }
         }
         return activityOfferings;
+    }
+
+    @Override
+    public List<ActivityOfferingInfo> getActivityOfferingsWithoutClusterByFormatOffering( String formatOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("not implemented");
     }
 
     @Override
@@ -1354,7 +1356,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public List<RegistrationGroupInfo> generateRegistrationGroupsForTemplate(String registrationGroupTemplateId, ContextInfo context)
+    public List<RegistrationGroupInfo> generateRegistrationGroupsForCluster(String registrationGroupTemplateId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
@@ -1432,7 +1434,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo deleteGeneratedRegistrationGroupsForTemplate(String registrationGroupTemplateId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<ValidationResultInfo> verifyRegistrationGroup(String registrationGroupId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException();
     }
 
@@ -1445,27 +1452,36 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = true)
-    public RegistrationGroupTemplateInfo getRegistrationGroupTemplate(String registrationGroupTemplateId,
-                                                                      ContextInfo context)
+    public ActivityOfferingClusterInfo getActivityOfferingCluster(String activityOfferingClusterId,
+                                                                    ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
 
-
     @Override
-    public List<ValidationResultInfo> validateRegistrationGroupTemplate(String validationTypeKey, RegistrationGroupTemplateInfo registrationGroupTemplateInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByFormatOffering(String formatOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public RegistrationGroupTemplateInfo createRegistrationGroupTemplate(RegistrationGroupTemplateInfo registrationGroupTemplateDefinitionInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public List<ValidationResultInfo> validateActivityOfferingCluster(String validationTypeKey, String activityOfferingClusterTypeKey, ActivityOfferingInfo activityOfferingClusterInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ActivityOfferingClusterInfo createActivityOfferingCluster(String activityOfferingClusterTypeKey, ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<ValidationResultInfo> verifyActivityOfferingClusterForGeneration(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException();
     }
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public RegistrationGroupTemplateInfo updateRegistrationGroupTemplate(String registrationGroupTemplateId,
-                                                                         RegistrationGroupTemplateInfo registrationGroupTemplateInfo,
+    public ActivityOfferingClusterInfo updateActivityOfferingCluster(String registrationGroupTemplateId,
+                                                                         ActivityOfferingClusterInfo registrationGroupTemplateInfo,
                                                                          ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
@@ -1476,7 +1492,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteRegistrationGroupTemplate(String registrationGroupTemplateId, ContextInfo context)
+    public StatusInfo deleteActivityOfferingCluster(String registrationGroupTemplateId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }

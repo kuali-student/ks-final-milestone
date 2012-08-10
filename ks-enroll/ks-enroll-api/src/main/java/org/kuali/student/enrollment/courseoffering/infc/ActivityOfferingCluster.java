@@ -27,7 +27,7 @@ import java.util.List;
  * @author tom
  */
 
-public interface RegistrationGroupTemplate
+public interface ActivityOfferingCluster
     extends IdEntity {
 
     /**
@@ -50,5 +50,5 @@ public interface RegistrationGroupTemplate
      *
      * @name Activity Offering Templates
      */
-    public List<? extends ActivityOfferingTemplate> getActivityOfferingTemplates();
+    public List<? extends ActivityOfferingSet> getActivityOfferingTemplates();
 }
