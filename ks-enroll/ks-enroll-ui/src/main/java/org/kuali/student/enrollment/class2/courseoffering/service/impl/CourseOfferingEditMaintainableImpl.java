@@ -324,15 +324,15 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 CreditOptionInfo creditOption = new CreditOptionInfo();
 
                 //Grab the Course's credit constraints
-                List<ResultComponentInfo> courseCreditOptions = courseInfo.getCreditOptions();
+                List<ResultValuesGroupInfo> courseCreditOptions = courseInfo.getCreditOptions();
 
                 //Lookup the related course's credit constraints and set them on the creditOption
                 if (coInfo.getCourseId() != null && courseInfo != null && !courseCreditOptions.isEmpty()) {
-                    ResultComponentInfo resultComponentInfo = courseCreditOptions.get(0);
+                    ResultValuesGroupInfo resultValuesGroupInfo = courseCreditOptions.get(0);
                     //Check for fixed
-                    if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
-                        if (!resultComponentInfo.getResultValues().isEmpty()) {
-                            creditOption.setCourseFixedCredits(resultComponentInfo.getResultValues().get(0));
+                    if (resultValuesGroupInfo.getTypeKey().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
+                        if (!resultValuesGroupInfo.getResultValueKeys().isEmpty()) {
+                            creditOption.setCourseFixedCredits(getLrcService().getResultValue(resultValuesGroupInfo.getResultValueKeys().get(0), contextInfo).getValue());
                         }
                         //Set the flag
                         creditOptionFixed = true;
@@ -344,18 +344,21 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                         //This is either range or multiple
 
                         //Copy all the allowed credits and sort so that the multiple checkboxes can be properly displayed
-                        creditOption.setAllowedCredits(resultComponentInfo.getResultValues());
+                        List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesForResultValuesGroup(resultValuesGroupInfo.getKey(), contextInfo);
+                        for (ResultValueInfo rVI: resultValueInfos) {
+                            creditOption.getAllowedCredits().add(rVI.getValue());
+                        }
                         Collections.sort(creditOption.getAllowedCredits());
 
-                        if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE)) {
-                            creditOption.setCourseMinCredits(resultComponentInfo.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS));
-                            creditOption.setCourseMaxCredits(resultComponentInfo.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS));
+                        if (resultValuesGroupInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE)) {
+                            creditOption.setCourseMinCredits(resultValuesGroupInfo.getAttributeValue(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS));
+                            creditOption.setCourseMaxCredits(resultValuesGroupInfo.getAttributeValue(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS));
 
                             //Default the value
                             creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
                             creditOption.setMinCredits(creditOption.getCourseMinCredits());
                             creditOption.setMaxCredits(creditOption.getCourseMaxCredits());
-                        } else if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE)) {
+                        } else if (resultValuesGroupInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE)) {
                             //Default the value
                             creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
                             creditOption.getCredits().addAll(creditOption.getAllowedCredits());

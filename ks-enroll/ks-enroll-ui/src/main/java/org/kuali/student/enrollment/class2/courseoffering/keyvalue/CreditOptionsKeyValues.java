@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
@@ -58,13 +59,12 @@ public class CreditOptionsKeyValues extends UifKeyValuesFinderBase implements Se
         CourseOfferingEditWrapper form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
 
         String courseId = form.getCoInfo().getCourseId();
-        ResultComponentInfo resultComponentInfo = null;
+        List<ResultValuesGroupInfo> creditOptions;
 
         if (courseId != null) {
             try {
                 CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
-                List<ResultComponentInfo> creditOptions = courseInfo.getCreditOptions();
-                resultComponentInfo = creditOptions.get(0);
+                creditOptions = courseInfo.getCreditOptions();
             } catch (DoesNotExistException e) {
                 throw new RuntimeException("No subject areas found! There should be some in the database", e);
             } catch (InvalidParameterException e) {
@@ -77,15 +77,20 @@ public class CreditOptionsKeyValues extends UifKeyValuesFinderBase implements Se
                 throw new RuntimeException(e);
             }
 
-            if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
-                keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, "Fixed"));
-            } else if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE)) {
-                keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, "Fixed"));
-                keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE, "Variable"));
-                keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE, "Multiple"));
-            } else if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE)) {
-                keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, "Fixed"));
-                keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE, "Multiple"));
+            for (ResultValuesGroupInfo rVGI : creditOptions) {
+                String value = null;
+                String key =  rVGI.getKey();
+                if(key.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                    value="Fixed";
+                } else if (key.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
+                    value="Variable";
+                } else if (key.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
+                    value="Multiple";
+                } else {
+                    value="Unknown Type";
+                }
+
+                keyValues.add(new ConcreteKeyValue(rVGI.getKey(), value));
             }
         }
 
