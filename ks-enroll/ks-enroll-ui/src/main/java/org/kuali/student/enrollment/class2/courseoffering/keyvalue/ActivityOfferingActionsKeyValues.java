@@ -15,7 +15,7 @@ public class ActivityOfferingActionsKeyValues extends KeyValuesBase implements S
     public List<KeyValue> getKeyValues() {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue(CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION,"Set as Ready for Scheduling"));
+        keyValues.add(new ConcreteKeyValue(CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION,"Approve for Scheduling"));
         keyValues.add(new ConcreteKeyValue(CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION,"Set as Draft"));
         keyValues.add(new ConcreteKeyValue(CourseOfferingConstants.ACTIVITY_OFFERING_DELETE_ACTION,"Delete"));
 
