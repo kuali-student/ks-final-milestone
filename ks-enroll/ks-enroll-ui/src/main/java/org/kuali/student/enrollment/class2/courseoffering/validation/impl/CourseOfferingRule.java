@@ -19,11 +19,11 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.r2.core.search.infc.SearchResultCell;
-import org.kuali.student.r2.core.search.infc.SearchParam;
-import org.kuali.student.r2.core.search.infc.SearchRequest;
-import org.kuali.student.r2.core.search.infc.SearchResult;
-import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
@@ -98,7 +98,7 @@ public class CourseOfferingRule extends MaintenanceDocumentRuleBase {
     //Note: here I am using r1 CluService implementation!!!
     protected CluService getCluService() {
         if(luService == null) {
-            luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.LU_NAMESPACE,"CluService"));
+            luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,"CluService"));
         }
         return this.luService;
     }

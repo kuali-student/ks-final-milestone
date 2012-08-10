@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.mock.utilities.TestHelper;
@@ -50,7 +51,7 @@ public class SlotRuleForAppWindowKeyValuesFinder extends UifKeyValuesFinderBase 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         try {
-            List<EnumeratedValueInfo> slotRuleTypeCodes = getEnumerationService().getEnumeratedValues(getEnumerationKey(),null,null,null);
+            List<EnumeratedValueInfo> slotRuleTypeCodes = getEnumerationService().getEnumeratedValues(getEnumerationKey(),null,null,null, ContextUtils.getContextInfo());
             if(slotRuleTypeCodes!=null)  {
                 for (EnumeratedValueInfo slotRuleTypeCode : slotRuleTypeCodes) {
                     ConcreteKeyValue keyValue = new ConcreteKeyValue();

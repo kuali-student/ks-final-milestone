@@ -94,7 +94,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         CourseService courseService = _getCourseService();
         CourseInfo courseInfo = null;
         try {
-            courseInfo = courseService.getCourse("b509ad01-6ef3-44a4-8857-f5df8631f79e"); // Now CHEM 241
+            courseInfo = courseService.getCourse("b509ad01-6ef3-44a4-8857-f5df8631f79e", contextInfo); // Now CHEM 241
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -390,7 +390,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     public boolean performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
         CourseOfferingSetService socService = _getSocService();
         try {
-            ContextInfo context = ContextInfo.createDefaultContextInfo();
+            ContextInfo context = ContextUtils.getContextInfo();
             List<String> socIds = socService.getSocIdsByTerm(sourceTermId, context);
             SocInfo socInfo = _getUniqueMainSoc(socIds);
             if (socInfo == null) {

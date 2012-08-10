@@ -16,13 +16,13 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.lum.lu.dto.LuTypeInfo;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 public class CredentialProgramTypeKeyValues extends KeyValuesBase implements Serializable{
 	public static final String CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX = "kuali.lu.type.credential.";
 	private static final long serialVersionUID = 1L;	
 	
-    private transient LuService luService;
+    private transient CluService luService;
 
     private static List<LuTypeInfo> luTypes;
 
@@ -47,17 +47,16 @@ public class CredentialProgramTypeKeyValues extends KeyValuesBase implements Ser
         return keyValues;
     }
     
-    //Note: here I am using r1 LuService implementation!!!
-    protected LuService getLuService() {
+    protected CluService getCluService() {
         if(luService == null) {
-        	luService = (LuService)GlobalResourceLoader.getService(new QName(LuServiceConstants.LU_NAMESPACE,"LuService"));
+        	luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,"CluService"));
         }
         return this.luService;
     }
 
     public List<LuTypeInfo> getLuTypes() throws OperationFailedException {
         if(luTypes == null) {
-            luTypes = Collections.unmodifiableList(getLuService().getLuTypes());
+            luTypes = Collections.unmodifiableList(getCluService().getLuTypes());
         }
 
         return luTypes;

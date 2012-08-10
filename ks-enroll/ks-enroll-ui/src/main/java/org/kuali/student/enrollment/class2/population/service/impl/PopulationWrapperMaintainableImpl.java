@@ -9,6 +9,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
@@ -104,7 +105,7 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
         PopulationWrapper wrapper = new PopulationWrapper();
 
         try {
-            ContextInfo context = ContextInfo.createDefaultContextInfo();
+            ContextInfo context = ContextUtils.getContextInfo();
             wrapper.setPopulationInfo(getPopulationService().getPopulation(populationId, context));
             wrapper.setPopulationRuleInfo(getPopulationService().getPopulationRuleForPopulation(populationId, context));
             wrapper.setOperationType(wrapper.getPopulationRuleInfo().getTypeKey());
@@ -126,7 +127,7 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
 
     // create the PopulationInfo and PopulationRuleInfo
     public PopulationWrapper createPopulation(PopulationWrapper wrapper) throws Exception {
-        ContextInfo context = ContextInfo.createDefaultContextInfo();
+        ContextInfo context = ContextUtils.getContextInfo();
 
         PopulationInfo populationInfo = getPopulationService().createPopulation(wrapper.getPopulationInfo(), context);
 
@@ -148,7 +149,7 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
     }
 
     public void updatePopulation(PopulationWrapper wrapper) throws Exception {
-        ContextInfo context = ContextInfo.createDefaultContextInfo();
+        ContextInfo context = ContextUtils.getContextInfo();
 
         PopulationInfo populationInfo = getPopulationService().updatePopulation(wrapper.getId(), wrapper.getPopulationInfo(), context);
 
@@ -167,7 +168,7 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
     }
     
     public List<PopulationInfo> getChildPopulations(List<String> childPopulationIds) throws Exception{
-        ContextInfo context = ContextInfo.createDefaultContextInfo();
+        ContextInfo context = ContextUtils.getContextInfo();
         List<PopulationInfo> childPopulations = new ArrayList<PopulationInfo>(); 
         for (String id : childPopulationIds){
             PopulationInfo populationInfo = getPopulationService().getPopulation(id, context);

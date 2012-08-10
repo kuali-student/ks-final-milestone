@@ -78,7 +78,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coInfoId, getContextInfo());
 
             //Display credit count
-            CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
+            CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId(), getContextInfo());
            // coInfo.setCreditCnt(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
             coInfo.setCreditCnt(ViewHelperUtil.getCreditCount(coInfo, courseInfo));
             CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
@@ -175,7 +175,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
                     }
                 }
                 //Audit is pulled out into a dynamic attribute on course so map it back
-                if("true".equals(courseInfo.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
+                if("true".equals(courseInfo.getAttributeValue(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
                     studentRegOptions.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
                 }
             }

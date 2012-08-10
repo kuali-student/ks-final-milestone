@@ -281,7 +281,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             if (getDataObject() instanceof CourseOfferingEditWrapper){
                 //0. get credit count from CourseInfo
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
+                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId(), getContextInfo());
                 coInfo.setCreditCnt(ViewHelperUtil.getCreditCount(coInfo, courseInfo)); //set for CO title
 
                 //1. set CourseOfferingInfo
@@ -309,7 +309,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                         }
                     }
                     //Audit is pulled out into a dynamic attribute on course so map it back
-                    if("true".equals(courseInfo.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
+                    if("true".equals(courseInfo.getAttributeValue(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
                         studentRegOptions.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
                     }
                 }

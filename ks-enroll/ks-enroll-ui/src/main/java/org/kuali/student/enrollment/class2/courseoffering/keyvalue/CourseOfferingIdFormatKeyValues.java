@@ -65,28 +65,18 @@ public class CourseOfferingIdFormatKeyValues extends UifKeyValuesFinderBase impl
         if (courseOfferingId != null) {
             try {
                 CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) getCourseOfferingService().getCourseOffering(courseOfferingId, context);
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseOfferingInfo.getCourseId());
+                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseOfferingInfo.getCourseId(), context);
                 formats = courseInfo.getFormats();
-            } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
-                throw new RuntimeException("No subject areas found! There should be some in the database", e);
-            } catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
-                throw new RuntimeException(e);
-            } catch (org.kuali.student.common.exceptions.MissingParameterException e) {
-                throw new RuntimeException(e);
-            } catch (org.kuali.student.common.exceptions.OperationFailedException e) {
-                throw new RuntimeException(e);
-            } catch (org.kuali.student.common.exceptions.PermissionDeniedException e) {
-                throw new RuntimeException(e);
-            } catch (PermissionDeniedException e) {
-                e.printStackTrace();
-            } catch (MissingParameterException e) {
-                e.printStackTrace();
-            } catch (InvalidParameterException e) {
-                e.printStackTrace();
-            } catch (OperationFailedException e) {
-                e.printStackTrace();
             } catch (DoesNotExistException e) {
                 throw new RuntimeException("No subject areas found! There should be some in the database", e);
+            } catch (InvalidParameterException e) {
+                throw new RuntimeException(e);
+            } catch (MissingParameterException e) {
+                throw new RuntimeException(e);
+            } catch (OperationFailedException e) {
+                throw new RuntimeException(e);
+            } catch (PermissionDeniedException e) {
+                throw new RuntimeException(e);
             }
 
             for(FormatInfo format : formats) {

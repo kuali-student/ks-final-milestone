@@ -24,6 +24,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
@@ -61,7 +62,7 @@ public class CreditOptionsKeyValues extends UifKeyValuesFinderBase implements Se
 
         if (courseId != null) {
             try {
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId);
+                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
                 List<ResultComponentInfo> creditOptions = courseInfo.getCreditOptions();
                 resultComponentInfo = creditOptions.get(0);
             } catch (DoesNotExistException e) {
