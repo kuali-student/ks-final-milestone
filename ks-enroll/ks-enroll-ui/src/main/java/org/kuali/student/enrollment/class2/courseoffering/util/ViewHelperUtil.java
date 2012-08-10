@@ -25,7 +25,8 @@ import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -73,7 +74,7 @@ public class ViewHelperUtil {
             if(formatNameBuilder.length() != 0) {
                 formatNameBuilder.append(" / ");
             }
-            TypeInfo type = typeService.getType(activity.getActivityType(), contextInfo);
+            TypeInfo type = typeService.getType(activity.getTypeKey(), contextInfo);
             formatNameBuilder.append(type.getName());
         }
 
@@ -91,9 +92,9 @@ public class ViewHelperUtil {
         for(FormatInfo format : course.getFormats()) {
             for (ActivityInfo activity : format.getActivities()) {
                 // if we haven't added a value for this activity type yet
-                if(activityTypes.add(activity.getActivityType())) {
+                if(activityTypes.add(activity.getTypeKey())) {
                     try {
-                        TypeInfo type = typeService.getType(activity.getActivityType(), contextInfo);
+                        TypeInfo type = typeService.getType(activity.getTypeKey(), contextInfo);
                         results.add(new ConcreteKeyValue(type.getKey(), type.getName()));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
@@ -146,20 +147,20 @@ public class ViewHelperUtil {
             }
         } else { //Lookup original course values
             if (courseInfo == null) {
-                courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
+                courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId(), ContextUtils.getContextInfo());
             }
             String creditOpt = courseInfo.getCreditOptions().get(0).getType();
             if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED) ){              //fixed
-                creditCount = trimTrailing0(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
+                creditCount = trimTrailing0(getLrcService().getResultValue(courseInfo.getCreditOptions().get(0).getResultValueKeys().get(0), ContextUtils.getContextInfo()).getValue());
             } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE) ){    //range
                 //minCreditValue - maxCreditValue
-                creditCount = trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS))
-                        +" - "+trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS));
+                creditCount = trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributeValue(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS))
+                        +" - "+trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributeValue(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS));
             } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE) ){    //multiple
-                List<String> creditValuesS = courseInfo.getCreditOptions().get(0).getResultValues();
+                List<ResultValueInfo> creditValuesRVI = getLrcService().getResultValuesByKeys(courseInfo.getCreditOptions().get(0).getResultValueKeys(), ContextUtils.getContextInfo());
                 List<Float> creditValuesF = new ArrayList();
-                for (String creditS : creditValuesS ) {  //convert String to Float for sorting
-                    creditValuesF.add(Float.valueOf(creditS));
+                for (ResultValueInfo creditRVI : creditValuesRVI ) {  //convert String to Float for sorting
+                    creditValuesF.add(Float.valueOf(creditRVI.getValue()));
                 }
                 Collections.sort(creditValuesF);
                 for (Float creditF : creditValuesF ){
