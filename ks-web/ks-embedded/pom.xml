@@ -248,6 +248,11 @@
 		<version>${project.version}</version>
 	</dependency>
     <dependency>
+        <groupId>org.kuali.student.enroll</groupId>
+        <artifactId>ks-enroll-ksink</artifactId>
+        <version>${project.version}</version>
+    </dependency>
+    <dependency>
 		<groupId>org.kuali.student.enroll</groupId>
 		<artifactId>ks-enroll-ui</artifactId>
 		<version>${project.version}</version>

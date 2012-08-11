@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- View definitions -->
+
+    <bean id="KS-KitchenSink-FormView" parent="KSFormView">
+        <property name="formClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkForm"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkHelper"/>
+        <property name="header.render" value="false"/>
+        <property name="footer.render" value="false"/>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>/ks-ksink/css/kitchensink.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>/ks-ksink/scripts/kitchensink.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-FormView-Bare" parent="KS-KitchenSink-FormView">
+        <property name="breadcrumbs.render" value="false"/>
+    </bean>
+
+
+    <!-- Page definitions -->
+
+    <bean id="KS-KitchenSink-Page" parent="Uif-Page">
+        <property name="header.style" value="border-bottom:solid 1px black"/>
+    </bean>
+
+    <bean id="KS-KitchenSink-Page-Bare" parent="Uif-Page"/>
+
+
+    <!-- Miscellaneous definitions -->
+
+    <bean id="KS-KitchenSink-Link-To-Bare" parent="Uif-LinkField">
+        <property name="label" value="Widget-Only Link"/>
+        <property name="target" value="_blank"/>
+        <property name="finalizeMethodToCall" value="setDirectLinkUrl"/>
+        <!-- pass a the 3rd "methodToCall" param to setDirectLinkUrl() method:
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>buttons</value>
+            </list>
+        </property>
+        -->
+    </bean>
+
+    <bean id="KS-KitchenSink-Link-To-Guide" parent="Uif-LinkField">
+        <property name="label" value="KRAD Guide"/>
+        <property name="target" value="_blank"/>
+        <property name="finalizeMethodToCall" value="setSourceLinkText"/>
+    </bean>
+
+    <bean id="KS-KitchenSink-Link-To-Source" parent="Uif-LinkField">
+        <property name="label" value="Source"/>
+        <property name="target" value="_blank"/>
+        <property name="finalizeMethodToCall" value="setSourceLinkText"/>
+    </bean>
+
+</beans>

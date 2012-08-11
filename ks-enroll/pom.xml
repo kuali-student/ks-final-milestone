@@ -23,6 +23,7 @@
         <module>ks-enroll-impl</module>
         <module>ks-enroll-api</module>
         <module>ks-enroll-ui</module>
+        <module>ks-enroll-ksink</module>
         <module>ks-enroll-web</module>
       </modules>
     </profile>
@@ -38,6 +39,7 @@
           <module>ks-enroll-impl</module>
           <module>ks-enroll-api</module>
           <module>ks-enroll-ui</module>
+          <module>ks-enroll-ksink</module>
       </modules>
   </profile>
   </profiles>

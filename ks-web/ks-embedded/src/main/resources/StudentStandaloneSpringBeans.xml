@@ -152,6 +152,10 @@
                 <value>classpath:org/kuali/student/enrollment/state/StateInfoAdminInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/state/LifecycleInfoAdminLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/state/LifecycleInfoAdminInquiryView.xml</value>
+
+                <!-- Kitchen Sink -->
+                <value>classpath:org/kuali/student/enrollment/kitchensink/KitchenSinkView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/Buttons.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
