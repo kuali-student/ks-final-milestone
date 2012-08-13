@@ -45,7 +45,7 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
     @Override
     public AppointmentWindowWrapper retrieveDataObject(Map<String, String> parameters) {
 
-        AppointmentWindowWrapper appointmentWindowWrapper = new AppointmentWindowWrapper();
+        AppointmentWindowWrapper appointmentWindowWrapper = null;
         AppointmentService appointmentService = getAppointmentService();
         ContextInfo context = getContextInfo();
         try{
@@ -58,6 +58,7 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
             else {
                 System.out.println(">>>windowId ="+windowId);
             }
+            appointmentWindowWrapper = new AppointmentWindowWrapper();
             //populate Window Info section
             AppointmentWindowInfo appointmentWindowInfo = appointmentService.getAppointmentWindow(windowId, context);
             appointmentWindowWrapper.setAppointmentWindowInfo(appointmentWindowInfo);
@@ -90,13 +91,11 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
             appointmentWindowWrapper.setLastSlotPopulated(lastSlotPopulated);
             appointmentWindowWrapper.setAssignmentsCreated(windowCreate);
 
-            return appointmentWindowWrapper;
-
         }catch (Exception e){
-
+             throw new RuntimeException("Unable to retireve Apppointment Window from Inquiry", e);
         }
 
-        return null;
+        return appointmentWindowWrapper;
     }
 
 
