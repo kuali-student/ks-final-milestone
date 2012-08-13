@@ -40,10 +40,12 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleTransactionInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "refObjectId", "refObjectTypeKey", "scheduleRequestComponents",
+        "scheduleBatchId", "refObjectId", "refObjectTypeKey", "scheduleRequestComponents",
         "meta", "attributes", "_futureElements"})
 public class ScheduleTransactionInfo extends IdEntityInfo implements ScheduleTransaction, Serializable {
 
+    @XmlElement
+    private String scheduleBatchId;
     @XmlElement
     private String refObjectId;
     @XmlElement
@@ -75,6 +77,15 @@ public class ScheduleTransactionInfo extends IdEntityInfo implements ScheduleTra
 
     public void setRefObjectTypeKey(String refObjectTypeKey) {
         this.refObjectTypeKey = refObjectTypeKey;
+    }
+
+    @Override
+    public String getScheduleBatchId () {
+        return scheduleBatchId;
+    }
+
+    public void setScheduleBatchId(String scheduleBatchId) {
+        this.scheduleBatchId = scheduleBatchId;
     }
 
     @Override
