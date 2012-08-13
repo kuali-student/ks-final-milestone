@@ -18,13 +18,15 @@ package org.kuali.student.common.ui.client.widgets.searchtable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.common.dto.Idable;
+import org.kuali.student.r1.common.dto.Idable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class ResultRow implements IsSerializable, Idable{
+public class ResultRow implements IsSerializable, Idable,Comparable<ResultRow>{
     private String id;
     private Map<String, String> columnValues = new HashMap<String, String>();
+    static String NAME_COLUMN_KEY = "name";
+    static String TYPE_COLUMN_KEY = "type";
     
     @Override
     public String getId() {
@@ -44,4 +46,16 @@ public class ResultRow implements IsSerializable, Idable{
         columnValues.put(columnKey, value);        
     }
 
+    public Map<String, String> getColumnValues() {
+    	return columnValues;
+    }
+    
+ 	@Override
+	public int compareTo(ResultRow row) {
+		// TODO Auto-generated method stub
+ 	   if(columnValues.get(TYPE_COLUMN_KEY).compareToIgnoreCase(row.getColumnValues().get(TYPE_COLUMN_KEY))==0)
+ 	     return columnValues.get(NAME_COLUMN_KEY).compareToIgnoreCase(row.getColumnValues().get(NAME_COLUMN_KEY));
+ 	   else
+ 		 return columnValues.get(TYPE_COLUMN_KEY).compareToIgnoreCase(row.getColumnValues().get(TYPE_COLUMN_KEY));
+	}
 }

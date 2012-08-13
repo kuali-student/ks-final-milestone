@@ -23,6 +23,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
 
+@Deprecated
 @Entity
 @Table(name = "KSAP_KEY_VALUE_T") 
 public class KeyValuePair {

@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
+import org.kuali.student.r2.core.constants.ExemptionServiceConstants;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.dto.ExemptionRequestInfo;
 

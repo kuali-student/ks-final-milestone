@@ -23,11 +23,11 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
+import org.kuali.student.r2.common.dto.TypeInfo;
 
 public class OrgTypePicker extends KSDropDown{
 
@@ -41,12 +41,12 @@ public class OrgTypePicker extends KSDropDown{
 		super.onLoad();
 		if (!loaded) {
 
-            orgRpcServiceAsync.getOrgTypes(new KSAsyncCallback<List<OrgTypeInfo>>() {
+            orgRpcServiceAsync.getOrgTypes(new KSAsyncCallback<List<TypeInfo>>() {
 
-                public void onSuccess(final List<OrgTypeInfo> orgTypes) {
+                public void onSuccess(final List<TypeInfo> orgTypes) {
                     final Map<String, String> ids = new LinkedHashMap<String, String>();
-                    for (OrgTypeInfo orgTypeInfo : orgTypes) {
-                        ids.put(orgTypeInfo.getId(), orgTypeInfo.getName());
+                    for (TypeInfo orgTypeInfo : orgTypes) {
+                        ids.put(orgTypeInfo.getKey(), orgTypeInfo.getName());
                     }
                     ListItems list = new ListItems() {
 

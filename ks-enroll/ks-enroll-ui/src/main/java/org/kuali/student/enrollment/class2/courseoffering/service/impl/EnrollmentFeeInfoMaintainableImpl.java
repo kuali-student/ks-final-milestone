@@ -12,8 +12,8 @@ import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.core.state.service.StateService;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.common.state.service.StateService;
+import org.kuali.student.r2.common.type.service.TypeService;
 
 
 import org.kuali.student.r2.core.fee.service.FeeService;

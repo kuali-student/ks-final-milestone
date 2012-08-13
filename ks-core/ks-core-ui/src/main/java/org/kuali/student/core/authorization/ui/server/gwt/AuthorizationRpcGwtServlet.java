@@ -15,15 +15,15 @@
 
 package org.kuali.student.core.authorization.ui.server.gwt;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.authorization.ui.client.service.AuthorizationRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import java.util.LinkedHashMap;
-import org.kuali.rice.kim.api.permission.PermissionService;
 
 public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements AuthorizationRpcService{
 
@@ -32,28 +32,51 @@ public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements 
 
 	@Override
 	public Boolean isAuthorizedForPermission(String namespace, String permissionTemplateName) {
-		return isAuthorizedForPermissionWithDetailsAndQualifications(namespace, permissionTemplateName, null, null);
+        try
+        {
+            return isAuthorizedForPermissionWithDetailsAndQualifications(namespace, permissionTemplateName, null, null);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
 	}
 
 	public Boolean isAuthorizedForPermissionWithQualifications(String namespace, String permissionTemplateName, Map<String,String> roleQualifications) {
-		return isAuthorizedForPermissionWithDetailsAndQualifications(namespace, permissionTemplateName, roleQualifications, null);
-	}
+        try
+        {
+            return isAuthorizedForPermissionWithDetailsAndQualifications(namespace, permissionTemplateName,
+                    roleQualifications, null);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
 	public Boolean isAuthorizedForPermissionWithDetailsAndQualifications(String namespace, String permissionTemplateName, Map<String,String> roleQualifications, Map<String,String> permissionDetails) {
-		String currentUser = getCurrentUser();
-		if (StringUtils.isBlank(currentUser)) {
-			throw new RuntimeException("Unable to find current user or backdoor user.");
-		}
-		Map<String,String> roleQuals = null;
-		if (roleQualifications != null) {
-			roleQuals = new LinkedHashMap<String,String>(roleQualifications);
-		}
-		Map<String,String> permDetails = null;
-		if (permissionDetails != null) {
-			permDetails = new LinkedHashMap<String,String>(permissionDetails);
-		}
-		return  Boolean.valueOf(permissionService.isAuthorizedByTemplate(currentUser, namespace, permissionTemplateName, permDetails, roleQuals));
-	}
+        try
+        {
+            String currentUser = getCurrentUser();
+            if (StringUtils.isBlank(currentUser)) {
+                throw new RuntimeException("Unable to find current user or backdoor user.");
+            }
+            Map<String, String> roleQuals = null;
+            if (roleQualifications != null) {
+                roleQuals = new LinkedHashMap<String, String>(roleQualifications);
+            }
+            Map<String, String> permDetails = null;
+            if (permissionDetails != null) {
+                permDetails = new LinkedHashMap<String, String>(permissionDetails);
+            }
+            return Boolean.valueOf(permissionService.isAuthorizedByTemplate(currentUser, namespace,
+                    permissionTemplateName, permDetails, roleQuals));
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
 	protected String getCurrentUser() {
 		String username = SecurityUtils.getCurrentUserId();

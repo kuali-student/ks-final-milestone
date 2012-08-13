@@ -21,7 +21,7 @@ import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 /**
  * This proposition evaluates whether a student is a summer student and if so, checks that the term being registered is a summer term

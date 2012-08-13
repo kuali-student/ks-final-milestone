@@ -22,9 +22,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.MetadataInterrogator;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
@@ -35,9 +32,10 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -46,6 +44,9 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.KSRadioButtonListImpl;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -127,7 +128,7 @@ public class MultiplicityGroup extends Composite {
         if (!loaded || itemCount == 0){
         	Integer minOccurs = MetadataInterrogator.getLargestMinOccurs(config.getMetaData());
         	
-        	if (minOccurs != null) {
+        	if (minOccurs != null && minOccurs > 0) {
 	            for (int i=0; i < minOccurs; i++){
 	            	createItem();
 	            }
@@ -154,6 +155,7 @@ public class MultiplicityGroup extends Composite {
                 createItem();
             }
         });
+        addWidget.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(this.getElement().getId() + "-" + config.getAddItemLabel()));
         return addWidget;
     }
 
@@ -466,18 +468,22 @@ public class MultiplicityGroup extends Composite {
 
 	public boolean isDirty(){
         isDirty = false;
-		for (MultiplicityGroupItem item:items){
-			if (item.isDirty()){
-				isDirty = true;
-				break;
-			} else {
-				Widget itemWidget = item.getItemWidget();
-				if (itemWidget instanceof BaseSection && ((BaseSection)itemWidget).isDirty()){
+        if (removed != null && !removed.isEmpty()){
+        	isDirty = true;
+        } else {
+			for (MultiplicityGroupItem item:items){
+				if (item.isDirty()){
 					isDirty = true;
 					break;
+				} else {
+					Widget itemWidget = item.getItemWidget();
+					if (itemWidget instanceof BaseSection && ((BaseSection)itemWidget).isDirty()){
+						isDirty = true;
+						break;
+					}
 				}
 			}
-		}
+        }
 		return isDirty;
 	}
 

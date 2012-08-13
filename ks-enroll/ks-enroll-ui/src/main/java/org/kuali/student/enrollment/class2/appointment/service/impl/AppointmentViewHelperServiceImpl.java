@@ -39,11 +39,11 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.common.util.constants.AppointmentServiceConstants;
+import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
-import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.text.DateFormat;

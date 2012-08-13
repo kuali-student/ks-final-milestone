@@ -26,6 +26,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.test.spring.Idable;
 import org.kuali.student.common.util.UUIDHelper;
 
+@Deprecated
 @Entity
 public class Value implements Idable{
 	@Id

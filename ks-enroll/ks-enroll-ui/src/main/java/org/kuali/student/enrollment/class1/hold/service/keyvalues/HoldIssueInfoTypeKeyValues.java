@@ -7,10 +7,10 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
+import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -50,26 +50,6 @@ public class HoldIssueInfoTypeKeyValues extends UifKeyValuesFinderBase implement
             throw new RuntimeException(e);
         }
         return keyValues;
-    }
-
-    public KeyValue getTypeKeyValue(String typeKey) {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        ConcreteKeyValue keyValue = new ConcreteKeyValue();
-
-        ContextInfo context = TestHelper.getContext1();
-
-        try {
-            List<TypeInfo> types = getTypeService().getTypesByRefObjectUri(HoldServiceConstants.REF_OBJECT_TYPE_URI_ISSUE, context);
-            for (TypeInfo type : types) {
-                if(type.getKey().equals(typeKey)) { //TODO remove check after data is fixed
-                    keyValue.setKey(type.getKey());
-                    keyValue.setValue(type.getName());
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return keyValue;
     }
 
     protected TypeService getTypeService() {

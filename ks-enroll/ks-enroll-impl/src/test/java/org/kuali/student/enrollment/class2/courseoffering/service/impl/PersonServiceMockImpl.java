@@ -21,7 +21,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.student.core.personsearch.service.impl.KsPerson;
+import org.kuali.student.r1.core.personsearch.service.impl.KsPerson;
 
 import java.util.List;
 import java.util.Map;

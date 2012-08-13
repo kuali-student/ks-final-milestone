@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 
+@Deprecated
 public class EditableLabel extends SimplePanel implements HasClickHandlers,  HasText, HasChangeHandlers {
 	Label label = new Label();
 	TextBox textBox = new TextBox();

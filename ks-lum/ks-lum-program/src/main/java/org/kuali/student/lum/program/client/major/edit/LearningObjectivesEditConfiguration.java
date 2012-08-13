@@ -2,8 +2,9 @@ package org.kuali.student.lum.program.client.major.edit;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
@@ -15,8 +16,8 @@ import org.kuali.student.lum.common.client.lo.LOBuilderBinding;
 import org.kuali.student.lum.common.client.lo.LOPicker;
 import org.kuali.student.lum.common.client.lo.OutlineNode;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -27,16 +28,17 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class LearningObjectivesEditConfiguration extends AbstractSectionConfiguration {
 
-    public LearningObjectivesEditConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_EDIT, ProgramProperties.get().program_menu_sections_learningObjectives(), ProgramConstants.PROGRAM_MODEL_ID);
+    public LearningObjectivesEditConfiguration(Configurer configurer) {
+        this.setConfigurer(configurer);
+        rootSection = new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_EDIT, getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_LEARNINGOBJECTIVES), ProgramConstants.PROGRAM_MODEL_ID);
     }
 
     @Override
     protected void buildLayout() {
         final VerticalSection section = new VerticalSection();
-        QueryPath path = QueryPath.concat("", ProgramConstants.LEARNING_OBJECTIVES, "*", "loInfo", "desc");
+        QueryPath path = QueryPath.concat("", ProgramConstants.LEARNING_OBJECTIVES, "*", "loInfo", "descr");
         Metadata meta = configurer.getModelDefinition().getMetadata(path);
-        LOBuilder loBuilder = new LOBuilder("type", "state", "course", "kuali.loRepository.key.singleUse", ProgramConstants.LEARNING_OBJECTIVES, meta);
+        LOBuilder loBuilder = new LOBuilder("typeKey", "stateKey", "course", "kuali.loRepository.key.singleUse", ProgramConstants.LEARNING_OBJECTIVES, meta);
         final FieldDescriptor fd = addField(section, ProgramConstants.LEARNING_OBJECTIVES,
                 null,
                 loBuilder,

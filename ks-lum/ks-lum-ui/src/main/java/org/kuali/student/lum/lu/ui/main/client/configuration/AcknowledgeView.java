@@ -4,19 +4,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
-import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 

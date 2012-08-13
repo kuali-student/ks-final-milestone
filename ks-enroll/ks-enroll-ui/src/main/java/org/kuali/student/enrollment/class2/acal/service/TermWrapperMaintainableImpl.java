@@ -11,7 +11,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.TermWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.Calendar;

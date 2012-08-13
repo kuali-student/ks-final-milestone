@@ -16,7 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.population.dto;
 
-import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 

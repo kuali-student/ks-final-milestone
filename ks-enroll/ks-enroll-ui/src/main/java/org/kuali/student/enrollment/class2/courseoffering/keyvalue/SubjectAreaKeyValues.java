@@ -27,12 +27,10 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 /**
  * @deprecated This class is leftover from Core Slice. Delete when no longer needed or un deprecate if needed.
  */
@@ -53,7 +51,7 @@ public class SubjectAreaKeyValues extends KeyValuesBase implements Serializable 
         List<EnumeratedValueInfo> subjectAreas;
         
         try {
-            subjectAreas = getEnumService().getEnumeratedValues(SUBJECT_AREA_ENUM_KEY, null, null, null);
+            subjectAreas = getEnumService().getEnumeratedValues(SUBJECT_AREA_ENUM_KEY, null, null, null, ContextUtils.getContextInfo());
             Collections.sort(subjectAreas, subjectAreasComparator);
         } catch (DoesNotExistException e) {
             throw new RuntimeException("No subject areas found! There should be some in the database", e);
@@ -62,6 +60,8 @@ public class SubjectAreaKeyValues extends KeyValuesBase implements Serializable 
         } catch (MissingParameterException e) {
             throw new RuntimeException(e);
         } catch (OperationFailedException e) {
+            throw new RuntimeException(e);
+        } catch (PermissionDeniedException e) {
             throw new RuntimeException(e);
         }
         

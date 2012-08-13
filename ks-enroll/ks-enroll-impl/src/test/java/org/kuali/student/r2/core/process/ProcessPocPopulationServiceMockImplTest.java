@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

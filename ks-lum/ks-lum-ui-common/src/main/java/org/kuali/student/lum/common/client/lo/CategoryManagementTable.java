@@ -16,11 +16,14 @@
 package org.kuali.student.lum.common.client.lo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -28,15 +31,17 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
 import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
-import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
-import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+
 
 /**
  * This is a description of what this class does - Gary Struthers don't forget to fill this in. 
@@ -51,9 +56,10 @@ public class CategoryManagementTable extends Composite {
     static String ID_COLUMN_KEY = "id";
     static String NAME_COLUMN_KEY = "name";
     static String TYPE_COLUMN_KEY = "type";
+    static String TYPE_NAME_COLUMN_KEY = "typeName";
     static String STATE_COLUMN_KEY = "state";
     private List<ResultRow> resultRows = new ArrayList<ResultRow>();
-    private DefaultTableModel model = new DefaultTableModel();
+    private DefaultTableModel model = new DefaultTableModel();	//Contains Category rows that go into 'Select Categories' KSLightBox [KSLAB-2091]
     private Table table = new Table();
     //private GenericTableModel<ResultRow> tableModel = new GenericTableModel<ResultRow>(resultRows);
     //private PagingScrollTableBuilder<ResultRow> builder = new PagingScrollTableBuilder<ResultRow>();
@@ -62,7 +68,8 @@ public class CategoryManagementTable extends Composite {
     private static Boolean displayOnlyActiveCategories; // static global
     private boolean hideInactiveCategories = false;
 
-    private LoCategoryRpcServiceAsync loCatRpcServiceAsync = GWT.create(LoCategoryRpcService.class);
+    private SearchRpcServiceAsync searchDispatcherAsync = GWT.create(SearchRpcService.class); //KSLAB-2091
+
     private static ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
 
     // Categories to filter out after the are loaded from the backend
@@ -243,8 +250,8 @@ public class CategoryManagementTable extends Composite {
             LoCategoryInfo loCategoryInfo = new LoCategoryInfo();
             loCategoryInfo.setId(r.getCellData(ID_COLUMN_KEY).toString());
             loCategoryInfo.setName(r.getCellData(NAME_COLUMN_KEY).toString());
-            loCategoryInfo.setType(r.getCellData(TYPE_COLUMN_KEY).toString());
-            loCategoryInfo.setState(r.getCellData(STATE_COLUMN_KEY).toString());
+            loCategoryInfo.setTypeKey(r.getCellData(TYPE_COLUMN_KEY).toString());
+            loCategoryInfo.setStateKey(r.getCellData(STATE_COLUMN_KEY).toString());
             loCategoryInfos.add(loCategoryInfo);
         }
         return loCategoryInfos;
@@ -275,14 +282,14 @@ public class CategoryManagementTable extends Composite {
     	
     	Column type = new Column();
     	type.setName(TYPE_COLUMN_HEADER);
-    	type.setId(TYPE_COLUMN_KEY);
+    	type.setId(TYPE_NAME_COLUMN_KEY);
     	type.setSortable(false);
     	model.addColumn(type);
     	
         if (!isHideInactiveCategories()) {
         	Column state = new Column();
-        	state.setName(TYPE_COLUMN_HEADER);
-        	state.setId(TYPE_COLUMN_KEY);
+        	state.setName(STATE_COLUMN_HEADER);
+        	state.setId(STATE_COLUMN_KEY);
         	state.setSortable(false);
         	model.addColumn(state);          
         }
@@ -310,8 +317,8 @@ public class CategoryManagementTable extends Composite {
             boolean shouldExcludeRow = false;
             for (LoCategoryInfo toFilter : loCategoriesToFilter) {
                 String name = toFilter.getName();
-                String type = toFilter.getType();
-                if (result.getName().equals(name) && result.getType().equals(type)){
+                String type = toFilter.getTypeKey();
+                if (result.getName().equals(name) && result.getTypeKey().equals(type)){
                     shouldExcludeRow = true;
                     break;
                 }
@@ -332,7 +339,7 @@ public class CategoryManagementTable extends Composite {
        if(isHideInactiveCategories()) {
             List<LoCategoryInfo> filteredResult = new ArrayList<LoCategoryInfo>();
             for(LoCategoryInfo info : result) {
-                if (info.getState().equals("active") ) {
+                if ("Active".equals(info.getStateKey())) {
                     filteredResult.add(info);
                 }
             }
@@ -343,43 +350,83 @@ public class CategoryManagementTable extends Composite {
     
     public void loadTable(final Callback<Boolean> callback) {
     	table.displayLoading(true);
-        loCatRpcServiceAsync.getLoCategories("kuali.loRepository.key.singleUse", new KSAsyncCallback<List<LoCategoryInfo>>() {
+    	/* KSLAB-2091
+    	 * 
+    	 * This is the new way to initiate a query for loCategories:
+    	 * 		It is a searchDispatcherAsync call that returns a SearchResult on success;
+    	 * 			the SearchResult has the necessary CategoryType name info.
+    	 * 			Furthermore this is the usual way scenarios similar to Browse Categories are implemented.
+    	 * 
+    	 * 	[The old way was a loCatRpcServiceAsync call that returned LoCategoryInfos on success;
+    	 * 			the loCategoryInfos did not have necessary CategoryType name info,
+    	 * 				and loCategories cannot be changed without affecting versioning 
+    	 * 				(which does not seem worth it given this present fix with searchDispatcherAsync).
+    	 * 			Furthermore the old way was not the usual way scenarios similar to Browse Categories are implemented.]
+    	 * 
+    	 * KSLAB-2091	 
+    	 */
+    	searchDispatcherAsync.search(new SearchRequest("lo.search.loCategories"), new KSAsyncCallback<SearchResult>() {
             @Override
             public void handleFailure(Throwable caught) {
-                GWT.log("getLoCategories failed", caught);
-                Window.alert("Get LoCategories failed");
+                GWT.log("lo.search.loCategories failed", caught);
+                Window.alert("lo.search.loCategories failed");
                 callback.exec(false);
             }
 
-            @Override
-            public void onSuccess(List<LoCategoryInfo> results) {
-
-                List<LoCategoryInfo> filteredResults = filterResults(results);
-                loadTable(filteredResults);
+			@Override
+			public void onSuccess(SearchResult results) {
+				loadTable(results);
                 callback.exec(true);
                 table.displayLoading(false);
-            }
-        }); 
+			}
+        });
+    	//KSLAB-2091
     }
     
-    private void loadTable(List<LoCategoryInfo> loCategoryInfos) {
+    private void loadTable(SearchResult results) {	/*Additional overload of loadTableto accommodate call from new loadTable(final Callback<Boolean> callback), 
+    																											which is directly above [KSLAB-2091]*/
+    	
         resultRows.clear();
+        
         HashSet<String> hashSet = new HashSet<String>();
-        String id = null;
-        for(LoCategoryInfo info : loCategoryInfos) {
+        String curCatID = null, curCatNAME= null, curCatTYPEID= null, curCatTYPENAME= null, curCatSTATE=null;
+        String curSearchResultCellKEY= null;
+        
+        for(SearchResultRow curSearchResultRow: results.getRows()) {
+        	for(SearchResultCell curSearchResultCell: curSearchResultRow.getCells()){	//Extracts necessary fields that will be added to resultRow below.
+        		curSearchResultCellKEY= curSearchResultCell.getKey();
+        		if(curSearchResultCellKEY.equals("lo.resultColumn.categoryId")){
+        			curCatID= curSearchResultCell.getValue();
+        		}else if(curSearchResultCellKEY.equals("lo.resultColumn.categoryName")){
+        			curCatNAME= curSearchResultCell.getValue();
+        		}else if(curSearchResultCellKEY.equals("lo.resultColumn.categoryType")){
+        			curCatTYPEID= curSearchResultCell.getValue();
+        		}else if(curSearchResultCellKEY.equals("lo.resultColumn.categoryTypeName")){
+        		    curCatTYPENAME= curSearchResultCell.getValue();
+                }else if(curSearchResultCellKEY.equals("lo.resultColumn.categoryState")){	//From new bean in lo-search-config.xml
+        			curCatSTATE= curSearchResultCell.getValue();
+                }
+        	}
+        	
+            if (isHideInactiveCategories() && curCatSTATE.equalsIgnoreCase("inactive")) {
+                continue;
+            }
+
             ResultRow resultRow = new ResultRow();
-            id = info.getId();
-            if(!hashSet.contains(id)) {
-                hashSet.add(id);
-                resultRow.setValue(ID_COLUMN_KEY, id);
-                resultRow.setValue(NAME_COLUMN_KEY, info.getName());
-                resultRow.setValue(TYPE_COLUMN_KEY, info.getType());
-                resultRow.setValue(STATE_COLUMN_KEY, info.getState());
+            
+            if (!hashSet.contains(curCatID)) {
+                hashSet.add(curCatID);
+                resultRow.setValue(ID_COLUMN_KEY, curCatID);
+                resultRow.setValue(NAME_COLUMN_KEY, curCatNAME);
+                resultRow.setValue(TYPE_COLUMN_KEY, curCatTYPEID);
+                resultRow.setValue(TYPE_NAME_COLUMN_KEY, curCatTYPENAME);
+                resultRow.setValue(STATE_COLUMN_KEY, curCatSTATE);
                 resultRows.add(resultRow);                
             }
-        }
+        }	//Correct resultRows now loaded [KSLAB-2091]
+        Collections.sort(resultRows);
         redraw();
-    }    
+    }
 
     public List<ResultRow> getRowsByType(String type){
         List<ResultRow> bufferList = new ArrayList<ResultRow>();

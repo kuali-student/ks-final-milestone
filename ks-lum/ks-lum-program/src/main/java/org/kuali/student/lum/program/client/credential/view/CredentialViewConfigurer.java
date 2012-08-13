@@ -10,13 +10,13 @@ import org.kuali.student.lum.program.client.major.view.SupportingDocsViewConfigu
 public class CredentialViewConfigurer extends AbstractProgramConfigurer {
 
     public CredentialViewConfigurer() {
-        programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(CredentialInformationViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(CredentialManagingBodiesViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(CredentialCatalogDetailsViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(new CredentialRequirementsViewConfiguration(false));
-        programSectionConfigManager.registerConfiguration(CredentialLearningObjectivesViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(SupportingDocsViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(new CredentialViewAllSectionsConfiguration());
+        programSectionConfigManager = new ConfigurationManager();
+        programSectionConfigManager.registerConfiguration(CredentialInformationViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(CredentialManagingBodiesViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(CredentialCatalogDetailsViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(new CredentialRequirementsViewConfiguration(this, false));
+        programSectionConfigManager.registerConfiguration(CredentialLearningObjectivesViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(SupportingDocsViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(new CredentialViewAllSectionsConfiguration(this));
     }
 }

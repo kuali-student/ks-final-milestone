@@ -17,12 +17,13 @@ package org.kuali.student.common.ui.server.gwt;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+@Deprecated
 public class MetadataRpcGwtServlet extends RemoteServiceServlet implements MetadataRpcService {
 
     private static final long serialVersionUID = 1L;
@@ -35,15 +36,30 @@ public class MetadataRpcGwtServlet extends RemoteServiceServlet implements Metad
     }
 
     public List<Metadata> getMetadataList(String objectKey, List<String> types, String state) {
+      try
+      {
         List<Metadata> metadataList = new ArrayList<Metadata>();
         for (String type : types) {
             metadataList.add(serviceImpl.getMetadata(objectKey, type, state));
         }
         return metadataList;
+      }
+      catch(Exception ex){
+          // Log exception 
+          ex.printStackTrace();
+          throw new RuntimeException(ex);
+      }
     }
 
     public Metadata getMetadataList(String objectKey, String state) {
-        return serviceImpl.getMetadata(objectKey, state);                
+        try
+        {
+            return serviceImpl.getMetadata(objectKey, state);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
     }
     
     public void setServiceImpl(MetadataServiceImpl serviceImpl) {

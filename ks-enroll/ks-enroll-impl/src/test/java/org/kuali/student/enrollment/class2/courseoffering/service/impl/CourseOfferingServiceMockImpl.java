@@ -48,8 +48,8 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -65,18 +65,18 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.type.service.TypeService;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
-import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		MockService {

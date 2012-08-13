@@ -31,6 +31,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.common.util.UUIDHelper;
 
+@Deprecated
 @Entity
 @Table(name = "KSAP_APP_STATE_T", 
        uniqueConstraints={@UniqueConstraint(columnNames={"APPLICATION_ID", "REFERENCE_KEY", "REFERENCE_TYPE", "USER_ID"})})

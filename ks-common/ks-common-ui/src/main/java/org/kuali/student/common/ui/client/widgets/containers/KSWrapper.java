@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
@@ -33,8 +32,8 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.NavigationHandler;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.headers.KSHeader;
-import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -56,6 +55,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
+@Deprecated
 public class KSWrapper extends Composite{
 
     private static final String LUM_APP_URL		= "lum.application.url";
@@ -74,7 +74,7 @@ public class KSWrapper extends Composite{
 
 	private KSHeader ksHeader = new KSHeader();
 
-	private StylishDropDown navDropDown = new StylishDropDown(getMessage("wrapperPanelTitleHome"));
+	private StylishDropDown navDropDown = GWT.create(StylishDropDown.class);
 	private Anchor versionAnchor = new Anchor(" ( Version ) ");
 	//private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 
@@ -105,6 +105,7 @@ public class KSWrapper extends Composite{
 		}
     }
 	public KSWrapper(){
+	    navDropDown.initialise(getMessage("wrapperPanelTitleHome"));
 		this.initWidget(layout);
 	}
 	protected void onLoad() {
@@ -145,7 +146,7 @@ public class KSWrapper extends Composite{
 		createUserDropDown();
 		//headerBottomLinks.add(userDropDown);
 		ksHeader.setHiLabelText("Hi,");
-		ksHeader.setUserName(Application.getApplicationContext().getUserId());
+		ksHeader.setUserName(Application.getApplicationContext().getSecurityContext().getUserId());
 		Anchor logoutLink = new Anchor(getMessage("wrapperPanelLogout"));
 		logoutLink.addClickHandler(new WrapperNavigationHandler("j_spring_security_logout"));
 		ksHeader.addLogout(logoutLink);

@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.test.spring;
 
+@Deprecated
 public interface Idable {
 	public String getId();
 }

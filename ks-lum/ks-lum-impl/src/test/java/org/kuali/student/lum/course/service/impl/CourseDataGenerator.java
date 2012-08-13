@@ -1,22 +1,23 @@
 package org.kuali.student.lum.course.service.impl;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import java.util.*;
 
 /**
  * Use this class to generate test data for a course (it may need improvements for creating real relationships for more
@@ -25,7 +26,10 @@ import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 public class CourseDataGenerator {
     private static final String[] campusLocations = {CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH, CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH};
     String activities[] = {CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_DISCUSSION_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_TUTORIAL_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_LECTURE_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_WEBLECTURE_TYPE, /*
-                                                                                                                                                                                                                                                                                                                  * CourseAssemblerConstants.
+                                                                                                                                                                                                                                                                                                                  * \
+                                                                                                                                                                                                                                                                                                                  * *
+                                                                                                                                                                                                                                                                                                                  * CourseAssemblerConstants
+                                                                                                                                                                                                                                                                                                                  * .
                                                                                                                                                                                                                                                                                                                   * COURSE_ACTIVITY_WEBDISCUSS_TYPE
                                                                                                                                                                                                                                                                                                                   * ,
                                                                                                                                                                                                                                                                                                                   */// not
@@ -34,20 +38,28 @@ public class CourseDataGenerator {
             CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE};
     public static String subjectAreas[] = {"GEOG", "COMP", "BIOL", "ENGL", "SOCY"};
     public static String loCategories[] = {"category-1", "category-2"};
+    public static String loDisplayInfo[] = {"displayInfo-1", "displayInfo-2"};
+    public static String fees[] = {"fees-1", "fees-2"};
+    public static String courseSpecificLOs[];
+    public static String revenues[] = {"revenues-1", "revenues-2"};
+    public static String affiliatedOrgs[] = {"affiliatedOrgs-1", "affiliatedOrgs-2"};
+    
     Random generator = new Random();
 
     public CourseInfo getCourseTestData() throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException {
         CourseInfo testData = generateTestData(CourseInfo.class, 0, 0, null);
-        testData.getAttributes().put("proposalTitle", "proposalTitle-1");
-        testData.getAttributes().put("proposalRationale", "proposalRationale");
-        testData.getCreditOptions().get(0).getResultValues().set(0, "1");
-        testData.getCreditOptions().get(0).getResultValues().set(1, "2");
-        testData.getCreditOptions().get(1).getResultValues().set(0, "3");
-        testData.getCreditOptions().get(1).getResultValues().set(1, "4");
-        for (ResultComponentInfo resultComponent : testData.getCreditOptions()) {
-            resultComponent.getAttributes().put("minCreditValue", "2");
-            resultComponent.getAttributes().put("maxCreditValue", "5");
-            resultComponent.getAttributes().put("fixedCreditValue", "11");
+
+        testData.getAttributes().add(new AttributeInfo("proposalTitle", "proposalTitle-1"));
+        testData.getAttributes().add(new AttributeInfo("proposalRationale", "proposalRationale"));         
+         
+        testData.getCreditOptions().get(0).getResultValueKeys().set(0, "1");
+        testData.getCreditOptions().get(0).getResultValueKeys().set(1, "2");
+        testData.getCreditOptions().get(1).getResultValueKeys().set(0, "3");
+        testData.getCreditOptions().get(1).getResultValueKeys().set(1, "4");
+        for (ResultValuesGroupInfo resultComponent : testData.getCreditOptions()) {
+            resultComponent.getAttributes().add(new AttributeInfo("minCreditValue", "2"));
+            resultComponent.getAttributes().add(new AttributeInfo("maxCreditValue", "5"));
+            resultComponent.getAttributes().add(new AttributeInfo("fixedCreditValue", "11"));
         }
         return testData;
     }
@@ -66,6 +78,11 @@ public class CourseDataGenerator {
         }
 
         BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
+        ArrayList<Field> fields = new ArrayList<Field>();
+        fields = getAllFields(fields, clazz);
+        ArrayList<Method> methods= new ArrayList<Method>();
+        methods = getAllMethods(methods, clazz);
+        
         for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
             if (ignoreProperty(pd)) {
                 continue;
@@ -73,10 +90,16 @@ public class CourseDataGenerator {
             propertyIndex++;
             Object value = null;
             Class<?> pt = pd.getPropertyType();
+            Field declaredField = findField(pd.getName(), fields);
+            
+         // We're not interested in the Interface, List, Map but in the actual class
+            if (pt.isInterface() && !List.class.equals(pt) && !Map.class.equals(pt)) {
+                pt = declaredField.getType();
+            } 
             if (List.class.equals(pt)) {
                 // If this is a list then make a new list and make x amount of test data of that list type
                 // Get the list type:
-                Class<?> nestedClass = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
+                Class<?> nestedClass = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[0];
                 List list = new ArrayList();
                 for (int i = 0; i < 2; i++) {
                     propertyIndex++;
@@ -92,8 +115,8 @@ public class CourseDataGenerator {
                 }
                 value = list;
             } else if (Map.class.equals(pt)) {
-                Class<?> keyType = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
-                Class<?> valueType = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[1];
+                Class<?> keyType = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[0];
+                Class<?> valueType = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[1];
                 Map map = new HashMap();
                 for (int i = 0; i < 2; i++) {
                     propertyIndex++;
@@ -117,10 +140,15 @@ public class CourseDataGenerator {
             } else {
                 value = generateTestData(pt, propertyIndex, sameClassNestLevel, pd.getName());
             }
-            pd.getWriteMethod().invoke(instance, value);
+            Method writeMethod = pd.getWriteMethod();
+            
+            if (writeMethod == null) {
+                writeMethod = findSetMethod(pd.getName(), methods);
+            }
+            writeMethod.invoke(instance, value);
         }
-        return instance;
-    }
+            return instance;
+        }
 
     private boolean ignoreProperty(PropertyDescriptor pd) {
         String name = pd.getName();
@@ -149,9 +177,24 @@ public class CourseDataGenerator {
             if ("loCategoryInfoList".equals(parentPropertyName)) {
                 return loCategories[propertyIndex % loCategories.length];
             }
+            if ("loDisplayInfoList".equals(parentPropertyName)) {
+                return loDisplayInfo[propertyIndex % loCategories.length];
+            }
+            if ("courseSpecificLOs".equals(parentPropertyName)) {
+                return null;
+            }
+            if ("affiliatedOrgs".equals(parentPropertyName)) {
+                return null;
+            }
+            if ("fees".equals(parentPropertyName)) {
+                return fees[propertyIndex % fees.length];
+            }
+            if ("revenues".equals(parentPropertyName)) {
+                return revenues[propertyIndex % revenues.length];
+            }
             return null;
         }
-        if ("type".equals(name)) {
+        if ("typeKey".equals(name)) {
             if ("formats".equals(parentPropertyName)) {
                 return CourseAssemblerConstants.COURSE_FORMAT_TYPE;
             }
@@ -185,6 +228,21 @@ public class CourseDataGenerator {
             if ("creditOptions".equals(parentPropertyName)) {
                 return CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED;
             }
+            if ("loDisplayInfoList".equals(parentPropertyName)) {
+                return null;
+            }
+            if ("courseSpecificLOs".equals(parentPropertyName)) {
+                return null;
+            }
+            if ("affiliatedOrgs".equals(parentPropertyName)) {
+                return  null;
+            }
+            if ("fees".equals(parentPropertyName)) {
+                return  "loCategoryType.skillarea";
+            }
+            if ("revenues".equals(parentPropertyName)) {
+                return null;
+            }
             throw new RuntimeException("Code what to do with this type. Parent:" + parentPropertyName);
         }
         if ("resultValueIds".equals(name)) {
@@ -193,10 +251,10 @@ public class CourseDataGenerator {
         if ("activityType".equals(name)) {
             return activities[generator.nextInt(activities.length)];
         }
-        if ("state".equals(name)) {
+        if ("stateKey".equals(name)) {
             return DtoConstants.STATE_DRAFT;
         }
-        if ("contactHours".equals(parentPropertyName) && "unitType".equals(name)) {
+        if ("contactHours".equals(parentPropertyName) && "unitTypeKey".equals(name)) {
             return "kuali.atp.duration.day";
         }
         if ("contactHours".equals(parentPropertyName) && "unitQuantity".equals(name)) {
@@ -208,7 +266,7 @@ public class CourseDataGenerator {
         if ("duration".equals(parentPropertyName) && "timeQuantity".equals(name)) {
             return propertyIndex.toString();
         }
-        if ("outOfClassHours".equals(parentPropertyName) && "unitType".equals(name)) {
+        if ("outOfClassHours".equals(parentPropertyName) && "unitTypeKey".equals(name)) {
             return "kuali.atp.duration.Week";
         }
         if ("outOfClassHours".equals(parentPropertyName) && "unitQuantity".equals(name)) {
@@ -230,6 +288,12 @@ public class CourseDataGenerator {
         if ("variationCode".equals(name)) {
             return "A";
         }
+        if ("startTerm".equals(name)) {
+            return "atp.2009FallSemester";
+        }
+        if ("endTerm".equals(name)) {
+            return "atp.2009FallSemester";
+        }
         // Default
         return name + "-" + propertyIndex;
     }
@@ -238,4 +302,45 @@ public class CourseDataGenerator {
         CourseDataGenerator generator = new CourseDataGenerator();
         generator.getCourseTestData();
     }
+    public static ArrayList<Field> getAllFields(ArrayList<Field> fields, Class<?> type) {
+        for (Field field: type.getDeclaredFields()) {
+            fields.add(field);
+        }
+
+        if (type.getSuperclass() != null) {
+            fields = getAllFields(fields, type.getSuperclass());
+        }
+
+        return fields;
+    }
+    
+    public static ArrayList<Method> getAllMethods(ArrayList<Method> methods, Class<?> type) {
+        for (Method method: type.getMethods()) {
+            methods.add(method);
+        }
+
+        if (type.getSuperclass() != null) {
+            methods = getAllMethods(methods, type.getSuperclass());
+        }
+
+        return methods;
+    }
+    public static Field findField(String fieldName, ArrayList<Field> fields) {
+        for (Field field : fields) {
+            if (field.getName().equals(fieldName)) {
+                return field;
+            }
+        }
+        return null;
+    }
+    public static Method findSetMethod(String fieldName, ArrayList<Method> methods) {
+        fieldName = ("set" + fieldName);
+        for (Method method : methods) {
+            if (method.getName().compareToIgnoreCase(fieldName) == 0) {
+                return method;
+            }
+        }
+        return null;
+    }
+
 }

@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 import org.junit.Ignore;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.springframework.context.ApplicationContext;

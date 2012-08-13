@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.widgets.filter;
 
 import com.google.gwt.event.shared.GwtEvent;
 
+@Deprecated
 public class FilterResetEvent extends GwtEvent<FilterResetEventHandler>{
 	public static final Type<FilterResetEventHandler> TYPE = new Type<FilterResetEventHandler>();
 	

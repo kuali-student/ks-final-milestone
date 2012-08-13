@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
-import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 public class LuiLuiRelationDao extends GenericEntityDao<LuiLuiRelationEntity>{
     @SuppressWarnings({"unchecked"})

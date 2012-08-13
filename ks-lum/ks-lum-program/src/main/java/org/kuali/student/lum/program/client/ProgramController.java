@@ -5,10 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -21,6 +22,7 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -31,12 +33,12 @@ import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGrou
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
@@ -64,18 +66,18 @@ public abstract class ProgramController extends MenuSectionController {
 
     protected HandlerManager eventBus;
 
-    protected Label statusLabel = new Label();
+	protected Label statusLabel = new Label();
 
     protected ProgramSideBar sideBar;
 
     private boolean needToLoadOldModel = false;
 
-    private ProgramStatus lastLoadedStatus;
+    protected ProgramStatus lastLoadedStatus;
 
     protected boolean reloadMetadata = false;
 
     protected boolean processBeforeShow = true;
-
+    
     /**
      * Constructor.
      *
@@ -132,6 +134,16 @@ public abstract class ProgramController extends MenuSectionController {
                                             HistoryManager.logHistoryChange();  
                                             break;
                                     }
+                                }
+                            });
+                            dialog.addCloseLinkClickHandler(new ClickHandler() {
+                                
+                                @Override
+                                public void onClick(ClickEvent event) {
+                                    okToChange.exec(false);
+                                    dialog.hide();
+                                    // Because this event fires after the history change event we need to "undo" the history events. 
+                                    HistoryManager.logHistoryChange();  
                                 }
                             });
                             dialog.show();
@@ -204,7 +216,7 @@ public abstract class ProgramController extends MenuSectionController {
      * @param callback we have to invoke this callback when model is loaded or failed.
      */
     protected void loadModel(final ModelRequestCallback<DataModel> callback) {
-        programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+        programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -258,13 +270,13 @@ public abstract class ProgramController extends MenuSectionController {
     }
 
     protected void setStatus() {
-        statusLabel.setText(ProgramProperties.get().common_status(getStringProperty(ProgramConstants.STATE)));
+        statusLabel.setText(getLabel(ProgramMsgConstants.COMMON_STATUS,getStringProperty(ProgramConstants.STATE)));
     }
 
     public String getProgramName() {
         String name = getStringProperty(ProgramConstants.LONG_TITLE);
         if (name == null) {
-            name = ProgramProperties.get().common_newProgram();
+            name = getLabel(ProgramMsgConstants.COMMON_NEWPROGRAM);
         }
         return name;
     }
@@ -321,6 +333,7 @@ public abstract class ProgramController extends MenuSectionController {
             idAttributes.put(IdAttributes.ID_TYPE, idType.toString());
             viewContextId = viewContext.getId();
             if (idType == IdType.COPY_OF_OBJECT_ID) {
+   
                 viewContextId = null;
             }
         }
@@ -362,9 +375,11 @@ public abstract class ProgramController extends MenuSectionController {
     public void setViewContext(ViewContext viewContext) {
         super.setViewContext(viewContext);
         if (viewContext.getId() != null && !viewContext.getId().isEmpty()) {
-            viewContext.setPermissionType(PermissionType.OPEN);
+
+       viewContext.setPermissionType(PermissionType.OPEN);
         } else {
-            viewContext.setPermissionType(PermissionType.INITIATE);
+
+        viewContext.setPermissionType(PermissionType.INITIATE);
         }
     }
 
@@ -396,7 +411,7 @@ public abstract class ProgramController extends MenuSectionController {
     protected Widget createCommentPanel() {
         final CommentTool commentTool = new CommentTool(ProgramSections.COMMENTS, "Comments", "kuali.comment.type.generalRemarks", "Program Comments");
         commentTool.setController(this);
-        KSButton commentsButton = new KSButton(ProgramProperties.get().comments_button(), KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
+        KSButton commentsButton = new KSButton(getLabel(ProgramMsgConstants.COMMENTS_BUTTON), KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
@@ -408,6 +423,66 @@ public abstract class ProgramController extends MenuSectionController {
 
     protected void doSave() {
     }
+    
+    
+    /**
+     * Update the state of the program and all of its statements.
+     * <p>
+     * This is only called when the state change event fires.
+     * <p>
+     * There are several types of programs (majorDiscipline, core, credential).  The
+     * state of each program changes when buttons are pressed.  For example, pressing
+     * the  activate button may change the state of the program from draft to active.
+     * <p>
+     * This method is triggered when the state changes.  It will pass the 
+     * new state to the controller servlet, which will then use it to update the state
+     * by calling the web services.
+     * <p>
+     * Note that state and status are different.
+     * <p>
+     * It is placed in ProgramController so core, credential, etc all have access it.
+     * <p>
+     * 
+     * 
+     * @param programModel a map containing data representing the program
+     * @param state the state we changed to
+     * @param callback will return true if update succeeded
+     */
+     protected void updateState(String state, final Callback<Boolean> okCallback) {
+
+       	 programRemoteService.updateState(programModel.getRoot(), state,  new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
+                @Override
+                public void onSuccess(DataSaveResult result) {
+                	if(result.getValidationResults()==null || result.getValidationResults().isEmpty()){
+                        super.onSuccess(result);
+                        okCallback.exec(true);
+                        refreshModelAndView(result);
+                	}else{
+                		//Remove the blocking progress
+                		super.onSuccess(result);
+                		//Do proper validation error handling
+                		isValid(result.getValidationResults(), false, true);
+                		ProgramUtils.handleValidationErrorsForSpecializations(result.getValidationResults(), programModel);
+                		//return false since this was not successful
+                		okCallback.exec(false);
+                	}
+               }
+                
+            }); 
+    	 
+     }
+     /**
+      * This method will refresh the model and view with the data sent back from
+      * the server.
+      *
+      */
+     public void refreshModelAndView(DataSaveResult result){
+         if (result != null) {
+              programModel.setRoot(result.getValue());
+         }
+         setHeaderTitle();
+         setStatus();
+     }
 
     public DataModel getProgramModel() {
         return programModel;
@@ -438,16 +513,33 @@ public abstract class ProgramController extends MenuSectionController {
         }
     }
     
+    /**
+     * 
+     * @see org.kuali.student.common.ui.client.reporting.ReportExport#getExportTemplateName()
+     */
     @Override
-    public ArrayList<ExportElement> getExportElementsFromView() {
+    public String getExportTemplateName() {
+        if (this.getCurrentViewEnum().equals(ProgramSections.VIEW_ALL)){
+            return "base.template";
+        }
+        return "proposal.template";
+    }
+    
+    @Override
+    public List<ExportElement> getExportElementsFromView() {
 
         String viewName = null;
         String sectionTitle = null;
         View currentView = this.getCurrentView();
         if (currentView != null) {
             
-            ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
-            if (currentView != null && currentView instanceof Section) {
+            List<ExportElement> exportElements = new ArrayList<ExportElement>();
+            ExportElement heading = new ExportElement();
+            heading.setFieldLabel("");
+            heading.setFieldValue(currentView.getName());
+            exportElements.add(heading);
+            
+            if (currentView instanceof Section) {
                 Section currentSection = (Section) currentView;
                 List<Section> nestedSections = currentSection.getSections();
                 for (int i = 0; i < nestedSections.size(); i++) {
@@ -476,4 +568,15 @@ public abstract class ProgramController extends MenuSectionController {
         return null;
     
     }
+
+    protected String getLabel(String messageKey) {
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey);
+    }
+    
+    protected String getLabel(String messageKey, String parameter) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("0", parameter);
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey, parameters);
+    }
+    
 }

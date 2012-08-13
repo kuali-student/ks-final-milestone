@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class LinkPanel extends Composite{
 
 	private Map<Enum<?>, PanelInfo> panels = new HashMap<Enum<?>, PanelInfo>();

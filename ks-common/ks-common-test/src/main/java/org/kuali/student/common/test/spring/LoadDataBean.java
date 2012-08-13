@@ -34,6 +34,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.annotation.Transactional;
 
+@Deprecated
 @Transactional
 public class LoadDataBean implements ApplicationContextAware{
 	private static final Log LOG = LogFactory.getLog(LoadDataBean.class);

@@ -13,15 +13,15 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.state.service.StateService;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.common.state.service.StateService;
+import org.kuali.student.r2.common.type.service.TypeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
                 CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)getDataObject();
                 CourseOfferingInfo courseOffering = new CourseOfferingInfo();
                 List<String> optionKeys = new ArrayList<String>();
-
+                optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
                 CourseInfo courseInfo = wrapper.getCourse();
                 courseOffering.setTermId(wrapper.getTerm().getId());
                 courseOffering.setCourseOfferingTitle(courseInfo.getCourseTitle());
@@ -54,7 +54,7 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
                 if (!StringUtils.isEmpty(wrapper.getCourseOfferingSuffix())) {
                     courseOffering.setCourseOfferingCode(wrapper.getCourseOfferingSuffix());
                     courseOffering.setCourseNumberSuffix(wrapper.getCourseOfferingSuffix());
-                    optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY);
+                    //optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY);
                 }
                 courseOffering.setCourseId(courseInfo.getId());
                 courseOffering.setCourseCode(courseInfo.getCode());
@@ -95,8 +95,9 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
             CourseOfferingCreateWrapper coCreateWrapper = (CourseOfferingCreateWrapper)((MaintenanceForm)model).getDocument().getNewMaintainableObject().getDataObject();
             for( FormatInfo formatInfo : coCreateWrapper.getCourse().getFormats()){
                 if (StringUtils.equals(formatInfo.getId(), formatOfferingInfo.getFormatId())){
-                    formatOfferingInfo.setName(formatInfo.getName());
-                    formatOfferingInfo.setShortName(formatInfo.getShortName());
+                    // TODO: fix R2 Format to include name and short name
+                    formatOfferingInfo.setName("FIX ME!");
+                    formatOfferingInfo.setShortName("FIX ME!");
                 }
             }
         }

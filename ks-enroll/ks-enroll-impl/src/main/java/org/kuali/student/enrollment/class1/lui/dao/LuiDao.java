@@ -3,7 +3,7 @@ package org.kuali.student.enrollment.class1.lui.dao;
 import java.util.List;
 
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 public class    LuiDao extends GenericEntityDao<LuiEntity> {
 	public List<LuiEntity> getLuisByType(String typeId) {

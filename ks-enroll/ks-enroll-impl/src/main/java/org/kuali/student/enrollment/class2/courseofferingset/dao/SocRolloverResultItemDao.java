@@ -3,7 +3,7 @@ package org.kuali.student.enrollment.class2.courseofferingset.dao;
 import java.util.List;
 
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultItemEntity;
-import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 public class SocRolloverResultItemDao extends GenericEntityDao<SocRolloverResultItemEntity> {
 

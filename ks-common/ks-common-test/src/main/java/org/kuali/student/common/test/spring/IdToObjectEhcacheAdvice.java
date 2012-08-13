@@ -26,6 +26,7 @@ import org.aopalliance.aop.Advice;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 
+@Deprecated
 public class IdToObjectEhcacheAdvice implements Advice {
 	final Logger LOG = Logger.getLogger(IdToObjectEhcacheAdvice.class);
 	

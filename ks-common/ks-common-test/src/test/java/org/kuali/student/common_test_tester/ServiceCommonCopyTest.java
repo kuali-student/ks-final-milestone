@@ -26,6 +26,7 @@ import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common_test_tester.support.MyService;
 
+@Deprecated
 @Daos( {
 		@Dao(value = "org.kuali.student.common_test_tester.support.MyDaoImpl", testDataFile = "classpath:META-INF/load-my-beans.xml"),
 		@Dao("org.kuali.student.common_test_tester.support.OtherDaoImpl") })

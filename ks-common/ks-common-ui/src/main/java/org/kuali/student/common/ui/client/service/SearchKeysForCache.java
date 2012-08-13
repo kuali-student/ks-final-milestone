@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * @author Igor
  */
+@Deprecated
 public class SearchKeysForCache {
 
     private static final List<String> KEYS = Arrays.asList( "atp.search.atpSeasonTypes", "atp.search.atpDurationTypes",
