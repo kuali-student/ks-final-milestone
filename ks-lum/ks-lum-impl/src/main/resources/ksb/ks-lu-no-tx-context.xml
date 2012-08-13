@@ -241,7 +241,7 @@
     <bean id="lrcClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r2.lum.lrc.service.LRCService"/>
+                  value="org.kuali.student.r1.lum.lrc.service.LrcService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/lrc}LearningResultService"/>
     </bean>
@@ -259,7 +259,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="lrcServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.r2.lum.lrc.service.LRCService"/>
+                          value="org.kuali.student.r1.lum.lrc.service.LrcService"/>
                 <property name="localServiceName" value="LearningResultService"/>
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lrc"/>
                 <property name="busSecurity" value="${ks.lum.bus.security}"/>
