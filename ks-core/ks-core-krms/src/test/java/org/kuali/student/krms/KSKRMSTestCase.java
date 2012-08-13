@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@BaselineMode(Mode.ROLLBACK_CLEAR_DB)
+@BaselineMode(Mode.NONE)
 public class KSKRMSTestCase extends BaselineTestCase {
 
     private static final String KRMS_MODULE_NAME = "krms";

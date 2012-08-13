@@ -41,7 +41,6 @@ import javax.xml.namespace.QName;
 import java.util.*;
 import java.util.Map.Entry;
 
-@BaselineMode(Mode.NONE)
 public class TestKRMSCreateAgendasPhase2 extends KSKRMSUploadTestCase {
 
 	public TestKRMSCreateAgendasPhase2() {

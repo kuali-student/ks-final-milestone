@@ -42,7 +42,6 @@ import java.util.Map;
 import static junit.framework.Assert.assertNotNull;
 
 @Ignore
-@BaselineMode(Mode.NONE)
 public class TestKRMSAgendasExecution extends KSKRMSTestCase {
 
 	public TestKRMSAgendasExecution() {

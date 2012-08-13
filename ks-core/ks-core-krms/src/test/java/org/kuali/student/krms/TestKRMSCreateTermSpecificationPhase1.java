@@ -49,7 +49,6 @@ import javax.xml.namespace.QName;
 
 import static org.junit.Assert.*;
 
-@BaselineMode(Mode.NONE)
 public class TestKRMSCreateTermSpecificationPhase1 extends KSKRMSUploadTestCase {
 
 	public TestKRMSCreateTermSpecificationPhase1() {

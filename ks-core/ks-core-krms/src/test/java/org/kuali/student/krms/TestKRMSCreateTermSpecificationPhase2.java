@@ -41,7 +41,6 @@ import java.util.Map;
 
 import static org.junit.Assert.assertNotNull;
 
-@BaselineMode(Mode.NONE)
 public class TestKRMSCreateTermSpecificationPhase2 extends KSKRMSUploadTestCase {
 
 	public TestKRMSCreateTermSpecificationPhase2() {

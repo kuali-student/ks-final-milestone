@@ -26,7 +26,6 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 @Ignore
-@BaselineMode(Mode.ROLLBACK_CLEAR_DB)
 public class ExecuteAgendaTest extends KSKRMSTestCase {
 //\
 	   static final String NAMESPACE1 = "KRMS_TEST_1";
