@@ -60,6 +60,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="HoldIssueInfo.name" parent="HoldIssueInfo.name-parent"/>
 	<bean id="HoldIssueInfo.name-parent" abstract="true" parent="HoldIssueInfo.name-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+       <property name="required" value="true"/>
 	</bean>
 
 	<bean id="HoldIssueInfo.descr" parent="HoldIssueInfo.descr-parent"/>

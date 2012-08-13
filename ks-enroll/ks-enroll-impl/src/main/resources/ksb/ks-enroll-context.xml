@@ -647,11 +647,16 @@
         <property name="criteriaLookupService" ref="holdCriteriaLookupService"/>
     </bean>
 
+    <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">
+        <property name="nextDecorator" ref="holdService"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+
     <bean id="ks.exp.holdService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="holdService" />
+                <property name="service" ref="holdServiceValidation" />
                 <property name="serviceInterface" value="org.kuali.student.r2.core.hold.service.HoldService" />
                 <property name="localServiceName" value="HoldService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/hold" />
