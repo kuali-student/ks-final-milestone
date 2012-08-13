@@ -11,8 +11,8 @@ package org.kuali.student.r2.core.class1.organization.service.impl;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
@@ -977,7 +977,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         return results;
     }
 
-    public ObjectStructure getObjectStructure(String objectTypeKey) {
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 

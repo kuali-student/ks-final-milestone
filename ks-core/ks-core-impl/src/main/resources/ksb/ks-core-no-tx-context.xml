@@ -127,7 +127,7 @@
         <property name="organizationDao" ref="orgDao" />
         <property name="searchManager" ref="orgSearchManager" />
         <property name="extendedOrgDao" ref="extendedOrgDao"/>
-        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
     </bean>
 
     <bean id="orgSearchManager"
@@ -282,11 +282,6 @@
     <bean id="commentDao"
           class="org.kuali.student.r1.core.comment.dao.impl.CommentDaoImpl">
         <property name="em" ref="commentEntityManager" />
-    </bean>
-
-    <bean id="coreDictionaryServiceDelegate"
-          class="org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
-        <constructor-arg index="0" value="${ks.core.dictionary.old.serviceContextLocations}" />
     </bean>
 
     <bean id="coreDictionaryService"
