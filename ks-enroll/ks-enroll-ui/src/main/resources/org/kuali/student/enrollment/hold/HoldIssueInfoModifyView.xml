@@ -60,11 +60,17 @@
                                                             <bean parent="Uif-SmallTextAreaControl" />
                                                         </property>
                                                     </bean>
-                                                    <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="organizationId" p:required="true">
-                                                        <property name="control">
-                                                            <bean parent="Uif-TextControl" p:size="20" />
-                                                        </property>
-                                                        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="orgName" p:required="true">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="20" />
+                                            </property>
+                                            <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
+                                            <property name="quickfinder.fieldConversions">
+                                                <map>
+                                                    <entry key="id" value="organizationId"/>
+                                                    <entry key="shortName" value="orgName"/>
+                                                </map>
+                                            </property>
                                                     </bean>
                                                     <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey"  p:required="true">
                                                         <property name="control">
@@ -78,6 +84,7 @@
                                                             </bean>
                                                         </property>
                                                     </bean>
+                                                    <bean parent="Uif-InputField-LabelTop" p:propertyName="organizationId" p:label="" p:readOnly="true" p:hidden="true" />
                                                 </list>
                                             </property>
                                         </bean>

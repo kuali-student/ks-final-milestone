@@ -35,6 +35,8 @@ public class HoldIssueInfoCreateForm extends UifFormBase {
     private String stateKey;
     private String descr;
     private String organizationId;
+    private String orgName;
+
 
    private HoldIssueInfo holdIssueInfo;
 
@@ -98,4 +100,13 @@ public class HoldIssueInfoCreateForm extends UifFormBase {
     public void setHoldIssueInfo(HoldIssueInfo holdIssueInfo) {
         this.holdIssueInfo = holdIssueInfo;
     }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
+
 }

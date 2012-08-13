@@ -29,8 +29,11 @@ import org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyVa
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
+import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -62,6 +65,8 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
 
     private transient HoldService holdService;
     private ContextInfo contextInfo;
+    private transient OrganizationService organizationService;
+    private OrgInfo orgInfo;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -86,6 +91,7 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         String state = searchForm.getStateKey();
         String orgId = searchForm.getOrganizationId();
         String descr = searchForm.getDescr();
+        String orgName =   searchForm.getOrgName();
 
         try {
             QueryByCriteria.Builder query = buildQueryByCriteria(name,type,state,orgId,descr);
@@ -133,7 +139,15 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         urlParameters.put(UifParameters.VIEW_ID, "holdView");
 
         controllerPath = "createHold";
-
+        organizationService = getOrganizationService();
+        try{
+            orgInfo = organizationService.getOrg(holdIssue.getOrganizationId(),getContextInfo());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("organization not found. ", e);
+        }
+        searchForm.setOrgName(orgInfo.getShortName());
+        urlParameters.put("orgName", orgInfo.getShortName());
         return performRedirect(searchForm, controllerPath, urlParameters);
     }
 
@@ -150,7 +164,15 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         urlParameters.put(UifParameters.VIEW_ID, "holdModifyView");
 
         controllerPath = "createHold";
-
+        organizationService = getOrganizationService();
+        try{
+            orgInfo = organizationService.getOrg(holdIssue.getOrganizationId(),getContextInfo());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("organization not found. ", e);
+        }
+        searchForm.setOrgName(orgInfo.getShortName());
+        urlParameters.put("orgName", orgInfo.getShortName());
         return performRedirect(searchForm, controllerPath, urlParameters);
     }
 
@@ -215,6 +237,12 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         return holdService;
     }
 
+    protected OrganizationService getOrganizationService(){
+        if(organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return organizationService;
+    }
     private static QueryByCriteria.Builder buildQueryByCriteria(String name, String type,String state, String orgId, String descr){
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();

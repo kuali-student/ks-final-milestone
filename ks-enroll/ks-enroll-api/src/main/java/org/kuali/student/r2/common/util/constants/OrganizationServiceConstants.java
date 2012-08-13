@@ -42,5 +42,6 @@ public class OrganizationServiceConstants {
     public static final String REF_OBJECT_URI_ORG_HIERARCHY = NAMESPACE + "/" + OrgHierarchyInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ORG_ORG_RELATION = NAMESPACE + "/" + OrgOrgRelationInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ORG_PERSON_RELATION = NAMESPACE + "/" + OrgPersonRelationInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_ORG_POSITION_RESTRICTION = NAMESPACE + "/" + OrgPositionRestrictionInfo.class.getSimpleName();    
+    public static final String REF_OBJECT_URI_ORG_POSITION_RESTRICTION = NAMESPACE + "/" + OrgPositionRestrictionInfo.class.getSimpleName();
+    public static final String SERVICE_NAME_LOCAL_PART = "OrganizationService";
 }

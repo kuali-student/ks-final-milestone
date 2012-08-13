@@ -32,6 +32,7 @@ public class HoldIssueInfoSearchForm extends UifFormBase {
     private String stateKey;
     private String descr;
     private String organizationId;
+    private String orgName;
 
     private List<HoldIssueInfo> holdIssueInfo;
 
@@ -95,6 +96,13 @@ public class HoldIssueInfoSearchForm extends UifFormBase {
         this.holdIssueInfo = holdIssueInfo;
     }
 
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
     public void clearValues() {
         setName("");
         setDescr("");

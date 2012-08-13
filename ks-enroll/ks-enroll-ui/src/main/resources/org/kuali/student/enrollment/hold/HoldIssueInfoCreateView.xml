@@ -79,19 +79,26 @@
                                                 <bean parent="Uif-SmallTextAreaControl" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="organizationId" p:required="true">
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="orgName" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="20" />
                                             </property>
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
+                                            <property name="quickfinder.fieldConversions">
+                                                <map>
+                                                    <entry key="id" value="organizationId"/>
+                                                    <entry key="shortName" value="orgName"/>
+                                                </map>
+                                            </property>
                                         </bean>
+                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="organizationId" p:label="" p:readOnly="true" p:hidden="true" />
                                     </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Save" p:methodToCall="create"/>
+                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Save" p:methodToCall="create" p:performDirtyValidation="false"/>
                                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
                                     </list>
                                 </property>

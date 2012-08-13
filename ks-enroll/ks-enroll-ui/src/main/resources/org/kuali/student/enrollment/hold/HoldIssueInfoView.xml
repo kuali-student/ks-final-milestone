@@ -78,7 +78,7 @@
                                                 <bean parent="Uif-SmallTextAreaControl"  p:disabled="true"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="organizationId">
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="orgName">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="20" p:disabled="true"/>
                                             </property>
@@ -95,6 +95,7 @@
                                                 </bean>
                                             </property>
                                         </bean>
+                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="organizationId" p:label="" p:readOnly="true" p:hidden="true" />
                                     </list>
                                 </property>
                             </bean>

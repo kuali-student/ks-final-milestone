@@ -29,8 +29,11 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
+import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,6 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.util.Properties;
 
 /**
  * This controller handles all the request from Academic calendar UI.
@@ -53,8 +57,10 @@ import javax.xml.namespace.QName;
 public class HoldIssueInfoCreateController extends UifControllerBase {
 
     private transient HoldService holdService;
+    private transient OrganizationService organizationService;
     private ContextInfo contextInfo;
     private HoldIssueInfo holdIssueInfo;
+    private OrgInfo orgInfo;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -92,16 +98,19 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
         richTextInfo.setPlain(createForm.getDescr());
         holdIssueInfo.setDescr(richTextInfo);
 
-
+        HoldIssueInfo createHoldIssueInfo;
         try {
             holdService = getHoldService();
-            HoldIssueInfo createHoldIssueInfo = holdService.createHoldIssue(holdIssueInfo.getTypeKey(), holdIssueInfo, getContextInfo() );
+
+                createHoldIssueInfo = holdService.createHoldIssue(holdIssueInfo.getTypeKey(), holdIssueInfo, getContextInfo() );
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Create new failed. ", e);
+
+           return getUIFModelAndView(createForm);
+            //throw new RuntimeException("Create new failed. ", e);
         }
-
-
+        createForm.setValidateDirty(false);
+        createForm.setId(createHoldIssueInfo.getId());
+        createForm.setStateKey(createHoldIssueInfo.getStateKey());
         return close(createForm, result, request, response);
     }
 
@@ -146,7 +155,7 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
         HoldIssueInfoCreateForm holdIssueForm = (HoldIssueInfoCreateForm) form;
         String holdIssueId = request.getParameter("id");
         String viewType = request.getParameter(UifParameters.VIEW_ID);
-
+        String orgName = request.getParameter("orgName");
         if ((holdIssueId != null) && !holdIssueId.trim().isEmpty()) {
             try {
                 HoldIssueInfo holdIssueInfo = getHoldService().getHoldIssue(holdIssueId, getContextInfo());
@@ -155,6 +164,7 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
                 holdIssueForm.setDescr(holdIssueInfo.getDescr().getPlain());
                 holdIssueForm.setOrganizationId(holdIssueInfo.getOrganizationId());
                 holdIssueForm.setStateKey(holdIssueInfo.getStateKey());
+                holdIssueForm.setOrgName(orgName);
             } catch (Exception ex) {
                 throw new RuntimeException("unable to get hold issue");
             }
@@ -181,5 +191,10 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
         }
         return holdService;
     }
-
+    protected OrganizationService getOrganizationService(){
+        if(organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return organizationService;
+    }
 }
