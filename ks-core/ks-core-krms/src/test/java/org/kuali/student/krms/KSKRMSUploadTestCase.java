@@ -35,8 +35,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@BaselineMode(Mode.ROLLBACK_CLEAR_DB)
-public class KSKRMSTestCase extends BaselineTestCase {
+@BaselineMode(Mode.NONE)
+public class KSKRMSUploadTestCase extends BaselineTestCase {
 
     private static final String KRMS_MODULE_NAME = "krms";
 
@@ -49,9 +49,9 @@ public class KSKRMSTestCase extends BaselineTestCase {
 	protected TermBoService termBoService;
 	protected SpringResourceLoader krmsTestResourceLoader;
 
-    private static String KRMS_TEST_SPRING_BEANS = "classpath:KRMSTestHarnessSpringBeans.xml";
+    private static String KRMS_TEST_SPRING_BEANS = "classpath:KRMSUploadHarnessSpringBeans.xml";
 
-	public KSKRMSTestCase() {
+	public KSKRMSUploadTestCase() {
         super(KRMS_MODULE_NAME);
 		this.setClearTables(false);
 	}
@@ -63,6 +63,7 @@ public class KSKRMSTestCase extends BaselineTestCase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        getLoadApplicationLifecycle();
         termBoService = KrmsRepositoryServiceLocator.getTermBoService();
         agendaBoService = KrmsRepositoryServiceLocator.getAgendaBoService();
         contextRepository = KrmsRepositoryServiceLocator.getContextBoService();
@@ -70,6 +71,11 @@ public class KSKRMSTestCase extends BaselineTestCase {
         krmsTypeRepository = KrmsRepositoryServiceLocator
                 .getKrmsTypeRepositoryService();
     }
+
+	@Override
+	protected void loadSuiteTestData() throws Exception {
+		// Do nothing
+	}
 
 	@Override
 	protected List<String> getPerTestTablesNotToClear() {

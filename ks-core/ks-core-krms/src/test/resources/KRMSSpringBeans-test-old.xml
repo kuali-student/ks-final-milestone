@@ -56,7 +56,7 @@
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-  <bean id="testActionTypeService" class="org.kuali.rice.krms.test.TestActionTypeService" />
+  <!--bean id="testActionTypeService" class="org.kuali.rice.krms.test.TestActionTypeService" />
 
   <bean id="testTermResolverTypeService" class="org.kuali.rice.krms.test.TestTermResolverTypeService" />
 
@@ -72,6 +72,6 @@
       </property>
   </bean>
   
-  <bean id="testAgendaTypeService" class="org.kuali.rice.krms.impl.type.AgendaTypeServiceBase" />
+  <bean id="testAgendaTypeService" class="org.kuali.rice.krms.impl.type.AgendaTypeServiceBase" /-->
 
 </beans>

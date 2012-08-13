@@ -4,6 +4,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.student.krms.KSKRMSTestCase;
+import org.kuali.student.krms.KSKRMSUploadTestCase;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +13,7 @@ import org.kuali.student.krms.KSKRMSTestCase;
  * Time: 11:51 AM
  * To change this template use File | Settings | File Templates.
  */
-public class TestKSKRMSDataSetupUtility extends KSKRMSTestCase {
+public class TestKSKRMSDataSetupUtility extends KSKRMSUploadTestCase {
 
     @Test
     public void testUtility() {
