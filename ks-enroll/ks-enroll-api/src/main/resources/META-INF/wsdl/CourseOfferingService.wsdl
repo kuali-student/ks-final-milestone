@@ -374,7 +374,7 @@
 <xs:element minOccurs="0" name="name" type="xs:string"/>
 <xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
 <xs:element minOccurs="0" name="formatOfferingId" type="xs:string"/>
-<xs:element maxOccurs="unbounded" minOccurs="0" name="activityOfferingTemplates" type="tns:ActivityOfferingTemplateInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="activityOfferingSets" type="tns:ActivityOfferingTemplateInfo"/>
 <xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
 <xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
 <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>

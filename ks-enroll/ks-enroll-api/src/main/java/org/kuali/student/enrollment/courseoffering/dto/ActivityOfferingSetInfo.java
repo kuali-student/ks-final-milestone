@@ -32,7 +32,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingSetInfo", propOrder = {
-                "id", "activityOfferingIds", "_futureElements"})
+                "id", "activityOfferingType", "activityOfferingIds", "_futureElements"})
 
 public class ActivityOfferingSetInfo
     implements ActivityOfferingSet {
@@ -41,6 +41,9 @@ public class ActivityOfferingSetInfo
 
     @XmlElement
     private String id;
+
+    @XmlElement
+    private String activityOfferingType;
 
     @XmlElement
     private List<String> activityOfferingIds;
@@ -55,6 +58,7 @@ public class ActivityOfferingSetInfo
     public ActivityOfferingSetInfo() {
     }
 
+
     /**
      * Constructs a new ActivityOfferingSetInfo from another
      * ActivityOfferingSet.
@@ -68,6 +72,8 @@ public class ActivityOfferingSetInfo
             return;      
         }
 
+        this.activityOfferingType = activityOfferingSet.getActivityOfferingType();
+
         if (activityOfferingSet.getActivityOfferingIds() != null) {
             this.activityOfferingIds = new ArrayList<String>(activityOfferingSet.getActivityOfferingIds());
         }
@@ -80,6 +86,15 @@ public class ActivityOfferingSetInfo
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public String getActivityOfferingType() {
+        return this.activityOfferingType;
+    }
+
+    public void setActivityOfferingType(String activityOfferingType) {
+        this.activityOfferingType = activityOfferingType;
     }
 
     @Override

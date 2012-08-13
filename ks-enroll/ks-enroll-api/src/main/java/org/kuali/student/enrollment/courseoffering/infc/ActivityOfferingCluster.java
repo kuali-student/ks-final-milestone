@@ -50,5 +50,5 @@ public interface ActivityOfferingCluster
      *
      * @name Activity Offering Templates
      */
-    public List<? extends ActivityOfferingSet> getActivityOfferingTemplates();
+    public List<? extends ActivityOfferingSet> getActivityOfferingSets();
 }

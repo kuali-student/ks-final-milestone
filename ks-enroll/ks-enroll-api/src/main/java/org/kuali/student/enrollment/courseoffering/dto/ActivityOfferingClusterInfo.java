@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingClusterInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
-                "formatOfferingId",  "activityOfferingTemplates",
+                "formatOfferingId", "activityOfferingSets",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingClusterInfo
@@ -50,7 +50,7 @@ public class ActivityOfferingClusterInfo
     private String formatOfferingId;
 
     @XmlElement
-    private List<ActivityOfferingSetInfo> activityOfferingTemplates;
+    private List<ActivityOfferingSetInfo> activityOfferingSets;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -76,10 +76,10 @@ public class ActivityOfferingClusterInfo
         }
 
         this.formatOfferingId = template.getFormatOfferingId();
-        if (template.getActivityOfferingTemplates() != null) {
-            this.activityOfferingTemplates = new ArrayList<ActivityOfferingSetInfo>(template.getActivityOfferingTemplates().size());
-            for (ActivityOfferingSet aotemplate : template.getActivityOfferingTemplates()) {
-                this.activityOfferingTemplates.add(new ActivityOfferingSetInfo(aotemplate));
+        if (template.getActivityOfferingSets() != null) {
+            this.activityOfferingSets = new ArrayList<ActivityOfferingSetInfo>(template.getActivityOfferingSets().size());
+            for (ActivityOfferingSet aotemplate : template.getActivityOfferingSets()) {
+                this.activityOfferingSets.add(new ActivityOfferingSetInfo(aotemplate));
             }
         }
     }
@@ -94,15 +94,15 @@ public class ActivityOfferingClusterInfo
     }
 
     @Override
-    public List<ActivityOfferingSetInfo> getActivityOfferingTemplates() {
-        if (activityOfferingTemplates == null) {
-            activityOfferingTemplates = new ArrayList<ActivityOfferingSetInfo>();
+    public List<ActivityOfferingSetInfo> getActivityOfferingSets() {
+        if (activityOfferingSets == null) {
+            activityOfferingSets = new ArrayList<ActivityOfferingSetInfo>();
         }
 
-        return activityOfferingTemplates;
+        return activityOfferingSets;
     }
 
-    public void setActivityOfferingTemplates(List<ActivityOfferingSetInfo> activityOfferingTemplates) {
-        this.activityOfferingTemplates = activityOfferingTemplates;
+    public void setActivityOfferingSets(List<ActivityOfferingSetInfo> activityOfferingSets) {
+        this.activityOfferingSets = activityOfferingSets;
     }
 }

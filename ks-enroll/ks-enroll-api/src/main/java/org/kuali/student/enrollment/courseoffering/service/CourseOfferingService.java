@@ -214,7 +214,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * offering type.
      *
      * @param courseOfferingTypeKey a key for a course offering type
-     * @param contextInfo           information containing the principalId and
+     * @param context               information containing the principalId and
      *                              locale information about the caller of
      *                              service operation
      * @return a list of valid instructor types
@@ -818,7 +818,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * offering type.
      *
      * @param activityOfferingTypeKey a key for an activity offering type
-     * @param contextInfo             information containing the principalId and
+     * @param context                 information containing the principalId and
      *                                locale information about the caller of
      *                                service operation
      * @return a list of valid instructor types
@@ -1289,26 +1289,6 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public RegistrationGroupInfo createRegistrationGroup(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "registrationGroupType") String registrationGroupType, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
-     * Generates all possible registration groups for the Activity Offering
-     * Cluster
-     *
-     * @param activityOfferingClusterId identifier of the Activity Offering
-     *                                  Cluster
-     * @param contextInfo               Context information containing the
-     *                                  principalId and locale information about
-     *                                  the caller of service operation
-     * @return generated registrationGroups for the cluster
-     * @throws DoesNotExistException activityOfferingClusterId does not exist
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException activityOfferingClusterId or
-     *                                   contextInfo is missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure has occurred
-     */
-    public List<RegistrationGroupInfo> generateRegistrationGroupsForCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-
-    /**
      * Updates an existing RegistrationGroup.
      *
      * @param registrationGroupId   Id of RegistrationGroup to be updated
@@ -1408,8 +1388,8 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      *         succeeded
      * @throws DoesNotExistException     contextInfo not found
      * @throws InvalidParameterException invalid registrationGroupId or
-     *                                   contextinfo
-     * @throws MissingParameterException registrationGroupId or contextinfo is
+     *                                   contextInfo
+     * @throws MissingParameterException registrationGroupId or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      */
@@ -1470,6 +1450,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      *
      * @param validationTypeKey              Identifier of the extent of
      *                                       validation
+     * @param formatOfferingId               Format Offering identifier
      * @param activityOfferingClusterTypeKey Activity Offering Cluster type
      * @param activityOfferingClusterInfo    the Activity Offering Cluster
      *                                       information to be validated.
@@ -1482,16 +1463,17 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      *                                   not found
      * @throws InvalidParameterException invalid activityOfferingClusterInfo or
      *                                   contextInfo
-     * @throws MissingParameterException validationTypeKey, activityOfferingClusterTypeKey
-     *                                   or activityOfferingClusterInfo is
-     *                                   missing or null
+     * @throws MissingParameterException validationTypeKey, activityOfferingClusterTypeKey,
+     *                                   activityOfferingClusterInfo or
+     *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      */
-    public List<ValidationResultInfo> validateActivityOfferingCluster(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "activityOfferingClusterTypeKey") String activityOfferingClusterTypeKey, @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingInfo activityOfferingClusterInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateActivityOfferingCluster(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "activityOfferingClusterTypeKey") String activityOfferingClusterTypeKey, @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingInfo activityOfferingClusterInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * Creates a new Activity Offering Cluster
+     * Creates a new Activity Offering Cluster from the given Format Offering
      *
+     * @param formatOfferingId               Format Offering identifier
      * @param activityOfferingClusterTypeKey Activity Offering Cluster type
      * @param activityOfferingClusterInfo    Details of the ActivityOfferingCluster
      *                                       to be created
@@ -1514,31 +1496,12 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      */
-    public ActivityOfferingClusterInfo createActivityOfferingCluster(@WebParam(name = "activityOfferingClusterTypeKey") String activityOfferingClusterTypeKey, @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
-
-    /**
-     * Verifies an Activity Offering Cluster completeness for generation,
-     * verifying each of the RegGroups as if they were generated from the
-     * cluster
-     *
-     * @param activityOfferingClusterId Activity Offering Cluster to be
-     *                                  verified
-     * @param contextInfo               Context information containing the
-     *                                  principalId and locale information about
-     *                                  the caller of service operation
-     * @return a list of validation results or an empty list if validation
-     *         succeeded
-     * @throws DoesNotExistException     activityOfferingClusterId not found
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException activityOfferingClusterId or
-     *                                   contextInfo is missing or null
-     * @throws OperationFailedException  unable to complete request
-     */
-    public List<ValidationResultInfo> verifyActivityOfferingClusterForGeneration(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public ActivityOfferingClusterInfo createActivityOfferingCluster(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "activityOfferingClusterTypeKey") String activityOfferingClusterTypeKey, @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an ActivityOfferingCluster based on the info object
      *
+     * @param formatOfferingId            Format Offering identifier
      * @param activityOfferingClusterId   Identifier of the Activity Offering
      *                                    Cluster
      * @param activityOfferingClusterInfo ActivityOfferingCluster with new
@@ -1557,11 +1520,13 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    an authorization failure has
      *                                      occurred
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
      * @throws VersionMismatchException     optimistic locking failure or the
      *                                      action was attempted on an out of
      *                                      date version
      */
-    public ActivityOfferingClusterInfo updateActivityOfferingCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public ActivityOfferingClusterInfo updateActivityOfferingCluster(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
      * Deletes an activity offering cluster  based on the identifier
@@ -1581,6 +1546,46 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException an authorization failure has occurred
      */
     public StatusInfo deleteActivityOfferingCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Verifies an Activity Offering Cluster completeness for generation,
+     * verifying that each of the created RegGroups will be legitimate
+     *
+     * @param activityOfferingClusterId Activity Offering Cluster to be
+     *                                  verified
+     * @param contextInfo               Context information containing the
+     *                                  principalId and locale information about
+     *                                  the caller of service operation
+     * @return a list of validation results or an empty list if validation
+     *         succeeded
+     * @throws DoesNotExistException     activityOfferingClusterId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException activityOfferingClusterId or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     */
+    public List<ValidationResultInfo> verifyActivityOfferingClusterForGeneration(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+
+    /**
+     * Generates all possible registration groups for the Activity Offering
+     * Cluster
+     *
+     * @param activityOfferingClusterId identifier of the Activity Offering
+     *                                  Cluster
+     * @param contextInfo               Context information containing the
+     *                                  principalId and locale information about
+     *                                  the caller of service operation
+     * @return generated registrationGroups for the cluster
+     * @throws DoesNotExistException     activityOfferingClusterId does not
+     *                                   exist
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException activityOfferingClusterId or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure has occurred
+     */
+    public List<RegistrationGroupInfo> generateRegistrationGroupsForCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve information about a SeatPoolDefinition
@@ -1722,7 +1727,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * Removes a SeatPoolDefinition from an ActivityOffering.
      *
      * @param seatPoolDefinitionId a unique identifier for a SeatPoolDefinition
-     * @param activityOffering     a unique identifier for an ActivityOffering
+     * @param activityOfferingId   a unique identifier for an ActivityOffering
      * @param contextInfo          Context information containing the
      *                             principalId and locale information about the
      *                             caller of service operation

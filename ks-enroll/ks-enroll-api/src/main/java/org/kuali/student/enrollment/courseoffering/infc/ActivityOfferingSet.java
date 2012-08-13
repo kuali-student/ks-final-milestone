@@ -27,13 +27,23 @@ import java.util.List;
  * (needs example)
  *
  * @author tom
+ *
+ * @author Sri (updated)
  */
 
 public interface ActivityOfferingSet
     extends HasId {
 
     /**
-     * Gets the activity offering Ids that 
+     * Indicates the type of the Activity Offering (for example, Lecture, Lab etc)
+     *
+     * @name Activity Offering Type
+     */
+
+    public String getActivityOfferingType();
+
+    /**
+     * Gets the activity offering Ids that from the set
      *
      * @name Activity Offering Ids
      */
