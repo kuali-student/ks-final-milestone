@@ -232,7 +232,7 @@
   </bean>
   <aop:config>
     <aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
-      <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lu.service.impl.LuServiceImpl.*(..))"
+      <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
       <aop:after-throwing pointcut="execution(* org.kuali.student.lum.lrc.service.impl.LrcServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />

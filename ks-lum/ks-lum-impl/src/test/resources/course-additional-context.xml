@@ -26,7 +26,7 @@
 	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<bean id="luService"
-		class="org.kuali.student.r2.lum.lu.service.impl.LuServiceImpl">
+		class="org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl">
 	</bean>
 
 	<bean id="luDao"

@@ -350,7 +350,7 @@
 	</bean>
 
 	<bean id="luServiceImpl"
-		class="org.kuali.student.r2.lum.lu.service.impl.LuServiceImpl">
+		class="org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl">
 		<property name="luDao" ref="luDao" />
         <property name="searchManager" ref="luSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
