@@ -250,7 +250,6 @@
         <property name="enumDao" ref="enumerationDao"/>
         <property name="enumValueDao" ref="enumValueDao"/>
         <property name="enumContextValueDao" ref="enumContextValueDao"/>
-        <property name="searchManager" ref="emSearchManager"/>
     </bean>
 
     <bean id="ks.exp.enumerationManagementService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
