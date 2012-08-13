@@ -166,7 +166,7 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
     <!-- Organization Service -->
-    <bean id="orgDao" class="org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl">
+    <bean id="orgDao" class="org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl">
         <property name="em" ref="enrollEntityManager" />
     </bean>
 

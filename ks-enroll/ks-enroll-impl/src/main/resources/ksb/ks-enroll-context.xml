@@ -222,11 +222,11 @@
 
   <!-- Exception mapping. This is needed because many operations are proxied and do not throw exceptions until a later time -->
   <bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
-    <property name="defaultException" value="org.kuali.student.common.exceptions.OperationFailedException" />
+    <property name="defaultException" value="org.kuali.student.r2.common.exceptions.OperationFailedException" />
     <property name="exceptionMapping">
       <map>
-        <entry key="javax.persistence.EntityExistsException" value="org.kuali.student.common.exceptions.AlreadyExistsException" />
-        <entry key="org.hibernate.exception.ConstraintViolationException" value="org.kuali.student.common.exceptions.AlreadyExistsException" />
+        <entry key="javax.persistence.EntityExistsException" value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
+        <entry key="org.hibernate.exception.ConstraintViolationException" value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
       </map>
     </property>
   </bean>
@@ -234,7 +234,7 @@
     <aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
       <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
-      <aop:after-throwing pointcut="execution(* org.kuali.student.lum.lrc.service.impl.LrcServiceImpl.*(..))"
+      <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
       <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
@@ -393,7 +393,7 @@
         </property>
     </bean>
 
-  <bean id="statementServiceImpl" class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+  <bean id="statementServiceImpl" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
     <property name="statementDao" ref="statementDao" />
     <property name="searchManager" ref="statementSearchManager" />
     <property name="dictionaryServiceDelegate" ref="dictionaryService" />
@@ -402,25 +402,25 @@
     <property name="validatorFactory" ref="validatorFactory" />
   </bean>
 
-  <bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+  <bean id="dictionaryService" class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
     <constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
   </bean>
 
-  <bean id="validatorFactory" class="org.kuali.student.common.validator.ValidatorFactory">
+  <bean id="validatorFactory" class="org.kuali.student.r2.common.validator.ValidatorFactory">
     <property name="defaultValidator" ref="businessServiceValidator" />
   </bean>
 
   <bean id="businessServiceValidator" class="org.kuali.student.r2.common.service.impl.NoOpDefaultValidatorImpl" />
 
-  <bean id="statementDao" class="org.kuali.student.core.statement.dao.impl.StatementDaoImpl">
+  <bean id="statementDao" class="org.kuali.student.r1.core.statement.dao.impl.StatementDaoImpl">
     <property name="em" ref="enrollEntityManager" />
   </bean>
 
-  <bean id="statementSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+  <bean id="statementSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
     <constructor-arg index="0" value="classpath:statement-search-config.xml" />
   </bean>
 
-  <bean id="statementAssembler" class="org.kuali.student.core.statement.service.impl.StatementAssembler">
+  <bean id="statementAssembler" class="org.kuali.student.r1.core.statement.service.impl.StatementAssembler">
     <property name="statementDao" ref="statementDao" />
   </bean>
 
@@ -440,8 +440,8 @@
     <property name="resultSourceDao" ref="resultSourceDao" />
   </bean>
 
-  <bean id="lrcServiceBusinessLogic" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceBusinessLogicImpl" />
-  <bean id="lrcPersistenceService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LRCServiceImpl">
+  <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
+  <bean id="lrcPersistenceService" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
     <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
     <property name="resultValueDao" ref="resultValueDao" />
     <property name="resultScaleDao" ref="resultScaleDao" />
@@ -480,7 +480,7 @@
     <property name="luiService" ref="luiService" />
   </bean>
 
-  <bean id="rulesEvaluationUtil" class="org.kuali.student.core.statement.util.RulesEvaluationUtil">
+  <bean id="rulesEvaluationUtil" class="org.kuali.student.r2.core.statement.util.RulesEvaluationUtil">
     <property name="termResolvers">
       <list>
         <ref bean="completedCoursesResolver" />
@@ -488,7 +488,7 @@
     </property>
   </bean>
 
-  <bean id="propositionBuilder" class="org.kuali.student.core.statement.util.PropositionBuilder" />
+  <bean id="propositionBuilder" class="org.kuali.student.r2.core.statement.util.PropositionBuilder" />
 
   <bean id="ks.exp.courseRegistrationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">

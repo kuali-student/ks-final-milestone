@@ -205,7 +205,7 @@
         <property name="entityManagerFactory" ref="lrcEntityManagerFactory"/>
     </bean>
 
-    <bean id="lrcDao" class="org.kuali.student.r2.lum.lrc.dao.impl.LrcDaoImpl">
+    <bean id="lrcDao" class="org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl">
         <property name="em" ref="lrcEntityManager"/>
     </bean>
 
@@ -519,25 +519,25 @@
 
  	<!-- Clients to external Services -->
     <bean id="atpClient"
-          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxy">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.r1.core.atp.service.AtpService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/atp}AtpService"/>
     </bean>
     
-    <bean id="documentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="documentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxy">
         <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.document.service.DocumentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
     </bean>
 
-    <bean id="subjectCodeClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="subjectCodeClient" class="org.kuali.rice.ksb.messaging.KSBClientProxy">
         <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.subjectcode.service.SubjectCodeService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/subjectCode}SubjectCodeService"/>
     </bean>
 
     <bean id="statementServiceClient"
-          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxy">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.r1.core.statement.service.StatementService"/>
         <property name="serviceQName"

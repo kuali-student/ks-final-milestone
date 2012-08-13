@@ -255,7 +255,7 @@
 	</bean>
 
 	<bean id="lrcServiceImpl"
-		class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+		class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
 		<property name="lrcDao" ref="lrcDao" />
         <property name="searchManager" ref="lrcSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>        
