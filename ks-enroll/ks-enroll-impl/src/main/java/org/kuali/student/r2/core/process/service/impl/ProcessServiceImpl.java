@@ -1,7 +1,9 @@
 package org.kuali.student.r2.core.process.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -13,6 +15,7 @@ import org.kuali.student.r2.core.process.dao.InstructionDao;
 import org.kuali.student.r2.core.process.dao.ProcessDao;
 import org.kuali.student.r2.core.process.model.CheckEntity;
 import org.kuali.student.r2.core.process.model.InstructionEntity;
+import org.kuali.student.r2.core.process.model.ProcessCategoryEntity;
 import org.kuali.student.r2.core.process.model.ProcessEntity;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
@@ -40,6 +43,16 @@ public class ProcessServiceImpl implements ProcessService {
     private InstructionDao instructionDao;
     private ProcessDao processDao;
     private StateService stateService;
+    private CriteriaLookupService criteriaLookupService;
+
+
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
+    }
+
+    public CriteriaLookupService getCriteriaLookupService() {
+        return criteriaLookupService;
+    }
 
     public CheckDao getCheckDao() {
         return checkDao;
@@ -114,8 +127,14 @@ public class ProcessServiceImpl implements ProcessService {
     public List<String> searchForProcessCategoryIds(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO
-                                                                       // implement
+        List<String> results = new ArrayList<String>();
+        GenericQueryResults<ProcessCategoryEntity> processCategories = criteriaLookupService.lookup(ProcessCategoryEntity.class, criteria);
+        if (null != processCategories && processCategories.getResults().size() > 0) {
+            for (ProcessCategoryEntity processCat : processCategories.getResults()) {
+                results.add(processCat.getId());
+            }
+        }
+        return results;
     }
 
     @Override
@@ -123,8 +142,14 @@ public class ProcessServiceImpl implements ProcessService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO
-                                                                       // implement
+        List<ProcessCategoryInfo> results = new ArrayList<ProcessCategoryInfo>();
+        GenericQueryResults<ProcessCategoryEntity> processCategories = criteriaLookupService.lookup(ProcessCategoryEntity.class, criteria);
+        if (null != processCategories && processCategories.getResults().size() > 0) {
+            for (ProcessCategoryEntity processCat : processCategories.getResults()) {
+                results.add(processCat.toDto());
+            }
+        }
+        return results;
     }
 
     @Override
@@ -245,16 +270,28 @@ public class ProcessServiceImpl implements ProcessService {
     public List<String> searchForProcessKeys(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO
-                                                                       // implement
+        List<String> results = new ArrayList<String>();
+        GenericQueryResults<ProcessEntity> processes = criteriaLookupService.lookup(ProcessEntity.class, criteria);
+        if (null != processes && processes.getResults().size() > 0) {
+            for (ProcessEntity process : processes.getResults()) {
+                results.add(process.getId());
+            }
+        }
+        return results;
     }
 
     @Override
     public List<ProcessInfo> searchForProcess(@WebParam(name = "criteria") QueryByCriteria criteria,
                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO
-                                                                       // implement
+        List<ProcessInfo> results = new ArrayList<ProcessInfo>();
+        GenericQueryResults<ProcessEntity> processes = criteriaLookupService.lookup(ProcessEntity.class, criteria);
+        if (null != processes && processes.getResults().size() > 0) {
+            for (ProcessEntity process : processes.getResults()) {
+                results.add(process.toDto());
+            }
+        }
+        return results;
     }
 
     @Override
@@ -381,9 +418,7 @@ public class ProcessServiceImpl implements ProcessService {
     public List<String> getCheckIdsByType(@WebParam(name = "checkTypeKey") String checkTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // List<CheckEntity> checkEntities = checkDao.getByCheckTypeId(checkTypeKey);
         List<CheckEntity> checkEntities = checkDao.getByCheckType(checkTypeKey);
-
 
         List<String> checkIds = new ArrayList<String>();
         for (CheckEntity processEntity : checkEntities) {
@@ -397,16 +432,28 @@ public class ProcessServiceImpl implements ProcessService {
     public List<String> searchForCheckIds(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO
-                                                                       // implement
+        List<String> results = new ArrayList<String>();
+        GenericQueryResults<CheckEntity> checks = criteriaLookupService.lookup(CheckEntity.class, criteria);
+        if (null != checks && checks.getResults().size() > 0) {
+            for (CheckEntity check : checks.getResults()) {
+                results.add(check.getId());
+            }
+        }
+        return results;
     }
 
     @Override
     public List<CheckInfo> searchForChecks(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO
-                                                                       // implement
+        List<CheckInfo> results = new ArrayList<CheckInfo>();
+        GenericQueryResults<CheckEntity> checks = criteriaLookupService.lookup(CheckEntity.class, criteria);
+        if (null != checks && checks.getResults().size() > 0) {
+            for (CheckEntity check : checks.getResults()) {
+                results.add(check.toDto());
+            }
+        }
+        return results;
     }
 
     @Override
@@ -603,8 +650,14 @@ public class ProcessServiceImpl implements ProcessService {
     public List<String> searchForInstructionIds(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO
-                                                                       // implement
+        List<String> results = new ArrayList<String>();
+        GenericQueryResults<InstructionEntity> instructions = criteriaLookupService.lookup(InstructionEntity.class, criteria);
+        if (null != instructions && instructions.getResults().size() > 0) {
+            for (InstructionEntity instruction : instructions.getResults()) {
+                results.add(instruction.getId());
+            }
+        }
+        return results;
     }
 
     @Override
@@ -612,8 +665,14 @@ public class ProcessServiceImpl implements ProcessService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO
-                                                                       // implement
+        List<InstructionInfo> results = new ArrayList<InstructionInfo>();
+        GenericQueryResults<InstructionEntity> instructions = criteriaLookupService.lookup(InstructionEntity.class, criteria);
+        if (null != instructions && instructions.getResults().size() > 0) {
+            for (InstructionEntity instruction : instructions.getResults()) {
+                results.add(instruction.toDto());
+            }
+        }
+        return results;
     }
 
     @Override

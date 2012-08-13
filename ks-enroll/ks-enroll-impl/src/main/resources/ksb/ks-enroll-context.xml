@@ -548,6 +548,7 @@
       <property name="checkDao" ref="checkDao" />
       <property name="instructionDao" ref="instructionDao" />
       <property name="stateService" ref="stateServiceCacheDecorator" />
+      <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
   </bean>
 
     <!-- Appointment Service -->
@@ -644,7 +645,7 @@
     <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
         <property name="holdIssueDao" ref="holdIssueDao"/>
         <property name="appliedHoldDao" ref="appliedHoldDao"/>
-        <property name="criteriaLookupService" ref="holdCriteriaLookupService"/>
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
     </bean>
 
     <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">
@@ -665,10 +666,9 @@
         </property>
     </bean>
 
-    <!-- Hold Service - Criteria Lookup Service -->
     <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
 
-    <bean id="holdCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+    <bean id="defaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
         <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
         <property name="predicateTransforms">
             <list>
