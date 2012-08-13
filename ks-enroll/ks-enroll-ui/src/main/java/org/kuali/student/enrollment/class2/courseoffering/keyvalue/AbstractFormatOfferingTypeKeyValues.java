@@ -46,7 +46,8 @@ public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFi
             ConcreteKeyValue keyValue = new ConcreteKeyValue();
             if(!existingFormatIds.contains(format.getId())){
                 keyValue.setKey(format.getId());
-                keyValue.setValue(format.getName());
+                // TODO: fix R2 Format to include name and short name
+                keyValue.setValue("FIX ME!");
                 keyValues.add(keyValue);
             }
         }

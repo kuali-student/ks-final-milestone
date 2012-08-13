@@ -251,8 +251,9 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             MaintenanceForm form = (MaintenanceForm)model;
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             FormatInfo theFormat = getFormatInfo(coEditWrapper, formatId);
-            newLine.setName(theFormat.getName());
-            newLine.setShortName(theFormat.getShortName());
+            // TODO: fix R2 Format to include name and short name
+            newLine.setName("FIX ME!");
+            newLine.setShortName("FIX ME!");
         }
     }
 

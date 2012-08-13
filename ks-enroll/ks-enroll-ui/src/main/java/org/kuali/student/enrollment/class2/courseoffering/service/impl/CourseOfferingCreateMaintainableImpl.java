@@ -95,8 +95,9 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
             CourseOfferingCreateWrapper coCreateWrapper = (CourseOfferingCreateWrapper)((MaintenanceForm)model).getDocument().getNewMaintainableObject().getDataObject();
             for( FormatInfo formatInfo : coCreateWrapper.getCourse().getFormats()){
                 if (StringUtils.equals(formatInfo.getId(), formatOfferingInfo.getFormatId())){
-                    formatOfferingInfo.setName(formatInfo.getName());
-                    formatOfferingInfo.setShortName(formatInfo.getShortName());
+                    // TODO: fix R2 Format to include name and short name
+                    formatOfferingInfo.setName("FIX ME!");
+                    formatOfferingInfo.setShortName("FIX ME!");
                 }
             }
         }
