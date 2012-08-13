@@ -21,12 +21,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfoExtended;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -222,6 +217,23 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 targetAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                 targetAo = this._getCoService().createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
                         targetAo.getTypeKey(), targetAo, context);
+
+                //attach SPs to the AO created
+                try {
+                    List<SeatPoolDefinitionInfo> sourceSPList = this._getCoService().getSeatPoolDefinitionsForActivityOffering(sourceAo.getId(), context);
+                    if (sourceSPList != null && !sourceSPList.isEmpty()) {
+                        for (SeatPoolDefinitionInfo sourceSP : sourceSPList) {
+                            SeatPoolDefinitionInfo targetSP = new SeatPoolDefinitionInfo(sourceSP);
+                            targetSP.setId(null);
+                            targetSP.setTypeKey(LuiServiceConstants.SEATPOOL_LUI_CAPACITY_TYPE_KEY);
+                            targetSP.setStateKey(LuiServiceConstants.LUI_CAPACITY_ACTIVE_STATE_KEY);
+                            SeatPoolDefinitionInfo seatPoolCreated = this._getCoService().createSeatPoolDefinition(targetSP,context);
+                            this._getCoService().addSeatPoolDefinitionToActivityOffering(seatPoolCreated.getId(),targetAo.getId(), context);
+                        }
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 aoCount++;
             }
         }

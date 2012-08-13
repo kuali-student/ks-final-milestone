@@ -1106,6 +1106,24 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         targetAO.setActivityCode(null);
         targetAO = createActivityOffering(sourceAO.getFormatOfferingId(), sourceAO.getActivityId(), sourceAO.getTypeKey(), targetAO, context);
 
+       try {
+           List<SeatPoolDefinitionInfo> sourceSPList = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
+           if (sourceSPList != null && !sourceSPList.isEmpty()) {
+               for (SeatPoolDefinitionInfo sourceSP : sourceSPList) {
+                   SeatPoolDefinitionInfo targetSP = new SeatPoolDefinitionInfo(sourceSP);
+                   targetSP.setId(null);
+                   targetSP.setTypeKey(LuiServiceConstants.SEATPOOL_LUI_CAPACITY_TYPE_KEY);
+                   targetSP.setStateKey(LuiServiceConstants.LUI_CAPACITY_ACTIVE_STATE_KEY);
+                   SeatPoolDefinitionInfo seatPoolCreated = this.createSeatPoolDefinition(targetSP,context);
+                   this.addSeatPoolDefinitionToActivityOffering(seatPoolCreated.getId(),targetAO.getId(), context);
+
+               }
+           }
+       } catch (Exception e) {
+           throw new RuntimeException(e);
+       }
+
+
         return targetAO;
     }
 
