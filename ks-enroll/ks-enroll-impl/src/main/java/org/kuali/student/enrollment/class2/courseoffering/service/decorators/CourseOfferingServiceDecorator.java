@@ -218,14 +218,32 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateActivityOfferingCluster(String validationTypeKey, String activityOfferingClusterTypeKey, ActivityOfferingInfo activityOfferingClusterInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateActivityOfferingCluster(validationTypeKey, activityOfferingClusterTypeKey, activityOfferingClusterInfo, contextInfo);
+    public List<ValidationResultInfo> validateActivityOfferingCluster(String validationTypeKey, String formatOfferingId,
+            String activityOfferingClusterTypeKey, ActivityOfferingInfo activityOfferingClusterInfo, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        return getNextDecorator().validateActivityOfferingCluster(validationTypeKey, formatOfferingId, activityOfferingClusterTypeKey,
+                activityOfferingClusterInfo, contextInfo);
     }
 
     @Override
-    public ActivityOfferingClusterInfo createActivityOfferingCluster(String activityOfferingClusterTypeKey, ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createActivityOfferingCluster(activityOfferingClusterTypeKey, activityOfferingClusterInfo, contextInfo);
+    public ActivityOfferingClusterInfo createActivityOfferingCluster(String formatOfferingId,
+            String activityOfferingClusterTypeKey, ActivityOfferingClusterInfo activityOfferingClusterInfo,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException {
+        return getNextDecorator().createActivityOfferingCluster(formatOfferingId, activityOfferingClusterTypeKey,
+                activityOfferingClusterInfo, contextInfo);
     }
+
+
 
     @Override
     public List<ValidationResultInfo> verifyActivityOfferingClusterForGeneration(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -233,8 +251,18 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public ActivityOfferingClusterInfo updateActivityOfferingCluster(String activityOfferingClusterId, ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator().updateActivityOfferingCluster(activityOfferingClusterId, activityOfferingClusterInfo, contextInfo);
+    public ActivityOfferingClusterInfo updateActivityOfferingCluster(String formatOfferingId, String activityOfferingClusterId,
+            ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
+        return getNextDecorator().updateActivityOfferingCluster(formatOfferingId, activityOfferingClusterId,
+                activityOfferingClusterInfo, contextInfo);
     }
 
     @Override

@@ -1464,15 +1464,31 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateActivityOfferingCluster(String validationTypeKey, String activityOfferingClusterTypeKey, ActivityOfferingInfo activityOfferingClusterInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException();
+    public List<ValidationResultInfo> validateActivityOfferingCluster(String validationTypeKey, String formatOfferingId,
+            String activityOfferingClusterTypeKey, ActivityOfferingInfo activityOfferingClusterInfo, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public ActivityOfferingClusterInfo createActivityOfferingCluster(String activityOfferingClusterTypeKey, ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new UnsupportedOperationException();
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public ActivityOfferingClusterInfo createActivityOfferingCluster(String formatOfferingId,
+            String activityOfferingClusterTypeKey, ActivityOfferingClusterInfo activityOfferingClusterInfo,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    
     @Override
     public List<ValidationResultInfo> verifyActivityOfferingClusterForGeneration(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException();
@@ -1480,14 +1496,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public ActivityOfferingClusterInfo updateActivityOfferingCluster(String registrationGroupTemplateId,
-                                                                         ActivityOfferingClusterInfo registrationGroupTemplateInfo,
-                                                                         ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException,
-            ReadOnlyException, VersionMismatchException {
-        throw new UnsupportedOperationException();
+    public ActivityOfferingClusterInfo updateActivityOfferingCluster(String formatOfferingId, String activityOfferingClusterId,
+            ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
