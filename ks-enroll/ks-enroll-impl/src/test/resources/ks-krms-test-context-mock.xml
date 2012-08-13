@@ -547,7 +547,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
     <bean id="coreDictionaryServiceDelegate"
-          class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceSpringImpl">
+          class="org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <!--<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />-->
     </bean>
 
