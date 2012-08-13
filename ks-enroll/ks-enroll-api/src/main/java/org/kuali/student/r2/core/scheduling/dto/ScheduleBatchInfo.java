@@ -16,6 +16,7 @@
 package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleBatch;
 import org.w3c.dom.Element;
 
@@ -33,7 +34,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleBatchInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "requestingPersonId", "orgId",
+        "requestingPersonId", "orgId", "statusMessage", "finalStatus",
         "meta", "attributes", "_futureElements"})
 public class ScheduleBatchInfo extends IdEntityInfo implements ScheduleBatch, Serializable {
 
@@ -41,16 +42,23 @@ public class ScheduleBatchInfo extends IdEntityInfo implements ScheduleBatch, Se
     private String requestingPersonId;
     @XmlElement
     private String orgId;
+    @XmlElement
+    private String statusMessage;
+    @XmlElement
+    private StatusInfo finalStatus;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public ScheduleBatchInfo() {
     }
 
-    public ScheduleBatchInfo(ScheduleBatch ScheduleBatch) {
-        if (null != ScheduleBatch) {
-            this.requestingPersonId = ScheduleBatch.getRequestingPersonId();
-            this.orgId = ScheduleBatch.getOrgId();
+    public ScheduleBatchInfo(ScheduleBatch scheduleBatch) {
+        if (null != scheduleBatch) {
+            this.requestingPersonId = scheduleBatch.getRequestingPersonId();
+            this.orgId = scheduleBatch.getOrgId();
+            this.statusMessage = scheduleBatch.getStatusMessage();
+            this.finalStatus = new StatusInfo(scheduleBatch.getFinalStatus());
         }
     }
 
@@ -70,5 +78,23 @@ public class ScheduleBatchInfo extends IdEntityInfo implements ScheduleBatch, Se
 
     public void setRequestingPersonId(String requestingPersonId) {
         this.requestingPersonId = requestingPersonId;
+    }
+
+    @Override
+    public String getStatusMessage() {
+        return this.statusMessage;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
+
+    @Override
+    public StatusInfo getFinalStatus() {
+        return this.finalStatus;
+    }
+
+    public void setFinalStatus(StatusInfo finalStatus) {
+        this.finalStatus = finalStatus;
     }
 }

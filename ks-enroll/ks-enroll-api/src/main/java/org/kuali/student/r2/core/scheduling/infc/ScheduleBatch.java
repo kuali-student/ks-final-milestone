@@ -15,9 +15,13 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
+import org.kuali.student.r2.common.infc.Status;
+
 /**
  * @Version 2.0
  * @Author Sri komandur@uw.edu
+ * @Version 3.0
+ * @Author Mezba Mahtab mezba.mahtab@utoronto.ca
  */
 public interface ScheduleBatch {
     /**
@@ -35,4 +39,19 @@ public interface ScheduleBatch {
      * @name Org Id
      */
     public String getOrgId();
+
+    /**
+     * Status message
+     *
+     * @name Status Message
+     */
+    public String getStatusMessage();
+
+    /**
+     * Overall status of the scheduling transaction
+     *
+     * @name Status
+     */
+    public Status getFinalStatus();
+
 }
