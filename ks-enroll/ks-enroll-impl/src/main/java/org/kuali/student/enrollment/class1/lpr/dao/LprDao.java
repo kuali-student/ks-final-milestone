@@ -4,7 +4,7 @@ package org.kuali.student.enrollment.class1.lpr.dao;
 import java.util.List;
 
 import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
-import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 

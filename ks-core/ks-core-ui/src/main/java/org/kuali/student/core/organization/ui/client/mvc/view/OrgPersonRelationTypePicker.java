@@ -23,7 +23,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
@@ -47,7 +47,7 @@ public class OrgPersonRelationTypePicker extends KSDropDown{
                 public void onSuccess(final List<OrgPositionRestrictionInfo> orgRelTypes) {
                     final Map<String, String> map = new LinkedHashMap<String, String>();
                     for (OrgPositionRestrictionInfo info : orgRelTypes) {
-                        map.put(info.getOrgPersonRelationTypeKey(), info.getTitle());
+                    	map.put(info.getOrgPersonRelationTypeKey(), info.getTitle());
                     }
                     orgRelTypeList = new ListItems() {
 

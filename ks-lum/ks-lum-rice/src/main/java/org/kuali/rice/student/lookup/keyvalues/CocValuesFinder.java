@@ -18,15 +18,13 @@ package org.kuali.rice.student.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 public abstract class CocValuesFinder extends StudentKeyValuesBase {
 
@@ -41,46 +39,30 @@ public abstract class CocValuesFinder extends StudentKeyValuesBase {
 	public static List<KeyValue> findCocOrgs(String orgType) {
 		List<KeyValue> orgEntities = new ArrayList<KeyValue>();
 
-		List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
-		SearchParam qpOrgType = new SearchParam();
-		qpOrgType.setKey("org.queryParam.relationType");
-		qpOrgType.setValue("kuali.org.CurriculumParent");
-		queryParamValues.add(qpOrgType);
-		
-		qpOrgType = new SearchParam();
-        qpOrgType.setKey("org.queryParam.orgType");
-        qpOrgType.setValue(orgType);
-		queryParamValues.add(qpOrgType);
-		
-		qpOrgType = new SearchParam();
-		qpOrgType.setKey("org.queryParam.relatedOrgType");
-		qpOrgType.setValue("kuali.org.COC");
-		queryParamValues.add(qpOrgType);
-		
-		SearchRequest searchRequest = new SearchRequest();
-		searchRequest.setParams(queryParamValues);
-        searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType");
+		SearchRequest searchRequest = new SearchRequest("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType");
+		searchRequest.addParam("org.queryParam.relationType","kuali.org.CurriculumParent");
+		searchRequest.addParam("org.queryParam.orgType",orgType);
+		searchRequest.addParam("org.queryParam.relatedOrgType","kuali.org.COC");
 
 		try {
-			SearchResult results = getOrganizationService().search(searchRequest);
-
+			SearchResult results = null;
+			results = getOrganizationService().search(searchRequest);
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = "";
 				String orgShortName = "";
 				String orgLongName = "";
 				for (SearchResultCell resultCell : result.getCells()) {
-					if ("org.resultColumn.orgId".equals(resultCell
-							.getKey())) {
+					if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
 						orgId = resultCell.getValue();
-						orgLongName = getOrganizationService().getOrganization(orgId).getLongName();
-					} else if ("org.resultColumn.orgShortName"
-							.equals(resultCell.getKey())) {
+					} else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
 						orgShortName = resultCell.getValue();
-					}					
+					} else if("org.resultColumn.orgLongName".equals(resultCell.getKey())){
+						orgLongName = resultCell.getValue();
+					}
 				}
 		        if (StringUtils.isBlank(orgLongName)) {
 		           //use shortName when longName is blank
-		            orgEntities.add(buildKeyValue(orgId, orgShortName, null, null));
+		            orgEntities.add(buildKeyLabelPair(orgId, orgShortName, null, null));
 		        }
 		        else {
 		            /*
@@ -90,7 +72,6 @@ public abstract class CocValuesFinder extends StudentKeyValuesBase {
 		             */
 		            orgEntities.add(new ConcreteKeyValue(orgId, orgLongName));
 		        }
-//		        orgEntities.add(buildKeyValue(orgId, null, orgLongName, null));
 			}
 
 			return orgEntities;

@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class2.courseofferingset.model;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResult;
 import org.kuali.student.r2.common.assembler.TransformUtility;

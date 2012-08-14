@@ -18,15 +18,15 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<bean id="constraint" abstract="true"
-		class="org.kuali.student.common.assembly.data.ConstraintMetadata" />
+		class="org.kuali.student.r1.common.assembly.data.ConstraintMetadata" />
 	<bean id="lookup" abstract="true"
-		class="org.kuali.student.common.assembly.data.LookupMetadata" />
+		class="org.kuali.student.r1.common.assembly.data.LookupMetadata" />
 	<bean id="dataObjectStructure" abstract="true"
-		class="org.kuali.student.common.assembly.dictionary.old.DataObjectStructure" />
+		class="org.kuali.student.r1.common.assembly.dictionary.old.DataObjectStructure" />
 	<bean id="dataFieldDescriptor" abstract="true"
-		class="org.kuali.student.common.assembly.dictionary.old.DataFieldDescriptor">
+		class="org.kuali.student.r1.common.assembly.dictionary.old.DataFieldDescriptor">
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="canUnmask" value="false" />
 		<property name="canEdit" value="true" />
@@ -34,13 +34,13 @@
 		<property name="onChangeRefreshMetadata" value="false" />
 	</bean>
 	<bean id="param" abstract="true"
-		class="org.kuali.student.common.assembly.data.LookupParamMetadata" />
+		class="org.kuali.student.r1.common.assembly.data.LookupParamMetadata" />
 	<bean id="result" abstract="true"
-		class="org.kuali.student.common.assembly.data.LookupResultMetadata" />
+		class="org.kuali.student.r1.common.assembly.data.LookupResultMetadata" />
 	<bean id="lookupQos" abstract="true"
-		class="org.kuali.student.common.assembly.data.LookupQosMetadata" />
+		class="org.kuali.student.r1.common.assembly.data.LookupQosMetadata" />
 	<bean id="datatype.StringValue" abstract="true"
-		class="org.kuali.student.common.assembly.data.Data$StringValue" />
+		class="org.kuali.student.r1.common.assembly.data.Data$StringValue" />
 
 	<!--Constraints Declarations		-->
 	<bean id="constraint.date.time" parent="constraint">
@@ -433,7 +433,7 @@
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default"  autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
 					<property name="name" value="Find Organizations"/>
@@ -442,7 +442,7 @@
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long organization name."/>
@@ -452,7 +452,7 @@
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLocation"/>
 								<property name="name" value="Location"/>
 								<property name="desc" value="Organization location."/>
@@ -462,7 +462,7 @@
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="TEXT_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short organization name."/>
@@ -472,7 +472,7 @@
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalId"/>
 								<property name="name" value="Id"/>
 								<property name="desc" value="Unique identifier for an organization."/>
@@ -481,7 +481,7 @@
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of an organization."/>
@@ -497,21 +497,21 @@
 					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgId"/>
 								<property name="name" value="Organization Identifier"/>
 								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short name for the organization, recorded as the default listing"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long name for the organization, recorded as the default listing."/>
@@ -1231,7 +1231,7 @@
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default"  autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
 					<property name="name" value="Find Organizations"/>
@@ -1240,7 +1240,7 @@
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long organization name."/>
@@ -1250,7 +1250,7 @@
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLocation"/>
 								<property name="name" value="Location"/>
 								<property name="desc" value="Organization location."/>
@@ -1260,7 +1260,7 @@
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="TEXT_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short organization name."/>
@@ -1270,7 +1270,7 @@
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalId"/>
 								<property name="name" value="Id"/>
 								<property name="desc" value="Unique identifier for an organization."/>
@@ -1279,7 +1279,7 @@
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of an organization."/>
@@ -1295,21 +1295,21 @@
 					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgId"/>
 								<property name="name" value="Organization Identifier"/>
 								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short name for the organization, recorded as the default listing"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default"  autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long name for the organization, recorded as the default listing."/>

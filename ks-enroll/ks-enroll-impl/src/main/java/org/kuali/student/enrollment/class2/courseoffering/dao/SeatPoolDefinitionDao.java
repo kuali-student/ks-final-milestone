@@ -17,7 +17,7 @@
 
 package org.kuali.student.enrollment.class2.courseoffering.dao;
 
-import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity;
 
 /**

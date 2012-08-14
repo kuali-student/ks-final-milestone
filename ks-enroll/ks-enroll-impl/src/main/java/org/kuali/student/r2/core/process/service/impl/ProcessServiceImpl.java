@@ -7,7 +7,7 @@ import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dao.CheckDao;
 import org.kuali.student.r2.core.process.dao.InstructionDao;
 import org.kuali.student.r2.core.process.dao.ProcessDao;
@@ -19,7 +19,7 @@ import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
-import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.common.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;

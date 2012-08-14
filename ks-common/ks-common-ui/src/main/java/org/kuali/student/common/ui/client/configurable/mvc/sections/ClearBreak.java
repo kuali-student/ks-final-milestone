@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.HTML;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class ClearBreak extends Composite{
 	public ClearBreak(){
 		HTML html = new HTML("<br class='clear'/>");

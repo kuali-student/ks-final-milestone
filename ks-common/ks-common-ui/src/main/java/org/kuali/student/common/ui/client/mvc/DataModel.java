@@ -24,24 +24,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.ModelDefinition;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.DataType;
-import org.kuali.student.common.assembly.data.Data.DataValue;
-import org.kuali.student.common.assembly.data.Data.Key;
-import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.data.Data.Value;
-import org.kuali.student.common.assembly.data.HasChangeCallbacks.ChangeCallback;
-import org.kuali.student.common.assembly.data.HasChangeCallbacks.ChangeCallbackRegistration;
-import org.kuali.student.common.assembly.data.HasChangeCallbacks.ChangeType;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.common.ui.client.validator.ClientDateParser;
 import org.kuali.student.common.ui.client.validator.DataModelValidator;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DateParser;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.ModelDefinition;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data.DataType;
+import org.kuali.student.r1.common.assembly.data.Data.DataValue;
+import org.kuali.student.r1.common.assembly.data.Data.Key;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r1.common.assembly.data.Data.Value;
+import org.kuali.student.r1.common.assembly.data.HasChangeCallbacks.ChangeCallback;
+import org.kuali.student.r1.common.assembly.data.HasChangeCallbacks.ChangeCallbackRegistration;
+import org.kuali.student.r1.common.assembly.data.HasChangeCallbacks.ChangeType;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.validator.DateParser;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -52,10 +52,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * 
  * @author Kuali Student Team
  * @see QueryPath
- */
-/**
- * @author Kuali Student Team
- *
  */
 @SuppressWarnings("unchecked")
 public class DataModel implements Model {
@@ -346,10 +342,21 @@ public class DataModel implements Model {
      * @param callback
      */
     public void validateNextState(final Callback<List<ValidationResultInfo>> callback) {
-        List<ValidationResultInfo> result = validator.validateNextState(this);
+        List<ValidationResultInfo> result = validator.validateNextState(this);  // loads missingField result info 
         callback.exec(result);
     }
 
+    /**
+     * Validates this data model against the given metadata and returns the result
+     * to the callback
+     * @param metadata
+     * @param callback
+     */
+    public void validateForMetadata(Metadata metadata, final Callback<List<ValidationResultInfo>> callback) {
+        List<ValidationResultInfo> result = validator.validateForMetadata(metadata, this);
+        callback.exec(result);
+    }
+    
     /**
      * Validates a single field
      * @param fd

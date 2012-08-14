@@ -26,28 +26,28 @@
 	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<bean id="luService"
-		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
+		class="org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl">
 	</bean>
 
 	<bean id="luDao"
-		class="org.kuali.student.lum.lu.dao.impl.LuDaoImpl">
+		class="org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl">
 	</bean>
 
 
 	<bean id="statementService"
-		class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+		class="org.kuali.student.r1.core.statement.service.impl.StatementServiceImpl">
 	</bean>
 
 	<bean id="orgService"
-		class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
+		class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
 	</bean>
 
 	<bean id="atpService"
-		class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
+		class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
 	</bean>
 
 	<bean id="loService"
-		class="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl">
+		class="org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl">
 	</bean>
 
 </beans>

@@ -1,31 +1,33 @@
 package org.kuali.student.lum.program.client.core.view;
 
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
  * @author Igor
  */
 public class CoreViewAllConfiguration extends AbstractControllerConfiguration {
 
-    public CoreViewAllConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.VIEW_ALL, ProgramProperties.get().program_menu_sections_viewAll(), ProgramConstants.PROGRAM_MODEL_ID, false);
+    public CoreViewAllConfiguration(Configurer configurer) {
+        this.setConfigurer(configurer);
+        rootSection = new VerticalSectionView(ProgramSections.VIEW_ALL, getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_VIEWALL), ProgramConstants.PROGRAM_MODEL_ID, false);
     }
 
     @Override
     protected void buildLayout() {
-        ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-        configurationManager.registerConfiguration(CoreInformationViewConfiguration.create());
-        configurationManager.registerConfiguration(CoreManagingBodiesViewConfiguration.create());
-        configurationManager.registerConfiguration(CoreCatalogInformationViewConfiguration.create());
-        configurationManager.registerConfiguration(new CoreRequirementsViewConfiguration(false));
-        configurationManager.registerConfiguration(CoreLearningObjectivesViewConfiguration.create());
+        ConfigurationManager configurationManager = new ConfigurationManager();
+        configurationManager.registerConfiguration(CoreInformationViewConfiguration.create(configurer));
+        configurationManager.registerConfiguration(CoreManagingBodiesViewConfiguration.create(configurer));
+        configurationManager.registerConfiguration(CoreCatalogInformationViewConfiguration.create(configurer));
+        configurationManager.registerConfiguration(new CoreRequirementsViewConfiguration(configurer, false));
+        configurationManager.registerConfiguration(CoreLearningObjectivesViewConfiguration.create(configurer));
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {
                 ((AbstractControllerConfiguration) configuration).setController(controller);

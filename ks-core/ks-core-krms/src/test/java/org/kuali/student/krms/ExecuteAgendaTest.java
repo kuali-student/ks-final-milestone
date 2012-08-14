@@ -28,7 +28,7 @@ import org.kuali.rice.krms.test.KRMSTestCase;
 import org.kuali.rice.krms.test.TestActionTypeService;
 import org.kuali.rice.test.BaselineTestCase.BaselineMode;
 import org.kuali.rice.test.BaselineTestCase.Mode;
-import org.kuali.student.core.statement.util.RulesEvaluationUtil;
+import org.kuali.student.r2.core.statement.util.RulesEvaluationUtil;
 
 import java.util.Collections;
 import java.util.HashMap;

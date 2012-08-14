@@ -10,13 +10,13 @@ import org.kuali.student.lum.program.client.major.view.SupportingDocsViewConfigu
 public class CoreViewConfigurer extends AbstractProgramConfigurer {
 
     public CoreViewConfigurer() {
-        programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(CoreInformationViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(CoreManagingBodiesViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(CoreCatalogInformationViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(new CoreRequirementsViewConfiguration(false));        
-        programSectionConfigManager.registerConfiguration(CoreLearningObjectivesViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(SupportingDocsViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(new CoreViewAllConfiguration());
+        programSectionConfigManager = new ConfigurationManager();
+        programSectionConfigManager.registerConfiguration(CoreInformationViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(CoreManagingBodiesViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(CoreCatalogInformationViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(new CoreRequirementsViewConfiguration(this, false));        
+        programSectionConfigManager.registerConfiguration(CoreLearningObjectivesViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(SupportingDocsViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(new CoreViewAllConfiguration(this));
     }
 }

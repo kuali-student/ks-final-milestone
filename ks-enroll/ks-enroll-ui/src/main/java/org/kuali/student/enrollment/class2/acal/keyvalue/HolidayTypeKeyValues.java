@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;

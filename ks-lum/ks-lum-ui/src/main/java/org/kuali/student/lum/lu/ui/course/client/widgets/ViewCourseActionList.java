@@ -18,7 +18,6 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -26,7 +25,9 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -50,13 +51,15 @@ public class ViewCourseActionList extends Composite {
     private String courseCodePath;
        
 	private HorizontalBlockFlowPanel rootPanel = new HorizontalBlockFlowPanel();
-	private StylishDropDown courseActionsDropDown = new StylishDropDown("Course Actions");
+	private StylishDropDown courseActionsDropDown = GWT.create(StylishDropDown.class);
 	
     Controller myController;
     
 	public ViewCourseActionList(CloseHandler<KSLightBox> onSubmitSuccessHandler) {
 		super();
 		super.initWidget(rootPanel);
+		
+		//courseActionsDropDown.initialise("Course Actions");
 		
 		setupButtons();
 
@@ -66,7 +69,7 @@ public class ViewCourseActionList extends Composite {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.google.gwt.user.client.ui.Widget#onLoad()
+	 * @see com.google.gwt.user.atpService.ui.Widget#onLoad()
 	 */
 	@Override
 	protected void onLoad() {

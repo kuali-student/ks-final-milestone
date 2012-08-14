@@ -22,12 +22,12 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.lum.lrc.dao.LrcDao;
-import org.kuali.student.lum.lrc.entity.ResultComponentType;
+import org.kuali.student.r1.lum.lrc.dao.LrcDao;
+import org.kuali.student.r1.lum.lrc.entity.ResultComponentType;
 
 @PersistenceFileLocation("classpath:META-INF/lrc-persistence.xml")
 public class TestLrcDaoImpl extends AbstractTransactionalDaoTest {
@@ -36,14 +36,11 @@ public class TestLrcDaoImpl extends AbstractTransactionalDaoTest {
 
 	@Test
     public void testGetResultComponentIdsByResult() {
-        List<String> rcis = dao.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1", "resultComponentType.credential");
+        List<String> rcis = dao.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1");
         assertNotNull(rcis);
         assertEquals(1, rcis.size());
 
-        rcis = dao.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1x", "resultComponentType.credential");
-        assertTrue(rcis.isEmpty());
-
-        rcis = dao.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1", "resultComponentType.credentialx");
+        rcis = dao.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1x");
         assertTrue(rcis.isEmpty());
     }
 

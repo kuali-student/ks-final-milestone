@@ -33,7 +33,7 @@ import org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoSearch
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.mock.utilities.TestHelper;
-import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
+import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 import org.springframework.stereotype.Controller;

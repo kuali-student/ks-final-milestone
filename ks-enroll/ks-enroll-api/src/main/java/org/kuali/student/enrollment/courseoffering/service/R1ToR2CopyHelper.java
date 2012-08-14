@@ -11,7 +11,7 @@ import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
@@ -22,9 +22,10 @@ import org.kuali.student.r2.lum.clu.dto.FeeInfo;
  *
  * @author nwright
  */
+@Deprecated
 public class R1ToR2CopyHelper {
 
-    public ExpenditureInfo copyCourseExpenditure(org.kuali.student.lum.course.dto.CourseExpenditureInfo r1) {
+/*    public ExpenditureInfo copyCourseExpenditure(org.kuali.student.lum.course.dto.CourseExpenditureInfo r1) {
         if (r1 == null) {
             return null;
         }
@@ -254,5 +255,5 @@ public class R1ToR2CopyHelper {
             r2List.add(copyVersionDisplay(r1));
         }
         return r2List;
-    }
+    }*/
 }

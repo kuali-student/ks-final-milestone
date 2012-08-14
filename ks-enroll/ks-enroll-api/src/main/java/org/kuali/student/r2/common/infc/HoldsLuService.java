@@ -14,7 +14,7 @@
  */
 package org.kuali.student.r2.common.infc;
 
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r1.lum.lu.service.LuService;
 
 
 

@@ -21,7 +21,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
 http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 ">
 <!-- *** Automatically Generated ***
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
@@ -79,13 +79,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:state key="*" id="state.loCategoryInfo.allcategories.abstract" abstract="true">
 	<dict:fieldRef bean="dict.allCategories.lo.category.name"/>
-	<dict:fieldRef bean="dict.allCategories.lo.category.desc"/>
+	<dict:fieldRef bean="dict.allCategories.lo.category.descr"/>
 	<dict:fieldRef bean="dict.allCategories.lo.category.loRepository"/>
 	<dict:fieldRef bean="dict.allCategories.lo.category.effectiveDate"/>
 	<dict:fieldRef bean="dict.allCategories.lo.category.expirationDate"/>
 	<dict:fieldRef bean="dict.allCategories.lo.category.metaInfo"/>
 	<dict:fieldRef bean="dict.allCategories.lo.category.type"/>
-	<dict:fieldRef bean="dict.allCategories.lo.category.state"/>
+	<dict:fieldRef bean="dict.allCategories.lo.category.stateKey"/>
 	<dict:fieldRef bean="dict.allCategories.lo.category.id"/>
 </dict:state>
 
@@ -109,49 +109,49 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 
 <!-- ****************************************************************************** -->
-<!-- object structure for object.field.loCategoryInfo.desc.all categories.(default) -->
+<!-- object structure for object.field.loCategoryInfo.descr.all categories.(default) -->
 <!-- ****************************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.loCategoryInfo.desc.allcategories.abstract" abstract="true">
-	<dict:typeRef bean="type.field.loCategoryInfo.desc.allcategories"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.loCategoryInfo.descr.allcategories.abstract" abstract="true">
+	<dict:typeRef bean="type.field.loCategoryInfo.descr.allcategories"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.loCategoryInfo.desc.allcategories" parent="object.field.loCategoryInfo.desc.allcategories.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.loCategoryInfo.descr.allcategories" parent="object.field.loCategoryInfo.descr.allcategories.abstract"/>
 
-<dict:type key="*" id="type.field.loCategoryInfo.desc.allcategories.abstract" abstract="true">
+<dict:type key="*" id="type.field.loCategoryInfo.descr.allcategories.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.loCategoryInfo.desc.allcategories"/>
+		<dict:stateRef bean="state.field.loCategoryInfo.descr.allcategories"/>
 </dict:type>
-<dict:type key="*" id="type.field.loCategoryInfo.desc.allcategories" parent="type.field.loCategoryInfo.desc.allcategories.abstract"/>
+<dict:type key="*" id="type.field.loCategoryInfo.descr.allcategories" parent="type.field.loCategoryInfo.descr.allcategories.abstract"/>
 
 <!-- ************************************************************************************** -->
-<!-- State for state.field.loCategoryInfo.desc.all categories.(default).(default).(default) -->
+<!-- State for state.field.loCategoryInfo.descr.all categories.(default).(default).(default) -->
 <!-- ************************************************************************************** -->
 
-<dict:state key="*" id="state.field.loCategoryInfo.desc.allcategories.abstract" abstract="true">
-	<dict:fieldRef bean="dict.allCategories.lo.category.desc.plain"/>
-	<dict:fieldRef bean="dict.allCategories.lo.category.desc.formatted"/>
+<dict:state key="*" id="state.field.loCategoryInfo.descr.allcategories.abstract" abstract="true">
+	<dict:fieldRef bean="dict.allCategories.lo.category.descr.plain"/>
+	<dict:fieldRef bean="dict.allCategories.lo.category.descr.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.loCategoryInfo.desc.allcategories" parent="state.field.loCategoryInfo.desc.allcategories.abstract"/>
+<dict:state key="*" id="state.field.loCategoryInfo.descr.allcategories" parent="state.field.loCategoryInfo.descr.allcategories.abstract"/>
 
 
 <!-- ***************************************** -->
-<!-- dict.allCategories.lo.category.desc.plain -->
+<!-- dict.allCategories.lo.category.descr.plain -->
 <!-- ***************************************** -->
-<dict:field key="plain" id="dict.allCategories.lo.category.desc.plain.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.allCategories.lo.category.desc.plain.fd"/>
-	<dict:constraintDescriptorRef bean="dict.allCategories.lo.category.desc.plain.cd"/>
+<dict:field key="plain" id="dict.allCategories.lo.category.descr.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.allCategories.lo.category.descr.plain.fd"/>
+	<dict:constraintDescriptorRef bean="dict.allCategories.lo.category.descr.plain.cd"/>
 </dict:field>
-<dict:field key="plain" id="dict.allCategories.lo.category.desc.plain" parent="dict.allCategories.lo.category.desc.plain.abstract"/>
-<dict:fieldDescriptor id="dict.allCategories.lo.category.desc.plain.fd.abstract" abstract="true">
-	<dict:name>lo category desc plain text</dict:name>
-	<dict:desc>lo category desc plain text</dict:desc>
+<dict:field key="plain" id="dict.allCategories.lo.category.descr.plain" parent="dict.allCategories.lo.category.descr.plain.abstract"/>
+<dict:fieldDescriptor id="dict.allCategories.lo.category.descr.plain.fd.abstract" abstract="true">
+	<dict:name>lo category descr plain text</dict:name>
+	<dict:desc>lo category descr plain text</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.allCategories.lo.category.desc.plain.fd" parent="dict.allCategories.lo.category.desc.plain.fd.abstract"/>
-<dict:constraintDescriptor id="dict.allCategories.lo.category.desc.plain.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.allCategories.lo.category.descr.plain.fd" parent="dict.allCategories.lo.category.descr.plain.fd.abstract"/>
+<dict:constraintDescriptor id="dict.allCategories.lo.category.descr.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.multi.line.text"/>
@@ -161,23 +161,23 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="dict.allCategories.lo.category.desc.plain.cd" parent="dict.allCategories.lo.category.desc.plain.cd.abstract"/>
+<dict:constraintDescriptor key="plain" id="dict.allCategories.lo.category.descr.plain.cd" parent="dict.allCategories.lo.category.descr.plain.cd.abstract"/>
 
 <!-- ********************************************* -->
-<!-- dict.allCategories.lo.category.desc.formatted -->
+<!-- dict.allCategories.lo.category.descr.formatted -->
 <!-- ********************************************* -->
-<dict:field key="formatted" id="dict.allCategories.lo.category.desc.formatted.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.allCategories.lo.category.desc.formatted.fd"/>
-	<dict:constraintDescriptorRef bean="dict.allCategories.lo.category.desc.formatted.cd"/>
+<dict:field key="formatted" id="dict.allCategories.lo.category.descr.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.allCategories.lo.category.descr.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="dict.allCategories.lo.category.descr.formatted.cd"/>
 </dict:field>
-<dict:field key="formatted" id="dict.allCategories.lo.category.desc.formatted" parent="dict.allCategories.lo.category.desc.formatted.abstract"/>
-<dict:fieldDescriptor id="dict.allCategories.lo.category.desc.formatted.fd.abstract" abstract="true">
-	<dict:name>lo category desc formatted</dict:name>
-	<dict:desc>lo category desc formatted</dict:desc>
+<dict:field key="formatted" id="dict.allCategories.lo.category.descr.formatted" parent="dict.allCategories.lo.category.descr.formatted.abstract"/>
+<dict:fieldDescriptor id="dict.allCategories.lo.category.descr.formatted.fd.abstract" abstract="true">
+	<dict:name>lo category descr formatted</dict:name>
+	<dict:desc>lo category descr formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.allCategories.lo.category.desc.formatted.fd" parent="dict.allCategories.lo.category.desc.formatted.fd.abstract"/>
-<dict:constraintDescriptor id="dict.allCategories.lo.category.desc.formatted.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.allCategories.lo.category.descr.formatted.fd" parent="dict.allCategories.lo.category.descr.formatted.fd.abstract"/>
+<dict:constraintDescriptor id="dict.allCategories.lo.category.descr.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.rich.text"/>
@@ -185,16 +185,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="dict.allCategories.lo.category.desc.formatted.cd" parent="dict.allCategories.lo.category.desc.formatted.cd.abstract"/>
+<dict:constraintDescriptor key="formatted" id="dict.allCategories.lo.category.descr.formatted.cd" parent="dict.allCategories.lo.category.descr.formatted.cd.abstract"/>
 
 <!-- ********************************************************************************** -->
 <!-- object structure for object.field.loCategoryInfo.metaInfo.all categories.(default) -->
 <!-- ********************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loCategoryInfo.metaInfo.allcategories.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loCategoryInfo.metaInfo.allcategories.abstract" abstract="true">
 	<dict:typeRef bean="type.field.loCategoryInfo.metaInfo.allcategories"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loCategoryInfo.metaInfo.allcategories" parent="object.field.loCategoryInfo.metaInfo.allcategories.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loCategoryInfo.metaInfo.allcategories" parent="object.field.loCategoryInfo.metaInfo.allcategories.abstract"/>
 
 <dict:type key="*" id="type.field.loCategoryInfo.metaInfo.allcategories.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -354,25 +354,25 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor key="name" id="dict.allCategories.lo.category.name.cd" parent="dict.allCategories.lo.category.name.cd.abstract"/>
 
 <!-- *********************************** -->
-<!-- dict.allCategories.lo.category.desc -->
+<!-- dict.allCategories.lo.category.descr -->
 <!-- *********************************** -->
-<dict:field key="desc" id="dict.allCategories.lo.category.desc.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.allCategories.lo.category.desc.fd"/>
-	<dict:constraintDescriptorRef bean="dict.allCategories.lo.category.desc.cd"/>
+<dict:field key="descr" id="dict.allCategories.lo.category.descr.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.allCategories.lo.category.descr.fd"/>
+	<dict:constraintDescriptorRef bean="dict.allCategories.lo.category.descr.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.allCategories.lo.category.desc" parent="dict.allCategories.lo.category.desc.abstract"/>
-<dict:fieldDescriptor id="dict.allCategories.lo.category.desc.fd.abstract" abstract="true">
+<dict:field key="descr" id="dict.allCategories.lo.category.descr" parent="dict.allCategories.lo.category.descr.abstract"/>
+<dict:fieldDescriptor id="dict.allCategories.lo.category.descr.fd.abstract" abstract="true">
 	<dict:name>lo category description</dict:name>
 	<dict:desc>the description of the category</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.loCategoryInfo.desc.allcategories"/>
+	<dict:objectStructureRef bean="object.field.loCategoryInfo.descr.allcategories"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.allCategories.lo.category.desc.fd" parent="dict.allCategories.lo.category.desc.fd.abstract"/>
-<dict:constraintDescriptor id="dict.allCategories.lo.category.desc.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.allCategories.lo.category.descr.fd" parent="dict.allCategories.lo.category.descr.fd.abstract"/>
+<dict:constraintDescriptor id="dict.allCategories.lo.category.descr.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.allCategories.lo.category.desc.cd" parent="dict.allCategories.lo.category.desc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.allCategories.lo.category.descr.cd" parent="dict.allCategories.lo.category.descr.cd.abstract"/>
 
 <!-- ******************************************* -->
 <!-- dict.allCategories.lo.category.loRepository -->
@@ -488,23 +488,23 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ************************************ -->
 <!-- dict.allCategories.lo.category.state -->
 <!-- ************************************ -->
-<dict:field key="state" id="dict.allCategories.lo.category.state.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.allCategories.lo.category.state.fd"/>
-	<dict:constraintDescriptorRef bean="dict.allCategories.lo.category.state.cd"/>
+<dict:field key="stateKey" id="dict.allCategories.lo.category.stateKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.allCategories.lo.category.stateKey.fd"/>
+	<dict:constraintDescriptorRef bean="dict.allCategories.lo.category.stateKey.cd"/>
 <dict:selector>true</dict:selector>
 </dict:field>
-<dict:field key="state" id="dict.allCategories.lo.category.state" parent="dict.allCategories.lo.category.state.abstract"/>
-<dict:fieldDescriptor id="dict.allCategories.lo.category.state.fd.abstract" abstract="true">
+<dict:field key="stateKey" id="dict.allCategories.lo.category.stateKey" parent="dict.allCategories.lo.category.stateKey.abstract"/>
+<dict:fieldDescriptor id="dict.allCategories.lo.category.stateKey.fd.abstract" abstract="true">
 	<dict:name>lo category state</dict:name>
 	<dict:desc>the state of the lo category</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.allCategories.lo.category.state.fd" parent="dict.allCategories.lo.category.state.fd.abstract"/>
-<dict:constraintDescriptor id="dict.allCategories.lo.category.state.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.allCategories.lo.category.stateKey.fd" parent="dict.allCategories.lo.category.stateKey.fd.abstract"/>
+<dict:constraintDescriptor id="dict.allCategories.lo.category.stateKey.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="state" id="dict.allCategories.lo.category.state.cd" parent="dict.allCategories.lo.category.state.cd.abstract"/>
+<dict:constraintDescriptor key="stateKey" id="dict.allCategories.lo.category.stateKey.cd" parent="dict.allCategories.lo.category.stateKey.cd.abstract"/>
 
 <!-- ********************************* -->
 <!-- dict.allCategories.lo.category.id -->

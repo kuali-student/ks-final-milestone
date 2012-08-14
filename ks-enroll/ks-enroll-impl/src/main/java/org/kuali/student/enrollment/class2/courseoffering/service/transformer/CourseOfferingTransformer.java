@@ -13,8 +13,9 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -26,7 +27,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -337,22 +338,23 @@ public class CourseOfferingTransformer {
         //Set the credit options as the first option from the clu
         if (courseInfo.getCreditOptions() != null && !courseInfo.getCreditOptions().isEmpty()) {
             //Convert R1 to R2 LRC data
-            ResultComponentInfo resultComponent = courseInfo.getCreditOptions().get(0);
-
-            // Credit Options (also creates extra-line)
-            if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED.equals(resultComponent.getType())) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_FIXED_CREDITS),
-                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
-                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
-            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_RANGE.equals(resultComponent.getType())) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS),
-                        resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
-                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
-            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_MULTIPLE.equals(resultComponent.getType())) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(resultComponent.getResultValues(),
-                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
-                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
-            }
+            courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getKey());
+//            ResultComponentInfo resultComponent = courseInfo.getCreditOptions().get(0);
+//
+//            // Credit Options (also creates extra-line)
+//            if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED.equals(resultComponent.getType())) {
+//                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_FIXED_CREDITS),
+//                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
+//                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
+//            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_RANGE.equals(resultComponent.getType())) {
+//                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS),
+//                        resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
+//                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
+//            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_MULTIPLE.equals(resultComponent.getType())) {
+//                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(resultComponent.getResultValues(),
+//                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
+//                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
+//            }
         }else{
             courseOfferingInfo.setCreditOptionId(null);
         }
@@ -362,9 +364,36 @@ public class CourseOfferingTransformer {
             LOG.warn("When Copying from Course CLU, multiple credit options were found");
         }
 
-        courseOfferingInfo.setDescr(new R1ToR2CopyHelper().copyRichText(courseInfo.getDescr()));
-        courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
+        courseOfferingInfo.setDescr(courseInfo.getDescr());
+        courseOfferingInfo.setInstructors(copyInstructors(courseInfo.getInstructors()));
     }
+
+    public List<OfferingInstructorInfo> copyInstructors(List<CluInstructorInfo> cluInstructors) {
+        if (cluInstructors == null) {
+            return null;
+        }
+        List<OfferingInstructorInfo> coInstructors = new ArrayList<OfferingInstructorInfo>(cluInstructors.size());
+        for (CluInstructorInfo cluInstructor : cluInstructors) {
+            coInstructors.add(copyInstructor(cluInstructor));
+        }
+        return coInstructors;
+    }
+
+    public OfferingInstructorInfo copyInstructor(CluInstructorInfo cluInstructor) {
+        if (cluInstructor == null) {
+            return null;
+        }
+        OfferingInstructorInfo coInstructor = new OfferingInstructorInfo();
+        List<AttributeInfo> attrs = new ArrayList<AttributeInfo>();
+        for (AttributeInfo attr : cluInstructor.getAttributes()) {
+            attrs.add(new AttributeInfo(attr));
+        }
+        coInstructor.setAttributes(attrs);
+        coInstructor.setPersonId(cluInstructor.getPersonId());
+
+        return coInstructor;
+    }
+
 
     public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LprService lprService) {
         List<LprInfo> lprs = null;

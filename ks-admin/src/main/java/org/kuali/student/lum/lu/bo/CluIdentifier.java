@@ -20,7 +20,7 @@ public class CluIdentifier extends KsBusinessObjectBase {
     @Column(name = "LVL")
     private String level;
 
-    @Column(name = "DIV")
+    @Column(name = "DIVISION")
     private String division;
 
     @Column(name = "VARTN")

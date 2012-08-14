@@ -1,6 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
  <import resource="classpath:ks-cluSetInfo-dictionary-context.xml" />
 
  <!-- cluset THIS IS AN BUSINESS  OBJECT AND THE ASSEMBLER MAPS IT TO the CluSetInfo -->
@@ -24,7 +24,7 @@
     <ref bean="freestanding.cluset.name"/>
     <ref bean="freestanding.cluset.organization" />
     <ref bean="freestanding.cluset.proposedClus"/>
-    <ref bean="freestanding.cluset.type"/>
+    <ref bean="freestanding.cluset.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -48,7 +48,7 @@
     <ref bean="freestanding.cluset.name"/>
     <ref bean="freestanding.cluset.organization" />
     <ref bean="freestanding.cluset.proposedClus"/>
-    <ref bean="freestanding.cluset.type"/>
+    <ref bean="freestanding.cluset.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -72,7 +72,7 @@
     <ref bean="freestanding.cluset.name"/>
     <ref bean="freestanding.cluset.organization" />
     <ref bean="freestanding.cluset.proposedClus"/>
-    <ref bean="freestanding.cluset.type"/>
+    <ref bean="freestanding.cluset.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -96,7 +96,7 @@
     <ref bean="freestanding.cluset.name"/>
     <ref bean="freestanding.cluset.organization" />
     <ref bean="freestanding.cluset.proposedClus"/>
-    <ref bean="freestanding.cluset.type"/>
+    <ref bean="freestanding.cluset.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -111,7 +111,7 @@
 
  <bean id="freestanding.cluset.effectiveDate-parent" abstract="true" parent="cluSetInfo.effectiveDate-parent">
   <property name="name" value="effectiveDate"/>
-  <property name="minOccurs" value="1"/>
+  <property name="minOccurs" value="0"/>
  </bean>
  <bean id="freestanding.cluset.effectiveDate" parent="freestanding.cluset.effectiveDate-parent"/>
 
@@ -127,15 +127,15 @@
 
  <bean id="freestanding.cluset.name-parent" abstract="true" parent="cluSetInfo.name-parent">
   <property name="name" value="name"/>
-  <property name="minOccurs" value="1"/>
+  <property name="minOccurs" value="0"/>
  </bean>
  <bean id="freestanding.cluset.name" parent="freestanding.cluset.name-parent"/>
 
- <bean id="freestanding.cluset.type-parent" abstract="true" parent="cluSetInfo.type-parent">
-  <property name="name" value="type"/>
+ <bean id="freestanding.cluset.typeKey-parent" abstract="true" parent="cluSetInfo.typeKey-parent">
+  <property name="name" value="typeKey"/>
   <property name="minOccurs" value="0"/>
  </bean>
- <bean id="freestanding.cluset.type" parent="freestanding.cluset.type-parent"/>
+ <bean id="freestanding.cluset.typeKey" parent="freestanding.cluset.typeKey-parent"/>
 
 
  <bean id="freestanding.cluset.organization-parent" abstract="true" parent="cluSetInfo.adminOrg-parent">

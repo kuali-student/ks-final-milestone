@@ -17,25 +17,25 @@ package org.kuali.student.common.ui.client.validator;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 
-import org.kuali.student.common.assembly.data.ConstraintMetadata;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.DataType;
-import org.kuali.student.common.assembly.data.Data.StringKey;
+import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data.DataType;
+import org.kuali.student.r1.common.assembly.data.Data.StringKey;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DateParser;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.validator.DateParser;
 
 import java.util.*;
 
-import static org.kuali.student.common.assembly.data.MetadataInterrogator.*;
 import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.*;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.*;
 
 public class DataModelValidator {
 
@@ -89,6 +89,21 @@ public class DataModelValidator {
         return results;
     }
 
+    /**
+     * Use to validate the entire DataModel structure against constraints defined in the metadata
+     * for the given metadata
+     *
+     * @param metadata
+     * @param model
+     * @return
+     */
+    public List<ValidationResultInfo> validateForMetadata(Metadata metadata, final DataModel model) {
+        validateNextState = true;
+        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
+        doValidate(model, metadata, new QueryPath(), results);
+        return results;
+    }
+    
     /**
      * Use to validated a single field within the data model against constraints defined in the metadata
      *
@@ -583,11 +598,27 @@ public class DataModelValidator {
             String basePath = path.toString();
             if (meta.getProperties() != null) {
                 Object[] keys = meta.getProperties().keySet().toArray();
+                parentElementLoop:
                 for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
                     String element = (String) keys[keyIndex];
                     if (!element.contains("runtimeData")) {
                         QueryPath childPath = QueryPath.concat(basePath, element);
-                        //System.out.println(childPath.toString());
+                        Map<QueryPath, Object> childValues = model.query(childPath);
+                        if (!childValues.isEmpty()) {
+                            Object[] childKeys = childValues.keySet().toArray();
+                            for (int childKeyIndex = 0; childKeyIndex < childKeys.length; childKeyIndex++) {
+                                QueryPath childElement = (QueryPath) childKeys[childKeyIndex];
+                                QueryPath childElementDeletePath = QueryPath.parse(childElement.toString() + QueryPath.getPathSeparator() + RUNTIME_DELETED_KEY);
+                                try {
+                                    Boolean childDeletedObject = model.get(childElementDeletePath);
+                                    if (childDeletedObject != null && childDeletedObject) {
+                                        continue parentElementLoop;
+                                    }
+                                } catch (Exception e) {
+                                    //ignore exception
+                                }
+                            }
+                        }
                         doValidate(model, meta.getProperties().get(element), childPath, results);
                     }
                 }

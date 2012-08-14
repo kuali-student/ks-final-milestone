@@ -23,7 +23,7 @@ margin:10px 0 11px;
 			float:right;
 			margin-left: 10px;
 		}
-		.printJasper{
+		.printExport{
 			cursor:pointer;
 			float:right;
 			margin-left: 10px;
@@ -44,7 +44,7 @@ padding-bottom:2px;
 			<ks:SpanPanel ui:field='widgetPanel'>
 			</ks:SpanPanel>
 			<g:Image ui:field='printImage' styleName='{style.print}' resource='{res.print}'/>
-			<g:Image ui:field='jasperImage' styleName='{style.print}' resource='{res.printJasper}'/>
+			<g:Image ui:field='exportImage' styleName='{style.print}' resource='{res.printExport}'/>
 			<g:HTML ui:field='infoLabel' styleName='{style.info}'>
 			</g:HTML>
 		</div>

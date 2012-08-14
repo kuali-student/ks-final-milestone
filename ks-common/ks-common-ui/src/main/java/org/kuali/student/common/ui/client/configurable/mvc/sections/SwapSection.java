@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
-import org.kuali.student.common.ui.client.event.SectionUpdateEvent;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
@@ -33,6 +31,8 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 	private boolean showConfirmation = true;
 	private List<String> lastSelection = new ArrayList<String>();
 	private List<String> deletionParentKeys;
+	private SwapEventHandler swapEventHandler;
+	protected List<String> prevSelection = new ArrayList<String>();
 	
 	/**
 	 * Constructor for SwapSection, note that the SelectableWidget passed in is not added to the
@@ -66,6 +66,16 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 			}
 		});
 		
+		dialog.getCancelButton().addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                for (int i = 0; i < prevSelection.size(); i++) {
+                    SwapSection.this.selectableWidget.selectItem(prevSelection.get(i));
+                }
+            }
+        });
+		
 		selectableWidget.addSelectionChangeHandler(new SelectionChangeHandler(){
 
 			@Override
@@ -97,6 +107,8 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 				else{
 					handleSelection();
 				}
+				prevSelection.clear();              
+                prevSelection.addAll(lastSelection);
 				lastSelection.clear();
 				lastSelection.addAll(SwapSection.this.selectableWidget.getSelectedItems());
 			}
@@ -156,6 +168,9 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 				section.getLayout().setVisible(true);
 			}
 		}
+		if (swapEventHandler != null){
+		    swapEventHandler.onShowSwappableSection(key, section);
+		}
 	}
 	
 	private void removeSwappableSection(String key){
@@ -170,6 +185,9 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 			}
 
 		}
+		if (swapEventHandler != null){
+            swapEventHandler.onRemoveSwappableSection(key, section);
+        }
 	}
 	
 	public void enableConfirmation(boolean enable){
@@ -233,4 +251,13 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
     public void setDeletionParentKey(List<String> deletionParentKeys) {
         this.deletionParentKeys = deletionParentKeys;
     }
+
+    public SwapEventHandler getSwapEventHandler() {
+        return swapEventHandler;
+    }
+
+    public void setSwapEventHandler(SwapEventHandler swapEventHandler) {
+        this.swapEventHandler = swapEventHandler;
+    }
+    
 }

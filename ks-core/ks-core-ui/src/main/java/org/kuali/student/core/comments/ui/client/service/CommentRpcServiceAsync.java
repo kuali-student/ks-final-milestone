@@ -17,10 +17,10 @@ package org.kuali.student.core.comments.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
-import org.kuali.student.core.comment.dto.CommentInfo;
-import org.kuali.student.core.comment.dto.CommentTypeInfo;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.core.comment.dto.CommentInfo;
+import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -89,4 +89,18 @@ public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
      * @param callback
      */
     public void getUserRealName(String userId, AsyncCallback<String> callback);
+    
+    /**
+     * user IdentityService to get user name by principalId
+     * @param principalId
+     * @param callback
+     */
+    public void getUserRealNameByPrincipalId(String principalId, AsyncCallback<String> callback);
+    
+    /**
+     * user IdentityService to get principalName by principalId
+     * @param principalName
+     * @param callback
+     */
+    public void getPrincipalNameByPrincipalId(String principalId, AsyncCallback<String> callback);
 }

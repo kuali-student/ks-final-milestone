@@ -6,7 +6,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
 import java.util.Collections;

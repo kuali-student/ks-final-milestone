@@ -17,11 +17,11 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
@@ -42,6 +42,7 @@ import org.kuali.student.lum.lu.assembly.data.client.constants.orch.LearningObje
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.SingleUseLoConstants;
 import org.kuali.student.lum.lu.ui.course.client.controllers.ViewCourseController;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -78,7 +79,7 @@ CreditCourseLearningResultsConstants
     private static final String STATEMENTS_PATH = "statements";
     private static final String ID_TRANSLATION = "id-translation";
     
-    public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
+    public static final String CLU_PROPOSAL_MODEL = "courseProposalModel";
 
     //FIXME: [KSCOR-225] Initialize type and state from selected cluId
     private String type = "Course";
@@ -117,7 +118,8 @@ CreditCourseLearningResultsConstants
         groupName = LUUIConstants.COURSE_GROUP_NAME;
 
         //Summary
-        summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, 
+        summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
+        summaryConfigurer.init(type, state, groupName, modelDefinition, stmtTypes, 
         		(Controller)layoutController, modelId);
         layoutController.addTab(summaryConfigurer.generateCourseBriefSection(), "At a Glance");
         layoutController.addTab(summaryConfigurer.generateCourseSummarySection(), "Detailed View");

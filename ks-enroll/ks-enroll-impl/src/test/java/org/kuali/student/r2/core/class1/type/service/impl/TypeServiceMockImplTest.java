@@ -14,8 +14,8 @@ import static org.junit.Assert.*;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.service.impl.*;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 
 /**
  *

@@ -18,8 +18,8 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.*;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -28,19 +28,19 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.type.service.TypeService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
@@ -78,7 +78,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coInfoId, getContextInfo());
 
             //Display credit count
-            CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
+            CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId(), getContextInfo());
            // coInfo.setCreditCnt(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
             coInfo.setCreditCnt(ViewHelperUtil.getCreditCount(coInfo, courseInfo));
             CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
@@ -175,7 +175,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
                     }
                 }
                 //Audit is pulled out into a dynamic attribute on course so map it back
-                if("true".equals(courseInfo.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
+                if("true".equals(courseInfo.getAttributeValue(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
                     studentRegOptions.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
                 }
             }

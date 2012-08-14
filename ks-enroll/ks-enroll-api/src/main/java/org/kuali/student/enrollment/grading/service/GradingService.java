@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.GradingServiceConstants;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
 /**

@@ -4,21 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
-import org.kuali.student.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r2.lum.program.service.ProgramService;
 
 /**
  * @author Jim
@@ -28,7 +32,7 @@ public class CoreProgramDataService extends AbstractDataService {
     private static final long serialVersionUID = 1L;
     
     private ProgramService programService;
-    private LuService luService;
+    private CluService cluService;
 
     @Override
     protected String getDefaultWorkflowDocumentType() {
@@ -41,26 +45,26 @@ public class CoreProgramDataService extends AbstractDataService {
     }
 
     @Override
-    protected Object get(String id) throws Exception {
+    protected Object get(String id,ContextInfo contextInfo) throws Exception {
     	if (id==null || id.isEmpty()){
             return findCurrentCoreProgram();
     	} else {
-    		return programService.getCoreProgram(id);
+    		return programService.getCoreProgram(id,contextInfo);
     	}
 
     }
 
     @Override
-    protected Object save(Object dto, Map<String, Object> properties) throws Exception {
+    protected Object save(Object dto, Map<String, Object> properties,ContextInfo contextInfo) throws Exception {
         if (dto instanceof CoreProgramInfo) {
             CoreProgramInfo cpInfo = (CoreProgramInfo) dto;
-            if (cpInfo.getId() == null && cpInfo.getVersionInfo() != null) {
-            	String coreVersionIndId = cpInfo.getVersionInfo().getVersionIndId();
-            	cpInfo = programService.createNewCoreProgramVersion(coreVersionIndId, "New core program version");
+            if (cpInfo.getId() == null && cpInfo.getVersion() != null) {
+            	String coreVersionIndId = cpInfo.getVersion().getVersionIndId();
+            	cpInfo = programService.createNewCoreProgramVersion(coreVersionIndId, "New core program version", contextInfo);
             } else if (cpInfo.getId() == null) {
-                cpInfo = programService.createCoreProgram(cpInfo);
+                cpInfo = programService.createCoreProgram(cpInfo.getTypeKey(), cpInfo,contextInfo);
             } else {
-                cpInfo = programService.updateCoreProgram(cpInfo);
+            	cpInfo = programService.updateCoreProgram(cpInfo.getId(), cpInfo.getTypeKey(), cpInfo, contextInfo);
             }
             return cpInfo;
         } else {
@@ -68,6 +72,11 @@ public class CoreProgramDataService extends AbstractDataService {
         }
     }
 
+    @Override
+	protected List<ValidationResultInfo> validate(Object dto,ContextInfo contextInfo) throws Exception {
+		return programService.validateCoreProgram("OBJECT", (CoreProgramInfo)dto,ContextUtils.getContextInfo());
+	}
+    
     @Override
     protected Class<?> getDtoClass() {
         return CoreProgramInfo.class;
@@ -90,7 +99,8 @@ public class CoreProgramDataService extends AbstractDataService {
 
         request.setParams(searchParams);
 
-        SearchResult searchResult = luService.search(request);
+        SearchResult searchResult = null;
+        searchResult = cluService.search(request);
         if (searchResult.getRows().size() > 0) {
             for(SearchResultRow srrow : searchResult.getRows()){
                 List<SearchResultCell> srCells = srrow.getCells();
@@ -105,7 +115,7 @@ public class CoreProgramDataService extends AbstractDataService {
             }
         }
         if (coreProgramId != null) {
-            core = programService.getCoreProgram(coreProgramId);
+            core = programService.getCoreProgram(coreProgramId, ContextUtils.getContextInfo());
         }
         return core;
     }
@@ -114,7 +124,10 @@ public class CoreProgramDataService extends AbstractDataService {
         this.programService = programService;
     }
 
-    public void setLuService(LuService luService) {
-        this.luService = luService;
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
+
+    
+  
 }

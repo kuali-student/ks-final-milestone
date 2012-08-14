@@ -22,18 +22,18 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.r2.core.state.service.StateService;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.common.state.dto.StateInfo;
+import org.kuali.student.r2.common.state.service.StateService;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.type.service.TypeService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
@@ -197,7 +197,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 
         // Get the format object for the id selected
         try {
-            course = getCourseService().getCourse(courseOffering.getCourseId());
+            course = getCourseService().getCourse(courseOffering.getCourseId(), getContextInfo());
             for (FormatInfo f : course.getFormats()) {
                 if(f.getId().equals(formatId)) {
                     format = f;
@@ -234,10 +234,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         // Get the matching activity offering type for the selected activity
         TypeInfo activityOfferingType = null;
         try {
-            List<TypeInfo> types = getTypeService().getAllowedTypesForType(activity.getActivityType(), getContextInfo());
+            List<TypeInfo> types = getTypeService().getAllowedTypesForType(activity.getTypeKey(), getContextInfo());
             // only one AO type should be mapped to each Activity type
             if(types.size() > 1) {
-                throw new RuntimeException("More than one allowed type is matched to activity type of: " + activity.getActivityType());
+                throw new RuntimeException("More than one allowed type is matched to activity type of: " + activity.getTypeKey());
             }
 
             activityOfferingType = types.get(0);

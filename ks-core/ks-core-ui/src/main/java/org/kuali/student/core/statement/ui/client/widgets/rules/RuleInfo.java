@@ -17,8 +17,8 @@ package org.kuali.student.core.statement.ui.client.widgets.rules;
 
 import java.util.List;
 
-import org.kuali.student.core.statement.dto.StatementInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 
 public class RuleInfo {

@@ -22,17 +22,24 @@ import org.kuali.student.core.document.ui.client.service.UploadStatusRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class UploadStatusRpcGwtServlet extends RemoteServiceServlet implements UploadStatusRpcService{
-	private static final long serialVersionUID = 1L;
+public class UploadStatusRpcGwtServlet extends RemoteServiceServlet implements UploadStatusRpcService {
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public UploadStatus getUploadStatus(String uploadId) {
-		UploadStatus status = (UploadStatus) (getThreadLocalRequest().getSession().getAttribute(uploadId));
-		return status;
-	}
+    @Override
+    public UploadStatus getUploadStatus(String uploadId) {
+        try
+        {
+            UploadStatus status = (UploadStatus) (getThreadLocalRequest().getSession().getAttribute(uploadId));
+            return status;
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
-	@Override
-	public String getUploadId() {
-		return UUID.randomUUID().toString();
-	}
+    @Override
+    public String getUploadId() {
+        return UUID.randomUUID().toString();
+    }
 }

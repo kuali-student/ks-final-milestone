@@ -4,7 +4,7 @@ package org.kuali.student.enrollment.class2.courseofferingset.dao;
 import java.util.List;
 
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocEntity;
-import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 public class SocDao extends GenericEntityDao<SocEntity> {
 
