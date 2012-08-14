@@ -87,7 +87,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
     }
 
 
-    private String getGradingOption(String gradingOptionId)throws Exception{
+    private String getGradingOption(String gradingOptionId) throws Exception {
           String gradingOption = "";
           if(StringUtils.isNotBlank(gradingOptionId)){
               ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(gradingOptionId, getContextInfo());
@@ -95,9 +95,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                  gradingOption = rvg.getName();
               }
           }
-
           return gradingOption;
-  }
+    }
 
     public List<CourseOfferingInfo> findCourseOfferingsByTermAndCourseOfferingCode (String termCode, String courseOfferingCode, CourseOfferingManagementForm form) throws Exception{
         List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
@@ -184,7 +183,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 }
             }
 
-        }catch(Exception e){
+        } catch(Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -264,15 +263,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 throw new RuntimeException(e);
             }
         }
-
     }
 
-    public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo,CourseOfferingManagementForm form) throws Exception{
+    public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception{
         String courseOfferingId = theCourseOfferingInfo.getId();
         List<ActivityOfferingInfo> activityOfferingInfoList;
         List<ActivityOfferingWrapper> activityOfferingWrapperList = null;
 
-        try{
+        try {
             activityOfferingInfoList =_getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, getContextInfo());
             activityOfferingWrapperList = new ArrayList<ActivityOfferingWrapper>(activityOfferingInfoList.size());
 
@@ -294,32 +292,46 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             throw new RuntimeException("Error: Does not find a valid term with the Course Id = "+ courseOfferingId+ ". Exception " + e, e);
         }
         form.setActivityWrapperList(activityOfferingWrapperList);
-     }
+    }
 
-    public void changeActivityOfferingsState(List<ActivityOfferingWrapper> aoList,String selectedAction) throws Exception {
-        StateInfo draftState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY,getContextInfo());
-        StateInfo approvedState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY,getContextInfo());
+    /**
+     * Performs
+     * @param aoList The list of AOs to evaluate.
+     * @param selectedAction The state change action to perform.
+     * @throws Exception
+     */
+    public void changeActivityOfferingsState(List<ActivityOfferingWrapper> aoList, String selectedAction) throws Exception {
+        StateInfo draftState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, getContextInfo());
+        StateInfo approvedState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, getContextInfo());
 
         boolean isErrorAdded = false;
 
         for (ActivityOfferingWrapper wrapper : aoList) {
-            if (wrapper.getIsChecked()){
-
-                if (StringUtils.equals(CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION,selectedAction)){
-                    wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
-                    wrapper.setStateName(draftState.getName());
-                    ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),getContextInfo());
-                    wrapper.setAoInfo(updatedAO);
-
-                }else if (StringUtils.equals(CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION,selectedAction)){
-
-                    if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY,wrapper.getAoInfo().getStateKey())){
+            //  Only evaluate items that were selected/checked in the UI.
+            if (wrapper.getIsChecked()) {
+                //  If the action is "Set as Draft" then the current state of the AO must be "Approved".
+                if (StringUtils.equals(CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION, selectedAction)) {
+                    if (StringUtils.equals(wrapper.getAoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_SCHEDULED_KEY)){
+                        wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+                        wrapper.setStateName(draftState.getName());
+                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),getContextInfo());
+                        wrapper.setAoInfo(updatedAO);
+                    } else {
+                        //  Add the validation error once
+                        if ( ! isErrorAdded){
+                            GlobalVariables.getMessageMap().putError("selectedOfferingAction",RiceKeyConstants.ERROR_CUSTOM,"Some Activity Offerings are not in draft state");
+                            isErrorAdded = true;
+                        }
+                    }
+                //  If the action is "Approve for Scheduling" then AO state must be "Draft"
+                } else if (StringUtils.equals(CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION, selectedAction)) {
+                    if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, wrapper.getAoInfo().getStateKey())) {
                         wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
                         wrapper.setStateName(approvedState.getName());
                         ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),getContextInfo());
                         wrapper.setAoInfo(updatedAO);
                     }else{
-                        //Add the validation error once
+                        // Add the validation error once
                         if (!isErrorAdded){
                             GlobalVariables.getMessageMap().putError("selectedOfferingAction",RiceKeyConstants.ERROR_CUSTOM,"Some Activity Offerings are not in draft state");
                             isErrorAdded = true;
@@ -328,38 +340,63 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 }
             }
         }
-
     }
 
-    public void markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers) throws Exception{
+    /**
+     *  Same as markCourseOfferingsForScheduling() but defaults isChecked() == true.
+     *  @param coWrappers The list of CourseOffering wrappers.
+     */
+    public void  markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers) throws Exception {
+        markCourseOfferingsForScheduling(coWrappers, true);
+    }
 
+    /**
+     *  Examines a List of CourseOffering wrappers and changes the state of each "checked" AO (meaning the
+     *  CO was selected on the UI) from "Draft" to "Approved". If the AO has a state other than "Draft" the AO is ignored.
+     *  Also, changes the state of the CourseOffering if appropriate.
+     *
+     * @param coWrappers The list of CourseOfferings.
+     * @param checkedOnly True if the CO wrapper isChecked() flag should be respected.
+     */
+    public void markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers, boolean checkedOnly) throws Exception {
         boolean isErrorAdded = false;
-
         for (CourseOfferingEditWrapper coWrapper : coWrappers) {
-            if (coWrapper.getIsChecked()){
-                if (StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY,coWrapper.getCoInfo().getStateKey()) ||
-                    StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY,coWrapper.getCoInfo().getStateKey())){
-
+            boolean doCOStateChange = false;  // Flag to indicate whether the CO needs a state change.
+            if ((coWrapper.getIsChecked() && checkedOnly) || ! checkedOnly) {
+                boolean isCOStateDraft =  StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, coWrapper.getCoInfo().getStateKey());
+                boolean isCOStatePlanned =  StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY, coWrapper.getCoInfo().getStateKey());
+                if (isCOStateDraft || isCOStatePlanned) {
+                    if (isCOStateDraft) {
+                        doCOStateChange = true;
+                    }
                     List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCoInfo().getId(),getContextInfo());
-
+                    //  Iterate through the AOs and state change Draft -> Approved.
                     for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
-                        if (StringUtils.equals(activityOfferingInfo.getStateKey(),LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY)){
+                        boolean isAOStateDraft = StringUtils.equals(activityOfferingInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+                        if (isAOStateDraft) {
                             activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
-                            getCourseOfferingService().updateActivityOffering(activityOfferingInfo.getId(),activityOfferingInfo,getContextInfo());
-                        }else{
-                            if (!isErrorAdded){
-                                GlobalVariables.getMessageMap().putError("selectedOfferingAction",CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
+                            getCourseOfferingService().updateActivityOffering(activityOfferingInfo.getId(), activityOfferingInfo,getContextInfo());
+                        } else {
+                            if ( ! isErrorAdded) {
+                                GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
                                 isErrorAdded = true;
                             }
                         }
                     }
-
-                }else{
-                    if (!isErrorAdded){
-                        GlobalVariables.getMessageMap().putError("selectedOfferingAction",CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
+                } else {
+                    if ( ! isErrorAdded) {
+                        GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
                         isErrorAdded = true;
                     }
                 }
+            }
+            /*
+             * Change the CourseOffering state if necessary.
+             * If the state of the CO is "Draft" then iterate through AOs and FOs. If any are not in state draft then the state of the CO should be changed.
+             */
+            if (doCOStateChange) {
+                coWrapper.getCoInfo().setStateKey(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY);
+                getCourseOfferingService().updateCourseOffering(coWrapper.getCoInfo().getId(), coWrapper.getCoInfo(), getContextInfo());
             }
         }
     }

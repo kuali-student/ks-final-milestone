@@ -676,13 +676,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView selectedAoActions(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_DELETE_ACTION)){
-            return confirmDelete(theForm,  result, request,  response);
+        if (StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DELETE_ACTION)){
+            return confirmDelete(theForm, result, request, response);
         }
 
-        if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
-            StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)){
-            getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(),theForm.getSelectedOfferingAction());
+        if (StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
+            StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
+            getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(), theForm.getSelectedOfferingAction());
         }
         // reload the AOs
         CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();
@@ -690,14 +690,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theCourseOffering);
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
-
     }
 
     @RequestMapping(params = "methodToCall=selectedCOActions")
     public ModelAndView selectedCOActions(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)){
+        if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
             getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingEditWrapperList());
         }
 
@@ -738,7 +737,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
             selectedObject = ((List<Object>) collection).get(selectedLineIndex);
             // Record the selected AO IsChecked
-            selectedIndexList.add((ActivityOfferingWrapper)selectedObject);
+            selectedIndexList.add((ActivityOfferingWrapper) selectedObject);
         }
         else {
             // check if there is Draft AO selected
@@ -751,7 +750,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     return getUIFModelAndView(theForm);
                 }
             }
-            if(selectedIndexList.isEmpty() ) {
+            if (selectedIndexList.isEmpty()) {
                 LOG.error("Error: No selected Draft Activity Offering");
                 GlobalVariables.getMessageMap().putErrorForSectionId("confirmationResultSection",
                         CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED);
@@ -830,29 +829,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
          return super.performRedirect(theForm,"courseOffering", props);
     }
 
-
     @RequestMapping(params = "methodToCall=markSubjectCodeReadyForScheduling")
-    public ModelAndView markSubjectCodeReadyForScheduling(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CourseOfferingManagementViewHelperServiceImpl helperService = (CourseOfferingManagementViewHelperServiceImpl)theForm.getView().getViewHelperService();
-        List<ActivityOfferingWrapper> list = theForm.getActivityWrapperList();
-        for (ActivityOfferingWrapper activityOfferingWrapper : list) {
-            if (DtoConstants.STATE_DRAFT.equalsIgnoreCase(activityOfferingWrapper.getStateName())) {
-
-                // Update the activityOfferingWrapper with the new state.
-                activityOfferingWrapper.setStateName(DtoConstants.STATE_APPROVED);
-
-                // Update the activityOfferingInfo with the new state.
-                ActivityOfferingInfo activityOfferingInfo = activityOfferingWrapper.getAoInfo();
-                activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
-
-                // Persist changes to the database.
-                CourseOfferingService courseOfferingService = helperService.getCourseOfferingService();
-                ContextInfo contextInfo = helperService.getContextInfo();
-                String activityOfferingId = activityOfferingWrapper.getId();
-                courseOfferingService.updateActivityOffering(activityOfferingId, activityOfferingInfo, contextInfo);
-            }
-        }
+    public ModelAndView markSubjectCodeReadyForScheduling(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+        CourseOfferingManagementViewHelperServiceImpl helperService = (CourseOfferingManagementViewHelperServiceImpl) theForm.getView().getViewHelperService();
+        //  State change all of the AOs associated with all CourseOfferings related to the course code. Passing false so that the isChecked() flag is ignored.
+        helperService.markCourseOfferingsForScheduling(theForm.getCourseOfferingEditWrapperList(), false);
         return getUIFModelAndView(theForm);
     }
 
