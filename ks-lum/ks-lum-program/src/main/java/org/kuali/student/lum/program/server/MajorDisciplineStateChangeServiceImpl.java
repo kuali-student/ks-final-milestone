@@ -3,6 +3,7 @@ package org.kuali.student.lum.program.server;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -12,8 +13,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 
-import org.kuali.student.r1.core.atp.dto.AtpInfo;
-import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.common.server.StatementUtil;
@@ -254,18 +255,19 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
         if(!majorDisciplineInfo.getVariations().isEmpty()){
         	
         	//Find the major's end term atps and obtain their date information
-   			AtpInfo majorEndEntryTermAtp = atpService.getAtp(endEntryTerm);
+            ContextInfo contextInfo = ContextUtils.getContextInfo();
+            AtpInfo majorEndEntryTermAtp = atpService.getAtp(endEntryTerm,contextInfo);
    			Date majorEndEntryTermEndDate = majorEndEntryTermAtp.getEndDate();
-   			AtpInfo majorEndEnrollTermAtp = atpService.getAtp(endEnrollTerm);
+   			AtpInfo majorEndEnrollTermAtp = atpService.getAtp(endEnrollTerm,contextInfo);
    			Date majorEndEnrollTermEndDate = majorEndEnrollTermAtp.getEndDate();
-       		AtpInfo majorEndInstAdmitTermAtp = atpService.getAtp(endInstAdmitTerm);
+       		AtpInfo majorEndInstAdmitTermAtp = atpService.getAtp(endInstAdmitTerm,contextInfo);
        		Date majorEndInstAdmitTermEndDate = majorEndInstAdmitTermAtp.getEndDate();
     
        		//Loop through the variations
 	        for(ProgramVariationInfo variation:majorDisciplineInfo.getVariations()){
 	        	//compare dates to get the older of the two end terms
 	    		if(variation.getEndProgramEntryTerm() != null){
-	    			AtpInfo variationEndEntryTermAtp = atpService.getAtp(variation.getEndProgramEntryTerm());
+	    			AtpInfo variationEndEntryTermAtp = atpService.getAtp(variation.getEndProgramEntryTerm(),contextInfo);
 	    			Date variationEndEntryTermEndDate = variationEndEntryTermAtp.getEndDate();
 	    			if(majorEndEnrollTermEndDate.compareTo(variationEndEntryTermEndDate)<=0){
 		    			variation.setEndProgramEntryTerm(endEntryTerm);

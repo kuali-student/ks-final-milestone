@@ -521,7 +521,7 @@
     <bean id="atpClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r1.core.atp.service.AtpService"/>
+                  value="org.kuali.student.r2.core.atp.service.AtpService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/atp}AtpService"/>
     </bean>

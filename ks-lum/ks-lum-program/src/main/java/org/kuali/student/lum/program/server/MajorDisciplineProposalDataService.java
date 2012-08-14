@@ -18,8 +18,8 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
-import org.kuali.student.r1.core.atp.dto.AtpInfo;
-import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
@@ -76,9 +76,9 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
             	mdInfo = programService.getMajorDiscipline(mdVersionInfo.getId(),ContextUtils.getContextInfo());
             	
             	//set the prev start term to be the most recent of the major and all variations
-				AtpInfo latestStartAtp = atpService.getAtp(mdInfo.getStartTerm());
+				AtpInfo latestStartAtp = atpService.getAtp(mdInfo.getStartTerm(),contextInfo);
 				for (ProgramVariationInfo variation:mdInfo.getVariations()){
-					AtpInfo variationAtp = atpService.getAtp(variation.getStartTerm());
+					AtpInfo variationAtp = atpService.getAtp(variation.getStartTerm(),contextInfo);
 					if(variationAtp!=null && variationAtp.getStartDate()!=null && variationAtp.getStartDate().compareTo(latestStartAtp.getStartDate())>0){
 						latestStartAtp = variationAtp;
 					}

@@ -38,13 +38,11 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.r1.core.atp.dto.AtpInfo;
-import org.kuali.student.r1.core.atp.dto.AtpTypeInfo;
-import org.kuali.student.r1.core.atp.dto.DateRangeInfo;
-import org.kuali.student.r1.core.atp.dto.DateRangeTypeInfo;
-import org.kuali.student.r1.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r1.core.atp.dto.MilestoneTypeInfo;
-import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.common.type.service.TypeService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.common.dto.DateRangeInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 
 @Daos( { @Dao(value = "org.kuali.student.r1.core.atp.dao.impl.AtpDaoImpl", testDataFile = "classpath:atp-test-beans.xml") })
 @PersistenceFileLocation("classpath:META-INF/atp-persistence.xml")
@@ -52,7 +50,9 @@ public class TestAtpService extends AbstractServiceTest {
 	final Logger LOG = Logger.getLogger(TestAtpService.class);
 	
 	@Client(value = "org.kuali.student.r1.core.atp.service.impl.AtpServiceImpl", additionalContextFile="classpath:atp-additional-context.xml")
-	public AtpService client;
+	public AtpService atpService;
+    @Client(value = "org.kuali.student.r2.common.type.service.TypeServiceImpl", additionalContextFile="classpath:atp-additional-context.xml")
+    public TypeService typeService;
 
 	public static final String atpType_fallSemester = "atp.atpType.fallSemester";
 	public static final String milestoneType_lastDateToDrop = "atp.milestoneType.lastDateToDrop";
@@ -80,39 +80,39 @@ public class TestAtpService extends AbstractServiceTest {
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 		
-		List<AtpTypeInfo> atpTypes = client.getAtpTypes();
+		List<TypeInfo> atpTypes = atpService.getAtpTypes();
 		assertEquals(2,atpTypes.size());
 		
-		List<AtpInfo> atpsByAtpType = client.getAtpsByAtpType(atpType_fallSemester);
+		List<AtpInfo> atpsByAtpType = atpService.getAtpsByAtpType(atpType_fallSemester);
 		assertEquals(1,atpsByAtpType.size());
 		assertEquals(atp_2009FallSemester,atpsByAtpType.get(0).getId());
 		
-		List<AtpInfo> atpsByDate = client.getAtpsByDate(cal.getTime());
+		List<AtpInfo> atpsByDate = atpService.getAtpsByDate(cal.getTime());
 		assertEquals(1,atpsByDate.size());
 		assertEquals(atp_2009FallSemester,atpsByDate.get(0).getId());
 		
-		List<AtpInfo> atpsByDates = client.getAtpsByDates(startCal.getTime(), endCal.getTime());
+		List<AtpInfo> atpsByDates = atpService.getAtpsByDates(startCal.getTime(), endCal.getTime());
 		assertEquals(2,atpsByDates.size());
 		
-		List<DateRangeInfo> dateRangesByAtp = client.getDateRangesByAtp(atp_2009FallSemester);
+		List<DateRangeInfo> dateRangesByAtp = atpService.getDateRangesByAtp(atp_2009FallSemester);
 		assertEquals(1,dateRangesByAtp.size());
 		
-		List<DateRangeInfo> dateRangesByDate = client.getDateRangesByDate(df.parse("20091205"));
+		List<DateRangeInfo> dateRangesByDate = atpService.getDateRangesByDate(df.parse("20091205"));
 		assertEquals(1,dateRangesByDate.size());
 		
-		List<DateRangeTypeInfo> dateRangeTypesForAtpType = client.getDateRangeTypesForAtpType(atpType_fallSemester);
+		List<DateRangeTypeInfo> dateRangeTypesForAtpType = atpService.getDateRangeTypesForAtpType(atpType_fallSemester);
 		assertEquals(1,dateRangeTypesForAtpType.size());
 		
-		List<MilestoneInfo> milestonesByAtp = client.getMilestonesByAtp(atp_2009FallSemester);
+		List<MilestoneInfo> milestonesByAtp = atpService.getMilestonesByAtp(atp_2009FallSemester);
 		assertEquals(1,milestonesByAtp.size());
 		
-		List<MilestoneInfo> milestonesByDates = client.getMilestonesByDates(startCal.getTime(), endCal.getTime());
+		List<MilestoneInfo> milestonesByDates = atpService.getMilestonesByDates(startCal.getTime(), endCal.getTime());
 		assertEquals(1,milestonesByDates.size());
 		
-		List<MilestoneInfo> milestonesByDatesAndType = client.getMilestonesByDatesAndType(milestoneType_lastDateToDrop, startCal.getTime(), endCal.getTime());
+		List<MilestoneInfo> milestonesByDatesAndType = atpService.getMilestonesByDatesAndType(milestoneType_lastDateToDrop, startCal.getTime(), endCal.getTime());
 		assertEquals(1,milestonesByDatesAndType.size());
 		
-		List<MilestoneTypeInfo> milestoneTypesForAtpType = client.getMilestoneTypesForAtpType(atpType_fallSemester);
+		List<MilestoneTypeInfo> milestoneTypesForAtpType = atpService.getMilestoneTypesForAtpType(atpType_fallSemester);
 		assertEquals(1,milestoneTypesForAtpType.size());
 	}
 	
@@ -136,7 +136,7 @@ public class TestAtpService extends AbstractServiceTest {
 		
 		AtpInfo createdAtp=null;
 		try {
-			createdAtp = client.createAtp(atpType_fallSemester, atp_fall2008Semester, atpInfo);
+			createdAtp = atpService.createAtp(atpType_fallSemester, atp_fall2008Semester, atpInfo);
 		} catch (Exception e) {
 			LOG.error(e);
 			fail();
@@ -160,7 +160,7 @@ public class TestAtpService extends AbstractServiceTest {
 		
 		DateRangeInfo createdDateRange=null;
 		try {
-			createdDateRange = client.addDateRange(atp_fall2008Semester, dateRange_finalsFall2008, dateRangeInfo);
+			createdDateRange = atpService.addDateRange(atp_fall2008Semester, dateRange_finalsFall2008, dateRangeInfo);
 		} catch (Exception e) {
 			LOG.error(e);
 			fail();
@@ -180,7 +180,7 @@ public class TestAtpService extends AbstractServiceTest {
 		
 		MilestoneInfo createdMilestone=null;
 		try {
-			createdMilestone = client.addMilestone(atp_fall2008Semester, milestone_lastDateToDropFall2008, milestoneInfo);
+			createdMilestone = atpService.addMilestone(atp_fall2008Semester, milestone_lastDateToDropFall2008, milestoneInfo);
 		} catch (Exception e) {
 			LOG.error(e);
 			fail();
@@ -192,7 +192,7 @@ public class TestAtpService extends AbstractServiceTest {
 		createdAtp.getDesc().setFormatted("Updated Atp for the Fall 2008 Semester");
 		try {
 			assertEquals("0",createdAtp.getMetaInfo().getVersionInd());
-			AtpInfo updatedAtp = client.updateAtp(atp_fall2008Semester, createdAtp);
+			AtpInfo updatedAtp = atpService.updateAtp(atp_fall2008Semester, createdAtp);
 			assertEquals("1",updatedAtp.getMetaInfo().getVersionInd());
 			assertEquals("Updated Atp for the Fall 2008 Semester", updatedAtp.getDesc().getFormatted());
 		} catch (Exception e) {
@@ -202,7 +202,7 @@ public class TestAtpService extends AbstractServiceTest {
 		
 		//now try to update again with the same version
 		try {
-			client.updateAtp(atp_fall2008Semester, createdAtp);
+			atpService.updateAtp(atp_fall2008Semester, createdAtp);
 			fail("AtpService.updateAtp() should have thrown VersionMismatchException");
 		} catch (VersionMismatchException vme) {
 			// what we expect
@@ -215,7 +215,7 @@ public class TestAtpService extends AbstractServiceTest {
 		createdDateRange.getDesc().setFormatted("Updated DateRange for the Finals date range Fall 2008 Semester");
 		try {
 			assertEquals("0",createdDateRange.getMetaInfo().getVersionInd());
-			DateRangeInfo updatedDateRange = client.updateDateRange(dateRange_finalsFall2008, createdDateRange);
+			DateRangeInfo updatedDateRange = atpService.updateDateRange(dateRange_finalsFall2008, createdDateRange);
 			assertEquals("1",updatedDateRange.getMetaInfo().getVersionInd());
 			assertEquals("Updated DateRange for the Finals date range Fall 2008 Semester", updatedDateRange.getDesc().getFormatted());
 		} catch (Exception e) {
@@ -225,7 +225,7 @@ public class TestAtpService extends AbstractServiceTest {
 		
 		//Updating with the old version again should fail
 		try {
-			client.updateDateRange(dateRange_finalsFall2008, createdDateRange);
+			atpService.updateDateRange(dateRange_finalsFall2008, createdDateRange);
 			fail("AtpService.updateDateRange() should have thrown VersionMismatchException");
 		} catch (VersionMismatchException vme) {
 			// what we expect
@@ -238,7 +238,7 @@ public class TestAtpService extends AbstractServiceTest {
 		createdMilestone.getDesc().setFormatted("Updated Milestone for fall 2008 semester last day to drop");
 		try {
 			assertEquals("0",createdMilestone.getMetaInfo().getVersionInd());
-			MilestoneInfo updatedMilestone = client.updateMilestone(milestone_lastDateToDropFall2008, createdMilestone);
+			MilestoneInfo updatedMilestone = atpService.updateMilestone(milestone_lastDateToDropFall2008, createdMilestone);
 			assertEquals("1",updatedMilestone.getMetaInfo().getVersionInd());
 			assertEquals("Updated Milestone for fall 2008 semester last day to drop", updatedMilestone.getDesc().getFormatted());
 		} catch (Exception e) {
@@ -247,7 +247,7 @@ public class TestAtpService extends AbstractServiceTest {
 		
 		//Try to update again should fail
 		try {
-			client.updateMilestone(milestone_lastDateToDropFall2008, createdMilestone);
+			atpService.updateMilestone(milestone_lastDateToDropFall2008, createdMilestone);
 			fail("AtpService.updateDateRange() should have thrown VersionMismatchException");
 		} catch (VersionMismatchException vme) {
 			// what we expect
@@ -258,7 +258,7 @@ public class TestAtpService extends AbstractServiceTest {
 		
 		//Do some deletes that should cascade
 		try {
-			client.deleteAtp(atp_fall2008Semester);
+			atpService.deleteAtp(atp_fall2008Semester);
 		} catch (Exception e) {
 			LOG.error(e);
 			fail();

@@ -7,7 +7,7 @@ import org.kuali.student.r2.lum.course.service.assembler.LoCategoryRelationInfo;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementInfo;

@@ -738,7 +738,7 @@
 	<bean id="reqCompFieldInfo.value.gradeType.id" parent="reqCompFieldInfo.value.gradeType.id-parent" />
 
 	<!-- Note: the grade.id is really a key so it should coform to the baseKualiType 
-		BUT in R1.1 we are displaying the value and the client wants to see percent 
+		BUT in R1.1 we are displaying the value and the atpService wants to see percent
 		sign in it so changed this to baseKualiName -->
 	<bean id="reqCompFieldInfo.value.grade.id-parent" abstract="true"
 		parent="baseKualiName">

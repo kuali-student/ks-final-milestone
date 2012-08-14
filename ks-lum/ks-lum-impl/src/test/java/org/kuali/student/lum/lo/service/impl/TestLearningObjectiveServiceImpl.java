@@ -642,28 +642,28 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     /*
     @Test
     public void testIncludedLo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, CircularReferenceException, PermissionDeniedException, UnsupportedActionException, DependentObjectsExistException {
-        List<String> ancestors = client.getAncestors("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF"); 
+        List<String> ancestors = atpService.getAncestors("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF");
         assertTrue(!ancestors.contains("ABD8AE21-34E9-4858-A714-B04134F55D68"));
         
-        StatusInfo result = client.addChildLoToLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "ABD8AE21-34E9-4858-A714-B04134F55D68");
+        StatusInfo result = atpService.addChildLoToLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "ABD8AE21-34E9-4858-A714-B04134F55D68");
         assertNotNull(result);
         assertTrue(result.getSuccess());
         
-        ancestors = client.getAncestors("7BCD7C0E-3E6B-4527-AC55-254C58CECC22");
+        ancestors = atpService.getAncestors("7BCD7C0E-3E6B-4527-AC55-254C58CECC22");
         assertTrue(ancestors.contains("ABD8AE21-34E9-4858-A714-B04134F55D68")); 
         
         try {
-	        result = client.addChildLoToLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "ABD8AE21-34E9-4858-A714-B04134F55D68");
+	        result = atpService.addChildLoToLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "ABD8AE21-34E9-4858-A714-B04134F55D68");
             fail("relationship should already exists and thus throw AlreadyExistsException");
         } catch (AlreadyExistsException e) {
         }
         
-        List<String> descendants = client.getAllDescendants("ABD8AE21-34E9-4858-A714-B04134F55D68");
+        List<String> descendants = atpService.getAllDescendants("ABD8AE21-34E9-4858-A714-B04134F55D68");
         assertTrue(descendants.contains("7BCD7C0E-3E6B-4527-AC55-254C58CECC22"));
         
-        assertTrue(client.isDescendant("ABD8AE21-34E9-4858-A714-B04134F55D68", "7BCD7C0E-3E6B-4527-AC55-254C58CECC22"));
+        assertTrue(atpService.isDescendant("ABD8AE21-34E9-4858-A714-B04134F55D68", "7BCD7C0E-3E6B-4527-AC55-254C58CECC22"));
         
-        List<LoInfo> children = client.getLoChildren("ABD8AE21-34E9-4858-A714-B04134F55D68");
+        List<LoInfo> children = atpService.getLoChildren("ABD8AE21-34E9-4858-A714-B04134F55D68");
         boolean foundLo = false;
         for (LoInfo loInfo : children) {
             if(loInfo.getId().equals("7BCD7C0E-3E6B-4527-AC55-254C58CECC22")) {
@@ -673,7 +673,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         }
         assertTrue(foundLo);
         
-        List<LoInfo> parents = client.getLoParents("7BCD7C0E-3E6B-4527-AC55-254C58CECC22"); 
+        List<LoInfo> parents = atpService.getLoParents("7BCD7C0E-3E6B-4527-AC55-254C58CECC22");
         foundLo = false;
         for (LoInfo loInfo : parents) {
             if(loInfo.getId().equals("ABD8AE21-34E9-4858-A714-B04134F55D68")) {
@@ -684,21 +684,21 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertTrue(foundLo);
         
         try { // this would result in "7B..." being orphaned
-	        result = client.removeChildLoFromLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "ABD8AE21-34E9-4858-A714-B04134F55D68");
+	        result = atpService.removeChildLoFromLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "ABD8AE21-34E9-4858-A714-B04134F55D68");
 	        fail("LearningObjectiveService.removeChildLoFromLo should have thrown DependentObjectsExistException");
         } catch (DependentObjectsExistException doee) {}
         
         // add it as a child to another parent
-        result = client.addChildLoToLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+        result = atpService.addChildLoToLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
         assertNotNull(result);
         assertTrue(result.getSuccess());
         
         // and now remove it from "AB..."'s children
-        result = client.removeChildLoFromLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "ABD8AE21-34E9-4858-A714-B04134F55D68");
+        result = atpService.removeChildLoFromLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "ABD8AE21-34E9-4858-A714-B04134F55D68");
         assertNotNull(result);
         assertTrue(result.getSuccess());
         
-        assertTrue(!client.isDescendant("ABD8AE21-34E9-4858-A714-B04134F55D68", "7BCD7C0E-3E6B-4527-AC55-254C58CECC22"));
+        assertTrue(!atpService.isDescendant("ABD8AE21-34E9-4858-A714-B04134F55D68", "7BCD7C0E-3E6B-4527-AC55-254C58CECC22"));
     }
     */
     

@@ -1107,7 +1107,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		luiLuiRelationInfo.getAttributes().add(new AttributeInfo("luiluiAttrKey1","luiluiAttrValue1"));
 		luiLuiRelationInfo.getAttributes().add(new AttributeInfo("luiluiAttrKey2","luiluiAttrValue2"));
 
-		LuiLuiRelationInfo created = client.createLuiLuiRelation("LUI-1",
+		LuiLuiRelationInfo created = atpService.createLuiLuiRelation("LUI-1",
 				"LUI-2", "luLuType.type1", luiLuiRelationInfo, contextInfo);
 
 		assertEquals(DF.parse("20080101"), created.getEffectiveDate());
@@ -1132,7 +1132,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		created.getAttributes().remove("luiluiAttrKey2");
 		created.getAttributes().add(new AttributeInfo("luiluiAttrKey3", "luiluiAttrValue3"));
 
-		LuiLuiRelationInfo updated = client.updateLuiLuiRelation(created
+		LuiLuiRelationInfo updated = atpService.updateLuiLuiRelation(created
 				.getId(), created, contextInfo);
 
 		assertEquals(DF.parse("20980101"), updated.getEffectiveDate());
@@ -1148,44 +1148,44 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(updated.getMetaInfo().getUpdateTime());
 
 		try {
-			updated = client.updateLuiLuiRelation(created.getId(), created, contextInfo);
+			updated = atpService.updateLuiLuiRelation(created.getId(), created, contextInfo);
 			fail("Should have thrown VersionMismatchException");
 		} catch (VersionMismatchException e) {
 		}
 
 		try {
-			client.getLuiLuiRelation(created.getId(), contextInfo);
+			atpService.getLuiLuiRelation(created.getId(), contextInfo);
 		} catch (DoesNotExistException e) {
 			fail("Should not have thrown DoesNotExistException");
 		}
 
-		StatusInfo status = R1R2ConverterUtil.convert(client.deleteLuiLuiRelation(updated.getId(), contextInfo), StatusInfo.class);
+		StatusInfo status = R1R2ConverterUtil.convert(atpService.deleteLuiLuiRelation(updated.getId(), contextInfo), StatusInfo.class);
 
 		assertTrue(status.getIsSuccess());
 
 		try {
-			client.getLuiLuiRelation(created.getId(), contextInfo);
+			atpService.getLuiLuiRelation(created.getId(), contextInfo);
 			fail("Should have thrown DoesNotExistException");
 		} catch (DoesNotExistException e) {
 
 		}
 
 		// TestFind
-		List<LuiLuiRelationInfo> relations = client
+		List<LuiLuiRelationInfo> relations = atpService
 				.getLuiLuiRelationsByLui("LUI-1", contextInfo);
 		assertEquals(2, relations.size());
-		relations = client.getLuiLuiRelationsByLui("LUI-2", contextInfo);
+		relations = atpService.getLuiLuiRelationsByLui("LUI-2", contextInfo);
 		assertEquals(1, relations.size());
-		relations = client.getLuiLuiRelationsByLui("LUI-3", contextInfo);
+		relations = atpService.getLuiLuiRelationsByLui("LUI-3", contextInfo);
 		assertTrue(relations == null || relations.size() == 0);
 
-		List<String> relatedLuiIdsByLuiId = client.getRelatedLuiIdsByLuiId(
+		List<String> relatedLuiIdsByLuiId = atpService.getRelatedLuiIdsByLuiId(
 				"LUI-1", "luLuType.type1", contextInfo);
 		assertEquals(2, relatedLuiIdsByLuiId.size());
 		assertTrue(relatedLuiIdsByLuiId.contains("LUI-2"));
 		assertTrue(relatedLuiIdsByLuiId.contains("LUI-3"));
 
-		List<LuiInfo> relatedLuisByLuiId = client.getRelatedLuisByLuiId(
+		List<LuiInfo> relatedLuisByLuiId = atpService.getRelatedLuisByLuiId(
 				"LUI-1", "luLuType.type1", contextInfo);
 		assertEquals(2, relatedLuisByLuiId.size());
 
@@ -1198,18 +1198,18 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 		List<LuiInfo> luiInfos;
 		try {
-			luiInfos = client.getLuisByIds(null, contextInfo);
+			luiInfos = atpService.getLuisByIds(null, contextInfo);
 			fail("LuService.getLuiByIdList() did not throw MissingParameterException for null Lui ID");
 		} catch (MissingParameterException mpe) {
 		} catch (Exception e) {
 			fail("LuService.getLuiByIdList() threw unexpected "
 					+ e.getClass().getSimpleName() + " for null Lui ID");
 		}
-		luiInfos = client.getLuisByIds(Arrays.asList("Not a LUI ID",
+		luiInfos = atpService.getLuisByIds(Arrays.asList("Not a LUI ID",
 				"Another one that ain't"), contextInfo);
 		assertTrue(luiInfos == null || luiInfos.size() == 0);
 
-		luiInfos = client.getLuisByIds(Arrays.asList("LUI-1", "LUI-4"), contextInfo);
+		luiInfos = atpService.getLuisByIds(Arrays.asList("LUI-1", "LUI-4"), contextInfo);
 		Collections.sort(luiInfos, new Comparator<LuiInfo>() {
 			@Override
             public int compare(LuiInfo o1, LuiInfo o2) {
@@ -1233,7 +1233,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		// Read
 		try {
-			luiInfo = client.getLui("notARealLui", contextInfo);
+			luiInfo = atpService.getLui("notARealLui", contextInfo);
 			fail("LuService.getLui() did not throw DoesNotExistException for non-existent Lui");
 		} catch (DoesNotExistException dnee) {
 		} catch (Exception e) {
@@ -1241,11 +1241,11 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 					+ e.getClass().getSimpleName() + " for null Lui ID");
 		}
 		try {
-			luiInfo = client.getLui(null, contextInfo);
+			luiInfo = atpService.getLui(null, contextInfo);
 			fail("LuService.getLui() did not throw MissingParameterException for null Lui ID");
 		} catch (MissingParameterException mpe) {
 		}
-		luiInfo = client.getLui("LUI-1", contextInfo);
+		luiInfo = atpService.getLui("LUI-1", contextInfo);
 		assertEquals("CLU-1", luiInfo.getCluId());
 
 		// Create
@@ -1259,7 +1259,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		luiInfo.getAttributes().add(new AttributeInfo("luiAttrKey1", "luiAttrValue1"));
 		luiInfo.getAttributes().add(new AttributeInfo("luiAttrKey2", "luiAttrValue2"));
 
-		LuiInfo createdLui = client.createLui("CLU-2", "ATP-3", luiInfo, contextInfo);
+		LuiInfo createdLui = atpService.createLui("CLU-2", "ATP-3", luiInfo, contextInfo);
 
 		assertEquals("ATP-3", createdLui.getAtpId());
 		assertEquals("LUI Test Code", createdLui.getLuiCode());
@@ -1284,7 +1284,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		LuiInfo updatedLui = null;
 		try {
-			updatedLui = client.updateLui(createdLui.getId(), createdLui, contextInfo);
+			updatedLui = atpService.updateLui(createdLui.getId(), createdLui, contextInfo);
 		} catch (VersionMismatchException vme) {
 			fail("LuService.updateLui() threw unexpected VersionMismatchException");
 		}
@@ -1303,16 +1303,16 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		// optimistic locking working?
 		try {
-			client.updateLui(createdLui.getId(), createdLui, contextInfo);
+			atpService.updateLui(createdLui.getId(), createdLui, contextInfo);
 			fail("LuService.updateLui did not throw expected VersionMismatchException");
 		} catch (VersionMismatchException e) {
 		}
 
 		// delete what we created
-		client.deleteLui(createdLui.getId(), contextInfo);
+		atpService.deleteLui(createdLui.getId(), contextInfo);
 		// and try it again
 		try {
-			client.deleteLui(createdLui.getId(), contextInfo);
+			atpService.deleteLui(createdLui.getId(), contextInfo);
 			fail("LuService.deleteLui() of previously-delete Lui did not throw expected DoesNotExistException");
 		} catch (DoesNotExistException dnee) {
 		}
@@ -1325,11 +1325,11 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 		List<String> luiIds = null;
 		try {
-			luiIds = client.getLuiIdsByCluId(null, contextInfo);
+			luiIds = atpService.getLuiIdsByCluId(null, contextInfo);
 			fail("LuService.getLuiIdsByCluId() did not throw MissingParameterException for null Clu ID");
 		} catch (MissingParameterException e) {
 		}
-		luiIds = client.getLuiIdsByCluId("CLU-1", contextInfo);
+		luiIds = atpService.getLuiIdsByCluId("CLU-1", contextInfo);
 
 		Collections.sort(luiIds);
 
@@ -1338,9 +1338,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		assertEquals("LUI-1", luiIds.get(0));
 		assertEquals("LUI-3", luiIds.get(2));
-		luiIds = client.getLuiIdsByCluId("CLU-2", contextInfo);
+		luiIds = atpService.getLuiIdsByCluId("CLU-2", contextInfo);
 		assertEquals(1, luiIds.size());
-		luiIds = client.getLuiIdsByCluId("Non-existent Clu", contextInfo);
+		luiIds = atpService.getLuiIdsByCluId("Non-existent Clu", contextInfo);
 		assertTrue(null == luiIds || luiIds.size() == 0);
 	}
 
@@ -1351,26 +1351,26 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 		List<String> luiIds = null;
 		try {
-			luiIds = client.getLuiIdsInAtpByCluId(null, "ATP-1", contextInfo);
+			luiIds = atpService.getLuiIdsInAtpByCluId(null, "ATP-1", contextInfo);
 			fail("LuService.getLuiIdsInAtpByCluId() did not throw MissingParameterException for null Clu ID");
 		} catch (MissingParameterException e) {
 		}
 		try {
-			luiIds = client.getLuiIdsInAtpByCluId("CLU-1", null, contextInfo);
+			luiIds = atpService.getLuiIdsInAtpByCluId("CLU-1", null, contextInfo);
 			fail("LuService.getLuiIdsInAtpByCluId() did not throw MissingParameterException for null AtpKey");
 		} catch (MissingParameterException e) {
 		}
-		luiIds = client.getLuiIdsInAtpByCluId("CLU-1", "ATP-2", contextInfo);
+		luiIds = atpService.getLuiIdsInAtpByCluId("CLU-1", "ATP-2", contextInfo);
 		Collections.sort(luiIds);
 		assertTrue(null != luiIds);
 		assertEquals(2, luiIds.size());
 		assertEquals("LUI-2", luiIds.get(0));
 		assertEquals("LUI-3", luiIds.get(1));
-		luiIds = client.getLuiIdsInAtpByCluId("CLU-1", "ATP-1", contextInfo);
+		luiIds = atpService.getLuiIdsInAtpByCluId("CLU-1", "ATP-1", contextInfo);
 		assertEquals(1, luiIds.size());
-		luiIds = client.getLuiIdsInAtpByCluId("Non-existent Clu", "ATP-2", contextInfo);
+		luiIds = atpService.getLuiIdsInAtpByCluId("Non-existent Clu", "ATP-2", contextInfo);
 		assertTrue(null == luiIds || luiIds.size() == 0);
-		luiIds = client.getLuiIdsInAtpByCluId("CLU-2", "Non-existent ATP", contextInfo);
+		luiIds = atpService.getLuiIdsInAtpByCluId("CLU-2", "Non-existent ATP", contextInfo);
 		assertTrue(null == luiIds || luiIds.size() == 0);
 	}*/
 
@@ -1381,18 +1381,18 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		TypeInfo luLuRelTypeInfo;
 
 		try {
-			client.getLuLuRelationType(null, contextInfo);
+			atpService.getLuLuRelationType(null, contextInfo);
 			fail("LuService.getLuLuRelationTypeInfo() did not throw MissingParameterException for null LuLuRelationType key");
 		} catch (MissingParameterException e) {
         }
-		luLuRelTypeInfo = client.getLuLuRelationType("luLuType.type1", contextInfo);
+		luLuRelTypeInfo = atpService.getLuLuRelationType("luLuType.type1", contextInfo);
 		assertEquals("bob", luLuRelTypeInfo.getName());
-		luLuRelTypeInfo = client.getLuLuRelationType("luLuType.type2", contextInfo);
+		luLuRelTypeInfo = atpService.getLuLuRelationType("luLuType.type2", contextInfo);
 		assertEquals("my desc2", luLuRelTypeInfo.getDescr());
 		assertEquals("rev name2", luLuRelTypeInfo.getName());
 		assertEquals("rev desc2", luLuRelTypeInfo.getDescr());
 		try {
-			client.getLuLuRelationType("Non-existent LuLuRelationType", contextInfo);
+			atpService.getLuLuRelationType("Non-existent LuLuRelationType", contextInfo);
 			fail("LuService.getLuLuRelationTypeInfo() did not throw DoesNotExistException when retrieving non-existent LuLuRelationType");
 		} catch (DoesNotExistException dnee) {
 		}
@@ -1403,7 +1403,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			DoesNotExistException, MissingParameterException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 		List<TypeInfo> luLuRelTypeInfos;
-		luLuRelTypeInfos = client.getLuLuRelationTypes(contextInfo);
+		luLuRelTypeInfos = atpService.getLuLuRelationTypes(contextInfo);
 		Collections.sort(luLuRelTypeInfos,
 				new Comparator<LuLuRelationTypeInfo>() {
 					@Override
@@ -1424,12 +1424,12 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			DependentObjectsExistException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 		try {
-			client.updateLuiState(null, "Suspended", contextInfo);
+			atpService.updateLuiState(null, "Suspended", contextInfo);
 			fail("LuService.updateLuiState() did not throw MissingParameterException for null Lui ID");
 		} catch (MissingParameterException e) {
 		}
 		try {
-			client.updateLuiState("LUI-1", null, contextInfo);
+			atpService.updateLuiState("LUI-1", null, contextInfo);
 			fail("LuService.updateLuiState() did not throw MissingParameterException for null state");
 		} catch (MissingParameterException e) {
 		}
@@ -1446,22 +1446,22 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		luiInfo.getAttributes().add(new AttributeInfo("luiAttrKey1", "luiAttrValue1"));
 		luiInfo.getAttributes().add(new AttributeInfo("luiAttrKey2", "luiAttrValue2"));
 
-		LuiInfo createdLui = client.createLui("CLU-2", "ATP-3", luiInfo, contextInfo);
+		LuiInfo createdLui = atpService.createLui("CLU-2", "ATP-3", luiInfo, contextInfo);
 		// make sure the db's in the state we expect
 		assertEquals("Approved", createdLui.getState());
 
 		// update and confirm it was updated
-		LuiInfo updatedLui = client.updateLuiState(createdLui.getId(),
+		LuiInfo updatedLui = atpService.updateLuiState(createdLui.getId(),
 				"Active", contextInfo);
 		assertEquals("Active", updatedLui.getState());
 
 		// and now explicitly retrieve it without a call to updateLuiState and
 		// confirm same
-		updatedLui = client.getLui(createdLui.getId(), contextInfo);
+		updatedLui = atpService.getLui(createdLui.getId(), contextInfo);
 		assertEquals("Active", updatedLui.getState());
 
 		// and delete it to keep db consistent for other tests
-		client.deleteLui(updatedLui.getId(), contextInfo);
+		atpService.deleteLui(updatedLui.getId(), contextInfo);
 	}
 
 	@Test
@@ -1469,9 +1469,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
-		List<LuiInfo> luis = client.getLuisByRelation("LUI-1", "luLuType.type1", contextInfo);
+		List<LuiInfo> luis = atpService.getLuisByRelation("LUI-1", "luLuType.type1", contextInfo);
 		assertTrue(luis == null || luis.size() == 0);
-		luis = client.getLuisByRelation("LUI-2", "luLuType.type1", contextInfo);
+		luis = atpService.getLuisByRelation("LUI-2", "luLuType.type1", contextInfo);
 		Collections.sort(luis, new Comparator<LuiInfo>() {
 			@Override
             public int compare(LuiInfo o1, LuiInfo o2) {
@@ -1487,9 +1487,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
-		List<String> luis = client.getLuiIdsByRelation("LUI-1",	"luLuType.type1", contextInfo);
+		List<String> luis = atpService.getLuiIdsByRelation("LUI-1",	"luLuType.type1", contextInfo);
 		assertTrue(luis == null || luis.size() == 0);
-		luis = client.getLuiIdsByRelation("LUI-2", "luLuType.type1", contextInfo);
+		luis = atpService.getLuiIdsByRelation("LUI-2", "luLuType.type1", contextInfo);
 		Collections.sort(luis);
 		assertEquals(1, luis.size());
 		assertEquals("LUI-1", luis.get(0));
@@ -1574,9 +1574,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
-		TypeInfo lrType = client.getResultUsageType("lrType.finalGrade", contextInfo);
+		TypeInfo lrType = atpService.getResultUsageType("lrType.finalGrade", contextInfo);
 		assertEquals("Final Grade", lrType.getName());
-		List<TypeInfo> lrTypes = client.getResultUsageTypes(contextInfo);
+		List<TypeInfo> lrTypes = atpService.getResultUsageTypes(contextInfo);
 		assertEquals(2, lrTypes.size());
 
 	}*/
@@ -1966,8 +1966,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		// Somehow cannot add 2 CLUs in sequence (JTA rollback exception) but adding a single CLU works
 		//CluInfo clu1 = createCluInfo();
 		//CluInfo clu2 = createCluInfo();
-		//CluInfo createdClu1 = client.createClu("luType.shell.course", clu1);
-		//CluInfo createdClu2 = client.createClu("luType.shell.course", clu2);
+		//CluInfo createdClu1 = atpService.createClu("luType.shell.course", clu1);
+		//CluInfo createdClu2 = atpService.createClu("luType.shell.course", clu2);
 		//List<String> cluIdList = Arrays.asList(new String[] {createdClu1.getId(), createdClu2.getId()});
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-3", "CLU-4"});

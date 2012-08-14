@@ -69,7 +69,7 @@ public class ViewCourseActionList extends Composite {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.google.gwt.user.client.ui.Widget#onLoad()
+	 * @see com.google.gwt.user.atpService.ui.Widget#onLoad()
 	 */
 	@Override
 	protected void onLoad() {

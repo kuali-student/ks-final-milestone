@@ -7,7 +7,7 @@ import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstant
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.r1.common.validator.ServerDateParser;
-import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
@@ -233,7 +233,7 @@ public class TestCourseInfoDictionary {
 		
 		b.setInterfaceClass(AtpService.class);
 		try {
-			adv.setAtpService((AtpService) b.getObject());
+			adv.setAtpService((AtpService) b.getObject(),contextInfo);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

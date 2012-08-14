@@ -102,7 +102,7 @@
     <param name="ActionList.norefresh" override="false">false</param>
 
     <!--
-      NOTE: The application.url parameter needs to be set by the client
+      NOTE: The application.url parameter needs to be set by the atpService
         this should be set to something similar to:
 	    <param name="appserver.url" override="false">${application.http.scheme}://${application.host}:${http.port}</param>
 	    <param name="application.url" override="false">${appserver.url}/${app.context.name}</param>
@@ -133,7 +133,7 @@
 
   	<!-- Portal display parameters -->
 	  <!-- rice.portal.links.showRiceServerConfig determines if a second config viewer link will be shown.
-	     This is helpful for client apps using the rice portal, because both client and rice config params
+	     This is helpful for atpService apps using the rice portal, because both atpService and rice config params
 	     can be linked to -->
 	  <param name="rice.portal.links.showRiceServerConfig" override="false">false</param>
 	  <param name="rice.portal.logout.redirectUrl" override="false">${application.url}/portal.do</param>

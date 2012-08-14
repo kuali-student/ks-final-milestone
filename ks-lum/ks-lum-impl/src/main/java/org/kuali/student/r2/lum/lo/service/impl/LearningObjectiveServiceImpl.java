@@ -647,7 +647,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         // if state is changing from "active"
         if (loCategory.getState().equals("active") && ( ! loCategoryInfo.getStateKey().equals("active") )) {
     		// N.B. - ability to 'retire' LoCategory's that are still associated w/ active
-    		// LO's is configured and enforced on the client
+    		// LO's is configured and enforced on the atpService
         	List<LoInfo> loInfos = getLosByLoCategory(loCategoryId,contextInfo);
     		if (null != loInfos) {
 				// remove associations of this LoCategory from active LO's

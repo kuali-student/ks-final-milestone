@@ -17,8 +17,10 @@ package org.kuali.student.r2.lum.statement.config.context;
 
 import java.util.Map;
 
-import org.kuali.student.r1.core.atp.dto.AtpDurationTypeInfo;
-import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.type.service.TypeService;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -29,8 +31,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  * This class creates the template context for an academic time period.
  */
 public class AtpContextImpl extends BasicContextImpl {
- 
-	private AtpService atpService;
+
+
+    private AtpService atpService;
+    private TypeService typeService;
 	
 	public final static String DURATION_TYPE_TOKEN = "durationType";
 	public final static String DURATION_TOKEN = "duration";
@@ -39,12 +43,21 @@ public class AtpContextImpl extends BasicContextImpl {
 		this.atpService = atpService;
 	}
 
-	private AtpDurationTypeInfo getAtpDurationType(String atpDurationTypeKey) throws OperationFailedException {
+
+    public TypeService getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
+
+	private TypeInfo getAtpDurationType(String atpDurationTypeKey) throws OperationFailedException {
 		if (atpDurationTypeKey == null) {
 			return null;
 		}
 		try {
-			AtpDurationTypeInfo atpDurationType = this.atpService.getAtpDurationType(atpDurationTypeKey);
+			TypeInfo atpDurationType = this.getTypeService().getType(atpDurationTypeKey, ContextUtils.getContextInfo());
 			return atpDurationType;
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
@@ -63,7 +76,7 @@ public class AtpContextImpl extends BasicContextImpl {
     public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
         String durationTypeKey = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.DURATION_TYPE_KEY.getId());
         String duration = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.DURATION_KEY.getId());
-        AtpDurationTypeInfo atpDurationType = getAtpDurationType(durationTypeKey);
+        TypeInfo atpDurationType = getAtpDurationType(durationTypeKey);
 
         Map<String, Object> contextMap = super.createContextMap(reqComponent, contextInfo);
         contextMap.put(DURATION_TYPE_TOKEN, atpDurationType);
