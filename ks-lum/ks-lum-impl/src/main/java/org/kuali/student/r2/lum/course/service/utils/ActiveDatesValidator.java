@@ -9,8 +9,8 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r1.core.atp.dto.AtpInfo;
-import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 public class ActiveDatesValidator extends DefaultValidatorImpl {
@@ -34,8 +34,8 @@ public class ActiveDatesValidator extends DefaultValidatorImpl {
 			CourseInfo course = (CourseInfo) o;
 			if (course.getEndTerm() != null && course.getStartTerm() != null) {
 				try {
-					AtpInfo startAtp = atpService.getAtp(course.getStartTerm());
-					AtpInfo endAtp = atpService.getAtp(course.getEndTerm());
+					AtpInfo startAtp = atpService.getAtp(course.getStartTerm(), contextInfo);
+					AtpInfo endAtp = atpService.getAtp(course.getEndTerm(), contextInfo);
 					if (startAtp.getStartDate()
 							.compareTo(endAtp.getStartDate()) > 0) {
 						ValidationResultInfo vr = new ValidationResultInfo();

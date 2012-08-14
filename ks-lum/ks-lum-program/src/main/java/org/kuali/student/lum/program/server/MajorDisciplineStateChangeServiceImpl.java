@@ -277,7 +277,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    		}
 	    		//compare dates to get the older of the two end terms
 	    		if(variation.getEndTerm() != null){
-	    			AtpInfo variationEndTermAtp = atpService.getAtp(variation.getEndTerm());
+	    			AtpInfo variationEndTermAtp = atpService.getAtp(variation.getEndTerm(),contextInfo);
 	    			Date variationEndTermEndDate = variationEndTermAtp.getEndDate();
 	    			if(majorEndEntryTermEndDate.compareTo(variationEndTermEndDate)<=0){
 		    			variation.setEndTerm(endEnrollTerm);

@@ -233,7 +233,7 @@ public class TestCourseInfoDictionary {
 		
 		b.setInterfaceClass(AtpService.class);
 		try {
-			adv.setAtpService((AtpService) b.getObject(),contextInfo);
+			adv.setAtpService((AtpService) b.getObject());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
