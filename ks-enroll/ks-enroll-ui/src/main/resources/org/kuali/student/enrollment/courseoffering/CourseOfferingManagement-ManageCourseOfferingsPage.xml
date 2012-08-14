@@ -24,8 +24,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ManageCourseOfferingsPage" parent="Uif-Page" p:disclosure.render="false"
-          p:id="manageCourseOfferingsPage"
-          p:headerText="Manage Course Offerings">
+          p:id="manageCourseOfferingsPage">
         <property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings"/>
         </property>

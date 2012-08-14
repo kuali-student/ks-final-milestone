@@ -20,10 +20,9 @@
      limitations under the License.
     -->
     <bean id="KS-CourseOfferingManagement-ManageActivityOfferingsPage" parent="Uif-Page" p:disclosure.render="false"
-          p:id="manageActivityOfferingsPage"
-          p:headerText="">
+          p:id="manageActivityOfferingsPage">
         <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
+            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" />
         </property>
         <property name="items">
             <list>
