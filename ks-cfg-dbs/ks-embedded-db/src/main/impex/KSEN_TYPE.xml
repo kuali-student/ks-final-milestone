@@ -587,6 +587,30 @@
         NAME="All Activity Types"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/course/ActivityInfo"
         TYPE_KEY="kuali.lu.type.grouping.activity" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
+        DESCR_FORMATTED="LuiLui relation beween course offering and format offering"
+        DESCR_PLAIN="LuiLui relation beween course offering and format offering"
+        NAME="CO-to-FO relation"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiLuiRelationInfo"
+        TYPE_KEY="kuali.lui.lui.relation.type.deliveredvia.co2fo" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
+        DESCR_FORMATTED="LuiLui relation beween format offering and activity offering"
+        DESCR_PLAIN="LuiLui relation beween format offering and activity offering"
+        NAME="FO-to-AO relation"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiLuiRelationInfo"
+        TYPE_KEY="kuali.lui.lui.relation.type.deliveredvia.fo2ao" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
+        DESCR_FORMATTED="LuiLui relation beween format offering and registration group"
+        DESCR_PLAIN="LuiLui relation beween format offering and registration group"
+        NAME="FO-to-RG relation"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiLuiRelationInfo"
+        TYPE_KEY="kuali.lui.lui.relation.type.deliveredvia.fo2rg" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
+        DESCR_FORMATTED="LuiLui relation beween registration group and activity offering"
+        DESCR_PLAIN="LuiLui relation beween registration group and activity offering"
+        NAME="RG-to-AO relation"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiLuiRelationInfo"
+        TYPE_KEY="kuali.lui.lui.relation.type.registeredforvia.rg2ao" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Physical activity and participation are incorporated into the   class."
         DESCR_PLAIN="Physical activity and participation are incorporated into the   class."
