@@ -164,6 +164,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
     }
 
+    @RequestMapping(params = "methodToCall=viewRegGroups")
+    public ModelAndView viewRegGroups(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        return getUIFModelAndView(theForm, "viewRegistrationGroupsPage");
+
+    }
+
     @RequestMapping(params = "methodToCall=loadPreviousCO")
     public ModelAndView loadPreviousCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
