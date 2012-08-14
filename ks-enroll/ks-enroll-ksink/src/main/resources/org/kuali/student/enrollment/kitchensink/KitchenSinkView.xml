@@ -40,9 +40,25 @@
 
     <!-- Miscellaneous definitions -->
 
-    <bean id="KS-KitchenSink-Link-To-Bare" parent="Uif-LinkField">
+    <bean id="KS-KitchenSink-Link-To-Guide" parent="KS-KitchenSink-LinkField-Base"
+          p:label="KRAD Guide"/>
+    <bean id="KS-KitchenSink-Link-To-Source" parent="KS-KitchenSink-LinkField-Base"
+          p:label="XML Configuration"/>
+    <bean id="KS-KitchenSink-Link-To-KRAD-XML-Source" parent="KS-KitchenSink-LinkField-Base"
+          p:label="KRAD XML Configuration"/>
+    <bean id="KS-KitchenSink-Link-To-KRAD-Java-Source" parent="KS-KitchenSink-LinkField-Base"
+          p:label="KRAD Java Class"/>
+    <bean id="KS-KitchenSink-Link-To-KRAD-API" parent="KS-KitchenSink-LinkField-Base"
+          p:label="KRAD API"/>
+    <bean id="KS-KitchenSink-LinkField-Base" parent="Uif-LinkField" abstract="true">
+        <property name="target" value="_blank"/>
+        <property name="finalizeMethodToCall" value="setSourceLinkText"/>
+    </bean>
+
+    <bean id="KS-KitchenSink-Link-To-Bare" parent="Uif-LinkField" abstract="true">
         <property name="label" value="Widget-Only Link"/>
         <property name="target" value="_blank"/>
+        <property name="style" value="border-top:solid 1px #333333;padding-top:5px;"/>
         <property name="finalizeMethodToCall" value="setDirectLinkUrl"/>
         <!-- pass a the 3rd "methodToCall" param to setDirectLinkUrl() method:
         <property name="finalizeMethodAdditionalArguments">
@@ -51,18 +67,6 @@
             </list>
         </property>
         -->
-    </bean>
-
-    <bean id="KS-KitchenSink-Link-To-Guide" parent="Uif-LinkField">
-        <property name="label" value="KRAD Guide"/>
-        <property name="target" value="_blank"/>
-        <property name="finalizeMethodToCall" value="setSourceLinkText"/>
-    </bean>
-
-    <bean id="KS-KitchenSink-Link-To-Source" parent="Uif-LinkField">
-        <property name="label" value="Source"/>
-        <property name="target" value="_blank"/>
-        <property name="finalizeMethodToCall" value="setSourceLinkText"/>
     </bean>
 
 </beans>
