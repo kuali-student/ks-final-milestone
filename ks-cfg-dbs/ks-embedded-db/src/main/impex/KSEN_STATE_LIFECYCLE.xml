@@ -98,6 +98,13 @@
         ID="kuali.process.process.lifecycle"
         NAME="kuali.process.process.lifecycle" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120813000000"
+        DESCR_FORMATTED="kuali.scheduling.schedule.request.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.scheduling.schedule.request.lifecycle state lifecycle"
+        ID="kuali.scheduling.schedule.request.lifecycle"
+        NAME="kuali.scheduling.schedule.request.lifecycle"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="20120813000000" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
         DESCR_FORMATTED="kuali.soc.rollover.result.process state lifecycle"
         DESCR_PLAIN="kuali.soc.rollover.result.process state lifecycle"

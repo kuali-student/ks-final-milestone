@@ -233,6 +233,13 @@
         DESCR_PLAIN="Indicates that this Process is inactive because it was put out to pasture. Any checks for this process should fail."
         ID="kuali.process.process.state.inactive"
         LIFECYCLE_KEY="kuali.process.process.lifecycle" NAME="Inactive" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120813000000"
+        DESCR_FORMATTED="The request has been created"
+        DESCR_PLAIN="The request has been created"
+        ID="kuali.scheduling.schedule.request.state.created"
+        LIFECYCLE_KEY="kuali.scheduling.schedule.request.lifecycle"
+        NAME="Created" UPDATEID="SYSTEMLOADER"
+        UPDATETIME="20120813000000" VER_NBR="1"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_FORMATTED="An existing course offering was canceled"
         DESCR_PLAIN="An existing course offering was canceled"
