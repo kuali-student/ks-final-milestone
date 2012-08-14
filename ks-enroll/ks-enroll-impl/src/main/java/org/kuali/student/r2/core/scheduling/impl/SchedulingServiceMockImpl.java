@@ -17,10 +17,13 @@ package org.kuali.student.r2.core.scheduling.impl;
 
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.scheduling.dto.*;
-import org.kuali.student.r2.core.scheduling.infc.ScheduleTransaction;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import javax.jws.WebParam;
@@ -911,7 +914,7 @@ public class SchedulingServiceMockImpl implements SchedulingService
     }
 
     @Override
-    public ScheduleTransaction submitScheduleBatch(@WebParam(name = "scheduleBatchId") String scheduleBatchId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo submitScheduleBatch(@WebParam(name = "scheduleBatchId") String scheduleBatchId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
 

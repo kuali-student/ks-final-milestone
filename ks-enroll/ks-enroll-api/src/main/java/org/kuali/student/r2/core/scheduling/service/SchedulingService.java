@@ -27,7 +27,6 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
-import org.kuali.student.r2.core.scheduling.infc.ScheduleTransaction;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -1106,7 +1105,7 @@ public interface SchedulingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public ScheduleTransaction submitScheduleBatch(@WebParam(name = "scheduleBatchId") String scheduleBatchId,
+    public StatusInfo submitScheduleBatch(@WebParam(name = "scheduleBatchId") String scheduleBatchId,
                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
                 InvalidParameterException,
