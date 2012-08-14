@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.xml.namespace.QName;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
@@ -16,6 +18,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.StateServiceConstants;
+import org.kuali.student.r2.core.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 
@@ -35,15 +38,35 @@ public class StateInfoAdminLookupableImpl
     }
 
     private List<StateInfo> findMatching(String searchValue) {
-        // TODO: replace this with a search
-        List<StateInfo> allStates = this.getAll();
-        List<StateInfo> list = new ArrayList<StateInfo>();
-        for (StateInfo info : allStates) {
-            if (this.matches(info, searchValue)) {
-                list.add(info);
-            }
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> pList = new ArrayList<Predicate>();
+        pList.add (PredicateFactory.equal("keywordSearch",searchValue));
+        qBuilder.setPredicates(PredicateFactory.and(pList.toArray(new Predicate[pList.size()])));
+        try {
+            List<StateInfo> list = this.getStateService().searchForStates(qBuilder.build(), getContextInfo());
+//            System.out.println ("Found " + list.size() + " lifecycles");
+//            for (StateInfo info : list) {
+//                System.out.println (info.getKey() + " " + info.getName());
+//            }
+            return list;
+        } catch (InvalidParameterException ex) {
+            throw new RuntimeException(ex);
+        } catch (MissingParameterException ex) {
+            throw new RuntimeException(ex);
+        } catch (OperationFailedException ex) {
+            throw new RuntimeException(ex);
+        } catch (PermissionDeniedException ex) {
+            throw new RuntimeException(ex);
         }
-        return list;
+        // replaced below with keyword search
+//        List<StateInfo> allStates = this.getAll();
+//        List<StateInfo> list = new ArrayList<StateInfo>();
+//        for (StateInfo info : allStates) {
+//            if (this.matches(info, searchValue)) {
+//                list.add(info);
+//            }
+//        }
+//        return list;
     }
 
     private boolean matches(StateInfo info, String searchValue) {

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.xml.namespace.QName;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
@@ -35,15 +37,36 @@ public class LifecycleInfoAdminLookupableImpl
     }
 
     private List<LifecycleInfo> findMatching(String searchValue) {
-        // TODO: replace this with a search
-        List<LifecycleInfo> all = this.getAll();
-        List<LifecycleInfo> list = new ArrayList<LifecycleInfo>();
-        for (LifecycleInfo info : all) {
-            if (this.matches(info, searchValue)) {
-                list.add(info);
-            }
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> pList = new ArrayList<Predicate>();
+        pList.add (PredicateFactory.equal("keywordSearch",searchValue));
+        qBuilder.setPredicates(PredicateFactory.and(pList.toArray(new Predicate[pList.size()])));
+        try {
+            List<LifecycleInfo> list = this.getStateService().searchForLifecycles(qBuilder.build(), getContextInfo());
+//            System.out.println ("Found " + list.size() + " lifecycles");
+//            for (LifecycleInfo info : list) {
+//                System.out.println (info.getKey() + " " + info.getName());
+//            }
+            return list;
+        } catch (InvalidParameterException ex) {
+            throw new RuntimeException(ex);
+        } catch (MissingParameterException ex) {
+            throw new RuntimeException(ex);
+        } catch (OperationFailedException ex) {
+            throw new RuntimeException(ex);
+        } catch (PermissionDeniedException ex) {
+            throw new RuntimeException(ex);
         }
-        return list;
+        
+//        // replaced below with a keyword search
+//        List<LifecycleInfo> all = this.getAll();
+//        List<LifecycleInfo> list = new ArrayList<LifecycleInfo>();
+//        for (LifecycleInfo info : all) {
+//            if (this.matches(info, searchValue)) {
+//                list.add(info);
+//            }
+//        }
+//        return list;
     }
 
     private boolean matches(LifecycleInfo info, String searchValue) {
