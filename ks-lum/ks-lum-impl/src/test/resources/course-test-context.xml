@@ -284,12 +284,12 @@
     </bean>
 
      <bean id="atpDao"
-          class="org.kuali.student.r1.core.atp.dao.impl.AtpDaoImpl">
+          class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
         <property name="em" ref="atpEntityManager"/>
     </bean>
 
     <bean id="atpServiceImpl"
-        class="org.kuali.student.r1.core.atp.service.impl.AtpServiceImpl">
+        class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>

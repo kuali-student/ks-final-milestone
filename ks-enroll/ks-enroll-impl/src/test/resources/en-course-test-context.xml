@@ -119,14 +119,14 @@
 
 	<!-- Atp Service Config -->
 
-    <bean id="atpOldDao"
-        class="org.kuali.student.core.atp.dao.impl.AtpDaoImpl">
+    <bean id="atpDao"
+        class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
         <property name="em" ref="entityManager" />
     </bean>
 
     <bean id="atpServiceImpl"
-        class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
-        <property name="atpDao" ref="atpOldDao" />
+        class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+        <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
    		<property name="validatorFactory" ref="validatorFactory"/>
@@ -255,7 +255,7 @@
 	</bean>
 
 	<bean id="lrcServiceImpl"
-		class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
+		class="org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl">
 		<property name="lrcDao" ref="lrcDao" />
         <property name="searchManager" ref="lrcSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>        

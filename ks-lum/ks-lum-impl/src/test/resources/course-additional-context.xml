@@ -43,7 +43,7 @@
 	</bean>
 
 	<bean id="atpService"
-		class="org.kuali.student.r1.core.atp.service.impl.AtpServiceImpl">
+		class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
 	</bean>
 
 	<bean id="loService"

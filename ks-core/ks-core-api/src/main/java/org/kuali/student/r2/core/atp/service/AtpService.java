@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -45,14 +46,14 @@ import javax.jws.soap.SOAPBinding;
  * throughout the definition, offering and scheduling of Learning
  * Units. This is a catalogue service with basic operations. Version:
  * 1.0 (Dev)
- * 
+ *
  * @Author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */
 
 @WebService(name = "AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface AtpService {
+public interface AtpService extends SearchService {
 
     //
     // Lookup Methods for ATP Id Entity Pattern.
@@ -60,7 +61,7 @@ public interface AtpService {
 
     /**
      * Retrieves a single Academic Time Period by ATP id.
-     * 
+     *
      * @param atpId the identifier of the Academic Time Period to be retrieved
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -78,7 +79,7 @@ public interface AtpService {
      * Retrieves a list of Academic Time Periods from a list of ATP
      * Ids. The returned list may be in any order and if duplicate Ids
      * are supplied, a unique set may or may not be returned.
-     * 
+     *
      * @param atpIds a list of ATP Ids
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -94,7 +95,7 @@ public interface AtpService {
 
     /**
      * Retrieves a list of Academic Time Periods by ATP Type.
-     * 
+     *
      * @param atpTypeKey an identifier for the ATP type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -110,7 +111,7 @@ public interface AtpService {
 
     /**
      * Gets a list of ATPss by Code. Typically, an ATP Code is unique.
-     * 
+     *
      * @param code an ATP Code
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -132,7 +133,7 @@ public interface AtpService {
      * Retrieves a list of Academic Time Periods where the supplied
      * date falls within the start and end date of the ATP inclusive
      * of the date.
-     * 
+     *
      * @param date a date
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -148,7 +149,7 @@ public interface AtpService {
      * Retrieves a list of Academic Time Periods where the supplied
      * date falls within the start and end date of the ATP, inclusive
      * of the date, and whose type matches the specified ATP type.
-     * 
+     *
      * @param date a date
      * @param atpTypeKey an identifier for an ATP Type
      * @param contextInfo information containing the principalId and
@@ -167,7 +168,7 @@ public interface AtpService {
      * Retrieves a list of Academic Time Periods that are totally
      * contained within the supplied dates. The entire ATP falls
      * within the supplied dates inclusive of the dates.
-     * 
+     *
      * @param startDate start date of range
      * @param endDate end date of range
      * @param contextInfo information containing the principalId and
@@ -187,7 +188,7 @@ public interface AtpService {
      * contained within the supplied dates and whose type matches the
      * supplied ATP type.  The entire ATP falls within the supplied
      * dates inclusive of the dates.
-     * 
+     *
      * @param startDate start date of range
      * @param endDate end date of range
      * @param atpTypeKey an identifier for an ATP Type
@@ -208,7 +209,7 @@ public interface AtpService {
      * Retrieves a list of Academic Time Periods whose start dates
      * fall within the supplied date range, inclusive of the start and
      * end dates on the supplied range.
-     * 
+     *
      * @param dateRangeStart start date of range
      * @param dateRangeEnd end date of range
      * @param contextInfo information containing the principalId and
@@ -229,7 +230,7 @@ public interface AtpService {
      * fall within the supplied date range, inclusive of the start and
      * end dates on the range and whose type matches the specified ATP
      * Type.
-     * 
+     *
      * @param dateRangeStart start date of range
      * @param dateRangeEnd end date of range
      * @param atpTypeKey an identifier for an ATP Type
@@ -253,7 +254,7 @@ public interface AtpService {
     /**
      * Searches for Academic Time Period Ids that meet the given
      * search criteria.
-     * 
+     *
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -269,7 +270,7 @@ public interface AtpService {
     /**
      * Searches for Academic Time Periods that meet the given search
      * criteria.
-     * 
+     *
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -297,7 +298,7 @@ public interface AtpService {
      * values. If a an identifier is not present or a record does not
      * exist, the validation checks if the ATP with the given data can
      * be created.
-     * 
+     *
      * @param validationTypeKey the identifier for the validation Type
      * @param atpTypeKey the identifier for the ATP Type to be validated
      * @param atpInfo the identifier for the ATP to be validated
@@ -318,7 +319,7 @@ public interface AtpService {
     /**
      * Creates a new Academic Time Period. The ATP Type and Meta
      * information may not be set in the supplied data object.
-     * 
+     *
      * @param atpTypeKey the type of the atp 
      * @param atpInfo the data with which to create the ATP
      * @param contextInfo information containing the principalId and
@@ -334,15 +335,15 @@ public interface AtpService {
      *         designated as read only
      */
     public AtpInfo createAtp(@WebParam (name = "atpTypeKey") String atpTypeKey,
-            @WebParam(name = "atpInfo") AtpInfo atpInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
-            throws DataValidationErrorException, InvalidParameterException, MissingParameterException, 
+                             @WebParam(name = "atpInfo") AtpInfo atpInfo,
+                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Academic Time Period. The ATP id, Type, and
      * Meta information may not be changed.
-     * 
+     *
      * @param atpId the identifier for the ATP to be updated
      * @param atpInfo the new data for the ATP
      * @param contextInfo information containing the principalId and locale
@@ -364,7 +365,7 @@ public interface AtpService {
 
     /**
      * Deletes an existing Academic Time Period.
-     * 
+     *
      * @param atpId the identifier for the ATP to be deleted
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -384,7 +385,7 @@ public interface AtpService {
 
     /**
      * Retrieves a single AtpAtpRelation by AtpAtpRelation Id.
-     * 
+     *
      * @param atpAtpRelationId the identifier for the AtpAtpRelation
      *        to be retrieved
      * @param contextInfo information containing the principalId and
@@ -404,7 +405,7 @@ public interface AtpService {
      * AtpAtpRelation Ids.  The returned list may be in any order and
      * if duplicate Ids are supplied, a unique set may or may not be
      * returned.
-     * 
+     *
      * @param atpAtpRelationIds a list of AtpAtpRelation identifiers
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -421,7 +422,7 @@ public interface AtpService {
 
     /**
      * Retrieves a list of AtpAtpRelation Ids by AtpAtpRelation Type.
-     * 
+     *
      * @param atpAtpRelationTypeKey an identifier for an AtpAtpRelation Type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -438,7 +439,7 @@ public interface AtpService {
     /**
      * Retrieves all AtpAtpRelations to the given ATP independent of
      * which side of the relationship the ATP resides.
-     * 
+     *
      * @param atpId the identifier for the ATP
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -454,7 +455,7 @@ public interface AtpService {
 
     /**
      * Retrieves all AtpAtpRelations between the given ATPs.
-     * 
+     *
      * @param atpId the identifier for the ATP
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -472,7 +473,7 @@ public interface AtpService {
      * Retrieves a list of AtpAtpRelations of the specified
      * AtpAtpRelationType for an ATP. (these parameters are
      * backwards).
-     * 
+     *
      * @param atpId the identifier for an ATP
      * @param atpAtpRelationTypeKey the identifier for an AtpAtpRelationType
      * @param contextInfo information containing the principalId and locale
@@ -493,7 +494,7 @@ public interface AtpService {
 
     /**
      * Searches for AtpAtpRelations that meet the given search criteria.
-     * 
+     *
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
@@ -509,7 +510,7 @@ public interface AtpService {
     /**
      * Searches for AtpAtpRelations that meet the given search
      * criteria.
-     * 
+     *
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
@@ -538,7 +539,7 @@ public interface AtpService {
      * identifier is not present or a record cannot be found for the
      * identifier, the validation checks if the object with the given
      * data can be created.
-     * 
+     *
      * @param validationTypeKey the identifier for the validation Type
      * @param atpId the identifier for an ATP
      * @param atpPeerId a the identifier for the ATP peer
@@ -563,7 +564,7 @@ public interface AtpService {
     /**
      * Creates a new AtpAtpRelation. The AtpAtpRelation Id, Type, ATP
      * Ids, and Meta information may not be set in the supplied data.
-     * 
+     *
      * @param atpId a peer of the relationship
      * @param relatedAtpId a peer of the relationship
      * @param atpAtpRelationTypeKey type of relationship between the two
@@ -584,18 +585,18 @@ public interface AtpService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpId") String atpId, 
-            @WebParam(name = "relatedAtpId") String relatedAtpId, 
-            @WebParam(name = "atpAtpRelationTypeKey") String atpAtpRelationTypeKey,
-            @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, 
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
-            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, 
+    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpId") String atpId,
+                                                   @WebParam(name = "relatedAtpId") String relatedAtpId,
+                                                   @WebParam(name = "atpAtpRelationTypeKey") String atpAtpRelationTypeKey,
+                                                   @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an ATP Milestone Relationship. The AtpAtpRelation Id,
      * Type, ATP Ids, and Meta information may not be changed.
-     * 
+     *
      * @param atpAtpRelationId the identifier for the AtpAtpRelation updated
      * @param atpAtpRelationInfo the new data for the AtpAtpRelation
      * @param contextInfo information containing the principalId and locale
@@ -618,7 +619,7 @@ public interface AtpService {
 
     /**
      * Deletes an existing AtpAtpRelation.
-     * 
+     *
      * @param atpAtpRelationId the identifier for the AtpAtpRelation
      *        to be deleted
      * @param contextInfo information containing the principalId and
@@ -639,7 +640,7 @@ public interface AtpService {
 
     /**
      * Retrieves a single Milestone by a Milestone Id.
-     * 
+     *
      * @param milestoneId the identifier for the Milestone to be retrieved
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -657,7 +658,7 @@ public interface AtpService {
      * Retrieves a list of Milestones from a list of Milestone
      * Ids. The returned list may be in any order and if duplicate Ids
      * are supplied, a unique set may or may not be returned.
-     * 
+     *
      * @param milestoneIds a list of Milestone identifiers
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
@@ -673,7 +674,7 @@ public interface AtpService {
 
     /**
      * Retrieves a list of Milestone Ids by Milestone Type.
-     * 
+     *
      * @param milestoneTypeKey an identifier for a Milestone Type
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
@@ -690,13 +691,13 @@ public interface AtpService {
     /**
      * Retrieves a list of Milestones that fall within a specified set
      * of dates inclusive of the dates.
-     * 
+     *
      * If the milestone is a date range then it should be selected if it overlaps 
      * any part of the specified start and end dates.
-     * 
+     *
      * Should follow these rules for storing and querying
      * https://wiki.kuali.org/display/STUDENT/Storing+and+Querying+Milestone+Dates
-     * 
+     *
      * @param startDate start of date range
      * @param endDate end of date range
      * @param contextInfo information containing the principalId and locale
@@ -714,7 +715,7 @@ public interface AtpService {
     /**
      * Retrieves a list of Milestones for a specified Academic Time
      * Period.
-     * 
+     *
      * @param atpId an identifier for an Academic Time Period
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -731,13 +732,13 @@ public interface AtpService {
      * Retrieves a list of Milestones for a specified Academic Time
      * Period that fall within a specified set of dates inclusive of
      * the dates.
-     * 
+     *
      * If the milestone is a date range then it should be selected if it overlaps 
      * any part of the specified start and end dates.
-     * 
+     *
      * Should follow these rules for storing and querying
      * https://wiki.kuali.org/display/STUDENT/Storing+and+Querying+Milestone+Dates
-     * 
+     *
      * @param atpId an identifier for an ATP
      * @param startDate start of date range
      * @param endDate end of date range
@@ -757,7 +758,7 @@ public interface AtpService {
     /**
      * Retrieves a list of Milestones of a specified Milestone Type
      * for an Acdemic Time Period.
-     * 
+     *
      * @param atpId an identifier for an ATP
      * @param milestoneTypeKey an identifier for a Milestone Type
      * @param contextInfo information containing the principalId and
@@ -780,7 +781,7 @@ public interface AtpService {
      *
      * This method queries to see what other Milestones use the given
      * Milestone as an anchor.
-     * 
+     *
      * @param milestoneId an identifier for a Milestone
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -801,7 +802,7 @@ public interface AtpService {
 
     /**
      * Searches for Milestones that meet the given search criteria.
-     * 
+     *
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -816,7 +817,7 @@ public interface AtpService {
 
     /**
      * Searches for Milestones that meet the given search criteria.
-     * 
+     *
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -844,7 +845,7 @@ public interface AtpService {
      * shifted to the new values. If an identifier is not present or a
      * record does not exist, the validation checks if the object with
      * the given data can be created.
-     * 
+     *
      * @param validationTypeKey the identifier for the validation Type
      * @param milestoneInfo the milestone to be validated
      * @param contextInfo information containing the principalId and
@@ -866,7 +867,7 @@ public interface AtpService {
     /**
      * Create a new Milestone. The Milestone Id, Type, and Meta
      * information may not be set in the supplied data object.
-     * 
+     *
      * @param milestoneTypeKey identifies the type of this milestone
      * @param milestoneInfo the data with which to create the Milestone
      * @param contextInfo information containing the principalId and
@@ -883,13 +884,13 @@ public interface AtpService {
      *         designated as read only
      */
     public MilestoneInfo createMilestone(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey,
-            @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, 
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+                                         @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Milestone. The Milestone Id, Type, and Meta
      * information may not be changed.
-     * 
+     *
      * @param milestoneId the identifier for the Milestone to be updated
      * @param milestoneInfo the new data for the Milestone
      * @param contextInfo information containing the principalId and
@@ -912,7 +913,7 @@ public interface AtpService {
 
     /**
      * Deletes an existing Milestone.
-     * 
+     *
      * @param milestoneId the identifier for the Milestone to be deleted
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -931,7 +932,7 @@ public interface AtpService {
      * to the Milestone Type. If there is no rule available for the
      * Type of the given Milestone, then no changes to the Milestone
      * occur.
-     * 
+     *
      * @param milestoneId an identifier for a Milestone
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -948,7 +949,7 @@ public interface AtpService {
 
     /**
      * Adds a Milestone to an ATP.
-     * 
+     *
      * @param milestoneId an identifier for a Milestone
      * @param atpId an identifier for an ATP
      * @param contextInfo information containing the principalId and
@@ -966,7 +967,7 @@ public interface AtpService {
 
     /**
      * Removes a Milestone from an ATP.
-     * 
+     *
      * @param milestoneId an identifier for a Milestone
      * @param atpId an identifier for an ATP
      * @param contextInfo information containing the principalId and
