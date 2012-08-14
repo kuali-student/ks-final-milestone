@@ -69,6 +69,7 @@ public class ScheduleTransactionInfo extends IdEntityInfo implements ScheduleTra
             this.refObjectId = scheduleTransaction.getRefObjectId();
             this.refObjectTypeKey = scheduleTransaction.getRefObjectTypeKey();
             this.scheduleId = scheduleTransaction.getScheduleId();
+            this.scheduleBatchId = scheduleTransaction.getScheduleBatchId();
             this.statusMessage = scheduleTransaction.getStatusMessage();
             this.scheduleRequestComponents = new ArrayList<ScheduleRequestComponentInfo>();
             for(ScheduleRequestComponent component : scheduleTransaction.getScheduleRequestComponents()) {

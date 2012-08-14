@@ -75,7 +75,7 @@ public interface SchedulingService {
      * @return a list of Schedules
      * @throws DoesNotExistException     a scheduleId in list not found
      * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException missing scheduleId or contextInfo is
+     * @throws MissingParameterException scheduleId or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred

@@ -20,7 +20,6 @@ import org.kuali.student.r2.common.infc.Status;
 /**
  * @Version 2.0
  * @Author Sri komandur@uw.edu
- * @Version 3.0
  * @Author Mezba Mahtab mezba.mahtab@utoronto.ca
  */
 public interface ScheduleBatch {
