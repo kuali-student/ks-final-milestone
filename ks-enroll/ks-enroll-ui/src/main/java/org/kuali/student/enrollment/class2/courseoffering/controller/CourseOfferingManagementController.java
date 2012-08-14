@@ -92,9 +92,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         String[] methodToCalls = request.getParameterValues(KRADConstants.DISPATCH_REQUEST_PARAMETER);
         for (String methodToCall : methodToCalls) {
             if (StringUtils.equals(methodToCall,KRADConstants.RETURN_METHOD_TO_CALL)){
-                if (StringUtils.equals(((CourseOfferingManagementForm)form).getRadioSelection(),"courseOfferingCode")){
+                if (StringUtils.equals(((CourseOfferingManagementForm)form).getRadioSelection(),CourseOfferingConstants.COURSEOFFERING_COURSE_OFFERING_CODE)){
                     form.setPageId("manageActivityOfferingsPage");
-                } else if (StringUtils.equals(((CourseOfferingManagementForm)form).getRadioSelection(),"subjectCode")){
+                } else if (StringUtils.equals(((CourseOfferingManagementForm)form).getRadioSelection(),CourseOfferingConstants.COURSEOFFERING_SUBJECT_AREA)){
                     form.setPageId("manageCourseOfferingsPage");
                 }
                 break;
