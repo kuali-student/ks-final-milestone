@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lrc.dao.impl;
+package org.kuali.student.r1.lum.lrc.dao.impl;
 
 import java.util.List;
 

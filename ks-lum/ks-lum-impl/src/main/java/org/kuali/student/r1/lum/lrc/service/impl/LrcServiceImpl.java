@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lrc.service.impl;
+package org.kuali.student.r1.lum.lrc.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
