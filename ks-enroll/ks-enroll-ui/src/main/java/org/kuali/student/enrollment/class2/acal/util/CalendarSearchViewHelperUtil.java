@@ -3,7 +3,7 @@ package org.kuali.student.enrollment.class2.acal.util;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -102,7 +102,7 @@ public class CalendarSearchViewHelperUtil {
         }
 
         if (StringUtils.equalsIgnoreCase(typeKey, "Term")){
-            p = notIn(CALENDAR_TYPE,AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY,AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
+            p = notIn(CALENDAR_TYPE,AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY, AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
         }else{
             p = equal(CALENDAR_TYPE,typeKey);
         }

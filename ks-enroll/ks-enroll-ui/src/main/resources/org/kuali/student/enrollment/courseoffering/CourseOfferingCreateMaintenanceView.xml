@@ -133,18 +133,6 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="invalidCatalogCourseCodeError" p:readOnly="true" p:fieldLabel.renderColon="false" p:style="color:red">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" />
-                    </property>
-                </bean>
-
-                <bean parent="Uif-InputField" p:propertyName="invalidTargetTermError" p:readOnly="true" p:fieldLabel.renderColon="false" p:style="color:red">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" />
-                    </property>
-                </bean>
-
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
                               p:performClientSideValidation="true" p:style="margin-top:15px;" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
 
@@ -193,32 +181,21 @@
     </bean>
 
     <!--This will be displayed for Copy from Catalog action-->
-    <bean id="KS-Catalog-CourseOfferingCodeSubSection" parent="Uif-VerticalBoxSubSection" >
+    <bean id="KS-Catalog-CourseOfferingCodeSubSection" parent="Uif-HorizontalBoxSubSection" >
         <property name="disclosure.render" value="false"/>
         <property name="headerText" value="Create Course Offering Code"/>
         <property name="items">
             <list>
-                 <bean parent="Uif-InputField" p:propertyName="createErrorMessage" p:readOnly="true" p:fieldLabel.renderColon="false" p:style="color:red">
+                 <bean parent="Uif-InputField" p:propertyName="course.code"
+                       p:label="Catalog Course Code" p:labelPlacement="TOP" p:readOnly="true" p:fieldLabel.renderColon="false">
                      <property name="control">
                          <bean parent="Uif-TextControl" p:size="10" />
                      </property>
                  </bean>
-                 <bean parent="Uif-HorizontalBoxSubSection">
-                     <property name="items">
-                         <list>
-                             <bean parent="Uif-InputField" p:propertyName="course.code"
-                                   p:label="Catalog Course Code" p:labelPlacement="TOP" p:readOnly="true" p:fieldLabel.renderColon="false">
-                                 <property name="control">
-                                     <bean parent="Uif-TextControl" p:size="10" />
-                                 </property>
-                             </bean>
-                             <bean parent="Uif-InputField" p:propertyName="courseOfferingSuffix"
-                                   p:label="Add Suffix" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
-                                 <property name="control">
-                                     <bean parent="Uif-TextControl" p:size="10" />
-                                 </property>
-                             </bean>
-                         </list>
+                 <bean parent="Uif-InputField" p:propertyName="courseOfferingSuffix"
+                       p:label="Add Suffix" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
+                     <property name="control">
+                         <bean parent="Uif-TextControl" p:size="10" />
                      </property>
                  </bean>
             </list>

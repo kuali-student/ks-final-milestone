@@ -43,6 +43,7 @@ public class KSKRMSDataSetupUtility {
     public static final String PROPERTY_TERMSPEC = "TermSpec";
     private static final String PROPERTY_TERMDEFINITION = "TermDefinition";
     private static final String PROPERTY_TERMRESOLVER = "TermResolver";
+	private static final String PROPERTY_RULETEMPLATE_TYPE = "RuleTemplateTypes";
     KrmsTypeDefinition krmsTypeForContext;
 
     private ContextBoService contextRepository;
@@ -66,6 +67,7 @@ public class KSKRMSDataSetupUtility {
     public void createKSKRMSData() {
         setupPropertyFile();
         namespace = getPropertyValue(PROPERTY_namespace);
+        createRuleTemplateTypesFromPropertyFile();
         createKRMSContextFromPropertyFile();        // Works
         createKRMSTermSpecificationsFromPropertyFile();  // Works
         // Run the IDContext.sql to do the link between context and TermSpec - KSENROLL-1239
@@ -280,6 +282,29 @@ public class KSKRMSDataSetupUtility {
             termSpec = termSpecBo.to(termSpecBo);
         }
         return termSpec;
+    }
+
+    public void createRuleTemplateTypesFromPropertyFile() {
+        
+        Properties context = getProperties(PROPERTY_RULETEMPLATE_TYPE);
+        //
+        Enumeration elements = context.elements();
+        int i = 0;
+        //
+        while (elements.hasMoreElements()) {
+            String termSpecValues = (String) elements.nextElement();
+            System.out.println(i + " - " + termSpecValues);
+
+            String delims = ",+"; // use + to treat consecutive delims as one;
+            // omit to treat consecutive delims separately
+            String[] tokens = termSpecValues.split(delims);
+
+            
+            System.out.println(i + " - " + tokens);
+            getKSKRMSType(tokens[0], tokens[1], tokens[2]);
+            i++;
+        }
+        System.out.println("Created " + i + " Types for KS KRMS");
     }
 
     public void createKRMSContextFromPropertyFile() {

@@ -120,11 +120,11 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Create Process"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/createProcess?viewId=processCreateView&amp;methodToCall=start"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/processInfoController?viewId=processCreateView&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Create Check"
                       p:href=""/>
                 <bean parent="Uif-Link" p:linkText="Manage Process"
-                      p:href=""/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/processInfoController?viewId=processInfoSearchView&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Manage Check"
                       p:href=""/>
                 <bean parent="Uif-Link" p:linkText="Manage Instruction"

@@ -699,7 +699,7 @@ public class LprServiceImpl implements LprService {
             modifiedLprItemEntity.setDescrFormatted(descr.getFormatted());
             modifiedLprItemEntity.setDescrPlain(descr.getPlain());
         }
-        lprTransactionItemDao.merge(modifiedLprItemEntity);
+        modifiedLprItemEntity = lprTransactionItemDao.merge(modifiedLprItemEntity);
         return modifiedLprItemEntity;
     }
 

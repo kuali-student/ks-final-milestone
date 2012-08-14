@@ -38,7 +38,9 @@ import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.test.TestAwareDataLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.acal.service.TermCodeGenerator;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
+import org.kuali.student.enrollment.class2.acal.service.impl.TermCodeGeneratorImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -218,7 +220,8 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 
 	        try {
 	        TermInfo term = new TermAssembler().assemble(atpInfo, context);
-	        atpInfo.setCode(TermAssembler.buildAtpCodeForTerm(term));
+            TermCodeGenerator tcg = new TermCodeGeneratorImpl();
+	        atpInfo.setCode(tcg.generateTermCode(term));
 	        }
 	        catch (AssemblyException e) {
 	            throw new OperationFailedException("Assembly of TermInfo failed", e);

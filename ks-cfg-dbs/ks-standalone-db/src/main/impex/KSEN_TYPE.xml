@@ -922,6 +922,11 @@
         DESCR_FORMATTED="A grouping that indicates a range of numeric values with a specified increment.  It is not necessary that all of the values within that range have been explicitly pre-defined "
         DESCR_PLAIN="A grouping that indicates a range of numeric values with a specified increment.  It is not necessary that all of the values within that range have been explicitly pre-defined "
         NAME="Range" TYPE_KEY="kuali.result.values.group.type.range" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120813000000"
+        DESCR_FORMATTED="Schedule Request"
+        DESCR_PLAIN="Schedule Request" NAME="Schedule Request"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/scheduling/ScheduleRequestInfo"
+        TYPE_KEY="kuali.scheduling.schedule.request.type.schedule.request" VER_NBR="1"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The results of trying to reverse a rollover"
         DESCR_PLAIN="The results of trying to reverse a rollover"

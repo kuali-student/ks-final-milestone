@@ -114,7 +114,7 @@
                                                 <property name="items">
                                                     <list>
                                                         <bean parent="Uif-InputField" p:labelPlacement="TOP"
-                                                              p:propertyName="displayedTargetTermCode"
+                                                              p:propertyName="configurationOptions"
                                                               p:fieldLabel.renderColon="false" p:label="Configuration Options">
                                                             <property name="control">
                                                                 <bean parent="Uif-VerticalCheckboxesControl" p:disabled="@{isConfigurationOptionsDisabled}">

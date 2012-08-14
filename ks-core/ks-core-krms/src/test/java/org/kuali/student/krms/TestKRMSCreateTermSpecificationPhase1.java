@@ -37,7 +37,6 @@ import org.kuali.rice.krms.impl.repository.RuleBoService;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.rice.krms.impl.repository.TermSpecificationBo;
-import org.kuali.rice.krms.test.KRMSTestCase;
 import org.kuali.rice.test.BaselineTestCase.BaselineMode;
 import org.kuali.rice.test.BaselineTestCase.Mode;
 
@@ -50,8 +49,7 @@ import javax.xml.namespace.QName;
 
 import static org.junit.Assert.*;
 
-@BaselineMode(Mode.NONE)
-public class TestKRMSCreateTermSpecificationPhase1 extends KRMSTestCase {
+public class TestKRMSCreateTermSpecificationPhase1 extends KSKRMSUploadTestCase {
 
 	public TestKRMSCreateTermSpecificationPhase1() {
 		super();
@@ -412,7 +410,7 @@ public class TestKRMSCreateTermSpecificationPhase1 extends KRMSTestCase {
 		return KRADServiceLocator.getBusinessObjectService();
 	}
 
-	private TermDefinition krmsTermLookup(String termName) {
+	public TermDefinition krmsTermLookup(String termName) {
 		// this may be called more than once, we only want to create one though
 		Map<String, String> queryArgs = new HashMap<String, String>();
 		queryArgs.put("desc_txt", termName);

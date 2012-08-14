@@ -76,26 +76,11 @@
                                             </property>
                                         </bean>
                                         -->
-                                        <bean parent="Uif-DataField" p:propertyName="selectedStudentRegOpts"
-                                              p:label="Student Registration Options" />
-
-                                        <!--<bean parent="Uif-DataField" p:label="Final Exam" p:propertyName="finalExam" />-->
+                                        <bean parent="Uif-DataField" p:propertyName="selectedStudentRegOpts" p:label="Student Registration Options" />
                                         <bean parent="Uif-DataField" p:propertyName="coInfo.finalExamType" />
-
-                                        <!--<bean parent="Uif-Message" p:label="Has waitlist" p:messageText="@{dataObject.coInfo.hasWaitlist ? 'YES':'NO'}" />-->
-                                        <bean parent="Uif-InputField" p:propertyName="coInfo.waitlistLevelTypeKey" p:label="Waitlist Level">
-                                            <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues" />
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-InputField" p:label="Waitlist Type" p:propertyName="coInfo.waitlistTypeKey">
-                                            <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" />
-                                            </property>
-                                        </bean>
-
-                                        <bean parent="Uif-MessageField" p:label="Honors Flag"
-                                              p:messageText="@{(dataObject.coInfo.isHonorsOffering eq null or !dataObject.coInfo.isHonorsOffering) ? 'NO':'YES'}" />
+                                        <bean parent="Uif-MessageField" p:label="Waitlist Level" p:messageText="@{(dataObject.coInfo.waitlistLevelTypeKey == null) ? dataObject.coInfo.waitlistLevelTypeKey : ''}" />
+                                        <bean parent="Uif-MessageField" p:label="Waitlist Type" p:messageText="@{(dataObject.coInfo.waitlistTypeKey == null) ? dataObject.coInfo.waitlistTypeKey : ''}" />
+                                        <bean parent="Uif-MessageField" p:label="Honors Flag" p:messageText="@{(dataObject.coInfo.isHonorsOffering eq null or !dataObject.coInfo.isHonorsOffering) ? 'NO':'YES'}" />
 
                                         <!-- PO/UX does not currently want Delivery Formats for inquiry
                                         <bean  parent="Uif-StackedCollectionSection">
@@ -559,7 +544,7 @@
                 <bean parent="Uif-InputField"  p:label="Organization ID"  p:propertyName="id" p:required="true"
                       p:style="font-weight:bold;white-space:nowrap;">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="16" p:disabled="true" />
+                        <bean parent="Uif-TextControl" p:size="16" p:ReadOnly="true" />
                     </property>
                     <!--<property name="quickfinder.render" value="true"/>-->
                     <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />

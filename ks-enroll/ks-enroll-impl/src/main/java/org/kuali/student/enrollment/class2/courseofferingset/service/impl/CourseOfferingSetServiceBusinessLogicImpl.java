@@ -17,7 +17,6 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetServiceBusinessLogic;
 import org.kuali.student.lum.course.service.CourseService;
@@ -188,29 +187,24 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
             throw new OperationFailedException("Unexpected", ex);
         }
         // create the runner so we can kick it off in another thread
-        CourseOfferingRolloverRunner runner = new CourseOfferingRolloverRunner();
+        final CourseOfferingRolloverRunner runner = new CourseOfferingRolloverRunner();
         runner.setContext(context);
         runner.setCoService(coService);
         runner.setCourseService(courseService);
         runner.setAcalService(acalService);
         runner.setSocService(this._getSocService());
         runner.setResult(result);
+
         if (optionKeys.contains(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY)) {
+            //Run this thread synchronously
             runner.run();
         } else {
-            Thread thread = new Thread(runner);
-            thread.start();
+            //Try to run this after the transaction completes
+            KSThreadRunnerAfterTransactionSynchronization.runAfterTransactionCompletes(runner);
         }
         return targetSoc;
     }
 
-    // this is for setting parameters if using the general batch job result service
-//    private AttributeInfo conv2Attr(String key, String value) {
-//        AttributeInfo attr = new AttributeInfo();
-//        attr.setKey(key);
-//        attr.setValue(value);
-//        return attr;
-//    }
     @Override
     public SocRolloverResultInfo reverseRollover(String rolloverResultId, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,

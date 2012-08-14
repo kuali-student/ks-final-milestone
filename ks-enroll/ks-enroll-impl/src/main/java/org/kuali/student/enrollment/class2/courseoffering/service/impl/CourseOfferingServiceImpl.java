@@ -66,6 +66,8 @@ import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -702,7 +704,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<LuiInfo> rels;
         try {
             rels = luiService.getLuisByRelatedLuiAndRelationType(formatOfferingId,
-                    LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, context);
+                    LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
@@ -718,7 +720,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws OperationFailedException {
         List<LuiInfo> rels;
         try {
-            rels = luiService.getLuisByRelatedLuiAndRelationType(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, context);
+            rels = luiService.getLuisByRelatedLuiAndRelationType(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, context);
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
@@ -739,7 +741,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<FormatOfferingInfo> formatOfferings = new ArrayList<FormatOfferingInfo>();
 
         // Find all related luis to the course Offering
-        List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, context);
+        List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
         for (LuiInfo lui: luis) {
             // Filter out only course offerings (the relation type seems to vague to only hold format offerings)
             if (LuiServiceConstants.isFormatOfferingTypeKey(lui.getTypeKey())) {
@@ -848,7 +850,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         luiRel.setDescr(descr);
         luiRel.setRelatedLuiId(lui.getId());
         luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
-        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
+        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY);
         luiRel.setEffectiveDate(new Date());
         try {
             luiRel = luiService.createLuiLuiRelation(luiRel.getLuiId(), luiRel.getRelatedLuiId(), luiRel.getTypeKey(), luiRel, context);
@@ -1067,7 +1069,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         descr.setPlain(coCode + "-FO-AO"); // Useful for debugging
         descr.setFormatted(coCode + "-FO-AO"); // Useful for debugging
         luiRel.setDescr(descr);
-        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
+        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY);
         luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
         luiRel.setEffectiveDate(new Date());
         try {
@@ -1105,6 +1107,24 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
         targetAO.setActivityCode(null);
         targetAO = createActivityOffering(sourceAO.getFormatOfferingId(), sourceAO.getActivityId(), sourceAO.getTypeKey(), targetAO, context);
+
+       try {
+           List<SeatPoolDefinitionInfo> sourceSPList = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
+           if (sourceSPList != null && !sourceSPList.isEmpty()) {
+               for (SeatPoolDefinitionInfo sourceSP : sourceSPList) {
+                   SeatPoolDefinitionInfo targetSP = new SeatPoolDefinitionInfo(sourceSP);
+                   targetSP.setId(null);
+                   targetSP.setTypeKey(LuiServiceConstants.SEATPOOL_LUI_CAPACITY_TYPE_KEY);
+                   targetSP.setStateKey(LuiServiceConstants.LUI_CAPACITY_ACTIVE_STATE_KEY);
+                   SeatPoolDefinitionInfo seatPoolCreated = this.createSeatPoolDefinition(targetSP,context);
+                   this.addSeatPoolDefinitionToActivityOffering(seatPoolCreated.getId(),targetAO.getId(), context);
+
+               }
+           }
+       } catch (Exception e) {
+           throw new RuntimeException(e);
+       }
+
 
         return targetAO;
     }
@@ -1243,14 +1263,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException
 			 {
-        // TODO: getSeatPoolDefinitionsForActivityOffering and Delete dependent seatpool
+
+        // get seat pools to delete
+        List<SeatPoolDefinitionInfo> seatPools = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
+
+        // remove seat pool reference  to AO then delete orphaned seat pool
+        for(SeatPoolDefinitionInfo seatPool : seatPools){
+            removeSeatPoolDefinitionFromActivityOffering(seatPool.getId(), activityOfferingId, context);
+            deleteSeatPoolDefinition(seatPool.getId(),context);
+        }
 
         // Delete the Activity offering
-        deleteActivityOffering(activityOfferingId, context);
-
-        StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(true);
-        return statusInfo;
+        return deleteActivityOffering(activityOfferingId, context);
 
 	}
 
@@ -1541,6 +1565,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
             //Do search. In ideal case, returns one element, which is the desired SeatPool.
             seatPoolDefinitionInfos = searchForSeatpoolDefinitions(criteria, new ContextInfo());
+            Collections.sort(seatPoolDefinitionInfos, new Comparator<SeatPoolDefinitionInfo>() {
+                @Override
+                public int compare(SeatPoolDefinitionInfo o1, SeatPoolDefinitionInfo o2) {
+                    if (o1.getProcessingPriority() == null) {
+                        return -1;
+                    } else if (o2.getProcessingPriority() == null) {
+                        return 1;
+                    }
+                    return o1.getProcessingPriority().compareTo(o2.getProcessingPriority());
+                }
+            });
         }
         return  seatPoolDefinitionInfos;
 
@@ -1642,7 +1677,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
             luiRel.setLuiId(luiId);
             luiRel.setRelatedLuiId(relatedLuiId);
-            luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
+            luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY);
             luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
             luiRel.setEffectiveDate(new Date());
             try {

@@ -37,7 +37,6 @@ public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
                         StringBuilder sb = new StringBuilder(EXISTING_CO_CODE_FOUND_ERROR);
                         sb.append(coWrapper.getCatalogCourseCode());
                         GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, sb.toString());
-                        coWrapper.setCreateErrorMessage(sb.toString());
                         coWrapper.setEnableCreateButton(true);
                         return false;
                     }
@@ -46,7 +45,6 @@ public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
                 throw new RuntimeException(e);
             }
 
-            coWrapper.setCreateErrorMessage(null);
         }
 
         return true;

@@ -5,7 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
@@ -20,9 +20,7 @@ import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
@@ -47,7 +45,7 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
     @Override
     public AppointmentWindowWrapper retrieveDataObject(Map<String, String> parameters) {
 
-        AppointmentWindowWrapper appointmentWindowWrapper = new AppointmentWindowWrapper();
+        AppointmentWindowWrapper appointmentWindowWrapper = null;
         AppointmentService appointmentService = getAppointmentService();
         ContextInfo context = getContextInfo();
         try{
@@ -60,6 +58,7 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
             else {
                 System.out.println(">>>windowId ="+windowId);
             }
+            appointmentWindowWrapper = new AppointmentWindowWrapper();
             //populate Window Info section
             AppointmentWindowInfo appointmentWindowInfo = appointmentService.getAppointmentWindow(windowId, context);
             appointmentWindowWrapper.setAppointmentWindowInfo(appointmentWindowInfo);
@@ -92,13 +91,11 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
             appointmentWindowWrapper.setLastSlotPopulated(lastSlotPopulated);
             appointmentWindowWrapper.setAssignmentsCreated(windowCreate);
 
-            return appointmentWindowWrapper;
-
         }catch (Exception e){
-
+             throw new RuntimeException("Unable to retireve Apppointment Window from Inquiry", e);
         }
 
-        return null;
+        return appointmentWindowWrapper;
     }
 
 

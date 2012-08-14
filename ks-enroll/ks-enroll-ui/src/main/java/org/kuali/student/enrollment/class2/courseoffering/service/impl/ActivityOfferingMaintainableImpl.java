@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructor
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
+import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
@@ -32,7 +33,6 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
@@ -44,12 +44,7 @@ import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Formatter;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
 
@@ -60,6 +55,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient CourseService courseService;
     private transient AcademicCalendarService academicCalendarService;
     private transient PopulationService populationService;
+    private transient SeatPoolUtilityService seatPoolUtilityService = new SeatPoolUtilityServiceImpl();
 
     @Override
     public void saveDataObject() {
@@ -69,33 +65,46 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
             List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
 
+            seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo());
 
             try {
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
-
-                // Save the SeatPools
-                if(seatPools != null){
-                    for(SeatPoolDefinitionInfo pool : seatPools){
-                        if(pool.getId() != null){
-                            getCourseOfferingService().updateSeatPoolDefinition(pool.getId(),pool,getContextInfo());
-                        }   else {
-                            // create New
-                            pool.setTypeKey("MAKE ME REAL, SIR");
-                            pool.setStateKey("I WISH I WAS A REAL STATE");
-                            pool = getCourseOfferingService().createSeatPoolDefinition(pool,getContextInfo());
-                            getCourseOfferingService().addSeatPoolDefinitionToActivityOffering(pool.getId(),activityOfferingWrapper.getAoInfo().getId(), getContextInfo() );
-                        }
-                    }
-                }
-
+                activityOfferingWrapper.setAoInfo(activityOfferingInfo);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
         }
     }
 
 
+    private  List<SeatPoolDefinitionInfo> getSeatPoolDeleteList(List<SeatPoolDefinitionInfo> newList, List<SeatPoolDefinitionInfo> oldList){
+        List<SeatPoolDefinitionInfo> deleteList = new ArrayList<SeatPoolDefinitionInfo>();
+        // loop through old list, add items that don't exist in new list to ret list
 
+        if(oldList == null) return deleteList;
+        else{
+            for(SeatPoolDefinitionInfo oldPool : oldList){
+                if(newList == null){
+                   deleteList.add(oldPool);
+                } else {
+                    if(!seatPoolListContains(newList, oldPool.getId())){
+                        deleteList.add(oldPool);
+                    }
+                }
+            }
+        }
+        return deleteList;
+    }
+
+    private boolean seatPoolListContains(List<SeatPoolDefinitionInfo> poolList, String poolId){
+        for(SeatPoolDefinitionInfo pool : poolList){
+            if(poolId != null && poolId.equalsIgnoreCase(pool.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -162,6 +171,15 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
             // Get/Set SeatPools
             List<SeatPoolDefinitionInfo> seatPoolDefinitionInfoList = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(info.getId(), getContextInfo());
+
+            //Sort the seatpools by priority order
+            Collections.sort(seatPoolDefinitionInfoList, new Comparator<SeatPoolDefinitionInfo>() {
+                @Override
+                public int compare(SeatPoolDefinitionInfo sp1, SeatPoolDefinitionInfo sp2) {
+                    return sp1.getProcessingPriority().compareTo(sp2.getProcessingPriority());
+                }
+            });
+
             List<SeatPoolWrapper> seatPoolWrapperList = new ArrayList<SeatPoolWrapper>();
 
             for(SeatPoolDefinitionInfo seatPoolDefinitionInfo :  seatPoolDefinitionInfoList){
@@ -189,17 +207,15 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
      * @return
      */
     private List<SeatPoolDefinitionInfo> getSeatPoolDefinitions(List<SeatPoolWrapper> seatPoolWrappers)   {
-        if(seatPoolWrappers == null) return null;
 
-        List<SeatPoolDefinitionInfo> spRet = null;
+        List<SeatPoolDefinitionInfo> spRet = new ArrayList<SeatPoolDefinitionInfo>();
 
-        for(SeatPoolWrapper seatPoolWrapper : seatPoolWrappers){
-            if(spRet == null){
-                spRet = new ArrayList<SeatPoolDefinitionInfo>();
+        if(seatPoolWrappers != null){
+            for(SeatPoolWrapper seatPoolWrapper : seatPoolWrappers){
+                SeatPoolDefinitionInfo seatPool = seatPoolWrapper.getSeatPool();
+                seatPool.setPopulationId(seatPoolWrapper.getSeatPoolPopulation().getId());
+                spRet.add(seatPool);
             }
-            SeatPoolDefinitionInfo seatPool = seatPoolWrapper.getSeatPool();
-            seatPool.setPopulationId(seatPoolWrapper.getSeatPoolPopulation().getId());
-            spRet.add(seatPool);
         }
 
         return spRet;
@@ -332,7 +348,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     @Override
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (addLine instanceof OfferingInstructorWrapper){
+        if (addLine instanceof OfferingInstructorWrapper){   //Personnel
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
 
             //check duplication
@@ -355,7 +371,21 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 return false;
             }
         }
-
+        else if (addLine instanceof SeatPoolWrapper){   //Seat Pool
+            SeatPoolWrapper seatPool = (SeatPoolWrapper) addLine;
+            //check duplication
+            MaintenanceForm form = (MaintenanceForm)model;
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            List<SeatPoolWrapper> pools = activityOfferingWrapper.getSeatpools();
+            if(pools != null && !pools.isEmpty()){
+                for (SeatPoolWrapper pool : pools ) {
+                    if (seatPool.getSeatPoolPopulation().getId().equals( pool.getSeatPoolPopulation().getId())) {
+                        GlobalVariables.getMessageMap().putErrorForSectionId("ao-seatpoolgroup", ActivityOfferingConstants.MSG_ERROR_SEATPOOL_DUPLICATE, pool.getSeatPoolPopulation().getName());
+                        return false;
+                    }
+                }
+            }
+        }
         return super.performAddLineValidation(view, collectionGroup, model, addLine);
     }
 

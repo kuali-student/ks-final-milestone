@@ -171,7 +171,7 @@ public class CourseOfferingReverseRolloverRunner implements Runnable {
                 SocRolloverResultItemInfo item = reverseOneCourseOffering(targetCoId);
                 items.add(item);
                 reportProgressIfModulo(items, i);
-                if (!item.getStateKey().equals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY)) {
+                if (!CourseOfferingSetServiceConstants.SUCCESSFUL_RESULT_ITEM_STATES.contains(item.getStateKey())) {
                     errors++;
                     if (this.haltErrorsMax != -1) {
                         if (errors > this.haltErrorsMax) {
@@ -219,7 +219,7 @@ public class CourseOfferingReverseRolloverRunner implements Runnable {
     private void stripSuccesses(List<SocRolloverResultItemInfo> items) {
         List<SocRolloverResultItemInfo> list = new ArrayList<SocRolloverResultItemInfo>();
         for (SocRolloverResultItemInfo item : items) {
-            if (!item.getStateKey().equals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY)) {
+            if (!CourseOfferingSetServiceConstants.SUCCESSFUL_RESULT_ITEM_STATES.contains(item.getStateKey())) {
                 list.add(item);
             }
         }
@@ -257,7 +257,7 @@ public class CourseOfferingReverseRolloverRunner implements Runnable {
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
         item.setSocRolloverResultId(reverseResult.getId());
         item.setTypeKey(CourseOfferingSetServiceConstants.DELETE_RESULT_ITEM_TYPE_KEY);
-        item.setStateKey(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY);
+        item.setStateKey(CourseOfferingSetServiceConstants.DELETED_RESULT_ITEM_STATE_KEY);
         item.setSourceCourseOfferingId(coId);
         item.setTargetCourseOfferingId(coId);
         return item;
@@ -271,7 +271,7 @@ public class CourseOfferingReverseRolloverRunner implements Runnable {
         }
         for (SocRolloverResultItemInfo item : list) {
             if (coId.equals(item.getTargetCourseOfferingId())) {
-                if (item.getStateKey().equals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY)) {
+                if (CourseOfferingSetServiceConstants.SUCCESSFUL_RESULT_ITEM_STATES.contains(item.getStateKey())) {
                     if (item.getTypeKey().equals(CourseOfferingSetServiceConstants.CREATE_RESULT_ITEM_TYPE_KEY)) {
                         return true;
                     }

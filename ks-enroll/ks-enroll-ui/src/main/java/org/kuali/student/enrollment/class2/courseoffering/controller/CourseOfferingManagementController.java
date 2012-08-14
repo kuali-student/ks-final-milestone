@@ -16,7 +16,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.search.dto.*;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.*;
@@ -491,7 +491,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         try{
             for(ActivityOfferingWrapper ao : selectedAolist)  {
-                CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOffering(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+                CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -649,6 +649,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if(selectedObject instanceof CourseOfferingEditWrapper){
             CourseOfferingInfo courseOfferingInfo = ((CourseOfferingEditWrapper) selectedObject).getCoInfo();
             urlParameters = _buildCOURLParameters(courseOfferingInfo,"maintenanceEdit",false,getContextInfo());
+            urlParameters.put(UifParameters.RETURN_FORM_KEY, theForm.getFormKey());
+            urlParameters.put(UifParameters.RETURN_LOCATION, theForm.getFormPostUrl());
         }
         else if(selectedObject instanceof ActivityOfferingWrapper) {
             ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper)selectedObject;
@@ -657,6 +659,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, theForm.getTheCourseOffering().getId());
             urlParameters.put("dataObjectClassName", ActivityOfferingWrapper.class.getName());
             urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+            urlParameters.put(UifParameters.RETURN_FORM_KEY, theForm.getFormKey());
+            urlParameters.put(UifParameters.RETURN_LOCATION, theForm.getFormPostUrl());
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
@@ -672,24 +676,27 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView selectedAoActions(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_DELETE_ACTION)){
-            return confirmDelete(theForm,  result, request,  response);
+        if (StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DELETE_ACTION)){
+            return confirmDelete(theForm, result, request, response);
         }
 
-        if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
-            StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)){
-            getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(),theForm.getSelectedOfferingAction());
+        if (StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
+            StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
+            getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(), theForm.getSelectedOfferingAction());
         }
+        // reload the AOs
+        CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();
+        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+        getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theCourseOffering);
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
-
     }
 
     @RequestMapping(params = "methodToCall=selectedCOActions")
     public ModelAndView selectedCOActions(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)){
+        if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
             getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingEditWrapperList());
         }
 
@@ -730,7 +737,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
             selectedObject = ((List<Object>) collection).get(selectedLineIndex);
             // Record the selected AO IsChecked
-            selectedIndexList.add((ActivityOfferingWrapper)selectedObject);
+            selectedIndexList.add((ActivityOfferingWrapper) selectedObject);
         }
         else {
             // check if there is Draft AO selected
@@ -743,7 +750,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     return getUIFModelAndView(theForm);
                 }
             }
-            if(selectedIndexList.isEmpty() ) {
+            if (selectedIndexList.isEmpty()) {
                 LOG.error("Error: No selected Draft Activity Offering");
                 GlobalVariables.getMessageMap().putErrorForSectionId("confirmationResultSection",
                         CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED);
@@ -822,29 +829,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
          return super.performRedirect(theForm,"courseOffering", props);
     }
 
-
     @RequestMapping(params = "methodToCall=markSubjectCodeReadyForScheduling")
-    public ModelAndView markSubjectCodeReadyForScheduling(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CourseOfferingManagementViewHelperServiceImpl helperService = (CourseOfferingManagementViewHelperServiceImpl)theForm.getView().getViewHelperService();
-        List<ActivityOfferingWrapper> list = theForm.getActivityWrapperList();
-        for (ActivityOfferingWrapper activityOfferingWrapper : list) {
-            if (DtoConstants.STATE_DRAFT.equalsIgnoreCase(activityOfferingWrapper.getStateName())) {
-
-                // Update the activityOfferingWrapper with the new state.
-                activityOfferingWrapper.setStateName(DtoConstants.STATE_APPROVED);
-
-                // Update the activityOfferingInfo with the new state.
-                ActivityOfferingInfo activityOfferingInfo = activityOfferingWrapper.getAoInfo();
-                activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
-
-                // Persist changes to the database.
-                CourseOfferingService courseOfferingService = helperService.getCourseOfferingService();
-                ContextInfo contextInfo = helperService.getContextInfo();
-                String activityOfferingId = activityOfferingWrapper.getId();
-                courseOfferingService.updateActivityOffering(activityOfferingId, activityOfferingInfo, contextInfo);
-            }
-        }
+    public ModelAndView markSubjectCodeReadyForScheduling(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+        CourseOfferingManagementViewHelperServiceImpl helperService = (CourseOfferingManagementViewHelperServiceImpl) theForm.getView().getViewHelperService();
+        //  State change all of the AOs associated with all CourseOfferings related to the course code. Passing false so that the isChecked() flag is ignored.
+        helperService.markCourseOfferingsForScheduling(theForm.getCourseOfferingEditWrapperList(), false);
         return getUIFModelAndView(theForm);
     }
 

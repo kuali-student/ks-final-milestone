@@ -21,10 +21,9 @@
     -->
 
     <bean id="KS-CourseOfferingManagement-SearchInputPage" parent="Uif-Page" p:disclosure.render="false"
-          p:id="searchInputPage"
-          p:headerText="">
+          p:id="searchInputPage">
         <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
+            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" />
         </property>
         <property name="items">
             <list>

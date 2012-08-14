@@ -149,7 +149,8 @@ public class CourseOfferingRolloverRunner implements Runnable {
         }
         loadOptionKeys();
         // mark running
-        result = this.socService.getSocRolloverResult(result.getId(), context);
+        String resultId = result.getId();
+        result = this.socService.getSocRolloverResult(resultId, context);
         result.setStateKey(CourseOfferingSetServiceConstants.RUNNING_RESULT_STATE_KEY);
         this.socService.updateSocRolloverResult(result.getId(), result, context);
         // Check if there are any course in the target soc
@@ -179,7 +180,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
                 SocRolloverResultItemInfo item = (SocRolloverResultItemInfo) result[0];
                 items.add(item);
                 reportProgressIfModulo(items, sourceCoIdsHandled);
-                if (!item.getStateKey().equals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY)) {
+                if (!CourseOfferingSetServiceConstants.SUCCESSFUL_RESULT_ITEM_STATES.contains(item.getStateKey())) {
                     errors++;
                     if (this.haltErrorsMax != -1) {
                         if (errors > this.haltErrorsMax) {
@@ -236,7 +237,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
     private void stripSuccesses(List<SocRolloverResultItemInfo> items) {
         List<SocRolloverResultItemInfo> list = new ArrayList<SocRolloverResultItemInfo>();
         for (SocRolloverResultItemInfo item : items) {
-            if (!item.getStateKey().equals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY)) {
+            if (!CourseOfferingSetServiceConstants.SUCCESSFUL_RESULT_ITEM_STATES.contains(item.getStateKey())) {
                 list.add(item);
             }
         }
@@ -273,7 +274,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
         item.setSourceCourseOfferingId(sourceCoId);
         item.setTypeKey(CourseOfferingSetServiceConstants.CREATE_RESULT_ITEM_TYPE_KEY);
         if (error == null) {
-            item.setStateKey(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY);
+            item.setStateKey(CourseOfferingSetServiceConstants.CREATED_RESULT_ITEM_STATE_KEY);
             item.setTargetCourseOfferingId(targetCo.getId());
             // Compute AO count
             CourseOfferingInfoExtended coExtended = null;

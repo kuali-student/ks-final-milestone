@@ -358,7 +358,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
                 int success = 0;
                 int failure = 0;
                 for (SocRolloverResultItemInfo item : items) {
-                    if (item.getStateKey().equals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY)) {
+                    if (CourseOfferingSetServiceConstants.SUCCESSFUL_RESULT_ITEM_STATES.contains(item.getStateKey())) {
                         success++;
                     } else {
                         failure++;
@@ -582,7 +582,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
        
         entity.setEntityUpdated(context);
         
-        socDao.merge(entity);
+        entity = socDao.merge(entity);
         return entity.toDto();
     }
 

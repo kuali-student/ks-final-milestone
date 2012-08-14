@@ -142,7 +142,12 @@
   <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
     <property name="atpService" ref="atpEnrService" />
   </bean>
-  <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
+
+  <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler">
+    <property name="termCodeGenerator" ref = "termCodeGenerator" />
+  </bean>
+
+<bean id="termCodeGenerator" class="org.kuali.student.enrollment.class2.acal.service.impl.TermCodeGeneratorImpl"/>
 
   <bean id="holidayCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler" />
 
@@ -623,6 +628,7 @@
       <property name="checkDao" ref="checkDao" />
       <property name="instructionDao" ref="instructionDao" />
       <property name="stateService" ref="stateServiceCacheDecorator" />
+      <property name="criteriaLookupService" ref="criteriaLookupService"/>
   </bean>
 
     <!-- Appointment Service -->
@@ -722,11 +728,16 @@
         <property name="criteriaLookupService" ref="criteriaLookupService"/>
     </bean>
 
+    <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">
+        <property name="nextDecorator" ref="holdService"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+
     <bean id="ks.exp.holdService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="holdService" />
+                <property name="service" ref="holdServiceValidation" />
                 <property name="serviceInterface" value="org.kuali.student.r2.core.hold.service.HoldService" />
                 <property name="localServiceName" value="HoldService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/hold" />
@@ -757,12 +768,6 @@
             </bean>
         </property>
     </bean>
-
-
-
-
-
-
 
 
 </beans>

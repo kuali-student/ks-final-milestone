@@ -4,17 +4,18 @@
  */
 package org.kuali.student.r2.core.search.util;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Help convert to and from Search objects
@@ -99,7 +100,7 @@ public class SearchResultHelper {
             return null;
         }
         try {
-            return getDateFormat ().parse(value);
+            return getDateFormat().parse(value);
         } catch (ParseException ex) {
             throw new IllegalArgumentException(value + " is not a date in the expected format "
                     + getDateFormat ().toString() + " " + rowIndex + " " + resultKey);

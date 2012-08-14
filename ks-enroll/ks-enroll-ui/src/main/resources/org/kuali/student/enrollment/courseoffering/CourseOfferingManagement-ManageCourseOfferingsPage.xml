@@ -24,10 +24,9 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ManageCourseOfferingsPage" parent="Uif-Page" p:disclosure.render="false"
-          p:id="manageCourseOfferingsPage"
-          p:headerText="">
+          p:id="manageCourseOfferingsPage">
         <property name="header">
-            <bean parent="Uif-HeaderThree"/>
+            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings"/>
         </property>
         <property name="items">
             <list>
@@ -43,9 +42,9 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionScript="confirmDeletion('This will mark all Activity Offerings in this Subject Code as \&quot;Ready for Scheduling\&quot;')"
+                <bean parent="Uif-ActionLink" p:preSubmitCall="confirmDeletionResponse('This will mark all Activity Offerings in this Subject Code as: Ready for Scheduling')"
                       p:methodToCall="markSubjectCodeReadyForScheduling"
-                      p:actionLabel="Mark Subject Code Ready for Scheduling" />
+                      p:actionLabel="Approve Subject Code for Scheduling" />
                 <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingEditWrapperList.empty}"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:render="@{!courseOfferingEditWrapperList.empty}"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
@@ -100,10 +99,10 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />
-                <bean parent="Uif-ActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
-                <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
-                <bean parent="Uif-ActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />
             </list>
         </property>
     </bean>

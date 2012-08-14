@@ -9,8 +9,8 @@
 
     <bean id="KS-HoldSearch-View" parent="KSFormView">
         <property name="id" value="holdSearchView"/>
-        <property name="headerText" value="Hold Issue Lookup"/>
-        <property name="formClass" value="org.kuali.student.enrollment.class1.hold.service.form.HoldIssueInfoSearchForm"/>
+        <property name="headerText" value="Hold Lookup"/>
+        <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoSearchForm"/>
         <property name="singlePageView" value="true"/>
         <property name="page">
             <bean parent="Uif-Page"/>
@@ -59,7 +59,7 @@
                                                     <bean parent="Uif-DropdownControl"/>
                                             </property>
                                             <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class1.hold.service.keyvalues.HoldIssueInfoTypeKeyValues"/>
+                                                <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop" p:label="Phrase in Hold Description" p:propertyName="descr" >
@@ -67,11 +67,17 @@
                                                 <bean parent="Uif-SmallTextAreaControl" p:watermarkText="Enter phrase"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop"  p:label="Owning Organization"  p:propertyName="id" p:style="font-weight:bold;white-space:nowrap;">
+                                        <bean parent="Uif-InputField-LabelTop"  p:label="Owning Organization"  p:propertyName="orgName" p:style="font-weight:bold;white-space:nowrap;">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="16" />
                                             </property>
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
+                                            <property name="quickfinder.fieldConversions">
+                                                <map>
+                                                    <entry key="id" value="organizationId"/>
+                                                    <entry key="shortName" value="orgName"/>
+                                                </map>
+                                            </property>
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey" >
                                             <property name="control">
@@ -85,6 +91,7 @@
                                                 </bean>
                                             </property>
                                         </bean>
+                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="organizationId" p:label="" p:readOnly="true" p:hidden="true" />
                                     </list>
                                 </property>
                             </bean>
@@ -155,7 +162,7 @@
             <list>
                 <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
                 <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="Uif-ActionLink" p:methodToCall="delete" p:hidden="@{#line.state eq 'inactive'}" p:actionScript="confirmDeletion('Are you sure you want to delete this hold issue?')" p:actionLabel="Delete" />
+                <bean parent="Uif-ActionLink" p:methodToCall="delete" p:hidden="@{#line.state eq 'inactive'}" p:preSubmitCall="confirmDeletionResponse('Are you sure you want to delete this hold issue?')" p:actionLabel="Delete" />
             </list>
         </property>
     </bean>

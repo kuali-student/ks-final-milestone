@@ -33,4 +33,5 @@ public class ActivityOfferingConstants {
     public static final String MSG_ERROR_INSTRUCTOR_NOTFOUND = "error.enroll.ao.instructor.notfound";
     public static final String MSG_ERROR_INSTRUCTOR_OVERFLOW = "error.enroll.ao.instructor.overflow";
     public static final String MSG_ERROR_INSTRUCTOR_DUPLICATE = "error.enroll.ao.instructor.duplicate";
+    public static final String MSG_ERROR_SEATPOOL_DUPLICATE = "error.enroll.ao.seatpool.duplicate";
 }

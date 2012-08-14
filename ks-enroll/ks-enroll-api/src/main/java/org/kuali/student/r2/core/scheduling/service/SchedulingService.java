@@ -1162,9 +1162,9 @@ public interface SchedulingService {
      * Retrieves a list of ScheduleBatches associated with a ScheduleTransaction
      *
      * @param scheduleTransactionId an identifier for a ScheduleBatch
-     * @param contextInfo           Context information containing the principalId
-     *                              and locale information about the caller of
-     *                              service operation
+     * @param contextInfo         Context information containing the principalId
+     *                            and locale information about the caller of
+     *                            service operation
      * @return a list of ScheduleTransaction identifiers matching
      *         scheduleTransactionTypeKey or an empty list if none found
      * @throws InvalidParameterException invalid contextInfo
@@ -1236,9 +1236,9 @@ public interface SchedulingService {
      * Retrieves a ScheduleTransaction
      *
      * @param scheduleTransactionId a unique Id of a ScheduleTransaction
-     * @param contextInfo       Context information containing the principalId
-     *                          and locale information about the caller of
-     *                          service operation
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
      * @return the ScheduleTransaction
      * @throws DoesNotExistException     scheduleTransactionId not found
      * @throws InvalidParameterException invalid contextInfo
@@ -1283,9 +1283,9 @@ public interface SchedulingService {
      * Retrieves a list of ScheduleTransaction Ids by ScheduleTransaction Type.
      *
      * @param scheduleTransactionTypeKey an identifier for a ScheduleTransaction Type
-     * @param contextInfo            Context information containing the
-     *                               principalId and locale information about
-     *                               the caller of service operation
+     * @param contextInfo             Context information containing the
+     *                                principalId and locale information about
+     *                                the caller of service operation
      * @return a list of ScheduleTransaction identifiers matching
      *         scheduleTransactionTypeKey or an empty list if none found
      * @throws InvalidParameterException invalid contextInfo
@@ -1307,8 +1307,8 @@ public interface SchedulingService {
      * @param refObjectType an identifier for a ref object Type
      * @param refObjectId   an
      * @param contextInfo   Context information containing the principalId and
-     *                      locale information about the caller of service
-     *                      operation
+     *                        locale information about the caller of service
+     *                        operation
      * @return a list of ScheduleTransaction identifiers matching
      *         scheduleTransactionTypeKey or an empty list if none found
      * @throws InvalidParameterException invalid contextInfo
@@ -1353,9 +1353,9 @@ public interface SchedulingService {
      * ScheduleTransaction identifiers which match the search criteria.
      *
      * @param criteria    the search criteria
-     * @param contextInfo Context information containing the principalId and
-     *                    locale information about the caller of service
-     *                    operation
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
      * @return list of ScheduleTransaction Ids
      * @throws InvalidParameterException invalid criteria or contextInfo
      * @throws MissingParameterException missing criteria or contextInfo
@@ -1446,9 +1446,9 @@ public interface SchedulingService {
      * @throws InvalidParameterException    invalid scheduleTransactionInfo or
      *                                      contextInfo
      * @throws MissingParameterException    scheduleTransactionId or contextInfo is
-     *                                      missing or null
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    an authorization failure occurred
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      */

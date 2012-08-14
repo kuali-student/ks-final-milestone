@@ -4,8 +4,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.student.krms.KSKRMSTestCase;
+import org.kuali.student.krms.KSKRMSUploadTestCase;
 
-public class TestKSKRMSAgendaDataSetupUtility extends KSKRMSTestCase {
+public class TestKSKRMSAgendaDataSetupUtility extends KSKRMSUploadTestCase {
 
     @Test
     public void testUtility() {

@@ -56,7 +56,15 @@ function calculatePercent(jqObject){
         var seatsRemain = (maxEnroll.val() > seatsTotal) ? (maxEnroll.val() - seatsTotal) : 0;
         var percTotal = Math.round((seatsTotal / maxEnroll.val()) * 100);
         var percRemain = (seatsRemain > 0) ? (100 - percTotal) : 0;
-        seatsRemaining.text(percRemain + "% | " + seatsRemain + " Seats (Max Enrollment = " + maxEnroll.val() + ")");
+        if (maxEnroll.val() >= seatsTotal){
+            seatsRemaining.text(percRemain + "% | " + seatsRemain + " Seats (Max Enrollment = " + maxEnroll.val() + ")");
+            jq(seatsRemaining).css('color', 'black');
+        } else {
+            seatsRemaining.text(percRemain + "% | " + seatsRemain + " Seats (Max Enrollment = " + maxEnroll.val() + ")" +
+            " - WARNING: Total seats exceeding the total max enrollment quantity by " + (seatsTotal-maxEnroll.val()) + " seats!");
+            jq(seatsRemaining).css('color', 'red');
+        }
+
     } else {
         seatsRemaining.text("");
     }

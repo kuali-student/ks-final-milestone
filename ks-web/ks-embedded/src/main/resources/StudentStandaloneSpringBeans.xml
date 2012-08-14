@@ -131,9 +131,16 @@
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoCreateView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoModifyView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoFlowView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoCreateView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/ProcessInfoView.xml</value>                
+
+                <!-- Process -->
+                <value>classpath:org/kuali/student/enrollment/process/ProcessInfoSearchView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/process/ProcessInfoCreateView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/process/ProcessInfoView.xml</value>
+
+                <!-- Checks -->
+                <value>classpath:org/kuali/student/enrollment/check/CheckInfoCreateView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/check/CheckInfoSearchView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/check/CheckInfoView.xml</value>
                 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeInfoAdminLookupView.xml</value>
@@ -145,9 +152,10 @@
                 <value>classpath:org/kuali/student/enrollment/state/StateInfoAdminInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/state/LifecycleInfoAdminLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/state/LifecycleInfoAdminInquiryView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/CheckInfoCreateView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/CheckInfoSearchView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/CheckInfoView.xml</value>
+
+                <!-- Kitchen Sink -->
+                <value>classpath:org/kuali/student/enrollment/kitchensink/KitchenSinkView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/Buttons.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">

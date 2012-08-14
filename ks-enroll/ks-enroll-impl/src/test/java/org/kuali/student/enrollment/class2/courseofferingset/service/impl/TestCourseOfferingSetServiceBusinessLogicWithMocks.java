@@ -58,15 +58,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
 
     @Resource(name = "socService")
-    private CourseOfferingSetService socService;
+    protected CourseOfferingSetService socService;
     @Resource(name = "coService")
-    private CourseOfferingService coService;
+    protected CourseOfferingService coService;
     public static String principalId = "123";
     public ContextInfo callContext = null;
     @Resource(name = "courseService")
-    private CourseService courseService;
+    protected CourseService courseService;
     @Resource(name = "acalService")
-    private AcademicCalendarService acalService;
+    protected AcademicCalendarService acalService;
 
     @Before
     public void setUp() {
@@ -229,10 +229,9 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
 
         // now try to rollover to new term
         TermInfo targetTerm = acalService.getTerm("2013SP", callContext);
-        optionKeys = new ArrayList<String>();
-        optionKeys.add(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY);
-        optionKeys.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
-        SocInfo targetSoc = socService.rolloverSoc(sourceSoc.getId(), targetTerm.getId(), optionKeys, callContext);
+        optionKeys = buildRolloverOptionKeys();
+
+        SocInfo targetSoc = getTargetSocAfterRollover(sourceSoc.getId(),  targetTerm.getId(), optionKeys, callContext);
         assertNotNull(targetSoc);
         assertEquals(targetTerm.getId(), targetSoc.getTermId());
         assertEquals(sourceSoc.getStateKey(), targetSoc.getStateKey());
@@ -282,7 +281,7 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         SocRolloverResultItemInfo item1 = findBySourceCourseOffering(items, sourceCo1.getId());
         assertEquals(result.getId(), item1.getSocRolloverResultId());
         assertEquals(CourseOfferingSetServiceConstants.CREATE_RESULT_ITEM_TYPE_KEY, item1.getTypeKey());
-        assertEquals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY, item1.getStateKey());
+        assertEquals(CourseOfferingSetServiceConstants.CREATED_RESULT_ITEM_STATE_KEY, item1.getStateKey());
         assertEquals(sourceCo1.getId(), item1.getSourceCourseOfferingId());
 
         // now check the resulting co
@@ -331,7 +330,7 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         SocRolloverResultItemInfo item2 = findBySourceCourseOffering(items, sourceCo2.getId());
         assertEquals(result.getId(), item2.getSocRolloverResultId());
         assertEquals(CourseOfferingSetServiceConstants.CREATE_RESULT_ITEM_TYPE_KEY, item2.getTypeKey());
-        assertEquals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY, item2.getStateKey());
+        assertEquals(CourseOfferingSetServiceConstants.CREATED_RESULT_ITEM_STATE_KEY, item2.getStateKey());
         assertEquals(sourceCo2.getId(), item2.getSourceCourseOfferingId());
 
         // now check the resulting co
@@ -375,6 +374,19 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         assertEquals(sourceAo2B.getTypeKey(), targetAo2B.getTypeKey());
         assertEquals(sourceAo2B.getName(), targetAo2B.getName());
         assertEquals(sourceAo2B.getActivityCode(), targetAo2B.getActivityCode());
+    }
+
+    protected List<String> buildRolloverOptionKeys() {
+        List<String> result = new ArrayList<String>();
+        result.add(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY);
+        result.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
+        return result;
+    }
+
+    protected SocInfo getTargetSocAfterRollover(String sourceSocId, String targetTermId, List<String> optionKeys, ContextInfo callContext) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        SocInfo targetSoc = socService.rolloverSoc(sourceSocId, targetTermId, optionKeys, callContext);
+
+        return targetSoc;
     }
 
     private ActivityOfferingInfo findByCode(List<ActivityOfferingInfo> list, String code) {

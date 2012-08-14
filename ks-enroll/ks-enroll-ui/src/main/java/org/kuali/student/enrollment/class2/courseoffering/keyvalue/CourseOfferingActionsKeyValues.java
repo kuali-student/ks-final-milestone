@@ -15,7 +15,7 @@ public class CourseOfferingActionsKeyValues extends KeyValuesBase implements Ser
     public List<KeyValue> getKeyValues() {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue(CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION,"Set as Ready for Scheduling"));
+        keyValues.add(new ConcreteKeyValue(CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION,"Approve for Scheduling"));
 
         return keyValues;
     }

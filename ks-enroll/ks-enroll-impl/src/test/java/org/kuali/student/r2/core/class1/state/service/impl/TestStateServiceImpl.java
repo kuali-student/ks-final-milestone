@@ -1,11 +1,11 @@
 package org.kuali.student.r2.core.class1.state.service.impl;
 
-import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.junit.Assert.assertNotSame;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -238,7 +238,7 @@ public class TestStateServiceImpl {
         
         
         List<Predicate> pList = new ArrayList<Predicate>();
-        pList.add (PredicateFactory.equal("keywordSearch","testing"));
+        pList.add (PredicateFactory.equal("keywordSearch", "testing"));
         Predicate[] preds = pList.toArray(new Predicate[pList.size()]);
         qBuilder.setPredicates(preds);
         

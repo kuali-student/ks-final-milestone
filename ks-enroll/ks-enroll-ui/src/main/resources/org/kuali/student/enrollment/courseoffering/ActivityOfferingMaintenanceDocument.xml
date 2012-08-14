@@ -101,7 +101,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
-                                  p:id="maximumEnrollment" p:onKeyUpScript="calculatePercent(jQuery(this))">
+                                  p:id="maximumEnrollment" p:onChangeScript="calculatePercent(jQuery(this))">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3"/>
                                 </property>
@@ -469,13 +469,13 @@
                 </bean>
 
                 <bean parent="Uif-VerticalBoxSection">
-                    <property name="headerText" value="Seat Pools"/>
                      <property name="items">
                         <list>
                             <bean id="KS-ActivityOffering-SeatpoolsSection" parent="Uif-TableCollectionSection"
                                   p:layoutManager.numberOfColumns="6"
                                   p:id="ao-seatpoolgroup"
                                   p:layoutManager.style="width: 100%; display:block;">
+                                <property name="headerText" value="Seat Pools"/>
                                 <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
                                 <property name="propertyName" value="seatpools" />
                                 <property name="layoutManager.renderSequenceField" value="false" />
@@ -498,7 +498,7 @@
 
                                 <property name="addLineItems">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:maxLength="2">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:maxLength="2" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="2" />
                                             </property>
@@ -506,7 +506,7 @@
                                                 <bean parent="IntegerPatternConstraint" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit" p:required="true">
                                             <property name="control">
                                                 <!--bean parent="Uif-TextControl" p:size="3" p:onKeyDownScript="calculatePercent(jq(this))"/-->
                                                 <bean parent="Uif-TextControl" p:size="3" />
@@ -516,7 +516,7 @@
                                             </property>
                                         </bean>
                                         <bean parent="Uif-MessageField" p:messageText="" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
-                                        <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
+                                        <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="true" />
                                             </property>
@@ -547,18 +547,18 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:maxLength="2">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:maxLength="2" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="2" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit">
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="3" p:onKeyUpScript="calculatePercent(jQuery(this))" />
                                             </property>
                                         </bean>
                                         <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
-                                        <bean parent="Uif-DataField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
+                                        <bean parent="Uif-DataField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name" p:required="true">
                                             <!--<property name="control">
                                                 <bean parent="Uif-TextControl" p:size="40" p:disabled="true" />
                                             </property>
