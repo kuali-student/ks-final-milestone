@@ -205,7 +205,7 @@
         <property name="entityManagerFactory" ref="lrcEntityManagerFactory"/>
     </bean>
 
-    <bean id="lrcDao" class="org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl">
+    <bean id="lrcDao" class="org.kuali.student.r1.lum.lrc.dao.impl.LrcDaoImpl">
         <property name="em" ref="lrcEntityManager"/>
     </bean>
 
@@ -246,7 +246,7 @@
                   value="{http://student.kuali.org/wsdl/lrc}LearningResultService"/>
     </bean>
 
-    <bean id="lrcServiceImpl" class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+    <bean id="lrcServiceImpl" class="org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl">
         <property name="lrcDao" ref="lrcDao"/>
         <property name="searchManager" ref="lrcSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
@@ -566,7 +566,7 @@
                     pointcut="execution(* org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl.*(..))"
                     method="afterThrowing" throwing="ex"/>
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.lum.lrc.service.impl.LrcServiceImpl.*(..))"
+                    pointcut="execution(* org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl.*(..))"
                     method="afterThrowing" throwing="ex"/>
             <aop:after-throwing
                     pointcut="execution(* org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl.*(..))"
