@@ -289,7 +289,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         SearchParam qpv1 = new SearchParam();
         qpv1.setKey("lu.criteria.code");
-        qpv1.setValue(courseName);
+        qpv1.setValue(courseName.toUpperCase());
         searchParams.add(qpv1);
 
         SearchRequest searchRequest = new SearchRequest();
