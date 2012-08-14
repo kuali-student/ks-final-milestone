@@ -16,7 +16,6 @@ import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -67,8 +66,8 @@ public class TestStateServiceImpl {
         // create
         LifecycleInfo origLife = new LifecycleInfo();
         RichTextInfo rti = new RichTextInfo();
-        rti.setFormatted("<b>Formatted</b> state for testing purposes");
-        rti.setPlain("Plain state for testing purposes");
+        rti.setFormatted("<b>Formatted</b> lifecycle for testing purposes");
+        rti.setPlain("Plain lifecycle for testing purposes");
         origLife.setDescr(rti);
         origLife.setKey(AtpServiceConstants.ATP_LIFECYCLE_KEY);
         origLife.setName("Testing");
@@ -232,19 +231,21 @@ public class TestStateServiceImpl {
         
 
         qBuilder = QueryByCriteria.Builder.create();
-//        List<Predicate> pList = new ArrayList<Predicate>();
-//
-//        pList.add (PredicateFactory.equal("keywordSearch","testing");
-//        pList.add(p);
-//
-//        Predicate[] preds = new Predicate[pList.size()];
-//        pList.toArray(preds);
-//        qBuilder.setPredicates(PredicateFactory.and(preds));
         List<LifecycleInfo> allLifecycles = stateService.searchForLifecycles(qBuilder.build(), callContext);
         assertEquals (1, allLifecycles.size());
         LifecycleInfo lf = (LifecycleInfo) allLifecycles.get(0);
         assertEquals (lf.getName(), infoLife.getName());
         
+        
+        List<Predicate> pList = new ArrayList<Predicate>();
+        pList.add (PredicateFactory.equal("keywordSearch","testing"));
+        Predicate[] preds = pList.toArray(new Predicate[pList.size()]);
+        qBuilder.setPredicates(preds);
+        
+        List<LifecycleInfo> matchingLifecycles = stateService.searchForLifecycles(qBuilder.build(), callContext);
+        assertEquals (1, matchingLifecycles.size());
+        lf = (LifecycleInfo) matchingLifecycles.get(0);
+        assertEquals (lf.getName(), infoLife.getName());
         
         StateInfo atpDraftState = info;
 

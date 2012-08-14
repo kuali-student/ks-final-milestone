@@ -60,20 +60,100 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
 
-    <bean id="stateCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+
+    <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
+
+    <bean id="key2IdTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+        <property name="renameAttributes">
+            <map>
+                <entry key="key" value="id"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="descrTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+        <property name="renameAttributes">
+            <map>
+                <entry key="descr.plain" value="descrPlain"/>
+                <entry key="descr.formatted" value="descrFormatted"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="metaTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+        <property name="renameAttributes">
+            <map>
+                <entry key="meta.createId" value="createId"/>
+                <entry key="meta.createTime" value="createTime"/>
+                <entry key="meta.updateId" value="createId"/>
+                <entry key="meta.updateTime" value="updateTime"/>
+                <entry key="meta.versionInd" value="versionInd"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="keyword2LikeTransform" class="org.kuali.student.r2.common.criteria.transform.Keyword2LikeTransform">
+        <property name="keywordAttribute" value="keywordSearch" />    
+        <property name="likeAttributes">
+            <list>      
+                <value>name</value>
+                <value>descr.plain</value>
+                <value>descr.formatted</value>                   
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
         <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
         <property name="predicateTransforms">
             <list>
+                <ref bean="keyword2LikeTransform"/>
+                <ref bean="descrTransform"/>
+                <ref bean="metaTransform"/> 
                 <ref bean="attributeTransform"/>
             </list>
         </property>
     </bean>
+    
 
-  <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
-    <property name="stateDao" ref="stateDao" />
-    <property name="lifecycleDao" ref="lifecycleDao" />
-    <property name="criteriaLookupService" ref="stateCriteriaLookupService" />
-  </bean>
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
+        <property name="stateDao" ref="stateDao" />
+        <property name="lifecycleDao" ref="lifecycleDao" />    
+        <property name="stateCriteriaLookupService">
+            <bean parent="criteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean parent="keyword2LikeTransform">                               
+                            <property name="likeAttributes">
+<!--                                Also scan the key and the lifecyle key when doing a keyword search-->
+                                <list merge="true">
+                                    <value>key</value> 
+                                    <value>lifecycleKey</value>                        
+                                </list>
+                            </property>
+                        </bean> 
+                        <ref bean="key2IdTransform"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="lifecycleCriteriaLookupService">
+            <bean parent="criteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean parent="keyword2LikeTransform">                               
+                            <property name="likeAttributes">
+<!--                                Also scan the key and the refObjectUri when doing a keyword search-->
+                                <list merge="true">
+                                    <value>key</value> 
+                                    <value>refObjectUri</value>                        
+                                </list>
+                            </property>
+                        </bean> 
+                        <ref bean="key2IdTransform"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
     
     <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
         <property name="typeDao" ref="typeDao"/>
@@ -166,10 +246,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
 
-    <!-- TODO: this is a duplicate definition -->
-    <bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
-        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
-    </bean>
 
     <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl">
         <property name="socDao" ref="socDao" />

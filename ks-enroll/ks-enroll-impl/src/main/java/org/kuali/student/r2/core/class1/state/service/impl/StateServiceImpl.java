@@ -37,7 +37,8 @@ public class StateServiceImpl implements StateService {
 
     private StateDao stateDao;
     private LifecycleDao lifecycleDao;
-    private CriteriaLookupService criteriaLookupService;
+    private CriteriaLookupService lifecycleCriteriaLookupService;
+    private CriteriaLookupService stateCriteriaLookupService;
 
     public StateDao getStateDao() {
         return stateDao;
@@ -54,15 +55,23 @@ public class StateServiceImpl implements StateService {
     public void setLifecycleDao(LifecycleDao lifecycleDao) {
         this.lifecycleDao = lifecycleDao;
     }
+
+    public CriteriaLookupService getLifecycleCriteriaLookupService() {
+        return lifecycleCriteriaLookupService;
+    }
+
+    public void setLifecycleCriteriaLookupService(CriteriaLookupService lifecycleCriteriaLookupService) {
+        this.lifecycleCriteriaLookupService = lifecycleCriteriaLookupService;
+    }
+
+    public CriteriaLookupService getStateCriteriaLookupService() {
+        return stateCriteriaLookupService;
+    }
+
+    public void setStateCriteriaLookupService(CriteriaLookupService stateCriteriaLookupService) {
+        this.stateCriteriaLookupService = stateCriteriaLookupService;
+    }   
     
-    public CriteriaLookupService getCriteriaLookupService() {
-        return criteriaLookupService;
-    }
-
-    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
-        this.criteriaLookupService = criteriaLookupService;
-    }
-
     @Override
     public LifecycleInfo getLifecycle(String lifecycleKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         try {
@@ -121,7 +130,7 @@ public class StateServiceImpl implements StateService {
     @Override
     public List<String> searchForLifecycleKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> lifecycleKeys = new ArrayList<String>();
-        GenericQueryResults<LifecycleEntity> results = criteriaLookupService.lookup(LifecycleEntity.class, criteria);
+        GenericQueryResults<LifecycleEntity> results = lifecycleCriteriaLookupService.lookup(LifecycleEntity.class, criteria);
         if (null != results && results.getResults().size() > 0) {
             for (LifecycleEntity lifecycle : results.getResults()) {
                 lifecycleKeys.add(lifecycle.getId());
@@ -133,7 +142,7 @@ public class StateServiceImpl implements StateService {
     @Override
     public List<LifecycleInfo> searchForLifecycles(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LifecycleInfo> lifecycleInfos = new ArrayList<LifecycleInfo>();
-        GenericQueryResults<LifecycleEntity> results = criteriaLookupService.lookup(LifecycleEntity.class, criteria);
+        GenericQueryResults<LifecycleEntity> results = lifecycleCriteriaLookupService.lookup(LifecycleEntity.class, criteria);
         if (null != results && results.getResults().size() > 0) {
             for (LifecycleEntity lifecycle : results.getResults()) {
                 lifecycleInfos.add(lifecycle.toDto());
@@ -234,7 +243,7 @@ public class StateServiceImpl implements StateService {
     @Override
     public List<String> searchForStateKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> stateKeys = new ArrayList<String>();
-        GenericQueryResults<StateEntity> results = criteriaLookupService.lookup(StateEntity.class, criteria);
+        GenericQueryResults<StateEntity> results = stateCriteriaLookupService.lookup(StateEntity.class, criteria);
         if (null != results && results.getResults().size() > 0) {
             for (StateEntity state : results.getResults()) {
                 stateKeys.add(state.getId());
@@ -246,7 +255,7 @@ public class StateServiceImpl implements StateService {
     @Override
     public List<StateInfo> searchForStates(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<StateInfo> stateInfos = new ArrayList<StateInfo>();
-        GenericQueryResults<StateEntity> results = criteriaLookupService.lookup(StateEntity.class, criteria);
+        GenericQueryResults<StateEntity> results = stateCriteriaLookupService.lookup(StateEntity.class, criteria);
         if (null != results && results.getResults().size() > 0) {
             for (StateEntity state : results.getResults()) {
                 stateInfos.add(state.toDto());

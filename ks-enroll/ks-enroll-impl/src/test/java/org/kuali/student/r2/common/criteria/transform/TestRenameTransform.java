@@ -4,27 +4,28 @@
  */
 package org.kuali.student.r2.common.criteria.transform;
 
-import org.kuali.rice.core.api.criteria.AndPredicate;
-import org.kuali.rice.core.api.criteria.EqualPredicate;
-import org.junit.Ignore;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.kuali.rice.core.api.criteria.LookupCustomizer;
+import org.junit.Test;
+import org.kuali.rice.core.api.criteria.AndPredicate;
+import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
-import static org.junit.Assert.*;
+import org.kuali.rice.core.framework.persistence.jpa.criteria.Criteria;
+import org.kuali.student.r2.common.criteria.LookupCustomizer.PredicateTransform;
 
 /**
  *
  * @author nwright
  */
-public class TransformTest {
+public class TestRenameTransform {
 
-    public TransformTest() {
+    public TestRenameTransform() {
     }
 
     @BeforeClass
@@ -43,23 +44,21 @@ public class TransformTest {
     public void tearDown() {
     }
 
-    /**
-     * Test the Rename Transform
-     */
-    @Ignore
+    @Test
     public void testRenameTransform() {
         System.out.println("renameTransform");
 
         Map<String, String> renames = null;
-        LookupCustomizer.Transform<Predicate, Predicate> transform = null;
+        PredicateTransform transform = null;
+        
+        Criteria criteria = null;
 
         // simple case
         renames = new HashMap<String, String>();
-        renames.put("oldName1", "newName1");
-        // TODO: Rewrote the Rename Transform to honor the RiceContract then configure it here to test it        
-//        transform = new RenameTransform(renames);
+        renames.put("oldName1", "newName1");  
+        transform = new RenameTransform(renames);
         Predicate input = PredicateFactory.equal("oldName1", "value1");
-        Predicate output = transform.apply(input);
+        Predicate output = transform.apply(input, criteria);
         assertEquals(EqualPredicate.class, output.getClass());
         assertNotSame(input, output);
         EqualPredicate eqp = (EqualPredicate) output;
@@ -69,23 +68,22 @@ public class TransformTest {
         // composite case
         renames = new HashMap<String, String>();
         renames.put("oldName1", "newName1");
-        // TODO: Rewrote the Rename Transform to honor the RiceContract then configure it here to test it        
-//        transform = new RenameTransform(renames);
+        transform = new RenameTransform(renames);
         Predicate input1 = PredicateFactory.equal("oldName1", "value1");
         Predicate input2 = PredicateFactory.equal("oldName1", "value2");
         Predicate input3 = PredicateFactory.equal("oldName2", "value3");
 
         input = PredicateFactory.and(input1, input2, input3);
-        output = transform.apply(input);
+        output = transform.apply(input, criteria);
         assertEquals(AndPredicate.class, output.getClass());
-        assertNotSame(input, output);
+//        assertNotSame(input, output);
         AndPredicate andp = (AndPredicate) output;
         assertEquals(3, andp.getPredicates().size());
         boolean found1 = false;
         boolean found2 = false;
         boolean found3 = false;
         for (Predicate p : andp.getPredicates()) {
-            eqp = (EqualPredicate) output;
+            eqp = (EqualPredicate) p;
             if (eqp.getValue().getValue().equals("value1")) {
                 assertEquals("newName1", eqp.getPropertyPath());
                 found1 = true;
@@ -106,15 +104,14 @@ public class TransformTest {
         // test composite with multiple renames
         renames = new HashMap<String, String>();
         renames.put("oldName1", "newName1");
-        renames.put("oldName2", "newName2");
-        // TODO: Rewrote the Rename Transform to honor the RiceContract then configure it here to test it        
-//        transform = new RenameTransform(renames);
+        renames.put("oldName2", "newName2");    
+        transform = new RenameTransform(renames);
         input1 = PredicateFactory.equal("oldName1", "value1");
         input2 = PredicateFactory.equal("oldName1", "value2");
         input3 = PredicateFactory.equal("oldName2", "value3");
 
         input = PredicateFactory.and(input1, input2, input3);
-        output = transform.apply(input);
+        output = transform.apply(input, criteria);
         assertEquals(AndPredicate.class, output.getClass());
         assertNotSame(input, output);
         andp = (AndPredicate) output;
@@ -123,7 +120,7 @@ public class TransformTest {
         found2 = false;
         found3 = false;
         for (Predicate p : andp.getPredicates()) {
-            eqp = (EqualPredicate) output;
+            eqp = (EqualPredicate) p;
             if (eqp.getValue().getValue().equals("value1")) {
                 assertEquals("newName1", eqp.getPropertyPath());
                 found1 = true;

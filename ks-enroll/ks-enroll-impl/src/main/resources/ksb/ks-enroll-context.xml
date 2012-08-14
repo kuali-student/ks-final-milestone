@@ -71,7 +71,7 @@
     </property>
   </bean>
 
-    <bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+    <bean id="coCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
     	<property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
         <property name="predicateTransforms">
             <list>
@@ -80,7 +80,7 @@
         </property>
   	</bean>
 
-    <bean id="coCodeTransform" class=" org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingTransform"/>
+    <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingTransform"/>
 
   <bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
     <property name="atpDao" ref="atpEnrDao" />
@@ -156,20 +156,100 @@
 
   <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
 
-  <bean id="stateCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
-      <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
-      <property name="predicateTransforms">
-          <list>
-              <ref bean="attributeTransform"/>
-          </list>
-      </property>
-  </bean>
+
+    <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
+   
+    <bean id="key2IdTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+        <property name="renameAttributes">
+            <map>
+                <entry key="key" value="id"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="descrTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+        <property name="renameAttributes">
+            <map>
+                <entry key="descr.plain" value="descrPlain"/>
+                <entry key="descr.formatted" value="descrFormatted"/>
+            </map>
+        </property>
+    </bean>
     
-  <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
-    <property name="stateDao" ref="stateDao" />
-    <property name="lifecycleDao" ref="lifecycleDao" />
-    <property name="criteriaLookupService" ref="stateCriteriaLookupService" />
-  </bean>
+    <bean id="metaTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+        <property name="renameAttributes">
+            <map>
+                <entry key="meta.createId" value="createId"/>
+                <entry key="meta.createTime" value="createTime"/>
+                <entry key="meta.updateId" value="createId"/>
+                <entry key="meta.updateTime" value="updateTime"/>
+                <entry key="meta.versionInd" value="versionInd"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="keyword2LikeTransform" class="org.kuali.student.r2.common.criteria.transform.Keyword2LikeTransform">
+        <property name="keywordAttribute" value="keywordSearch" />    
+        <property name="likeAttributes">
+            <list>      
+                <value>name</value>
+                <value>descr.plain</value>
+                <value>descr.formatted</value>                   
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        <property name="predicateTransforms">
+            <list>
+                <ref bean="keyword2LikeTransform"/>
+                <ref bean="descrTransform"/>
+                <ref bean="metaTransform"/> 
+                <ref bean="attributeTransform"/>
+            </list>
+        </property>
+    </bean>
+    
+
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
+        <property name="stateDao" ref="stateDao" />
+        <property name="lifecycleDao" ref="lifecycleDao" />      
+        <property name="stateCriteriaLookupService">
+            <bean parent="criteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean parent="keyword2LikeTransform">                               
+                            <property name="likeAttributes">
+<!--                                Also scan the key and the lifecyle key when doing a keyword search-->
+                                <list merge="true">
+                                    <value>key</value> 
+                                    <value>lifecycleKey</value>                        
+                                </list>
+                            </property>
+                        </bean> 
+                        <ref bean="key2IdTransform"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="lifecycleCriteriaLookupService">
+            <bean parent="criteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean parent="keyword2LikeTransform">                               
+                            <property name="likeAttributes">
+<!--                                Also scan the key and the refObjectUri when doing a keyword search-->
+                                <list merge="true">
+                                    <value>key</value> 
+                                    <value>refObjectUri</value>                        
+                                </list>
+                            </property>
+                        </bean> 
+                        <ref bean="key2IdTransform"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
     <bean id="stateServiceCacheDecorator" class="org.kuali.student.r2.core.class1.state.decorators.StateServiceCacheDecorator">
         <property name="nextDecorator" ref="stateService" />
@@ -313,7 +393,7 @@
         <property name="acalService" ref="acalService" />
         <property name="stateService" ref="stateServiceCacheDecorator" />
         <property name="lprService" ref="lprPersistenceService" />
-        <property name="criteriaLookupService" ref="criteriaLookupService" />
+        <property name="criteriaLookupService" ref="coCriteriaLookupService" />
         <property name="typeService" ref="typeServiceCacheDecorator" />
         <property name="businessLogic" ref="coBusinessLogic" />
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator" />
@@ -639,7 +719,7 @@
     <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
         <property name="holdIssueDao" ref="holdIssueDao"/>
         <property name="appliedHoldDao" ref="appliedHoldDao"/>
-        <property name="criteriaLookupService" ref="holdCriteriaLookupService"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService"/>
     </bean>
 
     <bean id="ks.exp.holdService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -655,17 +735,7 @@
         </property>
     </bean>
 
-    <!-- Hold Service - Criteria Lookup Service -->
-    <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
-
-    <bean id="holdCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
-        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
-        <property name="predicateTransforms">
-            <list>
-                <ref bean="attributeTransform"/>
-            </list>
-        </property>
-    </bean>
+ 
 
     <!-- Org Service -->
     <bean id="orgServiceImplNew" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
