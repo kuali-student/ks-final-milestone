@@ -462,24 +462,24 @@ public class TestLuiServiceImpl {
         rel.setLuiId("Lui-1");
         rel.setRelatedLuiId(newLui.getId());
         rel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
-        rel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
+        rel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY);
         rel.setEffectiveDate(Calendar.getInstance().getTime());
         rtInfo = new RichTextInfo();
         rtInfo.setFormatted("<p>Test lui-Lui relation description</p>");
         rtInfo.setPlain("Test lui-Lui relation description");
         rel.setDescr(rtInfo);
-        created = luiService.createLuiLuiRelation("Lui-1", newLui.getId(), LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, rel, callContext);
+        created = luiService.createLuiLuiRelation("Lui-1", newLui.getId(), LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, rel, callContext);
 
         assertNotNull(created);
         assertEquals(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY, created.getStateKey());
-        assertEquals(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, created.getTypeKey());
+        assertEquals(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, created.getTypeKey());
 
 
 
         LuiLuiRelationInfo retrieved = luiService.getLuiLuiRelation(created.getId(), callContext);
         assertNotNull(retrieved);
         assertEquals(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY, retrieved.getStateKey());
-        assertEquals(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, retrieved.getTypeKey());
+        assertEquals(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, retrieved.getTypeKey());
 
         List<LuiLuiRelationInfo> objs = luiService.getLuiLuiRelationsByLui("Lui-1", callContext);
         assertNotNull(objs);

@@ -231,9 +231,18 @@ public class LuiServiceConstants {
     /**
      *  LUI LUI Relation types
      */
-    public static final String LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY = "kuali.lui.lui.relation.associated";
+    @Deprecated
+    public static final String LUI_LUI_RELATION_ASSOCIATED_TYPE_KE = "kuali.lui.lui.relation.associated";
+    // Actual LUI LUI Relation types KSENROLL-2237
+    public static final String LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia.co2fo";
+    public static final String LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia.fo2ao";
+    public static final String LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia.fo2rg";
+    public static final String LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY = "kuali.lui.lui.relation.type.registeredforvia.rg2ao";
+    // This is a grouping type
     public static final String LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY = "kuali.lui.lui.relation.type.registeredforvia";
+    // This is a grouping type
     public static final String LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia";
+
     /**
      * LUI LUI Relation States
      */

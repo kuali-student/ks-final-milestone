@@ -707,7 +707,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<LuiInfo> rels;
         try {
             rels = luiService.getLuisByRelatedLuiAndRelationType(formatOfferingId,
-                    LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, context);
+                    LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
@@ -723,7 +723,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws OperationFailedException {
         List<LuiInfo> rels;
         try {
-            rels = luiService.getLuisByRelatedLuiAndRelationType(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, context);
+            rels = luiService.getLuisByRelatedLuiAndRelationType(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, context);
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
@@ -744,7 +744,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<FormatOfferingInfo> formatOfferings = new ArrayList<FormatOfferingInfo>();
 
         // Find all related luis to the course Offering
-        List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, context);
+        List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
         for (LuiInfo lui: luis) {
             // Filter out only course offerings (the relation type seems to vague to only hold format offerings)
             if (LuiServiceConstants.isFormatOfferingTypeKey(lui.getTypeKey())) {
@@ -853,7 +853,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         luiRel.setDescr(descr);
         luiRel.setRelatedLuiId(lui.getId());
         luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
-        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
+        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY);
         luiRel.setEffectiveDate(new Date());
         try {
             luiRel = luiService.createLuiLuiRelation(luiRel.getLuiId(), luiRel.getRelatedLuiId(), luiRel.getTypeKey(), luiRel, context);
@@ -965,7 +965,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<ActivityOfferingInfo> activityOfferings = new ArrayList<ActivityOfferingInfo>();
 
         //Find all related luis to the course Offering
-        List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY,context);
+        List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, context);
         for (LuiInfo lui:luis) {
 
             //Filter out only course offerings (the relation type seems to vague to only hold format offerings)
@@ -1067,7 +1067,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         descr.setPlain(coCode + "-FO-AO"); // Useful for debugging
         descr.setFormatted(coCode + "-FO-AO"); // Useful for debugging
         luiRel.setDescr(descr);
-        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
+        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY);
         luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
         luiRel.setEffectiveDate(new Date());
         try {
@@ -1642,7 +1642,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
             luiRel.setLuiId(luiId);
             luiRel.setRelatedLuiId(relatedLuiId);
-            luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
+            luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY);
             luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
             luiRel.setEffectiveDate(new Date());
             try {
