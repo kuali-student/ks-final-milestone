@@ -61,7 +61,7 @@
         TYPE_KEY="kuali.org.HQ" VER_NBR="0"/>
     <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000"
         NAME="is Curriculum Parent of"
-        OBJ_ID="C7309C89A4151082E040720A048339A6"
+        OBJ_ID="C73F1A2D707AC0E5E040720A048350DE"
         ORG_HIRCHY="kuali.org.hierarchy.Curriculum"
         REV_DESCR="Indicates that this organization is the Child of another organization in the Curriculum Hierarchy"
         REV_NAME="is Curriculum Child of"
