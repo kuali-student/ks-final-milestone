@@ -16,10 +16,12 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.search.dto.*;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.courseoffering.dto.*;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
@@ -37,6 +39,7 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -72,6 +75,32 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new CourseOfferingManagementForm();
+    }
+
+    @Override
+    @RequestMapping(params = "methodToCall=start")
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        // check view authorization
+        // TODO: this needs to be invoked for each request
+        if (form.getView() != null) {
+            String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
+            checkViewAuthorization(form, methodToCall);
+        }
+
+        String[] methodToCalls = request.getParameterValues(KRADConstants.DISPATCH_REQUEST_PARAMETER);
+        for (String methodToCall : methodToCalls) {
+            if (StringUtils.equals(methodToCall,KRADConstants.RETURN_METHOD_TO_CALL)){
+                if (StringUtils.equals(((CourseOfferingManagementForm)form).getRadioSelection(),"courseOfferingCode")){
+                    form.setPageId("manageActivityOfferingsPage");
+                } else if (StringUtils.equals(((CourseOfferingManagementForm)form).getRadioSelection(),"subjectCode")){
+                    form.setPageId("manageCourseOfferingsPage");
+                }
+                break;
+            }
+        }
+        return getUIFModelAndView(form);
     }
 
     /**
@@ -657,8 +686,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if(selectedObject instanceof CourseOfferingEditWrapper){
             CourseOfferingInfo courseOfferingInfo = ((CourseOfferingEditWrapper) selectedObject).getCoInfo();
             urlParameters = _buildCOURLParameters(courseOfferingInfo,"maintenanceEdit",false,getContextInfo());
-            urlParameters.put(UifParameters.RETURN_FORM_KEY, theForm.getFormKey());
-            urlParameters.put(UifParameters.RETURN_LOCATION, theForm.getFormPostUrl());
         }
         else if(selectedObject instanceof ActivityOfferingWrapper) {
             ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper)selectedObject;
@@ -667,8 +694,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, theForm.getTheCourseOffering().getId());
             urlParameters.put("dataObjectClassName", ActivityOfferingWrapper.class.getName());
             urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
-            urlParameters.put(UifParameters.RETURN_FORM_KEY, theForm.getFormKey());
-            urlParameters.put(UifParameters.RETURN_LOCATION, theForm.getFormPostUrl());
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
@@ -878,6 +903,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("coInfo.id", courseOfferingInfo.getId());
         props.put("dataObjectClassName", CourseOfferingEditWrapper.class.getName());
+        props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         return props;
     }
 
