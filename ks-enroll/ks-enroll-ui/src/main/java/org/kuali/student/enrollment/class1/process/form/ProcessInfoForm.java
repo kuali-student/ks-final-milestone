@@ -37,6 +37,7 @@ public class ProcessInfoForm extends UifFormBase {
     private String stateKey;
     private String descr;
     private String ownerOrgId;
+    private String orgName;
 
     private List<ProcessInfo> processInfos;
 
@@ -110,5 +111,12 @@ public class ProcessInfoForm extends UifFormBase {
 
     public void setProcessInfo(ProcessInfo processInfo) {
         this.processInfo = processInfo;
+    }
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
     }
 }
