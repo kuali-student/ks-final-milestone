@@ -14,7 +14,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.search.dto.*;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -42,7 +41,6 @@ import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -89,13 +87,17 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             checkViewAuthorization(form, methodToCall);
         }
 
+        /**
+         * When user cancels edit AO/CO, this will be called. Based on the radio button selected, we need to set the page id
+         * sothat that page will be displayed. Otherwise, it displays the default (search page) will be displayed.
+         */
         String[] methodToCalls = request.getParameterValues(KRADConstants.DISPATCH_REQUEST_PARAMETER);
         for (String methodToCall : methodToCalls) {
             if (StringUtils.equals(methodToCall,KRADConstants.RETURN_METHOD_TO_CALL)){
                 if (StringUtils.equals(((CourseOfferingManagementForm)form).getRadioSelection(),CourseOfferingConstants.COURSEOFFERING_COURSE_OFFERING_CODE)){
-                    form.setPageId("manageActivityOfferingsPage");
-                } else if (StringUtils.equals(((CourseOfferingManagementForm)form).getRadioSelection(),CourseOfferingConstants.COURSEOFFERING_SUBJECT_AREA)){
-                    form.setPageId("manageCourseOfferingsPage");
+                    form.setPageId(CourseOfferingConstants.MANAGE_AO_PAGE);
+                } else if (StringUtils.equals(((CourseOfferingManagementForm)form).getRadioSelection(),CourseOfferingConstants.COURSEOFFERING_SUBJECT_CODE)){
+                    form.setPageId(CourseOfferingConstants.MANAGE_CO_PAGE);
                 }
                 break;
             }
@@ -149,7 +151,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 theForm.setSubjectCodeDescription(longNameDescr);
             }
 
-            return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
 
         } else {
             //load courseOffering based on courseOfferingCode and load all associated activity offerings 
@@ -168,7 +170,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(courseOfferingList.get(0), theForm);
                 getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,courseOfferingList.get(0));
 
-                return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
+                return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
 
             } else if (courseOfferingList.size()>1) {
 
@@ -197,7 +199,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView viewRegGroups(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        return getUIFModelAndView(theForm, "viewRegistrationGroupsPage");
+        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
 
     }
 
@@ -245,15 +247,15 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             theForm.setTheCourseOffering(theCourseOffering);
             theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
             theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
-            theForm.setRadioSelection("courseOfferingCode");
+            theForm.setRadioSelection(CourseOfferingConstants.COURSEOFFERING_COURSE_OFFERING_CODE);
             getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
             getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theCourseOffering);
 
-            return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
+            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
         }
         else{
             //TODO log error
-            return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
         }
     }
 
@@ -288,7 +290,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         newWrapper.setCredits(ViewHelperUtil.getCreditCount(courseOffering, course));
         newWrapper.setGrading(getGradingOption(courseOffering.getGradingOptionId()));
         copyWrapper.getExistingOfferingsInCurrentTerm().add(newWrapper);
-        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
     private TermInfo getTerm(String termCode){
@@ -415,7 +417,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             BindingResult result,
             HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=copyCourseOffering")
@@ -456,7 +458,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         } else { //TODO log error
             theForm.setCourseOfferingCopyWrapper(null);
         }
-        return getUIFModelAndView(theForm, "copyCourseOfferingPage");
+        return getUIFModelAndView(theForm, CourseOfferingConstants.COPY_CO_PAGE);
     }
 
 
@@ -484,7 +486,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         theForm.setRadioSelection("subjectCode");
         theForm.setInputCode(subjectCode);
         getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
-        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
     /**
@@ -513,7 +515,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView cancelDeleteAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
         getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
-        return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
     /**
@@ -535,7 +537,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
-        return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
 
     }
 
@@ -589,11 +591,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 LOG.error("Error: Course Offering cannot be deleted.");
                 GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingManagement-CourseOfferingListSection",
                         CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_CO_CANNOT_DELETE);
-                return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+                return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
             }
         }
 
-        return getUIFModelAndView(theForm, "coDeleteConfirmationPage");
+        return getUIFModelAndView(theForm, CourseOfferingConstants.CO_DELETE_CONFIRM_PAGE);
     }
 
     /**
@@ -626,7 +628,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     LOG.error("Error: Course Offering cannot be deleted.");
                     GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingManagement-CourseOfferingListSection",
                             CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_CO_CANNOT_DELETE);
-                    return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+                    return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
                 }
             }
             CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(theCourseOffering.getId(), ContextBuilder.loadContextInfo());
@@ -637,7 +639,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             throw new RuntimeException(e);
         }
 
-        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
     /**
@@ -670,7 +672,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-        return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
     /**
@@ -681,24 +683,28 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Properties urlParameters = new Properties();
-        String controllerPath = "maintenance";
         Object selectedObject = _getSelectedObject(theForm, "edit");
+
         if(selectedObject instanceof CourseOfferingEditWrapper){
+
             CourseOfferingInfo courseOfferingInfo = ((CourseOfferingEditWrapper) selectedObject).getCoInfo();
-            urlParameters = _buildCOURLParameters(courseOfferingInfo,"maintenanceEdit",false,getContextInfo());
-        }
-        else if(selectedObject instanceof ActivityOfferingWrapper) {
+            urlParameters = _buildCOURLParameters(courseOfferingInfo,KRADConstants.Maintenance.METHOD_TO_CALL_EDIT,false,getContextInfo());
+
+        }else if(selectedObject instanceof ActivityOfferingWrapper) {
+
             ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper)selectedObject;
-            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "maintenanceEdit");
+
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
             urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, aoWrapper.getAoInfo().getId());
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, theForm.getTheCourseOffering().getId());
-            urlParameters.put("dataObjectClassName", ActivityOfferingWrapper.class.getName());
+            urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
             urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
 
-        return super.performRedirect(theForm, controllerPath, urlParameters);
+        return super.performRedirect(theForm, KRADConstants.Maintenance.REQUEST_MAPPING_MAINTENANCE, urlParameters);
 
     }
 
@@ -717,6 +723,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
             getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(), theForm.getSelectedOfferingAction());
         }
+
         // reload the AOs
         CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();
         getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
@@ -802,7 +809,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
 */
-        return getUIFModelAndView(theForm, "selectedAoDeleteConfirmationPage");
+        return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
     }
 
     /**
@@ -817,12 +824,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         Object selectedObject = _getSelectedObject(theForm, "view");
 
         if(selectedObject instanceof CourseOfferingInfo){
-            urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"start",true,getContextInfo());
+            urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,KRADConstants.START_METHOD,true,getContextInfo());
         } else if(selectedObject instanceof ActivityOfferingWrapper) {
             ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper)selectedObject;
-            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_ID, aoWrapper.getAoInfo().getId());
-            urlParameters.put("dataObjectClassName", ActivityOfferingInfo.class.getName());
+            urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingInfo.class.getName());
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
@@ -855,9 +862,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         String termCode = theForm.getTermCode();
 
         Properties props = new Properties();
-        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         props.put("targetTermCode",termCode);
-        props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper");
+        props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, "org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper");
 
          return super.performRedirect(theForm,"courseOffering", props);
     }
@@ -879,8 +886,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();
-        Properties urlParameters = _buildCOURLParameters(theCourseOfferingInfo,"start",false,getContextInfo());
-        String controllerPath = "inquiry";
+        Properties urlParameters = _buildCOURLParameters(theCourseOfferingInfo,KRADConstants.START_METHOD,false,getContextInfo());
+        String controllerPath = KRADConstants.PARAM_MAINTENANCE_VIEW_MODE_INQUIRY;
         return super.performRedirect(theForm,controllerPath, urlParameters);
     }
 
@@ -893,8 +900,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();
-        Properties urlParameters = _buildCOURLParameters(theCourseOfferingInfo,"maintenanceEdit",false,getContextInfo());
-        String controllerPath = "maintenance";
+        Properties urlParameters = _buildCOURLParameters(theCourseOfferingInfo,KRADConstants.Maintenance.METHOD_TO_CALL_EDIT,false,getContextInfo());
+        String controllerPath = KRADConstants.Maintenance.REQUEST_MAPPING_MAINTENANCE;
         return super.performRedirect(theForm,controllerPath, urlParameters);
     }
 
@@ -902,7 +909,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("coInfo.id", courseOfferingInfo.getId());
-        props.put("dataObjectClassName", CourseOfferingEditWrapper.class.getName());
+        props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingEditWrapper.class.getName());
         props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         return props;
     }

@@ -12,6 +12,7 @@ public class CourseOfferingConstants {
     public final static String COURSEOFFERING_ID = "id";
     public final static String COURSEOFFERING_TERM_ID = "termId";
     public final static String COURSEOFFERING_SUBJECT_AREA = "subjectArea";
+    public final static String COURSEOFFERING_SUBJECT_CODE = "subjectCode";
     public final static String COURSEOFFERING_COURSE_OFFERING_CODE = "courseOfferingCode";
     public final static String ATP_CODE = "atpCode";
     public final static String ATP_ID = "atpId";
@@ -42,6 +43,11 @@ public class CourseOfferingConstants {
     public static final String ACTIVITY_OFFERING_DELETE_ACTION = "Delete";
 
     public static final String MANAGE_AO_PAGE = "manageActivityOfferingsPage";
+    public static final String MANAGE_CO_PAGE = "manageCourseOfferingsPage";
+    public static final String CO_DELETE_CONFIRM_PAGE = "coDeleteConfirmationPage";
+    public static final String AO_DELETE_CONFIRM_PAGE = "selectedAoDeleteConfirmationPage";
+    public static final String REG_GROUP_PAGE = "viewRegistrationGroupsPage";
+    public static final String COPY_CO_PAGE = "copyCourseOfferingPage";
 
     // Display text
     public static final String COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY = "None available";
