@@ -18,8 +18,6 @@ package org.kuali.student.r2.core.population.service.impl;
 
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -33,14 +31,13 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dao.PopulationDao;
 import org.kuali.student.r2.core.population.dao.PopulationRuleDao;
+import org.kuali.student.r2.core.population.model.PopulationEntity;
+import org.kuali.student.r2.core.population.model.PopulationRuleEntity;
 import org.kuali.student.r2.core.population.dto.PopulationCategoryInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
-import org.kuali.student.r2.core.population.model.PopulationEntity;
-import org.kuali.student.r2.core.population.model.PopulationRuleEntity;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -17,7 +17,6 @@
 package org.kuali.student.r2.core.population.dao;
 
 import org.kuali.student.r2.common.dao.GenericEntityDao;
-import org.kuali.student.r2.core.population.model.PopulationEntity;
 import org.kuali.student.r2.core.population.model.PopulationRuleEntity;
 
 import java.util.List;
