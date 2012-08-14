@@ -59,6 +59,7 @@ public interface LprRoster
      * implement waitlist checkins.
      * 
      * @name CheckIn Required
+     * @required
      */
     public Boolean getCheckInRequired();
 

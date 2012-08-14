@@ -132,6 +132,7 @@ public interface PopulationRule
      * should normally return the same answer if invoked simultaneously.
      * 
      * @name Varies By Time
+     * @required
      */
     public Boolean getVariesByTime();
 
@@ -146,6 +147,7 @@ public interface PopulationRule
      * should throw an OperationFailedException exception.
      *
      * @name Supports Get Members
+     * @required
      */
     public Boolean getSupportsGetMembers();
 }

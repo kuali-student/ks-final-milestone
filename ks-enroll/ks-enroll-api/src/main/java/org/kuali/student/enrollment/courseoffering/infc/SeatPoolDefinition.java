@@ -51,6 +51,7 @@ public interface SeatPoolDefinition
      * of MaximumEnrollment in the ActivityOffering. 
      *
      * @name Is Percentage
+     * @required
      */
     public Boolean getIsPercentage();
 
