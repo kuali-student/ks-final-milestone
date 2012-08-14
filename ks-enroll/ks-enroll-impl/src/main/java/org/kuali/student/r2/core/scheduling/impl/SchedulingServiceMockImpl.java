@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleTransaction;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import javax.jws.WebParam;
@@ -291,17 +292,7 @@ public class SchedulingServiceMockImpl implements SchedulingService
 		}
 		return list;
 	}
-	
-	@Override
-	public List<ScheduleBatchInfo> getScheduleBatchesForScheduleRequest(String scheduleRequestId, ContextInfo contextInfo)
-		throws InvalidParameterException
-		      ,MissingParameterException
-		      ,OperationFailedException
-		      ,PermissionDeniedException
-	{
-		throw new OperationFailedException ("getScheduleBatchesForScheduleRequest has not been implemented");
-	}
-	
+
 	@Override
 	public List<String> searchForScheduleBatchIds(QueryByCriteria criteria, ContextInfo contextInfo)
 		throws InvalidParameterException
@@ -396,90 +387,6 @@ public class SchedulingServiceMockImpl implements SchedulingService
 		}
 		return newStatus();
 	}
-	
-	@Override
-	public StatusInfo addScheduleRequestsToScheduleBatch(List<String> scheduleRequestIds, List<String> scheduleBatchId, ContextInfo contextInfo)
-		throws DoesNotExistException
-		      ,InvalidParameterException
-		      ,MissingParameterException
-		      ,OperationFailedException
-		      ,PermissionDeniedException
-	{
-		throw new OperationFailedException ("addScheduleRequestsToScheduleBatch has not been implemented");
-	}
-	
-	@Override
-	public StatusInfo removeScheduleRequestsFromScheduleBatch(List<String> scheduleRequestIds, List<String> scheduleBatchId, ContextInfo contextInfo)
-		throws DoesNotExistException
-		      ,InvalidParameterException
-		      ,MissingParameterException
-		      ,OperationFailedException
-		      ,PermissionDeniedException
-	{
-		throw new OperationFailedException ("removeScheduleRequestsFromScheduleBatch has not been implemented");
-	}
-
-	@Override
-	public ScheduleBatchRespInfo getScheduleBatchResp(String scheduleBatchResponseId, ContextInfo contextInfo)
-		throws DoesNotExistException
-		      ,InvalidParameterException
-		      ,MissingParameterException
-		      ,OperationFailedException
-		      ,PermissionDeniedException
-	{
-		if (!this.scheduleBatchResponseMap.containsKey(scheduleBatchResponseId)) {
-		   throw new DoesNotExistException(scheduleBatchResponseId);
-		}
-		return this.scheduleBatchResponseMap.get (scheduleBatchResponseId);
-	}
-
-	@Override
-	public List<ScheduleBatchRespInfo> getScheduleBatchRespsByIds(List<String> scheduleBatchResponseIds, ContextInfo contextInfo)
-		throws DoesNotExistException
-		      ,InvalidParameterException
-		      ,MissingParameterException
-		      ,OperationFailedException
-		      ,PermissionDeniedException
-	{
-		List<ScheduleBatchRespInfo> list = new ArrayList<ScheduleBatchRespInfo> ();
-		for (String id: scheduleBatchResponseIds) {
-		    list.add (this.getScheduleBatchResp(id, contextInfo));
-		}
-		return list;
-	}
-
-	@Override
-	public List<String> getScheduleBatchRespIdsByType(String scheduleBatchResponseTypeKey, ContextInfo contextInfo)
-		throws InvalidParameterException
-		      ,MissingParameterException
-		      ,OperationFailedException
-		      ,PermissionDeniedException
-	{
-		List<String> list = new ArrayList<String> ();
-		for (ScheduleBatchRespInfo info: scheduleBatchResponseMap.values ()) {
-			if (scheduleBatchResponseTypeKey.equals(info.getTypeKey())) {
-			    list.add (info.getId ());
-			}
-		}
-		return list;
-	}
-
-	@Override
-	public List<ScheduleBatchRespInfo> getScheduleBatchRespsByScheduleBatchRequest(String scheduleBatchId, ContextInfo contextInfo)
-		throws DoesNotExistException
-		      ,InvalidParameterException
-		      ,MissingParameterException
-		      ,OperationFailedException
-		      ,PermissionDeniedException
-	{
-		List<ScheduleBatchRespInfo> list = new ArrayList<ScheduleBatchRespInfo> ();
-		for (ScheduleBatchRespInfo info: scheduleBatchResponseMap.values ()) {
-			if (scheduleBatchId.equals(info.getId())) {
-			    list.add (info);
-			}
-		}
-		return list;
-	}
 
 	@Override
 	public ScheduleRequestInfo getScheduleRequest(String scheduleRequestId, ContextInfo contextInfo)
@@ -535,17 +442,7 @@ public class SchedulingServiceMockImpl implements SchedulingService
 	{
         throw new UnsupportedOperationException("Not supported yet.");
 	}
-	
-	@Override
-	public List<ScheduleRequestInfo> getScheduleRequestsForScheduleBatch(String scheduleBatchId, ContextInfo contextInfo)
-		throws InvalidParameterException
-		      ,MissingParameterException
-		      ,OperationFailedException
-		      ,PermissionDeniedException
-	{
-		throw new OperationFailedException ("getScheduleRequestsForScheduleBatch has not been implemented");
-	}
-	
+
 	@Override
 	public List<String> searchForScheduleRequestIds(QueryByCriteria criteria, ContextInfo contextInfo)
 		throws InvalidParameterException
@@ -1010,6 +907,11 @@ public class SchedulingServiceMockImpl implements SchedulingService
 
     @Override
     public StatusInfo deleteScheduleTransaction(@WebParam(name = "scheduleTransactionId") String scheduleTransactionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ScheduleTransaction submitScheduleBatch(@WebParam(name = "scheduleBatchId") String scheduleBatchId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
 
