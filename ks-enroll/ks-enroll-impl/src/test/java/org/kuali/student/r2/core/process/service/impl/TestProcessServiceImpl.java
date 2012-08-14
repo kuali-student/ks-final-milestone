@@ -110,7 +110,7 @@ public class TestProcessServiceImpl {
         assertEquals("milestoneTypeKey-1", check.getMilestoneTypeKey());
         assertEquals("kuali.process.registration.basic.eligibility", check.getChildProcessKey());
         assertEquals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check.getTypeKey());
-        assertEquals("kuali.process.check.lifecycle",check.getStateKey());
+        assertEquals(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE,check.getStateKey());
 
         // Update
         check.setHoldIssueId("Hold-Issue-1");
@@ -127,7 +127,7 @@ public class TestProcessServiceImpl {
         assertEquals("milestoneTypeKey-2", check.getMilestoneTypeKey());
         assertNull(check.getChildProcessKey());
         assertEquals(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY, check.getTypeKey());
-        assertEquals("kuali.process.check.lifecycle", check.getStateKey());
+        assertEquals(ProcessServiceConstants.PROCESS_CHECK_STATE_INACTIVE, check.getStateKey());
 
         // Delete
         processService.deleteCheck(check.getId(), context);
