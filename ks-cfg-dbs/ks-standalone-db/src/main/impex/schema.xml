@@ -2282,7 +2282,7 @@
         <column name="POSITION" size="22" type="DECIMAL"/>
         <column name="WARNING_IND" size="1" type="VARCHAR"/>
         <column name="CONT_ON_FAILED_IND" size="1" type="VARCHAR"/>
-        <column name="EXEMPTABLE_IND" size="1" type="VARCHAR"/>
+        <column name="EXEMPTIBLE_IND" size="1" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CREATETIME" required="true" type="TIMESTAMP"/>
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
