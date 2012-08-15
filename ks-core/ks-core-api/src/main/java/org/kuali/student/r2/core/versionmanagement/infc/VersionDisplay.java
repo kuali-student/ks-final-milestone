@@ -1,4 +1,4 @@
-package org.kuali.student.r2.common.versionmanagement.infc;
+package org.kuali.student.r2.core.versionmanagement.infc;
 
 import java.util.Date;
 

@@ -38,7 +38,7 @@ import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.versionmanagement.service.VersionManagementService;
+import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
 import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInfo;
 import org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo;

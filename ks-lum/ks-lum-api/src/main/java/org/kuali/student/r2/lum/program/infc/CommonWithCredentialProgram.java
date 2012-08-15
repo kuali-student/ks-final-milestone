@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.common.versionmanagement.infc.Version;
+import org.kuali.student.r2.core.versionmanagement.infc.Version;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
 
 /*

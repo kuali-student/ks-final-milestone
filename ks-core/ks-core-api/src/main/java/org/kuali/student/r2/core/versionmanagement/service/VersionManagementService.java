@@ -1,9 +1,9 @@
-package org.kuali.student.r2.common.versionmanagement.service;
+package org.kuali.student.r2.core.versionmanagement.service;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.constants.VersionManagementServiceConstants;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.constants.VersionManagementServiceConstants;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;

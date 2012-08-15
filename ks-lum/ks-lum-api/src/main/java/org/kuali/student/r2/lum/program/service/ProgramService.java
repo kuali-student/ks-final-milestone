@@ -35,8 +35,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.common.versionmanagement.service.VersionManagementService;
+import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
 import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;

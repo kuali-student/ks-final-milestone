@@ -2287,7 +2287,7 @@
  
  <!-- VersionInfo-->
  <bean id="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo"/>
+  <property name="name" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
   <property name="attributes">
    <list>
     <ref bean="versionInfo.currentVersionEnd"/>

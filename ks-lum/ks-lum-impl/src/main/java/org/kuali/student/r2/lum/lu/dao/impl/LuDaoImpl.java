@@ -24,7 +24,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.lu.dao.LuDao;
 import org.kuali.student.r2.lum.lu.entity.Clu;
 import org.kuali.student.r2.lum.lu.entity.CluCluRelation;
@@ -35,8 +35,6 @@ import org.kuali.student.r2.lum.lu.entity.CluResultType;
 import org.kuali.student.r2.lum.lu.entity.CluSet;
 import org.kuali.student.r2.lum.lu.entity.Lui;
 import org.kuali.student.r2.lum.lu.entity.LuiLuiRelation;
-import org.kuali.student.r2.lum.lu.dao.LuDao;
-import org.kuali.student.r2.lum.lu.entity.*;
 
 public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 

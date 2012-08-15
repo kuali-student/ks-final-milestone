@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.r2.common.service.impl;
+package org.kuali.student.r2.core.service.assembly;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +36,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.springframework.beans.BeanUtils;
 
 public class BaseAssembler {

@@ -24,12 +24,11 @@ import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.statement.config.context.util.NLCluSet;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 

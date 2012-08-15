@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.student.r1.common.dao.CrudDao;
 import org.kuali.student.r1.common.dao.SearchableDao;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.lu.entity.Clu;
 import org.kuali.student.r2.lum.lu.entity.CluCluRelation;
 import org.kuali.student.r2.lum.lu.entity.CluLoRelation;
@@ -29,10 +29,6 @@ import org.kuali.student.r2.lum.lu.entity.CluResult;
 import org.kuali.student.r2.lum.lu.entity.CluResultType;
 import org.kuali.student.r2.lum.lu.entity.CluSet;
 import org.kuali.student.r2.lum.lu.entity.Lui;
-import org.kuali.student.r2.lum.lu.entity.LuiLuiRelation;
-import org.kuali.student.r2.lum.lu.entity.Clu;
-import org.kuali.student.r2.lum.lu.entity.CluLoRelation;
-import org.kuali.student.r2.lum.lu.entity.CluSet;
 import org.kuali.student.r2.lum.lu.entity.LuiLuiRelation;
 
 public interface LuDao extends CrudDao, SearchableDao  {

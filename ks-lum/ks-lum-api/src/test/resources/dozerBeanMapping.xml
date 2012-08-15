@@ -187,7 +187,7 @@
 		<field>
 			<a>versionInfo</a>
 			<b get-method="getVersionInfo"
-				set-method="setVersionInfo(org.kuali.student.r2.common.versionmanagement.dto.VersionInfo)">descr</b>
+				set-method="setVersionInfo(org.kuali.student.r2.core.versionmanagement.dto.VersionInfo)">descr</b>
 		</field>
 		<field>
 			<a get-method="isEnrollable" set-method="setEnrollable">isEnrollable</a>

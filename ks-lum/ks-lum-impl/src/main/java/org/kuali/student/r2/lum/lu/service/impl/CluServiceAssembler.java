@@ -84,7 +84,7 @@ import org.kuali.student.r2.lum.lu.entity.SearchParameterValue;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.service.impl.BaseAssembler;
+import org.kuali.student.r2.core.service.assembly.BaseAssembler;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.infc.SearchParam;
 import org.springframework.beans.BeanUtils;

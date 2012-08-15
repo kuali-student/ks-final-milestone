@@ -18,7 +18,7 @@ import org.kuali.student.r2.common.infc.Amount;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.common.versionmanagement.infc.Version;
+import org.kuali.student.r2.core.versionmanagement.infc.Version;
 
 import java.util.List;
 import org.kuali.student.r2.common.infc.RichText;
