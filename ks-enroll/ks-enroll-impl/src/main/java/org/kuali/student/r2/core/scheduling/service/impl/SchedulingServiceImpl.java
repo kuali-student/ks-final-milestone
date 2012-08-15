@@ -22,12 +22,16 @@ import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dao.ScheduleRequestDao;
 import org.kuali.student.r2.core.scheduling.dao.TimeSlotDao;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.model.ScheduleRequestAttributeEntity;
+import org.kuali.student.r2.core.scheduling.model.ScheduleRequestComponentEntity;
+import org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity;
 import org.kuali.student.r2.core.scheduling.model.TimeSlotEntity;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
@@ -38,18 +42,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: andy
- * Date: 6/5/12
- * Time: 3:09 PM
- * To change this template use File | Settings | File Templates.
- */
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class SchedulingServiceImpl implements SchedulingService {
-
+    private ScheduleRequestDao scheduleRequestDao;
     private TimeSlotDao timeSlotDao;
+
+    public ScheduleRequestDao getScheduleRequestDao() {
+        return scheduleRequestDao;
+    }
+
+    public void setScheduleRequestDao(ScheduleRequestDao scheduleRequestDao) {
+        this.scheduleRequestDao = scheduleRequestDao;
+    }
 
     public TimeSlotDao getTimeSlotDao() {
         return timeSlotDao;
@@ -151,7 +156,13 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     @Override
     public ScheduleRequestInfo getScheduleRequest(@WebParam(name = "scheduleRequestId") String scheduleRequestId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        ScheduleRequestEntity scheduleRequestEntity = scheduleRequestDao.find(scheduleRequestId);
+        if (null == scheduleRequestEntity) {
+            throw new DoesNotExistException(scheduleRequestId);
+        }
+
+        return scheduleRequestEntity.toDto();
+
     }
 
     @Override
@@ -185,18 +196,97 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public ScheduleRequestInfo createScheduleRequest(@WebParam(name = "scheduleRequestTypeKey") String scheduleRequestTypeKey, @WebParam(name = "scheduleRequestInfo") ScheduleRequestInfo scheduleRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new UnsupportedOperationException();
+        if (!scheduleRequestInfo.getTypeKey().equals(scheduleRequestTypeKey)) {
+            throw new InvalidParameterException(scheduleRequestTypeKey + " does not match the type in the info object " + scheduleRequestInfo.getTypeKey());
+        }
+
+        ScheduleRequestEntity scheduleRequestEntity = new ScheduleRequestEntity(scheduleRequestInfo);
+        scheduleRequestEntity.setSchedReqType(scheduleRequestTypeKey);
+        scheduleRequestEntity.setEntityCreated(contextInfo);
+
+        if(scheduleRequestEntity.getScheduleRequestComponents() != null){
+            for(ScheduleRequestComponentEntity srComp : scheduleRequestEntity.getScheduleRequestComponents()){
+                srComp.setCreateId(contextInfo.getPrincipalId());
+                srComp.setCreateTime(contextInfo.getCurrentDate());
+                srComp.setUpdateId(contextInfo.getPrincipalId());
+                srComp.setUpdateTime(contextInfo.getCurrentDate());
+            }
+        }
+
+        scheduleRequestDao.persist(scheduleRequestEntity);
+        return scheduleRequestEntity.toDto();
     }
 
     @Override
+    @Transactional(readOnly = false)
     public ScheduleRequestInfo updateScheduleRequest(@WebParam(name = "scheduleRequestId") String scheduleRequestId, @WebParam(name = "scheduleRequestInfo") ScheduleRequestInfo scheduleRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        throw new UnsupportedOperationException();
+        if(!scheduleRequestInfo.getId().equals(scheduleRequestId)){
+            throw new InvalidParameterException(scheduleRequestId +  "does not match the id in the object " + scheduleRequestInfo.getId());
+        }
+
+        ScheduleRequestEntity scheduleRequestEntity = scheduleRequestDao.find(scheduleRequestId);
+        if (null == scheduleRequestEntity) {
+            throw new DoesNotExistException(scheduleRequestId);
+        }
+
+        //Transform the DTO to the entity
+        List<Object> orphans = scheduleRequestEntity.fromDto(scheduleRequestInfo);
+
+        //Delete any orphaned children
+        for(Object orphan : orphans){
+            scheduleRequestDao.getEm().remove(orphan);
+        }
+
+        //Update any Meta information
+        scheduleRequestEntity.setEntityUpdated(contextInfo);
+
+        if(scheduleRequestEntity.getScheduleRequestComponents() != null){
+            for(ScheduleRequestComponentEntity srComp : scheduleRequestEntity.getScheduleRequestComponents()){
+                if(srComp.getCreateId() == null){
+                    srComp.setCreateId(contextInfo.getPrincipalId());
+                }
+                if(srComp.getCreateTime() == null){
+                    srComp.setCreateTime(contextInfo.getCurrentDate());
+                }
+                srComp.setUpdateId(contextInfo.getPrincipalId());
+                srComp.setUpdateTime(contextInfo.getCurrentDate());
+            }
+        }
+        scheduleRequestDao.merge(scheduleRequestEntity);
+        return scheduleRequestEntity.toDto();
+
     }
 
     @Override
+    @Transactional(readOnly = false)
     public StatusInfo deleteScheduleRequest(@WebParam(name = "scheduleRequestId") String scheduleRequestId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        ScheduleRequestEntity scheduleRequestEntity = scheduleRequestDao.find(scheduleRequestId);
+        if (null == scheduleRequestEntity) {
+            throw new DoesNotExistException(scheduleRequestId);
+        }
+
+        //Delete attributes
+        if(scheduleRequestEntity.getAttributes() != null){
+            for(ScheduleRequestAttributeEntity attr : scheduleRequestEntity.getAttributes()){
+                scheduleRequestDao.getEm().remove(attr);
+            }
+        }
+
+        //Delete scheduleRequestComponents
+        if(scheduleRequestEntity.getScheduleRequestComponents() != null){
+            for(ScheduleRequestComponentEntity srComp : scheduleRequestEntity.getScheduleRequestComponents()){
+                scheduleRequestDao.getEm().remove(srComp);
+            }
+        }
+
+        scheduleRequestDao.remove(scheduleRequestEntity);
+
+        return status;
     }
 
     @Override
