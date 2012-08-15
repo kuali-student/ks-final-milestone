@@ -51,6 +51,9 @@
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />
         <property name="maintenanceUrlMapping" value="population"/>
+        <property name="resultsGroup">
+            <bean parent="Uif-LookupResultsCollectionSection" p:id="lookup_population"/>
+        </property>
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:label="Keyword" p:propertyName="keyword" />
