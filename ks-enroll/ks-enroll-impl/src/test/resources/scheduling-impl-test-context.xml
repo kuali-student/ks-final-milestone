@@ -106,4 +106,9 @@
 
     -->
 
+   <bean id="scheduleRequestDao" class="org.kuali.student.r2.core.scheduling.dao.ScheduleRequestDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 </beans>
