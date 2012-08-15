@@ -302,11 +302,22 @@ public class LuiServiceConstants {
     /**
      * Registration Group States
      * (See: https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-RegistrationGroupLifecycle)
+     *  See Jira KSENROLL-2238
      */
     public static final String REGISTRATION_GROUP_OPEN_STATE_KEY = "kuali.lui.registration.group.state.open";
     public static final String REGISTRATION_GROUP_CLOSED_STATE_KEY = "kuali.lui.registration.group.state.closed";
     public static final String REGISTRATION_GROUP_SUSPENDED_STATE_KEY = "kuali.lui.registration.group.state.suspended";
     public static final String REGISTRATION_GROUP_INVALID_STATE_KEY = "kuali.lui.registration.group.state.invalid";
+    // The process key for Registration Groups
+    public static final String REGISTRATION_GROUP_LIFECYCLE_KEY = "kuali.course.registration.group.lifecycle";
+    // List of all Registration Group state keys in an array
+    public static final String[] REGISTRATION_GROUP_LIFECYCLE_KEY_STATES = {
+            REGISTRATION_GROUP_OPEN_STATE_KEY,
+            REGISTRATION_GROUP_CLOSED_STATE_KEY,
+            REGISTRATION_GROUP_SUSPENDED_STATE_KEY,
+            REGISTRATION_GROUP_INVALID_STATE_KEY
+    };
+
     /**
      * known lu codes
      */
