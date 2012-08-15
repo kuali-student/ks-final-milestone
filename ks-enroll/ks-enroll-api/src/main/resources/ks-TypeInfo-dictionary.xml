@@ -82,7 +82,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-    <bean id="TypeInfo.serviceUri" parent="TypeInfo.serviceUri"/>
+    <bean id="TypeInfo.serviceUri" parent="TypeInfo.serviceUri-parent"/>
     <bean id="TypeInfo.serviceUri-parent" abstract="true" parent="TypeInfo.serviceUri-generated">
         <!-- insert any overrides to the generated attribute definitions here -->
     </bean>
