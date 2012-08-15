@@ -527,7 +527,7 @@
     </bean>
     
     <bean id="documentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.document.service.DocumentService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.document.service.DocumentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
     </bean>
 

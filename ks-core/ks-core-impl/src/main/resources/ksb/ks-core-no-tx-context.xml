@@ -169,8 +169,6 @@
           class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="coreDictionaryService" />
-        <property name="validatorFactory" ref="coreValidatorFactory"/>
     </bean>
 
     <bean id="atpSearchManager"

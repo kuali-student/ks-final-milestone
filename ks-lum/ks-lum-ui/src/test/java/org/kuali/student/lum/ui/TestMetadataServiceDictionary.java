@@ -160,7 +160,7 @@ public class TestMetadataServiceDictionary {
 
 			// These first 6 are because the recursion stops but the final field still is flagged as DATA even though it cannot have sub fields
 
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+			//error: org.kuali.student.r2.lum.course.dto.CourseInfo.courseSpecificLOs.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
 			//error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.variations.*.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
 			//error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.orgCoreProgram.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
 			//error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties

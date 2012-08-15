@@ -686,7 +686,7 @@
                         <id>stateService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.r2.core.state.service.StateService</className>
+                            <className>org.kuali.student.r2.common.state.service.StateService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
@@ -698,7 +698,7 @@
                         <id>typeService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.r2.core.type.service.TypeService</className>
+                            <className>org.kuali.student.r2.common.type.service.TypeService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
