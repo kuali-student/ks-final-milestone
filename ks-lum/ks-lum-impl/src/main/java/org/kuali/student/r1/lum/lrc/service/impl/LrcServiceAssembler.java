@@ -46,8 +46,6 @@ public class LrcServiceAssembler extends BaseAssembler {
     public static ResultValuesGroupInfo toResultValuesGroupInfo(ResultComponent entity) {
         ResultValuesGroupInfo dto = new ResultValuesGroupInfo();
 
-        BeanUtils.copyProperties(entity, dto,
-                new String[] { "resultValues", "descr", "attributes", "typeKey", "stateKey", "meta" });
         List<String> resultValues = new ArrayList<String>(entity.getResultValues().size());
         for (ResultValue rv : entity.getResultValues()) {
         	resultValues.add(rv.getValue());
@@ -56,7 +54,7 @@ public class LrcServiceAssembler extends BaseAssembler {
         dto.setDescr(toRichTextInfo(entity.getDescr()));
         dto.setResultValueKeys(resultValues);
         dto.setAttributes(AssemblerHelper.toAttributeList(entity.getAttributes()));
-		dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+		dto.setMeta(entity.toDTO());
         dto.setTypeKey(entity.getType().getId());
         dto.setStateKey(entity.getState());
         return dto;

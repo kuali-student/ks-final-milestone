@@ -26,10 +26,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.r1.common.entity.MetaEntity;
+import org.kuali.student.r2.common.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_RSLT_OPT")
+// TODO: wrong table - convert to r2 table and structure
 public class ResultOption extends MetaEntity  {
 
 	@ManyToOne(cascade=CascadeType.ALL)

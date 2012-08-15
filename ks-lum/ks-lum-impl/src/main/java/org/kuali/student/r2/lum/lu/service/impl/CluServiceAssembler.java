@@ -453,7 +453,7 @@ public class CluServiceAssembler extends BaseAssembler {
         if (type != null) {
             dto.setTypeKey(type.getKey());
         }
-        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setMeta(entity.toDTO());
 
         return dto;
     }
@@ -491,7 +491,7 @@ public class CluServiceAssembler extends BaseAssembler {
             dto.setResultUsageTypeKey(entity.getResultUsageType().getId());
         }
         dto.setDescr(toRichTextInfo(entity.getDesc()));
-        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setMeta(entity.toDTO());
 
         return dto;
     }

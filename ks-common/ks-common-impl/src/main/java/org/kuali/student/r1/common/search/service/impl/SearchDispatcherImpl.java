@@ -70,7 +70,7 @@ public class SearchDispatcherImpl implements SearchDispatcher{
 							}
 						}
 					} catch (OperationFailedException e) {
-						LOG.warn("Error getting searchTypes",e);
+						LOG.warn("Error getting searchTypes for " + service.toString(),e);
 					}
 				}
 			}

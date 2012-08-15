@@ -113,16 +113,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 //@WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 //@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -132,6 +124,12 @@ public class CluServiceImpl implements CluService {
     private static final String SEARCH_KEY_BROWSE_PROGRAM = "lu.search.browseProgram";
     private static final String SEARCH_KEY_BROWSE_VARIATIONS = "lu.search.browseVariations";
     private static final String SEARCH_KEY_RESULT_COMPONENT = "lrc.search.resultComponent";
+    private static final String SEARCH_KEY_PROPOSALS_BY_COURSE_CODE = "lu.search.proposalsByCourseCode";
+    private static final String SEARCH_KEY_BROWSE_VERSIONS = "lu.search.clu.versions";
+    private static final String SEARCH_KEY_LU_RESULT_COMPONENTS = "lu.search.resultComponents";
+    private static final String SEARCH_KEY_CLUSET_SEARCH_GENERIC = "cluset.search.generic";
+    private static final String SEARCH_KEY_CLUSET_SEARCH_GENERICWITHCLUS = "cluset.search.genericWithClus";
+
     final Logger logger = Logger.getLogger(CluServiceImpl.class);
     private LuDao luDao;
     private ValidatorFactory validatorFactory;
@@ -3060,9 +3058,748 @@ public class CluServiceImpl implements CluService {
         return statusInfo;
     }
 
+    private SearchResult doBrowseProgramSearch() throws MissingParameterException {
+        //This is our main result
+        SearchResult programSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_PROGRAM), luDao);
+
+        //These variations need to be mapped back to the program search results
+        SearchResult variationSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_VARIATIONS),
+                luDao);
+
+        //Get a mapping of program id to variation long name mapping:
+        Map<String, List<String>> variationMapping = new HashMap<String, List<String>>();
+        for (SearchResultRow row : variationSearchResults.getRows()) {
+            String programId = null;
+            String variationLongName = null;
+            for (SearchResultCell cell : row.getCells()) {
+                if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                    programId = cell.getValue();
+                } else if ("lu.resultColumn.luOptionalLongName".equals(cell.getKey())) {
+                    variationLongName = cell.getValue();
+                }
+            }
+            List<String> variationLongNames = variationMapping.get(programId);
+            if (variationLongNames == null) {
+                variationLongNames = new ArrayList<String>();
+                variationMapping.put(programId, variationLongNames);
+            }
+            variationLongNames.add(variationLongName);
+        }
+
+        //The result component types need to be mapped back as well
+        SearchRequest resultComponentSearchRequest = new SearchRequest(SEARCH_KEY_RESULT_COMPONENT);
+        resultComponentSearchRequest
+                .addParam("lrc.queryParam.resultComponent.type", "kuali.resultComponentType.degree");
+        SearchResult resultComponentSearchResults = searchDispatcher.dispatchSearch(resultComponentSearchRequest);
+
+        //Get a mapping of result type id to result type name:
+        Map<String, String> resultComponentMapping = new HashMap<String, String>();
+        for (SearchResultRow row : resultComponentSearchResults.getRows()) {
+            String resultComponentTypeId = null;
+            String resultComponentTypeName = null;
+            for (SearchResultCell cell : row.getCells()) {
+                if ("lrc.resultColumn.resultComponent.id".equals(cell.getKey())) {
+                    resultComponentTypeId = cell.getValue();
+                } else if ("lrc.resultColumn.resultComponent.name".equals(cell.getKey())) {
+                    resultComponentTypeName = cell.getValue();
+                }
+            }
+            resultComponentMapping.put(resultComponentTypeId, resultComponentTypeName);
+        }
+
+        Map<String, Set<SearchResultCell>> orgIdToCellMapping = new HashMap<String, Set<SearchResultCell>>();
+        Map<String, Set<SearchResultCell>> resultComponentToCellMapping = new HashMap<String, Set<SearchResultCell>>();
+        Map<String, Set<SearchResultCell>> campusToCellMapping = new HashMap<String, Set<SearchResultCell>>();
+        Map<String, SearchResultCell> progIdToOrgCellMapping = new HashMap<String, SearchResultCell>();
+        Map<String, SearchResultCell> progIdToResultComponentCellMapping = new HashMap<String, SearchResultCell>();
+        Map<String, SearchResultCell> progIdToCampusCellMapping = new HashMap<String, SearchResultCell>();
+
+        //We need to reduce the programSearchResults, translating variations, result options, etc and creating a mapping for org id translation
+        for (Iterator<SearchResultRow> rowIter = programSearchResults.getRows().iterator(); rowIter.hasNext();) {
+            SearchResultRow row = rowIter.next();
+            String programId = null;
+            String orgId = null;
+            String resultComponentName = null;
+            String campusCode = null;
+            SearchResultCell orgCell = null;
+            SearchResultCell resultComponentCell = null;
+            SearchResultCell variationCell = null;
+            SearchResultCell campusLocationCell = null;
+
+            for (SearchResultCell cell : row.getCells()) {
+                if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                    programId = cell.getValue();
+                } else if ("lu.resultColumn.luOptionalAdminOrg".equals(cell.getKey())) {
+                    orgId = cell.getValue();
+                    orgCell = cell;
+                } else if ("lu.resultColumn.resultComponentId".equals(cell.getKey())) {
+                    resultComponentName = resultComponentMapping.get(cell.getValue());
+                    resultComponentCell = cell;
+                } else if ("lu.resultColumn.variationId".equals(cell.getKey())) {
+                    variationCell = cell;
+                } else if ("lu.resultColumn.luOptionalCampusLocation".equals(cell.getKey())) {
+                    campusLocationCell = cell;
+                    campusCode = cell.getValue();
+                }
+            }
+            if (!progIdToOrgCellMapping.containsKey(programId)) {
+                //Add in the Variations
+                List<String> variations = variationMapping.get(programId);
+                variationCell.setValue("");
+                if (variations != null) {
+                    for (Iterator<String> variationIter = variations.iterator(); variationIter.hasNext();) {
+                        String variation = variationIter.next();
+                        if (variationIter.hasNext()) {
+                            variation += "<br/>";
+                        }
+                        variationCell.setValue(variationCell.getValue() + variation);
+                    }
+                }
+
+                //Add the cell to the org id mapping
+                Set<SearchResultCell> orgCells = orgIdToCellMapping.get(orgId);
+                if (orgCells == null) {
+                    orgCells = new HashSet<SearchResultCell>();
+                    orgIdToCellMapping.put(orgId, orgCells);
+                }
+                orgCells.add(orgCell);
+                orgCell.setValue(null);
+
+                //Add this to the map
+                Set<SearchResultCell> campusCells = campusToCellMapping.get(campusCode);
+                if (campusCells == null) {
+                    campusCells = new HashSet<SearchResultCell>();
+                    campusToCellMapping.put(campusCode, campusCells);
+                }
+                campusCells.add(campusLocationCell);
+                campusLocationCell.setValue(null);
+
+                //Add this to the map
+                Set<SearchResultCell> resultCells = resultComponentToCellMapping.get(resultComponentName);
+                if (resultCells == null) {
+                    resultCells = new HashSet<SearchResultCell>();
+                    resultComponentToCellMapping.put(resultComponentName, resultCells);
+                }
+                resultCells.add(resultComponentCell);
+                resultComponentCell.setValue(null);
+
+                progIdToOrgCellMapping.put(programId, orgCell);
+                progIdToResultComponentCellMapping.put(programId, resultComponentCell);
+                progIdToCampusCellMapping.put(programId, campusLocationCell);
+            } else {
+                //this row already exists so we need to concatenate the result component and add the org id
+                //Get the result component row
+                Set<SearchResultCell> resultCells = resultComponentToCellMapping.get(resultComponentName);
+                if (resultCells == null) {
+                    resultCells = new HashSet<SearchResultCell>();
+                    resultComponentToCellMapping.put(resultComponentName, resultCells);
+                }
+                resultCells.add(progIdToResultComponentCellMapping.get(programId));
+
+                //Add a new mapping to the org cell for this org id
+                Set<SearchResultCell> orgCells = orgIdToCellMapping.get(orgId);
+                if (orgCells == null) {
+                    orgCells = new HashSet<SearchResultCell>();
+                    orgIdToCellMapping.put(orgId, orgCells);
+                }
+                orgCells.add(progIdToOrgCellMapping.get(programId));
+
+                //Concatenate the campus location
+                Set<SearchResultCell> campusCells = campusToCellMapping.get(campusCode);
+                if (campusCells == null) {
+                    campusCells = new HashSet<SearchResultCell>();
+                    campusToCellMapping.put(campusCode, campusCells);
+                }
+                campusCells.add(progIdToCampusCellMapping.get(programId));
+
+                //Remove this row from results
+                rowIter.remove();
+            }
+        }
+
+        if (!resultComponentToCellMapping.isEmpty()) {
+            List<String> resultComponentNames = new ArrayList<String>(resultComponentToCellMapping.keySet());
+            Collections.sort(resultComponentNames);
+            for (String resultComponentName : resultComponentNames) {
+                //Concatenate resultComponent names in the holder cells
+                Set<SearchResultCell> cells = resultComponentToCellMapping.get(resultComponentName);
+                if (cells != null) {
+                    for (SearchResultCell cell : cells) {
+                        if (cell.getValue() == null) {
+                            cell.setValue(resultComponentName);
+                        } else {
+                            cell.setValue(cell.getValue() + "<br/>" + resultComponentName);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!campusToCellMapping.isEmpty()) {
+            List<String> campusCodes = new ArrayList<String>(campusToCellMapping.keySet());
+            Collections.sort(campusCodes);
+            for (String campusCode : campusCodes) {
+                //Concatenate campus code names in the holder cells
+                Set<SearchResultCell> cells = campusToCellMapping.get(campusCode);
+                if (cells != null) {
+                    for (SearchResultCell cell : cells) {
+                        if (cell.getValue() == null) {
+                            cell.setValue(campusCode);
+                        } else {
+                            cell.setValue(cell.getValue() + "<br/>" + campusCode);
+                        }
+                    }
+                }
+            }
+        }
+
+        //Use the org search to Translate the orgIds into Org names and update the holder cells
+        if (!orgIdToCellMapping.isEmpty()) {
+            //Perform the Org search
+            SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
+            orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(
+                    orgIdToCellMapping.keySet()));
+            orgIdTranslationSearchRequest.setSortColumn("org.resultColumn.orgShortName");
+            SearchResult orgIdTranslationSearchResult = searchDispatcher.dispatchSearch(orgIdTranslationSearchRequest);
+
+            //For each translation, update the result cell with the translated org name
+            for (SearchResultRow row : orgIdTranslationSearchResult.getRows()) {
+
+                //Get Params
+                String orgId = "";
+                String orgName = "";
+                for (SearchResultCell cell : row.getCells()) {
+                    if ("org.resultColumn.orgId".equals(cell.getKey())) {
+                        orgId = cell.getValue();
+                        continue;
+                    } else if ("org.resultColumn.orgShortName".equals(cell.getKey())) {
+                        orgName = cell.getValue();
+                    }
+                }
+
+                //Concatenate org names in the holder cells
+                Set<SearchResultCell> cells = orgIdToCellMapping.get(orgId);
+                if (cells != null) {
+                    for (SearchResultCell cell : cells) {
+                        if (cell.getValue() == null) {
+                            cell.setValue(orgName);
+                        } else {
+                            cell.setValue(cell.getValue() + "<br/>" + orgName);
+                        }
+                    }
+                }
+            }
+        }
+
+        return programSearchResults;
+    }
+
+    private SearchResult doDependencyAnalysisSearch(String cluId) throws MissingParameterException,
+            DoesNotExistException {
+
+        checkForMissingParameter(cluId, "cluId");
+
+        Clu triggerClu = luDao.fetch(Clu.class, cluId);
+
+        List<String> cluVersionIndIds = new ArrayList<String>();
+        cluVersionIndIds.add(triggerClu.getVersion().getVersionIndId());
+
+        //Find all clusets that contain this course
+        List<CluSet> cluSets = luDao.getCluSetsByCluVersionIndId(cluVersionIndIds);
+
+        //Get a mapping of clusetId to cluset for easy referencing
+        Map<String, CluSet> cluSetMap = new HashMap<String, CluSet>();
+        if (cluSets != null) {
+            for (CluSet cluSet : cluSets) {
+                cluSetMap.put(cluSet.getId(), cluSet);
+            }
+        }
+
+        //Execute all dynamic queries to see if the target clu is in the cluset and add those clusets
+        List<CluSet> dynamicCluSets = luDao.getAllDynamicCluSets();
+        if (dynamicCluSets != null) {
+            for (CluSet cluSet : dynamicCluSets) {
+                MembershipQueryInfo queryInfo = CluServiceAssembler.toMembershipQueryInfo(cluSet.getMembershipQuery());
+                List<String> memberCluVersionIndIds = getMembershipQuerySearchResult(queryInfo);
+                if (memberCluVersionIndIds != null) {
+                    for (String cluVersionIndId : cluVersionIndIds) {
+                        if (memberCluVersionIndIds.contains(cluVersionIndId)) {
+                            cluSetMap.put(cluSet.getId(), cluSet);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        //TODO Is it possible we need to search up the cluset hierarchies?
+        //	If Cluset A contains clu 1 and cluset B contains cluset A, do we also return cluset B as a dependency?
+
+        //Now we have the clu id and the list of clusets that the id appears in,
+        //We need to do a statement service search to see what statements use these as
+        //dependencies
+        SearchRequest statementSearchRequest = new SearchRequest("stmt.search.dependencyAnalysis");
+
+        statementSearchRequest.addParam("stmt.queryParam.cluSetIds", new ArrayList<String>(cluSetMap.keySet()));
+        statementSearchRequest.addParam("stmt.queryParam.cluVersionIndIds", cluVersionIndIds);
+
+        SearchResult statementSearchResult = searchDispatcher.dispatchSearch(statementSearchRequest);
+
+        //Create a search result for the return value
+        SearchResult searchResult = new SearchResult();
+
+        Map<String, List<SearchResultCell>> orgIdToCellMapping = new HashMap<String, List<SearchResultCell>>();
+
+        //Now we need to take the statement ids and find the clus that relate to them
+        //We will also transform the search result from the statement search result to
+        //the dependency analysis search result
+        Set<String> processed = new HashSet<String>();
+        for (SearchResultRow stmtRow : statementSearchResult.getRows()) {
+
+            //Determine result column values
+            String refObjId = null;
+            String statementType = null;
+            String statementTypeName = null;
+            String rootId = null;
+            String requirementComponentIds = null;
+
+            for (SearchResultCell stmtCell : stmtRow.getCells()) {
+                if ("stmt.resultColumn.refObjId".equals(stmtCell.getKey())) {
+                    refObjId = stmtCell.getValue();
+                    continue;
+                } else if ("stmt.resultColumn.statementTypeId".equals(stmtCell.getKey())) {
+                    statementType = stmtCell.getValue();
+                    continue;
+                } else if ("stmt.resultColumn.statementTypeName".equals(stmtCell.getKey())) {
+                    statementTypeName = stmtCell.getValue();
+                    continue;
+                } else if ("stmt.resultColumn.rootId".equals(stmtCell.getKey())) {
+                    rootId = stmtCell.getValue();
+                    continue;
+                } else if ("stmt.resultColumn.requirementComponentIds".equals(stmtCell.getKey())) {
+                    requirementComponentIds = stmtCell.getValue();
+                }
+            }
+
+            //Find the clu
+            Clu clu = luDao.fetch(Clu.class, refObjId);
+
+            //Program statements are attached to dummy clus, so look up the parent program
+            if ("kuali.lu.type.Requirement".equals(clu.getLuType().getId())) {
+
+                List<Clu> clus = luDao.getClusByRelatedCluId(clu.getId(),
+                        "kuali.lu.lu.relation.type.hasProgramRequirement");
+
+                rootId = clu.getId();
+
+                if (clus == null || clus.size() == 0) {
+                    throw new RuntimeException("Statement Dependency clu found, but no parent Program exists");
+                } else if (clus.size() > 1) {
+                    throw new RuntimeException("Statement Dependency clu can only have one parent Program relation");
+                }
+                clu = clus.get(0);
+            }
+
+            //Only process clus that are not active and that we have not already processed
+            String rowId = clu.getId() + "|" + statementType + "|" + rootId;
+
+            if ("Active".equals(clu.getState()) && !processed.contains(rowId)) {
+
+                processed.add(rowId);
+
+                SearchResultRow resultRow = new SearchResultRow();
+
+                //Map the result cells
+                resultRow.addCell("lu.resultColumn.cluId", clu.getId());
+                resultRow.addCell("lu.resultColumn.cluType", clu.getLuType().getId());
+                resultRow.addCell("lu.resultColumn.luOptionalCode", clu.getOfficialIdentifier().getCode());
+                resultRow.addCell("lu.resultColumn.luOptionalShortName", clu.getOfficialIdentifier().getShortName());
+                resultRow.addCell("lu.resultColumn.luOptionalLongName", clu.getOfficialIdentifier().getLongName());
+                resultRow.addCell("lu.resultColumn.luOptionalDependencyType", statementType);
+                resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", statementTypeName);
+                resultRow.addCell("lu.resultColumn.luOptionalDependencyRootId", rootId);
+                resultRow.addCell("lu.resultColumn.luOptionalDependencyRequirementComponentIds",
+                        requirementComponentIds);
+
+                //Make a holder cell for the org names, to be populated later
+                SearchResultCell orgIdsCell = new SearchResultCell("lu.resultColumn.luOptionalOversightCommitteeIds",
+                        null);
+                resultRow.getCells().add(orgIdsCell);
+
+                //Make a holder cell for the org ids, to be populated later
+                SearchResultCell orgNamesCell = new SearchResultCell(
+                        "lu.resultColumn.luOptionalOversightCommitteeNames", null);
+                resultRow.getCells().add(orgNamesCell);
+
+                //For each curriculum oversight committee we want to look up the Org Name
+                //We're going to save a mapping of the org id to a holder cell so we can make just one org
+                //service call with all the org ids, and update the holder cells later.
+                boolean differentAdminOrg = true;
+                for (CluAdminOrg adminOrg : clu.getAdminOrgs()) {
+                    if ("kuali.adminOrg.type.CurriculumOversight".equals(adminOrg.getType()) ||
+                            "kuali.adminOrg.type.CurriculumOversightUnit".equals(adminOrg.getType())) {
+
+                        //Add the cell to the mapping for that perticular org id
+                        List<SearchResultCell> cells = orgIdToCellMapping.get(adminOrg.getOrgId());
+                        if (cells == null) {
+                            cells = new ArrayList<SearchResultCell>();
+                            orgIdToCellMapping.put(adminOrg.getOrgId(), cells);
+                        }
+                        cells.add(orgNamesCell);
+
+                        //Add the orgid to the orgIds cell so there is a comma delimited list of org ids
+                        if (orgIdsCell.getValue() == null) {
+                            orgIdsCell.setValue(adminOrg.getId());
+                        } else {
+                            orgIdsCell.setValue(orgIdsCell.getValue() + "," + adminOrg.getId());
+                        }
+
+                        for (CluAdminOrg triggerAdminOrg : triggerClu.getAdminOrgs()) {
+                            if (triggerAdminOrg.getOrgId().equals(adminOrg.getOrgId())) {
+                                differentAdminOrg = false;
+                            }
+                        }
+                    }
+                }
+                resultRow.addCell("lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg",
+                        String.valueOf(differentAdminOrg));
+
+                //Add the result row
+                searchResult.getRows().add(resultRow);
+            }
+        }
+
+        //Use the org search to Translate the orgIds into Org names and update the holder cells
+        if (!orgIdToCellMapping.isEmpty()) {
+            //Perform the Org search
+            SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
+            orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(
+                    orgIdToCellMapping.keySet()));
+            SearchResult orgIdTranslationSearchResult = searchDispatcher.dispatchSearch(orgIdTranslationSearchRequest);
+
+            //For each translation, update the result cell with the translated org name
+            for (SearchResultRow row : orgIdTranslationSearchResult.getRows()) {
+
+                //Get Params
+                String orgId = "";
+                String orgName = "";
+                for (SearchResultCell cell : row.getCells()) {
+                    if ("org.resultColumn.orgId".equals(cell.getKey())) {
+                        orgId = cell.getValue();
+                        continue;
+                    } else if ("org.resultColumn.orgShortName".equals(cell.getKey())) {
+                        orgName = cell.getValue();
+                    }
+                }
+
+                //Concatenate org names in the holder cells
+                List<SearchResultCell> cells = orgIdToCellMapping.get(orgId);
+                if (cells != null) {
+                    for (SearchResultCell cell : cells) {
+                        if (cell.getValue() == null) {
+                            cell.setValue(orgName);
+                        } else {
+                            cell.setValue(cell.getValue() + ", " + orgName);
+                        }
+                    }
+                }
+            }
+        }
+
+        //Add in CluSets and ignore ones named AdHoc
+        for (CluSet cluSet : cluSetMap.values()) {
+            if (!"AdHock".equals(cluSet.getName())) {
+
+                SearchResultRow resultRow = new SearchResultRow();
+
+                resultRow.addCell("lu.resultColumn.cluId", cluSet.getId());
+                resultRow.addCell("lu.resultColumn.luOptionalShortName", cluSet.getName());
+                resultRow.addCell("lu.resultColumn.luOptionalLongName", cluSet.getName());
+                resultRow.addCell("lu.resultColumn.luOptionalDependencyType", "cluSet");
+                resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", "Course Set");
+
+                searchResult.getRows().add(resultRow);
+            }
+        }
+
+        //Get any joints here and add them into the results
+        List<Clu> joints = luDao.getClusByRelation(cluId, "kuali.lu.relation.type.co-located");
+        if (joints != null) {
+            for (Clu clu : joints) {
+
+                SearchResultRow resultRow = new SearchResultRow();
+
+                resultRow.addCell("lu.resultColumn.cluId", clu.getId());
+                resultRow.addCell("lu.resultColumn.luOptionalCode", clu.getOfficialIdentifier().getCode());
+                resultRow.addCell("lu.resultColumn.luOptionalShortName", clu.getOfficialIdentifier().getShortName());
+                resultRow.addCell("lu.resultColumn.luOptionalLongName", clu.getOfficialIdentifier().getLongName());
+                resultRow.addCell("lu.resultColumn.luOptionalDependencyType", "joint");
+                resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", "jointly offered");
+
+                searchResult.getRows().add(resultRow);
+            }
+        }
+
+        //Lookup cross-listings and add to the results
+        for (CluIdentifier altId : triggerClu.getAlternateIdentifiers()) {
+            if ("kuali.lu.type.CreditCourse.identifier.crosslisting".equals(altId.getType())) {
+                SearchResultRow resultRow = new SearchResultRow();
+
+                resultRow.addCell("lu.resultColumn.luOptionalCode", altId.getCode());
+                resultRow.addCell("lu.resultColumn.luOptionalShortName", altId.getShortName());
+                resultRow.addCell("lu.resultColumn.luOptionalLongName", altId.getLongName());
+                resultRow.addCell("lu.resultColumn.luOptionalDependencyType", "crossListed");
+                resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", "cross-listed");
+
+                searchResult.getRows().add(resultRow);
+            }
+        }
+
+        //Sort results by Code
+        Collections.sort(searchResult.getRows(), new SearchResultRowComparator("lu.resultColumn.luOptionalCode"));
+
+        return searchResult;
+    }
+
+    public class SearchResultRowComparator implements Comparator<SearchResultRow> {
+        private String sortColumn;
+
+        SearchResultRowComparator(String sortColumn) {
+            super();
+            this.sortColumn = sortColumn;
+        }
+
+        @Override
+        public int compare(SearchResultRow o1, SearchResultRow o2) {
+            String o1SortValue = null;
+            String o2SortValue = null;
+            for (SearchResultCell cell : o1.getCells()) {
+                if (sortColumn.equals(cell.getKey())) {
+                    o1SortValue = cell.getValue();
+                    break;
+                }
+            }
+            for (SearchResultCell cell : o2.getCells()) {
+                if (sortColumn.equals(cell.getKey())) {
+                    o2SortValue = cell.getValue();
+                    break;
+                }
+            }
+            if (o1SortValue != null) {
+                if (o2SortValue == null) {
+                    return 1;
+                }
+                return o1SortValue.compareTo(o2SortValue);
+            }
+            if (o2SortValue == null) {
+                return 0;
+            }
+            return -1;
+        }
+
+    }
+
+    private SearchResult doSearchProposalsByCourseCode(String courseCode) throws MissingParameterException{
+        if(courseCode==null||courseCode.isEmpty()){
+            return new SearchResult();
+        }
+        //First do a search of courses with said code
+        SearchRequest sr = new SearchRequest("lu.search.mostCurrent.union");
+        sr.addParam("lu.queryParam.luOptionalCode", courseCode);
+        sr.addParam("lu.queryParam.luOptionalType","kuali.lu.type.CreditCourse");
+        SearchResult results = search(sr);
+        Map<String,String> cluIdToCodeMap = new HashMap<String,String>();
+        for(SearchResultRow row:results.getRows()){
+            String cluId = null;
+            String code = null;
+            for(SearchResultCell cell:row.getCells()){
+                if("lu.resultColumn.cluId".equals(cell.getKey())){
+                    cluId = cell.getValue();
+                }else if("lu.resultColumn.luOptionalCode".equals(cell.getKey())){
+                    code = cell.getValue();
+                }
+            }
+            //Create a mapping of Clu Id to code to dereference later
+            if(code!=null&&cluId!=null){
+                cluIdToCodeMap.put(cluId, code);
+            }
+        }
+
+        //Do a search for proposals that refer to the clu ids we found
+        sr = new SearchRequest("proposal.search.proposalsForReferenceIds");
+        sr.addParam("proposal.queryParam.proposalOptionalReferenceIds", new ArrayList<String>(cluIdToCodeMap.keySet()));
+        results = searchDispatcher.dispatchSearch(sr);
+        for(SearchResultRow row:results.getRows()){
+            String cluId = null;
+            SearchResultCell proposalNameCell = null;
+
+            for(SearchResultCell cell:row.getCells()){
+                if("proposal.resultColumn.proposalOptionalName".equals(cell.getKey())){
+                    proposalNameCell = cell;
+                    cell.setKey("lu.resultColumn.proposalOptionalName");
+                }else if("proposal.resultColumn.proposalOptionalReferenceId".equals(cell.getKey())){
+                    cluId = cell.getValue();
+                    cell.setKey("lu.resultColumn.proposalOptionalReferenceId");
+                }else if("proposal.resultColumn.proposalId".equals(cell.getKey())){
+                    cell.setKey("lu.resultColumn.proposalId");
+                }
+            }
+            //update the name of the proposal to reflect the course number
+            proposalNameCell.setValue(cluIdToCodeMap.get(cluId)+" ("+proposalNameCell.getValue()+")");
+        }
+
+        return results;
+    }
+
+    /**
+     * Looks up Atp descriptions and adds to search results
+     * @param searchRequest
+     * @return
+     * @throws MissingParameterException
+     */
+    private SearchResult doBrowseVersionsSearch(SearchRequest searchRequest) throws MissingParameterException {
+        SearchResult searchResult = searchManager.search(searchRequest, luDao);
+
+        Map<String,List<SearchResultCell>> atpIdToCellMapping = new HashMap<String,List<SearchResultCell>>();
+
+        for(SearchResultRow row:searchResult.getRows()){
+            for(SearchResultCell cell:row.getCells()){
+                if(cell.getValue()!=null &&
+                        ("lu.resultColumn.luOptionalExpFirstAtpDisplay".equals(cell.getKey()) ||
+                                "lu.resultColumn.luOptionalLastAtpDisplay".equals(cell.getKey()))) {
+                    List<SearchResultCell> cells = atpIdToCellMapping.get(cell.getValue());
+                    if(cells==null){
+                        cells = new ArrayList<SearchResultCell>();
+                        atpIdToCellMapping.put(cell.getValue(), cells);
+                    }
+                    cells.add(cell);
+                }
+            }
+        }
+        //Now do an atp search to translate ids to names
+
+        SearchRequest atpSearchRequest = new SearchRequest("atp.search.advancedAtpSearch");
+        atpSearchRequest.addParam("atp.advancedAtpSearchParam.optionalAtpIds", new ArrayList<String>(atpIdToCellMapping.keySet()));
+        SearchResult atpSearchResults = searchDispatcher.dispatchSearch(atpSearchRequest);
+        for(SearchResultRow row:atpSearchResults.getRows()){
+            String atpId = null;
+            String atpName = null;
+            for(SearchResultCell cell:row.getCells()){
+                if("atp.resultColumn.atpId".equals(cell.getKey())){
+                    atpId = cell.getValue();
+                }else if("atp.resultColumn.atpShortName".equals(cell.getKey())){
+                    atpName = cell.getValue();
+                }
+            }
+            if(atpId!=null && atpIdToCellMapping.get(atpId)!=null){
+                for(SearchResultCell cell : atpIdToCellMapping.get(atpId)){
+                    cell.setValue(atpName);
+                }
+            }
+        }
+
+        return searchResult;
+    }
+
+    /**
+     * Does a cross search to first get result componets from the lu search and then use an LRC search to get the result component names
+     * @param cluSearchRequest
+     * @return
+     * @throws MissingParameterException
+     */
+    private SearchResult doResultComponentTypesForCluSearch(SearchRequest cluSearchRequest) throws MissingParameterException {
+
+        SearchResult searchResult = searchManager.search(cluSearchRequest, luDao);
+
+        //Get the result Component Ids using a search
+        Map<String,List<SearchResultRow>> rcIdToRowMapping = new HashMap<String,List<SearchResultRow>>();
+
+        //Get a mapping of ids to translate
+        for(SearchResultRow row:searchResult.getRows()){
+            for(SearchResultCell cell:row.getCells()){
+                if(cell.getValue()!=null &&
+                        "lu.resultColumn.resultComponentId".equals(cell.getKey())) {
+                    List<SearchResultRow> rows = rcIdToRowMapping.get(cell.getValue());
+                    if(rows==null){
+                        rows = new ArrayList<SearchResultRow>();
+                        rcIdToRowMapping.put(cell.getValue(), rows);
+                    }
+                    rows.add(row);
+                }
+            }
+        }
+
+        //Get the LRC names to match the ids
+        SearchRequest lrcSearchRequest = new SearchRequest(SEARCH_KEY_RESULT_COMPONENT);
+        lrcSearchRequest.addParam("lrc.queryParam.resultComponent.idRestrictionList", new ArrayList<String>(rcIdToRowMapping.keySet()));
+        SearchResult lrcSearchResults = searchDispatcher.dispatchSearch(lrcSearchRequest);
+
+        //map the names back to the original search results
+        for(SearchResultRow row:lrcSearchResults.getRows()){
+            String lrcId = null;
+            String lrcName = null;
+            for(SearchResultCell cell:row.getCells()){
+                if("lrc.resultColumn.resultComponent.id".equals(cell.getKey())){
+                    lrcId = cell.getValue();
+                }else if("lrc.resultColumn.resultComponent.name".equals(cell.getKey())){
+                    lrcName = cell.getValue();
+                }
+            }
+            if(lrcId!=null && rcIdToRowMapping.get(lrcId)!=null){
+                for(SearchResultRow resultRow : rcIdToRowMapping.get(lrcId)){
+                    resultRow.addCell("lu.resultColumn.resultComponentName",lrcName);
+                }
+            }
+        }
+
+        return searchResult;
+    }
+
+
     @Override
+    @Transactional(readOnly=true)
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        return this.searchDispatcher.dispatchSearch(searchRequest);
+        checkForMissingParameter(searchRequest, "searchRequest");
+
+        if (SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequest.getSearchKey())) {
+            String cluId = null;
+            for (SearchParam param : searchRequest.getParams()) {
+                if ("lu.queryParam.luOptionalCluId".equals(param.getKey())) {
+                    cluId = (String) param.getValue();
+                    break;
+                }
+            }
+            try {
+                return doDependencyAnalysisSearch(cluId);
+            } catch (DoesNotExistException e) {
+                throw new RuntimeException("Error performing search");//FIXME should be more checked service exceptions thrown
+            }
+        } else if (SEARCH_KEY_BROWSE_PROGRAM.equals(searchRequest.getSearchKey())) {
+            return doBrowseProgramSearch();
+        }else if(SEARCH_KEY_PROPOSALS_BY_COURSE_CODE.equals(searchRequest.getSearchKey())){
+            String courseCode = null;
+            for(SearchParam param:searchRequest.getParams()){
+                if("lu.queryParam.luOptionalCode".equals(param.getKey())){
+                    courseCode = (String)param.getValue();
+                    break;
+                }
+            }
+            return doSearchProposalsByCourseCode(courseCode);
+        }else if(SEARCH_KEY_BROWSE_VERSIONS.equals(searchRequest.getSearchKey())){
+            return doBrowseVersionsSearch(searchRequest);
+        }else if(SEARCH_KEY_LU_RESULT_COMPONENTS.equals(searchRequest.getSearchKey())){
+            return doResultComponentTypesForCluSearch(searchRequest);
+        }else if(SEARCH_KEY_CLUSET_SEARCH_GENERIC.equals(searchRequest.getSearchKey())){
+            //If any clu specific params are set, use a search key that has the clu defined in the JPQL
+            for(SearchParam param:searchRequest.getParams()){
+                if(param.getKey().contains("queryParam.luOptional")){
+                    searchRequest.setSearchKey(SEARCH_KEY_CLUSET_SEARCH_GENERICWITHCLUS);
+                    break;
+                }
+            }
+        }
+        return searchManager.search(searchRequest, luDao);
+
+
     }
 
     @Override
