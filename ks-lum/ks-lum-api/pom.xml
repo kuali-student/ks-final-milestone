@@ -30,7 +30,7 @@
                         <id>lo-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.lum.lo.service.LearningObjectiveService</className>
+                            <className>org.kuali.student.r2.lum.lo.service.LearningObjectiveService</className>
                             <serviceName>LoService</serviceName>
                             <targetNameSpace>http://student.kuali.org/wsdl/lo</targetNameSpace>
                         </configuration>
@@ -54,7 +54,7 @@
                         <id>lrc-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.lum.lrc.service.LrcService</className>
+                            <className>org.kuali.student.r2.lum.lrc.service.LRCService</className>
                             <serviceName>LrcService</serviceName>
                             <targetNameSpace>http://student.kuali.org/wsdl/lrc</targetNameSpace>
                         </configuration>
@@ -66,7 +66,7 @@
                         <id>program-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.lum.program.service.ProgramService</className>
+                            <className>org.kuali.student.r2.lum.program.service.ProgramService</className>
                             <serviceName>ProgramService</serviceName>
                             <targetNameSpace>http://student.kuali.org/wsdl/program</targetNameSpace>
                         </configuration>
