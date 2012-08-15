@@ -48,13 +48,14 @@ public class SchedulingServiceConstants {
     public static final String REF_OBJECT_URI_SCHEDULE_RESP_ITEM = NAMESPACE + "/" + ScheduleRespItemInfo.class.getSimpleName();
 
     // Schedule request types
-    public static final String SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE = "kuali.scheduling.schedule.request.type.request";
+    public static final String SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE = "kuali.scheduling.schedule.request.type.schedule.request";
 
     // Schedule request states
     public static final String SCHEDULE_REQUEST_STATE_LIFECYCLE_KEY = "kuali.scheduling.schedule.request.lifecycle";
     public static final String SCHEDULE_REQUEST_REQUESTED_STATE = "kuali.scheduling.schedule.state.requested";
     public static final String SCHEDULE_REQUEST_WITHDRAWN_STATE = "kuali.scheduling.schedule.state.withdrawn";
     public static final String SCHEDULE_REQUEST_PROCESSED_STATE = "kuali.scheduling.schedule.state.processed";
+    public static final String SCHEDULE_REQUEST_CREATED_STATE = "kuali.scheduling.schedule.request.state.created";
 
     // Time slot types
     public static final String TIME_SLOT_STATE_STANDARD_KEY = "kuali.scheduling.time.slot.state.standard";
