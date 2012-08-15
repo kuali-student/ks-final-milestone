@@ -6334,6 +6334,7 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="REF_OBJECT_URI" size="255" type="VARCHAR"/>
+        <column name="SERVICE_URI" size="255" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CREATETIME" required="true" type="TIMESTAMP"/>
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
