@@ -5,6 +5,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,24 +15,34 @@ import java.util.List;
 @Entity
 @Table(name = "KSEN_SCHED_RQST_CMP")
 public class ScheduleRequestComponentEntity extends MetaEntity {
-
-    // TODO: Left as @Column per Sambit, TBD: Change the following to join relations
-    @Column
+    @ElementCollection
+    @CollectionTable(name ="KSEN_SCHED_RQST_CMP_BLDG",joinColumns = @JoinColumn(name = "CMP_ID"))
+    @Column(name="BUILDING_ID")
     private List<String> buildingIds;
 
-    @Column
+    @ElementCollection
+    @CollectionTable(name ="KSEN_SCHED_RQST_CMP_CAMPUS",joinColumns = @JoinColumn(name = "CMP_ID"))
+    @Column(name="CAMPUS_ID")
     private List<String> campusIds;
 
-    @Column
+    @ElementCollection
+    @CollectionTable(name ="KSEN_SCHED_RQST_CMP_ORG",joinColumns = @JoinColumn(name = "CMP_ID"))
+    @Column(name="ORG_ID")
     private List<String> orgIds;
 
-    @Column
+    @ElementCollection
+    @CollectionTable(name ="KSEN_SCHED_RQST_CMP_RT",joinColumns = @JoinColumn(name = "CMP_ID"))
+    @Column(name="RSRC_TYPE_KEY")
     private List<String> resourceTypeKeys;
 
-    @Column
+    @ElementCollection
+    @CollectionTable(name ="KSEN_SCHED_RQST_CMP_ROOM",joinColumns = @JoinColumn(name = "CMP_ID"))
+    @Column(name="ROOM_ID")
     private List<String> roomIds;
 
-    @Column
+    @ElementCollection
+    @CollectionTable(name ="KSEN_SCHED_RQST_CMP_TMSLOT",joinColumns = @JoinColumn(name = "CMP_ID"))
+    @Column(name="TM_SLOT_ID")
     private List<String> timeSlotIds;
 
     @ManyToOne
@@ -44,11 +55,74 @@ public class ScheduleRequestComponentEntity extends MetaEntity {
     public ScheduleRequestComponentEntity(ScheduleRequestComponent scheduleRequestComponent) {
         super();
         this.setId(scheduleRequestComponent.getId());
+        fromDto(scheduleRequestComponent);
+    }
+
+    public List<Object> fromDto(ScheduleRequestComponent scheduleRequestComponent) {
+        List<Object> orphansToDelete = new ArrayList<Object>();
+
+        if(scheduleRequestComponent.getBuildingIds() != null) {
+            buildingIds = new ArrayList<String>(scheduleRequestComponent.getBuildingIds());
+        }else{
+            buildingIds = null;
+        }
+        if(scheduleRequestComponent.getCampusIds() != null) {
+            campusIds = new ArrayList<String>(scheduleRequestComponent.getCampusIds());
+        }else{
+            campusIds = null;
+        }
+        if(scheduleRequestComponent.getOrgIds() != null) {
+            orgIds = new ArrayList<String>(scheduleRequestComponent.getOrgIds());
+        }else{
+            orgIds = null;
+        }
+        if(scheduleRequestComponent.getResourceTypeKeys() != null) {
+            resourceTypeKeys = new ArrayList<String>(scheduleRequestComponent.getResourceTypeKeys());
+        }else{
+            resourceTypeKeys = null;
+        }
+        if(scheduleRequestComponent.getRoomIds() != null) {
+            roomIds = new ArrayList<String>(scheduleRequestComponent.getRoomIds());
+        }else{
+            roomIds = null;
+        }
+        if(scheduleRequestComponent.getTimeSlotIds() != null) {
+            timeSlotIds = new ArrayList<String>(scheduleRequestComponent.getTimeSlotIds());
+        }else{
+            timeSlotIds = null;
+        }
+
+        return orphansToDelete;
     }
 
     public ScheduleRequestComponentInfo toDto() {
         ScheduleRequestComponentInfo scheduleRequestComponentInfo = new ScheduleRequestComponentInfo();
         scheduleRequestComponentInfo.setId(this.getId());
+        scheduleRequestComponentInfo.getBuildingIds().clear();
+        if(buildingIds != null){
+            scheduleRequestComponentInfo.getBuildingIds().addAll(buildingIds);
+        }
+        scheduleRequestComponentInfo.getCampusIds().clear();
+        if(campusIds != null){
+            scheduleRequestComponentInfo.getCampusIds().addAll(campusIds);
+        }
+        scheduleRequestComponentInfo.getOrgIds().clear();
+        if(orgIds != null) {
+            scheduleRequestComponentInfo.getOrgIds().addAll(orgIds);
+        }
+        scheduleRequestComponentInfo.getResourceTypeKeys().clear();
+        if(resourceTypeKeys != null) {
+            scheduleRequestComponentInfo.getResourceTypeKeys().addAll(resourceTypeKeys);
+        }
+        scheduleRequestComponentInfo.getRoomIds().clear();
+        if(roomIds != null){
+            scheduleRequestComponentInfo.getRoomIds().addAll(roomIds);
+        }
+        scheduleRequestComponentInfo.getTimeSlotIds().clear();
+        if(timeSlotIds != null) {
+            scheduleRequestComponentInfo.getTimeSlotIds().addAll(timeSlotIds);
+        }
+
         return scheduleRequestComponentInfo;
     }
 
