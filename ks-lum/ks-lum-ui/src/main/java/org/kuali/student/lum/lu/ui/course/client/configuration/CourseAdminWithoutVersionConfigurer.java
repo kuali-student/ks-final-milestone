@@ -29,7 +29,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigurer{
 	protected CourseRequirementsViewController requisitesSection;
 	
-	private RequiredContainer requiredContainer = new RequiredContainer();
+	protected RequiredContainer requiredContainer = new RequiredContainer();
 	
     /**
      * Sets up all the views, sections, and views of the CourseAdminController.  This should be called
@@ -175,7 +175,7 @@ public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigure
         return section;
     }
     
-    private VerticalSection createHiddenRequisitesSection() {
+    protected VerticalSection createHiddenRequisitesSection() {
         final VerticalSection section = initSection(SectionTitle.generateH2Title(getLabel(LUUIConstants.REQUISITES_LABEL_KEY)), NO_DIVIDER);
         // Add Show All Link on the sections.
         section.addShowAllLink(requiredContainer.createShowAllLink(new ClickHandler() {

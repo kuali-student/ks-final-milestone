@@ -279,7 +279,7 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
 
     }
 
-    private SummaryTableFieldBlock generateProposalDocumentsSection() {
+    protected SummaryTableFieldBlock generateProposalDocumentsSection() {
         SummaryTableFieldBlock block = new SummaryTableFieldBlock();
         block.addEditingHandler(new EditHandler(CourseSections.DOCUMENTS));
         block.setTitle(getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
@@ -294,7 +294,7 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
     }
 
     // Initializes a WarnContainer with Action options dropdown, and Curriculum Management link 
-    private WarnContainer generateWorkflowWidgetContainer(Widget w) {
+    protected WarnContainer generateWorkflowWidgetContainer(Widget w) {
 
         WarnContainer warnContainer = new WarnContainer();
 
