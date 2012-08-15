@@ -23,11 +23,9 @@ import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.ArrayList;
-//import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class is a wrapper form for Population Info and related maintenance fields
  *
  * @author Kuali Student Team
  */
@@ -42,7 +40,6 @@ public class PopulationWrapper implements Serializable {
     private String populationStateKeyName;
     private boolean createByRule;
     private boolean enableCreateButton;
-    private String pageTitle;
 
     private List<PopulationInfo> childPopulations;
     private PopulationInfo referencePopulation;
@@ -51,7 +48,6 @@ public class PopulationWrapper implements Serializable {
         createByRule = true;
         enableCreateButton = true;
         operationType = PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY;
-        pageTitle="Create a New Population";
         populationInfo = new PopulationInfo();
         populationRuleInfo = new PopulationRuleInfo();
         childPopulations = new ArrayList<PopulationInfo>();
@@ -136,14 +132,6 @@ public class PopulationWrapper implements Serializable {
 
     public void setEnableCreateButton(boolean enableCreateButton) {
         this.enableCreateButton = enableCreateButton;
-    }
-
-    public String getPageTitle() {
-        return pageTitle;
-    }
-
-    public void setPageTitle(String pageTitle) {
-        this.pageTitle = pageTitle;
     }
 
     public List<PopulationInfo> getChildPopulations() {

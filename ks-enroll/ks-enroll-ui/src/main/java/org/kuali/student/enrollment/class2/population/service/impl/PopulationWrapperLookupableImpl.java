@@ -16,8 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.population.service.impl;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -25,16 +23,11 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
-import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
+import org.kuali.student.r2.core.population.service.PopulationService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -42,22 +35,27 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class performs lookups on Populations.
  *
  * @author Kuali Student Team
  */
 public class PopulationWrapperLookupableImpl extends LookupableImpl {
-    private transient PopulationService populationService = getPopulationService();
-    final Logger logger = Logger.getLogger(PopulationWrapperLookupableImpl.class);
+
+    private transient PopulationService populationService;
 
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<PopulationWrapper> populationWrappers = new ArrayList<PopulationWrapper>();
 
+        ContextInfo context = ContextInfo.createDefaultContextInfo();
+
         try {
+            //perform the lookup using the service
             QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
-            List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(qbc, getContextInfo());
+            List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(qbc, context);
+
+            //Transform each PopulationInfo to the wrapper class
             for (PopulationInfo populationInfo: populationInfoList) {
-                PopulationRuleInfo populationRuleInfo = getPopulationService().getPopulationRuleForPopulation(populationInfo.getId(),getContextInfo());
+                PopulationRuleInfo populationRuleInfo = getPopulationService().getPopulationRuleForPopulation(populationInfo.getId(), context);
                 PopulationWrapper wrapper = new PopulationWrapper();
                 wrapper.setPopulationRuleInfo(populationRuleInfo);
                 wrapper.setPopulationInfo(populationInfo);
@@ -75,6 +73,13 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
         return populationWrappers;
     }
 
+    /**
+     * Builds a QueryByCriteria based on the KRAD field values passed in.
+     * Performs fuzzy searching on the keyword field against the name and description fields on PopulationEntity
+     *
+     * @param fieldValues
+     * @return a criteria query
+     */
     private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
         String keyword = fieldValues.get("keyword");
         String stateKey = fieldValues.get("populationInfo.stateKey");
@@ -91,9 +96,8 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
-        QueryByCriteria qbc = qbcBuilder.build();
 
-        return qbc;
+        return qbcBuilder.build();
     }
 
     private PopulationService getPopulationService() {
@@ -103,7 +107,4 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
         return this.populationService;
     }
 
-    public ContextInfo getContextInfo() {
-        return ContextBuilder.loadContextInfo();
-    }
 }

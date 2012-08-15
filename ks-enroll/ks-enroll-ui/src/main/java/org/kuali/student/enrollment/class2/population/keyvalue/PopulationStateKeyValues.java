@@ -16,16 +16,12 @@
  */
 package org.kuali.student.enrollment.class2.population.keyvalue;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.common.util.constants.StateServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
@@ -35,25 +31,23 @@ import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
- * This class //TODO ...
+ * This class gets all the states for populations
  *
  * @author Kuali Student Team
  */
 public class PopulationStateKeyValues extends UifKeyValuesFinderBase implements Serializable {
-    private StateService stateService;
-    List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-    final Logger LOG = Logger.getLogger(PopulationStateKeyValues.class);
+    private transient StateService stateService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
-        List<StateInfo> stateInfos = null;
+
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
         try {
-            stateService = getStateService();
-            stateInfos = stateService.getStatesByLifecycle(PopulationServiceConstants.POPULATION_LIFECYCLE_KEY, getContextInfo());
+            List<StateInfo> stateInfos = getStateService().getStatesByLifecycle(PopulationServiceConstants.POPULATION_LIFECYCLE_KEY, ContextInfo.createDefaultContextInfo());
 
             if (stateInfos != null) {
                 for (StateInfo stateInfo : stateInfos) {
@@ -61,28 +55,10 @@ public class PopulationStateKeyValues extends UifKeyValuesFinderBase implements 
                 }
                 keyValues.add(new ConcreteKeyValue("both", "Both"));
             }
-        } catch (InvalidParameterException e) {
-            LOG.error("Error getting PopulationInfo state: Invalid Parameter ", e);
-            throw new RuntimeException(e);
-        } catch (MissingParameterException e) {
-            LOG.error("Error getting PopulationInfo state: Missing Parameter ", e);
-            throw new RuntimeException(e);
-        } catch (OperationFailedException e) {
-            LOG.error("Error getting PopulationInfo state: Operation Failed ", e);
-            throw new RuntimeException(e);
-        } catch (PermissionDeniedException e) {
-            LOG.error("Error getting PopulationInfo state: Permission Denied ", e);
-            throw new RuntimeException(e);
-        } catch (DoesNotExistException e) {
-            LOG.error("Error getting PopulationInfo state: Does Not Exist ", e);
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting PopulationInfo state", e);
         }
 
-        /*  Hardcode the states
-        keyValues.add(new ConcreteKeyValue(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY, "Active"));
-        keyValues.add(new ConcreteKeyValue(PopulationServiceConstants.POPULATION_INACTIVE_STATE_KEY, "Inactive"));
-        keyValues.add(new ConcreteKeyValue("kuali.population.population.state.both", "Both"));
-        */
         return keyValues;
     }
 
@@ -94,14 +70,4 @@ public class PopulationStateKeyValues extends UifKeyValuesFinderBase implements 
         return stateService;
     }
 
-    public ContextInfo getContextInfo() {
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-        contextInfo.setLocale(localeInfo);
-        return contextInfo;
-    }
 }

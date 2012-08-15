@@ -20,7 +20,7 @@
 
     <!-- PopulationWrapper MaintenanceView -->
     <bean id="KS-PopulationWrapper-MaintenanceView" parent="KSMaintenanceView">
-        <property name="headerText" value="@{#dp.pageTitle}"/>
+        <property name="headerText" value="@{(maintenanceAction eq 'New') ? 'Create a New Population' : 'Edit Population'}"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
         <property name="singlePageView" value="true"/>
@@ -230,6 +230,7 @@
         <bean parent="Uif-KeyLabelPair" p:key="kuali.population.population.state.inactive" p:value="Inactive"/>
     </util:list>
 
+    <!-- TODO These values are hardcoded for now, but should go against the KRMS system in the future.-->
     <util:list id="populationRuleAgendaIds-options">
         <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-33" p:value="1st Year Cmps Prog"/>
         <bean parent="Uif-KeyLabelPair" p:key="KRMS-Agenda-Id-14" p:value="Acad Achiev Pgm"/>

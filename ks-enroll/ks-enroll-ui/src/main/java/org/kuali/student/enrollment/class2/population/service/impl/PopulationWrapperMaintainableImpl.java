@@ -1,30 +1,31 @@
 package org.kuali.student.enrollment.class2.population.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
-import org.kuali.student.enrollment.class2.population.service.PopulationWrapperMaintainable;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 
-public class PopulationWrapperMaintainableImpl extends MaintainableImpl implements PopulationWrapperMaintainable{
+/**
+ * This class performs Population Maintenance
+ *
+ * @author Kuali Student Team
+ */
+public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
+
     private transient PopulationService populationService;
- //   final transient Logger logger = Logger.getLogger(PopulationWrapperMaintainableImpl.class);
-    
+
     @Override
     public void saveDataObject() {
         try {
@@ -48,7 +49,6 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl implemen
             String populationId =  dataObjectKeys.get("id");
             PopulationWrapper wrapper = getPopulation(populationId);
             wrapper.setId(populationId);
-            wrapper.setPageTitle("Edit Population");
             if (PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY.equals(wrapper.getPopulationRuleInfo().getTypeKey())){
                 //core type by rule
                 wrapper.setCreateByRule(true);

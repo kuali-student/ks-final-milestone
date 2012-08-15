@@ -19,36 +19,36 @@ package org.kuali.student.enrollment.class2.population.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class performs Population Inquiries
  *
  * @author Kuali Student Team
  */
 public class PopulationWrapperInquirableImpl extends InquirableImpl {
 
     private transient PopulationService populationService = null;
-    private ContextInfo contextInfo = null;
-
 
     @Override
     public PopulationWrapper retrieveDataObject(Map<String, String> parameters) {
         String populationInfoId = parameters.get("id");
 
+        ContextInfo context = ContextInfo.createDefaultContextInfo();
+
         try {
             populationService = getPopulationService();
-            PopulationInfo populationInfo = populationService.getPopulation(populationInfoId, getContextInfo());
-            PopulationRuleInfo populationRuleInfo = populationService.getPopulationRuleForPopulation(populationInfoId, getContextInfo());
+            PopulationInfo populationInfo = populationService.getPopulation(populationInfoId, context);
+            PopulationRuleInfo populationRuleInfo = populationService.getPopulationRuleForPopulation(populationInfoId, context);
 
             PopulationWrapper populationWrapper = new PopulationWrapper();
             populationWrapper.setPopulationInfo(populationInfo);
@@ -56,7 +56,7 @@ public class PopulationWrapperInquirableImpl extends InquirableImpl {
 
             List<PopulationInfo> childPopulations = new ArrayList<PopulationInfo>();
             for (String childPopulationId : populationRuleInfo.getChildPopulationIds())  {
-                PopulationInfo childPopulation = populationService.getPopulation(childPopulationId, getContextInfo());
+                PopulationInfo childPopulation = populationService.getPopulation(childPopulationId, context);
                 if (childPopulation != null) {
                     childPopulations.add(childPopulation);
                 }
@@ -64,16 +64,16 @@ public class PopulationWrapperInquirableImpl extends InquirableImpl {
             populationWrapper.setChildPopulations(childPopulations);
 
             if (populationRuleInfo.getReferencePopulationId() != null) {
-                PopulationInfo referencePopulation = populationService.getPopulation(populationRuleInfo.getReferencePopulationId(), getContextInfo());
+                PopulationInfo referencePopulation = populationService.getPopulation(populationRuleInfo.getReferencePopulationId(), context);
                 if (referencePopulation != null) {
                     populationWrapper.setReferencePopulation(referencePopulation);
                 }
             }
 
-return populationWrapper;
+            return populationWrapper;
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error retrieving Population", e);
         }
     }
 
@@ -84,10 +84,4 @@ return populationWrapper;
         return this.populationService;
     }
 
-    public ContextInfo getContextInfo() {
-        if (contextInfo == null){
-            contextInfo =  ContextBuilder.loadContextInfo();
-        }
-        return contextInfo;
-    }
 }

@@ -1,27 +1,26 @@
 package org.kuali.student.enrollment.class2.population.rule;
 
-import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
-
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
+import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
-import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class does business validation for Populations
+ *
+ * @author Kuali Student Team
+ */
 public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
     private transient PopulationService populationService;
 
@@ -30,11 +29,16 @@ public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
+    /**
+     * Main entry for validating populations.
+     *
+     * @param document
+     * @return if this document contains valid population information
+     */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
-        boolean isValid = true;
-        isValid &= super.processCustomRouteDocumentBusinessRules(document);
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         PopulationWrapper newWrapper = (PopulationWrapper) document.getNewMaintainableObject().getDataObject();
         //Rule:  population Name has to be unique for creating a new population
         if (document.isNew()) {
@@ -61,33 +65,33 @@ public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
         else if (operationType.equals(PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY)){
             //Rule:
             //by Exclusion - must select one reference population and at least one other DIFFERENT population in order to create
-            isValid &= checkReferneceAndChildpopulations(newWrapper);
+            isValid &= checkReferenceAndChildPopulations(newWrapper);
         }
         return isValid;
     }
 
-    protected boolean checkReferneceAndChildpopulations (PopulationWrapper wrapper){
+    protected boolean checkReferenceAndChildPopulations(PopulationWrapper wrapper){
         boolean isValid  = true;
         List<PopulationInfo> populationInfoList = wrapper.getChildPopulations();
         String referenceId = wrapper.getReferencePopulation().getId();
         if(populationInfoList == null || populationInfoList.isEmpty()){
+            isValid = false;
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
                     PopulationConstants.POPULATION_MSG_ERROR_NEED_ONE_POPULATIONS, "Exclusion");
-            isValid = false;
-        }
-
-        // the ref population cannot be in the  source populations.
-        if(this.containsPopulation(populationInfoList,referenceId)){
-            isValid = false;
-            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
-                    PopulationConstants.POPULATION_MSG_ERROR_REF_NOT_ALLOWED_IN_SOURCE_POPULATIONS, "Exclusion");
-        }
-
-        if(populationInfoList!= null && populationInfoList.size() > 1 ){     //Two or more
-            if(this.hasDuplicates(populationInfoList)){
+        }else{
+            // the ref population cannot be in the  source populations.
+            if(this.containsPopulation(populationInfoList,referenceId)){
                 isValid = false;
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
-                        PopulationConstants.POPULATION_MSG_ERROR_NEED_TWO_DIFFERENT_POPULATIONS, "Exclusion");
+                        PopulationConstants.POPULATION_MSG_ERROR_REF_NOT_ALLOWED_IN_SOURCE_POPULATIONS, "Exclusion");
+            }
+
+            if(populationInfoList.size() > 1 ){     //Two or more
+                if(this.hasDuplicates(populationInfoList)){
+                    isValid = false;
+                    GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
+                            PopulationConstants.POPULATION_MSG_ERROR_NEED_TWO_DIFFERENT_POPULATIONS, "Exclusion");
+                }
             }
         }
 
@@ -95,19 +99,9 @@ public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
     }
 
     protected boolean containsPopulation(List<PopulationInfo> populationInfoList, String populationId){
-       for(PopulationInfo population : populationInfoList){
-           if(population.getId().equalsIgnoreCase(populationId))
-               return true;
-       }
-       return false;
-    }
-
-    protected boolean hasDuplicates(List<PopulationInfo> populationInfoList){
-        //Compare and make sure there is no duplication
-        List<PopulationInfo> populationInfoList1 = populationInfoList;
-        for (int i= 0; i < populationInfoList.size(); i++) {
-            for (int j= 0; j < populationInfoList1.size(); j++) {
-                if (populationInfoList.get(i).getId().equals(populationInfoList1.get(j).getId()) && i != j){
+        if(populationInfoList!=null){
+            for(PopulationInfo population : populationInfoList){
+                if(population.getId().equalsIgnoreCase(populationId)){
                     return true;
                 }
             }
@@ -115,14 +109,32 @@ public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
         return false;
     }
 
+    protected boolean hasDuplicates(List<PopulationInfo> populationInfoList){
+        //Compare and make sure there is no duplication
+        for (int i= 0; i < populationInfoList.size(); i++) {
+            for (int j= 0; j < populationInfoList.size(); j++) {
+                if (i != j && populationInfoList.get(i).getId().equals(populationInfoList.get(j).getId())){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Validates that a wrapper has at least two unique child populations
+     * @param wrapper
+     * @param operation PoplulationType type key (union,intersection/exclusion)
+     * @return
+     */
     protected boolean needTwoChildPopulations (PopulationWrapper wrapper, String operation){
         boolean isValid  = true;
         List<PopulationInfo> populationInfoList = wrapper.getChildPopulations();
-        List<PopulationInfo> populationInfoList1 = populationInfoList;
+
         if(populationInfoList.size() > 1 ){     //Two or more
             for (PopulationInfo populationInfo: populationInfoList) {
                 int duplicateCntr = 0;
-                for (PopulationInfo populationInfo1: populationInfoList1) {
+                for (PopulationInfo populationInfo1: populationInfoList) {
                     if (populationInfo.getId().equals(populationInfo1.getId())){
                         duplicateCntr++;
                     }
@@ -139,15 +151,18 @@ public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
             isValid = false;
         }
         if ( !isValid ){
-//              GlobalVariables.getMessageMap().putError("newCollectionLines[document.newMaintainableObject.dataObject.childPopulations].name",
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
                     PopulationConstants.POPULATION_MSG_ERROR_NEED_TWO_DIFFERENT_POPULATIONS, operation);
-//            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Must select at least 2 different populations.");
         }
 
         return isValid;
     }
 
+    /**
+     * Validates that the population name has not already been used
+     * @param wrapper
+     * @return if the population name is unique for the application
+     */
     protected boolean populationNameUniqueCheck(PopulationWrapper wrapper){
         boolean isNameUnique = true;
 

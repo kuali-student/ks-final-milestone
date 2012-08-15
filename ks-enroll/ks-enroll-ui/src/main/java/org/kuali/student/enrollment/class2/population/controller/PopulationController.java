@@ -12,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * This class is a basic controller for managing Populations.
+ * The two custom methods set values on the wrapper based on if the population is rule based or not.
+ *
+ * @author Kuali Student Team
+ */
 @Controller
 @RequestMapping(value = "/population")
 public class PopulationController extends MaintenanceDocumentController {
