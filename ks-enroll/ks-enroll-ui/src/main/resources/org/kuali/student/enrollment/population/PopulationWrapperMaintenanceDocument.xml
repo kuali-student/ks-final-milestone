@@ -34,11 +34,11 @@
         <property name="page.footer.items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Create Population" p:performClientSideValidation="true"
-                      p:render="@{(maintenanceAction eq 'New') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                      p:render="@{(maintenanceAction eq 'New') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:id="button_createPopulation"/>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Update" p:performClientSideValidation="true"
-                      p:render="@{(maintenanceAction eq 'Edit') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                      p:render="@{(maintenanceAction eq 'Edit') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:id="button_updatePopulation"/>
                 <bean parent="Uif-ActionLink" p:actionScript="stepBrowserBack()" p:actionLabel="Cancel"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}" p:id="link_cancelPopulation"/>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -57,9 +57,9 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="createByRule" p:style="font-weight:bold;" p:actionLabel="By Rule" p:render="@{!#dp.createByRule}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="createByRule" p:style="font-weight:bold;" p:actionLabel="By Rule" p:render="@{!#dp.createByRule}" p:id="link_byRule"/>
                 <bean parent="Uif-MessageField" p:messageText="By Rule" p:style="font-weight:bold;" p:render="@{#dp.createByRule}"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="createByCombiningPopulations" p:style="font-weight:bold;" p:actionLabel="By Using Populations" p:render="@{#dp.createByRule}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="createByCombiningPopulations" p:style="font-weight:bold;" p:actionLabel="By Using Populations" p:render="@{#dp.createByRule}" p:id="link_byUsingPopulations"/>
                 <bean parent="Uif-MessageField" p:messageText="By Using Populations" p:style="font-weight:bold;" p:render="@{!#dp.createByRule}"/>
             </list>
         </property>
@@ -156,6 +156,13 @@
                     </property>
                     <!-- Hide the state option, and default it to Active -->
                     <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
+                    <property name="quickfinder.quickfinderAction">
+                        <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchRefPopulation">
+                            <property name="actionImage">
+                                <bean parent="Uif-QuickLookupImage"/>
+                            </property>
+                        </bean>
+                    </property>
                 </bean>
                 <ref bean="KS-PopulationWrapper-AddPopulationsSection"/>
             </list>
@@ -196,10 +203,21 @@
                                 </property>
                                 <!-- Hide the state option, and default it to Active -->
                                 <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
+                                <property name="quickfinder.quickfinderAction">
+                                    <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchPopulation">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-QuickLookupImage"/>
+                                        </property>
+                                    </bean>
+                                </property>
                             </bean>
                         </list>
                     </property>
-
+                    <property name="addLineActions">
+                        <list>
+                            <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add" p:id="button_searchPopulation" />
+                        </list>
+                    </property>
                     <property name="lineActions">
                         <list>
                             <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="X" p:render="@{!#isAddLine}" />
