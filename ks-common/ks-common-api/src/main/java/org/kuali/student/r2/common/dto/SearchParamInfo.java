@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.SearchParam;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * A structure that holds a key value pair to supply a value to a
@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchParamInfo", propOrder = {
-                "key", "values", "_futureElements"})
+                "key", "values"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 @Deprecated
 public class SearchParamInfo 
     implements SearchParam, Serializable {
@@ -54,8 +54,9 @@ public class SearchParamInfo
     @XmlElement(name="value")
     private List<String> values;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     
     /**
