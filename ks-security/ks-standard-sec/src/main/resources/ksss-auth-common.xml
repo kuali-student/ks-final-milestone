@@ -25,6 +25,8 @@
 
 
 	<bean id="ksUserDetailsService" class="org.kuali.student.security.spring.KSDefaultUserDetailsService">
+		<property name="identityService" ref="identityServiceClient"/>
+		<property name="roleService" ref="roleServiceClient"/>
 		<!-- uncomment if you do not want to use the default roles of ROLE_KS_ADMIN, ROLE_KS_USER
 		<property name="authorities">
 			<list>
@@ -41,8 +43,16 @@
 		<property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}identityService" />
 	</bean>
 	
+
+    <bean id="roleServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.role.RoleService"/>
+        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}roleService"/>
+    </bean>
+
+
 	<bean id="ksRiceUserDetailsService" class="org.kuali.student.security.spring.KSRiceDefaultUserDetailsService">
 		<property name="identityService" ref="identityServiceClient"/>
+		<property name="roleService" ref="roleServiceClient"/>
   	</bean>
 	
 	<bean id="authenticationGwtRpcFilter" class="org.kuali.student.security.filter.AuthenticationGwtRpcFilter"/>
