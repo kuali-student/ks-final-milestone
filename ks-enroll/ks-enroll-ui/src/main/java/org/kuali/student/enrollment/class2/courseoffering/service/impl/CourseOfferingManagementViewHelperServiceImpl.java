@@ -5,6 +5,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -278,10 +279,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 
             for (ActivityOfferingInfo info : activityOfferingInfoList) {
                 ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info);
-                StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), getContextInfo());
+                StateInfo state = getStateService().getState(info.getStateKey(), getContextInfo());
                 wrapper.setStateName(state.getName());
-                TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), getContextInfo());
+                TypeInfo typeInfo = getTypeService().getType(info.getTypeKey(), getContextInfo());
                 wrapper.setTypeName(typeInfo.getName());
+                FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(info.getFormatOfferingId(), getContextInfo());
+                wrapper.setFormatOffering(fo);
 
                 OfferingInstructorInfo displayInstructor = ViewHelperUtil.findDisplayInstructor(info.getInstructors());
                 if(displayInstructor != null) {
@@ -401,6 +404,23 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 getCourseOfferingService().updateCourseOffering(coWrapper.getCoInfo().getId(), coWrapper.getCoInfo(), getContextInfo());
             }
         }
+    }
+
+    public void filterAOsPerFO (CollectionGroup collectionGroup, CourseOfferingManagementForm form){
+        String theFormatId = form.getFormatIdForViewRG();
+        System.out.println(">>>theFormatId = "+theFormatId);
+        List<ActivityOfferingWrapper> fullAOs = form.getActivityWrapperList();
+        List<ActivityOfferingWrapper> filteredAOs = form.getFilteredAOsForSelectedFO();
+        filteredAOs.clear();
+       
+        for (ActivityOfferingWrapper ao: fullAOs)  {
+            String formatId =ao.getFormatOffering().getFormatId(); 
+            System.out.println(">>>formatId = "+formatId);
+            if (formatId.equals(theFormatId) ){
+                filteredAOs.add(ao);
+            }
+        }
+        form.setFilteredAOsForSelectedFO(filteredAOs);
     }
 
     private CourseOfferingService _getCourseOfferingService() {

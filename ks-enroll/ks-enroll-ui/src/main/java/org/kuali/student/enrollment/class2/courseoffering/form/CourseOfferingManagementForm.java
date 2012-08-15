@@ -28,6 +28,10 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private List<CourseOfferingEditWrapper> courseOfferingEditWrapperList;
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
 
+    //For View Registration Groups
+    private String formatIdForViewRG;
+    private List<ActivityOfferingWrapper> filteredAOsForSelectedFO;
+
     //For Adding Activity
     private String formatIdForNewAO;
 
@@ -42,6 +46,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
+        filteredAOsForSelectedFO = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
         setCourseOfferingCopyWrapper(null);
     }
@@ -132,6 +137,22 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setSelectedToDeleteList(List<ActivityOfferingWrapper> selectedToDeleteList) {
         this.selectedToDeleteList = selectedToDeleteList;
+    }
+
+    public String getFormatIdForViewRG() {
+        return formatIdForViewRG;
+    }
+
+    public void setFormatIdForViewRG(String formatIdForViewRG) {
+        this.formatIdForViewRG = formatIdForViewRG;
+    }
+
+    public List<ActivityOfferingWrapper> getFilteredAOsForSelectedFO() {
+        return filteredAOsForSelectedFO;
+    }
+
+    public void setFilteredAOsForSelectedFO(List<ActivityOfferingWrapper> filteredAOsForSelectedFO) {
+        this.filteredAOsForSelectedFO = filteredAOsForSelectedFO;
     }
 
     public String getFormatIdForNewAO() {
