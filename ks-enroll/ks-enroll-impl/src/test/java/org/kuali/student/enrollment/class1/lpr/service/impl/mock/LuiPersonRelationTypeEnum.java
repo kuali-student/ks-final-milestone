@@ -49,6 +49,7 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
      * REF OBJECT URI FOR LPR
      */
     public static final String REF_OBJECT_URI = "http://student.kuali.org/LprService/LuiPersionRelationInfo";
+    public static final String SERVICE_URI = LprServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION;
 
     /**
      * Types used for students in courses
@@ -113,7 +114,11 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
     public String getKey() {
         return this.key;
     }
-    
+
+    @Override
+    public String getServiceUri(){
+        return SERVICE_URI;
+    }
 
     private static Date asDate(String dateStr) {
         if (dateStr == null) {
@@ -158,5 +163,8 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
 
     
     public void setRefObjectUri(String refObjectUri) {
+    }
+
+    public void setServiceUri(String serviceUri){
     }
 }

@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -69,6 +69,7 @@ on a combination of type and state.
 				<ref bean="TypeInfo.effectiveDate"/>
 				<ref bean="TypeInfo.expirationDate"/>
 				<ref bean="TypeInfo.refObjectUri"/>
+				<ref bean="TypeInfo.serviceUri"/>
 			</list>
 		</property>
 
@@ -175,6 +176,23 @@ The refObjectURI has three parts:&lt;ol&gt;
 &lt;li&gt;luService -- which should match the namespace of the service in which the object is defined
 &lt;li&gt;CluInfo -- which should match the java class's simple name
 &lt;/ol&gt;
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="TypeInfo.serviceUri-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="serviceUri"/>
+		<property name="shortLabel" value="Service Uri"/>
+		<property name="summary">
+			<value>
+Getters and Setters for ServiceUri
+			</value>
+		</property>
+		<property name="label" value="Service Uri"/>
+		<property name="description">
+			<value>
+Getters and Setters for ServiceUri
 			</value>
 		</property>
 		<property name="required" value="false"/>

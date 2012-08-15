@@ -125,8 +125,13 @@
                     <execution>
                         <id>generate-dictionary-documentation</id>
                         <phase>${ks.dictionarydoc.phase}</phase>
+                        <configuration>
+                            <inputFiles>
+                                <inputFile>ks-TypeInfo-dictionary.xml</inputFile>
+                            </inputFiles>
+                        </configuration>
                         <goals>
-                            <goal>ksdictionarydoc</goal>                            
+                            <goal>ksdictionarydoc</goal>
                         </goals>
                         
                     </execution>

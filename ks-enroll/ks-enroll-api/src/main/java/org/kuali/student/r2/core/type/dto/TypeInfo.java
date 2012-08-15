@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TypeInfo", propOrder = {
                  "key", "name", "descr", "effectiveDate", "expirationDate", 
-                 "refObjectUri", "meta", "attributes", "_futureElements"})
+                 "refObjectUri", "serviceUri", "meta", "attributes", "_futureElements"})
 
 public class TypeInfo 
     extends HasAttributesAndMetaInfo 
@@ -57,9 +57,12 @@ public class TypeInfo
     
     @XmlElement
     private Date expirationDate;
-    
+
     @XmlElement
     private String refObjectUri;
+
+    @XmlElement
+    private String serviceUri;
     
     @XmlAnyElement
     private List<Element> _futureElements;    
@@ -88,6 +91,7 @@ public class TypeInfo
             this.effectiveDate = null != type.getEffectiveDate() ? new Date(type.getEffectiveDate().getTime()) : null;
             this.expirationDate = null != type.getExpirationDate() ? new Date(type.getExpirationDate().getTime()) : null;
             this.refObjectUri = type.getRefObjectUri();
+            this.serviceUri = type.getServiceUri();
         }
     }
 	
@@ -95,6 +99,8 @@ public class TypeInfo
     public String getKey() {
         return key;
     }
+
+
     
     public void setKey(String key) {
         this.key = key;
@@ -143,5 +149,16 @@ public class TypeInfo
     
     public void setRefObjectUri(String refObjectUri) {
         this.refObjectUri = refObjectUri;
+    }
+
+    /**
+     * Getters and Setters for ServiceUri
+     */
+    public String getServiceUri(){
+        return serviceUri;
+    }
+
+    public void setServiceUri(String serviceUri){
+        this.serviceUri = serviceUri;
     }
 }

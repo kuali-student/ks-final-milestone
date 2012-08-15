@@ -38,6 +38,8 @@ public class TypeEntity extends MetaEntity implements AttributeOwner<TypeAttribu
     private String name;
     @Column(name = "REF_OBJECT_URI")
     private String refObjectURI;
+    @Column(name= "SERVICE_URI")
+    private String serviceUri;
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
     private String descrPlain;
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
@@ -96,6 +98,14 @@ public class TypeEntity extends MetaEntity implements AttributeOwner<TypeAttribu
         return refObjectURI;
     }
 
+    public String getServiceUri(){
+        return serviceUri;
+    }
+
+    public void setServiceUri(String serviceUri){
+        this.serviceUri=serviceUri;
+    }
+
     public void setAttributes(Set<TypeAttributeEntity> attributes) {
         this.attributes = attributes;
 
@@ -129,6 +139,7 @@ public class TypeEntity extends MetaEntity implements AttributeOwner<TypeAttribu
         }
 
         this.setRefObjectURI(type.getRefObjectUri());
+        this.setServiceUri(type.getServiceUri());
         this.setEffectiveDate(type.getEffectiveDate());
         this.setExpirationDate(type.getExpirationDate());
         this.setAttributes(new HashSet<TypeAttributeEntity>());
@@ -142,6 +153,7 @@ public class TypeEntity extends MetaEntity implements AttributeOwner<TypeAttribu
         info.setKey(getId());
         info.setName(name);
         info.setRefObjectUri(refObjectURI);
+        info.setServiceUri(serviceUri);
         RichTextInfo rti = new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted);
         info.setDescr(rti);
         info.setEffectiveDate(this.effectiveDate);

@@ -55,6 +55,7 @@ public class TestTypeServiceImpl {
         orig.setKey("kuali.atp.type.TestAtp");
         orig.setName("ATP test create");
         orig.setEffectiveDate(new Date());
+        orig.setServiceUri("Service URI test");
         orig.setDescr(new RichTextHelper().fromPlain("my decription"));
         AttributeInfo attr = new AttributeInfo();
         attr.setKey("attribute.key");
@@ -70,6 +71,7 @@ public class TestTypeServiceImpl {
         assertEquals(orig.getEffectiveDate(), info.getEffectiveDate());
         assertEquals(orig.getExpirationDate(), info.getExpirationDate());
         assertEquals(orig.getRefObjectUri(), info.getRefObjectUri());
+        assertEquals(orig.getServiceUri(), info.getServiceUri());
         assertEquals(orig.getAttributes().size(), info.getAttributes().size());
         assertNotNull(info.getAttributes().get(0).getId());
         assertEquals(orig.getAttributes().get(0).getKey(), info.getAttributes().get(0).getKey());
@@ -90,6 +92,7 @@ public class TestTypeServiceImpl {
         assertEquals(orig.getEffectiveDate(), info.getEffectiveDate());
         assertEquals(orig.getExpirationDate(), info.getExpirationDate());
         assertEquals(orig.getRefObjectUri(), info.getRefObjectUri());
+        assertEquals(orig.getServiceUri(), info.getServiceUri());
         assertEquals(orig.getAttributes().size(), info.getAttributes().size());
         assertEquals(orig.getAttributes().get(0).getId(), info.getAttributes().get(0).getId());
         assertEquals(orig.getAttributes().get(0).getKey(), info.getAttributes().get(0).getKey());
@@ -111,6 +114,7 @@ public class TestTypeServiceImpl {
         assertEquals(orig.getEffectiveDate(), info.getEffectiveDate());
         assertEquals(orig.getExpirationDate(), info.getExpirationDate());
         assertEquals(orig.getRefObjectUri(), info.getRefObjectUri());
+        assertEquals(orig.getServiceUri(), info.getServiceUri());
         assertEquals(orig.getAttributes().size(), info.getAttributes().size());
         assertEquals(orig.getAttributes().get(0).getId(), info.getAttributes().get(0).getId());
         assertEquals(orig.getAttributes().get(0).getKey(), info.getAttributes().get(0).getKey());
@@ -126,6 +130,7 @@ public class TestTypeServiceImpl {
         orig.setDescr(new RichTextHelper().fromPlain("new description"));
         orig.setEffectiveDate(new Date(new Date().getTime() + 1000));
         orig.getAttributes().get(0).setValue("new value");
+        orig.setServiceUri("Service URI test");
         info = typeService.updateType(orig.getKey(), orig, context);
         assertNotNull(info);
         assertEquals(orig.getKey(), info.getKey());
@@ -134,6 +139,7 @@ public class TestTypeServiceImpl {
         assertEquals(orig.getEffectiveDate(), info.getEffectiveDate());
         assertEquals(orig.getExpirationDate(), info.getExpirationDate());
         assertEquals(orig.getRefObjectUri(), info.getRefObjectUri());
+        assertEquals(orig.getServiceUri(), info.getServiceUri());
         assertEquals(orig.getAttributes().size(), info.getAttributes().size());
         assertEquals(orig.getAttributes().get(0).getId(), info.getAttributes().get(0).getId());
         assertEquals(orig.getAttributes().get(0).getKey(), info.getAttributes().get(0).getKey());
