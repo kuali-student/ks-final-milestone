@@ -717,13 +717,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     private LuiInfo findFormatOfferingLui(String activityOfferingId, ContextInfo context)
-            throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+            throws OperationFailedException {
         List<LuiInfo> rels;
-
-        rels = luiService.getLuisByRelatedLuiAndRelationType(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, context);
-
-        if (rels.size() == 0) {
-            throw new DoesNotExistException("no format offering found for activity offering " + activityOfferingId);
+        try {
+            rels = luiService.getLuisByRelatedLuiAndRelationType(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, context);
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
         }
         for (LuiInfo lui : rels) {
             if (LuiServiceConstants.isFormatOfferingTypeKey(lui.getTypeKey())) {
