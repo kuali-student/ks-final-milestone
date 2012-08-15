@@ -782,12 +782,16 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         else {
             // check if there is Draft AO selected
             selectedIndexList.clear();
+            boolean bEncounteredNonDraftAOInDeletion = false;
             for(ActivityOfferingWrapper ao : aoList) {
                 if(ao.isLegalToDelete() && ao.getIsChecked()) {
                     selectedIndexList.add(ao);
                 }else if (ao.getIsChecked()){
-                    GlobalVariables.getMessageMap().putError("selectedOfferingAction",CourseOfferingConstants.AO_NOT_DRAFT_FOR_DELETION_ERROR);
-                    return getUIFModelAndView(theForm);
+                    if (!bEncounteredNonDraftAOInDeletion) {
+                        bEncounteredNonDraftAOInDeletion = true;
+                        GlobalVariables.getMessageMap().putError("selectedOfferingAction",
+                            CourseOfferingConstants.AO_NOT_DRAFT_FOR_DELETION_ERROR);
+                    }
                 }
             }
             if (selectedIndexList.isEmpty()) {
