@@ -42,6 +42,7 @@ public class CourseOfferingEditWrapper implements Serializable {
     private List<OfferingInstructorWrapper> instructors;
     private CourseInfo course;
     private String termStartEnd;
+    private String stateName;
 
     private String selectedGradingOptionName;
     private String selectedStudentRegOpts;
@@ -183,6 +184,14 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     public void setGradingOption(String gradingOption) {
         this.gradingOption = gradingOption;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 
     public boolean isLegalToDelete() {

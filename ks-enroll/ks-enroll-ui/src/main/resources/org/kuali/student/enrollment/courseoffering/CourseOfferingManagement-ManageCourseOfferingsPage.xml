@@ -81,6 +81,9 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField"
+                      p:label="STATUS"
+                      p:propertyName="stateName"/>
+                <bean parent="Uif-DataField"
                       p:label="TITLE"
                       p:propertyName="coInfo.courseOfferingTitle"/>
                 <bean parent="Uif-DataField"
