@@ -59,7 +59,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author lindholm
  *
  */
-@WebService(endpointInterface = "org.kuali.student.r2.lum.lrc.service.LRCService", serviceName = "LRCService", portName = "LRCService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
+@WebService(endpointInterface = "org.kuali.student.r1.lum.lrc.service.LrcService", serviceName = "LrcService", portName = "LRCService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
 public class LrcServiceImpl implements LrcService {
     private LrcDao lrcDao;
     private SearchManager searchManager;

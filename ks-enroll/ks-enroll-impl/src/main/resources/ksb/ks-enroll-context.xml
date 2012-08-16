@@ -91,7 +91,13 @@
     <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
     <!-- <property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
     <property name="criteriaLookupService" ref="criteriaLookupService"/>
+      <property name="searchManager" ref="atpSearchManager"/>
   </bean>
+
+    <bean id="atpSearchManager"
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:atp-search-config.xml" />
+    </bean>
 
    <bean id="ks.exp.atpEnrService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
