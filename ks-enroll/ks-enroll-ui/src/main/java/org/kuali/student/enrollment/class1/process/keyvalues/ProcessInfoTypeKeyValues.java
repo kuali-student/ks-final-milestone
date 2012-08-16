@@ -35,7 +35,7 @@ public class ProcessInfoTypeKeyValues extends KeyValuesBase implements Serializa
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         ConcreteKeyValue topKeyValue = new ConcreteKeyValue();
-        topKeyValue.setKey("select");
+        topKeyValue.setKey("");
         topKeyValue.setValue("Select One");
         keyValues.add(topKeyValue);
 
