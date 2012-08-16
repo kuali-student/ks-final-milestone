@@ -647,4 +647,14 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
     }
     
+    public DocumentTool() {
+
+    }
+    
+    public void init(String refObjectTypeKey, Enum<?> viewEnum, String viewName) {
+        this.refObjectTypeKey = refObjectTypeKey;
+        this.viewEnum = viewEnum;
+        this.viewName = viewName;
+    }
+    
 }
