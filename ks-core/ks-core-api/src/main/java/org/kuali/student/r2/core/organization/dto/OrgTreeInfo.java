@@ -16,19 +16,24 @@
 
 package org.kuali.student.r2.core.organization.dto;
 
-import org.kuali.student.r2.core.organization.infc.OrgTree;
-//import org.w3c.dom.Element;
-
-import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.r2.core.organization.infc.OrgTree;
+import org.w3c.dom.Element;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgTreeInfo", propOrder = {
                 "displayName", "orgHierarchyId", "orgId", "parentId",
-                "positions", "positionId", "personId", "relationTypeKey"/*,
-                "_futureElements"*/ })
+                "positions", "positionId", "personId", "relationTypeKey",
+                "_futureElements" })
 
 public class OrgTreeInfo 
     implements OrgTree, Serializable {
@@ -58,10 +63,9 @@ public class OrgTreeInfo
 	
     @XmlElement
     private String relationTypeKey;
-
-    //    TODO KSCM-372: Non-GWT translatable code
-    //@XmlAnyElement
-    //private List<Element> _futureElements;
+	
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
 
     /**
@@ -86,15 +90,8 @@ public class OrgTreeInfo
             this.personId = tree.getPersonId();
             this.relationTypeKey = tree.getRelationTypeKey();
         }
-    }
-
-    public OrgTreeInfo(String orgId, String parentId, String displayName) {
-        super();
-        this.orgId = orgId;
-        this.parentId = parentId;
-        this.displayName = displayName;
-    }
-
+    }	
+        
     @Override
     public String getDisplayName() {
         return displayName;

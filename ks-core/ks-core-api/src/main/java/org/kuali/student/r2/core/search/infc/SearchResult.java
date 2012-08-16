@@ -17,7 +17,6 @@
 package org.kuali.student.r2.core.search.infc;
 
 import java.util.List;
-
 import org.kuali.student.r2.core.search.dto.SortDirection;
 
 public interface SearchResult {

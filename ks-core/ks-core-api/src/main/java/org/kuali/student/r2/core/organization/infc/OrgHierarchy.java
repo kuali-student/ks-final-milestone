@@ -32,7 +32,6 @@ public interface OrgHierarchy
      * Root organization for the hierarchy.
      * 
      * @name Root Org Id
-     * @required
      */
     public String getRootOrgId();
 }

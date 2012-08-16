@@ -15,9 +15,9 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
-import java.util.List;
-
 import org.kuali.student.r2.common.infc.IdEntity;
+
+import java.util.List;
 
 
 /**
@@ -46,11 +46,13 @@ public interface ScheduleRequest extends IdEntity {
      * @readonly
      */
     public String getRefObjectTypeKey();
-    
+
+
     /**
      * The Schedule Request Component Ids. These provide a list of preferences.
      *
      * @name Schedule Request Component Ids
      */
     public List<? extends ScheduleRequestComponent> getScheduleRequestComponents();
+
 }

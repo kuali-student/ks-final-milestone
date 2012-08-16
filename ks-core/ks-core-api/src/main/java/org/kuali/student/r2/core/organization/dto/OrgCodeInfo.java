@@ -15,17 +15,18 @@
  */
 package org.kuali.student.r2.core.organization.dto;
 
-import org.kuali.student.r2.common.dto.KeyNamelessEntityInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.core.organization.infc.OrgCode;
-//import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.List;
+
+import org.kuali.student.r2.common.dto.KeyNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.core.organization.infc.OrgCode;
+import org.w3c.dom.Element;
 
 /**
  * Detailed information about organization codes.
@@ -35,7 +36,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgCodeInfo", propOrder = {
     "key", "value", "descr",
-    "meta", "attributes"/*, "_futureElements"*/})
+    "meta", "attributes", "_futureElements"})
 public class OrgCodeInfo
         extends KeyNamelessEntityInfo
         implements OrgCode, Serializable {
@@ -45,9 +46,8 @@ public class OrgCodeInfo
     private String value;
     @XmlAnyElement
     private RichTextInfo descr;
-    //    TODO KSCM-372: Non-GWT translatable code
-    //@XmlAnyElement
-    //private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     /**
      * Constructs a new OrgCodeInfo.
@@ -64,7 +64,7 @@ public class OrgCodeInfo
         super(orgCode);
         this.value = orgCode.getValue();
         if (orgCode.getDescr() != null) {
-            this.descr = new RichTextInfo(orgCode.getDescr());
+            this.descr = new RichTextInfo (orgCode.getDescr());
         }
     }
 

@@ -16,13 +16,18 @@
 
 package org.kuali.student.r2.core.organization.dto;
 
-import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.kuali.student.r2.core.organization.infc.OrgPersonRelation;
-//import org.w3c.dom.Element;
-
-import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.r2.core.organization.infc.OrgPersonRelation;
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.w3c.dom.Element;
 
 /**
  * Information about an organization to person relationship.
@@ -34,10 +39,10 @@ import java.util.List;
                 "id", "typeKey", "stateKey", 
                 "orgId", "personId",
                 "effectiveDate", "expirationDate",
-                "meta", "attributes"/*, "_futureElements"*/ })
+                "meta", "attributes", "_futureElements" })
 
 public class OrgPersonRelationInfo 
-    extends RelationshipInfo
+    extends RelationshipInfo 
     implements OrgPersonRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,9 +52,9 @@ public class OrgPersonRelationInfo
 
     @XmlElement
     private String personId;
-    //    TODO KSCM-372: Non-GWT translatable code
-    //@XmlAnyElement
-   // private List<Element> _futureElements;
+
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
 
     /**

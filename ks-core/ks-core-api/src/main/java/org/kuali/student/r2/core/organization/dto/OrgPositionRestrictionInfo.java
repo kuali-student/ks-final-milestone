@@ -15,15 +15,21 @@
  */
 package org.kuali.student.r2.core.organization.dto;
 
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.core.organization.infc.OrgPositionRestriction;
-import org.w3c.dom.Element;
-
-import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.core.organization.infc.OrgPositionRestriction;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.w3c.dom.Element;
 
 /**
  * Information which constrains/describes organization to person
@@ -39,7 +45,7 @@ import java.util.List;
     "title", "descr",
     "stdDuration",
     "minNumRelations", "maxNumRelations",
-    "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+    "meta", "attributes", "_futureElements"})
 public class OrgPositionRestrictionInfo extends HasAttributesAndMetaInfo
         implements OrgPositionRestriction, Serializable {
 
@@ -60,9 +66,8 @@ public class OrgPositionRestrictionInfo extends HasAttributesAndMetaInfo
     private Integer minNumRelations;
     @XmlElement
     private String maxNumRelations;
-    //    TODO KSCM-372: Non-GWT translatable code
-    //@XmlAnyElement
-    //private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     /**
      * Constructs a new OrgPositionrestrictionInfo.

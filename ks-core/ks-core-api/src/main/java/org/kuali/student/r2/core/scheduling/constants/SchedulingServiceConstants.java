@@ -15,16 +15,7 @@
 package org.kuali.student.r2.core.scheduling.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.MeetingTimeInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchRespInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRespInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRespItemInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.dto.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,13 +48,14 @@ public class SchedulingServiceConstants {
     public static final String REF_OBJECT_URI_SCHEDULE_RESP_ITEM = NAMESPACE + "/" + ScheduleRespItemInfo.class.getSimpleName();
 
     // Schedule request types
-    public static final String SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE = "kuali.scheduling.schedule.request.type.request";
+    public static final String SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE = "kuali.scheduling.schedule.request.type.schedule.request";
 
     // Schedule request states
     public static final String SCHEDULE_REQUEST_STATE_LIFECYCLE_KEY = "kuali.scheduling.schedule.request.lifecycle";
     public static final String SCHEDULE_REQUEST_REQUESTED_STATE = "kuali.scheduling.schedule.state.requested";
     public static final String SCHEDULE_REQUEST_WITHDRAWN_STATE = "kuali.scheduling.schedule.state.withdrawn";
     public static final String SCHEDULE_REQUEST_PROCESSED_STATE = "kuali.scheduling.schedule.state.processed";
+    public static final String SCHEDULE_REQUEST_CREATED_STATE = "kuali.scheduling.schedule.request.state.created";
 
     // Time slot types
     public static final String TIME_SLOT_STATE_STANDARD_KEY = "kuali.scheduling.time.slot.state.standard";

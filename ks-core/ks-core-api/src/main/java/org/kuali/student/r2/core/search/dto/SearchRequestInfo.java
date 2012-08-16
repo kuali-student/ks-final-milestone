@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.search.infc.SearchRequest;
 import org.kuali.student.r2.core.search.infc.SearchParam;
-//KSCM-372 import org.w3c.dom.Element;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchRequestInfo", propOrder = {
                 "searchKey", "params", "sortColumn", "sortDirection",
-                "startAt", "maxResults", "neededTotalResults"/*, 
-                "_futureElements"KSCM-372*/ })
+                "startAt", "maxResults", "neededTotalResults", 
+                "_futureElements" })
 
 public class SearchRequestInfo 
     implements SearchRequest, Serializable {
@@ -62,9 +62,8 @@ public class SearchRequestInfo
     @XmlElement
     private Boolean neededTotalResults;
     
-    /*KSCM-372
     @XmlAnyElement
-    private List<Element> _futureElements;*/
+    private List<Element> _futureElements;
 
 
     /**

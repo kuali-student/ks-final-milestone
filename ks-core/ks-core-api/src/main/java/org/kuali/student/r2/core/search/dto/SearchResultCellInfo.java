@@ -27,11 +27,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
-//import org.w3c.dom.Element;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchResultCellInfo", propOrder = {
-                "key", "value"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
+                "key", "value", "_futureElements" })
 
 public class SearchResultCellInfo 
     implements SearchResultCell, Serializable {
@@ -44,9 +44,8 @@ public class SearchResultCellInfo
     @XmlElement    
     private String value;
     
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
 
     /**

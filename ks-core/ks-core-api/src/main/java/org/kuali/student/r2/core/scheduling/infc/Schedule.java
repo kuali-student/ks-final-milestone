@@ -15,11 +15,11 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
-import java.util.List;
-
-import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.DateRange;
+import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+
+import java.util.List;
 
 
 /**
@@ -48,12 +48,12 @@ public interface Schedule extends IdEntity {
     public List<ScheduleComponentInfo> getScheduleComponents();
 
     /**
-     * A list of blackout dates where a meeting time implied by the ScheduleComponent is
-     * skipped.
-     * 
+     * A list of blackout dates where a meeting time implied by the
+     * ScheduleComponent is skipped.
+     *
      * @name Blackout Dates
-     * @deprecated Should this point to a shared set (not really deprecated, but ignorable
-     * for now.
+     * @deprecated Should this point to a shared set (not really
+     *              deprecated, but ignorable for now.
      */
     public List<? extends DateRange> getBlackoutDates();
 

@@ -15,10 +15,10 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
-import java.util.Date;
-
 import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.TimeAmount;
+
+import java.util.Date;
 
 
 /**

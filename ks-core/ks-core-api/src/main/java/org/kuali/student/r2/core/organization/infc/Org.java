@@ -53,7 +53,6 @@ public interface Org
      * by shortName or longName is undesirable.
      *
      * @name Sort Name
-     * @required
      */
     public String getSortName();
 
@@ -78,7 +77,6 @@ public interface Org
      * categories.
      *
      * @name Org Codes
-     * @required
      */
     public List<? extends OrgCode> getOrgCodes();
 }

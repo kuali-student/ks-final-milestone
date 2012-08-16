@@ -15,20 +15,19 @@
 
 package org.kuali.student.r2.core.scheduling.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Version 2.0
@@ -53,6 +52,7 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
     }
 
     public TimeSlotInfo(TimeSlot timeSlot) {
+        super (timeSlot);
         if (null != timeSlot) {
             this.weekdays = new ArrayList<Integer>(timeSlot.getWeekdays());
             this.startTime = (null != timeSlot.getStartTime()) ? new TimeOfDayInfo(timeSlot.getStartTime()) : null;

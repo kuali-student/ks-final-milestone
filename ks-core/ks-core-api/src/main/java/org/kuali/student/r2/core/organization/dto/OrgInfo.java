@@ -15,17 +15,22 @@
  */
 package org.kuali.student.r2.core.organization.dto;
 
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.core.organization.infc.Org;
-import org.kuali.student.r2.core.organization.infc.OrgCode;
-//import org.w3c.dom.Element;
-
-import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.core.organization.infc.Org;
+import org.kuali.student.r2.core.organization.infc.OrgCode;
+import org.w3c.dom.Element;
 
 /**
  * Detailed information about a single organization.
@@ -37,7 +42,7 @@ import java.util.List;
     "id", "typeKey", "stateKey", "longName", "longDescr",
     "shortName", "sortName", "shortDescr", "orgCodes",
     "effectiveDate", "expirationDate",
-    "meta", "attributes"/*, "_futureElements"*/})
+    "meta", "attributes", "_futureElements"})
 public class OrgInfo
         extends IdNamelessEntityInfo
         implements Org, Serializable {
@@ -59,9 +64,8 @@ public class OrgInfo
     private Date expirationDate;
     @XmlElement
     private List<OrgCodeInfo> orgCodes;
-    //    TODO KSCM-372: Non-GWT translatable code
-    //@XmlAnyElement
-    //private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     /**
      * Constructs a new OrgInfo.
