@@ -87,6 +87,16 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
         testScoreRecord.setDateTaken(cal.getTime());
         studentTestScoreRecordsMap.put("1",testScoreRecord);
 
+        testScoreRecord = new StudentTestScoreRecordInfo();
+        testScoreRecord.setTestCode("mock.code.test2");
+        testScoreRecord.setTestTitle("The Second Mock Test");
+        testScoreRecord.setTestTypeKey("mock.test.type.second");
+        testScoreRecord.setScorePercent("74");
+        testScoreRecord.setScoreValue("74");
+        cal.set(2012, Calendar.NOVEMBER, 9);
+        testScoreRecord.setDateTaken(cal.getTime());
+        studentTestScoreRecordsMap.put("2",testScoreRecord);
+
         //GPAInfo
         GPAInfo gpa = new GPAInfo();
         gpa.setCalculationTypeKey("mockTypeKey1");
@@ -306,7 +316,7 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
 
     @Override
     public List<StudentTestScoreRecordInfo> getTestScoreRecordsByType( String personId,  String testTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return Collections.singletonList(studentTestScoreRecordsMap.get("1"));
+        return Collections.singletonList(studentTestScoreRecordsMap.get("2"));
     }
 
     @Override
