@@ -248,6 +248,12 @@
         <property name="enumDao" ref="enumerationDao"/>
         <property name="enumValueDao" ref="enumValueDao"/>
         <property name="enumContextValueDao" ref="enumContextValueDao"/>
+        <property name="searchManager" ref="enumSearchManager" />
+    </bean>
+
+    <bean id="enumSearchManager"
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:em-search-config.xml" />
     </bean>
 
     <bean id="ks.exp.enumerationManagementService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

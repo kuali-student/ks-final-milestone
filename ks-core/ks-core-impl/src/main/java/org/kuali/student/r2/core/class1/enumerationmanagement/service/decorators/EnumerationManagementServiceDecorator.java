@@ -25,7 +25,7 @@ import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 
 public class EnumerationManagementServiceDecorator implements EnumerationManagementService{
-    
+
     private EnumerationManagementService nextDecorator;
 
     public EnumerationManagementService getNextDecorator() throws OperationFailedException {
@@ -42,19 +42,19 @@ public class EnumerationManagementServiceDecorator implements EnumerationManagem
 
     @Override
     public List<EnumerationInfo> getEnumerations(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         return getNextDecorator().getEnumerations(contextInfo);
     }
 
     @Override
     public EnumerationInfo getEnumeration(String enumerationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         return getNextDecorator().getEnumeration(enumerationKey, contextInfo);
     }
 
     @Override
     public List<EnumeratedValueInfo> getEnumeratedValues(String enumerationKey, String contextTypeKey, String contextValue, Date contextDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         return getNextDecorator().getEnumeratedValues(enumerationKey, contextTypeKey, contextValue, contextDate, contextInfo);
     }
 
@@ -80,6 +80,60 @@ public class EnumerationManagementServiceDecorator implements EnumerationManagem
     public EnumeratedValueInfo addEnumeratedValue(String enumerationKey, String code, EnumeratedValueInfo enumeratedValueInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         return getNextDecorator().addEnumeratedValue(enumerationKey, code, enumeratedValueInfo, contextInfo);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
     }
 
 }

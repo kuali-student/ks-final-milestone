@@ -597,6 +597,12 @@
     <!-- enumeration service for Appt Rule Types -->
     <bean id="enumerationService" class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
         <property name="enumValueDao" ref="enumValueDao" />
+        <property name="searchManager" ref="enumSearchManager" />
+    </bean>
+
+    <bean id="enumSearchManager"
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:em-search-config.xml" />
     </bean>
 
 
@@ -654,8 +660,14 @@
     <bean id="orgServiceImplNew" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao" />
         <property name="extendedOrgDao" ref="extendedOrgDao" />
+        <property name="searchManager" ref="orgSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
         <property name="criteriaLookupService" ref="criteriaLookupService"/>
+    </bean>
+
+    <bean id="orgSearchManager"
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:organization-search-config.xml" />
     </bean>
 
     <bean id="ks.exp.organizationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
