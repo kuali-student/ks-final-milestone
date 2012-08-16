@@ -380,14 +380,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                             getCourseOfferingService().updateActivityOffering(activityOfferingInfo.getId(), activityOfferingInfo,getContextInfo());
                         } else {
                             if ( ! isErrorAdded) {
-                                GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
+                                GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY);
                                 isErrorAdded = true;
                             }
                         }
                     }
                 } else {
                     if ( ! isErrorAdded) {
-                        GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
+                        GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY);
                         isErrorAdded = true;
                     }
                 }
