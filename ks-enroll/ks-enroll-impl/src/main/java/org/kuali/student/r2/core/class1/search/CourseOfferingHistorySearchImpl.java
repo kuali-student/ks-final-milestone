@@ -62,7 +62,7 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
     throws MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        if (!searchRequestInfo.getSearchKey().equals(PAST_CO_SEARCH.getKey())) {
+        if (!StringUtils.equals(searchRequestInfo.getSearchKey(),PAST_CO_SEARCH.getKey())) {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
 
@@ -88,7 +88,7 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
         }
 
         List<String> luiIds = genericEntityDao.getEm().createQuery("select lui.id from LuiEntity lui,AtpEntity atp " +
-                "where lui.atpId=atp.atpCode and lui.cluId = :cluId and " +
+                "where lui.atpId=atp.id and lui.cluId = :cluId and " +
                 "lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' " +
                 "and atp.startDate >= :startDate").setParameter("startDate", startDate, TemporalType.DATE).setParameter("cluId", courseId).getResultList();
 
