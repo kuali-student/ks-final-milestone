@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
@@ -198,11 +199,28 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=viewRegGroups")
     public ModelAndView viewRegGroups(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        String courseOfferingId = theForm.getTheCourseOffering().getId();
+        List<FormatOfferingInfo> formatOfferingList =
+                getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, getContextInfo());
+        theForm.setFormatOfferingName(formatOfferingList.get(0).getName());
+        List<ActivityOfferingWrapper> filteredAOs = getAOsForSelectedFO(formatOfferingList.get(0).getId(), theForm);
+        theForm.setFilteredAOsForSelectedFO(filteredAOs);
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
 
     }
 
+    @RequestMapping(params = "methodToCall=filterAOsPerFO")
+    public ModelAndView filterAOsPerFO (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<ActivityOfferingWrapper> filteredAOs = getAOsForSelectedFO(theForm.getFormatOfferingIdForViewRG(), theForm);
+        theForm.setFilteredAOsForSelectedFO(filteredAOs);
+        if(!filteredAOs.isEmpty()){
+            theForm.setFormatOfferingName(filteredAOs.get(0).getFormatOffering().getName());
+        }
+        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+
+    }
+    
     @RequestMapping(params = "methodToCall=loadPreviousCO")
     public ModelAndView loadPreviousCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -381,6 +399,20 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         return gradingOption;
+    }
+
+    private List<ActivityOfferingWrapper> getAOsForSelectedFO(String theFOId, CourseOfferingManagementForm theForm) {
+        List<ActivityOfferingWrapper> fullAOs = theForm.getActivityWrapperList();
+        List<ActivityOfferingWrapper> filterdAOList = theForm.getFilteredAOsForSelectedFO();
+        filterdAOList.clear();
+
+        for (ActivityOfferingWrapper ao: fullAOs)  {
+            String formatOfferingId =ao.getAoInfo().getFormatOfferingId();
+            if (formatOfferingId.equals(theFOId) ){
+                filterdAOList.add(ao);
+            }
+        }
+        return filterdAOList;
     }
 
     protected AcademicCalendarService getAcademicCalendarService() {

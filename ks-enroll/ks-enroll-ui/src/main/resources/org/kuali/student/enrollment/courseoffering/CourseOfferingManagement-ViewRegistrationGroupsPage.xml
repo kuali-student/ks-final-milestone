@@ -36,7 +36,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="formatIdForViewRG" p:label="Select Format" p:labelPlacement="LEFT" p:required="true" >
+                            <bean parent="Uif-InputField" p:propertyName="formatOfferingIdForViewRG" p:label="Select Format" p:labelPlacement="LEFT" p:required="true" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -53,10 +53,10 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!activityWrapperList.empty}"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}"/>
                             <ref bean="KS-ViewRegistrationGroupsPage-ActivityOfferingsPerFormatSection"/>
                             <!--<ref bean="KS-ViewRegistrationGroupsPage-RegGroupsPerFormatSection"/>-->
-                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!activityWrapperList.empty}"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}"/>
                         </list>
                     </property>
                 </bean>
@@ -65,10 +65,11 @@
     </bean>
 
     <bean id="KS-ViewRegistrationGroupsPage-ActivityOfferingsPerFormatSection" parent="Uif-TableCollectionSection"
-          p:renderAddLine="false"  p:renderLineActions="false" p:refreshWhenChangedPropertyNames="formatIdForViewRG"
-          p:finalizeMethodToCall="filterAOsPerFO">
+          p:renderAddLine="false"  p:renderLineActions="false" p:refreshWhenChangedPropertyNames="formatOfferingIdForViewRG"
+          p:methodToCallOnRefresh="filterAOsPerFO">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
-        <property name="propertyName" value="activityWrapperList" />
+        <property name="propertyName" value="filteredAOsForSelectedFO" />
+        <property name="headerText" value="@{formatOfferingName} Activity Offerings"/>
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
@@ -76,7 +77,7 @@
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 1, 'aoInfo.activityCode' ]]"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
                 <entry key="bPaginate" value="false"/>
             </map>
         </property>

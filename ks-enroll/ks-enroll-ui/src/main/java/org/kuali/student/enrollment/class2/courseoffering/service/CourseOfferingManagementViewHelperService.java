@@ -31,5 +31,4 @@ public interface CourseOfferingManagementViewHelperService {
 
     public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form, CourseOfferingInfo courseOfferingInfo);
 
-    public void filterAOsPerFO (CollectionGroup collectionGroup, CourseOfferingManagementForm form);
 }

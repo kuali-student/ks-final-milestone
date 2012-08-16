@@ -32,7 +32,8 @@ public class FormatsForCreateRGKeyValues extends UifKeyValuesFinderBase implemen
             List<FormatOfferingInfo> formatOfferingInfos =
                     courseOfferingService.getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
             for (FormatOfferingInfo formatOfferingInfo : formatOfferingInfos) {
-                keyValues.add(new ConcreteKeyValue(formatOfferingInfo.getFormatId(), formatOfferingInfo.getName()));
+                //In keyValues, key is the FormatOfferingInfo.id and value is the FormatOfferingInfo.name
+                keyValues.add(new ConcreteKeyValue(formatOfferingInfo.getId(), formatOfferingInfo.getName()));
             }
         } catch (Exception e) {
             throw new RuntimeException();

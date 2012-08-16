@@ -29,7 +29,8 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
 
     //For View Registration Groups
-    private String formatIdForViewRG;
+    private String formatOfferingIdForViewRG;
+    private String formatOfferingName;
     private List<ActivityOfferingWrapper> filteredAOsForSelectedFO;
 
     //For Adding Activity
@@ -139,12 +140,20 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.selectedToDeleteList = selectedToDeleteList;
     }
 
-    public String getFormatIdForViewRG() {
-        return formatIdForViewRG;
+    public String getFormatOfferingIdForViewRG() {
+        return formatOfferingIdForViewRG;
     }
 
-    public void setFormatIdForViewRG(String formatIdForViewRG) {
-        this.formatIdForViewRG = formatIdForViewRG;
+    public void setFormatOfferingIdForViewRG(String formatOfferingIdForViewRG) {
+        this.formatOfferingIdForViewRG = formatOfferingIdForViewRG;
+    }
+
+    public String getFormatOfferingName() {
+        return formatOfferingName;
+    }
+
+    public void setFormatOfferingName(String formatOfferingName) {
+        this.formatOfferingName = formatOfferingName;
     }
 
     public List<ActivityOfferingWrapper> getFilteredAOsForSelectedFO() {
