@@ -160,4 +160,8 @@ public abstract class DelayedToolView extends LazyPanel implements ToolView{
 	   public boolean isExportButtonActive() {
 	        return false;
 	    }
+	 
+    public DelayedToolView() {
+
+    }
 }
