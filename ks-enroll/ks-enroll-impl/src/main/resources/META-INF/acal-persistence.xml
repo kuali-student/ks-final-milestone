@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- Use this one for deploying to JBoss -->
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
 	http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
-  version="1.0">
+             version="1.0">
 
-  <!-- JPA test "unit" -->
+    <!-- JPA test "unit" -->
     <persistence-unit name="Acal" transaction-type="JTA">
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
@@ -18,18 +18,18 @@
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.MilestoneEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.MilestoneAttributeEntity</class>
-    
+
         <class>org.kuali.student.r2.core.class1.state.model.StateEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleAttributeEntity</class>
-        
+
         <class>org.kuali.student.r2.core.class1.type.model.TypeEntity</class>
         <class>org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationAttributeEntity</class>
 
-    <!-- Statement Persistence -->
+        <!-- Statement Persistence -->
         <class>org.kuali.student.core.statement.entity.RefStatementRelation</class>
         <class>org.kuali.student.core.statement.entity.RefStatementRelationAttribute</class>
         <class>org.kuali.student.core.statement.entity.RefStatementRelationType</class>
@@ -46,7 +46,7 @@
         <class>org.kuali.student.core.statement.entity.StatementType</class>
         <class>org.kuali.student.core.statement.entity.OrderedStatementType</class>
         <class>org.kuali.student.core.statement.entity.StatementTypeAttribute</class>
-    <!--class>org.kuali.student.core.statement.entity.StatementTypeHeaderTemplate</class-->
+        <!--class>org.kuali.student.core.statement.entity.StatementTypeHeaderTemplate</class-->
         <class>org.kuali.student.core.statement.entity.ReqComponent</class>
         <class>org.kuali.student.core.statement.entity.ReqComponentField</class>
         <class>org.kuali.student.core.statement.entity.ReqComponentFieldType</class>
@@ -66,42 +66,42 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>  
+        <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
-<!--  
-    <class>org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.MeetingScheduleAttributeEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiResultValuesGroupEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiCapacityEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiCapacityRelationEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiFeeEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiFeeAttributeEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiExpenditureEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiExpenditureAttributeEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiRevenueEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiRevenueAttributeEntity</class>
+        <!--
+        <class>org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.MeetingScheduleAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiResultValuesGroupEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiCapacityEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiCapacityRelationEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiFeeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiFeeAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiExpenditureEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiExpenditureAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiRevenueEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiRevenueAttributeEntity</class>
 
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgAttributeEntity</class>-->
-    
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgAttributeEntity</class>-->
+
         <class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionAttributeEntity</class>
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemAttributeEntity</class>
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemRequestOptionEntity</class>
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemResultValueGroupEntity</class>
-		
-		<!-- commented out until roster service is implemented.
-		<class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntity</class>
-        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.roster.model.LprRichTextEntity</class>
-        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryEntity</class>
-        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryAttributeEntity</class>
-		-->
-		
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemRequestOptionEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemResultValueGroupEntity</class>
+
+        <!-- commented out until roster service is implemented.
+          <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntity</class>
+          <class>org.kuali.student.enrollment.class1.roster.model.LprRosterAttributeEntity</class>
+          <class>org.kuali.student.enrollment.class1.roster.model.LprRichTextEntity</class>
+          <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryEntity</class>
+          <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryAttributeEntity</class>
+          -->
+
         <class>org.kuali.student.r2.core.fee.model.EnrollmentFeeEntity</class>
         <class>org.kuali.student.r2.core.fee.model.EnrollmentFeeAttributeEntity</class>
 
@@ -164,18 +164,15 @@
         <class>org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionAttributeEntity</class>
 
 
+        <!-- Process Entities -->
+        <class>org.kuali.student.r2.core.process.model.CheckAttributeEntity</class>
+        <class>org.kuali.student.r2.core.process.model.CheckEntity</class>
+        <class>org.kuali.student.r2.core.process.model.InstructionAttributeEntity</class>
+        <class>org.kuali.student.r2.core.process.model.InstructionEntity</class>
+        <class>org.kuali.student.r2.core.process.model.ProcessAttributeEntity</class>
+        <class>org.kuali.student.r2.core.process.model.ProcessEntity</class>
 
-    <!--class>org.kuali.student.r2.core.process.model.CheckAttributeEntity</class>
-    <class>org.kuali.student.r2.core.process.model.CheckEntity</class>
-    <class>org.kuali.student.r2.core.process.model.CheckRichTextEntity</class>
-    <class>org.kuali.student.r2.core.process.model.InstructionAttributeEntity</class>
-    <class>org.kuali.student.r2.core.process.model.InstructionEntity</class>
-    <class>org.kuali.student.r2.core.process.model.InstructionMessageEntity</class>
-    <class>org.kuali.student.r2.core.process.model.ProcessAttributeEntity</class>
-    <class>org.kuali.student.r2.core.process.model.ProcessEntity</class>
-    <class>org.kuali.student.r2.core.process.model.ProcessRichTextEntity</class>
-
-    <class>org.kuali.student.r2.core.population.model.PopulationEntity</class-->
+        <!--class>org.kuali.student.r2.core.population.model.PopulationEntity</class -->
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

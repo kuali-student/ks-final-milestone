@@ -623,6 +623,7 @@
 
   <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
+  <!-- Process Service -->
   <bean id="processService" class="org.kuali.student.r2.core.process.service.impl.ProcessServiceImpl">
       <property name="processDao" ref="processDao" />
       <property name="checkDao" ref="checkDao" />
@@ -630,6 +631,25 @@
       <property name="stateService" ref="stateServiceCacheDecorator" />
       <property name="criteriaLookupService" ref="criteriaLookupService"/>
   </bean>
+
+    <bean id="processServiceValidationDecorator"
+          class="org.kuali.student.r2.core.process.service.decorators.ProcessServiceValidationDecorator">
+        <property name="nextDecorator" ref="processService"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+
+    <bean id="ks.exp.processService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="processServiceValidationDecorator" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.process.service.ProcessService" />
+                <property name="localServiceName" value="ProcessService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/process" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
 
     <!-- Appointment Service -->
     <bean id="appointmentWindowService" class="org.kuali.student.r2.core.class1.appointment.service.impl.AppointmentServiceImpl">

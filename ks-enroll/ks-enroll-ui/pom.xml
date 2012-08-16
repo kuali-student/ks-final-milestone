@@ -96,7 +96,8 @@
                                 <inputFile>KeyDateInfoUI.xml</inputFile>
                                 <inputFile>RegistrationGroupInfoUI.xml</inputFile>
                                 <inputFile>RegistrationGroupWrapper.xml</inputFile>
-                                <inputFile>MeetingScheduleWrapper.xml</inputFile>                                
+                                <inputFile>MeetingScheduleWrapper.xml</inputFile>
+                                <inputFile>ProcessInfo.xml</inputFile>
                                 <inputFile>TermInfoUI.xml</inputFile>
                                 <inputFile>TermWrapperMaintenance.xml</inputFile>
                             </inputFiles>

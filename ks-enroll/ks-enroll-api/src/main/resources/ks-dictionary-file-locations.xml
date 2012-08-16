@@ -78,6 +78,25 @@
             </list>
         </constructor-arg>
      </bean>
+    <!--Process Service-->
+    <bean id="processInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ProcessInfo-dictionary.xml" />
+    </bean>
+    <bean id="checkInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-CheckInfo-dictionary.xml" />
+    </bean>
+    <bean id="instructionInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-InstructionInfo-dictionary.xml" />
+    </bean>
+    <bean name="processServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="processInfoDictionaryLocation" />
+                <bean parent="checkInfoDictionaryLocation" />
+                <bean parent="instructionInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
 	<!-- LUI Service -->
     <bean id="luiInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-LuiInfo-dictionary.xml" />
@@ -149,7 +168,9 @@
                 <bean parent="formatOfferingInfoDictionaryLocation" />
                 <bean parent="registrationGroupInfoDictionaryLocation" />
                 <bean parent="seatPoolDefinitionInfoDictionaryLocation" />
-                
+                <bean parent="processInfoDictionaryLocation" />
+                <bean parent="checkInfoDictionaryLocation" />
+                <bean parent="instructionInfoDictionaryLocation" />
             </list>
         </constructor-arg>
     </bean>

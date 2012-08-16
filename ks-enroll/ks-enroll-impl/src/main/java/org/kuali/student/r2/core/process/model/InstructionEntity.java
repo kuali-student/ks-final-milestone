@@ -70,14 +70,14 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @Column(name = "POSITION")
     private int position;
 
-    @Column(name = "WARNING_IND")
-    private boolean warning;
+    @Column(name = "WARNING_IND", length = 1)
+    private String warning;
 
-    @Column(name = "CONT_ON_FAILED_IND")
-    private boolean continueOnFail;
+    @Column(name = "CONT_ON_FAILED_IND", length = 1)
+    private String continueOnFail;
 
-    @Column(name = "EXEMPTIBLE_IND")
-    private boolean exemptible;
+    @Column(name = "EXEMPTIBLE_IND", length = 1)
+    private String exemptible;
 
     @Transient
     private List<String> appliedAtpTypes;
@@ -113,9 +113,9 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
             this.messagePlain = null;
         }
         this.position = instruction.getPosition();
-        this.warning = instruction.getIsWarning();
-        this.continueOnFail = instruction.getContinueOnFail();
-        this.exemptible = instruction.getIsExemptible();
+        this.warning = (instruction.getIsWarning()? "Y":"N");
+        this.continueOnFail = (instruction.getContinueOnFail() ? "Y":"N");
+        this.exemptible = (instruction.getIsExemptible()? "Y":"N");
         this.appliedAtpTypes = new ArrayList<String>();
         for (String atpType : instruction.getAppliedAtpTypeKeys()) {
             this.appliedAtpTypes.add(atpType);
@@ -142,9 +142,9 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         instructionInfo.setAppliedPopulationId(appliedPopulationId);
         instructionInfo.setMessage(new RichTextHelper().toRichTextInfo(messagePlain, messageFormatted));
         instructionInfo.setPosition(position);
-        instructionInfo.setIsWarning(warning);
-        instructionInfo.setContinueOnFail(continueOnFail);
-        instructionInfo.setIsExemptible(exemptible);
+        instructionInfo.setIsWarning((warning.equals("Y") ? true : false));
+        instructionInfo.setContinueOnFail((continueOnFail.equals("Y") ? true : false));
+        instructionInfo.setIsExemptible((exemptible.equals("Y") ? true : false));
         List<String> appliedAtpTypeKeys = new ArrayList<String>();
         if (getAppliedAtpTypes() != null) {
             for (String atpType : getAppliedAtpTypes()) {
@@ -247,27 +247,27 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         this.position = position;
     }
 
-    public boolean isWarning() {
+    public String isWarning() {
         return warning;
     }
 
-    public void setWarning(boolean warning) {
+    public void setWarning(String warning) {
         this.warning = warning;
     }
 
-    public boolean isContinueOnFail() {
+    public String isContinueOnFail() {
         return continueOnFail;
     }
 
-    public void setContinueOnFail(boolean continueOnFail) {
+    public void setContinueOnFail(String continueOnFail) {
         this.continueOnFail = continueOnFail;
     }
 
-    public boolean isExemptible() {
+    public String isExemptible() {
         return exemptible;
     }
 
-    public void setExemptible(boolean exemptible) {
+    public void setExemptible(String exemptible) {
         this.exemptible = exemptible;
     }
 

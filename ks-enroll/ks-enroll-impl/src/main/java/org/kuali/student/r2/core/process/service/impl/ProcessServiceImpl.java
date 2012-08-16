@@ -34,6 +34,7 @@ import org.kuali.student.r2.core.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
+import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -42,7 +43,7 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
+@WebService(name = "ProcessService", serviceName = "ProcessService", portName = "ProcessService", targetNamespace = "http://student.kuali.org/wsdl/process")
 public class ProcessServiceImpl implements ProcessService {
 
     private CheckDao checkDao;
@@ -165,8 +166,7 @@ public class ProcessServiceImpl implements ProcessService {
             @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO
-        // implement
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -307,8 +307,7 @@ public class ProcessServiceImpl implements ProcessService {
                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO
-        // implement
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -468,8 +467,7 @@ public class ProcessServiceImpl implements ProcessService {
                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO
-        // implement
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -677,8 +675,7 @@ public class ProcessServiceImpl implements ProcessService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO
-        // implement
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override

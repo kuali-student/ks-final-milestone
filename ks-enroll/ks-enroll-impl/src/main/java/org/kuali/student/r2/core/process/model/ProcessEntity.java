@@ -28,7 +28,6 @@ import org.kuali.student.r2.core.process.infc.Process;
         @NamedQuery(name = "ProcessEntity.getByProcessTypeId",
                 query = "select a from ProcessEntity a where a.processType=:processTypeId")
 })
-
 public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessAttributeEntity> {
 
     ////////////////////
