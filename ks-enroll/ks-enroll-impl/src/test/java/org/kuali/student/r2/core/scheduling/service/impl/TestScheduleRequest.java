@@ -20,19 +20,23 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dao.ScheduleRequestDao;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
-import org.omg.CORBA.*;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -109,5 +113,100 @@ public class TestScheduleRequest {
         assertTrue(srComp.getRoomIds().contains("room A1"));
         assertTrue(srComp.getResourceTypeKeys().contains("resource A1"));
         assertTrue(srComp.getTimeSlotIds().contains("timeslot A1"));
+    }
+
+    @Test
+    public void testDeleteScheduleRequest() throws Exception {
+        ScheduleRequestInfo obj = schedulingService.getScheduleRequest("schedReq-2", callContext);
+        assertNotNull(obj);
+
+        StatusInfo status = schedulingService.deleteScheduleRequest("schedReq-2", callContext);
+        assertTrue(status.getIsSuccess());
+
+        try {
+            schedulingService.getScheduleRequest("schedReq-2", callContext);
+        } catch (DoesNotExistException ee) {
+        }
+    }
+
+    @Test
+    public void testCreateScheduleRequest() throws Exception {
+        ScheduleRequestInfo orig = loadSchedReq("schedReq-created", "refObjId", "refObjType", SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, "<p>schedreq Desc</p>", "schedreq Desc", "C");
+        ScheduleRequestInfo created = schedulingService.createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, orig, callContext);
+        assertNotNull(created);
+        assertEquals(orig.getName(), created.getName());
+        assertEquals(orig.getRefObjectId(), created.getRefObjectId());
+        assertEquals(orig.getRefObjectTypeKey(), created.getRefObjectTypeKey());
+        assertEquals(orig.getTypeKey(), created.getTypeKey());
+        assertEquals(orig.getStateKey(), created.getStateKey());
+        assertEquals(orig.getDescr().getFormatted(), created.getDescr().getFormatted());
+        assertEquals(orig.getDescr().getPlain(), created.getDescr().getPlain());
+        assertNotNull(created.getScheduleRequestComponents());
+        ScheduleRequestComponentInfo srComp = created.getScheduleRequestComponents().get(0);
+        assertTrue(srComp.getBuildingIds().contains("building C1"));
+        assertTrue(srComp.getCampusIds().contains("campus C1"));
+        assertTrue(srComp.getOrgIds().contains("org C1"));
+        assertTrue(srComp.getRoomIds().contains("room C1"));
+        assertTrue(srComp.getResourceTypeKeys().contains("resource C1"));
+        assertTrue(srComp.getTimeSlotIds().contains("timeslot C1"));
+
+        ScheduleRequestInfo retrieved = schedulingService.getScheduleRequest(created.getId(), callContext);
+        assertNotNull(retrieved);
+        assertEquals(orig.getName(), retrieved.getName());
+        assertEquals(orig.getRefObjectId(), retrieved.getRefObjectId());
+        assertEquals(orig.getRefObjectTypeKey(), retrieved.getRefObjectTypeKey());
+        assertEquals(orig.getTypeKey(), retrieved.getTypeKey());
+        assertEquals(orig.getStateKey(), retrieved.getStateKey());
+        assertEquals(orig.getDescr().getFormatted(), retrieved.getDescr().getFormatted());
+        assertEquals(orig.getDescr().getPlain(), retrieved.getDescr().getPlain());
+        assertNotNull(retrieved.getScheduleRequestComponents());
+        ScheduleRequestComponentInfo srComp1 = retrieved.getScheduleRequestComponents().get(0);
+        assertTrue(srComp1.getBuildingIds().contains("building C1"));
+        assertTrue(srComp1.getCampusIds().contains("campus C1"));
+        assertTrue(srComp1.getOrgIds().contains("org C1"));
+        assertTrue(srComp1.getRoomIds().contains("room C1"));
+        assertTrue(srComp1.getResourceTypeKeys().contains("resource C1"));
+        assertTrue(srComp1.getTimeSlotIds().contains("timeslot C1"));
+
+    }
+
+    private ScheduleRequestInfo loadSchedReq(String name,
+                              String refObjectId,
+                              String refObjectTypeKey,
+                              String type,
+                              String state,
+                              String descrFormatted,
+                              String descrPlain,
+                              String suffix){
+        ScheduleRequestInfo info = new ScheduleRequestInfo();
+        info.setName(name);
+        info.setRefObjectId(refObjectId);
+        info.setRefObjectTypeKey(refObjectTypeKey);
+        info.setTypeKey(type);
+        info.setStateKey(state);
+        RichTextInfo rtInfo = new RichTextInfo();
+        rtInfo.setFormatted(descrFormatted);
+        rtInfo.setPlain(descrPlain);
+        info.setDescr(rtInfo);
+
+        List<ScheduleRequestComponentInfo> comps = new ArrayList<ScheduleRequestComponentInfo>();
+        ScheduleRequestComponentInfo comp = new ScheduleRequestComponentInfo();
+        comp.setBuildingIds(getIds("building", suffix));
+        comp.setCampusIds(getIds("campus", suffix));
+        comp.setOrgIds(getIds("org", suffix));
+        comp.setRoomIds(getIds("room", suffix));
+        comp.setResourceTypeKeys(getIds("resource", suffix));
+        comp.setTimeSlotIds(getIds("timeslot", suffix));
+        comps.add(comp);
+        info.setScheduleRequestComponents(comps);
+
+        return info;
+    }
+
+    private List<String> getIds(String attr, String suffix){
+        List<String> ids = new ArrayList<String>();
+        ids.add(attr + " " + suffix + "1");
+        ids.add(attr + " " + suffix + "2");
+        return ids;
     }
 }
