@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.kuali.student.enroll</groupId>
         <artifactId>ks-enroll</artifactId>
-        <version>1.3.0-SNAPSHOT</version>
+        <version>1.3.0-myplan-SNAPSHOT</version>
     </parent>
     <dependencies>
         <dependency>
@@ -96,8 +96,7 @@
                                 <inputFile>KeyDateInfoUI.xml</inputFile>
                                 <inputFile>RegistrationGroupInfoUI.xml</inputFile>
                                 <inputFile>RegistrationGroupWrapper.xml</inputFile>
-                                <inputFile>MeetingScheduleWrapper.xml</inputFile>
-                                <inputFile>ProcessInfo.xml</inputFile>
+                                <inputFile>MeetingScheduleWrapper.xml</inputFile>                                
                                 <inputFile>TermInfoUI.xml</inputFile>
                                 <inputFile>TermWrapperMaintenance.xml</inputFile>
                             </inputFiles>

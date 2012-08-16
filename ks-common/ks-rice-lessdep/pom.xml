@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.kuali.student.common</groupId>
     <artifactId>ks-common</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.3.0-myplan-SNAPSHOT</version>
   </parent>
   <dependencies>
     <dependency>
@@ -182,7 +182,7 @@
         </exclusion>
         <exclusion>
           <groupId>com.oracle</groupId>
-          <artifactId>ojdbc14</artifactId>
+          <artifactId>ojdbc6</artifactId>
         </exclusion>
         <exclusion>
           <groupId>opensymphony</groupId>
