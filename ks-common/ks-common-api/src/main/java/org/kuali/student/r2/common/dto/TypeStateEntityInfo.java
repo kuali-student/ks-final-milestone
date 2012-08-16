@@ -84,25 +84,25 @@ public abstract class TypeStateEntityInfo
 
     // Compatibility methods
 
-//    @Override
-//    @Deprecated
-//    public String getType() {
-//        return getTypeKey();
-//    }
+    @Override
+    @Deprecated
+    public String getType() {
+        return getTypeKey();
+    }
 
-//    @Deprecated
-//    public void setType(String typeKey) {
-//        setTypeKey(typeKey);
-//    }
+    @Deprecated
+    public void setType(String typeKey) {
+        setTypeKey(typeKey);
+    }
 
-//    @Override
-//    @Deprecated
-//    public String getState() {
-//        return this.getStateKey();
-//    }
+    @Override
+    @Deprecated
+    public String getState() {
+        return this.getStateKey();
+    }
 
-//    @Deprecated
-//    public void setState(String stateKey) {
-//        setStateKey(stateKey);
-//    }
+    @Deprecated
+    public void setState(String stateKey) {
+        setStateKey(stateKey);
+    }
 }

@@ -55,22 +55,16 @@ public class ResultValuesGroupInfo
         implements ResultValuesGroup {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String resultScaleKey;
-
     @XmlElement
     private List<String> resultValueKeys;
-
     @XmlElement
     private ResultValueRangeInfo resultValueRange;
-
     @XmlElement
     private Date effectiveDate;
-
     @XmlElement
     private Date expirationDate;
-
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
@@ -88,7 +82,9 @@ public class ResultValuesGroupInfo
         if (null != orig) {
             this.resultScaleKey = orig.getResultScaleKey();
             this.resultValueKeys = new ArrayList<String>(orig.getResultValueKeys());
+            if (orig.getResultValueRange() != null) {
             this.resultValueRange = new ResultValueRangeInfo(orig.getResultValueRange());
+            }
             if (orig.getEffectiveDate() != null) {
                 this.effectiveDate = new Date(orig.getEffectiveDate().getTime());
             }

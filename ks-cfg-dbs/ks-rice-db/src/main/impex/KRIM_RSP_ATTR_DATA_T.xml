@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="10" ATTR_VAL="RiceDocument"
-        KIM_ATTR_DEFN_ID="13" KIM_TYP_ID="54"
-        OBJ_ID="5D8B0E3E634E96A3E0404F8189D8468D" RSP_ID="93" VER_NBR="1"/>
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3000"
         ATTR_VAL="KualiStudentDocument" KIM_ATTR_DEFN_ID="13"
         KIM_TYP_ID="54" OBJ_ID="5G4F09744G28EF33E0404F8189AAAF24"
@@ -36,8 +33,11 @@
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3008" ATTR_VAL="false"
         KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
         OBJ_ID="7B6F5601-DCB1-8EA9-8656-7999962F505C" RSP_ID="307" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="10" ATTR_VAL="RiceDocument"
+        KIM_ATTR_DEFN_ID="13" KIM_TYP_ID="54"
+        OBJ_ID="5D8B0E3E634E96A3E0404F8189D8468D" RSP_ID="93" VER_NBR="1"/>
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3009"
-        ATTR_VAL="CluParentDocument" KIM_ATTR_DEFN_ID="13"
+        ATTR_VAL="CluCreditCourseParentDocument" KIM_ATTR_DEFN_ID="13"
         KIM_TYP_ID="7" OBJ_ID="DepartmentReview0000000RSPATTR01"
         RSP_ID="300" VER_NBR="1"/>
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3010"
@@ -51,7 +51,7 @@
         KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
         OBJ_ID="DepartmentReview0000000RSPATTR04" RSP_ID="300" VER_NBR="1"/>
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3013"
-        ATTR_VAL="CluParentDocument" KIM_ATTR_DEFN_ID="13"
+        ATTR_VAL="CluCreditCourseParentDocument" KIM_ATTR_DEFN_ID="13"
         KIM_TYP_ID="7" OBJ_ID="CollegeReview0000000000RSPATTR01"
         RSP_ID="301" VER_NBR="1"/>
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3014" ATTR_VAL="College Review"
@@ -64,11 +64,11 @@
         KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
         OBJ_ID="CollegeReview0000000000RSPATTR04" RSP_ID="301" VER_NBR="1"/>
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3017"
-        ATTR_VAL="CluParentDocument" KIM_ATTR_DEFN_ID="13"
+        ATTR_VAL="CluCreditCourseParentDocument" KIM_ATTR_DEFN_ID="13"
         KIM_TYP_ID="7" OBJ_ID="DivisionReview000000000RSPATTR01"
         RSP_ID="303" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3018" ATTR_VAL="Division Review"
-        KIM_ATTR_DEFN_ID="16" KIM_TYP_ID="7"
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3018"
+        ATTR_VAL="Division Review" KIM_ATTR_DEFN_ID="16" KIM_TYP_ID="7"
         OBJ_ID="DivisionReview000000000RSPATTR02" RSP_ID="303" VER_NBR="1"/>
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3019" ATTR_VAL="false"
         KIM_ATTR_DEFN_ID="41" KIM_TYP_ID="7"
@@ -77,7 +77,7 @@
         KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
         OBJ_ID="DivisionReview000000000RSPATTR04" RSP_ID="303" VER_NBR="1"/>
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3021"
-        ATTR_VAL="CluParentDocument" KIM_ATTR_DEFN_ID="13"
+        ATTR_VAL="CluCreditCourseParentDocument" KIM_ATTR_DEFN_ID="13"
         KIM_TYP_ID="7" OBJ_ID="SenateReview00000000000RSPATTR01"
         RSP_ID="304" VER_NBR="1"/>
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3022" ATTR_VAL="Senate Review"
@@ -90,7 +90,7 @@
         KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
         OBJ_ID="SenateReview00000000000RSPATTR04" RSP_ID="304" VER_NBR="1"/>
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3025"
-        ATTR_VAL="CluParentDocument" KIM_ATTR_DEFN_ID="13"
+        ATTR_VAL="CluCreditCourseParentDocument" KIM_ATTR_DEFN_ID="13"
         KIM_TYP_ID="7" OBJ_ID="PublicationReview000000RSPATTR01"
         RSP_ID="305" VER_NBR="1"/>
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3026"
@@ -103,46 +103,4 @@
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3028" ATTR_VAL="false"
         KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
         OBJ_ID="PublicationReview000000RSPATTR04" RSP_ID="305" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40801"
-        ATTR_VAL="CluParentDocument" KIM_ATTR_DEFN_ID="13"
-        KIM_TYP_ID="7" OBJ_ID="CurriculumAdminReview0RSPATTR01"
-        RSP_ID="308" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40802"
-        ATTR_VAL="Curriculum Admin Review" KIM_ATTR_DEFN_ID="16"
-        KIM_TYP_ID="7" OBJ_ID="CurriculumAdminReview0RSPATTR02"
-        RSP_ID="308" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40803" ATTR_VAL="false"
-        KIM_ATTR_DEFN_ID="41" KIM_TYP_ID="7"
-        OBJ_ID="CurriculumAdminReview0RSPATTR03" RSP_ID="308" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40804" ATTR_VAL="false"
-        KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
-        OBJ_ID="CurriculumAdminReview0RSPATTR04" RSP_ID="308" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40901"
-        ATTR_VAL="CluParentDocument" KIM_ATTR_DEFN_ID="13"
-        KIM_TYP_ID="7" OBJ_ID="PresidentsOfficeReview0RSPATTR01"
-        RSP_ID="309" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40902"
-        ATTR_VAL="Presidents Office Review" KIM_ATTR_DEFN_ID="16"
-        KIM_TYP_ID="7" OBJ_ID="PresidentsOfficeReview0RSPATTR02"
-        RSP_ID="309" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40903" ATTR_VAL="false"
-        KIM_ATTR_DEFN_ID="41" KIM_TYP_ID="7"
-        OBJ_ID="PresidentsOfficeReview0RSPATTR03" RSP_ID="309" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40904" ATTR_VAL="false"
-        KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
-        OBJ_ID="PresidentsOfficeReview0RSPATTR04" RSP_ID="309" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="41001"
-        ATTR_VAL="CluParentDocument" KIM_ATTR_DEFN_ID="13"
-        KIM_TYP_ID="7" OBJ_ID="SystemOfficeReview0RSPATTR01"
-        RSP_ID="310" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="41002"
-        ATTR_VAL="System Office Review" KIM_ATTR_DEFN_ID="16"
-        KIM_TYP_ID="7" OBJ_ID="SystemOfficeReview0RSPATTR02"
-        RSP_ID="310" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="41003" ATTR_VAL="false"
-        KIM_ATTR_DEFN_ID="41" KIM_TYP_ID="7"
-        OBJ_ID="SystemOfficeReview0RSPATTR03" RSP_ID="310" VER_NBR="1"/>
-    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="41004" ATTR_VAL="false"
-        KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
-        OBJ_ID="SystemOfficeReview0RSPATTR04" RSP_ID="310" VER_NBR="1"/>
 </dataset>

@@ -11,8 +11,8 @@ package org.kuali.student.r2.core.class1.organization.service.impl;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
@@ -62,7 +62,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     /**
      * Check for missing parameter and throw localized exception if missing
-     * 
+     *
      * @param param
      * @param paramName
      *            name
@@ -81,7 +81,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
-    
+
     public SearchManager getSearchManager() {
         return searchManager;
     }
@@ -136,7 +136,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public List<OrgHierarchyInfo> getOrgHierarchiesByIds(List<String> orgHierarchyIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgHierarchyIds, "orgHierarchyIds");
-        
+
         List<OrgHierarchy> orgHierarchies = extendedOrgDao.getOrgHierarchiesByIds(orgHierarchyIds);
         return OrganizationAssembler.toOrgHierarchyInfos(orgHierarchies);
     }
@@ -144,16 +144,16 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public List<String> getOrgHierarchyIdsByType(String orgHierarchyTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgHierarchyTypeKey, "orgHierarchyTypeKey");
-        
+
         List<String> orgHierarchyIds = new ArrayList<String>();
         List<OrgHierarchy> orgHierarchies = extendedOrgDao.getOrgHierarchiesByType(orgHierarchyTypeKey);
-        
+
         if (orgHierarchies != null){
             for (OrgHierarchy orgHierarchy : orgHierarchies){
                 orgHierarchyIds.add(orgHierarchy.getId());
             }
         }
-                
+
         return orgHierarchyIds;
     }
 
@@ -189,16 +189,16 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public List<String> getOrgIdsByType(String orgTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgTypeKey, "orgTypeKey");
-        
+
         List<String> orgIds = new ArrayList<String>();
         List<Org> orgs = extendedOrgDao.getOrgsByType(orgTypeKey);
-        
+
         if (orgs != null){
             for (Org org : orgs){
                 orgIds.add(org.getId());
             }
         }
-        
+
         return orgIds;
     }
 
@@ -393,16 +393,16 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public List<String> getOrgOrgRelationIdsByType(String orgOrgRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgOrgRelationTypeKey, "orgOrgRelationTypeKey");
-        
+
         List<String> orgOrgRelationIds = new ArrayList<String>();
         List<OrgOrgRelation> orgOrgRelations = extendedOrgDao.getOrgOrgRelationsByType(orgOrgRelationTypeKey);
-        
+
         if (orgOrgRelations != null){
             for(OrgOrgRelation orgOrgRelation : orgOrgRelations){
                 orgOrgRelationIds.add(orgOrgRelation.getId());
             }
         }
-        
+
         return orgOrgRelationIds;
     }
 
@@ -423,7 +423,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByTypeAndOrg(String orgId, String orgOrgRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgId, "orgId");
         checkForMissingParameter(orgOrgRelationTypeKey, "orgOrgRelationTypeKey");
-        
+
         List<OrgOrgRelation> orgOrgRelations = extendedOrgDao.getOrgOrgRelationsByTypeAndOrg(orgId, orgOrgRelationTypeKey);
         return OrganizationAssembler.toOrgOrgRelationInfos(orgOrgRelations);
     }
@@ -774,7 +774,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public List<OrgPositionRestrictionInfo> getOrgPositionRestrictionsByIds(List<String> orgPositionRestrictionIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgPositionRestrictionIds, "orgPositionRestrictionIds");
-        
+
         List<OrgPositionRestriction> orgPositionRestrictions = extendedOrgDao.getOrgPositionRestrictionsByIds(orgPositionRestrictionIds);
         return OrganizationAssembler.toOrgPositionRestrictionInfos(orgPositionRestrictions);
     }
@@ -782,16 +782,16 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public List<String> getOrgPositionRestrictionIdsByType(String orgPositionRestrictionTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgPositionRestrictionTypeKey, "orgPositionRestrictionTypeKey");
-        
+
         List<String> orgPositionRestrictionIds = new ArrayList<String>();
         List<OrgPositionRestriction> orgPositionRestrictions = extendedOrgDao.getOrgPositionRestrictionsByType(orgPositionRestrictionTypeKey);
-        
+
         if (orgPositionRestrictions != null){
             for (OrgPositionRestriction orgPositionRestriction : orgPositionRestrictions){
                 orgPositionRestrictionIds.add(orgPositionRestriction.getId());
             }
         }
-        
+
         return orgPositionRestrictionIds;
     }
 
@@ -962,9 +962,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         return new ArrayList<OrgTreeInfo>(results);
     }
-    
+
     private List<OrgTreeInfo> parseOrgTree(String rootOrgId,
-            String orgHierarchyId, int maxLevels, int currentLevel) {
+                                           String orgHierarchyId, int maxLevels, int currentLevel) {
         List<OrgTreeInfo> results = new ArrayList<OrgTreeInfo>();
         if(maxLevels==0||currentLevel<maxLevels){
             List<OrgTreeInfo> orgTreeInfos = this.organizationDao.getOrgTreeInfo(rootOrgId,orgHierarchyId);
@@ -977,7 +977,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         return results;
     }
 
-    public ObjectStructure getObjectStructure(String objectTypeKey) {
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 
@@ -986,7 +986,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         checkForMissingParameter(searchRequest, "searchRequest");
         return searchManager.search(searchRequest, organizationDao);
     }
-    
+
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(
             String searchCriteriaTypeKey) throws DoesNotExistException,

@@ -41,6 +41,6 @@ public interface HasType  {
      * @name Type Key
      * @readOnly
      */
-//    @Deprecated
-//    public String getType();
+    @Deprecated
+    public String getType();
 }

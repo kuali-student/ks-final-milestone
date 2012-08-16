@@ -16,7 +16,7 @@
  */
 package org.kuali.student.r2.core.class1.appointment.model;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
@@ -31,31 +31,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "KSEN_APPT_ATTR")
-public class AppointmentAttributeEntity extends BaseAttributeEntityNew<AppointmentEntity> {
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private AppointmentEntity owner;
+public class AppointmentAttributeEntity extends BaseAttributeEntity<AppointmentEntity> {
 
     public AppointmentAttributeEntity() {
     }
 
-    public AppointmentAttributeEntity(String key, String value) {
-        super(key, value);
-    }
-
     public AppointmentAttributeEntity(Attribute att, AppointmentEntity owner) {
-        super(att);
-        setOwner(owner);
+		super(att, owner);
     }
 
-    @Override
-    public void setOwner(AppointmentEntity owner) {
-        this.owner = owner;
 
     }
-
-    @Override
-    public AppointmentEntity getOwner() {
-        return owner;
-    }
-}

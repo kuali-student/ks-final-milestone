@@ -1,11 +1,16 @@
 /**
- * Copyright 2011 The Kuali Foundation Licensed under the Educational Community
- * License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
- * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or
- * agreed to in writing, software distributed under the License is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
+ * Copyright 2011 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package org.kuali.student.r2.core.constants;
@@ -27,20 +32,50 @@ public class ProcessServiceConstants {
      * Reference Object URI's
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "process";
+    public static final String SERVICE_NAME_LOCAL_PART = "ProcessService";
     public static final String REF_OBJECT_URI_PROCESS_CATEGORY = NAMESPACE + "/" + ProcessCategoryInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_PROCESS = NAMESPACE + "/" + ProcessInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_CHECK = NAMESPACE + "/" + CheckInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_INSTRUCTION = NAMESPACE + "/" + InstructionInfo.class.getSimpleName();
+
+    ///////////////////////////////////
+    // TYPES AND STATES
+    ///////////////////////////////////
+
     /**
-     * ProcessCategory types
+     * ProcessCategory Types/States
      */
     public static final String PROCESS_CATEGORY_TYPE_KEY_CATEGORY = "kuali.process.category.type";
+
+    public static final String PROCESS_CATEGORY_LIFECYCLE_KEY = "kuali.process.process.category.lifecycle";
+    public static final String PROCESS_CATEGORY_STATE_KEY_ACTIVE = "kuali.process.process.state.active";
+    public static final String PROCESS_CATEGORY_STATE_KEY_INACTIVE = "kuali.process.process.state.inactive";
+    public static final String PROCESS_CATEGORY_STUDENT_ELIGIBILITY = "IS_STUDENT_ELIGIBLE_FOR_REGISTRATION";
+
     /**
-     * Process types
+     * Process Types/States
      */
     public static final String PROCESS_TYPE_KEY = "kuali.process.process.type";
+
+    public static final String PROCESS_LIFECYCLE_KEY = "kuali.process.process.lifecycle";
+    public static final String PROCESS_ACTIVE_STATE_KEY = "kuali.process.process.state.active";
+    public static final String PROCESS_DISABLED_STATE_KEY = "kuali.process.process.state.disabled";
+    public static final String PROCESS_INACTIVE_STATE_KEY = "kuali.process.process.state.inactive";
+    public static final String[] PROCESS_LIFECYCLE_KEYS = {PROCESS_ACTIVE_STATE_KEY, PROCESS_DISABLED_STATE_KEY, PROCESS_INACTIVE_STATE_KEY};
+
     /**
-     * Check types
+     * Instruction Types/States
+     */
+    public static final String INSTRUCTION_TYPE_KEY = "kuali.process.instruction.type ";
+
+    public static final String INSTRUCTION_LIFECYCLE_KEY = "kuali.process.instruction.lifecycle";
+    public static final String INSTRUCTION_ACTIVE_STATE_KEY = "kuali.process.instruction.state.active";
+    public static final String INSTRUCTION_INACTIVE_STATE_KEY = "kuali.process.instruction.state.inactive";
+    public static final String INSTRUCTION_DISABLED_STATE_KEY = "kuali.process.instruction.state.disabled";
+    public static final String[] INSTRUCTION_LIFECYCLE_KEYS = {INSTRUCTION_ACTIVE_STATE_KEY, INSTRUCTION_DISABLED_STATE_KEY, INSTRUCTION_INACTIVE_STATE_KEY};
+
+    /**
+     * Check Types/States
      */
     public static final String HOLD_CHECK_TYPE_KEY = "kuali.process.check.type.hold";
     public static final String START_DATE_CHECK_TYPE_KEY = "kuali.process.check.type.milestone.startdate";
@@ -52,45 +87,34 @@ public class ProcessServiceConstants {
     public static final String EQUAL_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.equals";
     public static final String MAXIMUM_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.max";
     public static final String MINIMUM_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.min";
+    public static final String ACKNOWLEDGEMENT_CHECK_TYPE_KEY = "kuali.process.check.type.acknowledgement";
+    public static final String CHECK_LIFECYCLE_KEY = "kuali.process.check.lifecycle";
+
+    public static final String PROCESS_CHECK_STATE_ACTIVE = "kuali.process.check.state.active";
+    public static final String PROCESS_CHECK_STATE_DISABLED = "kuali.process.check.state.disabled";
+    public static final String PROCESS_CHECK_STATE_INACTIVE = "kuali.process.check.state.inactive";
+    public static final String[] CHECK_LIFECYCLE_KEYS = {PROCESS_CHECK_STATE_ACTIVE, PROCESS_CHECK_STATE_DISABLED, PROCESS_CHECK_STATE_INACTIVE};
+
     /**
-     * Instruction types
+     * Milestone Types
      */
-    public static final String INSTRUCTION_TYPE_KEY = "kuali.process.instruction.type ";
+    public static final String MILESTONE_TYPE_ATP_REGISTRATION_PERIOD = "kuali.atp.milestone.RegistrationPeriod";
+
     /**
-     * States for Process Categories
+     * Population Types/States
      */
-    public static final String PROCESS_CATEGORY_LIFECYCLE_KEY = "kuali.process.process.category.lifecycle";
-    /***
-     * Process Category Types
-     */
-    public static final String PROCESS_CATEGORY_STUDENT_ELIGIBILITY = "IS_STUDENT_ELIGIBLE_FOR_REGISTRATION";
+    public static final String POPULATION_TYPE_KEY_AUTOMATIC = "kuali.population.type.automatic";
+    public static final String POPULATION_TYPE_KEY_MANUAL = "kuali.population.type.manual";
+
+    ///////////////////////////////////
+    // KEYS / IDS / NAMES
+    ///////////////////////////////////
+
     /**
      * Dummy Process Owner Organization
      */
     public static final String PROCESS_OWNING_ORG_GRAD_SCHOOL = "GRAD_SCHOOL_ORG";
-    /**
-     * States for Processes
-     */
-    public static final String PROCESS_LIFECYCLE_KEY = "kuali.process.process.lifecycle";
-    public static final String PROCESS_ENABLED_STATE_KEY = "kuali.process.process.state.enabled";
-    public static final String PROCESS_DISABLED_STATE_KEY = "kuali.process.process.state.disabled";
-    public static final String PROCESS_INACTIVE_STATE_KEY = "kuali.process.process.state.inactive";
-    public static final String[] PROCESS_LIFECYCLE_KEYS = {PROCESS_ENABLED_STATE_KEY, PROCESS_DISABLED_STATE_KEY, PROCESS_INACTIVE_STATE_KEY};
-    /**
-     * States for Checks
-     */
-    public static final String CHECK_LIFECYCLE_KEY = "kuali.process.check.lifecycle";
-    public static final String PROCESS_CHECK_STATE_ENABLED = "kuali.process.check.state.enabled";
-    public static final String PROCESS_CHECK_STATE_DISABLED = "kuali.process.check.state.disabled";
-    public static final String PROCESS_CHECK_STATE_INACTIVE = "kuali.process.check.state.inactive";
-    public static final String[] CHECK_LIFECYCLE_KEYS = {PROCESS_CHECK_STATE_ENABLED, PROCESS_CHECK_STATE_DISABLED, PROCESS_CHECK_STATE_INACTIVE};
-    /**
-     * States for Instructions
-     */
-    public static final String INSTRUCTION_LIFECYCLE_KEY = "kuali.process.instruction.lifecycle";
-    public static final String INSTRUCTION_ENABLED_STATE_KEY = "kuali.process.instruction.state.enabled";
-    public static final String INSTRUCTION_DISABLED_STATE_KEY = "kuali.process.instruction.state.disabled";
-    public static final String[] INSTRUCTION_LIFECYCLE_KEYS = {INSTRUCTION_ENABLED_STATE_KEY, INSTRUCTION_DISABLED_STATE_KEY};
+
     /**
      * known process keys
      */
@@ -104,44 +128,17 @@ public class ProcessServiceConstants {
     public static final String PROCESS_KEY_VIEW_GRADES = "kuali.process.acad.record.view.grades";
     public static final String PROCESS_KEY_VIEW_GRADES_FOR_TERM = "kuali.process.acad.record.view.grades.for.term";
     public static final String PROCESS_KEY_VIEW_COURSE_GRADE = "kuali.process.acad.record.view.course.grade";
+
     /**
-     * known check keys
+     * known agenda ids / names
      */
-    public static final String CHECK_KEY_IS_ALIVE = "kuali.check.is.alive";
-    public static final String CHECK_KEY_HAS_BEEN_ADMITTED = "kuali.check.has.been.admitted";
-    public static final String CHECK_KEY_HAS_CONFIRMED_INTEND_TO_ATTEND = "kuali.check.has.confirmed.intend.to.attend";
-    public static final String CHECK_KEY_HAS_NOT_BEEN_EXPELLED = "kuali.check.has.not.been.expelled";
-    public static final String CHECK_KEY_HAS_OVERDUE_LIBRARY_BOOK = "kuali.check.has.overdue.library.book";
-    public static final String CHECK_KEY_HAS_UNPAID_LIBRARY_FINE = "kuali.check.has.unpaid.library.fine";
-    public static final String CHECK_KEY_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM = "kuali.check.has.not.paid.bill.from.prior.term";
-    public static final String CHECK_KEY_HAS_ACKNOWLEDGED_RIAA = "kuali.check.has.acknowledged.riaa";
-    public static final String CHECK_KEY_HAS_ACKNOWLEDGED_HONOR_CODE = "kuali.check.has.acknowledged.honor.code";
-    public static final String CHECK_KEY_HAS_VERIFIED_EMERGENCY_CONTACT_DATA = "kuali.check.has.verified.emergency.contact.data";
-    public static final String CHECK_KEY_HAS_APPLIED_TO_GRADUATE = "kuali.check.has.applied.to.graduate";
-    public static final String CHECK_KEY_STUDENT_HAS_BASIC_ELIGIBILITY = "kuali.check.student.has.basic.eligibility";
-    public static final String CHECK_KEY_IS_STUDENT_EXPECTED_IN_TERM = "kuali.check.is.student.expected.in.term";
-    public static final String CHECK_KEY_REGISTRATION_PERIOD_IS_OPEN = "kuali.check.registration.period.is.open";
-    public static final String CHECK_KEY_REGISTRATION_PERIOD_IS_NOT_CLOSED = "kuali.check.registration.period.is.not.closed";
-    public static final String CHECK_KEY_REGISTRATION_HOLDS_CLEARED = "kuali.check.registration.holds.cleared";
-    public static final String CHECK_KEY_ACKNOWLEDGEMENTS_CONFIRMED = "kuali.check.acknowledgements.confirmed";
-    public static final String CHECK_KEY_MAX_TOTAL_CREDITS_ALLOWED = "kuali.check.max.total.credits.allowed";
-    public static final String CHECK_KEY_INTERNATIONAL_STUDENT_CHECK_IN = "kuali.check.international.student.check.in";
-    public static final String CHECK_KEY_IS_NOT_SUMMER_TERM = "kuali.check.is.not.summer.term";
-    public static final String CHECK_KEY_MANDATORY_ADVISING_CHECK = "kuali.check.mandatory.advising.check";
-    public static final String CHECK_KEY_UNRESOLVED_INCOMPLETE_GRADES = "kuali.check.unresolved.incomplete.grades";
-    public static final String CHECK_KEY_ELIGIBILITY_FOR_TERM = "kuali.check.eligibility.for.term";
-    public static final String CHECK_KEY_HAS_THE_NECESSARY_PREREQ = "kuali.check.has.the.necessary.prereq";
-    public static final String CHECK_KEY_IS_ELIGIBLE_FOR_THE_COURSE_OFFERING = "kuali.check.is.eligible.for.the.course.offering";
-    public static final String CHECK_KEY_NORTH_STUDENTS_MAX_SOUTH_CREDITS = "kuali.check.north.students.max.south.credits";
-    public static final String CHECK_KEY_SOUTH_STUDENTS_MAX_NORTH_CREDITS = "kuali.check.south.students.max.north.credits";
-    public static final String CHECK_KEY_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE = "kuali.check.student.has.eligibility.for.each.course";
-    public static final String CHECK_KEY_DOES_NOT_EXCEED_CREDIT_LIMIT = "kuali.check.does.not.exceed.credit.limit";
-    public static final String CHECK_KEY_DOES_NOT_MEET_CREDIT_MINIMUM = "kuali.check.does.not.meet.credit.minimum";
-    public static final String CHECK_KEY_DOES_NOT_HAVE_A_TIME_CONFLICT = "kuali.check.does.not.have.a.time.conflict";
-    public static final String CHECK_KEY_TOO_MANY_COURSES_DURING_INITIAL_REGISTRATION_PERIOD = "kuali.check.too.many.courses.during.initial.registration.period";
-    public static final String CHECK_KEY_STUDENT_IS_ELIGIBLE_FOR_THE_COURSES = "kuali.check.student.is.eligible.for.the.courses";
-    public static final String CHECK_KEY_IS_STUDENTS_REGISTRATION_WINDOW = "kuali.check.is.students.registration.window";
-    public static final String CHECK_KEY_COURSE_HAS_ROOM_FOR_STUDENT_IN_A_SEATPOOL = "kuali.check.course.has.room.for.student.in.a.seatpool";
-    public static final String CHECK_KEY_GRADES_HAVE_BEEN_SUBMITTED_FOR_COURSE = "kuali.check.grades.have.been.submitted.for.course";
-    public static final String CHECK_KEY_HAS_COMPLETED_COURSE_EVALUATION = "kuali.check.has.completed.course.evaluation";
+    public static final String AGENDA_IS_ALIVE_ID = "kuali.agenda.is.alive";
+    public static final String AGENDA_IS_NOT_SUMMER_TERM_ID = "kuali.agenda.is.not.summer.term";
+
+    /**
+     * known issue ids / names
+     */
+    public static final String ISSUE_HOLD_LIBRARY_BOOK_OVERDUE_ID = "kuali.hold.issue.library.book.overdue";
+    public static final String ISSUE_HOLD_UPAID_TUITION_FROM_LAST_TERM_ID = "kuali.hold.issue.financial.unpaid.tuition.prior.term";
+
 }

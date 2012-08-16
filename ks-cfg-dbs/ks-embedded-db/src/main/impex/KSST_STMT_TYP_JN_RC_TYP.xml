@@ -94,12 +94,6 @@
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.test.score.min"
         SORT_ORDER="9"
         STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="CR-401"
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.course.cumulative.gpa.min" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="CR-402"
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.course.credits.min" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="CR-403"
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.course.freeform.text" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq"/>
     <KSST_STMT_TYP_JN_RC_TYP ID="CRC-1"
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.credits.repeat.max"
         SORT_ORDER="1"
@@ -248,14 +242,6 @@
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.gpa.min"
         SORT_ORDER="4"
         STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="PC-404"
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.credits.advisor" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="PC-405"
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.courses.advisor" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="PC-406"
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.credits.theme" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="PC-407"
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.courses.theme" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
     <KSST_STMT_TYP_JN_RC_TYP ID="PC-5"
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.credits.min"
         SORT_ORDER="5"
@@ -352,12 +338,6 @@
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.nof"
         SORT_ORDER="9"
         STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="PR-401"
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.course.cumulative.gpa.min" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="PR-402"
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.course.credits.min" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="PR-403"
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.course.freeform.text" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"/>
     <KSST_STMT_TYP_JN_RC_TYP ID="PSP-1"
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.admitted.credits"
         SORT_ORDER="1"

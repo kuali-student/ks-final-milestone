@@ -11,11 +11,11 @@ import org.kuali.student.common.util.UUIDHelper;
 
 @MappedSuperclass
 public class BaseEntity {
+
 	@Id
 	@Column(name = "ID")
 	private String id;
-	
-	@Column(name="OBJ_ID",length=KSEntityConstants.OBJ_ID_LENGTH)
+    @Column(name = "OBJ_ID", length = KSEntityConstants.OBJ_ID_LENGTH)
 	private String objectId;
 	
 	public String getObjectId() {
@@ -27,7 +27,7 @@ public class BaseEntity {
 	}
 
 	@PrePersist
-	public void prePersist(){
+    public void prePersist() {
 	  //Auto generate the object id, and auto generate the ID if it's not set
         if (this.id == null) {
             this.id = UUIDHelper.genStringUUID(this.id);
@@ -37,7 +37,7 @@ public class BaseEntity {
 	}
 	
 	@PreUpdate
-	public void preUpdate(){
+    public void preUpdate() {
 		onPreUpdate();
 	}
 	
@@ -56,4 +56,17 @@ public class BaseEntity {
     public void setId(String id) {
         this.id = id;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("BaseEntity [id=");
+		builder.append(id);
+		builder.append(", objectId=");
+		builder.append(objectId);
+		builder.append("]");
+		return builder.toString();
+	}
+
+
 }

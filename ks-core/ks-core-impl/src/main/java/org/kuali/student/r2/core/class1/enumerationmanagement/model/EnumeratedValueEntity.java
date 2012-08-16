@@ -38,7 +38,7 @@ import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
 import org.kuali.student.r2.core.enumerationmanagement.infc.EnumeratedValue;
 
 @Entity
-@Table(name = "KSEM_ENUM_VAL_T")
+@Table(name = "KSEN_ENUM_VAL_T")
 public class EnumeratedValueEntity extends MetaEntity{
 
     @Column(name = "CD")
@@ -116,7 +116,6 @@ public class EnumeratedValueEntity extends MetaEntity{
 
     public String getSortKey() {
      return sortKey;
-
     }
 
     public void setSortKey(String sortKey) {
@@ -141,7 +140,6 @@ public class EnumeratedValueEntity extends MetaEntity{
 
     public Date getEffectiveDate() {
      return effectiveDate;
-
     }
 
     public void setEffectiveDate(Date effectiveDate) {
@@ -150,7 +148,6 @@ public class EnumeratedValueEntity extends MetaEntity{
 
     public Date getExpirationDate() {
      return expirationDate;
-
     }
 
     public void setExpirationDate(Date expirationDate) {

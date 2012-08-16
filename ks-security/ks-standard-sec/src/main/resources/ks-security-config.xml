@@ -33,7 +33,4 @@
 	<param name="ks.default.security.saml.privateKeyAlias">tomcat</param>
 	<param name="ks.default.security.saml.privateKeyPass">changeit</param>
 	<param name="ks.default.security.saml.certificateAlias">tomcat</param>
-	
-	<!-- This will enable backdoor login for KS. -->
-	<param name="enableKSBackdoorLogin" override="false">false</param>
 </config>

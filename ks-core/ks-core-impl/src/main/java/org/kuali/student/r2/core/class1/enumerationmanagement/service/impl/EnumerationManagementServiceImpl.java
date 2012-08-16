@@ -71,13 +71,13 @@ import org.slf4j.LoggerFactory;
 public class EnumerationManagementServiceImpl implements EnumerationManagementService {
 
     final static Logger logger = LoggerFactory.getLogger(EnumerationManagementServiceImpl.class);
-    
+
     private SearchManager searchManager;
-    
+
     private EnumerationDao enumDao;
     private EnumeratedValueDao enumValueDao;
     private EnumContextValueDao enumContextValueDao;
-    
+
     public SearchManager getSearchManager() {
         return searchManager;
     }
@@ -85,7 +85,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     public void setSearchManager(SearchManager searchManager) {
         this.searchManager = searchManager;
     }
-    
+
     public EnumerationDao getEnumDao() {
         return enumDao;
     }
@@ -113,34 +113,34 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     @Override
     @Transactional(readOnly=true)
     public List<EnumerationInfo> getEnumerations(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         List<EnumerationEntity> enumEntities =  this.enumDao.findAll();
         List<EnumerationInfo> enumInfos = new ArrayList<EnumerationInfo>(enumEntities.size());
-        
+
         for (EnumerationEntity enumeration : enumEntities){
             enumInfos.add(enumeration.toDto());
         }
-       
+
         return enumInfos;
-        
+
     }
 
     @Override
     public EnumerationInfo getEnumeration(String enumerationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         EnumerationEntity entity = enumDao.find(enumerationKey);
-        
+
         if(entity == null)
             throw new DoesNotExistException(enumerationKey);
-        
+
         return entity.toDto();
     }
 
     @Override
     public List<EnumeratedValueInfo> getEnumeratedValues(String enumerationKey, String contextTypeKey, String contextValue, Date contextDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         List<EnumeratedValueEntity> enumeratedValues = null;
-        
+
         if(enumerationKey != null && contextTypeKey != null && contextValue != null && contextDate != null){
             enumeratedValues = enumValueDao.getByContextAndDate(enumerationKey, contextTypeKey, contextValue, contextDate);
         }
@@ -153,15 +153,15 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         else if(enumerationKey != null){
             enumeratedValues = enumValueDao.getByEnumerationKey(enumerationKey);
         }
-        
+
         if(enumeratedValues == null)
             throw new DoesNotExistException(enumerationKey);
-        
+
         List<EnumeratedValueInfo> enumeratedValueInfos = new ArrayList<EnumeratedValueInfo>(enumeratedValues.size());
         for (EnumeratedValueEntity enumeratedValue : enumeratedValues){
             enumeratedValueInfos.add(enumeratedValue.toDto());
         }
-        
+
         return enumeratedValueInfos;
     }
 
@@ -173,23 +173,23 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public EnumeratedValueInfo updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueInfo enumeratedValueInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        EnumerationEntity enumerationEntity = enumDao.find(enumeratedValueInfo.getEnumerationKey());           
+        EnumerationEntity enumerationEntity = enumDao.find(enumeratedValueInfo.getEnumerationKey());
         if(enumerationEntity == null)
             throw new DoesNotExistException(enumeratedValueInfo.getEnumerationKey());
 
         EnumeratedValueEntity modifiedEntity = new EnumeratedValueEntity(enumeratedValueInfo);
         modifiedEntity.setEnumeration(enumerationEntity);
-        
+
         try {
             modifiedEntity.setId(enumValueDao.getByEnumerationKeyAndCode(enumerationKey, code).getId());
         }catch (NoResultException e) {
             throw new DoesNotExistException(enumerationKey + code);
         }
-        
+
         enumValueDao.merge(modifiedEntity);
-        
+
         return enumValueDao.find(modifiedEntity.getId()).toDto();
-        
+
     }
 
     @Override
@@ -209,28 +209,28 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public EnumeratedValueInfo addEnumeratedValue(String enumerationKey, String code, EnumeratedValueInfo enumeratedValueInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        EnumerationEntity enumerationEntity = enumDao.find(enumeratedValueInfo.getEnumerationKey());           
+        EnumerationEntity enumerationEntity = enumDao.find(enumeratedValueInfo.getEnumerationKey());
         if(enumerationEntity == null)
             throw new DoesNotExistException(enumeratedValueInfo.getEnumerationKey());
-        
+
         EnumeratedValueEntity entity = null;
         try {
-            
+
             enumValueDao.getByEnumerationKeyAndCode(enumerationKey, code);
             throw new AlreadyExistsException();
-            
+
         } catch (NoResultException e) {
-            
+
             entity = new EnumeratedValueEntity(enumeratedValueInfo);
             entity.setEnumeration(enumerationEntity);
-            
+
             enumValueDao.persist(entity);
         }
-        
+
         return enumValueDao.find(entity.getId()).toDto();
-        
+
     }
-    
+
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(
             String searchCriteriaTypeKey) throws DoesNotExistException,
@@ -322,15 +322,15 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
                     returnvalues.addAll(enumvalues);
                 }
             }
-            
+
         }
-        
+
         if (returnvalues == null){
             return null;
         }
-        
+
         SearchResult searchResult = new SearchResult();
-        
+
         //Use a hashset of the cell values to remove duplicates
         for(EnumeratedValueEntity enumValue : returnvalues){
             SearchResultRow row = new SearchResultRow();
@@ -342,7 +342,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
             row.addCell("enumeration.resultColumn.sortKey", enumValue.getSortKey());
             searchResult.getRows().add(row);
         }
-        
+
         return searchResult;
     }
 
@@ -355,7 +355,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         }
         return parms;
     }
-    
+
     /**
      * Check for missing parameter and throw localized exception if missing
      *

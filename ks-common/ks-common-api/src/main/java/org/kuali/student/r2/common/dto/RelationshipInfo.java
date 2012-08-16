@@ -133,25 +133,25 @@ public abstract class RelationshipInfo
 
     // Compatibility 
 
-//    @Override
-//    @Deprecated
-//    public String getType() {
-//        return getTypeKey();
-//    }
+    @Override
+    @Deprecated
+    public String getType() {
+        return getTypeKey();
+    }
 
-//    @Deprecated
-//    public void setType(String typeKey) {
-//        setTypeKey(typeKey);
-//    }
+    @Deprecated
+    public void setType(String typeKey) {
+        setTypeKey(typeKey);
+    }
 
-//    @Override
-//    @Deprecated
-//    public String getState() {
-//        return getStateKey();
-//    }
+    @Override
+    @Deprecated
+    public String getState() {
+        return getStateKey();
+    }
 
-//    @Deprecated
-//    public void setState(String stateKey) {
-//        setStateKey(stateKey);
-//    }
+    @Deprecated
+    public void setState(String stateKey) {
+        setStateKey(stateKey);
+    }
 }

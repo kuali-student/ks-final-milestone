@@ -89,7 +89,7 @@
    	<property name="errorLevel" value="WARN"/>
    </bean>
   </property>
-  <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.SubjectAreaUnitOwnerValidator"/>
+  <property name="customValidatorClass" value="org.kuali.student.r2.lum.course.service.utils.SubjectAreaUnitOwnerValidator"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -854,7 +854,7 @@
   <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.CourseRevenueInfo" />
  </bean>
  <bean id="courseInfo.revenues" parent="courseInfo.revenues-parent" >
-   <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.RevenuePercentValidator"/>
+   <property name="customValidatorClass" value="org.kuali.student.r2.lum.course.service.utils.RevenuePercentValidator"/>
  </bean>
 
  <bean id="courseInfo.expenditure-parent" abstract="true" parent="baseComplex">
@@ -864,7 +864,7 @@
   <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo" />
  </bean>
  <bean id="courseInfo.expenditure" parent="courseInfo.expenditure-parent" >
- <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator"/>
+ <property name="customValidatorClass" value="org.kuali.student.r2.lum.course.service.utils.ExpenditurePercentValidator"/>
  </bean>
 
  <bean id="courseInfo.startTerm-parent" abstract="true" parent="cluInfo.expectedFirstAtp-parent">
@@ -944,7 +944,7 @@
 
  <bean id="courseInfo.endTerm-parent" abstract="true" parent="cluInfo.lastAtp-parent">
   <property name="name" value="endTerm" />
-  <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.ActiveDatesValidator"/>
+  <property name="customValidatorClass" value="org.kuali.student.r2.lum.course.service.utils.ActiveDatesValidator"/>
   <property name="lookupDefinition" ref="constraint.lookup.course.endTerm"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
@@ -1668,6 +1668,7 @@
     <ref bean="activityInfo.id" />
     <ref bean="activityInfo.stateKey" />
     <ref bean="activityInfo.typeKey" />
+ 
     <ref bean="activityInfo.dynamic" />
    </list>
   </property>
@@ -1680,10 +1681,10 @@
  </bean>
  <bean id="activityInfo.unitsContentOwner" parent="activityInfo.unitsContentOwner-parent" />
 
-<bean id="activityInfo.typeKey-parent" abstract="true"
+<bean id="activityInfo.activityType-parent" abstract="true"
        parent="baseString">
-  <property name="name" value="typeKey" />
-  <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.ActivityTypeValidator"/>
+  <property name="name" value="activityType" />
+  <property name="customValidatorClass" value="org.kuali.student.r2.lum.course.service.utils.ActivityTypeValidator"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -1707,7 +1708,7 @@
 		           <property name="whenConstraint">
 		             <list>
 		                <bean parent="whenConstraint">
-		                  <property name="values" ref="activityInfo.typeKey.requiredByNode"/>
+		                  <property name="values" ref="activityInfo.activityType.requiredByNode"/>
 		                  <property name="constraint">
 					        <bean parent="constraint">
 						         <property name="minOccurs" value="1" />
@@ -1741,9 +1742,8 @@
    </bean>
   </property>
  </bean>
- <bean id="activityInfo.typeKey" parent="activityInfo.typeKey-parent" />
- 
- <bean id="activityInfo.typeKey.requiredByNode" class="java.util.ArrayList">
+ <bean id="activityInfo.activityType" parent="activityInfo.activityType-parent" />
+ <bean id="activityInfo.activityType.requiredByNode" class="java.util.ArrayList">
     <constructor-arg>
 		<list>
 			<value>Department Review</value>
@@ -1816,6 +1816,12 @@
   <property name="defaultValue" value="draft"/>
  </bean>
  <bean id="activityInfo.name" parent="activityInfo.name-parent" />
+ 
+  <bean id="activityInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+  <property name="name" value="typeKey" />
+  <property name="defaultValue" value="draft"/>
+ </bean>
+ <bean id="activityInfo.typeKey" parent="activityInfo.typeKey-parent" />
  
  <!--   <bean id="activityInfo.unitTypeKey-parent" abstract="true" parent="baseKualiTypeRequired">
   <property name="name" value="unitTypeKey" />

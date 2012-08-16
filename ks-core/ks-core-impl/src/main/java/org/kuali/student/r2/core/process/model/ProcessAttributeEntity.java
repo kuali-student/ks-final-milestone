@@ -12,27 +12,13 @@ import org.kuali.student.r2.common.infc.Attribute;
 @Table(name = "KSEN_PROCESS_ATTR")
 public class ProcessAttributeEntity extends BaseAttributeEntity<ProcessEntity> {
 
-    @ManyToOne
-    @JoinColumn(name = "OWNER")
-    private ProcessEntity owner;
-
-    public ProcessAttributeEntity () {}
-
-    public ProcessAttributeEntity(String key, String value) {
-        super(key, value);
+	public ProcessAttributeEntity() {
+		super();
     }
 
-    public ProcessAttributeEntity(Attribute att) {
-        super(att);
+	public ProcessAttributeEntity(Attribute att, ProcessEntity owner) {
+		super(att, owner);
     }
 
-    @Override
-    public void setOwner(ProcessEntity owner) {
-        this.owner = owner;
-    }
 
-    @Override
-    public ProcessEntity getOwner() {
-        return owner;
-    }
 }

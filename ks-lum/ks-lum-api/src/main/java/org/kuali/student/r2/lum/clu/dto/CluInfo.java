@@ -33,7 +33,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.r2.common.dto.RichTextInfo;
 
@@ -476,7 +475,7 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
 
     @Override
     public String toString() {
-        return "CluInfo[id=" + this.getId() + ", typeKey=" + this.getTypeKey() + "]";
+        return "CluInfo[id=" + this.getId() + ", type=" + this.getTypeKey() + "]";
     }
 
 }

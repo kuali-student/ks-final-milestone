@@ -143,9 +143,9 @@ public interface TypeService {
      * consuming program is free to filter on that object.
      * 
      * Should be functionally equivalent to calling the following:
-     *  relations = getTypeTypeRelationsForOwnerAndType (type, GROUP)
-     *  filterRelations (type=ACTIVE and today between effective and expiration
-     *  return getTypes (filteredRelations)
+     * relations = getTypeTypeRelationsForOwnerAndType (type, GROUP)
+     * filterRelations (type=ACTIVE and today between effective and
+     * expiration return getTypes (filteredRelations)
      * 
      * The relationship is captured unidirectionally from ownerType to relatedType.
      * 
@@ -177,9 +177,9 @@ public interface TypeService {
      * consuming program is free to filter on that object.
      * 
      * Should be functionally equivalent to calling the following:
-     *  relations = getTypeTypeRelationsForOwnerAndType (type, ALLOWED)
-     *  filterRelations (type=ACTIVE and today between effective and expiration
-     *  return getTypes (filteredRelations)
+     * relations = getTypeTypeRelationsForOwnerAndType (type, ALLOWED)
+     * filterRelations (type=ACTIVE and today between effective and expiration
+     * return getTypes (filteredRelations)
      * 
      * The relationship is captured unidirectionally from ownerType to relatedType.
      * 
@@ -368,7 +368,6 @@ public interface TypeService {
      */
     public List<TypeTypeRelationInfo> getTypeTypeRelationsByRelatedTypeAndType(@WebParam(name = "relatedTypeKey") String relatedTypeKey, @WebParam(name = "typeTypeRelationTypeKey") String typeTypeRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    
     /**
      * Validates a TypeTypeRelation. Depending on the value of
      * validationType, this validation could be limited to tests on

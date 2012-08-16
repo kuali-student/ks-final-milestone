@@ -6,10 +6,10 @@
     <parent>
         <groupId>org.kuali.student.lum</groupId>
         <artifactId>ks-lum</artifactId>
-        <version>0.0.6-SNAPSHOT</version>
+        <version>1.3.0-SNAPSHOT</version>
     </parent>
     <properties>
-      <selenium.pattern>**/selenium/**/*Test.java</selenium.pattern>
+        <selenium.pattern>**/selenium/**/*Test.java</selenium.pattern>
     </properties>
     <build>
         <plugins>
@@ -24,14 +24,14 @@
                 </configuration>
             </plugin>
             <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-surefire-plugin</artifactId>
-              <configuration>
-                <excludes>
-                  <exclude>${selenium.pattern}</exclude>
-                </excludes>
-              </configuration>
-          </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>${selenium.pattern}</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -82,7 +82,7 @@
             <dependencies>
                 <dependency>
                     <!--
-                      Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
+                      Jax-ws impl dependency so atpService isn't created using jaxws bundled w/jdk 1.6,
                       which has problems finding exception beans.
                     -->
                     <groupId>org.kuali.student.common</groupId>
@@ -91,16 +91,6 @@
                     <type>pom</type>
                     <scope>runtime</scope>
                 </dependency>
-                <dependency>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-aop</artifactId>
-					<scope>runtime</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-aspects</artifactId>
-					<scope>runtime</scope>
-				</dependency>
                 <dependency>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-web</artifactId>
@@ -111,7 +101,7 @@
                 <dependency>
                     <groupId>org.kuali.student.core</groupId>
                     <artifactId>ks-core-impl</artifactId>
-                    <version>${ks.service.version}</version>
+                    <version>${project.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.derby</groupId>
@@ -134,75 +124,73 @@
                         </exclusion>
                     </exclusions>
                 </dependency>
-			    <dependency>
-			      <groupId>org.kuali.student.security</groupId>
-			      <artifactId>ks-standard-sec</artifactId>
-			      <version>2.0.0-cm-SNAPSHOT</version>
-			    </dependency>
-			</dependencies>
+                <dependency>
+                    <groupId>org.kuali.student.security</groupId>
+                    <artifactId>ks-standard-sec</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+
+            </dependencies>
         </profile>
 
-    <profile>
-      <id>headless</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>selenium-maven-plugin</artifactId>
-            <version>2.0</version>
-            <executions>
-              <execution>
-                <id>xvfb</id>
-                <phase>initialize</phase>
-                <goals>
-                  <goal>xvfb</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-        
         <profile>
-			<id>selenium</id>
+            <id>headless</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>selenium-maven-plugin</artifactId>
+                        <version>2.0</version>
+                        <executions>
+                            <execution>
+                                <id>xvfb</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>xvfb</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>selenium</id>
             <properties>
-              <selenium.include>${selenium.pattern}</selenium.include>
+                <selenium.include>${selenium.pattern}</selenium.include>
             </properties>
-			<build>
-				<plugins>
-					<!-- Setup Selenium browser configuration -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration>
-							<forkMode>always</forkMode>
-							<systemPropertyVariables>
-								<selenium.remote>false</selenium.remote>
-								<selenium.browser>firefox</selenium.browser>
-								<selenium.browser.version>7</selenium.browser.version>
-								<selenium.platform>ANY</selenium.platform>
-								<selenium.baseurl>http://dev.ks.kuali.org</selenium.baseurl>
-							</systemPropertyVariables>
+            <build>
+                <plugins>
+                    <!-- Setup Selenium browser configuration -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <forkMode>always</forkMode>
+                            <systemPropertyVariables>
+                                <selenium.remote>false</selenium.remote>
+                                <selenium.browser>firefox</selenium.browser>
+                                <selenium.browser.version>7</selenium.browser.version>
+                                <selenium.platform>ANY</selenium.platform>
+                                <selenium.baseurl>http://dev.ks.kuali.org</selenium.baseurl>
+                            </systemPropertyVariables>
                             <includes>
-                              <include>${selenium.include}</include>
+                                <include>${selenium.include}</include>
                             </includes>
                             <excludes>
-                              <exclude>NOTHING</exclude>
+                                <exclude>NOTHING</exclude>
                             </excludes>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
-    
-    
-
     <dependencies>
         <dependency>
-           <groupId>org.seleniumhq.selenium</groupId>
-           <artifactId>selenium-java</artifactId>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
@@ -222,16 +210,5 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- dependency>
-			<groupId>org.kuali.student</groupId>
-			<artifactId>ks-conversion</artifactId>
-			<version>0.0.6-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.kuali.student.lum</groupId>
-					<artifactId>ks-lum-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency-->
     </dependencies>
 </project>

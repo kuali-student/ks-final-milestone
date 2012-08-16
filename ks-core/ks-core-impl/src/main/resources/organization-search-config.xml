@@ -413,7 +413,7 @@
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
-	<search:searchResultTypeInfo id="org.result.orgQuickView" parent="org.result.orgQuickView-parent"/>
+    <search:searchResultTypeInfo id="org.result.orgQuickView" parent="org.result.orgQuickView-parent"/>
 	<search:searchResultTypeInfo id="org.result.orgQuickView-parent"  abstract="true">
 		<search:name>Organization Quick View</search:name>
 		<search:desc>Quick view of the Organization</search:desc>
@@ -711,7 +711,8 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
-	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+    <bean id="queryMap" parent="queryMap-parent"/>
+    <bean id="queryMap-parent" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
 				<entry key="org.search.orgHierarchyIds">

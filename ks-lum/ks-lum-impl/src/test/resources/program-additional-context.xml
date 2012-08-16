@@ -92,15 +92,15 @@
         </constructor-arg>
     </bean>
     <bean id="programRequirementAssembler"
-          class="org.kuali.student.lum.program.service.impl.ProgramRequirementAssembler">
+          class="org.kuali.student.r2.lum.program.service.impl.ProgramRequirementAssembler">
     </bean>
 
     <bean id="majorDisciplineAssembler"
-          class="org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler">
+          class="org.kuali.student.r2.lum.program.service.assembler.MajorDisciplineAssembler">
     </bean>
 
     <bean id="programServiceMethodInvoker"
-          class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
+          class="org.kuali.student.r2.lum.program.service.impl.ProgramServiceMethodInvoker">
         <property name="CluService" ref="cluClient"/>
     </bean>
     

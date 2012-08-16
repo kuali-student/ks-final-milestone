@@ -140,7 +140,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
 //    	commentInfo.setType("kuali.org.Comment");
 //    	commentInfo.setState("active");
 //
-//    	List<DictValidationResultContainer> validations = client.validateComment("", commentInfo);
+//    	List<DictValidationResultContainer> validations = atpService.validateComment("", commentInfo);
 //	    for (DictValidationResultContainer validationResult : validations) {
 //            assertTrue(validationResult.isOk());
 //        }
@@ -154,7 +154,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
 //    	commentInfo.setType("kuali.org.Comment");
 //    	commentInfo.setState("active");
 //
-//    	validations = client.validateComment("", commentInfo);
+//    	validations = atpService.validateComment("", commentInfo);
 //	    for (DictValidationResultContainer validationResult : validations) {
 //	    	if (!(validationResult.getElement().equals("effectiveDate") ||
 //	    			validationResult.getElement().equals("expirationDate"))) {

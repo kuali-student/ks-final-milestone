@@ -128,7 +128,7 @@
     </bean>
     
     <bean id="luDao"
-        class="org.kuali.student.lum.lu.dao.impl.LuDaoImpl">
+        class="org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl">
         <property name="em" ref="luEntityManager" />        
     </bean>
 
@@ -227,7 +227,7 @@
     </bean>
 
     <bean id="luServiceImpl"
-        class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
+        class="org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl">
         <property name="luDao" ref="luDao"/>
         <property name="searchManager" ref="luSearchManager"/>
     </bean>
@@ -257,12 +257,12 @@
     </bean>
 
     <bean id="atpDao"
-        class="org.kuali.student.r1.core.atp.dao.impl.AtpDaoImpl">
+        class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
         <property name="em" ref="atpEntityManager" />
     </bean>
 
     <bean id="atpServiceImpl"
-        class="org.kuali.student.r1.core.atp.service.impl.AtpServiceImpl">
+        class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
     </bean>
@@ -317,7 +317,7 @@
     </bean>
 
     <bean id="lrcDao"
-        class="org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl">
+        class="org.kuali.student.r2.lum.lrc.dao.impl.LrcDaoImpl">
         <property name="em" ref="lrcEntityManager" />
     </bean>
 

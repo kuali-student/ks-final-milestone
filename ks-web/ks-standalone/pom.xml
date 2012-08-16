@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.kuali.student.web</groupId>
     <artifactId>ks-web</artifactId>
-    <version>2.0.0-cm-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
   </parent>
   <properties>
     <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
@@ -42,7 +42,7 @@
         <artifactId>tomcat-maven-plugin</artifactId>
         <configuration>
           <path>/ks-standalone-dev</path>
-          <port>8084</port>
+          <port>8080</port>
         </configuration>
         <dependencies>
           <dependency>
@@ -65,50 +65,45 @@
       <artifactId>spring-aspects</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.db</groupId>
-      <artifactId>ks-standalone-db</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-impl</artifactId>
-        <version>${ks.service.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-ui</artifactId>
-        <version>${ks.service.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-hibernate</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-api</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-impl</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-ui</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-rice-lessdep</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <type>pom</type>
     </dependency>
     
@@ -123,48 +118,48 @@
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-ui</artifactId>
       <classifier>sources</classifier>
-        <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-rice</artifactId>
       <classifier>sources</classifier>
-        <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-ui</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-api</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-        <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
@@ -172,33 +167,37 @@
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-ui</artifactId>
       <classifier>sources</classifier>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-program</artifactId>
       <classifier>sources</classifier>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-ui-common</artifactId>
       <classifier>sources</classifier>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-api</artifactId>
-      <version>${ks.service.version}</version>
+      <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>backport-util-concurrent</groupId>
       <artifactId>backport-util-concurrent</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.jsr107cache</groupId>
+      <artifactId>jsr107cache</artifactId>
     </dependency>
   </dependencies>
 </project>

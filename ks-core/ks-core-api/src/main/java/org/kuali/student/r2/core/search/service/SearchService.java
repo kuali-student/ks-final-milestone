@@ -119,6 +119,7 @@ public interface SearchService {
      *
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
+     * @return list of search criteria type information
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException contextInfo is missing or null
      * @throws OperationFailedException unable to complete request

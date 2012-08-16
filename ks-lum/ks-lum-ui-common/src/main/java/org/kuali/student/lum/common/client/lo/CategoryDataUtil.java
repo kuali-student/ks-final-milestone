@@ -21,7 +21,7 @@ public class CategoryDataUtil {
         catHelper.setLoRepositoryKey(loCategoryInfo.getLoRepositoryKey());
         catHelper.setEffectiveDate(loCategoryInfo.getEffectiveDate());
         catHelper.setExpirationDate(loCategoryInfo.getExpirationDate());
-        /* TODO - doesn't work on the client; what to do?
+        /* TODO - doesn't work on the atpService; what to do?
         AttributesAssembler attAssembler = new AttributesAssembler();
         catHelper.setAttributes(attAssembler.assemble(cat.getAttributes()));
         */

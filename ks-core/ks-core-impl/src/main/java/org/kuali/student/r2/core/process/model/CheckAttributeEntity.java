@@ -1,38 +1,24 @@
 package org.kuali.student.r2.core.process.model;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+
 @Entity
-@Table(name = "KSEN_CHECK_ATTR")
+@Table(name = "KSEN_PROCESS_CHECK_ATTR")
 public class CheckAttributeEntity extends BaseAttributeEntity<CheckEntity> {
 
-    @ManyToOne
-    @JoinColumn(name = "OWNER")
-    private CheckEntity owner;
-
-    public CheckAttributeEntity() {}
-
-    public CheckAttributeEntity(String key, String value) {
-        super(key, value);
+	public CheckAttributeEntity() {
+		super();
     }
 
-    public CheckAttributeEntity(Attribute att) {
-        super(att);
+	public CheckAttributeEntity(Attribute att, CheckEntity owner) {
+		super(att, owner);
     }
 
-    @Override
-    public void setOwner(CheckEntity owner) {
-        this.owner = owner;
-    }
 
-    @Override
-    public CheckEntity getOwner() {
-        return owner;
-    }
 }

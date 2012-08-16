@@ -10,9 +10,10 @@ import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r1.common.assembly.transform.AbstractDataFilter;
 import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r1.core.atp.dto.AtpInfo;
-import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
@@ -75,9 +76,10 @@ public class VersionProgramFilter extends AbstractDataFilter implements Metadata
 				previousVersionData.set(ProgramConstants.PREV_END_INST_ADMIN_TERM, previousVersionMajorInfo.getEndTerm());
 				
 				//set the prev start term to be the earliest of the major and all variations
-				AtpInfo latestStartAtp = atpService.getAtp(previousVersionMajorInfo.getStartTerm());
+                ContextInfo contextInfo = ContextUtils.getContextInfo();
+				AtpInfo latestStartAtp = atpService.getAtp(previousVersionMajorInfo.getStartTerm(),contextInfo);
 				for (ProgramVariationInfo variation:previousVersionMajorInfo.getVariations()){
-					AtpInfo variationAtp = atpService.getAtp(variation.getStartTerm());
+					AtpInfo variationAtp = atpService.getAtp(variation.getStartTerm(),contextInfo);
 					if(variationAtp!=null && variationAtp.getStartDate()!=null && variationAtp.getStartDate().compareTo(latestStartAtp.getStartDate())>0){
 						latestStartAtp = variationAtp;
 					}

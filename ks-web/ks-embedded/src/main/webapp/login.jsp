@@ -1,6 +1,3 @@
-<%@ page import="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter" %>
-<%@ page import="org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter" %>
-<%@ page import="org.springframework.security.core.AuthenticationException" %>
 
 <script type="text/javascript">
 	function setSubmitUrl(form){

@@ -1,0 +1,1601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CourseWaitlistServiceService" targetNamespace="http://student.kuali.org/wsdl/courseWaitlistService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/courseWaitlistService" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://exceptions.common.r2.student.kuali.org/" xmlns:ns1="http://rice.kuali.org/core/v2_0" xmlns:tns="http://student.kuali.org/wsdl/courseWaitlistService" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/courseWaitlistService">
+<xs:import namespace="http://rice.kuali.org/core/v2_0"/>
+<xs:element name="deleteCourseWaitlistEntry" type="tns:deleteCourseWaitlistEntry"/>
+<xs:element name="deleteCourseWaitlistEntryResponse" type="tns:deleteCourseWaitlistEntryResponse"/>
+<xs:element name="getAvailableSeatsForCourseOffering" type="tns:getAvailableSeatsForCourseOffering"/>
+<xs:element name="getAvailableSeatsForCourseOfferingResponse" type="tns:getAvailableSeatsForCourseOfferingResponse"/>
+<xs:element name="getAvailableSeatsForRegGroup" type="tns:getAvailableSeatsForRegGroup"/>
+<xs:element name="getAvailableSeatsForRegGroupResponse" type="tns:getAvailableSeatsForRegGroupResponse"/>
+<xs:element name="getAvailableSeatsForStudentInRegGroup" type="tns:getAvailableSeatsForStudentInRegGroup"/>
+<xs:element name="getAvailableSeatsForStudentInRegGroupResponse" type="tns:getAvailableSeatsForStudentInRegGroupResponse"/>
+<xs:element name="getAvailableSeatsInSeatpool" type="tns:getAvailableSeatsInSeatpool"/>
+<xs:element name="getAvailableSeatsInSeatpoolResponse" type="tns:getAvailableSeatsInSeatpoolResponse"/>
+<xs:element name="getCourseWaitlistEntriesForCourseOffering" type="tns:getCourseWaitlistEntriesForCourseOffering"/>
+<xs:element name="getCourseWaitlistEntriesForCourseOfferingResponse" type="tns:getCourseWaitlistEntriesForCourseOfferingResponse"/>
+<xs:element name="getCourseWaitlistEntriesForRegGroup" type="tns:getCourseWaitlistEntriesForRegGroup"/>
+<xs:element name="getCourseWaitlistEntriesForRegGroupResponse" type="tns:getCourseWaitlistEntriesForRegGroupResponse"/>
+<xs:element name="getCourseWaitlistEntriesForStudentByTerm" type="tns:getCourseWaitlistEntriesForStudentByTerm"/>
+<xs:element name="getCourseWaitlistEntriesForStudentByTermResponse" type="tns:getCourseWaitlistEntriesForStudentByTermResponse"/>
+<xs:element name="getCourseWaitlistEntriesForStudentInCourseOffering" type="tns:getCourseWaitlistEntriesForStudentInCourseOffering"/>
+<xs:element name="getCourseWaitlistEntriesForStudentInCourseOfferingResponse" type="tns:getCourseWaitlistEntriesForStudentInCourseOfferingResponse"/>
+<xs:element name="getCourseWaitlistEntry" type="tns:getCourseWaitlistEntry"/>
+<xs:element name="getCourseWaitlistEntryForStudentInRegGroup" type="tns:getCourseWaitlistEntryForStudentInRegGroup"/>
+<xs:element name="getCourseWaitlistEntryForStudentInRegGroupResponse" type="tns:getCourseWaitlistEntryForStudentInRegGroupResponse"/>
+<xs:element name="getCourseWaitlistEntryResponse" type="tns:getCourseWaitlistEntryResponse"/>
+<xs:element name="insertCourseWaitlistEntryAtPosition" type="tns:insertCourseWaitlistEntryAtPosition"/>
+<xs:element name="insertCourseWaitlistEntryAtPositionResponse" type="tns:insertCourseWaitlistEntryAtPositionResponse"/>
+<xs:element name="registerStudentFromWaitlist" type="tns:registerStudentFromWaitlist"/>
+<xs:element name="registerStudentFromWaitlistResponse" type="tns:registerStudentFromWaitlistResponse"/>
+<xs:element name="removeCourseWaitlistEntry" type="tns:removeCourseWaitlistEntry"/>
+<xs:element name="removeCourseWaitlistEntryResponse" type="tns:removeCourseWaitlistEntryResponse"/>
+<xs:element name="reorderCourseWaitlistEntries" type="tns:reorderCourseWaitlistEntries"/>
+<xs:element name="reorderCourseWaitlistEntriesResponse" type="tns:reorderCourseWaitlistEntriesResponse"/>
+<xs:element name="searchForCourseWaitlistEntries" type="tns:searchForCourseWaitlistEntries"/>
+<xs:element name="searchForCourseWaitlistEntriesResponse" type="tns:searchForCourseWaitlistEntriesResponse"/>
+<xs:element name="searchForCourseWaitlistEntryIds" type="tns:searchForCourseWaitlistEntryIds"/>
+<xs:element name="searchForCourseWaitlistEntryIdsResponse" type="tns:searchForCourseWaitlistEntryIdsResponse"/>
+<xs:element name="updateCourseWaitlistEntry" type="tns:updateCourseWaitlistEntry"/>
+<xs:element name="updateCourseWaitlistEntryResponse" type="tns:updateCourseWaitlistEntryResponse"/>
+<xs:element name="validateCourseWaitlistEntry" type="tns:validateCourseWaitlistEntry"/>
+<xs:element name="validateCourseWaitlistEntryResponse" type="tns:validateCourseWaitlistEntryResponse"/>
+<xs:complexType name="searchForCourseWaitlistEntryIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForCourseWaitlistEntryIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAvailableSeatsForRegGroup">
+<xs:sequence>
+<xs:element minOccurs="0" name="regGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAvailableSeatsForRegGroupResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAvailableSeatsForCourseOffering">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseOfferingId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAvailableSeatsForCourseOfferingResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseWaitlistEntriesForCourseOffering">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseOfferingId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseWaitlistEntriesForCourseOfferingResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:CourseWaitlistEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="CourseWaitlistEntryInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="studentId" type="xs:string"/>
+<xs:element minOccurs="0" name="registrationGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="position" type="xs:int"/>
+<xs:element minOccurs="0" name="lastCheckedIn" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="courseOfferingId" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="MetaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reorderCourseWaitlistEntries">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="courseWaitlistEntryIds" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reorderCourseWaitlistEntriesResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="StatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="isSuccess" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateCourseWaitlistEntry">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseWaitlistEntryId" type="xs:string"/>
+<xs:element minOccurs="0" name="courseWaitlistEntryInfo" type="tns:CourseWaitlistEntryInfo"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateCourseWaitlistEntryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseWaitlistEntriesForStudentInCourseOffering">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseOfferingId" type="xs:string"/>
+<xs:element minOccurs="0" name="studentId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseWaitlistEntriesForStudentInCourseOfferingResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:CourseWaitlistEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseWaitlistEntriesForRegGroup">
+<xs:sequence>
+<xs:element minOccurs="0" name="regGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseWaitlistEntriesForRegGroupResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:CourseWaitlistEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="insertCourseWaitlistEntryAtPosition">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseWaitlistEntryId" type="xs:string"/>
+<xs:element minOccurs="0" name="position" type="xs:int"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="insertCourseWaitlistEntryAtPositionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAvailableSeatsForStudentInRegGroup">
+<xs:sequence>
+<xs:element minOccurs="0" name="studentId" type="xs:string"/>
+<xs:element minOccurs="0" name="regGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAvailableSeatsForStudentInRegGroupResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseWaitlistEntryForStudentInRegGroup">
+<xs:sequence>
+<xs:element minOccurs="0" name="regGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="studentId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseWaitlistEntryForStudentInRegGroupResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:CourseWaitlistEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAvailableSeatsInSeatpool">
+<xs:sequence>
+<xs:element minOccurs="0" name="seatpoolId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAvailableSeatsInSeatpoolResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseWaitlistEntriesForStudentByTerm">
+<xs:sequence>
+<xs:element minOccurs="0" name="studentId" type="xs:string"/>
+<xs:element minOccurs="0" name="termId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseWaitlistEntriesForStudentByTermResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:CourseWaitlistEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="registerStudentFromWaitlist">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseWaitlistEntryId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="registerStudentFromWaitlistResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:RegistrationResponseInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RegistrationResponseInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="registrationRequestId" type="xs:string"/>
+<xs:element minOccurs="0" name="hasFailed" type="xs:boolean"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="messages" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="registrationResponseItems" type="tns:RegistrationResponseItemInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RegistrationResponseItemInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="registrationRequestItemId" type="xs:string"/>
+<xs:element minOccurs="0" name="operationStatus" type="tns:OperationStatusInfo"/>
+<xs:element minOccurs="0" name="courseRegistrationId" type="xs:string"/>
+<xs:element minOccurs="0" name="courseWaitlistEntryId" type="xs:string"/>
+<xs:element minOccurs="0" name="holdUntilListEntryId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OperationStatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="messages" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="warnings" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="errors" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForCourseWaitlistEntries">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForCourseWaitlistEntriesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:CourseWaitlistEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateCourseWaitlistEntry">
+<xs:sequence>
+<xs:element minOccurs="0" name="validateTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="courseWaitlistEntryInfo" type="tns:CourseWaitlistEntryInfo"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateCourseWaitlistEntryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeCourseWaitlistEntry">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseWaitlistEntryId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeCourseWaitlistEntryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteCourseWaitlistEntry">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseWaitlistEntryId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteCourseWaitlistEntryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseWaitlistEntry">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseWaitlistEntryId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseWaitlistEntryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:CourseWaitlistEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+<xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://rice.kuali.org/core/v2_0" elementFormDefault="qualified" targetNamespace="http://rice.kuali.org/core/v2_0" version="1.0">
+<xs:element name="and" type="tns:AndType"/>
+<xs:element name="dateTimeValue" type="tns:CriteriaDateTimeValueType"/>
+<xs:element name="decimalValue" type="tns:CriteriaDecimalValueType"/>
+<xs:element name="equal" type="tns:EqualType"/>
+<xs:element name="greaterThan" type="tns:GreaterThanType"/>
+<xs:element name="greaterThanOrEqual" type="tns:GreaterThanOrEqualType"/>
+<xs:element name="in" type="tns:InType"/>
+<xs:element name="integerValue" type="tns:CriteriaIntegerValueType"/>
+<xs:element name="lessThan" type="tns:LessThanType"/>
+<xs:element name="lessThanOrEqual" type="tns:LessThanOrEqualType"/>
+<xs:element name="like" type="tns:LikeType"/>
+<xs:element name="notEqual" type="tns:NotEqualType"/>
+<xs:element name="notIn" type="tns:NotInType"/>
+<xs:element name="notLike" type="tns:NotLikeType"/>
+<xs:element name="notNull" type="tns:NotNullType"/>
+<xs:element name="null" type="tns:NullType"/>
+<xs:element name="or" type="tns:OrType"/>
+<xs:element name="queryByCriteria" type="tns:QueryByCriteriaType"/>
+<xs:element name="stringValue" type="tns:CriteriaStringValueType"/>
+<xs:complexType final="extension restriction" name="QueryByCriteriaType">
+<xs:sequence>
+<xs:choice minOccurs="0">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+<xs:element minOccurs="0" name="startAtIndex" type="xs:int"/>
+<xs:element minOccurs="0" name="maxResults" type="xs:int"/>
+<xs:element name="countFlag" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AndType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="CompositePredicateType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractPredicate">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="EqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:simpleType name="CriteriaStringValueType">
+<xs:restriction base="xs:string"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDateTimeValueType">
+<xs:restriction base="xs:dateTime"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDecimalValueType">
+<xs:restriction base="xs:decimal"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaIntegerValueType">
+<xs:restriction base="xs:integer"/>
+</xs:simpleType>
+<xs:complexType final="extension restriction" name="GreaterThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="GreaterThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="InType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotInType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotLikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotNullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="OrType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AlreadyExistsException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseWaitlistEntryForStudentInRegGroup">
+    <wsdl:part name="parameters" element="tns:getCourseWaitlistEntryForStudentInRegGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCourseWaitlistEntryResponse">
+    <wsdl:part name="parameters" element="tns:updateCourseWaitlistEntryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForCourseWaitlistEntriesResponse">
+    <wsdl:part name="parameters" element="tns:searchForCourseWaitlistEntriesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAvailableSeatsForCourseOffering">
+    <wsdl:part name="parameters" element="tns:getAvailableSeatsForCourseOffering">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseWaitlistEntryResponse">
+    <wsdl:part name="parameters" element="tns:getCourseWaitlistEntryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeCourseWaitlistEntryResponse">
+    <wsdl:part name="parameters" element="tns:removeCourseWaitlistEntryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAvailableSeatsForRegGroup">
+    <wsdl:part name="parameters" element="tns:getAvailableSeatsForRegGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForCourseWaitlistEntryIds">
+    <wsdl:part name="parameters" element="tns:searchForCourseWaitlistEntryIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeCourseWaitlistEntry">
+    <wsdl:part name="parameters" element="tns:removeCourseWaitlistEntry">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseWaitlistEntriesForRegGroupResponse">
+    <wsdl:part name="parameters" element="tns:getCourseWaitlistEntriesForRegGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseWaitlistEntry">
+    <wsdl:part name="parameters" element="tns:getCourseWaitlistEntry">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAvailableSeatsForCourseOfferingResponse">
+    <wsdl:part name="parameters" element="tns:getAvailableSeatsForCourseOfferingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForCourseWaitlistEntries">
+    <wsdl:part name="parameters" element="tns:searchForCourseWaitlistEntries">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForCourseWaitlistEntryIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForCourseWaitlistEntryIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseWaitlistEntriesForStudentInCourseOffering">
+    <wsdl:part name="parameters" element="tns:getCourseWaitlistEntriesForStudentInCourseOffering">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAvailableSeatsForRegGroupResponse">
+    <wsdl:part name="parameters" element="tns:getAvailableSeatsForRegGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reorderCourseWaitlistEntriesResponse">
+    <wsdl:part name="parameters" element="tns:reorderCourseWaitlistEntriesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseWaitlistEntriesForCourseOffering">
+    <wsdl:part name="parameters" element="tns:getCourseWaitlistEntriesForCourseOffering">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseWaitlistEntriesForStudentByTermResponse">
+    <wsdl:part name="parameters" element="tns:getCourseWaitlistEntriesForStudentByTermResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteCourseWaitlistEntryResponse">
+    <wsdl:part name="parameters" element="tns:deleteCourseWaitlistEntryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registerStudentFromWaitlist">
+    <wsdl:part name="parameters" element="tns:registerStudentFromWaitlist">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="insertCourseWaitlistEntryAtPosition">
+    <wsdl:part name="parameters" element="tns:insertCourseWaitlistEntryAtPosition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseWaitlistEntriesForStudentByTerm">
+    <wsdl:part name="parameters" element="tns:getCourseWaitlistEntriesForStudentByTerm">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseWaitlistEntriesForCourseOfferingResponse">
+    <wsdl:part name="parameters" element="tns:getCourseWaitlistEntriesForCourseOfferingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAvailableSeatsInSeatpool">
+    <wsdl:part name="parameters" element="tns:getAvailableSeatsInSeatpool">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCourseWaitlistEntry">
+    <wsdl:part name="parameters" element="tns:updateCourseWaitlistEntry">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registerStudentFromWaitlistResponse">
+    <wsdl:part name="parameters" element="tns:registerStudentFromWaitlistResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteCourseWaitlistEntry">
+    <wsdl:part name="parameters" element="tns:deleteCourseWaitlistEntry">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseWaitlistEntriesForRegGroup">
+    <wsdl:part name="parameters" element="tns:getCourseWaitlistEntriesForRegGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateCourseWaitlistEntryResponse">
+    <wsdl:part name="parameters" element="tns:validateCourseWaitlistEntryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reorderCourseWaitlistEntries">
+    <wsdl:part name="parameters" element="tns:reorderCourseWaitlistEntries">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAvailableSeatsForStudentInRegGroup">
+    <wsdl:part name="parameters" element="tns:getAvailableSeatsForStudentInRegGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseWaitlistEntryForStudentInRegGroupResponse">
+    <wsdl:part name="parameters" element="tns:getCourseWaitlistEntryForStudentInRegGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateCourseWaitlistEntry">
+    <wsdl:part name="parameters" element="tns:validateCourseWaitlistEntry">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAvailableSeatsForStudentInRegGroupResponse">
+    <wsdl:part name="parameters" element="tns:getAvailableSeatsForStudentInRegGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseWaitlistEntriesForStudentInCourseOfferingResponse">
+    <wsdl:part name="parameters" element="tns:getCourseWaitlistEntriesForStudentInCourseOfferingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAvailableSeatsInSeatpoolResponse">
+    <wsdl:part name="parameters" element="tns:getAvailableSeatsInSeatpoolResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="insertCourseWaitlistEntryAtPositionResponse">
+    <wsdl:part name="parameters" element="tns:insertCourseWaitlistEntryAtPositionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CourseWaitlistService">
+    <wsdl:operation name="searchForCourseWaitlistEntryIds">
+      <wsdl:input name="searchForCourseWaitlistEntryIds" message="tns:searchForCourseWaitlistEntryIds">
+    </wsdl:input>
+      <wsdl:output name="searchForCourseWaitlistEntryIdsResponse" message="tns:searchForCourseWaitlistEntryIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAvailableSeatsForRegGroup">
+      <wsdl:input name="getAvailableSeatsForRegGroup" message="tns:getAvailableSeatsForRegGroup">
+    </wsdl:input>
+      <wsdl:output name="getAvailableSeatsForRegGroupResponse" message="tns:getAvailableSeatsForRegGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAvailableSeatsForCourseOffering">
+      <wsdl:input name="getAvailableSeatsForCourseOffering" message="tns:getAvailableSeatsForCourseOffering">
+    </wsdl:input>
+      <wsdl:output name="getAvailableSeatsForCourseOfferingResponse" message="tns:getAvailableSeatsForCourseOfferingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseWaitlistEntriesForCourseOffering">
+      <wsdl:input name="getCourseWaitlistEntriesForCourseOffering" message="tns:getCourseWaitlistEntriesForCourseOffering">
+    </wsdl:input>
+      <wsdl:output name="getCourseWaitlistEntriesForCourseOfferingResponse" message="tns:getCourseWaitlistEntriesForCourseOfferingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="reorderCourseWaitlistEntries">
+      <wsdl:input name="reorderCourseWaitlistEntries" message="tns:reorderCourseWaitlistEntries">
+    </wsdl:input>
+      <wsdl:output name="reorderCourseWaitlistEntriesResponse" message="tns:reorderCourseWaitlistEntriesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateCourseWaitlistEntry">
+      <wsdl:input name="updateCourseWaitlistEntry" message="tns:updateCourseWaitlistEntry">
+    </wsdl:input>
+      <wsdl:output name="updateCourseWaitlistEntryResponse" message="tns:updateCourseWaitlistEntryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseWaitlistEntriesForStudentInCourseOffering">
+      <wsdl:input name="getCourseWaitlistEntriesForStudentInCourseOffering" message="tns:getCourseWaitlistEntriesForStudentInCourseOffering">
+    </wsdl:input>
+      <wsdl:output name="getCourseWaitlistEntriesForStudentInCourseOfferingResponse" message="tns:getCourseWaitlistEntriesForStudentInCourseOfferingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseWaitlistEntriesForRegGroup">
+      <wsdl:input name="getCourseWaitlistEntriesForRegGroup" message="tns:getCourseWaitlistEntriesForRegGroup">
+    </wsdl:input>
+      <wsdl:output name="getCourseWaitlistEntriesForRegGroupResponse" message="tns:getCourseWaitlistEntriesForRegGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="insertCourseWaitlistEntryAtPosition">
+      <wsdl:input name="insertCourseWaitlistEntryAtPosition" message="tns:insertCourseWaitlistEntryAtPosition">
+    </wsdl:input>
+      <wsdl:output name="insertCourseWaitlistEntryAtPositionResponse" message="tns:insertCourseWaitlistEntryAtPositionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAvailableSeatsForStudentInRegGroup">
+      <wsdl:input name="getAvailableSeatsForStudentInRegGroup" message="tns:getAvailableSeatsForStudentInRegGroup">
+    </wsdl:input>
+      <wsdl:output name="getAvailableSeatsForStudentInRegGroupResponse" message="tns:getAvailableSeatsForStudentInRegGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseWaitlistEntryForStudentInRegGroup">
+      <wsdl:input name="getCourseWaitlistEntryForStudentInRegGroup" message="tns:getCourseWaitlistEntryForStudentInRegGroup">
+    </wsdl:input>
+      <wsdl:output name="getCourseWaitlistEntryForStudentInRegGroupResponse" message="tns:getCourseWaitlistEntryForStudentInRegGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAvailableSeatsInSeatpool">
+      <wsdl:input name="getAvailableSeatsInSeatpool" message="tns:getAvailableSeatsInSeatpool">
+    </wsdl:input>
+      <wsdl:output name="getAvailableSeatsInSeatpoolResponse" message="tns:getAvailableSeatsInSeatpoolResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseWaitlistEntriesForStudentByTerm">
+      <wsdl:input name="getCourseWaitlistEntriesForStudentByTerm" message="tns:getCourseWaitlistEntriesForStudentByTerm">
+    </wsdl:input>
+      <wsdl:output name="getCourseWaitlistEntriesForStudentByTermResponse" message="tns:getCourseWaitlistEntriesForStudentByTermResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="registerStudentFromWaitlist">
+      <wsdl:input name="registerStudentFromWaitlist" message="tns:registerStudentFromWaitlist">
+    </wsdl:input>
+      <wsdl:output name="registerStudentFromWaitlistResponse" message="tns:registerStudentFromWaitlistResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForCourseWaitlistEntries">
+      <wsdl:input name="searchForCourseWaitlistEntries" message="tns:searchForCourseWaitlistEntries">
+    </wsdl:input>
+      <wsdl:output name="searchForCourseWaitlistEntriesResponse" message="tns:searchForCourseWaitlistEntriesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateCourseWaitlistEntry">
+      <wsdl:input name="validateCourseWaitlistEntry" message="tns:validateCourseWaitlistEntry">
+    </wsdl:input>
+      <wsdl:output name="validateCourseWaitlistEntryResponse" message="tns:validateCourseWaitlistEntryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeCourseWaitlistEntry">
+      <wsdl:input name="removeCourseWaitlistEntry" message="tns:removeCourseWaitlistEntry">
+    </wsdl:input>
+      <wsdl:output name="removeCourseWaitlistEntryResponse" message="tns:removeCourseWaitlistEntryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCourseWaitlistEntry">
+      <wsdl:input name="deleteCourseWaitlistEntry" message="tns:deleteCourseWaitlistEntry">
+    </wsdl:input>
+      <wsdl:output name="deleteCourseWaitlistEntryResponse" message="tns:deleteCourseWaitlistEntryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseWaitlistEntry">
+      <wsdl:input name="getCourseWaitlistEntry" message="tns:getCourseWaitlistEntry">
+    </wsdl:input>
+      <wsdl:output name="getCourseWaitlistEntryResponse" message="tns:getCourseWaitlistEntryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CourseWaitlistServiceServiceSoapBinding" type="tns:CourseWaitlistService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="searchForCourseWaitlistEntryIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForCourseWaitlistEntryIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForCourseWaitlistEntryIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAvailableSeatsForRegGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAvailableSeatsForRegGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAvailableSeatsForRegGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAvailableSeatsForCourseOffering">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAvailableSeatsForCourseOffering">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAvailableSeatsForCourseOfferingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseWaitlistEntriesForCourseOffering">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCourseWaitlistEntriesForCourseOffering">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCourseWaitlistEntriesForCourseOfferingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="reorderCourseWaitlistEntries">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="reorderCourseWaitlistEntries">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="reorderCourseWaitlistEntriesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateCourseWaitlistEntry">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateCourseWaitlistEntry">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateCourseWaitlistEntryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseWaitlistEntriesForRegGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCourseWaitlistEntriesForRegGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCourseWaitlistEntriesForRegGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseWaitlistEntriesForStudentInCourseOffering">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCourseWaitlistEntriesForStudentInCourseOffering">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCourseWaitlistEntriesForStudentInCourseOfferingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAvailableSeatsForStudentInRegGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAvailableSeatsForStudentInRegGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAvailableSeatsForStudentInRegGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="insertCourseWaitlistEntryAtPosition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="insertCourseWaitlistEntryAtPosition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="insertCourseWaitlistEntryAtPositionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseWaitlistEntryForStudentInRegGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCourseWaitlistEntryForStudentInRegGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCourseWaitlistEntryForStudentInRegGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAvailableSeatsInSeatpool">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAvailableSeatsInSeatpool">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAvailableSeatsInSeatpoolResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseWaitlistEntriesForStudentByTerm">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCourseWaitlistEntriesForStudentByTerm">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCourseWaitlistEntriesForStudentByTermResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="registerStudentFromWaitlist">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="registerStudentFromWaitlist">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="registerStudentFromWaitlistResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForCourseWaitlistEntries">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForCourseWaitlistEntries">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForCourseWaitlistEntriesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateCourseWaitlistEntry">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateCourseWaitlistEntry">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateCourseWaitlistEntryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeCourseWaitlistEntry">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeCourseWaitlistEntry">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeCourseWaitlistEntryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCourseWaitlistEntry">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteCourseWaitlistEntry">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteCourseWaitlistEntryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseWaitlistEntry">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCourseWaitlistEntry">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCourseWaitlistEntryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CourseWaitlistServiceService">
+    <wsdl:port name="CourseWaitlistServicePort" binding="tns:CourseWaitlistServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/CourseWaitlistServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

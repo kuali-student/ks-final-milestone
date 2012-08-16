@@ -19,6 +19,7 @@ package org.kuali.student.r2.core.class1.appointment.service.impl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
@@ -29,10 +30,8 @@ import org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentEntity;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
-import javax.annotation.Resource;
 import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,31 +56,15 @@ public class AppointmentServiceImplHelper {
     public AppointmentServiceImplHelper() {
     }
 
-    public void setAppointmentWindowDao(AppointmentWindowDao appointmentWindowDao) {
-        this.appointmentWindowDao = appointmentWindowDao;
-    }
-
-    public void setAppointmentSlotDao(AppointmentSlotDao appointmentSlotDao) {
-        this.appointmentSlotDao = appointmentSlotDao;
-    }
-
-    public void setAppointmentDao(AppointmentDao appointmentDao) {
-        this.appointmentDao = appointmentDao;
-    }
-
-    public void setPopulationService(PopulationService populationService) {
-        this.populationService = populationService;
-    }
 
     /*
     * This is pulled out so other methods can call this without the transactional behavior.
     */
     public AppointmentInfo createAppointmentNoTransact(String personId, String appointmentSlotId, String appointmentTypeKey, AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentEntity  appointmentEntity = new AppointmentEntity(appointmentInfo);
-        appointmentEntity.setCreateId(contextInfo.getPrincipalId());
-        appointmentEntity.setCreateTime(contextInfo.getCurrentDate());
-        appointmentEntity.setUpdateId(contextInfo.getPrincipalId());
-        appointmentEntity.setUpdateTime(contextInfo.getCurrentDate());
+
+        appointmentEntity.setEntityCreated(contextInfo);
+
         // TODO: Determine if there should be a check between apptType/slotId and apptInfo counterparts
         // Need to manually set the entity since appointmentInfo only has an id for its corresponding AppointmentSlot
         AppointmentSlotEntity slotEntity = appointmentSlotDao.find(appointmentSlotId);
@@ -235,10 +218,9 @@ public class AppointmentServiceImplHelper {
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentSlotEntity appointmentSlotEntity = new AppointmentSlotEntity(appointmentSlotTypeKey, appointmentSlotInfo);
-        appointmentSlotEntity.setCreateId(contextInfo.getPrincipalId());
-        appointmentSlotEntity.setCreateTime(contextInfo.getCurrentDate());
-        appointmentSlotEntity.setUpdateId(contextInfo.getPrincipalId());
-        appointmentSlotEntity.setUpdateTime(contextInfo.getCurrentDate());
+
+        appointmentSlotEntity.setEntityCreated(contextInfo);
+
         // Need to manually set the entity since appointmentSlotInfo only has an id for its corresponding AppointmentWindow
         AppointmentWindowEntity windowEntity = appointmentWindowDao.find(appointmentWindowId);
         if (null == windowEntity) {
@@ -261,6 +243,7 @@ public class AppointmentServiceImplHelper {
             AppointmentInfo info = entity.toDto();
             apptInfoList.add(info);
         }
+
         return apptInfoList;
     }
 
@@ -424,7 +407,7 @@ public class AppointmentServiceImplHelper {
     }
     
     private int _computeTotalStudents(AppointmentWindowInfo apptWinInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        List<String> ids = populationService.getMembers(apptWinInfo.getAssignedPopulationId(), contextInfo);
+        List<String> ids = populationService.getMembersAsOfDate(apptWinInfo.getAssignedPopulationId(), new Date(), contextInfo);
         if (ids != null) {
             return ids.size();
         } else {
@@ -598,8 +581,9 @@ public class AppointmentServiceImplHelper {
             DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
         int count = 0;
         int numStudents = studentIds.size();
-        int numSlots = slotInfoList.size();
+
         boolean done = false;
+
         for (AppointmentSlotInfo slotInfo: slotInfoList) {
             List<String> sublist = null;
 
@@ -654,7 +638,6 @@ public class AppointmentServiceImplHelper {
         if (numStudents > numSlots * maxSizePerSlot) {
             // No, so quit without doing any more
             statusInfo.setSuccess(false);
-            int diff = numStudents - (numSlots * maxSizePerSlot); // Would be unassigned
             statusInfo.setMessage("Not enough room for ["+ numStudents +"] appointments. numSlots[" + numSlots+ "] * maxPerSlot[" +maxSizePerSlot + "] = "
                     + "["+ (numSlots * maxSizePerSlot)+ "] available appointments. Please increase available slots or max per slot.");
             return; // And we're outta here
@@ -688,4 +671,22 @@ public class AppointmentServiceImplHelper {
 //            throw new OperationFailedException("Drop date milestone not found");
 //        }
     }
+
+
+    public void setAppointmentWindowDao(AppointmentWindowDao appointmentWindowDao) {
+        this.appointmentWindowDao = appointmentWindowDao;
+    }
+
+    public void setAppointmentSlotDao(AppointmentSlotDao appointmentSlotDao) {
+        this.appointmentSlotDao = appointmentSlotDao;
+    }
+
+    public void setAppointmentDao(AppointmentDao appointmentDao) {
+        this.appointmentDao = appointmentDao;
+    }
+
+    public void setPopulationService(PopulationService populationService) {
+        this.populationService = populationService;
+    }
+
 }

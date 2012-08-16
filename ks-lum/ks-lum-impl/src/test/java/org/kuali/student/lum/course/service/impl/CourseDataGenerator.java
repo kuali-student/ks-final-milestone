@@ -1,7 +1,7 @@
 package org.kuali.student.lum.course.service.impl;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -248,10 +248,9 @@ public class CourseDataGenerator {
         if ("resultValueIds".equals(name)) {
             return String.valueOf(propertyIndex);
         }
-        //This has been renamed to 'typeKey' and should be handled in one of the 'if' statements above.
-        //if ("activityType".equals(name)) {
-        //     return activities[generator.nextInt(activities.length)];
-        //}
+        if ("activityType".equals(name)) {
+            return activities[generator.nextInt(activities.length)];
+        }
         if ("stateKey".equals(name)) {
             return DtoConstants.STATE_DRAFT;
         }

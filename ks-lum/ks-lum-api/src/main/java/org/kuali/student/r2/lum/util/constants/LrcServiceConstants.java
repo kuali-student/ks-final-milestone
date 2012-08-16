@@ -20,13 +20,13 @@ import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 
-
 /**
  * Grading Service Constants
  */
 public class LrcServiceConstants {
 
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "lrc";
+    public static final String SERVICE_NAME_LOCAL_PART = "LrcService";
     public static final String REF_OBJECT_URI_RESULT_VALUE = NAMESPACE + "/" + ResultValueInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_RESULT_SCALE = NAMESPACE + "/" + ResultScaleInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_RESULT_VALUES_GROUP = NAMESPACE + "/" + ResultValuesGroup.class.getSimpleName();
@@ -35,6 +35,15 @@ public class LrcServiceConstants {
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_FIXED = "kuali.result.values.group.type.fixed";
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_RANGE = "kuali.result.values.group.type.range";
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE = "kuali.result.values.group.type.multiple";
+
+    //R1 Result component types //todo get rid of these when r1 is refactored out
+    public static final String R1_RESULT_COMPONENT_TYPE_KEY_FIXED = "kuali.resultComponentType.credit.degree.fixed";
+    public static final String R1_RESULT_COMPONENT_TYPE_KEY_RANGE = "kuali.resultComponentType.credit.degree.range";
+    public static final String R1_RESULT_COMPONENT_TYPE_KEY_MULTIPLE = "kuali.resultComponentType.credit.degree.multiple";
+    public static final String R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS = "minCreditValue";
+    public static final String R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS = "maxCreditValue";
+    public static final String R1_DYN_ATTR_CREDIT_OPTION_FIXED_CREDITS = "fixedCreditValue";
+
     // scale types
     public static final String RESULT_SCALE_TYPE_KEY_GRADE = "kuali.result.scale.type.grade";
     public static final String RESULT_SCALE_TYPE_KEY_ADMIN_GRADE = "kuali.result.scale.type.grade.admin";
@@ -818,29 +827,31 @@ public class LrcServiceConstants {
     public static final String RESULT_GROUP_KEY_GRADE_PERCENTAGE_85_89 = "kuali.result.group.grade.percentage.85.89";
     public static final String RESULT_GROUP_KEY_GRADE_PERCENTAGE_90_MINUS94 = "kuali.result.group.grade.percentage.90-94";
     public static final String RESULT_GROUP_KEY_GRADE_PERCENTAGE_95_100 = "kuali.result.group.grade.percentage.95.100";
-    public static final String RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_1 = "kuali.result.group.credit.remedial.fixed.1";
-    public static final String RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_2 = "kuali.result.group.credit.remedial.fixed.2";
-    public static final String RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_3 = "kuali.result.group.credit.remedial.fixed.3";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_0 = "kuali.creditType.credit.1.0";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_2_0 = "kuali.creditType.credit.2.0";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_3_0 = "kuali.creditType.credit.3.0";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_4_0 = "kuali.creditType.credit.4.0";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_5_0 = "kuali.creditType.credit.5.0";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_6_0 = "kuali.creditType.credit.6.0";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_7_0 = "kuali.creditType.credit.7.0";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_8_0 = "kuali.creditType.credit.8.0";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_9_0 = "kuali.creditType.credit.9.0";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_10_0 = "kuali.creditType.credit.10.0";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS2 = "kuali.creditType.credit.1-2";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS3 = "kuali.creditType.credit.1-3";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS4 = "kuali.creditType.credit.1-4";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS5 = "kuali.creditType.credit.1-5";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS6 = "kuali.creditType.credit.1-6";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_3_MINUS6 = "kuali.creditType.credit.3-6";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_3_5_7_9 = "kuali.creditType.credit.1.3.5.7.9";
+    public static final String RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_BASE = "kuali.result.group.credit.remedial.fixed.";
+    public static final String RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_1 = RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_BASE + "1";
+    public static final String RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_2 = RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_BASE + "2";
+    public static final String RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_3 = RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_BASE + "3";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE = "kuali.creditType.credit.degree.";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_0 = "kuali.creditType.credit.degree.1.0";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_2_0 = "kuali.creditType.credit.degree.2.0";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_3_0 = "kuali.creditType.credit.degree.3.0";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_4_0 = "kuali.creditType.credit.degree.4.0";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_5_0 = "kuali.creditType.credit.degree.5.0";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_6_0 = "kuali.creditType.credit.degree.6.0";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_7_0 = "kuali.creditType.credit.degree.7.0";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_8_0 = "kuali.creditType.credit.degree.8.0";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_9_0 = "kuali.creditType.credit.degree.9.0";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_10_0 = "kuali.creditType.credit.degree.10.0";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS2 = "kuali.creditType.credit.degree.1-2";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS3 = "kuali.creditType.credit.degree.1-3";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS4 = "kuali.creditType.credit.degree.1-4";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS5 = "kuali.creditType.credit.degree.1-5";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS6 = "kuali.creditType.credit.degree.1-6";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_3_MINUS6 = "kuali.creditType.credit.degree.3-6";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_3_5_7_9 = "kuali.creditType.credit.degree.1.3.5.7.9";
     public static final String RESULT_GROUP_KEY_GRADE_ADMIN_STANDARD = "kuali.result.group.grade.admin.standard";
     public static final String RESULT_GROUP_KEY_GRADE_ADMIN_IN_MINUSPROGRESS = "kuali.result.group.grade.admin.in-progress";
-    public static final String RESULT_GROUP_KEY_GRADE_SATISFACTORY = "kuali.resultComponent.grade.satisfactory ";
+    public static final String RESULT_GROUP_KEY_GRADE_SATISFACTORY = "kuali.resultComponent.grade.satisfactory";
     public static final String RESULT_GROUP_KEY_GRADE_COMPLETEDNOTATION = "kuali.resultComponent.grade.completedNotation";
     public static final String RESULT_GROUP_KEY_GRADE_AUDIT = "kuali.resultComponent.grade.audit";
     public static final String RESULT_GROUP_KEY_GRADE_DESIGNREVIEW = "kuali.resultComponent.grade.designReview";
@@ -876,4 +887,21 @@ public class LrcServiceConstants {
 //    public static final String RESULT_VALUE_CREDIT_TYPE = "kuali.lrc.type.credit";
     // result value type
     public static final String RESULT_VALUE_TYPE_KEY_VALUE = "kuali.result.value.type.value";
+
+    // scale states
+    public static final String RESULT_SCALE_STATE_DRAFT = "kuali.result.scale.state.draft";
+    public static final String RESULT_SCALE_STATE_APPROVED = "kuali.result.scale.state.approved";
+    public static final String RESULT_SCALE_STATE_RETIRED = "kuali.result.scale.state.retired";
+
+    // value states
+    public static final String RESULT_VALUE_STATE_DRAFT = "kuali.result.value.state.draft";
+    public static final String RESULT_VALUE_STATE_APPROVED = "kuali.result.value.state.approved";
+    public static final String RESULT_VALUE_STATE_RETIRED = "kuali.result.value.state.retired";
+
+
+    // values groups
+    public static final String RESULT_GROUPS_STATE_DRAFT = "kuali.result.values.group.state.draft";
+    public static final String RESULT_GROUPS_STATE_APPROVED = "kuali.result.values.group.state.approved";
+    public static final String RESULT_GROUPS_STATE_RETIRED = "kuali.result.values.group.state.retired";
+
 }

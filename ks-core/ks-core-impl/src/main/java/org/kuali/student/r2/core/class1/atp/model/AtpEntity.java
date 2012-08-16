@@ -1,8 +1,13 @@
 package org.kuali.student.r2.core.class1.atp.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.infc.Atp;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,54 +16,37 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.kuali.student.r1.common.entity.KSEntityConstants;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.infc.Atp;
+import java.util.*;
 
 @Entity
 @Table(name = "KSEN_ATP")
-public class AtpEntity extends MetaEntity {
+public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttributeEntity> {
+
     @Column(name = "NAME")
     private String name;
-
     @Column(name = "ADMIN_ORG_ID")
     private String adminOrgId;
-
     @Column(name = "ATP_CD")
     private String atpCode;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "START_DT", nullable = false)
     private Date startDate;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "END_DT", nullable = false)
     private Date endDate;
-
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String formatted;
-
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
     private String plain;
-
     @Column(name = "ATP_TYPE", nullable = false)
     private String atpType;
-
     @Column(name = "ATP_STATE", nullable = false)
     private String atpState;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<AtpAttributeEntity> attributes = new ArrayList<AtpAttributeEntity>();
+    private Set<AtpAttributeEntity> attributes = new HashSet<AtpAttributeEntity>();
 
-    public AtpEntity() {}
+    public AtpEntity() {
+    }
 
     public AtpEntity(Atp atp) {
         super(atp);
@@ -81,7 +69,7 @@ public class AtpEntity extends MetaEntity {
         this.setAtpState(atp.getStateKey());
         this.setStartDate(atp.getStartDate());
         this.setEndDate(atp.getEndDate());
-        this.setAttributes(new ArrayList<AtpAttributeEntity>());
+        this.setAttributes(new HashSet<AtpAttributeEntity>());
         for (Attribute att : atp.getAttributes()) {
             this.getAttributes().add(new AtpAttributeEntity(att, this));
         }
@@ -127,12 +115,12 @@ public class AtpEntity extends MetaEntity {
         this.atpState = atpState;
     }
 
-    public void setAttributes(List<AtpAttributeEntity> attributes) {
+    public void setAttributes(Set<AtpAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-    public List<AtpAttributeEntity> getAttributes() {
+    public Set<AtpAttributeEntity> getAttributes() {
         return attributes;
     }
 
@@ -189,5 +177,4 @@ public class AtpEntity extends MetaEntity {
     public void setAtpCode(String atpCode) {
         this.atpCode = atpCode;
     }
-
 }

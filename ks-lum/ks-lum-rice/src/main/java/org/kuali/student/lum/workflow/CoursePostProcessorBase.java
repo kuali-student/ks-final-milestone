@@ -179,7 +179,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
                // Just copy the "proposalInfo.proposedEndTerm" value (required for saves, so it will be filled out) 
                // into "courseInfo.lastTermOffered" to pass validation.   
                if ((proposalInfo!=null) && (courseInfo!=null) && 
-                         (courseInfo.getAttributeInfoValue(courseInfo.getAttributes(), "lastTermOffered")==null)) {
+                         (courseInfo.getAttributeValue("lastTermOffered")==null)) {
                     courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", proposalInfo.getAttributes().get("proposedEndTerm")));
                }
              }

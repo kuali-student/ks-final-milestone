@@ -19,6 +19,9 @@ import java.util.Map;
 import java.util.Set;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.common.search.service.SearchDispatcher;
+import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -37,9 +40,11 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
+import javax.jws.WebParam;
+
 /**
  * This is a mock memory based implementation for ATP service
- * 
+ *
  * @author Kuali Student Team (Kamal)
  */
 public class AtpServiceMockImpl implements AtpService {
@@ -48,6 +53,8 @@ public class AtpServiceMockImpl implements AtpService {
     private Map<String, MilestoneInfo> milestoneCache = new HashMap<String, MilestoneInfo>();
     private Map<String, AtpAtpRelationInfo> atpAtpRltnCache = new HashMap<String, AtpAtpRelationInfo>();
     private Map<String, Set<String>> milestonesForAtp = new HashMap<String, Set<String>>();
+    private SearchManager searchManager;
+    private SearchDispatcher searchDispatcher;
 
     @Override
     public AtpInfo getAtp(String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -290,8 +297,8 @@ public class AtpServiceMockImpl implements AtpService {
 
     @Override
     public AtpInfo createAtp(String atpTypeKey,
-            AtpInfo atpInfo,
-            ContextInfo context)
+                             AtpInfo atpInfo,
+                             ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         MockHelper helper = new MockHelper();
@@ -300,7 +307,7 @@ public class AtpServiceMockImpl implements AtpService {
         if (info.getId() == null) {
             info.setId(UUIDHelper.genStringUUID());
         }
-        helper.setIdOnAttributesThatDoNotHaveOne(info.getAttributes());  
+        helper.setIdOnAttributesThatDoNotHaveOne(info.getAttributes());
         this.atpCache.put(info.getId(), info);
         return new AtpInfo(info);
     }
@@ -317,11 +324,11 @@ public class AtpServiceMockImpl implements AtpService {
         }
         AtpInfo atp = new AtpInfo(atpInfo);
         atp.setMeta(new MockHelper().updateMeta(existing.getMeta(), context));
-        new MockHelper ().setIdOnAttributesThatDoNotHaveOne(atp.getAttributes());  
+        new MockHelper ().setIdOnAttributesThatDoNotHaveOne(atp.getAttributes());
         this.atpCache.put(atpId, atp);
         return new AtpInfo(atp);
     }
-    
+
     @Override
     public StatusInfo deleteAtp(String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -360,7 +367,7 @@ public class AtpServiceMockImpl implements AtpService {
 
     @Override
     public MilestoneInfo createMilestone(String milestoneTypeKey,
-            MilestoneInfo milestoneInfo, ContextInfo context)
+                                         MilestoneInfo milestoneInfo, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException,
             MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -388,7 +395,7 @@ public class AtpServiceMockImpl implements AtpService {
     private void defaultBooleansToFalse (MilestoneInfo info) {
         if (info.getIsAllDay() == null) {
             info.setIsAllDay(Boolean.FALSE);
-        }        
+        }
         if (info.getIsDateRange() == null) {
             info.setIsDateRange(Boolean.FALSE);
         }
@@ -399,7 +406,7 @@ public class AtpServiceMockImpl implements AtpService {
             info.setIsRelative(Boolean.FALSE);
         }
     }
-    
+
     @Override
     public MilestoneInfo updateMilestone(String milestoneId, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
@@ -411,7 +418,7 @@ public class AtpServiceMockImpl implements AtpService {
             throw new VersionMismatchException("Updated by " + existing.getMeta().getUpdateId() + " on " + existing.getMeta().getUpdateId() + " with version of " + existing.getMeta().getVersionInd());
         }
         MilestoneInfo info = new MilestoneInfo(milestoneInfo);
-        info.setMeta(new MockHelper().updateMeta(existing.getMeta(), context)); 
+        info.setMeta(new MockHelper().updateMeta(existing.getMeta(), context));
         defaultBooleansToFalse (info);
 //      For explanation See https://wiki.kuali.org/display/STUDENT/Storing+and+Querying+Milestone+Dates
         info.setStartDate(DateUtil.startOfDayfIsAllDay (info.getIsAllDay(), info.getStartDate()));
@@ -539,15 +546,15 @@ public class AtpServiceMockImpl implements AtpService {
 
     @Override
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(String atpId, String atpRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-      List<AtpAtpRelationInfo> list = new ArrayList<AtpAtpRelationInfo> ();
-      for (AtpAtpRelationInfo info : this.atpAtpRltnCache.values()) {
-          if (info.getAtpId().equals(atpId)) {
-              if (info.getTypeKey().equals (atpRelationTypeKey)) {
-                  list.add (new AtpAtpRelationInfo (info));
-              }
-          }
-      }
-      return list;
+        List<AtpAtpRelationInfo> list = new ArrayList<AtpAtpRelationInfo> ();
+        for (AtpAtpRelationInfo info : this.atpAtpRltnCache.values()) {
+            if (info.getAtpId().equals(atpId)) {
+                if (info.getTypeKey().equals (atpRelationTypeKey)) {
+                    list.add (new AtpAtpRelationInfo (info));
+                }
+            }
+        }
+        return list;
     }
 
     @Override
@@ -566,16 +573,16 @@ public class AtpServiceMockImpl implements AtpService {
 
     @Override
     public List<ValidationResultInfo> validateAtpAtpRelation(String validationTypeKey, String atpId, String atpPeerId, String atpAtpRelationTypeKey, AtpAtpRelationInfo atpAtpRelationInfo,
-            ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+                                                             ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
     public AtpAtpRelationInfo createAtpAtpRelation(String atpId,
-            String relatedAtpId,
-            String atpAtpRelationTypeKey,
-            AtpAtpRelationInfo atpAtpRelationInfo,
-            ContextInfo contextInfo)
+                                                   String relatedAtpId,
+                                                   String atpAtpRelationTypeKey,
+                                                   AtpAtpRelationInfo atpAtpRelationInfo,
+                                                   ContextInfo contextInfo)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             ReadOnlyException {
@@ -622,6 +629,95 @@ public class AtpServiceMockImpl implements AtpService {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
+    }
+
+    /**
+     * Check for missing parameter and throw localized exception if missing
+     *
+     * @param param
+     * @param paramName
+     * @throws MissingParameterException
+     */
+    private void checkForMissingParameter(Object param, String paramName)
+            throws MissingParameterException {
+        if (param == null) {
+            throw new MissingParameterException(paramName + " can not be null");
+        }
+    }
+
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(
+            String searchCriteriaTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+
+    }
+
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchCriteriaTypes();
+    }
+
+    @Override
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchResultType(searchResultTypeKey);
+    }
+
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchResultTypes();
+    }
+
+    @Override
+    public SearchTypeInfo getSearchType(String searchTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchTypeKey, "searchTypeKey");
+        return searchManager.getSearchType(searchTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchTypes();
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(
+            String searchCriteriaTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByResult(
+            String searchResultTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+    }
+
+    public SearchManager getSearchManager() {
+        return searchManager;
+    }
+
+    public void setSearchManager(SearchManager searchManager) {
+        this.searchManager = searchManager;
+    }
+
+    @Override
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        return this.searchDispatcher.dispatchSearch(searchRequest);
     }
 }
 

@@ -49,7 +49,7 @@ import java.util.List;
  */
 
 public class OrganizationServiceDecorator
-    implements OrganizationService {
+        implements OrganizationService {
 
     private OrganizationService nextDecorator;
 
@@ -360,7 +360,7 @@ public class OrganizationServiceDecorator
     public StatusInfo deleteOrgPositionRestriction(String orgPositionRestrictionId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteOrgPositionRestriction(orgPositionRestrictionId, contextInfo);
     }
-                                                   
+
     @Override
     public Boolean isDescendant(String orgId, String descendantOrgId, String orgHierarchyId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().isDescendant(orgId, descendantOrgId, orgHierarchyId, contextInfo);

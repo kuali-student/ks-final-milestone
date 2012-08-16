@@ -53,8 +53,8 @@
 		<property name="initialLookup" ref="kuali.lu.lookup.campusLocations" />
 	</bean>
 
-	<bean id="activities.typeKey" parent="uilookup">
-		<property name="path" value="course.formats.activities.typeKey" />
+	<bean id="activities.activityType" parent="uilookup">
+		<property name="path" value="course.formats.activities.activityType" />
 		<property name="initialLookup" ref="kuali.lookup.lutypes.activity" />
 	</bean>
 

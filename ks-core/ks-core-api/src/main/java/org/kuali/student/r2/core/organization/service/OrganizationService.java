@@ -16,15 +16,35 @@
 
 package org.kuali.student.r2.core.organization.service;
 
+import java.util.List;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r1.common.search.service.SearchService;
-import org.kuali.student.r2.core.organization.dto.*;
+
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
+import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -33,7 +53,7 @@ import java.util.List;
 
 /**
  * <h3><a name="KSDOC-ServiceDescriptions-Description"></a>Description</h3>
- * 
+ *
  * <p>The Organization service manages organizational units that have
  * some relationship to the institution and manages the relationships
  * between people and those organization. Internal organizations
@@ -42,9 +62,9 @@ import java.util.List;
  * groups). Organizations may also be external to the institution,
  * such as companies, other institutions, government,
  * associations.</p>
- * 
+ *
  * <h3><a name="KSDOC-ServiceDescriptions-Assumptions"></a>Assumptions</h3>
- * 
+ *
  * <p>The design of this service considers the following assumptions:</p>
  * <ul>
  * 	<li>Most organizations have "parent" organization(s) within a
@@ -63,10 +83,10 @@ import java.util.List;
  * 	types of relationships a person may have with the
  * 	organization.</li>
  * </ul>
- * 
- * 
+ *
+ *
  * <h3><a name="KSDOC-ServiceDescriptions-KeyConcepts"></a>Key Concepts</h3>
- * 
+ *
  * <ul>
  * 	<li>Organizations are different from authorization groups in
  * 	that organizations deal directly with people while
@@ -93,7 +113,7 @@ public interface OrganizationService extends SearchService {
     // Lookup Methods for Org Hierarchy Id Entity Pattern.
     //
 
-    /** 
+    /**
      * Retrieves a single OrgHierarchy by OrgHierarchy Id.
      *
      * @param orgHierarchyId the identifier for the OrgHierarchy to be

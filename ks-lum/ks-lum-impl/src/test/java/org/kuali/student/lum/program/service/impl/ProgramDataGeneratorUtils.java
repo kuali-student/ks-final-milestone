@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.Random;
 
 import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.lum.program.service.assembler.ProgramAssemblerConstants;
 
 public class ProgramDataGeneratorUtils {
 	Random generator = new Random(); //TODO: maybe need it later

@@ -4,8 +4,6 @@
  */
 package org.kuali.student.kim.permission.mock;
 
-import java.util.List;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
@@ -36,6 +34,7 @@ import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.visa.EntityVisa;
 
 import javax.jws.WebParam;
+import java.util.List;
 
 /**
  *
@@ -216,8 +215,18 @@ public class IdentityServiceDecorator implements IdentityService {
     }
 
     @Override
+    public List<Principal> getPrincipals(@WebParam(name="principalIds") List<String> principalIds) {
+        return nextDecorator.getPrincipals(principalIds);
+    }
+
+    @Override
     public CodedAttribute getPhoneType(String string) throws RiceIllegalArgumentException {
         return nextDecorator.getPhoneType(string);
+    }
+
+    @Override
+    public List<CodedAttribute> findAllPhoneTypes() {
+        return nextDecorator.findAllPhoneTypes();
     }
 
     @Override
@@ -226,13 +235,28 @@ public class IdentityServiceDecorator implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllNameTypes() {
+        return nextDecorator.findAllNameTypes();
+    }
+
+    @Override
     public EntityExternalIdentifierType getExternalIdentifierType(String string) throws RiceIllegalArgumentException {
         return nextDecorator.getExternalIdentifierType(string);
     }
 
     @Override
+    public List<EntityExternalIdentifierType> findAllExternalIdendtifierTypes() {
+        return nextDecorator.findAllExternalIdendtifierTypes();
+    }
+
+    @Override
     public CodedAttribute getEntityType(String string) throws RiceIllegalArgumentException {
         return nextDecorator.getEntityType(string);
+    }
+
+    @Override
+    public List<CodedAttribute> findAllEntityTypes() {
+        return nextDecorator.findAllEntityTypes();
     }
 
     @Override
@@ -310,8 +334,18 @@ public class IdentityServiceDecorator implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllEmploymentTypes() {
+        return nextDecorator.findAllEmploymentTypes();
+    }
+
+    @Override
     public CodedAttribute getEmploymentStatus(String string) throws RiceIllegalArgumentException {
         return nextDecorator.getEmploymentStatus(string);
+    }
+
+    @Override
+    public List<CodedAttribute> findAllEmploymentStatuses() {
+        return nextDecorator.findAllEmploymentStatuses();
     }
 
     @Override
@@ -320,8 +354,23 @@ public class IdentityServiceDecorator implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllEmailTypes() {
+        return nextDecorator.findAllEmailTypes();
+    }
+
+    @Override
+    public PrincipalQueryResults findPrincipals(@WebParam(name = "query") QueryByCriteria query) throws RiceIllegalArgumentException {
+        return nextDecorator.findPrincipals(query);
+    }
+
+    @Override
     public CodedAttribute getCitizenshipStatus(String string) throws RiceIllegalArgumentException {
         return nextDecorator.getCitizenshipStatus(string);
+    }
+
+    @Override
+    public List<CodedAttribute> findAllCitizenshipStatuses() {
+        return nextDecorator.findAllCitizenshipStatuses();
     }
 
     @Override
@@ -330,8 +379,18 @@ public class IdentityServiceDecorator implements IdentityService {
     }
 
     @Override
+    public List<EntityAffiliationType> findAllAffiliationTypes() {
+        return nextDecorator.findAllAffiliationTypes();
+    }
+
+    @Override
     public CodedAttribute getAddressType(String string) throws RiceIllegalArgumentException {
         return nextDecorator.getAddressType(string);
+    }
+
+    @Override
+    public List<CodedAttribute> findAllAddressTypes() {
+        return nextDecorator.findAllAddressTypes();
     }
 
     @Override
@@ -424,64 +483,6 @@ public class IdentityServiceDecorator implements IdentityService {
         return nextDecorator.addAddressToEntity(ea);
     }
 
-    //@Override
-    //public List<CodedAttribute> findAllAddressTypes() {
-    //    return nextDecorator.findAllAddressTypes();
-    //}
 
-    //@Override
-    //public List<EntityAffiliationType> findAllAffiliationTypes() {
-    //    return nextDecorator.findAllAffiliationTypes();
-    //}
 
-    //@Override
-    //public List<CodedAttribute> findAllCitizenshipStatuses() {
-    //    return nextDecorator.findAllCitizenshipStatuses();
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllEmailTypes() {
-    //    return nextDecorator.findAllEmailTypes();
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllEmploymentStatuses() {
-    //    return nextDecorator.findAllEmploymentStatuses();
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllEmploymentTypes() {
-    //    return nextDecorator.findAllEmploymentTypes();
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllEntityTypes() {
-    //    return nextDecorator.findAllEntityTypes();
-    //}
-
-    //@Override
-    //public List<EntityExternalIdentifierType> findAllExternalIdendtifierTypes() {
-    //    return nextDecorator.findAllExternalIdendtifierTypes();
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllNameTypes() {
-    //    return nextDecorator.findAllNameTypes();
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllPhoneTypes() {
-    //    return nextDecorator.findAllPhoneTypes();
-    //}
-
-    //@Override
-    //public PrincipalQueryResults findPrincipals(QueryByCriteria arg0) throws RiceIllegalArgumentException {
-    //    return nextDecorator.findPrincipals(arg0);
-    //}
-
-    //@Override
-    //public List<Principal> getPrincipals(List<String> arg0) {
-    //    return nextDecorator.getPrincipals(arg0);
-    //}
-    
 }

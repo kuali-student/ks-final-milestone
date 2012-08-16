@@ -1,8 +1,9 @@
 /**
- * Copyright 2011 The Kuali Foundation Licensed under the Educational
- * Community License, Version 2.0 (the "License"); you may not use
- * this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Copyright 2011 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
@@ -15,7 +16,7 @@
 
 package org.kuali.student.r2.core.process.infc;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
@@ -38,14 +39,14 @@ import org.kuali.student.r2.common.infc.KeyEntity;
  */ 
 
 public interface Check 
-    extends KeyEntity {
+    extends IdEntity {
 
     /**
-     * The Issue Key if this Check is for a Hold.
+     * The Hold Issue if this Check to check if the student has an applied hold.
      *
-     * @name Issue Key
+     * @name Hold Issue Id
      */
-    public String getIssueId();
+    public String getHoldIssueId();
 
     /**
      * The Milestone Type Key if this Check is for a deadline, "not
@@ -64,10 +65,50 @@ public interface Check
     public String getAgendaId();
 
     /**
-     * The Process Key if this Check is based on evaluating
-     * a Process.
+     * The Process Key if this Check is to evaluate a all the instructions
+     * already defined in another child process.
      *
-     * @name Process Key
+     * @name Child Process Key
      */
-    public String getProcessKey();
+    public String getChildProcessKey();
+
+    /**
+     *  A hard coded value for comparison Check Types of
+     *  min/max/equals. The left comparison value may be determined
+     *  from the context of the process or from an agenda Id.
+     *
+     *  For example, this value may indicate a hard-coded credit limit
+     *  per term for all students. The Check may be that the current
+     *  load does not exceed this hard coded value.
+     *
+     *  @name Right Comparison Value
+     */
+    public String getRightComparisonValue();
+
+    /**
+     * The Left Comparison Agenda Id is for comparison Check Types of
+     * min/max/equals for determining the left-hand side of the
+     * comparison.
+     *
+     * For example, this rule evaluation may determine the current
+     * credit load for a particular student in a Term to compare it
+     * with a credit limit as determined by getRightComparisonValue()
+     * or an evaluation resulting from getRightComparisonAgendaId().
+     *
+     * @name Left Comparison Agenda Id
+     */
+    public String getLeftComparisonAgendaId();
+
+    /**
+     * The Right Comparison Agenda Id is for comparison Check Types of
+     * min/max/equals for determining the right-hand side of the
+     * comparison.
+     *
+     *  For example, the result of this rule evaluation may calculate
+     *  the credit limit for a particular student if it fluctuates by
+     *  other criteria such as Term or Population.
+     *
+     * @name Right Comparison Agenda Id
+     */
+    public String getRightComparisonAgendaId();
 }

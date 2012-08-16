@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;

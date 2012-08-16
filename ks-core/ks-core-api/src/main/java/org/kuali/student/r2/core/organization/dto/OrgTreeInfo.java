@@ -70,13 +70,6 @@ public class OrgTreeInfo
     public OrgTreeInfo() {
     }
     
-    public OrgTreeInfo(String orgId, String parentId, String displayName) {
-        super();
-        this.orgId = orgId;
-        this.parentId = parentId;
-        this.displayName = displayName;
-    }   
-    
     /**
      * Constructs a new OrgTreeInfo from another OrgTree
      *
@@ -93,8 +86,15 @@ public class OrgTreeInfo
             this.personId = tree.getPersonId();
             this.relationTypeKey = tree.getRelationTypeKey();
         }
-    }	
-        
+    }
+
+    public OrgTreeInfo(String orgId, String parentId, String displayName) {
+        super();
+        this.orgId = orgId;
+        this.parentId = parentId;
+        this.displayName = displayName;
+    }
+
     @Override
     public String getDisplayName() {
         return displayName;

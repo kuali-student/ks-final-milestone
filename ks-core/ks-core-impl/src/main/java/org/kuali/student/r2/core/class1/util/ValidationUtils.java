@@ -53,4 +53,21 @@ public class ValidationUtils {
         return errors;
     }
 
+    /**
+     * Convert a list of ValidationResultInfo's into a string.
+     *
+     * @param vris The list of validation results.
+     * @return the semi colon then newline delimited list of results.
+     */
+    public static String asString(List<ValidationResultInfo> vris) {
+        StringBuilder sb = new StringBuilder();
+        String newLine = ";";
+        for (ValidationResultInfo vri : vris) {
+            sb.append(newLine);
+            newLine = "/n";
+            sb.append(vri.getMessage());
+        }
+        return sb.toString();
+    }
+
 }

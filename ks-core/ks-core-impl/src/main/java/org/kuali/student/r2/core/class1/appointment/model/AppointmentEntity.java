@@ -16,15 +16,17 @@
 
 package org.kuali.student.r2.core.class1.appointment.model;
 
-import java.util.ArrayList;
-import org.kuali.student.r2.core.appointment.infc.Appointment;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
+import org.kuali.student.r2.core.appointment.infc.Appointment;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import org.kuali.student.r2.common.infc.Attribute;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -34,7 +36,7 @@ import org.kuali.student.r2.common.infc.Attribute;
  */
 @Entity
 @Table(name = "KSEN_APPT")
-public class AppointmentEntity extends MetaEntity {
+public class AppointmentEntity extends MetaEntity implements AttributeOwner<AppointmentAttributeEntity> {
 
     @Column(name = "APPT_TYPE")
     String apptType;
@@ -57,7 +59,7 @@ public class AppointmentEntity extends MetaEntity {
     Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<AppointmentAttributeEntity> attributes = new ArrayList<AppointmentAttributeEntity>();
+    private Set<AppointmentAttributeEntity> attributes = new HashSet<AppointmentAttributeEntity>();
 
     public AppointmentEntity() {
 
@@ -120,11 +122,11 @@ public class AppointmentEntity extends MetaEntity {
         this.expirationDate = expirationDate;
     }
 
-    public List<AppointmentAttributeEntity> getAttributes() {
+    public Set<AppointmentAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<AppointmentAttributeEntity> attributes) {
+    public void setAttributes(Set<AppointmentAttributeEntity> attributes) {
         this.attributes = attributes;
     }
     
@@ -159,7 +161,7 @@ public class AppointmentEntity extends MetaEntity {
         // method) to get the AppointmentSlotEntity and call setSlotEntity to set the value
         // separately
         // Add attributes individually
-        this.setAttributes(new ArrayList<AppointmentAttributeEntity>());
+        this.setAttributes(new HashSet<AppointmentAttributeEntity>());
         for (Attribute att : appt.getAttributes()) {
             this.getAttributes().add(new AppointmentAttributeEntity(att, this));
         }

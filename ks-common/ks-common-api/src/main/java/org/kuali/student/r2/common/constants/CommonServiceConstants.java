@@ -16,12 +16,11 @@
 package org.kuali.student.r2.common.constants;
 
 import java.util.ArrayList;
-
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**
- * Constants used by for LuiPersonRelationService
+ * Constants used by for LprService
  *
  * @author nwright
  */
@@ -31,7 +30,6 @@ public class CommonServiceConstants {
      * Reference Object URI's
      */
     public static final String REF_OBJECT_URI_GLOBAL_PREFIX = "http://student.kuali.org/wsdl/";
-    
     /**
      * Special attribute value which when supplied on the context during
      * a create will allow the calling program to supply an ID to the 
@@ -74,5 +72,4 @@ public class CommonServiceConstants {
         attr.setValue(ALLOW_ID_ON_CREATE_CONTEXT_ATTRIBUTE_TRUE_VALUE);
         context.getAttributes().add(attr);
     }
-
 }

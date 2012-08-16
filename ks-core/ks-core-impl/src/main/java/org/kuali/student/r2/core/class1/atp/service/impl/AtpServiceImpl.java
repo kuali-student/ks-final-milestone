@@ -12,6 +12,11 @@ import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.common.search.service.SearchDispatcher;
+import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r1.common.search.service.impl.SearchManagerImpl;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -56,6 +61,8 @@ public class AtpServiceImpl implements AtpService {
     private MilestoneDao milestoneDao;
     private AtpMilestoneRelationDao atpMilestoneRelationDao;
     private CriteriaLookupService criteriaLookupService;
+    private SearchManager searchManager;
+    private SearchDispatcher searchDispatcher;
 
     public AtpDao getAtpDao() {
         return atpDao;
@@ -96,6 +103,96 @@ public class AtpServiceImpl implements AtpService {
     public CriteriaLookupService getCriteriaLookupService() {
         return criteriaLookupService;
     }
+
+    /**
+     * Check for missing parameter and throw localized exception if missing
+     *
+     * @param param
+     * @param paramName
+     * @throws MissingParameterException
+     */
+    private void checkForMissingParameter(Object param, String paramName)
+            throws MissingParameterException {
+        if (param == null) {
+            throw new MissingParameterException(paramName + " can not be null");
+        }
+    }
+
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(
+            String searchCriteriaTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+
+    }
+
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchCriteriaTypes();
+    }
+
+    @Override
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchResultType(searchResultTypeKey);
+    }
+
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchResultTypes();
+    }
+
+    @Override
+    public SearchTypeInfo getSearchType(String searchTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchTypeKey, "searchTypeKey");
+        return searchManager.getSearchType(searchTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypes()
+            throws OperationFailedException {
+        return getSearchManager().getSearchTypes();
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(
+            String searchCriteriaTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByResult(
+            String searchResultTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+    }
+
+    public SearchManager getSearchManager() {
+        return searchManager;
+    }
+
+    public void setSearchManager(SearchManager searchManager) {
+        this.searchManager = searchManager;
+    }
+
+    @Override
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        return this.searchDispatcher.dispatchSearch(searchRequest);
+    }
+
 
     @Override
     public AtpInfo getAtp(String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
@@ -168,7 +265,7 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<AtpInfo> getAtpsByStartDateRangeAndType(Date searchDateRangeStart, Date searchDateRangeEnd,
-            String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException,
+                                                        String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<AtpEntity> atps = atpDao.getByStartDateRangeAndType(searchDateRangeStart, searchDateRangeEnd,
                 searchTypeKey);
@@ -191,7 +288,7 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<AtpInfo> getAtpsByIds(@WebParam(name = "atpIds") List<String> atpIds,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AtpEntity> atps = atpDao.findByIds(atpIds);
 
@@ -265,7 +362,7 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<String> getMilestoneIdsByType(String milestoneTypeKey,
-            ContextInfo contextInfo) throws InvalidParameterException,
+                                              ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<MilestoneEntity> entities = milestoneDao.getByMilestoneTypeId(milestoneTypeKey);
         List<String> results = new ArrayList<String>(entities.size());
@@ -277,7 +374,7 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<MilestoneInfo> getMilestonesForAtp(@WebParam(name = "atpId") String atpId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpEntity atp = atpDao.find(atpId);
         if (atp == null) {
@@ -305,7 +402,7 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<MilestoneInfo> getMilestonesByDatesForAtp(String atpId, Date startDate, Date endDate,
-            ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+                                                          ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<MilestoneEntity> entities = milestoneDao.getByDatesForAtp(atpId, startDate, endDate);
         List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(entities.size());
         for (MilestoneEntity entity : entities) {
@@ -316,8 +413,8 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<MilestoneInfo> getMilestonesByTypeForAtp(String atpId,
-            String milestoneTypeKey,
-            ContextInfo contextInfo)
+                                                         String milestoneTypeKey,
+                                                         ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<MilestoneInfo> list = this.getMilestonesForAtp(atpId, contextInfo);
         List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(list.size());
@@ -353,8 +450,8 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateAtp(String validationTypeKey, String atpTypeKey, 
-            AtpInfo atpInfo, ContextInfo contextInfo) throws DoesNotExistException,
+    public List<ValidationResultInfo> validateAtp(String validationTypeKey, String atpTypeKey,
+                                                  AtpInfo atpInfo, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();
     }
@@ -460,7 +557,7 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<ValidationResultInfo> validateMilestone(String validationType, MilestoneInfo milestoneInfo,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                                                        ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
 
         return null;
@@ -601,7 +698,7 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByIds(List<String> atpAtpRelationIds,
-            ContextInfo contextInfo)
+                                                            ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<AtpAtpRelationInfo>();
     }
@@ -636,7 +733,7 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(String atpId, String atpRelationTypeKey,
-            ContextInfo contextInfo) throws InvalidParameterException,
+                                                                   ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AtpAtpRelationEntity> rels = atpRelDao.getAtpAtpRelationsByAtpAndRelationType(atpId, atpRelationTypeKey);
         List<AtpAtpRelationInfo> atpRelation = new ArrayList<AtpAtpRelationInfo>();
@@ -690,10 +787,10 @@ public class AtpServiceImpl implements AtpService {
     @Override
     @Transactional(readOnly = false)
     public AtpAtpRelationInfo createAtpAtpRelation(String atpId,
-            String relatedAtpId,
-            String atpAtpRelationTypeKey,
-            AtpAtpRelationInfo atpAtpRelationInfo,
-            ContextInfo contextInfo)
+                                                   String relatedAtpId,
+                                                   String atpAtpRelationTypeKey,
+                                                   AtpAtpRelationInfo atpAtpRelationInfo,
+                                                   ContextInfo contextInfo)
             throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
@@ -735,8 +832,8 @@ public class AtpServiceImpl implements AtpService {
     @Override
     @Transactional(readOnly = false)
     public AtpAtpRelationInfo updateAtpAtpRelation(String atpAtpRelationId,
-            AtpAtpRelationInfo atpAtpRelationInfo,
-            ContextInfo context)
+                                                   AtpAtpRelationInfo atpAtpRelationInfo,
+                                                   ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, VersionMismatchException {

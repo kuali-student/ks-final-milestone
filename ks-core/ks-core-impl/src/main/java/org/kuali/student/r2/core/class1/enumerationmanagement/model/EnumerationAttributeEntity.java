@@ -15,39 +15,25 @@
 
 package org.kuali.student.r2.core.class1.enumerationmanagement.model;
 
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-
 @Entity
-@Table(name = "KSEM_ENUM_ATTR")
+@Table(name = "KSEN_ENUM_ATTR")
 public class EnumerationAttributeEntity extends BaseAttributeEntity<EnumerationEntity> {
 
-    @ManyToOne
-    @JoinColumn(name = "OWNER")
-    private EnumerationEntity owner;
-
-    public EnumerationAttributeEntity () {
+	public EnumerationAttributeEntity() {
+		super();
     }
     
     public EnumerationAttributeEntity(Attribute att, EnumerationEntity owner) {
-        super(att);
-        setOwner(owner);
+		super(att, owner);
     }
 
-    @Override
-    public void setOwner(EnumerationEntity owner) {
-        this.owner = owner;
-        
-    }
-
-    @Override
-    public EnumerationEntity getOwner() {
-        return owner;
-    }
 
 }

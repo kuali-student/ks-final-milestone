@@ -25,7 +25,7 @@ import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 
 public class EnumerationManagementServiceDecorator implements EnumerationManagementService{
-    
+
     private EnumerationManagementService nextDecorator;
 
     public EnumerationManagementService getNextDecorator() throws OperationFailedException {
@@ -42,19 +42,19 @@ public class EnumerationManagementServiceDecorator implements EnumerationManagem
 
     @Override
     public List<EnumerationInfo> getEnumerations(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         return getNextDecorator().getEnumerations(contextInfo);
     }
 
     @Override
     public EnumerationInfo getEnumeration(String enumerationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         return getNextDecorator().getEnumeration(enumerationKey, contextInfo);
     }
 
     @Override
     public List<EnumeratedValueInfo> getEnumeratedValues(String enumerationKey, String contextTypeKey, String contextValue, Date contextDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         return getNextDecorator().getEnumeratedValues(enumerationKey, contextTypeKey, contextValue, contextDate, contextInfo);
     }
 

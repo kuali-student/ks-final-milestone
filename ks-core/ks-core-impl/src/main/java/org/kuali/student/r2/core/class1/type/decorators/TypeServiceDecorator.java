@@ -63,9 +63,8 @@ private TypeService nextDecorator;
    }
 
    @Override
-   public List<org.kuali.student.r2.common.dto.TypeInfo> getTypesForGroupType(@WebParam(name = "groupTypeKey") String groupTypeKey, @WebParam(name = "contextInfo") org.kuali.student.r2.common.dto.ContextInfo contextInfo) throws org.kuali.student.r2.common.exceptions.DoesNotExistException, org.kuali.student.r2.common.exceptions.InvalidParameterException, org.kuali.student.r2.common.exceptions.MissingParameterException, org.kuali.student.r2.common.exceptions.OperationFailedException, org.kuali.student.r2.common.exceptions.PermissionDeniedException
-       {
-           return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<TypeInfo> getTypesForGroupType(String groupTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getTypesForGroupType(groupTypeKey, contextInfo);
        }
 
    @Override

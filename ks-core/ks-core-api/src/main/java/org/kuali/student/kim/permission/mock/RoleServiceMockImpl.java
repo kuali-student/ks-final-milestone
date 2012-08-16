@@ -239,6 +239,11 @@ public class RoleServiceMockImpl implements RoleService {
         return false;
     }
 
+    @Override
+    public boolean principalHasRole(@WebParam(name = "principalId") String principalId, @WebParam(name = "roleIds") List<String> roleIds, @WebParam(name = "qualification") @XmlJavaTypeAdapter(value = MapStringStringAdapter.class) Map<String, String> qualification, boolean checkDelegations) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported Yet");
+    }
+
     /**
      * Returns the subset of the given principal ID list which has the given role and qualification.
      * This is designed to be used by lookups of people by their roles.
@@ -574,6 +579,21 @@ public class RoleServiceMockImpl implements RoleService {
     }
 
     @Override
+    public DelegateMember updateDelegateMember(@WebParam(name = "delegateMember") DelegateMember delegateMember) throws RiceIllegalArgumentException, RiceIllegalStateException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public DelegateMember createDelegateMember(@WebParam(name = "delegateMember") DelegateMember delegateMember) throws RiceIllegalArgumentException, RiceIllegalStateException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void removeDelegateMembers(@WebParam(name = "delegateMembers") List<DelegateMember> delegateMembers) throws RiceIllegalArgumentException, RiceIllegalStateException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public Role createRole(Role role) throws RiceIllegalArgumentException, RiceIllegalStateException {
           throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -584,7 +604,7 @@ public class RoleServiceMockImpl implements RoleService {
     }
 
     @Override
-    public  List<Map<String, String>> getNestedRoleQualifiersForPrincipalByRoleIds(
+    public	List<Map<String, String>> getNestedRoleQualifiersForPrincipalByRoleIds(
             String principalId, List<String> roleIds, Map<String, String> qualification)
             throws RiceIllegalArgumentException{
            throw new UnsupportedOperationException("Not supported yet.");
@@ -621,20 +641,14 @@ public class RoleServiceMockImpl implements RoleService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    //@Override
-    //public DelegateMember createDelegateMember(DelegateMember arg0) throws RiceIllegalArgumentException, RiceIllegalStateException {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
+    @Override
+    public boolean isDerivedRole(@WebParam(name = "roleId") String s) throws RiceIllegalArgumentException {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
-    //@Override
-    //public void removeDelegateMembers(List<DelegateMember> arg0) throws RiceIllegalArgumentException, RiceIllegalStateException {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-
-    //@Override
-    //public DelegateMember updateDelegateMember(DelegateMember arg0) throws RiceIllegalArgumentException, RiceIllegalStateException {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-
+    @Override
+    public boolean isDynamicRoleMembership(@WebParam(name = "roleId") String s) throws RiceIllegalArgumentException {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
 

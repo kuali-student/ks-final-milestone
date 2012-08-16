@@ -99,7 +99,7 @@
 
 
     <!-- Keystore Configuration -->
-    <param name="keystore.file">src/main/resources/rice.keystore</param>
+    <param name="keystore.file">${user.home}/rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
     
@@ -119,7 +119,7 @@
     
     
     <param name="ks.rice.label">RICE</param>
-    <param name="ks.rice.url">http://localhost:8083/ks-rice-${environment}</param>
+    <param name="ks.rice.url">http://localhost:8080/ks-rice-${environment}</param>
     
     <param name="serviceServletUrl">${application.url}/services/</param>
     
@@ -150,9 +150,6 @@
     <param name="ks.org.enable.caching">true</param>
     <param name="ks.lrc.enable.caching">true</param>
     <param name="ks.statement.enable.caching">true</param>
-        
-	<param name="ks.lum.gwt.cache.config.file">classpath:ks-lum-gwt-ehcache.xml</param>
-    <param name="ks.lum.gwt.metadata.enable.caching">true</param>
         
     <!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>

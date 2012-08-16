@@ -10,12 +10,11 @@ import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 
 public class MilestoneDao extends GenericEntityDao<MilestoneEntity> {
     
-    private static final String OVERLAP_LOGIC = "m.startDate between :startRange and :endRange or :startRange between m.startDate and m.endDate";
-
     @SuppressWarnings("unchecked")
     public List<MilestoneEntity> getByMilestoneTypeId(String milestoneType) {
         return em.createQuery("from MilestoneEntity m where m.atpType=:mstoneType").setParameter("mstoneType", milestoneType).getResultList();
     }
+    private static final String OVERLAP_LOGIC = "m.startDate between :startRange and :endRange or :startRange between m.startDate and m.endDate";
 
     @SuppressWarnings("unchecked")
     public List<MilestoneEntity> getByDateRange(Date startRange, Date endRange) {

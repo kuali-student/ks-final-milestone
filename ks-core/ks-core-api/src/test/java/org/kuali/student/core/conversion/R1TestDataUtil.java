@@ -13,7 +13,6 @@ import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r2.core.statement.dto.StatementOperator;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 
 public class R1TestDataUtil {

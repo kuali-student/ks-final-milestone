@@ -1954,7 +1954,7 @@
 		parent="baseKualiOrgIdRepeating">
 		<property name="name" value="unitsContentOwner" />
 		<property name="customValidatorClass"
-			value="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator" />
+			value="org.kuali.student.r2.lum.program.service.validation.ProgramManagingBodiesValidator" />
 		<property name="caseConstraint">
 			<bean parent="caseConstraint">
 				<property name="operator" value="EQUALS" />
@@ -2030,7 +2030,7 @@
 		abstract="true" parent="baseKualiOrgIdRepeating">
 		<property name="name" value="unitsStudentOversight" />
 		<property name="customValidatorClass"
-			value="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator" />
+			value="org.kuali.student.r2.lum.program.service.validation.ProgramManagingBodiesValidator" />
 		<property name="caseConstraint">
 			<bean parent="caseConstraint">
 				<property name="operator" value="EQUALS" />
@@ -2105,7 +2105,7 @@
 		parent="baseKualiOrgIdRepeating">
 		<property name="name" value="unitsDeployment" />
 		<property name="customValidatorClass"
-			value="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator" />
+			value="org.kuali.student.r2.lum.program.service.validation.ProgramManagingBodiesValidator" />
 		<property name="caseConstraint">
 			<bean parent="caseConstraint">
 				<property name="operator" value="EQUALS" />
@@ -2180,7 +2180,7 @@
 		abstract="true" parent="baseKualiOrgIdRepeating">
 		<property name="name" value="unitsFinancialResources" />
 		<property name="customValidatorClass"
-			value="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator" />
+			value="org.kuali.student.r2.lum.program.service.validation.ProgramManagingBodiesValidator" />
 		<property name="caseConstraint">
 			<bean parent="caseConstraint">
 				<property name="operator" value="EQUALS" />
@@ -2253,7 +2253,7 @@
 		abstract="true" parent="baseKualiOrgIdRepeating">
 		<property name="name" value="unitsFinancialControl" />
 		<property name="customValidatorClass"
-			value="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator" />
+			value="org.kuali.student.r2.lum.program.service.validation.ProgramManagingBodiesValidator" />
 		<property name="caseConstraint">
 			<bean parent="caseConstraint">
 				<property name="operator" value="EQUALS" />

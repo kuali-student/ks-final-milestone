@@ -1,47 +1,51 @@
 /*
- * Copyright 2011 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2011 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
 package org.kuali.student.r2.core.process.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.core.process.infc.Instruction;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.core.process.infc.Instruction;
-
-//import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InstructionInfo", propOrder = { "id", "typeKey", "stateKey", 
                 "effectiveDate", "expirationDate",
-                "processKey", "checkKey", 
-                "appliedPopulationKeys", "appliedAtpTypeKeys",
+                "processKey", "checkId",
+                "appliedPopulationId", "appliedAtpTypeKeys",
                 "message", "position", "isWarning", 
-                "continueOnFail", "isExemptable", 
+                "continueOnFail", "isExemptible",
                 "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
-public class InstructionInfo extends RelationshipInfo 
+public class InstructionInfo
+    extends RelationshipInfo
     implements Instruction, Serializable {
+
+    ////////////////////
+    // DATA FIELDS
+    ////////////////////
 
     private static final long serialVersionUID = 1L;
     
@@ -49,10 +53,10 @@ public class InstructionInfo extends RelationshipInfo
     private String processKey;
 
     @XmlElement 
-    private String checkKey;
+    private String checkId;
 
     @XmlElement 
-    private List<String> appliedPopulationKeys;
+    private String appliedPopulationId;
 
     @XmlElement 
     private List<String> appliedAtpTypeKeys;
@@ -70,12 +74,15 @@ public class InstructionInfo extends RelationshipInfo
     private Boolean continueOnFail;
 
     @XmlElement 
-    private Boolean isExemptable;
+    private Boolean isExemptible;
 
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
     
+    //////////////////////////
+    // CONSTRUCTORS ETC.
+    //////////////////////////
 
     /**
      * Constructs a new InstructionInfo.
@@ -90,26 +97,24 @@ public class InstructionInfo extends RelationshipInfo
      */
     public InstructionInfo(Instruction instruction) {
         super(instruction);
-
         if (instruction != null) {
             this.processKey= instruction.getProcessKey();
-            this.checkKey = instruction.getCheckKey();
-
-            if (instruction.getAppliedPopulationKeys() != null) {
-                this.appliedPopulationKeys = new ArrayList<String>(instruction.getAppliedPopulationKeys());
-            }
-
+            this.checkId = instruction.getCheckId();
+            this.appliedPopulationId = instruction.getAppliedPopulationId();
             if (instruction.getAppliedAtpTypeKeys() != null) {
                 this.appliedAtpTypeKeys = new ArrayList<String>(instruction.getAppliedAtpTypeKeys());
             }
-
             this.message = new RichTextInfo(instruction.getMessage());
             this.position = instruction.getPosition();
             this.isWarning = instruction.getIsWarning();
             this.continueOnFail = instruction.getContinueOnFail();
-            this.isExemptable = instruction.getIsExemptable();
+            this.isExemptible = instruction.getIsExemptible();
         }
     }
+
+    ///////////////////////////
+    // GETTERS AND SETTERS
+    ///////////////////////////
 
     @Override
     public String getProcessKey() {
@@ -121,25 +126,21 @@ public class InstructionInfo extends RelationshipInfo
     }
 
     @Override
-    public String getCheckKey() {
-        return this.checkKey;
+    public String getCheckId() {
+        return this.checkId;
     }
 
-    public void setCheckKey(String checkKey) {
-        this.checkKey = checkKey;
+    public void setCheckId(String checkId) {
+        this.checkId = checkId;
     }
 
     @Override
-    public List<String> getAppliedPopulationKeys() {
-        if (this.appliedPopulationKeys == null) {
-            this.appliedPopulationKeys = new ArrayList<String>();
+    public String getAppliedPopulationId() {
+        return this.appliedPopulationId;
         }
 
-        return this.appliedPopulationKeys;
-    }
-
-    public void setAppliedPopulationKeys(List<String> appliedPopulationKeys) {
-        this.appliedPopulationKeys = appliedPopulationKeys;
+    public void setAppliedPopulationId(String appliedPopulationId) {
+        this.appliedPopulationId = appliedPopulationId;
     }
 
     @Override
@@ -192,11 +193,11 @@ public class InstructionInfo extends RelationshipInfo
     }
 
     @Override
-    public Boolean getIsExemptable() {
-        return this.isExemptable;
+    public Boolean getIsExemptible() {
+        return this.isExemptible;
     }
 
-    public void setIsExemptable(Boolean isExemptable) {
-        this.isExemptable = isExemptable;
+    public void setIsExemptible(Boolean isExemptible) {
+        this.isExemptible = isExemptible;
     }
 }

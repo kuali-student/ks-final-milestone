@@ -34,8 +34,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class DelayedToolView extends LazyPanel implements ToolView{
     private Controller controller;    
-    protected Enum<?> viewEnum;
-    protected String viewName;    //View name is being used as menu item label   
+    private Enum<?> viewEnum;
+    private String viewName;    //View name is being used as menu item label   
 
     private HasReferenceId reference;
     
@@ -160,8 +160,4 @@ public abstract class DelayedToolView extends LazyPanel implements ToolView{
 	   public boolean isExportButtonActive() {
 	        return false;
 	    }
-	 
-    public DelayedToolView() {
-
-    }
 }

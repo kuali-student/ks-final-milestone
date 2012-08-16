@@ -26,15 +26,13 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
-import org.kuali.student.common.conversion.util.converter.AttributeInfoConverter;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementOperator;
-import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -72,7 +70,6 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -177,7 +174,7 @@ public class TestCourseServiceImpl{
             attrs.put("key-4", "value-5");
             attrs.put("key-5", "value-6");
             for (String key : attrs.keySet()) {
-                String value = retrievedCourse.getAttributeInfoValue(retrievedCourse.getAttributes(), key);
+                String value = retrievedCourse.getAttributeValue(key);
                 assertNotNull(value);
                 assertEquals(value, attrs.get(key));
             }

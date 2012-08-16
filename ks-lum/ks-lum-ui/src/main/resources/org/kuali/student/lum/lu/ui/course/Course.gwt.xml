@@ -57,7 +57,7 @@
 		<generate-with
 		class="com.johnsoncs.gwt.widgets.server.rebind.ClassReferenceGenerator">
 		<when-type-assignable
-		class="org.kuali.student.lum.lu.ui.course.client.widgets.a.rebind.ClassReferences"/>
+		class="org.kuali.student.lum.lu.ui.course.atpService.widgets.a.rebind.ClassReferences"/>
 		</generate-with>
 	-->
 </module>

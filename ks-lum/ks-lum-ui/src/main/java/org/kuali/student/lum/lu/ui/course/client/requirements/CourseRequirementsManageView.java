@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r2.common.util.ContextUtils;
 
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;

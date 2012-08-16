@@ -253,7 +253,7 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
 //        documentInfo.setType("kuali.org.Document");
 //        documentInfo.setState("active");
 //        
-//        List<DictValidationResultContainer> validations = client.validateDocument("", documentInfo);
+//        List<DictValidationResultContainer> validations = atpService.validateDocument("", documentInfo);
 //        for (DictValidationResultContainer validationResult : validations) {
 //            assertTrue(validationResult.isOk());
 //        }

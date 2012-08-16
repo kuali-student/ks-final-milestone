@@ -16,14 +16,15 @@
 
 package org.kuali.student.r2.common.dto;
 
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.HasAttributes;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.HasAttributes;
 
 /**
  * Information about a entities with attributes.
@@ -64,7 +65,7 @@ public abstract class HasAttributesInfo
     
     @Override
     public List<AttributeInfo> getAttributes() {
-        if(attributes == null) {
+        if (attributes == null) {
             attributes = new ArrayList<AttributeInfo>();
         }
         return attributes;
@@ -73,14 +74,27 @@ public abstract class HasAttributesInfo
     public void setAttributes(List<AttributeInfo> attributes) {
         this.attributes = attributes;
     }
-    
-    public String getAttributeInfoValue(List<AttributeInfo> attributes, String attributeKey) {
-		for (AttributeInfo attrInfo : attributes) {
-			 
-			if (attrInfo.getKey().equals(attributeKey)) {
-				return attrInfo.getValue();
-			}
-		}
-		return null;
-	}  
+
+
+    public String getAttributeValue(String key) {
+        for (AttributeInfo attr: attributes) {
+            if(attr.getKey().equals(key)) {
+                return attr.getValue();
+            }
+        }
+
+        return null;
+    }
+
+    public List<String> getAttributeValueList(String key) {
+        List<String> results = new ArrayList<String>();
+
+        for (AttributeInfo attr: attributes) {
+            if(attr.getKey().equals(key)) {
+                results.add(attr.getValue());
+            }
+        }
+
+        return results;
+    }
 }

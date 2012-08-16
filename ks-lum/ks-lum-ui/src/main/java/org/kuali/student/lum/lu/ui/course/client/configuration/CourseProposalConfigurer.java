@@ -663,7 +663,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 LUUIConstants.ACTIVITY_LITERAL_LABEL_KEY,
                 Arrays.asList(
                         new MultiplicityFieldConfig(
-                                TYPE_KEY,
+                                ACTIVITY_TYPE,
                                 LUUIConstants.ACTIVITY_TYPE_LABEL_KEY,
                                 null,
                                 null,

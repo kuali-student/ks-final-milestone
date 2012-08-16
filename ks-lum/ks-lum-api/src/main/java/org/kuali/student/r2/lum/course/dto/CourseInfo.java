@@ -41,49 +41,49 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 /**
  * This is a description of what this class does - sambit don't forget to fill
  * this in.
- * 
+ *
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 @XmlType(name = "CourseInfo", propOrder = {"id",
-    "typeKey",
-    "stateKey",
-    "name",
-    "descr",
-    "code",
-    "courseNumberSuffix",
-    "level",
-    "courseTitle",
-    "transcriptTitle",
-    "formats",
-    "termsOffered",
-    "duration",
-    "joints",
-    "crossListings",
-    "variations",
-    "subjectArea",
-    "campusLocations",
-    "outOfClassHours",
-    "primaryInstructor",
-    "instructors",
-    "unitsDeployment",
-    "feeJustification",
-    "unitsContentOwner",
-    "fees",
-    "revenues",
-    "expenditure",
-    "courseSpecificLOs",
-    "gradingOptions",
-    "creditOptions",
-    "specialTopicsCourse",
-    "pilotCourse",
-    "startTerm",
-    "endTerm",
-    "effectiveDate",
-    "expirationDate",
-    "versionInfo",
-    "meta",
-    "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
-    
+        "typeKey",
+        "stateKey",
+        "name",
+        "descr",
+        "code",
+        "courseNumberSuffix",
+        "level",
+        "courseTitle",
+        "transcriptTitle",
+        "formats",
+        "termsOffered",
+        "duration",
+        "joints",
+        "crossListings",
+        "variations",
+        "subjectArea",
+        "campusLocations",
+        "outOfClassHours",
+        "primaryInstructor",
+        "instructors",
+        "unitsDeployment",
+        "feeJustification",
+        "unitsContentOwner",
+        "fees",
+        "revenues",
+        "expenditure",
+        "courseSpecificLOs",
+        "gradingOptions",
+        "creditOptions",
+        "specialTopicsCourse",
+        "pilotCourse",
+        "startTerm",
+        "endTerm",
+        "effectiveDate",
+        "expirationDate",
+        "versionInfo",
+        "meta",
+        "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
@@ -158,7 +158,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     public CourseInfo() {
         super();
     }
-    
+
     public CourseInfo(Course courseInfo) {
         super(courseInfo);
         if (courseInfo != null) {
@@ -279,7 +279,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
         }
     }
 
-   
+
     @Override
     public String getCode() {
         return code;
@@ -302,7 +302,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     /**
      * A code that indicates what level 100, 200 or upper division, lower
      * division etc
-     * 
+     *
      * @return
      */
     @Override

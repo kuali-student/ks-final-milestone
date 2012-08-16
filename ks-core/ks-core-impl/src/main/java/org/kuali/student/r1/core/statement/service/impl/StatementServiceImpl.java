@@ -1202,7 +1202,7 @@ public class StatementServiceImpl implements StatementService {
                 }
                 if (origReqComponentInfo == null) {
                     // The reqComponentInfo is a new one so create it
-                    // the id here even if it is not null it is the temporary ids assigned by client
+                    // the id here even if it is not null it is the temporary ids assigned by atpService
                     // so resets the id to null to allow a new id to be generated.
                     reqComponentInfo.setId(null);
                     try {
@@ -1229,7 +1229,7 @@ public class StatementServiceImpl implements StatementService {
             }
         }
         if (origStatementInfo == null) {
-            // the id here even if it is not null it is the temporary ids assigned by client
+            // the id here even if it is not null it is the temporary ids assigned by atpService
             // so resets the id to null to allow a new id to be generated.
 //            statementTreeViewInfo.setId(null);
             newStatementInfo = statementAssembler.toStatementInfo(statementTreeViewInfo);

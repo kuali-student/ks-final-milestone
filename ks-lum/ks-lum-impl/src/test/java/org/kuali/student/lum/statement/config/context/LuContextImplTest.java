@@ -3,8 +3,7 @@ package org.kuali.student.lum.statement.config.context;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.lum.statement.config.context.util.NLCluSet;
-import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.lum.statement.config.context.util.NLCluSet;
 import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
@@ -15,6 +14,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.lum.clu.dto.*;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.statement.config.context.CluContextImpl;
 
 import java.util.*;
 
@@ -642,7 +642,7 @@ public class LuContextImplTest {
         }
 
         @Override
-        public CluInfo createClu(String luTypeKey, CluInfo cluInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException {
+        public CluInfo createClu(String luTypeKey, CluInfo cluInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
@@ -660,7 +660,7 @@ public class LuContextImplTest {
         }
 
         @Override
-        public CluInfo createNewCluVersion(String cluId, String versionComment, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        public CluInfo createNewCluVersion(String cluId, String versionComment, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
@@ -684,7 +684,7 @@ public class LuContextImplTest {
         }
 
         @Override
-        public CluCluRelationInfo createCluCluRelation(String cluId, String relatedCluId, String cluCluRelationTypeKey, CluCluRelationInfo cluCluRelationInfo, ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException {
+        public CluCluRelationInfo createCluCluRelation(String cluId, String relatedCluId, String cluCluRelationTypeKey, CluCluRelationInfo cluCluRelationInfo, ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
@@ -708,7 +708,7 @@ public class LuContextImplTest {
         }
 
         @Override
-        public CluPublicationInfo createCluPublication(String cluId, String luPublicationTypeKey, CluPublicationInfo cluPublicationInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException, DoesNotExistException {
+        public CluPublicationInfo createCluPublication(String cluId, String luPublicationTypeKey, CluPublicationInfo cluPublicationInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
@@ -732,7 +732,7 @@ public class LuContextImplTest {
         }
 
         @Override
-        public CluResultInfo createCluResult(String cluId, String cluResultTypeKey, CluResultInfo cluResultInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException {
+        public CluResultInfo createCluResult(String cluId, String cluResultTypeKey, CluResultInfo cluResultInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
@@ -756,7 +756,7 @@ public class LuContextImplTest {
         }
 
         @Override
-        public CluLoRelationInfo createCluLoRelation(String cluId, String loId, String cluLoRelationTypeKey, CluLoRelationInfo cluLoRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException {
+        public CluLoRelationInfo createCluLoRelation(String cluId, String loId, String cluLoRelationTypeKey, CluLoRelationInfo cluLoRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
@@ -792,7 +792,7 @@ public class LuContextImplTest {
         }
 
         @Override
-        public CluSetInfo createCluSet(String cluSetTypeKey, CluSetInfo cluSetInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException, AlreadyExistsException {
+        public CluSetInfo createCluSet(String cluSetTypeKey, CluSetInfo cluSetInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
@@ -852,24 +852,6 @@ public class LuContextImplTest {
         }
 
         @Override
-        public List<TypeInfo> getLuLuRelationTypes(ContextInfo contextInfo) throws OperationFailedException, UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public ObjectStructureDefinition getObjectStructure(String objectTypeKey, ContextInfo contextInfo) throws UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public List<String> getObjectTypes(ContextInfo contextInfo) throws UnsupportedOperationException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
         public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
@@ -916,17 +898,5 @@ public class LuContextImplTest {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
-
-        @Override
-        public List<CluInfo> getRelatedClusByCluId(String id, String courseActivityRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
-        }
-
-        @Override
-        public CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
-
 	}
 }

@@ -1,26 +1,20 @@
 package org.kuali.student.r2.core.class1.type.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.infc.TypeTypeRelation;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_TYPETYPE_RELTN")
-public class TypeTypeRelationEntity extends MetaEntity {
+public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner<TypeTypeRelationAttributeEntity> {
 
     @Column(name = "OWNER_TYPE_ID")
     private String ownerTypeId;
@@ -39,7 +33,7 @@ public class TypeTypeRelationEntity extends MetaEntity {
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<TypeTypeRelationAttributeEntity> attributes;
+    private Set<TypeTypeRelationAttributeEntity> attributes = new HashSet<TypeTypeRelationAttributeEntity>();
 
     public TypeTypeRelationEntity() {
     }
@@ -133,11 +127,11 @@ public class TypeTypeRelationEntity extends MetaEntity {
         this.rank = rank;
     }
 
-    public void setAttributes(List<TypeTypeRelationAttributeEntity> attributes) {
+    public void setAttributes(Set<TypeTypeRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
-    public List<TypeTypeRelationAttributeEntity> getAttributes() {
+    public Set<TypeTypeRelationAttributeEntity> getAttributes() {
         return attributes;
     }
 
@@ -146,9 +140,9 @@ public class TypeTypeRelationEntity extends MetaEntity {
         this.setEffectiveDate(typeTypeRel.getEffectiveDate());
         this.setExpirationDate(typeTypeRel.getExpirationDate());
         this.setRank(typeTypeRel.getRank());
-        this.setAttributes(new ArrayList<TypeTypeRelationAttributeEntity>());
+        this.setAttributes(new HashSet<TypeTypeRelationAttributeEntity>());
         for (Attribute att : typeTypeRel.getAttributes()) {
-            this.getAttributes().add(new TypeTypeRelationAttributeEntity(att));
+            this.getAttributes().add(new TypeTypeRelationAttributeEntity(att, this));
         }
     }
 

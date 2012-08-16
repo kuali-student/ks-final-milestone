@@ -20,6 +20,7 @@ import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
@@ -34,9 +35,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class //TODO ...
@@ -45,7 +44,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "KSEN_APPT_WINDOW")
-public class AppointmentWindowEntity extends MetaEntity {
+public class AppointmentWindowEntity extends MetaEntity implements AttributeOwner<AppointmentWindowAttributeEntity> {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "START_DT")
@@ -110,7 +109,7 @@ public class AppointmentWindowEntity extends MetaEntity {
     private String apptWindowState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<AppointmentWindowAttributeEntity> attributes = new ArrayList<AppointmentWindowAttributeEntity>();
+    private Set<AppointmentWindowAttributeEntity> attributes = new HashSet<AppointmentWindowAttributeEntity>();
 
     public AppointmentWindowEntity() {
     }
@@ -269,11 +268,11 @@ public class AppointmentWindowEntity extends MetaEntity {
         this.apptWindowState = apptWinState;
     }
 
-    public void setAttributes(List<AppointmentWindowAttributeEntity> attributes) {
+    public void setAttributes(Set<AppointmentWindowAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
-    public List<AppointmentWindowAttributeEntity> getAttributes() {
+    public Set<AppointmentWindowAttributeEntity> getAttributes() {
         return attributes;
     }
 
@@ -356,7 +355,7 @@ public class AppointmentWindowEntity extends MetaEntity {
         // The state keys are in every entity, but are not explicitly inherited
         this.setApptWindowState(apptWin.getStateKey());
         // Add attributes individually
-        this.setAttributes(new ArrayList<AppointmentWindowAttributeEntity>());
+        this.setAttributes(new HashSet<AppointmentWindowAttributeEntity>());
         if (null != apptWin.getAttributes()) {
             for (Attribute att : apptWin.getAttributes()) {
                 this.getAttributes().add(new AppointmentWindowAttributeEntity(att, this));

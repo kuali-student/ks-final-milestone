@@ -148,7 +148,17 @@ public class IdentityServiceMockImpl implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllAddressTypes() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public EntityAffiliationType getAffiliationType(String string) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<EntityAffiliationType> findAllAffiliationTypes() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -158,7 +168,22 @@ public class IdentityServiceMockImpl implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllCitizenshipStatuses() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public CodedAttribute getEmailType(String string) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<CodedAttribute> findAllEmailTypes() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public PrincipalQueryResults findPrincipals(@WebParam(name = "query") QueryByCriteria query) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -168,7 +193,17 @@ public class IdentityServiceMockImpl implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllEmploymentStatuses() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public CodedAttribute getEmploymentType(String string) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<CodedAttribute> findAllEmploymentTypes() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -199,7 +234,7 @@ public class IdentityServiceMockImpl implements IdentityService {
      * @return a {@link Entity} or null
      * @throws IllegalArgumentException if the employeeId is blank
      */
-    //@Override
+    @Override
     public Entity getEntityByEmployeeId(@WebParam(name = "employeeId") String employeeId) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -232,7 +267,7 @@ public class IdentityServiceMockImpl implements IdentityService {
      * @return a {@link EntityDefault} or null
      * @throws IllegalArgumentException if the employeeId is blank
      */
-    //@Override
+    @Override
     public EntityDefault getEntityDefaultByEmployeeId(@WebParam(name = "employeeId") String employeeId) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -248,7 +283,17 @@ public class IdentityServiceMockImpl implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllEntityTypes() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public EntityExternalIdentifierType getExternalIdentifierType(String string) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<EntityExternalIdentifierType> findAllExternalIdendtifierTypes() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -258,12 +303,27 @@ public class IdentityServiceMockImpl implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllNameTypes() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public CodedAttribute getPhoneType(String string) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
+    public List<CodedAttribute> findAllPhoneTypes() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public Principal getPrincipal(String string) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<Principal> getPrincipals(@WebParam(name = "principalIds") List<String> strings) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -294,7 +354,7 @@ public class IdentityServiceMockImpl implements IdentityService {
      * @param principalId The principal ID to find the name information for
      * @return The default name information for the principal
      */
-    //@Override
+    @Override
     public EntityNamePrincipalName getDefaultNamesForPrincipalId(@WebParam(name = "principalId") String principalId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -424,65 +484,5 @@ public class IdentityServiceMockImpl implements IdentityService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    //@Override
-    //public List<CodedAttribute> findAllAddressTypes() {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
 
-    //@Override
-    //public List<EntityAffiliationType> findAllAffiliationTypes() {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllCitizenshipStatuses() {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllEmailTypes() {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllEmploymentStatuses() {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllEmploymentTypes() {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllEntityTypes() {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-
-    //@Override
-    //public List<EntityExternalIdentifierType> findAllExternalIdendtifierTypes() {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllNameTypes() {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-
-    //@Override
-    //public List<CodedAttribute> findAllPhoneTypes() {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-
-    //@Override
-    //public PrincipalQueryResults findPrincipals(QueryByCriteria arg0) throws RiceIllegalArgumentException {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-
-    //@Override
-    //public List<Principal> getPrincipals(List<String> arg0) {
-    //    throw new UnsupportedOperationException("Not supported yet.");
-    //}
-    
-    
 }
