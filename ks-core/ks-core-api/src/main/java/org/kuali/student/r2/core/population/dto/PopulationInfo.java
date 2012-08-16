@@ -13,45 +13,42 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.population.dto;
 
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.core.population.infc.Population;
+import org.w3c.dom.Element;
+
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.core.population.infc.Population;
-
-//import org.w3c.dom.Element;
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PopulationInfo", propOrder = {"id", "typeKey", "stateKey", 
-                "name", "descr", "sortOrderTypeKeys", "variesByTime",
-                "supportsGetMembers", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
-
-public class PopulationInfo extends IdEntityInfo 
-    implements Population, Serializable {
+@XmlType(name = "PopulationInfo", propOrder = {"id",
+    "typeKey",
+    "stateKey",
+    "name", 
+    "descr",
+    "sortOrderTypeKeys",
+    "variesByTime",
+    "supportsGetMembers",
+    "meta",
+    "attributes",
+    "_futureElements"})
+public class PopulationInfo
+        extends IdEntityInfo
+        implements Population, Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @XmlElement
-    private List<String> sortOrderTypeKeys;
+    private List<String> sortOrderTypeKeys; // readonly
     @XmlElement
-    private Boolean variesByTime;
+    private Boolean variesByTime; // readonly
     @XmlElement
-    private Boolean supportsGetMembers;
-    
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
-    
+    private Boolean supportsGetMembers; // readonly
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     /**
      * Constructs a new PopulationInfo.
@@ -66,6 +63,7 @@ public class PopulationInfo extends IdEntityInfo
      */
     public PopulationInfo(Population population) {
         super(population);
+
         if (population != null) {
             if (population.getSortOrderTypeKeys() != null) {
                 this.sortOrderTypeKeys = new ArrayList<String>(population.getSortOrderTypeKeys());
@@ -76,7 +74,7 @@ public class PopulationInfo extends IdEntityInfo
 
         }
     }
-    
+
     @Override
     public List<String> getSortOrderTypeKeys() {
         if (this.sortOrderTypeKeys == null) {

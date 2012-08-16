@@ -98,7 +98,8 @@ public interface Instruction
      * warning. If false, the Check failure is interpreted as an
      * error.
      *
-     * @name Is Warning 
+     * @name Is Warning
+     * @required
      */
     public Boolean getIsWarning();
 
@@ -106,13 +107,15 @@ public interface Instruction
      * Tests if processing should continue if this Check fails.
      *
      * @name Continue On Fail
+     * @required
      */
     public Boolean getContinueOnFail();
 
     /**
-     * Tests an Exemption can be requested to this Instruction.
+     * Tests if an Exemption can be requested to this Instruction.
      *
-     * @name Is Exemptable
+     * @name Is Exemptible
+     * @required
      */
     public Boolean getIsExemptible();
 }

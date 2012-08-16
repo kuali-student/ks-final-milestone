@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 The Kuali Foundation
+ * Copyright 2011 The Kuali Foundation 
  *
  * Licensed under the Educational Community License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the
@@ -16,19 +16,13 @@
 
 package org.kuali.student.r2.core.process.dto;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.process.infc.Check;
+import org.w3c.dom.Element;
 
-//import org.w3c.dom.Element;
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CheckInfo", propOrder = {"id",
@@ -44,10 +38,11 @@ import org.kuali.student.r2.core.process.infc.Check;
     "leftComparisonAgendaId",
     "rightComparisonAgendaId",
     "meta",
-    "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+    "attributes",
+    "_futureElements"})
 
-public class CheckInfo
-    extends IdEntityInfo
+public class CheckInfo 
+    extends IdEntityInfo 
     implements Check, Serializable {
 
     ////////////////////
@@ -65,7 +60,7 @@ public class CheckInfo
     @XmlElement 
     private String agendaId;
 
-    @XmlElement 
+    @XmlElement
     private String rightComparisonAgendaId;
 
     @XmlElement
@@ -74,12 +69,11 @@ public class CheckInfo
     @XmlElement
     private String leftComparisonAgendaId;
 
-    @XmlElement
+    @XmlElement 
     private String childProcessKey;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     //////////////////////////
     // CONSTRUCTORS ETC.

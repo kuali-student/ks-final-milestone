@@ -12,68 +12,61 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.population.dto;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.core.population.infc.PopulationRule;
+import org.w3c.dom.Element;
+
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.core.population.infc.PopulationRule;
-
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
-//import org.w3c.dom.Element;
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PopulationRuleInfo", propOrder = {"id", "typeKey",
-                "stateKey", "name", "descr", "searchCriteria", "agendaIds",
-                "groupIds", "personIds", "childPopulationIds",
-                "referencePopulationId", "sortOrderTypeKeys",
-                "variesByTime", "supportsGetMembers", "meta", "attributes"}) //, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
-public class PopulationRuleInfo extends IdEntityInfo 
-    implements PopulationRule, Serializable {
+@XmlType(name = "PopulationRuleInfo", propOrder = {"id",
+    "typeKey",
+    "stateKey",
+    "name",
+    "descr",
+    "searchCriteria",
+    "agendaIds",
+    "groupIds",
+    "personIds",
+    "childPopulationIds",
+    "referencePopulationId",
+    "sortOrderTypeKeys",
+    "variesByTime",
+    "supportsGetMembers",
+    "meta",
+    "attributes",
+    "_futureElements"})
+public class PopulationRuleInfo
+        extends IdEntityInfo
+        implements PopulationRule, Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @XmlElement
     private QueryByCriteria searchCriteria;
-
     @XmlElement
     private List<String> agendaIds;
-
     @XmlElement
     private List<String> groupIds;
-
     @XmlElement
     private List<String> personIds;
-
     @XmlElement
     private List<String> childPopulationIds;
-    
     @XmlElement
     private String referencePopulationId;
-    
     @XmlElement
     private List<String> sortOrderTypeKeys;
-    
     @XmlElement
     private Boolean variesByTime;
-    
     @XmlElement
     private Boolean supportsGetMembers;
-
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
-    
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     /**
      * Constructs a new PopulationRuleInfo.

@@ -35,7 +35,8 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PopulationCategoryInfo", propOrder = { "id", "typeKey",
-        "stateKey", "name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+        "stateKey", "name", "descr", "meta", "attributes",
+        "_futureElements" })
 public class PopulationCategoryInfo
         extends IdEntityInfo
         implements PopulationCategory, Serializable {
@@ -45,9 +46,8 @@ public class PopulationCategoryInfo
     // DATA VARIABLES
     //////////////////////
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     //////////////////////
     // CONSTRUCTORS
@@ -78,7 +78,7 @@ public class PopulationCategoryInfo
     public String toString() {
         return "PopulationCategoryInfo{" +
                 "id='" + getId() + "' " +
-                // "_futureElements=" + _futureElements + TODO KSCM-372: Non-GWT translatable code
+                "_futureElements=" + _futureElements +
                 '}';
     }
 }

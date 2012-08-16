@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 The Kuali Foundation
+ * Copyright 2011 The Kuali Foundation 
  *
  * Licensed under the Educational Community License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the
@@ -19,13 +19,9 @@ package org.kuali.student.r2.core.process.dto;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.process.infc.Instruction;
-//import org.w3c.dom.Element;
+import org.w3c.dom.Element;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +33,11 @@ import java.util.List;
                 "appliedPopulationId", "appliedAtpTypeKeys",
                 "message", "position", "isWarning", 
                 "continueOnFail", "isExemptible",
-                "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+                "meta", "attributes",
+		"_futureElements" })
 
-public class InstructionInfo
-    extends RelationshipInfo
+public class InstructionInfo 
+    extends RelationshipInfo 
     implements Instruction, Serializable {
 
     ////////////////////
@@ -76,10 +73,9 @@ public class InstructionInfo
     @XmlElement 
     private Boolean isExemptible;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
-    
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
     //////////////////////////
     // CONSTRUCTORS ETC.
     //////////////////////////
@@ -137,7 +133,7 @@ public class InstructionInfo
     @Override
     public String getAppliedPopulationId() {
         return this.appliedPopulationId;
-        }
+    }
 
     public void setAppliedPopulationId(String appliedPopulationId) {
         this.appliedPopulationId = appliedPopulationId;

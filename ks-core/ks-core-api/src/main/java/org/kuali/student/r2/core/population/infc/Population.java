@@ -15,9 +15,9 @@
 
 package org.kuali.student.r2.core.population.infc;
 
-import java.util.List;
-
 import org.kuali.student.r2.common.infc.IdEntity;
+
+import java.util.List;
 
 
 /**
@@ -27,17 +27,18 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @since Thu Nov 21 14:22:34 EDT 2011
  */ 
 
-public interface Population extends IdEntity {
+public interface Population 
+    extends IdEntity {
 
     /**
      * Gets the valid sort order keys that can be used to sort the
-     * members of the Population. 
+     * members of the Population.
      * 
      * The valid sort order keys correspond
      * to the underlying rule sorting capabilities.
      * 
-     * This may return an empty list indicating the population does not support
-     * any particular ordering.
+     * This may return an empty list indicating the population does
+     * not support any particular ordering.
      *
      * @name Sort Order Type Keys
      * @readOnly calculation surfacing the corresponding field from the underlying rule
@@ -47,21 +48,24 @@ public interface Population extends IdEntity {
     /**
      * Tests to see if the Population may vary by time.
      * 
-     * If true then the response to isMemberAtXXXX getMembersAtXXXX methods should
-     * be used to assess membership because it is highly likely the population 
-     * would return a different result depending on the time parameter that is supplied.
+     * If true then the response to isMemberAtXXXX getMembersAtXXXX
+     * methods should be used to assess membership because it is
+     * highly likely the population would return a different result
+     * depending on the time parameter that is supplied.
      * 
-     * An example of populations that vary by time include freshman, sophomore, 
-     * junior, senior, etc... because the answer varies greatly depending on the 
-     * term in question.  
+     * An example of populations that vary by time include freshman,
+     * sophomore, junior, senior, etc... because the answer varies
+     * greatly depending on the term in question.
      * 
-     * Some examples of populations that are not expected to vary with time are 
-     * males or students with IDs ending in an odd number or US citizens.
+     * Some examples of populations that are not expected to vary with
+     * time are males or students with IDs ending in an odd number or
+     * US citizens.
      * 
-     * Note: Saying that a population does not vary with time does not mean that 
-     * the population does not change over time.  Rather it means that 
-     * calls isMember and isMemberAtXXX methods or getMembers and getMembersAtXXX 
-     * should normally return the same answer if invoked simultaneously.
+     * Note: Saying that a population does not vary with time does not
+     * mean that the population does not change over time.  Rather it
+     * means that calls isMember and isMemberAtXXX methods or
+     * getMembers and getMembersAtXXX should normally return the same
+     * answer if invoked simultaneously.
      * 
      * @name Varies By Time
      * @readOnly calculation surfacing the corresponding field from the underlying rule
@@ -69,14 +73,14 @@ public interface Population extends IdEntity {
     public Boolean getVariesByTime();
     
     /**
-     * Tests to see if this Population supports the getting of an explicit list 
-     * of the members in this population.
+     * Tests to see if this Population supports the getting of an
+     * explicit list of the members in this population.
      * 
-     * Not all populations need to support this method and only support 
-     * the isMember method which tests.
+     * Not all populations need to support this method and only
+     * support the isMember method which tests.
      * 
-     * If false then calls to the getMembersXXX family for this population 
-     * should throw an OperationFailedException exception.
+     * If false then calls to the getMembersXXX family for this
+     * population should throw an OperationFailedException exception.
      *
      * @name Supports Get Members
      * @readOnly calculation surfacing the corresponding field from the underlying rule

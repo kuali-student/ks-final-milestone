@@ -15,11 +15,10 @@
  */
 package org.kuali.student.r2.core.population.infc;
 
-import java.util.List;
-
-import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.infc.IdEntity;
 
+import java.util.List;
 
 /**
  * Information about a Population Rule to set up a Population. Each
@@ -31,7 +30,8 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
  * @author tom
  * @since Thu Nov 21 14:22:34 EDT 2011
  */
-public interface PopulationRule extends IdEntity {
+public interface PopulationRule
+        extends IdEntity {
 
     /**
      * The search criteria to be used in building this
@@ -66,7 +66,7 @@ public interface PopulationRule extends IdEntity {
      * 
      * Note: this does not hold the list of members unless people can be manually
      * added or removed from the population.
-     *
+     * 
      * @name Person Ids
      * @required when rule type indicates students can be explicitly added/removed 
      * from the population.
@@ -132,6 +132,7 @@ public interface PopulationRule extends IdEntity {
      * should normally return the same answer if invoked simultaneously.
      * 
      * @name Varies By Time
+     * @required
      */
     public Boolean getVariesByTime();
 
@@ -146,6 +147,7 @@ public interface PopulationRule extends IdEntity {
      * should throw an OperationFailedException exception.
      *
      * @name Supports Get Members
+     * @required
      */
     public Boolean getSupportsGetMembers();
 }

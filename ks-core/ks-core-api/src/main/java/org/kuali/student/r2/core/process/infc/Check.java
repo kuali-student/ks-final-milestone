@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 The Kuali Foundation
+ * Copyright 2011 The Kuali Foundation 
  *
  * Licensed under the Educational Community License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the
@@ -72,7 +72,7 @@ public interface Check
      */
     public String getChildProcessKey();
 
-    /**
+    /** 
      *  A hard coded value for comparison Check Types of
      *  min/max/equals. The left comparison value may be determined
      *  from the context of the process or from an agenda Id.
@@ -84,7 +84,7 @@ public interface Check
      *  @name Right Comparison Value
      */
     public String getRightComparisonValue();
-
+    
     /**
      * The Left Comparison Agenda Id is for comparison Check Types of
      * min/max/equals for determining the left-hand side of the
@@ -106,7 +106,7 @@ public interface Check
      *
      *  For example, the result of this rule evaluation may calculate
      *  the credit limit for a particular student if it fluctuates by
-     *  other criteria such as Term or Population.
+     *  other criteria such as Term or Population. 
      *
      * @name Right Comparison Agenda Id
      */
