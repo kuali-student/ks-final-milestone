@@ -1,7 +1,6 @@
 package org.kuali.student.r2.core.class1.search;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -88,19 +87,19 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
             throw new RuntimeException(e);
         }
 
-        List<LuiEntity> luis = genericEntityDao.getEm().createQuery("select lui from LuiEntity lui,AtpEntity atp " +
-                                                                       "where lui.atpId=atp.atpCode and lui.cluId = :cluId and " +
-                                                                       "lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' " +
-                                                                       "and atp.startDate >= :startDate").setParameter("startDate", startDate, TemporalType.DATE).setParameter("cluId", courseId).getResultList();
+        List<String> luiIds = genericEntityDao.getEm().createQuery("select lui.id from LuiEntity lui,AtpEntity atp " +
+                "where lui.atpId=atp.atpCode and lui.cluId = :cluId and " +
+                "lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' " +
+                "and atp.startDate >= :startDate").setParameter("startDate", startDate, TemporalType.DATE).setParameter("cluId", courseId).getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();
-        resultInfo.setTotalResults(luis.size());
+        resultInfo.setTotalResults(luiIds.size());
         resultInfo.setStartAt(0);
 
-        for (LuiEntity lui : luis) {
+        for (String luiId : luiIds) {
             SearchResultRowInfo row = new SearchResultRowInfo();
             resultInfo.getRows().add(row);
-            row.addCell("courseOfferingId",lui.getId());
+            row.addCell("courseOfferingId",luiId);
         }
 
         return resultInfo;
