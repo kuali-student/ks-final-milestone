@@ -80,12 +80,12 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     private String referenceTypeKey;
     private String referenceType;
     private String referenceState;
-    private String refObjectTypeKey;
+    protected String refObjectTypeKey;
     private final String refDocRelationTypeKey = "kuali.org.DocRelation.allObjectTypes";
     
     private static final int POLL_INTERVAL = 2000;
 
-    private DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
+    protected DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
     private VerticalFlowPanel layout = new VerticalFlowPanel();
     private VerticalFlowPanel documentList = new VerticalFlowPanel();
     private VerticalFlowPanel uploadList = new VerticalFlowPanel();
@@ -314,7 +314,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         return labelKey;
     }
 
-    private MultiplicityConfiguration setupMultiplicityConfig(  MultiplicityConfiguration.MultiplicityType multiplicityType
+    protected MultiplicityConfiguration setupMultiplicityConfig(  MultiplicityConfiguration.MultiplicityType multiplicityType
                                                               , MultiplicityConfiguration.StyleType styleType
                                                               , String path, String addItemlabelMessageKey
                                                               , String itemLabelMessageKey
@@ -395,7 +395,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         return new MessageKeyInfo("groupName", "type", "state", labelKey);
     }
 
-    private Widget createUploadForm() {
+    protected Widget createUploadForm() {
         final VerticalSectionView verticalSectionView= new VerticalSectionView(this.getViewEnum(), this.getName(), this.getController().getDefaultModelId());
         MultiplicitySection ms= new MultiplicitySection(setupMultiplicityConfig(  MultiplicityConfiguration.MultiplicityType.GROUP
                                                                                 , MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP
@@ -646,5 +646,5 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     // TODO Auto-generated method stub
 
     }
-
+    
 }
