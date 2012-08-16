@@ -20,8 +20,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dao.ScheduleRequestDao;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.omg.CORBA.*;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -29,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:scheduling-impl-test-context.xml"})
@@ -76,4 +83,31 @@ public class TestScheduleRequest {
         assertNotNull(schedulingService);
     }
 
+    @Test
+    public void testGetScheduleRequest() throws Exception {
+        try {
+            schedulingService.getScheduleRequest("ScheduleRequest-blah", callContext);
+            fail("should not exist");
+        } catch (DoesNotExistException ex) {
+            // expected
+        }
+
+        ScheduleRequestInfo obj = schedulingService.getScheduleRequest("schedReq-1", callContext);
+        assertNotNull(obj);
+        assertEquals("schedReq-1", obj.getName());
+        assertEquals("refObjId", obj.getRefObjectId());
+        assertEquals("refObjType", obj.getRefObjectTypeKey());
+        assertEquals(SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, obj.getTypeKey());
+        assertEquals(SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, obj.getStateKey());
+        assertEquals("<p>schedreq Desc 101</p>", obj.getDescr().getFormatted());
+        assertEquals("schedreq Desc 101", obj.getDescr().getPlain());
+        assertNotNull(obj.getScheduleRequestComponents());
+        ScheduleRequestComponentInfo srComp = obj.getScheduleRequestComponents().get(0);
+        assertTrue(srComp.getBuildingIds().contains("building A1"));
+        assertTrue(srComp.getCampusIds().contains("campus A1"));
+        assertTrue(srComp.getOrgIds().contains("org A1"));
+        assertTrue(srComp.getRoomIds().contains("room A1"));
+        assertTrue(srComp.getResourceTypeKeys().contains("resource A1"));
+        assertTrue(srComp.getTimeSlotIds().contains("timeslot A1"));
+    }
 }

@@ -89,9 +89,9 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <bean id="schedulingServiceImpl"
-          class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
+    <bean id="schedulingServiceImpl" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
         <property name="timeSlotDao" ref="timeSlotDao"/>
+        <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
     </bean>
 
     <bean id="timeSlotDao" class="org.kuali.student.r2.core.scheduling.dao.TimeSlotDao">

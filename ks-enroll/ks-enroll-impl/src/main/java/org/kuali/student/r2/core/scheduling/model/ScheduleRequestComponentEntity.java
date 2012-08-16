@@ -98,32 +98,39 @@ public class ScheduleRequestComponentEntity extends MetaEntity {
     public ScheduleRequestComponentInfo toDto() {
         ScheduleRequestComponentInfo scheduleRequestComponentInfo = new ScheduleRequestComponentInfo();
         scheduleRequestComponentInfo.setId(this.getId());
-        scheduleRequestComponentInfo.getBuildingIds().clear();
+
         if(buildingIds != null){
-            scheduleRequestComponentInfo.getBuildingIds().addAll(buildingIds);
+            scheduleRequestComponentInfo.setBuildingIds(addIds(buildingIds));
         }
-        scheduleRequestComponentInfo.getCampusIds().clear();
+
         if(campusIds != null){
-            scheduleRequestComponentInfo.getCampusIds().addAll(campusIds);
+            scheduleRequestComponentInfo.setCampusIds(addIds(campusIds));
         }
-        scheduleRequestComponentInfo.getOrgIds().clear();
+
         if(orgIds != null) {
-            scheduleRequestComponentInfo.getOrgIds().addAll(orgIds);
+            scheduleRequestComponentInfo.setOrgIds(addIds(orgIds));
         }
-        scheduleRequestComponentInfo.getResourceTypeKeys().clear();
+
         if(resourceTypeKeys != null) {
-            scheduleRequestComponentInfo.getResourceTypeKeys().addAll(resourceTypeKeys);
+            scheduleRequestComponentInfo.setResourceTypeKeys(addIds(resourceTypeKeys));
         }
-        scheduleRequestComponentInfo.getRoomIds().clear();
+
         if(roomIds != null){
-            scheduleRequestComponentInfo.getRoomIds().addAll(roomIds);
+            scheduleRequestComponentInfo.setRoomIds(addIds(roomIds));
         }
-        scheduleRequestComponentInfo.getTimeSlotIds().clear();
+
         if(timeSlotIds != null) {
-            scheduleRequestComponentInfo.getTimeSlotIds().addAll(timeSlotIds);
+            scheduleRequestComponentInfo.setTimeSlotIds(addIds(timeSlotIds));
         }
 
         return scheduleRequestComponentInfo;
+    }
+
+    private List<String> addIds(List<String> aList){
+        List<String> objs = new ArrayList<String>();
+        objs.addAll(aList);
+
+        return objs;
     }
 
     public List<String> getBuildingIds() {

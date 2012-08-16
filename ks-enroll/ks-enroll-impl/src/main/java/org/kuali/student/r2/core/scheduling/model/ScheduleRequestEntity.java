@@ -5,6 +5,8 @@ import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequest;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
@@ -108,24 +110,22 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
         ScheduleRequestInfo scheduleRequestInfo = new ScheduleRequestInfo();
         scheduleRequestInfo.setRefObjectId(this.getRefObjectId());
         scheduleRequestInfo.setRefObjectTypeKey(this.getRefObjectTypeKey());
-
-        // -------------------------------------------------
-        // Stuff that is updated for nearly all entities
+        scheduleRequestInfo.setDescr(new RichTextHelper().toRichTextInfo(this.getPlain(), this.getFormatted()));
+        scheduleRequestInfo.setName(this.getName());
         scheduleRequestInfo.setId(this.getId()); // id is assumed not null
         scheduleRequestInfo.setTypeKey(this.getSchedReqType()); // type is assumed not null
         scheduleRequestInfo.setStateKey(this.getSchedReqState()); // state is assumed not null
         scheduleRequestInfo.setMeta(super.toDTO());
-        if (getAttributes() != null) {
-            for (ScheduleRequestAttributeEntity att : getAttributes()) {
-                scheduleRequestInfo.getAttributes().add(att.toDto());
-            }
-        }
+         // Attributes
+        scheduleRequestInfo.setAttributes(TransformUtility.toAttributeInfoList(this));
 
-        if (getScheduleRequestComponents() != null) {
+        List<ScheduleRequestComponentInfo> srComps = new ArrayList<ScheduleRequestComponentInfo>();
+        if (this.getScheduleRequestComponents() != null) {
             for (ScheduleRequestComponentEntity sqComp : getScheduleRequestComponents()) {
-                scheduleRequestInfo.getScheduleRequestComponents().add(sqComp.toDto());
+                srComps.add(sqComp.toDto());
             }
         }
+        scheduleRequestInfo.setScheduleRequestComponents(srComps);
 
         return scheduleRequestInfo;
     }
