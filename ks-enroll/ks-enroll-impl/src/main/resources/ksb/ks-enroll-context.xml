@@ -700,10 +700,17 @@
     <bean id="apptWindowCountsSearchImpl" class="org.kuali.student.r2.core.class1.search.ApptWindowCountsSearchImpl">
         <property name="genericEntityDao" ref="searchDao"/>
     </bean>
+
+    <bean id="courseOfferingHistorySearchImpl" class="org.kuali.student.r2.core.class1.search.CourseOfferingHistorySearchImpl">
+        <property name="genericEntityDao" ref="searchDao"/>
+        <property name="noOfYears" value="5"/>
+    </bean>
+
     <bean id="searchService" class="org.kuali.student.r2.core.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
             <list>
-                 <ref bean="apptWindowCountsSearchImpl" /> 
+                 <ref bean="apptWindowCountsSearchImpl" />
+                 <ref bean="courseOfferingHistorySearchImpl"/>
             </list>
         </property>                
     </bean>
