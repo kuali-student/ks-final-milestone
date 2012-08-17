@@ -24,8 +24,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
-import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r1.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -62,7 +61,7 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
         String finalExamType = form.getCoInfo().getFinalExamType();
 
         try {
-            List<EnumeratedValueInfo> enumerationInfos = (List<EnumeratedValueInfo> ) getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null, ContextUtils.getContextInfo());
+            List<EnumeratedValueInfo> enumerationInfos = (List<EnumeratedValueInfo> ) getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null);
             Collections.sort(enumerationInfos, new FinalExamComparator());
 
             for(EnumeratedValueInfo enumerationInfo : enumerationInfos) {
@@ -82,8 +81,9 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
             throw new RuntimeException(e);
         } catch (OperationFailedException e) {
             throw new RuntimeException(e);
-        } catch (PermissionDeniedException e) {
-            throw new RuntimeException(e);
+// TODO Re-enable when switching to r2 enumeration service
+//        } catch (PermissionDeniedException e) {
+//            throw new RuntimeException(e);
         }
 
     return keyValues;

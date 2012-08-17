@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.*;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -57,7 +56,6 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
     private CourseService courseService;
     private LRCService lrcService;
     private ContextInfo contextInfo = null;
-    private EnumerationManagementService enumerationManagementService;
     private OrganizationService organizationService;
     public static TypeService typeService;
 
@@ -255,13 +253,6 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             contextInfo =  ContextBuilder.loadContextInfo();
         }
         return contextInfo;
-    }
-
-    protected EnumerationManagementService getEnumerationManagementService() {
-        if(enumerationManagementService == null) {
-            enumerationManagementService = (EnumerationManagementService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/enumerationmanagement", "EnumerationManagementService"));
-        }
-        return this.enumerationManagementService;
     }
 
     private static TypeService getTypeService() {

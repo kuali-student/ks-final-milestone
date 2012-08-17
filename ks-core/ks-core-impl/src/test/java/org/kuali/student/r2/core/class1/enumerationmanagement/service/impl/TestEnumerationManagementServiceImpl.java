@@ -40,7 +40,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumContextValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
-import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r1.core.enumerationmanagement.service.EnumerationManagementService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -70,7 +70,7 @@ public class TestEnumerationManagementServiceImpl {
     public void testGetEnumerations() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         //findEnumerationMetas
         EnumerationInfo dto = null;
-        List<EnumerationInfo> list = enumService.getEnumerations(callContext);
+        List<EnumerationInfo> list = enumService.getEnumerations();
         
         assertEquals(11, list.size());
         boolean foundMeta = false;
@@ -92,7 +92,7 @@ public class TestEnumerationManagementServiceImpl {
     @Test
     public void testGetEnumeration() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         //fetchEnumerationMeta
-        EnumerationInfo dto = enumService.getEnumeration("kuali.enum.lu.program.level", callContext);
+        EnumerationInfo dto = enumService.getEnumeration("kuali.enum.lu.program.level");
         assertEquals("kuali.enum.lu.program.level", dto.getKey());
         assertEquals("Program Level", dto.getName());
         assertEquals("Program Level", dto.getDescr().getPlain());
@@ -100,7 +100,7 @@ public class TestEnumerationManagementServiceImpl {
         //fetchEnumerationMeta for "NULL" key
         EnumerationInfo dto_null = null;
         try {
-            dto_null = enumService.getEnumeration("NULL", callContext);
+            dto_null = enumService.getEnumeration("NULL");
             assertTrue(false);
         } catch (DoesNotExistException e) {
             assertTrue(true);
@@ -169,21 +169,21 @@ public class TestEnumerationManagementServiceImpl {
         entity3.getContexts().add(contextEntity3);
         entity4.getContexts().add(contextEntity4);
         
-        enumService.addEnumeratedValue("kuali.lu.finalExam.status", entity1.getCode(), entity1, callContext);
-        enumService.addEnumeratedValue("kuali.lu.finalExam.status", entity2.getCode(), entity2, callContext);
-        enumService.addEnumeratedValue("kuali.lu.finalExam.status", entity3.getCode(), entity3, callContext);
-        enumService.addEnumeratedValue("kuali.lu.finalExam.status", entity4.getCode(), entity4, callContext);
+        enumService.addEnumeratedValue("kuali.lu.finalExam.status", entity1);
+        enumService.addEnumeratedValue("kuali.lu.finalExam.status", entity2);
+        enumService.addEnumeratedValue("kuali.lu.finalExam.status", entity3);
+        enumService.addEnumeratedValue("kuali.lu.finalExam.status", entity4);
         
-        List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", "country", "US", new Date(baseTime), callContext);
+        List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", "country", "US", new Date(baseTime));
         assertEquals(2, list.size());        
             
-        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", null, null, null, callContext);
+        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", null, null, null);
         assertEquals(4, list.size());
         
-        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", "country", "CA", null, callContext);
+        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", "country", "CA", null);
         assertEquals(2, list.size());
             
-        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", "country", "US", null, callContext);
+        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", "country", "US", null);
         assertEquals(2, list.size());
         
         //testing accuracy
@@ -219,23 +219,23 @@ public class TestEnumerationManagementServiceImpl {
             i++;
         }
 
-        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", null, null, new Date(baseTime), callContext);
+        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", null, null, new Date(baseTime));
         assertEquals(4, list.size());
 
-        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", null, null, new Date(baseTime+40000000L), callContext);
+        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", null, null, new Date(baseTime+40000000L));
         assertEquals(3, list.size());
         
-        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", "country", "US", new Date(baseTime+40000000L), callContext);
+        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", "country", "US", new Date(baseTime+40000000L));
         assertEquals(1, list.size());
         
-        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", "country", "CA", new Date(baseTime+40000000L), callContext);
+        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", "country", "CA", new Date(baseTime+40000000L));
         assertEquals(2, list.size());
         
-        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", "country", "CA", new Date(baseTime), callContext);
+        list = enumService.getEnumeratedValues("kuali.lu.finalExam.status", "country", "CA", new Date(baseTime));
         assertEquals(2, list.size());
         
         try{
-            list = enumService.getEnumeratedValues(null, null, null, null, callContext);
+            list = enumService.getEnumeratedValues(null, null, null, null);
             assertTrue("This line is not supposed to be reached.", false);
         }catch (DoesNotExistException e) {
             assertTrue(true);
@@ -276,9 +276,9 @@ public class TestEnumerationManagementServiceImpl {
         dtoContext.add(newContext);
         dto.setContexts(dtoContext);
         //add first
-        dto = enumService.addEnumeratedValue("kuali.enum.type.cip2000", dto.getCode(), dto, callContext);
+        dto = enumService.addEnumeratedValue("kuali.enum.type.cip2000", dto);
 
-        List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("kuali.enum.type.cip2000", "ContextA", "1", new Date(baseTime), callContext);
+        List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("kuali.enum.type.cip2000", "ContextA", "1", new Date(baseTime));
         assertEquals(list.size(), 1);
         EnumeratedValueInfo listItem = list.get(0);
         
@@ -301,9 +301,9 @@ public class TestEnumerationManagementServiceImpl {
         dto.setValue("newValue");
         dto.getContexts().get(0).setKey("newType");
         dto.getContexts().get(0).setValue("newContextValue");
-        enumService.updateEnumeratedValue("kuali.enum.type.cip2000", "c", dto, callContext);
+        enumService.updateEnumeratedValue("kuali.enum.type.cip2000", "c", dto);
 
-        list = enumService.getEnumeratedValues("kuali.enum.type.cip2000", "newType", "newContextValue", new Date(baseTime), callContext);
+        list = enumService.getEnumeratedValues("kuali.enum.type.cip2000", "newType", "newContextValue", new Date(baseTime));
         assertEquals(list.size(), 1);
         listItem = list.get(0);
         
@@ -342,10 +342,11 @@ public class TestEnumerationManagementServiceImpl {
         dtoContext.add(newContext);
         dto.setContexts(dtoContext);
         //add first
-        enumService.addEnumeratedValue("kuali.enum.type.cip2000", dto.getCode(), dto, callContext);
-        enumService.deleteEnumeratedValue("kuali.enum.type.cip2000", "c", callContext);
+        enumService.addEnumeratedValue("kuali.enum.type.cip2000", dto);
+        // TODO replace with deleteEnumeratedValue when switching to r2 service
+        enumService.removeEnumeratedValue("kuali.enum.type.cip2000", "c");
 
-        List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("kuali.enum.type.cip2000", "ContextA", "1", new Date(baseTime), callContext);
+        List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("kuali.enum.type.cip2000", "ContextA", "1", new Date(baseTime));
         assertTrue(list.isEmpty());
     }
     
@@ -370,9 +371,9 @@ public class TestEnumerationManagementServiceImpl {
         newContext.setValue("1");
         dtoContext.add(newContext);
         dto.setContexts(dtoContext);
-        enumService.addEnumeratedValue("kuali.lu.fee.feeType", dto.getCode(), dto, callContext);
+        enumService.addEnumeratedValue("kuali.lu.fee.feeType", dto);
 
-        List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("kuali.lu.fee.feeType", "ContextA", "1", new Date(baseTime), callContext);
+        List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("kuali.lu.fee.feeType", "ContextA", "1", new Date(baseTime));
         assertEquals(1, list.size());
         EnumeratedValueInfo listItem = list.get(0);
         

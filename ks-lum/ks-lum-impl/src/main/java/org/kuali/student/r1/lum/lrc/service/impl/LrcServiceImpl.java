@@ -471,7 +471,11 @@ public class LrcServiceImpl implements LrcService {
 
         ResultComponent rc = LrcServiceAssembler.toResultComponent(gradeValuesGroupInfo.getTypeKey(), gradeValuesGroupInfo, lrcDao);
         lrcDao.create(rc);
-        return LrcServiceAssembler.toResultValuesGroupInfo(rc);
+        try {
+            return LrcServiceAssembler.toResultValuesGroupInfo(rc);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("Error Mapping r1 Result Component to r2 Result Value Group", e);
+        }
     }
 
     @Override
