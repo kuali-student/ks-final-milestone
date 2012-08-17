@@ -276,8 +276,8 @@
     </bean>
 
     <!--  Organization Service Config -->
-    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
-        <!--<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />-->
+    <bean id="dictionaryServiceNew" class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
     </bean>
 
     <bean id="orgEntityManagerFactory" parent="defaultEntityManagerFactory">
@@ -299,7 +299,7 @@
         class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao" />
         <property name="searchManager" ref="orgSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
+        <property name="dictionaryServiceDelegate" ref="dictionaryServiceNew"/>
     </bean>
 
     <bean id="orgSearchManager"
@@ -331,7 +331,7 @@
     </bean>
 
     <bean id="lrcServiceImpl"
-        class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+        class="org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl">
         <property name="lrcDao" ref="lrcDao" />
         <property name="searchManager" ref="lrcSearchManager" />
     </bean>
