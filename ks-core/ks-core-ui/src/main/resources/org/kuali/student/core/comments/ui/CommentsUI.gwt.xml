@@ -17,5 +17,4 @@
 
 <module>
 	<inherits name="org.kuali.student.common.ui.CommonUI"/>
-    <inherits name="org.kuali.student.r1.core.comment.Comment"/>
 </module>
