@@ -18,7 +18,7 @@ package org.kuali.student.r2.common.type.dto;
 
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.core.type.infc.Type;
+import org.kuali.student.r2.common.type.infc.Type;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;

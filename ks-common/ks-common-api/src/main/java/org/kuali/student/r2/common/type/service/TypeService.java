@@ -21,8 +21,8 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.type.dto.TypeInfo;
+import org.kuali.student.r2.common.type.dto.TypeTypeRelationInfo;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;

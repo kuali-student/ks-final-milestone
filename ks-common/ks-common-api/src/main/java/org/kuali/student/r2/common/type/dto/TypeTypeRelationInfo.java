@@ -17,7 +17,7 @@
 package org.kuali.student.r2.common.type.dto;
 
 import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.kuali.student.r2.core.type.infc.TypeTypeRelation;
+import org.kuali.student.r2.common.type.infc.TypeTypeRelation;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
