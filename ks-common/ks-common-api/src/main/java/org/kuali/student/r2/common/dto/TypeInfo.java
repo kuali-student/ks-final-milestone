@@ -35,7 +35,7 @@ import org.kuali.student.r2.common.infc.Type;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TypeInfo", propOrder = {
                  "key", "name", "descr", "effectiveDate", "expirationDate", 
-                 "refObjectUri", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+                 "refObjectUri", "serviceUri", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 
 public class TypeInfo 
     extends HasAttributesAndMetaInfo 
@@ -58,6 +58,9 @@ public class TypeInfo
     
     @XmlElement
     private String refObjectUri;
+
+    @XmlElement
+    private String serviceUri;
     
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
@@ -87,6 +90,7 @@ public class TypeInfo
             this.effectiveDate = null != type.getEffectiveDate() ? new Date(type.getEffectiveDate().getTime()) : null;
             this.expirationDate = null != type.getExpirationDate() ? new Date(type.getExpirationDate().getTime()) : null;
             this.refObjectUri = type.getRefObjectUri();
+            this.serviceUri = type.getServiceUri();
         }
     }
 	
@@ -142,5 +146,16 @@ public class TypeInfo
     
     public void setRefObjectUri(String refObjectUri) {
         this.refObjectUri = refObjectUri;
+    }
+
+    /**
+     * Getters and Setters for ServiceUri
+     */
+    public String getServiceUri(){
+        return serviceUri;
+    }
+
+    public void setServiceUri(String serviceUri){
+        this.serviceUri = serviceUri;
     }
 }

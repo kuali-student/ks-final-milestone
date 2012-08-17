@@ -66,4 +66,10 @@ public interface Type
      * @name Reference Object Uri
      */
     public String getRefObjectUri();
+
+    /**
+     *
+     * @name Service Uri
+     */
+    public String getServiceUri();
 }
