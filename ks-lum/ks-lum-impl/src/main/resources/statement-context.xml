@@ -340,7 +340,7 @@
     </bean>
 <!--     
     <bean id="statementService" autowire="byName"
-        class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+        class="org.kuali.student.r1.core.statement.service.impl.StatementServiceImpl">
         <property name="statementDao" ref="statementDao"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
     </bean>

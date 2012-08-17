@@ -320,7 +320,7 @@
     </bean>
 
     <bean id="lrcDao"
-        class="org.kuali.student.r2.lum.lrc.dao.impl.LrcDaoImpl">
+        class="org.kuali.student.r1.lum.lrc.dao.impl.LrcDaoImpl">
         <property name="em" ref="lrcEntityManager" />
     </bean>
 

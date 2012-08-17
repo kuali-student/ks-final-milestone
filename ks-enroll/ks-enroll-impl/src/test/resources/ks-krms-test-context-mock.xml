@@ -287,16 +287,16 @@
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <!--<bean id="luSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+    <!--<bean id="luSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
          <constructor-arg index="0" value="classpath:lu-search-config.xml" />
          <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
      </bean>-->
 
-    <!-- <bean id="lumCrossServiceSearchManager" class="org.kuali.student.common.search.service.impl.CrossSearchManager">
+    <!-- <bean id="lumCrossServiceSearchManager" class="org.kuali.student.r1.common.search.service.impl.CrossSearchManager">
          <property name="searchDispatcher" ref="lumSearchDispatcher"/>
      </bean>-->
 
-    <!--<bean id="lumSearchDispatcher" class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
+    <!--<bean id="lumSearchDispatcher" class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
         <property name="services">
             <list>
                 <ref bean="loServiceImpl"/>
@@ -326,7 +326,7 @@
     </bean>
 
     <!--<bean id="loSearchManager"
-         class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+         class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
          <constructor-arg index="0" value="classpath:lo-search-config.xml" />
          <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
      </bean>-->
@@ -352,7 +352,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
     <!--<bean id="lrcSearchManager"
-         class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+         class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
          <constructor-arg index="0" value="classpath:lrc-search-config.xml" />
          <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
      </bean>-->
@@ -557,7 +557,7 @@
         <property name="searchManager" ref="emSearchManager"/>
     </bean>
     <bean id="emDao"
-          class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
+          class="org.kuali.student.r1.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
         <property name="em" ref="entityManager"/>
     </bean>
 
@@ -578,7 +578,7 @@
     </bean>
 
     <bean id="statementSearchManager"
-          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:statement-search-config.xml"/>
     </bean>
 
