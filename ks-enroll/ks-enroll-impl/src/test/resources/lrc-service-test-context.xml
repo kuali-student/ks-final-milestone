@@ -103,7 +103,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceBusinessLogicImpl" >
+    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" >
         <property name="lrcService" ref="lrcService"/>
     </bean>
 

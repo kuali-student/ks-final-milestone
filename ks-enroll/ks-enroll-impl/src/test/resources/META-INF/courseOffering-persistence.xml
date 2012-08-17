@@ -224,23 +224,13 @@
         <class>org.kuali.student.r2.lum.lu.entity.SearchParameter</class>
         <class>org.kuali.student.r2.lum.lu.entity.SearchParameterValue</class>
 
-        <class>org.kuali.student.r2.core.atp.entity.Atp</class>
-        <class>org.kuali.student.r2.core.atp.entity.AtpAttribute</class>
-        <class>org.kuali.student.r2.core.atp.entity.AtpDurationType</class>
-        <class>org.kuali.student.r2.core.atp.entity.AtpDurationTypeAttribute</class>
-        <class>org.kuali.student.r2.core.atp.entity.AtpRichText</class>
-        <class>org.kuali.student.r2.core.atp.entity.AtpSeasonalType</class>
-        <class>org.kuali.student.r2.core.atp.entity.AtpSeasonalTypeAttribute</class>
-        <class>org.kuali.student.r2.core.atp.entity.AtpType</class>
-        <class>org.kuali.student.r2.core.atp.entity.AtpTypeAttribute</class>
-        <class>org.kuali.student.r2.core.atp.entity.DateRange</class>
-        <class>org.kuali.student.r2.core.atp.entity.DateRangeAttribute</class>
-        <class>org.kuali.student.r2.core.atp.entity.DateRangeType</class>
-        <class>org.kuali.student.r2.core.atp.entity.DateRangeTypeAttribute</class>
-        <class>org.kuali.student.r2.core.atp.entity.Milestone</class>
-        <class>org.kuali.student.r2.core.atp.entity.MilestoneAttribute</class>
-        <class>org.kuali.student.r2.core.atp.entity.MilestoneType</class>
-        <class>org.kuali.student.r2.core.atp.entity.MilestoneTypeAttribute</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.MilestoneEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.MilestoneAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.LrrAttributeEntity</class>
