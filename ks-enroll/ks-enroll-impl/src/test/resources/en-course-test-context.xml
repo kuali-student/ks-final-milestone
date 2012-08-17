@@ -96,8 +96,8 @@
 	</bean>
 
     <!--  Organization Service Config -->
-    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
-        <!--<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />-->
+    <bean id="dictionaryServiceNew" class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
     </bean>
 
     <bean id="orgDao"
@@ -109,7 +109,7 @@
         class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao" />
         <property name="searchManager" ref="orgSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
+        <property name="dictionaryServiceDelegate" ref="dictionaryServiceNew"/>
     </bean>
 
     <bean id="orgSearchManager"
@@ -174,7 +174,7 @@
 	</bean>
 
 	<bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.r2.core.proposal.service.ProposalService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
 	</bean>
 
