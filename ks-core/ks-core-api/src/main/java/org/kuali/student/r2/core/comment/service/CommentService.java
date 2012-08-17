@@ -33,6 +33,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.TagInfo;
+import org.kuali.student.r2.core.constants.CommentServiceConstants;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -47,7 +48,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 
-@WebService(name = "CommentService", targetNamespace = org.kuali.student.r2.core.constants.CommentServiceConstants.NAMESPACE)
+@WebService(name = "CommentService", targetNamespace = CommentServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CommentService extends DictionaryService {
 
