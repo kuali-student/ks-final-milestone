@@ -1373,7 +1373,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, context);
         for (LuiInfo lui:luis) {
             if (LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(lui.getTypeKey())) {
-                // TODO: Need to convert LUI to RG via transformer
+                // Use service call getRegistrationGroup to do the work
+                RegistrationGroupInfo rgInfo = getRegistrationGroup(lui.getId(), context);
+                regGroups.add(rgInfo);
             } else {
                 throw new InvalidParameterException("Invalid type for reg groups");
             }
