@@ -63,32 +63,32 @@ SET SERVICE_URI='http://student.kuali.org/wsdl/lpr/LprService'
 WHERE TYPE_KEY like 'kuali.lpr%'
 /
 
-UPDATE KSEMBEDDED.KSEN_TYPE
+UPDATE KSEN_TYPE
 SET SERVICE_URI='http://student.kuali.org/wsdl/population/PopulationService'
 WHERE TYPE_KEY like 'kuali.population%'
 /
 
-UPDATE KSEMBEDDED.KSEN_TYPE
+UPDATE KSEN_TYPE
 SET SERVICE_URI='http://student.kuali.org/wsdl/scheduling/SchedulingService'
 WHERE TYPE_KEY like 'kuali.scheduling%'
 /
 
-UPDATE KSEMBEDDED.KSEN_TYPE
+UPDATE KSEN_TYPE
 SET SERVICE_URI='http://student.kuali.org/wsdl/type/TypeService'
 WHERE TYPE_KEY like 'kuali.type%'
 /
 
-UPDATE KSEMBEDDED.KSEN_TYPE
+UPDATE KSEN_TYPE
 SET SERVICE_URI='http://student.kuali.org/wsdl/lrc/LrcService'
 WHERE TYPE_KEY like 'kuali.result%'
 /
 
-UPDATE KSEMBEDDED.KSEN_TYPE
+UPDATE KSEN_TYPE
 SET SERVICE_URI='http://student.kuali.org/wsdl/atp/AtpService'
 WHERE TYPE_KEY like 'kuali.milestone%'
 /
 
-UPDATE KSEMBEDDED.KSEN_TYPE
+UPDATE KSEN_TYPE
 SET SERVICE_URI='http://student.kuali.org/wsdl/courseOfferingSet/CourseOfferingSetService'
 WHERE TYPE_KEY like 'kuali.soc%'
 /
