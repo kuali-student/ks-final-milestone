@@ -34,7 +34,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleBatchInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "requestingPersonId", "orgId", "statusMessage", "finalStatus",
+        "requestingPersonId", "orgId", "statusMessage",
         "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class ScheduleBatchInfo extends IdEntityInfo implements ScheduleBatch, Serializable {
 
@@ -44,8 +44,6 @@ public class ScheduleBatchInfo extends IdEntityInfo implements ScheduleBatch, Se
     private String orgId;
     @XmlElement
     private String statusMessage;
-    @XmlElement
-    private StatusInfo finalStatus;
 
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
@@ -59,7 +57,6 @@ public class ScheduleBatchInfo extends IdEntityInfo implements ScheduleBatch, Se
             this.requestingPersonId = scheduleBatch.getRequestingPersonId();
             this.orgId = scheduleBatch.getOrgId();
             this.statusMessage = scheduleBatch.getStatusMessage();
-            this.finalStatus = new StatusInfo(scheduleBatch.getFinalStatus());
         }
     }
 
@@ -88,14 +85,5 @@ public class ScheduleBatchInfo extends IdEntityInfo implements ScheduleBatch, Se
 
     public void setStatusMessage(String statusMessage) {
         this.statusMessage = statusMessage;
-    }
-
-    @Override
-    public StatusInfo getFinalStatus() {
-        return this.finalStatus;
-    }
-
-    public void setFinalStatus(StatusInfo finalStatus) {
-        this.finalStatus = finalStatus;
     }
 }
