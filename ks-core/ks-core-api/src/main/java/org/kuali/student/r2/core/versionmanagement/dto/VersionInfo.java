@@ -12,7 +12,7 @@
 package org.kuali.student.r2.core.versionmanagement.dto;
 
 import org.kuali.student.r2.core.versionmanagement.infc.Version;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "VersionInfo", propOrder = {"versionIndId", "sequenceNumber", "currentVersionStart", "currentVersionEnd", "versionComment", "versionedFromId", "_futureElements"})
+@XmlType(name = "VersionInfo", propOrder = {"versionIndId", "sequenceNumber", "currentVersionStart", "currentVersionEnd", "versionComment", "versionedFromId"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class VersionInfo implements Version, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,8 +47,9 @@ public class VersionInfo implements Version, Serializable {
     @XmlElement
     private String versionedFromId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public VersionInfo() {
 
