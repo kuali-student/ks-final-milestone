@@ -20,7 +20,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -39,6 +38,15 @@ import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**
+ * The appointment service is responsible for creating appointments and then
+ * assigning students to them. The primary focus is to create appointments so
+ * that students can register for courses in the upcoming term.
+ * The process proceeds in three stages. First the user defines windows in the
+ * context of a milestone (like registration period) and assigns populations of
+ * students to those windows, then the user specifies rules for generating
+ * individual slots, finally students from that population get attached to those
+ * slots.
+ *
  * @Version 1.0
  * @Author Sri komandur@uw.edu
  */
