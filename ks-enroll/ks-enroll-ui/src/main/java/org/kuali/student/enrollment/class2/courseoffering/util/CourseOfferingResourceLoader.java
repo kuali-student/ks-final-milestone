@@ -68,7 +68,7 @@ public class CourseOfferingResourceLoader {
     }
 
     public static CluService loadCluService() {
-        CluService luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,"LuService"));
+        CluService luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,"CluService"));
         return luService;
     }
 
