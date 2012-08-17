@@ -60,13 +60,13 @@ public interface PopulationService {
      *        service operation
      * @return true if the person is a member of the Population,
      *         false otherwise
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid personId,
+     * @throws DoesNotExistException populationId not found
+     * @throws InvalidParameterException invalid personId,
      *         populationId, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException populationId, date, or
+     * @throws MissingParameterException populationId, date, or
      *         contextInfo is missing or null
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public Boolean isMemberAsOfDate(@WebParam(name = "personId") String personId,
                                     @WebParam(name = "populationId") String populationId,
@@ -89,13 +89,13 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of Person Ids
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationId or
+     * @throws DoesNotExistException populationId not found
+     * @throws InvalidParameterException invalid populationId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException populationId, date, or
+     * @throws MissingParameterException populationId, date, or
      *         contextInfo is missing or null
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> getMembersAsOfDate(@WebParam(name = "populationId") String populationId,
                                            @WebParam(name = "date") Date date,
@@ -114,11 +114,11 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a Population
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws DoesNotExistException populationId not found
+     * @throws InvalidParameterException invalid populationId or contextInfo
+     * @throws MissingParameterException missing populationId or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public PopulationInfo getPopulation(@WebParam(name = "populationId") String populationId,
                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -137,11 +137,11 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of Population Ids of the given type
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException an populationId in list not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws DoesNotExistException an populationId in list not found
+     * @throws InvalidParameterException invalid populationId or contextInfo
+     * @throws MissingParameterException missing populationId or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<PopulationInfo> getPopulationsByIds(@WebParam(name = "populationIds") List<String> populationIds,
                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -159,12 +159,12 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of Population Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationTypeId or
+     * @throws InvalidParameterException invalid populationTypeId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationTypeId or
+     * @throws MissingParameterException missing populationTypeId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> getPopulationIdsByType(@WebParam(name = "populationTypeId") String populationTypeId,
                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -182,12 +182,12 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of Populations
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationRuleId or
+     * @throws InvalidParameterException invalid populationRuleId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationRuleId or
+     * @throws MissingParameterException missing populationRuleId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<PopulationInfo> getPopulationsForPopulationRule(@WebParam(name = "populationRuleId") String populationRuleId,
                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -205,10 +205,10 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return list of Population Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> searchForPopulationIds(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -226,10 +226,10 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return list of Populations
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<PopulationInfo> searchForPopulations(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -260,13 +260,13 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return Results from performing the validation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException validationTypeId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid validationTypeId,
+     * @throws DoesNotExistException validationTypeId not found
+     * @throws InvalidParameterException invalid validationTypeId,
      *         populationInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing validationTypeKey,
+     * @throws MissingParameterException missing validationTypeKey,
      *         populationInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ValidationResultInfo> validatePopulation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -278,15 +278,15 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return the Population just created
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException one or more values invalid
+     * @throws DataValidationErrorException one or more values invalid
      *         for this operation
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationInfo or
+     * @throws InvalidParameterException invalid populationInfo or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationInfo or
+     * @throws MissingParameterException missing populationInfo or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
     public PopulationInfo createPopulation(@WebParam(name = "populationInfo") PopulationInfo populationInfo,
@@ -307,18 +307,18 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return the details of Population just updated
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException One or more values invalid
+     * @throws DataValidationErrorException One or more values invalid
      *         for this operation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationId,
+     * @throws DoesNotExistException populationId not found
+     * @throws InvalidParameterException invalid populationId,
      *         populationInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationId,
+     * @throws MissingParameterException missing populationId,
      *         populationInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
-     * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException The action was attempted on an out
+     * @throws VersionMismatchException The action was attempted on an out
      *         of date version.
      */
     public PopulationInfo updatePopulation(@WebParam(name = "populationId") String populationId,
@@ -340,11 +340,11 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return status of the operation (success, failed)
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws DoesNotExistException populationId not found
+     * @throws InvalidParameterException invalid populationId or contextInfo
+     * @throws MissingParameterException missing populationId or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deletePopulation(@WebParam(name = "populationId") String populationId,
                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -362,13 +362,13 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a PopulationRule
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationRuleId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationRuleId or
+     * @throws DoesNotExistException populationRuleId not found
+     * @throws InvalidParameterException invalid populationRuleId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationRuleId or
+     * @throws MissingParameterException missing populationRuleId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public PopulationRuleInfo getPopulationRule(@WebParam(name = "populationRuleId") String populationRuleId,
                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -387,13 +387,13 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of PopulationRule Ids of the given type
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException an populationRuleId in list not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationRuleId or
+     * @throws DoesNotExistException an populationRuleId in list not found
+     * @throws InvalidParameterException invalid populationRuleId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationRuleId or
+     * @throws MissingParameterException missing populationRuleId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<PopulationRuleInfo> getPopulationRulesByIds(@WebParam(name = "populationRuleIds") List<String> populationRuleIds,
                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -411,12 +411,12 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of PopulationRule Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationTypeKey or
+     * @throws InvalidParameterException invalid populationTypeKey or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationTypeKey or
+     * @throws MissingParameterException missing populationTypeKey or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> getPopulationRuleIdsByType(@WebParam(name = "populationTypeKey") String populationTypeKey,
                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -434,11 +434,11 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a PopulationRules
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationId is not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationid or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws DoesNotExistException populationId is not found
+     * @throws InvalidParameterException invalid populationid or contextInfo
+     * @throws MissingParameterException missing populationId or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public PopulationRuleInfo getPopulationRuleForPopulation(@WebParam(name = "populationId") String populationId,
                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -458,10 +458,10 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return list of PopulationRule Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> searchForPopulationRuleIds(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -480,10 +480,10 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return list of PopulationRules
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<PopulationRuleInfo> searchForPopulationRules(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -514,13 +514,13 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return Results from performing the validation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException validationTypeKey not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid validationTypeKey,
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey,
      *         populationInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing validationTypeKey,
+     * @throws MissingParameterException missing validationTypeKey,
      *         populationInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ValidationResultInfo> validatePopulationRule(@WebParam(name = "validationTypeKey") String validationTypeKey,
                                                              @WebParam(name = "populationRuleInfo") PopulationRuleInfo populationInfo,
@@ -539,15 +539,15 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return the PopulationRule just created
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException one or more values invalid
+     * @throws DataValidationErrorException one or more values invalid
      *         for this operation
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationInfo or
+     * @throws InvalidParameterException invalid populationInfo or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationInfo or
+     * @throws MissingParameterException missing populationInfo or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
     public PopulationRuleInfo createPopulationRule(@WebParam(name = "populationRuleInfo") PopulationRuleInfo populationRuleInfo,
@@ -569,18 +569,18 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return the details of PopulationRule just updated
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException One or more values invalid
+     * @throws DataValidationErrorException One or more values invalid
      *         for this operation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationRuleId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationRuleId,
+     * @throws DoesNotExistException populationRuleId not found
+     * @throws InvalidParameterException invalid populationRuleId,
      *         populationInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationRuleId,
+     * @throws MissingParameterException missing populationRuleId,
      *         populationInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
-     * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException The action was attempted on an out
+     * @throws VersionMismatchException The action was attempted on an out
      *         of date version.
      */
     public PopulationRuleInfo updatePopulationRule(@WebParam(name = "populationRuleId") String populationRuleId,
@@ -603,13 +603,13 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return status of the operation (success, failed)
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationRuleId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationRuleId or
+     * @throws DoesNotExistException populationRuleId not found
+     * @throws InvalidParameterException invalid populationRuleId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationRuleId or
+     * @throws MissingParameterException missing populationRuleId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deletePopulationRule(@WebParam(name = "populationRuleId") String populationRuleId,
                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -629,14 +629,14 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return status
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationId or
+     * @throws DoesNotExistException populationId or
      *         populationRuleId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationRuleId,
+     * @throws InvalidParameterException invalid populationRuleId,
      *         populationId, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationRuleId,
+     * @throws MissingParameterException missing populationRuleId,
      *         populationId, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo applyPopulationRuleToPopulation(@WebParam(name = "populationRuleId") String populationRuleId,
                                                       @WebParam(name = "populationId") String populationId,
@@ -656,14 +656,14 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return status
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationRuleId or
+     * @throws DoesNotExistException populationRuleId or
      *         populationId not found or unrelated
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationRuleId,
+     * @throws InvalidParameterException invalid populationRuleId,
      *         populationId, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationRuleId,
+     * @throws MissingParameterException missing populationRuleId,
      *         populationId, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo removePopulationRuleFromPopulation(@WebParam(name = "populationRuleId") String populationRuleId,
                                                          @WebParam(name = "populationId") String populationId,
@@ -682,13 +682,13 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a PopulationCategory
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationCategoryId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationCategoryId or
+     * @throws DoesNotExistException populationCategoryId not found
+     * @throws InvalidParameterException invalid populationCategoryId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationCategoryId or
+     * @throws MissingParameterException missing populationCategoryId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public PopulationCategoryInfo getPopulationCategory(@WebParam(name = "populationCategoryId") String populationCategoryId,
                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -707,13 +707,13 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of PopulationCategory Ids of the given type
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException an populationCategoryId in list not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationCategoryId or
+     * @throws DoesNotExistException an populationCategoryId in list not found
+     * @throws InvalidParameterException invalid populationCategoryId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationCategoryId or
+     * @throws MissingParameterException missing populationCategoryId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<PopulationCategoryInfo> getPopulationCategoriesByIds(@WebParam(name = "populationCategoryIds") List<String> populationCategoryIds,
                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -731,10 +731,10 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of PopulationCategory Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid PopulationTypeKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing PopulationTypeKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid PopulationTypeKey or contextInfo
+     * @throws MissingParameterException missing PopulationTypeKey or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> getPopulationCategoryIdsByType(@WebParam(name = "populationTypeKey") String populationTypeKey,
                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -752,10 +752,10 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return a list of PopulationCategories
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid populationId or contextInfo
+     * @throws MissingParameterException missing populationId or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<PopulationCategoryInfo> getPopulationCategoriesForPopulation(@WebParam(name = "populationId") String populationId,
                                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -774,10 +774,10 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return list of PopulationCategory Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> searchForPopulationCategoryIds(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -796,10 +796,10 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return list of PopulationCategories
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<PopulationCategoryInfo> searchForPopulationCategories(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -831,13 +831,13 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return Results from performing the validation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException validationTypeKey not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid validationTypeKey,
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey,
      *         PopulationInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing validationTypeKey,
+     * @throws MissingParameterException missing validationTypeKey,
      *         PopulationInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ValidationResultInfo> validatePopulationCategory(@WebParam(name = "validationTypeKey") String validationTypeKey,
                                                                  @WebParam(name = "populationCategoryTypeKey") String populationCategoryTypeKey,
@@ -858,15 +858,15 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return the PopulationCategory just created
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException one or more values invalid
+     * @throws DataValidationErrorException one or more values invalid
      *         for this operation
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid PopulationInfo or
+     * @throws InvalidParameterException invalid PopulationInfo or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing PopulationInfo or
+     * @throws MissingParameterException missing PopulationInfo or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
     public PopulationCategoryInfo createPopulationCategory(@WebParam(name = "populationCategoryTypeKey") String populationCategoryTypeKey,
@@ -889,18 +889,18 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return the details of PopulationCategory just updated
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException One or more values invalid
+     * @throws DataValidationErrorException One or more values invalid
      *         for this operation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationCategoryId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationCategoryId,
+     * @throws DoesNotExistException populationCategoryId not found
+     * @throws InvalidParameterException invalid populationCategoryId,
      *         PopulationInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationCategoryId,
+     * @throws MissingParameterException missing populationCategoryId,
      *         PopulationInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
-     * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException The action was attempted on an out
+     * @throws VersionMismatchException The action was attempted on an out
      *         of date version.
      */
     public PopulationCategoryInfo updatePopulationCategory(@WebParam(name = "populationCategoryId") String populationCategoryId,
@@ -923,13 +923,13 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return status of the operation (success, failed)
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationCategoryId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationCategoryId or
+     * @throws DoesNotExistException populationCategoryId not found
+     * @throws InvalidParameterException invalid populationCategoryId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationCategoryId or
+     * @throws MissingParameterException missing populationCategoryId or
      *         contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deletePopulationCategory(@WebParam(name = "populationCategoryId") String populationCategoryId,
                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -948,16 +948,16 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return status
-     * @throws org.kuali.student.r2.common.exceptions.AlreadyExistsException populationId already related to
+     * @throws AlreadyExistsException populationId already related to
      *         populationCategoryId
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationId or
+     * @throws DoesNotExistException populationId or
      *         populationCategoryId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationId,
+     * @throws InvalidParameterException invalid populationId,
      *         populationCategoryId, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationId,
+     * @throws MissingParameterException missing populationId,
      *         populationCategoryId, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo addPopulationToPopulationCategory(@WebParam(name = "populationId") String populationId,
                                                         @WebParam(name = "populationCategoryId") String populationCategoryId,
@@ -978,14 +978,14 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return status
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException populationId or
+     * @throws DoesNotExistException populationId or
      *         populationCategoryId not found or unrelated
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid populationId,
+     * @throws InvalidParameterException invalid populationId,
      *         populationCategoryId, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing populationId,
+     * @throws MissingParameterException missing populationId,
      *         populationCategoryId, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo removePopulationFromPopulationCategory(@WebParam(name = "populationId") String populationId,
                                                              @WebParam(name = "populationCategoryId") String populationCategoryId,
