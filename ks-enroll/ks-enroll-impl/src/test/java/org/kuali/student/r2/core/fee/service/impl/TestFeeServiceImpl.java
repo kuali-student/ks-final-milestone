@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.util.constants.FeeServiceConstants;
+import org.kuali.student.r2.core.constants.FeeServiceConstants;
 import org.kuali.student.r2.core.fee.dto.EnrollmentFeeAmountInfo;
 import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 import org.kuali.student.r2.core.fee.infc.EnrollmentFee;

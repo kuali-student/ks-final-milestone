@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import static junit.framework.Assert.*;
 
 /**

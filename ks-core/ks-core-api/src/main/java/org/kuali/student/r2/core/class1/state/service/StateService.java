@@ -39,7 +39,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.common.util.constants.StateServiceConstants;
+import org.kuali.student.r2.core.constants.StateServiceConstants;
 
 
 /**
