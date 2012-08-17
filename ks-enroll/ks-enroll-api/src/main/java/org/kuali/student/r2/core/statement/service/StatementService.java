@@ -36,7 +36,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.common.type.dto.TypeInfo;
 
 /**
  * Statement Service
