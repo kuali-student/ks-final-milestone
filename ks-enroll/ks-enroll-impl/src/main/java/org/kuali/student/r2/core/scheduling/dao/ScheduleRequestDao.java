@@ -18,6 +18,23 @@ package org.kuali.student.r2.core.scheduling.dao;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity;
 
+import java.util.List;
+
 public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> {
+    public List<ScheduleRequestEntity> getScheduleRequestsByRefObject(String refObjectType, String refObjectId ){
+        return (List<ScheduleRequestEntity>)em.createQuery(
+                "from ScheduleRequestEntity sr where sr.refObjectTypeKey=:refObjectTypeKey and sr.refObjectId = :refObjectId")
+                .setParameter("refObjectTypeKey", refObjectType)
+                .setParameter("refObjectId", refObjectId)
+                .getResultList();
+
+    }
+
+    public List<ScheduleRequestEntity> getScheduleRequestsByType(String scheduleRequestTypeKey){
+        return (List<ScheduleRequestEntity>)em.createQuery(
+                 "from ScheduleRequestEntity sr where sr.schedReqType=:schedReqType")
+                .setParameter("schedReqType", scheduleRequestTypeKey)
+                .getResultList();
+    }
 }
 
