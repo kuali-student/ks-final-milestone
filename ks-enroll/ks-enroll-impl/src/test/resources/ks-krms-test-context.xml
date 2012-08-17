@@ -506,7 +506,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="lrcService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LRCServiceImpl">
+    <bean id="lrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
         <property name="resultValuesGroupDao" ref="resultValuesGroupDao"/>
      	<property name="resultValueDao" ref="resultValueDao"/>
      	<property name="resultScaleDao" ref="resultScaleDao"/>
