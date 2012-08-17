@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.common.util.constants.StateServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
@@ -47,7 +48,7 @@ public class PopulationStateKeyValues extends UifKeyValuesFinderBase implements 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         try {
-            List<StateInfo> stateInfos = getStateService().getStatesByLifecycle(PopulationServiceConstants.POPULATION_LIFECYCLE_KEY, ContextInfo.createDefaultContextInfo());
+            List<StateInfo> stateInfos = getStateService().getStatesByLifecycle(PopulationServiceConstants.POPULATION_LIFECYCLE_KEY, ContextUtils.createDefaultContextInfo());
 
             if (stateInfos != null) {
                 for (StateInfo stateInfo : stateInfos) {
