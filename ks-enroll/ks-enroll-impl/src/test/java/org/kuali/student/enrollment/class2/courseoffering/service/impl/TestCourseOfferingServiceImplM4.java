@@ -4,9 +4,12 @@ import junit.framework.Assert;
 import org.junit.Ignore;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +48,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -72,6 +76,9 @@ public class TestCourseOfferingServiceImplM4 {
     private CourseOfferingService coServiceImpl;
     @Resource
     private PopulationService populationService;
+    @Resource
+    private LuiService luiService;
+
     //private SeatPoolDefinitionDao seatPoolDefinitionDao;
     private ContextInfo contextInfo;
 
@@ -82,16 +89,11 @@ public class TestCourseOfferingServiceImplM4 {
         contextInfo = new ContextInfo();
         contextInfo.setPrincipalId("admin");
 
-
         try {
             dataLoader.loadData();
-
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-
-
-
     }
 
     private SeatPoolDefinitionInfo _constructSeatPoolDefinitionInfoById (Integer val) {
@@ -109,8 +111,6 @@ public class TestCourseOfferingServiceImplM4 {
         seatPoolDefinitionInfo.setProcessingPriority(3);
         return seatPoolDefinitionInfo;
     }
-
-
 
     private List<SeatPoolDefinitionInfo> _constructSeatPoolDefinitionInfoByIdList() {
         SeatPoolDefinitionInfo ref = _constructSeatPoolDefinitionInfoById(2);
@@ -191,6 +191,28 @@ public class TestCourseOfferingServiceImplM4 {
         return registrationGroupInfo;
     }
 
+    private RegistrationGroupInfo _constructRegistrationGroupInfo2() {
+        String extension = "-foo";
+        RegistrationGroupInfo registrationGroupInfo = new RegistrationGroupInfo();
+        registrationGroupInfo.setName("TestRegistrationGroupInfo-Id" + extension);
+        registrationGroupInfo.setStateKey("TestRegistrationGroupInfo-StateKey1" + extension);
+        registrationGroupInfo.setTypeKey("TestRegistrationGroupInfo-TypeKey1" + extension);
+        registrationGroupInfo.setFormatOfferingId("Lui-6");
+        registrationGroupInfo.setCourseOfferingId("Lui-1");
+        registrationGroupInfo.setTermId("20122");
+        registrationGroupInfo.setRegistrationCode("02" + extension);
+
+        List<String> activityOfferingIds = new ArrayList<String>();
+        activityOfferingIds.add("Lui-2");
+        activityOfferingIds.add("Lui-Lab2");
+
+        registrationGroupInfo.setActivityOfferingIds(activityOfferingIds);
+        registrationGroupInfo.setIsGenerated(true);
+        registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
+        registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
+        return registrationGroupInfo;
+    }
+
     private List<RegistrationGroupInfo> _constructRegistrationGroupInfoByIdList() {
         RegistrationGroupInfo ref = _constructRegistrationGroupInfoById(2);
         RegistrationGroupInfo three = _constructRegistrationGroupInfoById(3);
@@ -205,6 +227,48 @@ public class TestCourseOfferingServiceImplM4 {
     }
 
     // ============================================== TESTS ======================================================
+    @Test
+    public void testGetAndRemoveRegistrationGroupsByFormatOffering() {
+        before();
+
+        RegistrationGroupInfo info = _constructRegistrationGroupInfoById(null);
+        RegistrationGroupInfo info2 = _constructRegistrationGroupInfo2();
+        try {
+            String foId = "Lui-6";
+            RegistrationGroupInfo created = coServiceImpl.createRegistrationGroup(foId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info, contextInfo);
+            RegistrationGroupInfo created2 = coServiceImpl.createRegistrationGroup(foId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info2, contextInfo);
+
+            List<RegistrationGroupInfo> rgInfos = coServiceImpl.getRegistrationGroupsByFormatOffering(foId, contextInfo);
+            assertEquals(2, rgInfos.size());
+            for (RegistrationGroupInfo rgInfo: rgInfos) {
+                List<String> aoIds = rgInfo.getActivityOfferingIds();
+                for (String aoId: aoIds) {
+                    // I would prefer to get AO via the coService, but the Lui Loader only handles LUIs
+                    LuiInfo luiInfo = luiService.getLui(aoId, contextInfo);
+                    assertNotNull(luiInfo); // Should be trivially true
+                }
+            }
+            // Now remove the reg groups
+            coServiceImpl.deleteRegistrationGroupsByFormatOffering(foId, contextInfo);
+            List<RegistrationGroupInfo> rgInfos2 = coServiceImpl.getRegistrationGroupsByFormatOffering(foId, contextInfo);
+            assertEquals(0, rgInfos2.size());
+            for (RegistrationGroupInfo rgInfo: rgInfos) {
+                boolean found = true;
+                try {
+                    // Should not be able to find the old registration groups
+                    coServiceImpl.getRegistrationGroup(rgInfo.getId(), contextInfo);
+                } catch (DoesNotExistException e) { // Should use DoesNot
+                    found = false;
+                }
+                if (found) {
+                    assert(false);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
     @Test
     public void testCreateRegistrationGroupInfoGet() {
         before();

@@ -1393,6 +1393,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public RegistrationGroupInfo getRegistrationGroup(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         LuiInfo lui = luiService.getLui(registrationGroupId, context);
+        if (lui == null) {
+            throw new DoesNotExistException("registrationGroupId does not exist: " + registrationGroupId);
+        }
         RegistrationGroupInfo rgInfo = registrationGroupTransformer.lui2Rg(lui, context);
         rgInfo.setCourseOfferingId(this.getFormatOffering(rgInfo.getFormatOfferingId(), context).getCourseOfferingId());
 
@@ -1543,6 +1546,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public StatusInfo deleteRegistrationGroup(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         try {
+            LuiInfo fetch = luiService.getLui(registrationGroupId, context);
+            if (fetch == null) {
+                throw new DoesNotExistException("Registration Group, " + registrationGroupId + ", does not exist");
+            }
+            // Make sure we have correct type before deleting
+            if (!LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(fetch.getTypeKey())) {
+                throw new InvalidParameterException("ID, " + registrationGroupId + ", does not have a registration group type");
+            }
             return luiService.deleteLui(registrationGroupId, context);
         } catch (DependentObjectsExistException e) {
             throw new OperationFailedException("Could not delete LUI '" + registrationGroupId + "'", e);

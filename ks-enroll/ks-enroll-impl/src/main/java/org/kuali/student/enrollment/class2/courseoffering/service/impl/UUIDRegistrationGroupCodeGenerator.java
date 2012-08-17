@@ -16,11 +16,14 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**
  * A really simple registration code that is just a UUID.
@@ -41,12 +44,19 @@ public class UUIDRegistrationGroupCodeGenerator implements
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.class2.courseoffering.service.strategy.RegistrationGroupCodeGenerationStrategy#generateRegistrationGroupCode(org.kuali.student.enrollment.courseoffering.infc.FormatOffering, java.util.List)
-	 */
+
+    @Override
+    public void initializeGenerator(CourseOfferingService coService, FormatOffering fo, ContextInfo context, Map<String, Object> keyValues) {
+        // No initialization needed
+    }
+
+    /* (non-Javadoc)
+      * @see org.kuali.student.enrollment.class2.courseoffering.service.strategy.RegistrationGroupCodeGenerationStrategy#generateRegistrationGroupCode(org.kuali.student.enrollment.courseoffering.infc.FormatOffering, java.util.List)
+      */
 	@Override
 	public String generateRegistrationGroupCode(FormatOffering fo,
-			List<ActivityOfferingInfo> activities) {
+			List<ActivityOfferingInfo> activities,
+            Map<String, Object> keyValues) {
 		
 		// something easy
 		return UUIDHelper.genStringUUID();

@@ -467,7 +467,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
 		for (List<String> activityOfferingPermuation : generatedPermutations) {
 
-			String registrationCode = registrationCodeGenerator.generateRegistrationGroupCode(formatOffering, aoList);
+			String registrationCode = registrationCodeGenerator.generateRegistrationGroupCode(formatOffering, aoList, null);
 
 			// Honours Offering and max enrollment is out of scope for M4 so this hard set is ok.
 			String name = registrationCode;

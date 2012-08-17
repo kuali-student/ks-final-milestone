@@ -439,7 +439,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			
 			regGroupA.setId("CO-2:LEC-ONLY:REG-GROUP-LEC-A");
 			
-			regGroupA.setRegistrationCode(registrationGroupCodeGenerator.generateRegistrationGroupCode(fo1, activities));
+			regGroupA.setRegistrationCode(registrationGroupCodeGenerator.generateRegistrationGroupCode(fo1, activities, null));
 			
 			
 			coService.createRegistrationGroup(fo1.getId(), LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, regGroupA, context);
