@@ -16,7 +16,7 @@ public class AttributeTransform extends BaseTransform {
     private static final String ATTRIBUTE_ALIAS = "attr";
     private static final String ATTRIBUTE_VALUE = "value";
     private static final String ATTRIBUTE_KEY = "key";
-    private static final String ATTRIBUTES_REGEX = "^attributes\\[\\w*\\]$";
+    private static final String ATTRIBUTES_REGEX = "^attributes\\[[0-9a-zA-Z.]+\\]$";
     private static final Pattern ATTRIBUTES_PATTERN = Pattern.compile(ATTRIBUTES_REGEX);
 
     private AttributeTransform() {
