@@ -98,7 +98,7 @@ public class CourseOfferingRule extends MaintenanceDocumentRuleBase {
     //Note: here I am using r1 CluService implementation!!!
     protected CluService getCluService() {
         if(luService == null) {
-            luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,"CluService"));
+            luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,CluServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.luService;
     }

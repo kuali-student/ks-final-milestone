@@ -27,7 +27,8 @@ import org.kuali.student.r2.lum.clu.dto.CluInfo;
 public class CluServiceConstants {
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "clu";
     public static final String REF_OBJECT_URI_CLU = NAMESPACE + "/" + CluInfo.class.getSimpleName();
-    
+
+    public static final String SERVICE_NAME_LOCAL_PART = "CluService";
     public static final String CLU_NAMESPACE = "http://student.kuali.org/wsdl/clu";
     public static final String CLU_NAMESPACE_URI = "{" + CLU_NAMESPACE + "}cluInfo";
     
