@@ -117,6 +117,28 @@ public class TestScheduleRequest {
     }
 
     @Test
+    public void testGetScheduleRequestsByIds()throws Exception {
+        List<String> schedReqIds = new ArrayList<String>();
+        schedReqIds.add("schedReq-G");
+        schedReqIds.add("schedReq-U");
+
+        List<ScheduleRequestInfo> schedReqs = schedulingService.getScheduleRequestsByIds(schedReqIds, callContext);
+        assertEquals(2, schedReqs.size());
+
+    }
+
+    @Test
+    public void testGetScheduleRequestIdsByType()throws Exception {
+        List<String> schedReqIds = schedulingService.getScheduleRequestIdsByType("one of schedreq type", callContext);
+        assertEquals(1, schedReqIds.size());
+    }
+
+    @Test
+    public void testGetScheduleRequestsByRefObject()throws Exception {
+        List<String> schedReqIds = schedulingService.getScheduleRequestsByRefObject("refObjType-N", "refObjId-N", callContext);
+        assertEquals(1, schedReqIds.size());
+    }
+
     public void testDeleteScheduleRequest() throws Exception {
         ScheduleRequestInfo obj = schedulingService.getScheduleRequest("schedReq-D", callContext);
         assertNotNull(obj);

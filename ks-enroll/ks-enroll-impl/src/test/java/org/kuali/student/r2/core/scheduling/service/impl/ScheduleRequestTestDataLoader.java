@@ -37,6 +37,7 @@ public class ScheduleRequestTestDataLoader {
         loadSchedReq("schedReq-G", "schedReq-G", "refObjId", "refObjType", SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, "<p>schedreq Desc 101</p>", "schedreq Desc 101", "G");
         loadSchedReq("schedReq-D", "schedReq-D", "refObjId", "refObjType", SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, "<p>schedreq Desc 102</p>", "schedreq Desc 102", "D");
         loadSchedReq("schedReq-U", "schedReq-U", "refObjId", "refObjType", SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, "<p>schedreq Desc 103</p>", "schedreq Desc 103", "U");
+        loadSchedReq("schedReq-N", "schedReq-N", "refObjId-N", "refObjType-N", "one of schedreq type", SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, "<p>schedreq Desc 104</p>", "schedreq Desc 104", "N");
     }
 
     private void loadSchedReq(String id,

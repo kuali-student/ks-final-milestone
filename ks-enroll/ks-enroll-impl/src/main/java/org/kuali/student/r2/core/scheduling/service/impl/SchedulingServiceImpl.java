@@ -167,17 +167,41 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     @Override
     public List<ScheduleRequestInfo> getScheduleRequestsByIds(@WebParam(name = "scheduleRequestIds") List<String> scheduleRequestIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<ScheduleRequestEntity> entityList = scheduleRequestDao.findByIds(scheduleRequestIds);
+
+        return getScheduleRequestsInfoList(entityList);
     }
 
     @Override
     public List<String> getScheduleRequestIdsByType(@WebParam(name = "scheduleRequestTypeKey") String scheduleRequestTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<ScheduleRequestEntity> entityList = scheduleRequestDao.getScheduleRequestsByType(scheduleRequestTypeKey);
+
+        return getScheduleRequestsIdList(entityList);
     }
 
     @Override
     public List<String> getScheduleRequestsByRefObject(@WebParam(name = "refObjectType") String refObjectType, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<ScheduleRequestEntity> entityList = scheduleRequestDao.getScheduleRequestsByRefObject(refObjectType, refObjectId);
+
+        return getScheduleRequestsIdList(entityList);
+    }
+
+    private List<String> getScheduleRequestsIdList(List<ScheduleRequestEntity> entityList){
+        List<String> idList = new ArrayList<String>();
+        for(ScheduleRequestEntity scheduleRequestEntity : entityList){
+            idList.add(scheduleRequestEntity.getId());
+        }
+
+        return idList;
+    }
+
+    private List<ScheduleRequestInfo> getScheduleRequestsInfoList(List<ScheduleRequestEntity> entityList){
+        List<ScheduleRequestInfo> infoList = new ArrayList<ScheduleRequestInfo>();
+        for(ScheduleRequestEntity scheduleRequestEntity : entityList){
+            infoList.add(scheduleRequestEntity.toDto());
+        }
+
+        return infoList;
     }
 
     @Override
