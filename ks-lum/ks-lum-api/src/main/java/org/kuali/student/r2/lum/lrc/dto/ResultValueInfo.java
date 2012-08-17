@@ -55,11 +55,6 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
 
     public ResultValueInfo() {
         super();
-        resultScaleKey = null;
-        numericValue = null;
-        value = null;
-        effectiveDate = null;
-        expirationDate = null;
     }
 
     public ResultValueInfo(ResultValue resultValueInfo) {
@@ -68,10 +63,12 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
             this.resultScaleKey = resultValueInfo.getResultScaleKey();
             this.numericValue = resultValueInfo.getNumericValue();
             this.value = resultValueInfo.getValue();
-            this.effectiveDate = new Date(resultValueInfo.getEffectiveDate()
-                    .getTime());
-            this.expirationDate = new Date(resultValueInfo.getExpirationDate()
-                    .getTime());
+            if (resultValueInfo.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(resultValueInfo.getEffectiveDate().getTime());
+            }
+            if (resultValueInfo.getExpirationDate() != null) {
+                this.expirationDate = new Date(resultValueInfo.getExpirationDate().getTime());
+            }
         }
     }
 
