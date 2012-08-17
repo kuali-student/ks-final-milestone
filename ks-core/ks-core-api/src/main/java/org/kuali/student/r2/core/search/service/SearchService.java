@@ -21,12 +21,12 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.SearchServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.type.dto.TypeInfo;
 
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
