@@ -15,10 +15,7 @@ import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefiniti
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.FormatOfferingTransformer;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.OfferingInstructorTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.*;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingAdminDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -35,9 +32,12 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -57,9 +57,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.*;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.state.service.StateService;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
@@ -91,6 +89,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private CourseOfferingCodeGenerator offeringCodeGenerator;
     private CourseOfferingTransformer courseOfferingTransformer;
     private SeatPoolDefinitionDao seatPoolDefinitionDao;
+    private RegistrationGroupTransformer registrationGroupTransformer;
 
     public CourseOfferingServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
@@ -155,10 +154,95 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return statusInfo;
     }
 
+
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public RegistrationGroupInfo createRegistrationGroup( String formatOfferingId,  String registrationGroupType,  RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new UnsupportedOperationException();
+    public RegistrationGroupInfo createRegistrationGroup( String formatOfferingId,  String registrationGroupTypeKey,  RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        FormatOfferingInfo fo = this.getFormatOffering(formatOfferingId, context);
+        if (registrationGroupInfo.getTermId() != null) {
+            if (!registrationGroupInfo.getTermId().equals(fo.getTermId())) {
+                throw new InvalidParameterException(registrationGroupInfo.getTermId() + " term in the registration group does not match the one in the format offering " + fo.getTermId());
+            }
+        }
+        registrationGroupInfo.setTermId(fo.getTermId());
+
+        if (!registrationGroupTypeKey.equals(registrationGroupInfo.getTypeKey())) {
+            throw new InvalidParameterException(registrationGroupTypeKey + " does not match the corresponding value in the object " + registrationGroupInfo.getTypeKey());
+        }
+
+        // get the course offering
+        CourseOfferingInfo coInfo = this.getCourseOffering(registrationGroupInfo.getCourseOfferingId(), context);
+        String coCode = coInfo.getCourseOfferingCode();
+        if (coCode == null) {
+            coCode = "NOCODE";
+        }
+
+        //TO DO: Reg group code validation
+        if( registrationGroupInfo.getRegistrationCode() == null ){
+            //If there is no activity code, create a new one
+            throw new DataValidationErrorException("reg group code is null");
+        }
+
+        // copy to the lui
+        LuiInfo lui = registrationGroupTransformer.rg2Lui(registrationGroupInfo, context);
+        try {
+            String cluId = lui.getCluId();
+            String atpId = lui.getAtpId();
+            String typeKey = lui.getTypeKey();
+            lui = luiService.createLui(cluId, atpId, typeKey, lui, context);
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
+
+        // build the lui lui relation FO-RG
+        LuiLuiRelationInfo luiLuiRelFoRg = new LuiLuiRelationInfo();
+        luiLuiRelFoRg.setLuiId(formatOfferingId);
+        luiLuiRelFoRg.setName("fo-rg-relation"); // TODO: This fixes a DB required field error--find more meaningful value.
+        luiLuiRelFoRg.setRelatedLuiId(lui.getId());
+
+        RichTextInfo descrFoRg = new RichTextInfo();
+        descrFoRg.setPlain(coCode + "-FO-RG"); // Useful for debugging
+        descrFoRg.setFormatted(coCode + "-FO-RG"); // Useful for debugging
+        luiLuiRelFoRg.setDescr(descrFoRg);
+
+        luiLuiRelFoRg.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY);
+        luiLuiRelFoRg.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
+        luiLuiRelFoRg.setEffectiveDate(new Date());
+        try {
+            luiLuiRelFoRg = luiService.createLuiLuiRelation(luiLuiRelFoRg.getLuiId(), luiLuiRelFoRg.getRelatedLuiId(), luiLuiRelFoRg.getTypeKey(), luiLuiRelFoRg, context);
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
+
+        // build the lui lui relation RG-AO
+        for (String aoId : registrationGroupInfo.getActivityOfferingIds()) {
+            LuiLuiRelationInfo luiLuiRelRgAo = new LuiLuiRelationInfo();
+            luiLuiRelRgAo.setLuiId(lui.getId());
+            luiLuiRelRgAo.setName("rg-ao-relation"); // TODO: This fixes a DB required field error--find more meaningful value.
+            luiLuiRelRgAo.setRelatedLuiId(aoId);
+
+            RichTextInfo descrRgAo = new RichTextInfo();
+            descrRgAo.setPlain(coCode + "-RG-AO"); // Useful for debugging
+            descrRgAo.setFormatted(coCode + "-RG-AO"); // Useful for debugging
+            luiLuiRelRgAo.setDescr(descrRgAo);
+
+            luiLuiRelRgAo.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY);
+            luiLuiRelRgAo.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
+            luiLuiRelRgAo.setEffectiveDate(new Date());
+            try {
+                luiLuiRelRgAo = luiService.createLuiLuiRelation(luiLuiRelRgAo.getLuiId(), luiLuiRelRgAo.getRelatedLuiId(), luiLuiRelRgAo.getTypeKey(), luiLuiRelRgAo, context);
+            } catch (Exception ex) {
+                throw new OperationFailedException("unexpected", ex);
+            }
+        }
+
+        // Everything saved to the DB, now return RG sent back by createLui and transformed by transformer back to caller
+        RegistrationGroupInfo RgInfo = new RegistrationGroupInfo();
+        RgInfo = registrationGroupTransformer.lui2Rg(lui, context);
+        RgInfo.setFormatOfferingId(luiLuiRelFoRg.getLuiId());
+        RgInfo.setCourseOfferingId(coInfo.getId());
+        RgInfo.setRegistrationCode(registrationGroupInfo.getRegistrationCode());
+        return RgInfo;
     }
 
     public CriteriaLookupService getCriteriaLookupService() {
@@ -1309,8 +1393,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public RegistrationGroupInfo getRegistrationGroup(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         LuiInfo lui = luiService.getLui(registrationGroupId, context);
+        RegistrationGroupInfo rgInfo = registrationGroupTransformer.lui2Rg(lui, context);
+        rgInfo.setCourseOfferingId(this.getFormatOffering(rgInfo.getFormatOfferingId(), context).getCourseOfferingId());
 
-        return registrationGroupAssembler.assemble(lui, context);
+        return rgInfo;
 
     }
 
@@ -1372,7 +1458,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, context);
         for (LuiInfo lui:luis) {
             if (LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(lui.getTypeKey())) {
-                // TODO: Need to convert LUI to RG via transformer
+                // Use service call getRegistrationGroup to do the work
+                RegistrationGroupInfo rgInfo = getRegistrationGroup(lui.getId(), context);
+                regGroups.add(rgInfo);
             } else {
                 throw new InvalidParameterException("Invalid type for reg groups");
             }
@@ -1385,7 +1473,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(String formatOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
+        try {
+            return businessLogic.generateRegistrationGroupsForFormatOffering(formatOfferingId,context);
+        } catch (Exception e) {
+            throw new RuntimeException("Registration Groups generation has failed! "+ e);
+        }
     }
 
     @Override
@@ -1821,6 +1914,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         this.courseOfferingTransformer = courseOfferingTransformer;
     }
 
+    public RegistrationGroupTransformer getRegistrationGroupTransformer() {
+        return registrationGroupTransformer;
+    }
+
+    public void setRegistrationGroupTransformer(RegistrationGroupTransformer registrationGroupTransformer) {
+        this.registrationGroupTransformer = registrationGroupTransformer;
+    }
+
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
     }
@@ -1925,6 +2026,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         statusInfo.setSuccess(Boolean.TRUE);
         return statusInfo;
 	}
+
 
 
 }

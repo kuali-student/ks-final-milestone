@@ -56,7 +56,7 @@
             <id>enumerationmanagement-wsdl</id>
             <phase>${ks.java2ws.phase}</phase>
             <configuration>
-              <className>org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService </className>
+              <className>org.kuali.student.r1.core.enumerationmanagement.service.EnumerationManagementService </className>
               <serviceName>EnumerationManagementService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/EnumerationManagementService </targetNameSpace>
             </configuration>

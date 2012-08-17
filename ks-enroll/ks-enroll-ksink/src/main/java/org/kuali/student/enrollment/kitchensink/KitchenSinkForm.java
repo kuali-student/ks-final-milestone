@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.kitchensink;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -30,8 +31,7 @@ public class KitchenSinkForm extends UifFormBase {
 
     private String stringField1;
     private String stringField2;
-    private String stringField3;
-    private String stringField4;
+    private List<KitchenSinkFormCollection1> collection;
 
     public KitchenSinkForm() {
         super();
@@ -58,19 +58,11 @@ public class KitchenSinkForm extends UifFormBase {
         this.stringField2 = stringField2;
     }
 
-    public String getStringField3() {
-        return stringField3;
+    public List<KitchenSinkFormCollection1> getCollection() {
+        return collection;
     }
 
-    public void setStringField3(String stringField3) {
-        this.stringField3 = stringField3;
-    }
-
-    public String getStringField4() {
-        return stringField4;
-    }
-
-    public void setStringField4(String stringField4) {
-        this.stringField4 = stringField4;
+    public void setCollection(List<KitchenSinkFormCollection1> collection) {
+        this.collection = collection;
     }
 }

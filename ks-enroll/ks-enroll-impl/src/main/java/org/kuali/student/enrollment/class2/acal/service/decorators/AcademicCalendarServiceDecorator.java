@@ -35,10 +35,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
-
-import javax.jws.WebParam;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 public class AcademicCalendarServiceDecorator implements AcademicCalendarService {
 

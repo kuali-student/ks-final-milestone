@@ -3,17 +3,18 @@ package org.kuali.student.lum.lu.ui.tools.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.common.assembly.data.Data.DataValue;
-import org.kuali.student.common.assembly.data.Data.Value;
-import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.assembly.data.Data.DataValue;
+import org.kuali.student.r1.common.assembly.data.Data.Value;
+import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeModelUtil;
-import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -87,15 +88,15 @@ public class CluSetRangeLabel extends Composite implements HasDataValue {
             });
             initialized = true;
         }
-        if (membershipQueryInfo != null && membershipQueryInfo.getQueryParamValueList() != null && 
-                !membershipQueryInfo.getQueryParamValueList().isEmpty()) {
+        if (membershipQueryInfo != null && membershipQueryInfo.getQueryParamValues() != null && 
+                !membershipQueryInfo.getQueryParamValues().isEmpty()) {
             labelText.append(getLookupDisplayName()).append(": ");
-            for (SearchParam searchParam : membershipQueryInfo.getQueryParamValueList()) {
+            for (SearchParamInfo searchParam : membershipQueryInfo.getQueryParamValues()) {
                 if (paramCounter > 0) {
                     labelText.append(" ");
                 }
                 labelText.append(getParameterDisplayName(searchParam.getKey())).append(" ");
-                labelText.append(searchParam.getValue());
+                labelText.append(searchParam.getValues().get(0));
                 paramCounter++;
             }
             label.setText(labelText.toString());

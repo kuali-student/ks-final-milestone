@@ -20,8 +20,9 @@ import org.kuali.student.enrollment.class2.appointment.util.AppointmentSlotRuleT
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
-import org.kuali.student.r2.common.util.constants.AppointmentServiceConstants;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
@@ -124,7 +125,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         else if (!periodId.isEmpty() && !periodId.equals("all")) {
 
             //Lookup the period information
-            KeyDateInfo period = getAcalService().getKeyDate(periodId,ContextInfo.createDefaultContextInfo());
+            KeyDateInfo period = getAcalService().getKeyDate(periodId, ContextUtils.getContextInfo());
 
             //pull in the windows for this period
             List<KeyDateInfo> periods = new ArrayList<KeyDateInfo>();

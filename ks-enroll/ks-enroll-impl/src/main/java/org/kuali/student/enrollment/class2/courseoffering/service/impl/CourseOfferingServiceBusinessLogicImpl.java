@@ -24,8 +24,8 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Co
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -53,19 +53,19 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingServiceBusinessLogic  {
 
 	private static final Logger log = Logger.getLogger(CourseOfferingServiceBusinessLogicImpl.class);
-	
+
 	@Resource
     private CourseService courseService;
-    
+
 	@Resource
 	private AcademicCalendarService acalService;
-    
+
 	@Resource
 	private CourseOfferingService coService;
-    
+
     @Resource
 	private RegistrationGroupCodeGenerator registrationCodeGenerator;
-    
+
     public CourseOfferingService getCoService() {
         return coService;
     }
@@ -111,7 +111,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             throw new DataValidationErrorException("Skipped because course offering was cancelled in source term");
         }
         R1CourseServiceHelper helper = new R1CourseServiceHelper(courseService, acalService);
-        
+
         CourseInfo sourceCourse = helper.getCourse(sourceCo.getCourseId());
         String sourceCourseId = sourceCourse.getId();
         List<CourseInfo> targetCourses = helper.getCoursesForTerm(sourceCourseId, targetTermId, context);
@@ -339,7 +339,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
         // TODO: continue traversing down the formats and activities updating from the canonical
     }
-    
+
     @Override
     public List<ValidationResultInfo> validateCourseOfferingFromCanonical(CourseOfferingInfo courseOfferingInfo,
             List<String> optionKeys, ContextInfo context) throws DoesNotExistException,
@@ -394,17 +394,17 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
         return list.get(0).getId();
     }
-    
+
 
     /*
      * Used to create a unique string for each activity offering id permutation.
      */
 	private String createPermutationKey(List<String>activityOfferingIds) {
-		
+
 		Collections.sort(activityOfferingIds);
-		
+
 		String key = StringUtils.join(activityOfferingIds, "-");
-		
+
 		return key;
 	}
 
@@ -419,17 +419,17 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 			PermissionDeniedException, AlreadyExistsException {
 
 		// check for any existing registration groups
-		
+
 		List<RegistrationGroupInfo> existingRegistrationGroups = coService.getRegistrationGroupsByFormatOffering(formatOfferingId, context);
-		
-		if (existingRegistrationGroups.size() > 0)
-			throw new AlreadyExistsException("Registration groups already exist for formatOfferingId=" + formatOfferingId);
-		
-		
+
+		if (existingRegistrationGroups.size() > 0) {
+			//throw new AlreadyExistsException("Registration groups already exist for formatOfferingId=" + formatOfferingId);
+            coService.deleteRegistrationGroupsByFormatOffering(formatOfferingId, context);
+        }
 		FormatOfferingInfo formatOffering = coService.getFormatOffering(formatOfferingId,
 				context);
 
-		
+
 		List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
 
 		Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap = new HashMap<String, List<String>>();
@@ -463,35 +463,35 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 				generatedPermutations);
 
 		CourseOfferingInfo courseOffering = coService.getCourseOffering(formatOffering.getCourseOfferingId(), context);
-		
-		
+
+
 		for (List<String> activityOfferingPermuation : generatedPermutations) {
 
 			String registrationCode = registrationCodeGenerator.generateRegistrationGroupCode(formatOffering, aoList);
-			
+
 			// Honours Offering and max enrollment is out of scope for M4 so this hard set is ok.
 			String name = registrationCode;
-			
+
 			RegistrationGroupInfo rg = new RegistrationGroupInfo();
 
 			rg.setActivityOfferingIds(activityOfferingPermuation);
 
-			rg.setCourseOfferingId(formatOfferingId);
+			rg.setCourseOfferingId(formatOffering.getCourseOfferingId());
 			rg.setDescr(new RichTextInfo(name, name));
 
 			rg.setFormatOfferingId(formatOfferingId);
 
 			rg.setIsGenerated(true);
-			
+
 			rg.setName(name);
 			rg.setRegistrationCode(registrationCode);
 
 			rg.setTermId(formatOffering.getTermId());
 
 			rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
-			
+
 			rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
-			
+
 			try {
 				coService.createRegistrationGroup(formatOfferingId,
 						LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg,
@@ -510,9 +510,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
 
 		}
-		
+
 		return regGroupList;
 	}
 
-   
+
 }

@@ -76,15 +76,15 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-   <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
+   <bean id="resultValuesGroupDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="resultValueDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao">
+    <bean id="resultValueDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValueDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="resultScaleDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao">
+    <bean id="resultScaleDao" class="org.kuali.student.r2.lum.lrc.dao.ResultScaleDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
@@ -162,11 +162,11 @@
     </bean>
 
     <!-- Enumeration Dao -->
-    <bean id="enumValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao">
+    <bean id="enumDao" class="org.kuali.student.r1.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
     <!-- Organization Service -->
-    <bean id="orgDao" class="org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl">
+    <bean id="orgDao" class="org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl">
         <property name="em" ref="enrollEntityManager" />
     </bean>
 

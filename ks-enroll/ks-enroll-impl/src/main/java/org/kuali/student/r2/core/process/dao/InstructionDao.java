@@ -1,6 +1,6 @@
 package org.kuali.student.r2.core.process.dao;
 
-import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.core.process.model.InstructionEntity;
 
 import javax.persistence.Query;

@@ -35,7 +35,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 
 public class GradingServiceAuthorizationDecorator extends GradingServiceDecorator implements HoldsPermissionService{

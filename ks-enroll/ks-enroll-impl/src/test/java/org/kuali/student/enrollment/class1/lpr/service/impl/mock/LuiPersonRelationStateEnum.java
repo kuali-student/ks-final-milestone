@@ -20,7 +20,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.core.state.infc.State;
+import org.kuali.student.r2.core.class1.state.infc.State;
 
 import java.io.Serializable;
 import java.text.ParseException;

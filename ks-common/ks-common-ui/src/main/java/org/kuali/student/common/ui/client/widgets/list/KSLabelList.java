@@ -157,7 +157,13 @@ public class KSLabelList extends KSSelectItemWidgetAbstract {
         selectItemWidget.setInitialized(initialized);
     }
 	
-	
+    public List<String> getSelectedItemsForExport() {
+    	if (getWidget() != null && getWidget() instanceof KSLabelListImpl) {
+    		KSLabelListImpl ksLabelImpl = (KSLabelListImpl) getWidget();
+    		return ksLabelImpl.getSelectedItemsForExport();
+    	}
+    	return null;
+    }
 }
 
 

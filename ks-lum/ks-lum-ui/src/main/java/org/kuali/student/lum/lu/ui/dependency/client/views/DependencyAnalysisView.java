@@ -9,14 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.ModelDefinition;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -29,8 +21,8 @@ import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.HasWatermark;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 import org.kuali.student.common.ui.client.widgets.filter.FilterEvent;
@@ -44,11 +36,8 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
@@ -56,17 +45,30 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
+import org.kuali.student.lum.lu.ui.dependency.client.controllers.DependencyAnalysisController;
 import org.kuali.student.lum.lu.ui.dependency.client.controllers.DependencyAnalysisController.DependencyViews;
 import org.kuali.student.lum.lu.ui.dependency.client.service.DependencyAnalysisRpcService;
 import org.kuali.student.lum.lu.ui.dependency.client.service.DependencyAnalysisRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyResultPanel;
 import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyResultPanel.DependencyTypeSection;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.ClusetView.Picker;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.ModelDefinition;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -97,6 +99,8 @@ public class DependencyAnalysisView extends ViewComposite{
 	protected HorizontalBlockFlowPanel resultContainer = new HorizontalBlockFlowPanel();
 	
 	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
+	
+	private KSDocumentHeader header;
 		
 	public DependencyAnalysisView(Controller controller) {
 		super(controller, "Dependency Analysis", DependencyViews.MAIN);
@@ -134,13 +138,15 @@ public class DependencyAnalysisView extends ViewComposite{
 	}
 
 	protected void init(){		
-		KSDocumentHeader header = new KSDocumentHeader();
-        header.setTitle("Dependency Analysis");
+		this.header = new KSDocumentHeader();
+		
+        header.setTitle("Dependency Analysis");        
 
         //Get search definition for dependency analysis trigger search and create trigger picker          
 		Metadata metaData = searchDefinition.getMetadata("courseId");
 		final KSPicker triggerPicker = new Picker(metaData.getInitialLookup(), metaData.getAdditionalLookups());
-        ((HasWatermark)triggerPicker.getInputWidget()).setWatermarkText("Enter course code");		
+        ((HasWatermark)triggerPicker.getInputWidget()).setWatermarkText("Enter course code");	
+        triggerPicker.getInputWidget().ensureDebugId("Dependency-Analysis-Course-Code");
 
         //Setup the "go" button for trigger picker
         KSButton goButton = new KSButton("Go", ButtonStyle.PRIMARY_SMALL);
@@ -152,18 +158,26 @@ public class DependencyAnalysisView extends ViewComposite{
                 KSSuggestBox suggestBox = (KSSuggestBox)triggerPicker.getInputWidget();
                 IdableSuggestion selectedSuggestion = suggestBox.getCurrentSuggestion();
                 
-                selectedCourseName = selectedSuggestion.getAttrMap().get("lu.resultColumn.luOptionalLongName");
-                if (!selectedCourseId.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)){
-    				KSBlockingProgressIndicator.addTask(loadDataTask);
-                	selectedCourseCd = triggerPicker.getDisplayValue();                
-	                if (depResultPanel != null){
-	                	resultContainer.remove(depResultPanel);
+                // We need to make sure we only search for courses that have been selected from the suggest box
+                if(selectedSuggestion != null && selectedSuggestion.getReplacementString().equalsIgnoreCase(suggestBox.getText())){
+	                selectedCourseName = selectedSuggestion.getAttrMap().get("lu.resultColumn.luOptionalLongName");
+	                if (!selectedCourseId.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)){
+	    				KSBlockingProgressIndicator.addTask(loadDataTask);
+	                	selectedCourseCd = triggerPicker.getDisplayValue();                
+		                if (depResultPanel != null){
+		                	resultContainer.remove(depResultPanel);
+		                }
+		                depResultPanel = new DependencyResultPanel();
+		                depResultPanel.setHeaderTitle(selectedCourseCd + " - " + selectedCourseName);		
+		                resultContainer.add(depResultPanel);
+		                resultContainer.setVisible(true);
+		                updateDependencyResults();
+		                
+		                ((DependencyAnalysisController) DependencyAnalysisView.this.getController()).showExport(isExportButtonActive());
+		                header.showPrint(true);
+		                header.setPrintContent(depResultPanel); // we only want to print the results panel
 	                }
-	                depResultPanel = new DependencyResultPanel();
-	                depResultPanel.setHeaderTitle(selectedCourseCd + " - " + selectedCourseName);		
-	                resultContainer.add(depResultPanel);
-	                resultContainer.setVisible(true);
-	                updateDependencyResults();
+	                
                 }
 			}
 			
@@ -260,6 +274,7 @@ public class DependencyAnalysisView extends ViewComposite{
 					String curriculumOversightNames = "";
 					String dependencySectionKey = "";
 					Boolean diffAdminOrg = false;
+					String parentCluId = "";
 					
 					for (SearchResultCell searchResultCell : searchResultRow.getCells ()){
 						if (searchResultCell.getKey().equals ("lu.resultColumn.luOptionalCode")) {
@@ -293,7 +308,10 @@ public class DependencyAnalysisView extends ViewComposite{
 							curriculumOversightNames = searchResultCell.getValue();
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg")){
 							diffAdminOrg = ("true").equals(searchResultCell.getValue());
+						} else if (searchResultCell.getKey().equals("lu.resultColumn.parentCluId")){
+							parentCluId = searchResultCell.getValue();
 						}
+						
 							
 					}
 					
@@ -313,7 +331,7 @@ public class DependencyAnalysisView extends ViewComposite{
 					}
 
 					//Add the dependency to the dependency section
-					typeSection.addDependencyItem(getDependencyLabel(dependencySectionKey, dependencyType, cluId, cluCode, cluName, cluType, diffAdminOrg), depDetails);
+					typeSection.addDependencyItem(getDependencyLabel(dependencySectionKey, dependencyType, cluId, cluCode, cluName, cluType, diffAdminOrg, parentCluId), depDetails);
 				}
 				
 				depResultPanel.finishLoad();
@@ -340,8 +358,9 @@ public class DependencyAnalysisView extends ViewComposite{
 				
 				//Initialize the complex requirement panel, set it so it is not initially open (ie. not visible)
 				final FlowPanel complexContent = new FlowPanel();
-				final CollapsablePanel complexRequirement = new CollapsablePanel("", complexContent, false, false);				
-				
+				final CollapsablePanel complexRequirement = GWT.create(CollapsablePanel.class);
+				complexRequirement.initialise("", complexContent, false, false);
+                
 				complexContent.addStyleName("KS-Dependency-Complex-Rule");
 				depDetails.addWidget(simpleRequirement);
 				depDetails.addWidget(complexRequirement);
@@ -428,7 +447,7 @@ public class DependencyAnalysisView extends ViewComposite{
 	 * This generates the title for the actual dependency (eg. course, course set, program), which may include links to 
 	 * view the actual course, course set or program
 	 */
-	private SpanPanel getDependencyLabel(final String dependencySectionKey, String dependencyType, final String cluId,  String cluCode, String cluName, String cluType, boolean diffAdminOrg){
+	private SpanPanel getDependencyLabel(final String dependencySectionKey, String dependencyType, final String cluId,  String cluCode, String cluName, final String cluType, boolean diffAdminOrg, final String parentCluId){
 		
 		//Figure out the view hyperlink for course/program/course set screen based on dependencyType
 		Anchor viewLinkAnchor = null;
@@ -461,7 +480,12 @@ public class DependencyAnalysisView extends ViewComposite{
 				@Override
 				public void onClick(ClickEvent event) {
 					String url =  "http://" + Window.Location.getHost() + Window.Location.getPath() +
-						"?view=" + viewLinkUrl + "&docId=" + cluId;
+						"?view=" + viewLinkUrl;
+					if("kuali.lu.type.Variation".equals(cluType)){
+					    url += "&docId=" + URL.encodeQueryString(parentCluId) + "&variationId=" + URL.encodeQueryString(cluId);
+					}else {
+					    url += "&docId=" + URL.encodeQueryString(cluId);
+					}
 					String features = "height=600,width=960,dependent=0,directories=1," +
 							"fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
 					Window.open(url, HTMLPanel.createUniqueId(), features);				
@@ -540,5 +564,18 @@ public class DependencyAnalysisView extends ViewComposite{
             }
         }
     }
+
+	public KSDocumentHeader getHeader() {
+		return header;
+	}
+
+	@Override
+	public boolean isExportButtonActive() {
+		return true;
+	}
+
+	public DependencyResultPanel getDepResultPanel() {
+		return depResultPanel;
+	}
 
 }

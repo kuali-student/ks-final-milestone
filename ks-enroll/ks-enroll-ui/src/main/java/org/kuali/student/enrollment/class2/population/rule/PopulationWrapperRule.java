@@ -9,7 +9,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
@@ -171,7 +172,7 @@ public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.equal("name", popName));
         QueryByCriteria criteria = qbcBuilder.build();
-        ContextInfo context = ContextInfo.createDefaultContextInfo();
+        ContextInfo context = ContextUtils.getContextInfo();
         try {
             List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(criteria, context);
             if (populationInfoList.size()>0){

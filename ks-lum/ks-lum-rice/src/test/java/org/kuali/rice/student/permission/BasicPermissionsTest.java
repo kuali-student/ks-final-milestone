@@ -15,6 +15,9 @@
 
 package org.kuali.rice.student.permission;
 
+import static org.junit.Assert.*;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -31,9 +34,10 @@ import java.util.Map;
 
 /**
  * Test case to verify permissions work properly
- * 
+ *
  * @author delyea
  */
+@Ignore
 public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 	protected static final String PERMISSIONS_NAME_OPEN_DOCUMENT = "Open Document";
@@ -81,7 +85,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		// send adhoc approve to 'testuser3'
 		doc.adHocToPrincipal(ActionRequestType.APPROVE, "", "testuser3", "", true);
-		
+
 		// verify testuser2 has no permissions
 		principalId = "testuser2";
 		doc = WorkflowDocumentFactory.createDocument(principalId, doc.getDocumentId());
@@ -100,21 +104,21 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		doc = WorkflowDocumentFactory.createDocument(principalId, doc.getDocumentId());
 		doc.route("");
-		
+
 		// verify testuser1 has correct permissions as initiator
 		principalId = "testuser1";
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
 		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
-		
+
 		// verify testuser3 has correct permissions as router
 		principalId = "testuser3";
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
 		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
-		
+
 		// verify fred has request for approval and correct permissions
 		principalId = "fred";
 		doc = WorkflowDocumentFactory.createDocument(principalId, doc.getDocumentId());
@@ -132,7 +136,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
 		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
-		
+
 		// appprove the document as fred and re-verify his and doug's permissions
 		principalId = "fred";
 		doc = WorkflowDocumentFactory.createDocument(principalId, doc.getDocumentId());
@@ -155,7 +159,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
 		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
-		
+
 		// verify edna has request for Acknoweldge and correct permissions
 		principalId = "edna";
 		doc = WorkflowDocumentFactory.createDocument(principalId, doc.getDocumentId());

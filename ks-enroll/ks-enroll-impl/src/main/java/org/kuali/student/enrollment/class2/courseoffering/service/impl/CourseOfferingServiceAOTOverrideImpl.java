@@ -19,7 +19,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;

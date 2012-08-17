@@ -16,8 +16,8 @@
 package org.kuali.student.lum.common.client.lo;
 
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.helper.PropertyEnum;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.helper.PropertyEnum;
 
 
 public class LoInfoHelper {
@@ -25,10 +25,10 @@ public class LoInfoHelper {
 
     public enum Properties implements PropertyEnum {
         NAME("name"),
-        DESC("desc"),
+        DESCR("descr"),
         ID("id"),
         SEQUENCE("sequence"),
-        METAINFO("metaInfo");
+        META("meta");
 
         private final String key;
 
@@ -66,12 +66,12 @@ public class LoInfoHelper {
         return (String) data.get(Properties.NAME.getKey());
     }
 
-    public void setDesc(Data descData) {
-        HelperUtil.setDataField(LoInfoHelper.Properties.DESC, data, descData);
+    public void setDescr(Data descData) {
+        HelperUtil.setDataField(LoInfoHelper.Properties.DESCR, data, descData);
     }
 
-    public Data getDesc() {
-        return HelperUtil.getDataField(LoInfoHelper.Properties.DESC, data);
+    public Data getDescr() {
+        return HelperUtil.getDataField(LoInfoHelper.Properties.DESCR, data);
     }
 
     public void setId(String id) {
@@ -90,12 +90,12 @@ public class LoInfoHelper {
         return (String) data.get(LoInfoHelper.Properties.SEQUENCE.getKey());
     }
 
-    public void setMetaInfo(Data metaInfoData) {
-        HelperUtil.setDataField(LoInfoHelper.Properties.METAINFO, data, metaInfoData);
+    public void setMeta(Data metaData) {
+        HelperUtil.setDataField(LoInfoHelper.Properties.META, data, metaData);
     }
 
-    public Data getMetaInfo() {
-        return HelperUtil.getDataField(LoInfoHelper.Properties.METAINFO, data);
+    public Data getMeta() {
+        return HelperUtil.getDataField(LoInfoHelper.Properties.META, data);
     }
 
 }

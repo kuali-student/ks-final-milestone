@@ -14,12 +14,12 @@
         <property name="footer.render" value="false"/>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>/ks-ksink/css/kitchensink.css</value>
+                <value>ks-enroll-ksink/css/kitchensink.css</value>
             </list>
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">
-                <value>/ks-ksink/scripts/kitchensink.js</value>
+                <value>ks-enroll-ksink/scripts/kitchensink.js</value>
             </list>
         </property>
     </bean>
@@ -36,6 +36,39 @@
     </bean>
 
     <bean id="KS-KitchenSink-Page-Bare" parent="Uif-Page"/>
+
+
+    <!-- Collection definitions -->
+
+    <bean id="KS-KitchenSink-Collection-Base" parent="Uif-TableCollectionSection">
+        <property name="propertyName" value="collection"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.kitchensink.KitchenSinkFormCollection1"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField">
+                    <property name="propertyName" value="id"/>
+                    <property name="label" value="ID"/>
+                </bean>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="name"/>
+                    <property name="label" value="Name"/>
+                </bean>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="description"/>
+                    <property name="label" value="Description"/>
+                </bean>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="date"/>
+                    <property name="label" value="Date"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 
     <!-- Miscellaneous definitions -->

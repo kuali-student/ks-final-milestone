@@ -28,8 +28,8 @@ import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
-import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
-import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
@@ -158,13 +158,13 @@ public class MembersTable extends Composite{
 
     public void fetchMemberTable(){
         if(orgId!=null){
-            orgProposalRpcServiceAsync.getOrgPersonRelationTypes(new KSAsyncCallback<List<OrgPersonRelationTypeInfo>>(){
+            orgProposalRpcServiceAsync.getOrgPersonRelationTypes(new KSAsyncCallback<List<TypeInfo>>(){
 
                 @Override
-                public void onSuccess(List<OrgPersonRelationTypeInfo> result) {
+                public void onSuccess(List<TypeInfo> result) {
                     positionTypes = new HashMap<String, String>();
-                    for(OrgPersonRelationTypeInfo positionType:result){
-                        positionTypes.put(positionType.getId(), positionType.getName());
+                    for(TypeInfo positionType:result){
+                        positionTypes.put(positionType.getKey(), positionType.getName());
                     }
                     fetchOrgPersonRelations();
 
@@ -186,8 +186,8 @@ public class MembersTable extends Composite{
                     personIds = new ArrayList<String>();
                     for(OrgPersonRelationInfo relation: result){
                         MembershipInfo member = new MembershipInfo();
-                        member.setPositionTypeKey(relation.getType());
-                        member.setPositionName(positionTypes.get(relation.getType()));
+                        member.setPositionTypeKey(relation.getTypeKey());
+                        member.setPositionName(positionTypes.get(relation.getTypeKey()));
                         member.setEntityNameId(relation.getPersonId());
                         personIds.add(relation.getPersonId());
                         members.add(member);

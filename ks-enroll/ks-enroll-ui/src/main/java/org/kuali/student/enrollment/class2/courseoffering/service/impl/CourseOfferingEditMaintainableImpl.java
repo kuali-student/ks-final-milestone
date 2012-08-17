@@ -38,25 +38,24 @@ import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.constants.StateServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.constants.StateServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.core.state.service.StateService;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -251,8 +250,9 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             MaintenanceForm form = (MaintenanceForm)model;
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             FormatInfo theFormat = getFormatInfo(coEditWrapper, formatId);
-            newLine.setName(theFormat.getName());
-            newLine.setShortName(theFormat.getShortName());
+            // TODO: fix R2 Format to include name and short name
+            newLine.setName("FIX ME!");
+            newLine.setShortName("FIX ME!");
         }
     }
 
@@ -281,7 +281,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             if (getDataObject() instanceof CourseOfferingEditWrapper){
                 //0. get credit count from CourseInfo
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId());
+                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId(), getContextInfo());
                 coInfo.setCreditCnt(ViewHelperUtil.getCreditCount(coInfo, courseInfo)); //set for CO title
 
                 //1. set CourseOfferingInfo
@@ -309,7 +309,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                         }
                     }
                     //Audit is pulled out into a dynamic attribute on course so map it back
-                    if("true".equals(courseInfo.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
+                    if("true".equals(courseInfo.getAttributeValue(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
                         studentRegOptions.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
                     }
                 }
@@ -324,15 +324,15 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 CreditOptionInfo creditOption = new CreditOptionInfo();
 
                 //Grab the Course's credit constraints
-                List<ResultComponentInfo> courseCreditOptions = courseInfo.getCreditOptions();
+                List<ResultValuesGroupInfo> courseCreditOptions = courseInfo.getCreditOptions();
 
                 //Lookup the related course's credit constraints and set them on the creditOption
                 if (coInfo.getCourseId() != null && courseInfo != null && !courseCreditOptions.isEmpty()) {
-                    ResultComponentInfo resultComponentInfo = courseCreditOptions.get(0);
+                    ResultValuesGroupInfo resultValuesGroupInfo = courseCreditOptions.get(0);
                     //Check for fixed
-                    if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
-                        if (!resultComponentInfo.getResultValues().isEmpty()) {
-                            creditOption.setCourseFixedCredits(resultComponentInfo.getResultValues().get(0));
+                    if (resultValuesGroupInfo.getTypeKey().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
+                        if (!resultValuesGroupInfo.getResultValueKeys().isEmpty()) {
+                            creditOption.setCourseFixedCredits(getLrcService().getResultValue(resultValuesGroupInfo.getResultValueKeys().get(0), contextInfo).getValue());
                         }
                         //Set the flag
                         creditOptionFixed = true;
@@ -344,18 +344,21 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                         //This is either range or multiple
 
                         //Copy all the allowed credits and sort so that the multiple checkboxes can be properly displayed
-                        creditOption.setAllowedCredits(resultComponentInfo.getResultValues());
+                        List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesForResultValuesGroup(resultValuesGroupInfo.getKey(), contextInfo);
+                        for (ResultValueInfo rVI: resultValueInfos) {
+                            creditOption.getAllowedCredits().add(rVI.getValue());
+                        }
                         Collections.sort(creditOption.getAllowedCredits());
 
-                        if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE)) {
-                            creditOption.setCourseMinCredits(resultComponentInfo.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS));
-                            creditOption.setCourseMaxCredits(resultComponentInfo.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS));
+                        if (resultValuesGroupInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE)) {
+                            creditOption.setCourseMinCredits(resultValuesGroupInfo.getAttributeValue(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS));
+                            creditOption.setCourseMaxCredits(resultValuesGroupInfo.getAttributeValue(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS));
 
                             //Default the value
                             creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
                             creditOption.setMinCredits(creditOption.getCourseMinCredits());
                             creditOption.setMaxCredits(creditOption.getCourseMaxCredits());
-                        } else if (resultComponentInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE)) {
+                        } else if (resultValuesGroupInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE)) {
                             //Default the value
                             creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
                             creditOption.getCredits().addAll(creditOption.getAllowedCredits());

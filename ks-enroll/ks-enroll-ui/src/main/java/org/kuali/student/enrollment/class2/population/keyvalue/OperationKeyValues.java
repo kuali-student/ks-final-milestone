@@ -3,7 +3,8 @@ package org.kuali.student.enrollment.class2.population.keyvalue;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;

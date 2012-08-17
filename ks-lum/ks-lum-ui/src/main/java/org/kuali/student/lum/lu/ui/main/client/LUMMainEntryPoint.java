@@ -16,16 +16,15 @@
 package org.kuali.student.lum.lu.ui.main.client;
 
 
-import org.kuali.student.common.messages.dto.MessageList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
-import org.kuali.student.common.ui.client.service.SecurityRpcService;
-import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.util.BrowserUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
@@ -34,6 +33,8 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.main.client.theme.LumTheme;
 import org.kuali.student.lum.lu.ui.main.client.widgets.ApplicationHeader;
+import org.kuali.student.r1.common.messages.dto.MessageList;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -78,6 +79,7 @@ public class LUMMainEntryPoint implements EntryPoint{
     private void loadMessages(final ApplicationContext context) throws SerializationException {
         MessageList commonMessageList =  getMsgSerializedObject("commonMessages" );
         MessageList lumMessageList =  getMsgSerializedObject("luMessages" );
+
         context.addMessages(commonMessageList.getMessages());
         context.addMessages(lumMessageList.getMessages());
     }
@@ -92,20 +94,12 @@ public class LUMMainEntryPoint implements EntryPoint{
         return ret;
     } 
       
-    public void loadApp(final ApplicationContext context){
-        SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
-        
-        securityRpc.getPrincipalUsername(new KSAsyncCallback<String>(){
-            public void handleFailure(Throwable caught) {
-                context.setUserId("Unknown");
-                initScreen();
-            }
-
-            @Override
-            public void onSuccess(String principalId) {
-                context.setUserId(principalId);
-                initScreen();
-            }            
+    public void loadApp(final ApplicationContext context){        
+        context.initializeContext(new Callback<Boolean>(){
+			@Override
+			public void exec(Boolean result) {
+                initScreen();				
+			}        	
         });
     }
 

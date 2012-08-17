@@ -18,17 +18,18 @@ package org.kuali.student.common.ui.client.widgets.list.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
+import org.kuali.student.r1.common.dto.Idable;
 
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Widget;
 
 
 /**
@@ -69,6 +70,24 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract {
      */
     public List<String> getSelectedItems() {
         return selectedItems;
+    }
+    
+    /**
+     * This is done this way, as Enumerated types are sometimes in the droplist and normal getSelectedItems return "kuali.atp.fall" and not just "Fall"
+     * @return
+     */
+    public List<String> getSelectedItemsForExport() {
+    	List<String> selectedList = new ArrayList<String>();
+    	int rowCnt = this.labels.getRowCount();
+    	for (int i = 0; i < rowCnt; i++) {
+			Widget theWidget = this.labels.getWidget(i, 0);
+			if (theWidget instanceof KSLabel) {
+				KSLabel ksLbl = (KSLabel) theWidget;
+				String label = ksLbl.getText();
+				selectedList.add(label);
+			}
+		}
+        return selectedList;
     }
 
 

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- The Interesting Bits -->
+
+    <bean id="KS-KitchenSink-CollectionOptions" parent="Uif-TableCollectionSection">
+        <property name="propertyName" value="collection"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.kitchensink.KitchenSinkFormCollection1"/>
+        <!--<property name="renderAddLine" value="false"/>-->
+        <!--<property name="renderLineActions" value="false"/>-->
+        <!-- applyDefaultCellWidths needed for custom column widths in options: -->
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField">
+                    <property name="propertyName" value="id"/>
+                    <property name="label" value="ID"/>
+                </bean>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="name"/>
+                    <property name="label" value="overwrite-me"/>
+                    <property name="control">
+                        <bean parent="Uif-MediumTextControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="description"/>
+                    <property name="label" value="Description"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl">
+                            <property name="size" value="75"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="date"/>
+                    <property name="label" value="Date"/>
+                    <property name="control">
+                        <bean parent="Uif-SmallTextControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="Uif-PagedRichTable">
+                <property name="templateOptions">
+                <map merge="true">
+                        <!-- bFilter removes "Search" field: -->
+                        <entry key="bFilter" value="false"/>
+                        <!-- bInfo removes "Page x of y" text: -->
+                        <entry key="bInfo" value="false"/>
+                        <!-- bLengthChange removes "Show [10 v] entries" drop-down: -->
+                        <entry key="bLengthChange" value="false"/>
+                        <!-- bPaginate removes "Prev Next" links: -->
+                        <entry key="bPaginate" value="false"/>
+                        <!-- aaSorting defines initial sorting; default: [[0,'asc']]  no sorting: [] -->
+                        <entry key="aaSorting" value="[[1,'asc']]"/>
+                        <!-- aoColumnDefs allows customization of individual columns: -->
+                        <!-- (trial-n-error shows that using 'aoColumns' breaks sorting) -->
+                        <entry key="aoColumnDefs"
+                               value="[ {'aTargets':[0], 'sWidth':'2%'},
+                                        {'aTargets':[1], 'sTitle':'Name', 'sWidth':'10%'},
+                                        {'aTargets':[2], 'bSortable':false, 'sWidth':'78%'},
+                                        {'aTargets':[3], 'sWidth':'5%'},
+                                        {'aTargets':[4], 'sTitle':'Click Me!', 'sWidth':'5%'}
+                                    ]"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-CollectionOptions-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Collections"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-CollectionOptions-Page">
+                    <property name="headerText" value="Collection Table Options"/>
+                    <property name="footer">
+                        <bean parent="Uif-VerticalBoxSection">
+                            <property name="header.render" value="false"/>
+                            <property name="style" value="margin-top:10px"/>
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Message">
+                                        <property name="style" value="margin-bottom:15px;font-size:125%"/>
+                                        <property name="messageText">
+                                            <value>
+                                                This example shows how to change the default options for the "rich table"
+                                                javascript framework. Here, the column widths are varied, the column
+                                                sorting is different, and the "Action" column has a different header.
+                                            </value>
+                                        </property>
+                                    </bean>
+                                    <bean parent="KS-KitchenSink-Link-To-Source"
+                                          p:href="https://svn.kuali.org/repos/student/branches/ks-1.3/ks-enroll/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionOptions.xml"/>
+                                    <bean parent="KS-KitchenSink-Link-To-Source"
+                                          p:label="DataTables Reference"
+                                          p:href="http://datatables.net/ref"/>
+                                    <bean parent="KS-KitchenSink-Link-To-KRAD-XML-Source"
+                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M2/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                    <bean parent="KS-KitchenSink-Link-To-KRAD-Java-Source"
+                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M2/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
+                                    <bean parent="KS-KitchenSink-Link-To-KRAD-API"
+                                          p:href="http://site.origin.kuali.org/rice/2.2.0-M2/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                                    <bean parent="KS-KitchenSink-Link-To-Guide"
+                                          p:href="http://site.kuali.org/rice/2.2.0-M2/reference/html/KRAD_Guide.html#d6766e7731"/>
+                                    <bean parent="KS-KitchenSink-Link-To-Bare">
+                                        <property name="finalizeMethodAdditionalArguments">
+                                            <list>
+                                                <value>collectionOptions</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionOptions-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-CollectionOptions-Page">
+                    <property name="header.render" value="false"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionOptions-Page" parent="KS-KitchenSink-Page">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionOptions"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

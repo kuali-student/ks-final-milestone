@@ -8,22 +8,38 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.kew.util.PerformanceLogger;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
-import org.kuali.rice.krms.api.engine.*;
+import org.kuali.rice.krms.api.engine.Engine;
+import org.kuali.rice.krms.api.engine.EngineResults;
+import org.kuali.rice.krms.api.engine.ExecutionFlag;
+import org.kuali.rice.krms.api.engine.ExecutionOptions;
+import org.kuali.rice.krms.api.engine.Facts;
+import org.kuali.rice.krms.api.engine.ResultEvent;
+import org.kuali.rice.krms.api.engine.SelectionCriteria;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.framework.engine.Agenda;
 import org.kuali.rice.krms.framework.engine.BasicAgenda;
-import org.kuali.rice.krms.impl.repository.*;
+import org.kuali.rice.krms.impl.repository.AgendaBoService;
+import org.kuali.rice.krms.impl.repository.ContextBoService;
+import org.kuali.rice.krms.impl.repository.FunctionBoServiceImpl;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.rice.krms.impl.repository.RuleBoService;
+import org.kuali.rice.krms.impl.repository.TermBoService;
+import org.kuali.student.krms.KSKRMSTestCase;
 import org.kuali.rice.test.BaselineTestCase.BaselineMode;
 import org.kuali.rice.test.BaselineTestCase.Mode;
+import org.kuali.student.r2.core.statement.util.RulesEvaluationUtil;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @Ignore
 public class ExecuteAgendaTest extends KSKRMSTestCase {
@@ -149,7 +165,7 @@ public class ExecuteAgendaTest extends KSKRMSTestCase {
 						contextDef.getId());
 		return agendaDef;
 	}
-
+	
     public ContextDefinition getKRMSContext(String context) {
 		return contextRepository.getContextByNameAndNamespace(
 				context, KSKRMSConstants.KSNAMESPACE);
@@ -189,7 +205,7 @@ public class ExecuteAgendaTest extends KSKRMSTestCase {
         assertTrue("rule 0 should have evaluated to true", ruleEvaluationResults1.get(0).getResult());
 
         // ONLY agenda 1 should have been selected
-        //assertTrue(TestActionTypeService.actionFired("Agenda5::Rule5::TestAction"));
+//        assertTrue(TestActionTypeService.actionFired("Agenda5::Rule5::TestAction"));
 
         assertAgendaDidNotExecute(AGENDA1);
         assertAgendaDidNotExecute(AGENDA2);

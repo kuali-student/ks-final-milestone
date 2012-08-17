@@ -19,33 +19,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.messages.dto.Message;
-import org.kuali.student.core.messages.entity.MessageEntity;
+import org.kuali.student.r1.core.messages.entity.MessageEntity;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
 
 public class MessageAssembler {
 
     final static Logger logger = Logger.getLogger(MessageAssembler.class);
     
-	public static void toMessageEntity(Message message,
+	public static void toMessageEntity(MessageInfo message,
 			MessageEntity messageEntity) {
 		messageEntity.setGroupName(message.getGroupName());
-		messageEntity.setMessageId(message.getId());
-		messageEntity.setLocale(message.getLocale());
+		messageEntity.setMessageId(message.getKey());
+		messageEntity.setLocale(message.getLocale().getLocaleLanguage());
 		messageEntity.setValue(message.getValue());
 	}
 
-	public static void toMessage(MessageEntity messageEntity, Message message) {
+	public static void toMessage(MessageEntity messageEntity, MessageInfo message) {
 		message.setGroupName(messageEntity.getGroupName());
-		message.setId(messageEntity.getMessageId());
-		message.setLocale(messageEntity.getLocale());
+		message.setKey(messageEntity.getMessageId());
+		LocaleInfo locale = new LocaleInfo();
+		locale.setLocaleLanguage(messageEntity.getLocale());
+		locale.setLocaleRegion(messageEntity.getLocale());
+		message.setLocale(locale);
 		message.setValue(messageEntity.getValue());
 	}
 
-	public static List<Message> toMessageList(List<MessageEntity> messages,
-			Class<Message> message) {
-		List<Message> result = new ArrayList<Message>();
-		Message m1 = new Message();
+	public static List<MessageInfo> toMessageList(List<MessageEntity> messages,
+			Class<MessageInfo> message) {
+		List<MessageInfo> result = new ArrayList<MessageInfo>();
+		MessageInfo m1;
 		for (MessageEntity e : messages) {
+		    m1 = new MessageInfo();
 			toMessage(e, m1);
 			result.add(m1);
 		}

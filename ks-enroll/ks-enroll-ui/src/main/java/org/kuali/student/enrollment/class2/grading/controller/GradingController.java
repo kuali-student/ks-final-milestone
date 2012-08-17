@@ -109,7 +109,7 @@ public class GradingController extends UifControllerBase {
                     "Selected line index was not set for delete unassign action, cannot unassign grade");
         }
 
-        // TODO: Needs to be a client side method instead of handling at server side
+        // TODO: Needs to be a atpService side method instead of handling at server side
         ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).unAssignGrade(gradingForm.getView(),
                 gradingForm, selectedCollectionPath, selectedLineIndex);
 

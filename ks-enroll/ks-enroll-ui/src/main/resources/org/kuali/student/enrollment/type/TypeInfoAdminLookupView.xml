@@ -23,7 +23,7 @@
     <!-- LookupView -->
     <bean id="KS-TypeInfo-AdminLookupView" parent="KSLookupView"
         p:title="Type Lookup"
-        p:dataObjectClassName="org.kuali.student.r2.core.type.dto.TypeInfo"
+        p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo"
         p:viewHelperServiceClass="org.kuali.student.enrollment.type.service.impl.TypeInfoAdminLookupableImpl">
 
         <property name="criteriaFields">

@@ -1,24 +1,61 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RegistrationGroupTransformer {
+    private LuiService luiService;
 
-    public RegistrationGroupInfo transform(LuiInfo lui) {
+    public LuiService getLuiService() {
+        return luiService;
+    }
 
-        RegistrationGroupInfo regDateGroup = new RegistrationGroupInfo();
-        regDateGroup.setId(lui.getId());
-        regDateGroup.setMeta(lui.getMeta());
-        regDateGroup.setStateKey(lui.getStateKey());
-        regDateGroup.setTypeKey(lui.getTypeKey());
-        regDateGroup.setDescr(lui.getDescr());
-        regDateGroup.setAttributes(lui.getAttributes());
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
+    }
+
+    public RegistrationGroupInfo lui2Rg(LuiInfo lui, ContextInfo context) {
+
+        RegistrationGroupInfo regGroup = new RegistrationGroupInfo();
+        regGroup.setId(lui.getId());
+        regGroup.setMeta(lui.getMeta());
+        regGroup.setStateKey(lui.getStateKey());
+        regGroup.setTypeKey(lui.getTypeKey());
+        regGroup.setDescr(lui.getDescr());
+
+
+        if (lui.getOfficialIdentifier() != null){
+            regGroup.setRegistrationCode(lui.getOfficialIdentifier().getCode());
+        }
+
+        //Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
+        List<AttributeInfo> attributes = regGroup.getAttributes();
+        for (Attribute attr : lui.getAttributes()) {
+            if (CourseOfferingServiceConstants.IS_REGISTRATION_GROUP_GENERATED_INDICATOR_ATTR.equals(attr.getKey())){
+                regGroup.setIsGenerated(Boolean.valueOf(attr.getValue()));
+            } else {
+                attributes.add(new AttributeInfo(attr));
+            }
+        }
+        regGroup.setAttributes(attributes);
+
         //regDateGroup.setMinimumEnrollment(lui.getMinimumEnrollment());
-        regDateGroup.setName(lui.getName());
-        regDateGroup.setFormatOfferingId(lui.getCluId());
-        regDateGroup.setTermId(lui.getAtpId());
+        regGroup.setName(lui.getName());
+        regGroup.setFormatOfferingId(lui.getCluId());
+        regGroup.setTermId(lui.getAtpId());
 
         // below undecided
         // co.setHasWaitlist(lui.getHasWaitlist());
@@ -28,11 +65,17 @@ public class RegistrationGroupTransformer {
         // co.setWaitlistCheckinFrequency(lui.getWaitlistCheckinFrequency());
 
         // LuiLuiRelation (to set courseOfferingId, activityOfferingIds)
-        return regDateGroup;
+        try {
+            assembleLuiLuiRelations(regGroup, lui.getId(), context);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+
+        return regGroup;
     }
     
     
-    public LuiInfo transform(RegistrationGroupInfo regGroup) {
+    public LuiInfo rg2Lui(RegistrationGroupInfo regGroup, ContextInfo context) {
         
         LuiInfo lui = new LuiInfo();
         lui.setId(regGroup.getId());
@@ -40,7 +83,25 @@ public class RegistrationGroupTransformer {
         lui.setStateKey(regGroup.getStateKey());
         lui.setDescr(regGroup.getDescr());
         lui.setMeta(regGroup.getMeta());
-        lui.setAttributes(regGroup.getAttributes());
+
+        //Lui Official Identifier
+        LuiIdentifierInfo officialIdentifier = new LuiIdentifierInfo();
+        officialIdentifier.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+        officialIdentifier.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
+        officialIdentifier.setCode(regGroup.getRegistrationCode());
+        lui.setOfficialIdentifier(officialIdentifier);
+
+        //Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
+        List<AttributeInfo> attributes = lui.getAttributes();
+        for (Attribute attr : regGroup.getAttributes()) {
+            attributes.add(new AttributeInfo(attr));
+        }
+        AttributeInfo isGenerated = new AttributeInfo();
+        isGenerated.setKey(CourseOfferingServiceConstants.IS_REGISTRATION_GROUP_GENERATED_INDICATOR_ATTR);
+        isGenerated.setValue(String.valueOf(regGroup.getIsGenerated()));
+        attributes.add(isGenerated);
+        lui.setAttributes(attributes);
+
         lui.setName(regGroup.getName());
         lui.setCluId(regGroup.getFormatOfferingId());
         // lui.setMinimumEnrollment(regGroup.getMinimumEnrollment());
@@ -52,7 +113,33 @@ public class RegistrationGroupTransformer {
         //lui.setWaitlistCheckinFrequency(rg.getWaitlistCheckinFrequency());
         //lui.setWaitlistMaximum(rg.getWaitlistMaximum());
         //lui.setWaitlistTypeKey(rg.getWaitlistTypeKey());
+
+
         return lui;
     
     }
+
+    private void assembleLuiLuiRelations(RegistrationGroupInfo rg, String luiId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+
+        List<String> activityIds = new ArrayList<String>();
+        List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(luiId, context);
+        if (rels != null && !rels.isEmpty()) {
+            for (LuiLuiRelationInfo rel : rels) {
+                if (rel.getLuiId().equals(luiId)) {
+                    if (rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY)) {
+                        if (!activityIds.contains(rel.getRelatedLuiId())) {
+                            activityIds.add(rel.getRelatedLuiId());
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!activityIds.isEmpty()) {
+            rg.setActivityOfferingIds(activityIds);
+        }
+    }
+
 }

@@ -27,13 +27,13 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.CircularRelationshipException;
-import org.kuali.student.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.common.exceptions.UnsupportedActionException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.test.TestAwareDataLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -49,10 +49,11 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -63,7 +64,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -248,7 +249,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 		
 
 
-		private void createCourseCHEM123(TermInfo term, ContextInfo context) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+		private void createCourseCHEM123(TermInfo term, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 	    	
 	    	CourseInfo canonicalCourse = buildCanonicalCourse("CLU-1", term.getId(), "CHEM", "CHEM123", "Chemistry 123", "description 1");
 			
@@ -261,7 +262,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			ActivityInfo canonicalLectureAndLabFormatLectureActivity = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, canonicalLectureAndLabFormat);
 			ActivityInfo canonicalLectureAndLabFormatLabActivity = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY, canonicalLectureAndLabFormat);
 			
-			courseService.createCourse(canonicalCourse);
+			courseService.createCourse(canonicalCourse, context);
 		
 
 			// course offering
@@ -351,12 +352,12 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	}
 		
 
-		public void createLabActivityOfferingForCHEM123(String labCode, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
+		public void createLabActivityOfferingForCHEM123(String labCode, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 			
 			
 			CourseOfferingInfo co = coService.getCourseOffering("CO-1", context);
 			
-			CourseInfo c = courseService.getCourse(co.getCourseId());
+			CourseInfo c = courseService.getCourse(co.getCourseId(), context);
 			
 			// create the new activity offering
 			
@@ -388,7 +389,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 		}
 
 		
-		private void createCourseENG101(TermInfo term, ContextInfo context) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+		private void createCourseENG101(TermInfo term, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 			
 			CourseInfo canonicalCourse = buildCanonicalCourse("CLU-2",term.getId() , "ENG", "ENG101", "Intro English", "Description of Intoroductory English");
 			
@@ -396,7 +397,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			
 			ActivityInfo canonicalLectureOnlyFormatLectureActivity = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, canonicalLectureOnlyFormat);
 			
-			courseService.createCourse(canonicalCourse);
+			courseService.createCourse(canonicalCourse, context);
 			
 			// create offerings
 			CourseOfferingInfo co = CourseOfferingServiceDataUtils.createCourseOffering(canonicalCourse, term.getId());
@@ -454,7 +455,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	            String title,
 	            String description, 
 	            String formatId,
-	            String activityTypeKey) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
+	            String activityTypeKey) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
 	        this.loadCourseInternal(id, startTermId, subjectArea, code, title, description, formatId, new String[] {activityTypeKey});
 	    }
 	    
@@ -465,7 +466,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	            String title,
 	            String description, 
 	            String formatId,
-	            String[] activityTypeKeys) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
+	            String[] activityTypeKeys) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
 	        this.loadCourseInternal(id, startTermId, subjectArea, code, title, description, formatId, activityTypeKeys);
 	    }
 
@@ -477,7 +478,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	            String title,
 	            String description,
 	            String formatId,
-	            String[] activityTypeKeys) throws AlreadyExistsException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, VersionMismatchException, org.kuali.student.common.exceptions.DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
+	            String[] activityTypeKeys) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
 	        CourseInfo info = new CourseInfo();
 	        info.setStartTerm(startTermId);
 	        info.setEffectiveDate(calcEffectiveDateForTerm(startTermId, id));
@@ -502,11 +503,11 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	            ActivityInfo activity = new ActivityInfo();
 	            format.getActivities().add(activity);
 	            activity.setId(format.getId() + "-" + activityTypeKey);
-	            activity.setActivityType(activityTypeKey);
+	            activity.setTypeKey(activityTypeKey);
 	            activity.setState("Active");
 	        }
 	        
-	        courseService.createCourse(info);
+	        courseService.createCourse(info, ContextUtils.getContextInfo());
 	    }
 	    
 	    private CourseInfo buildCanonicalCourse(String id, String startTermId, String subjectArea, String code, String title, String description) {
@@ -532,7 +533,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	    	
 	    	ActivityInfo info = new ActivityInfo();
 	    	info.setId(CourseOfferingServiceDataUtils.createCanonicalActivityId(format.getId(), activityTypeKey));
-	    	info.setActivityType(activityTypeKey);
+	    	info.setTypeKey(activityTypeKey);
 	    	info.setState(DtoConstants.STATE_ACTIVE);
 	    	
 	    	format.getActivities().add(info);

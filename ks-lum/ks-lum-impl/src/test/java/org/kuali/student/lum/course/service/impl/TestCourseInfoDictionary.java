@@ -1,44 +1,40 @@
 package org.kuali.student.lum.course.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.junit.Test;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.test.mock.MockProxyFactoryBean;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.common.validator.ServerDateParser;
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.common.validator.ValidatorFactory;
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.course.service.utils.ActiveDatesValidator;
-import org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator;
-import org.kuali.student.lum.course.service.utils.RevenuePercentValidator;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.r1.common.validator.ServerDateParser;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r1.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.course.service.utils.*;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.*;
+
+import static org.junit.Assert.*;
+
 public class TestCourseInfoDictionary {
+	
+	ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 
 	@Test
 	public void testLoadCourseInfoDictionary() {
@@ -74,19 +70,26 @@ public class TestCourseInfoDictionary {
 		System.out.println("h1. Test Validation");
 		DefaultValidatorImpl val = new DefaultValidatorImpl();
 		ValidatorFactory vf = new ValidatorFactory();
+		SubjectAreaUnitOwnerValidator saVal = new SubjectAreaUnitOwnerValidator();
+		
 		List<Validator> vList = new ArrayList<Validator>();
+		
+		saVal.setSearchDispatcher(new MockSearchDispatcher());
 		
 		vList.add(new RevenuePercentValidator() );
 		vList.add(new ExpenditurePercentValidator());
+		vList.add(saVal);
 		vList.add(getActiveDatesValidator());
+		vList.add(new ActivityTypeValidator());
 		vf.setValidatorList(vList);
 		
 		val.setValidatorFactory(vf);
 		val.setDateParser(new ServerDateParser());
 		val.setSearchDispatcher(new MockSearchDispatcher());
+		// TODO KSCM Do we need a mock for COurseInfo?
 		CourseInfo info = new CourseInfo();
-		ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(info.getClass().getName());
-		List<ValidationResultInfo> validationResults = val.validateObject(info,	os);
+		ObjectStructureDefinition os =(ObjectStructureDefinition) ac.getBean(info.getClass().getName());
+		List<ValidationResultInfo> validationResults =  val.validateObject(info,	os, contextInfo);
 		System.out.println("h3. With just a blank Course");
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
@@ -103,7 +106,7 @@ public class TestCourseInfoDictionary {
 		info.setRevenues(new ArrayList<CourseRevenueInfo>());
 		info.setExpenditure(null);
 		
-		validationResults = val.validateObject(info, os);
+		validationResults = val.validateObject(info, os, contextInfo);
 		System.out.println("h3. With generated data");
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
@@ -111,22 +114,23 @@ public class TestCourseInfoDictionary {
 		assertEquals(0, validationResults.size());
 
 		System.out.println("testCourseDescrRequiredBasedOnState");
-		info.setState("DRAFT");
+		info.setStateKey("DRAFT");
 		info.setDescr(null);
-		validationResults = val.validateObject(info, os);
+		validationResults = val.validateObject(info, os, contextInfo);
 		assertEquals(0, validationResults.size());
 
-		info.setState("ACTIVE");
+		info.setStateKey("ACTIVE");
 		info.setDescr(null);
-		validationResults = val.validateObject(info, os);
+		validationResults = val.validateObject(info, os, contextInfo);
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(2, validationResults.size());
+		assertEquals(0, validationResults.size());
 
 		System.out.println("test validation on dynamic attributes");
-		info.getAttributes().put("finalExamStatus", "123");
-		validationResults = val.validateObject(info, os);
+		
+		info.getAttributes().add(new AttributeInfo("finalExamStatus", "123"));
+		validationResults = val.validateObject(info, os, contextInfo);
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
@@ -138,10 +142,10 @@ public class TestCourseInfoDictionary {
 		RichTextInfo rtInfo = new RichTextInfo();
 		rtInfo.setPlain("The ability to use sensory cues to guide motor activity.  This ranges from sensory stimulation, through cue selection, to translation.");
 		rtInfo.setFormatted(rtInfo.getPlain());
-		loCatInfo.setDesc(rtInfo);
+		loCatInfo.setDescr(rtInfo);
 		info.setCourseSpecificLOs(Arrays.asList(loInfo));
 		info.setRevenues(new ArrayList<CourseRevenueInfo>());
-		validationResults = val.validateObject(info, os);
+		validationResults = val.validateObject(info, os, contextInfo);
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
@@ -204,14 +208,15 @@ public class TestCourseInfoDictionary {
         CourseExpenditureInfo cei = new CourseExpenditureInfo();
         cei.setAffiliatedOrgs(afList);
         
-        List<ValidationResultInfo> validationResults1 = val.validateObject(info, os);
+        List<ValidationResultInfo> validationResults1 = val.validateObject(info, os, contextInfo);
         System.out.println("h3. With just a custom validations");
 
-        assertEquals(2, validationResults1.size());
+        assertEquals(6, validationResults1.size());
         
         for(ValidationResultInfo vr : validationResults1) {
             System.out.println(vr.getElement());
-            assertTrue("/revenues".equals(vr.getElement()) || "/expenditure/affiliatedOrgs".equals(vr.getElement()));
+           assertTrue("/revenues".equals(vr.getElement()) || "/expenditure/affiliatedOrgs".equals(vr.getElement())
+                    ||"revenues/0/stateKey".equals(vr.getElement()) ||"revenues/0/typeKey".equals(vr.getElement())||"revenues/1/stateKey".equals(vr.getElement()) ||"revenues/1/typeKey".equals(vr.getElement()) ||"/stateKey".equals(vr.getElement()) ||"/typeKey".equals(vr.getElement()));
         }
 
 	}

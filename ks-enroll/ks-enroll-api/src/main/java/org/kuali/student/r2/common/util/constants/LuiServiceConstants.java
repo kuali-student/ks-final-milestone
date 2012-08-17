@@ -35,15 +35,12 @@ public class LuiServiceConstants {
     public static final String LUI_KEY_PREFIX = "kuali.lui";
 
     /**
-     * Types
+     * Course Offering, Format Offering, Registration Group Types
      */
-//    public static final String COURSE_BUNDLE_TYPE_KEY = "kuali.lui.type.course.bundle";
     public static final String COURSE_OFFERING_TYPE_KEY = "kuali.lui.type.course.offering";
     // 6/13/2012 Per conversation with Norm/Melissa to include course with format in the format offering type key
     public static final String FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
     public static final String REGISTRATION_GROUP_TYPE_KEY = "kuali.lui.type.registration.group";
-//    public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
-    public static final String ACTIVITY_OFFERING_GROUP_TYPE_KEY = "kuali.lui.type.grouping.activity";
 
     public static final boolean isFormatOfferingTypeKey(String possibleType) {
         if (possibleType == null) {
@@ -53,7 +50,11 @@ public class LuiServiceConstants {
     }
     /**
      * Activity types
+     * https://wiki.kuali.org/display/STUDENT/Activity+Types
      */
+    // This is a grouping type used for type-type relations
+    public static final String ACTIVITY_OFFERING_GROUP_TYPE_KEY = "kuali.lui.type.grouping.activity";
+    // These are the activity offering types
     public static final String LECTURE_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.lecture";
     public static final String LAB_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.lab";
     public static final String DISCUSSION_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.discussion";
@@ -76,10 +77,13 @@ public class LuiServiceConstants {
     public static final String SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.selfpaced";
     public static final String COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.compbased";
     public static final String VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.videoconf";
-    public static final String SEMINAR_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.seminar";
-    public static final String QUIZ_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.quiz";
+    public static final String CLERKSHIP_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.clerkship";
+    public static final String CLINIC_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.clinic";
     public static final String CONFERENCE_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.conference";
-    public static final String ACTIVITY_OFFERING_TYPE_KEY_PREFIX = "kuali.lui.type.activity.offering.";
+    public static final String PRACTICUM_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.practicum";
+    public static final String QUIZ_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.quiz";
+    public static final String SEMINAR_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.seminar";
+
     public static final String[] ALL_ACTIVITY_TYPES = {
         LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
         LAB_ACTIVITY_OFFERING_TYPE_KEY,
@@ -103,10 +107,15 @@ public class LuiServiceConstants {
         SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY,
         COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY,
         VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY,
-        SEMINAR_ACTIVITY_OFFERING_TYPE_KEY,
+        CLERKSHIP_ACTIVITY_OFFERING_TYPE_KEY,
+        CLINIC_ACTIVITY_OFFERING_TYPE_KEY,
+        CONFERENCE_ACTIVITY_OFFERING_TYPE_KEY,
+        PRACTICUM_ACTIVITY_OFFERING_TYPE_KEY,
         QUIZ_ACTIVITY_OFFERING_TYPE_KEY,
-        CONFERENCE_ACTIVITY_OFFERING_TYPE_KEY};
+        SEMINAR_ACTIVITY_OFFERING_TYPE_KEY
+    };
 
+    public static final String ACTIVITY_OFFERING_TYPE_KEY_PREFIX = "kuali.lui.type.activity.offering."; // Not a type
     // TODO: May want to do this for other groupings
     private static HashSet<String> ACTIVITY_TYPES_HASH_SET = null;
     public static boolean isActivityType(String possibleActivityType) {

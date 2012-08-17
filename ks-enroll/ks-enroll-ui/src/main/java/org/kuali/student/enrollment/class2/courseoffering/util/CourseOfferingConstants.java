@@ -37,6 +37,7 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE = "error.courseoffering.selected.AO.delete.confirmation";
     public static final String COURSEOFFERING_MSG_ERROR_CO_CANNOT_DELETE="error.courseoffering.selected.CO.delete.confirmation";
     public static final String COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR = "error.courseoffering.invalid.state";
+    public static final String COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY = "error.courseoffering.aodraftonlyapproved";
 
     public static final String ACTIVITY_OFFERING_SCHEDULING_ACTION = "Scheduling";
     public static final String ACTIVITY_OFFERING_DRAFT_ACTION = "Draft";

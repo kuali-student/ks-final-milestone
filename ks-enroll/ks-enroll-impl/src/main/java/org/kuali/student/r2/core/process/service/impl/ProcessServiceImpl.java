@@ -17,7 +17,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dao.CheckDao;
 import org.kuali.student.r2.core.process.dao.InstructionDao;
 import org.kuali.student.r2.core.process.dao.ProcessDao;
@@ -30,7 +30,7 @@ import org.kuali.student.r2.core.process.model.InstructionEntity;
 import org.kuali.student.r2.core.process.model.ProcessCategoryEntity;
 import org.kuali.student.r2.core.process.model.ProcessEntity;
 import org.kuali.student.r2.core.process.service.ProcessService;
-import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;

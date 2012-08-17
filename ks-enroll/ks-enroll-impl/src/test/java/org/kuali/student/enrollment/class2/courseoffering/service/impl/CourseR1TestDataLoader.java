@@ -10,11 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 
 /**
@@ -99,11 +100,11 @@ public class CourseR1TestDataLoader {
             ActivityInfo activity = new ActivityInfo();
             format.getActivities().add(activity);
             activity.setId(format.getId() + "-" + activityTypeKey);
-            activity.setActivityType(activityTypeKey);
+            activity.setTypeKey(activityTypeKey);
             activity.setState("Active");
         }
         try {
-            CourseInfo newInfo = this.courseService.createCourse(info);
+            CourseInfo newInfo = this.courseService.createCourse(info, ContextUtils.getContextInfo());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

@@ -1,3 +1,6 @@
+<%@ page import="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter" %>
+<%@ page import="org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter" %>
+<%@ page import="org.springframework.security.core.AuthenticationException" %>
 <!--
 Do not change this file if you are using embedded or standalone, override the appropriate one in those
 projects - this file is for dev mode
@@ -7,7 +10,7 @@ projects - this file is for dev mode
 		var hash = unescape(self.document.location.hash.substring(1));
 		form.action = "j_spring_security_check#" + hash;
 		return true;
-	}
+	} 
 </script>
 
 <form method="post" onSubmit="return setSubmitUrl(this);">

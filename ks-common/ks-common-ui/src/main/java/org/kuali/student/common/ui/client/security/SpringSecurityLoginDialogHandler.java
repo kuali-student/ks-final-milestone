@@ -44,7 +44,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class SpringSecurityLoginDialogHandler implements SessionTimeoutHandler{
 	final static ApplicationContext context = Application.getApplicationContext();
-	
+	static  boolean CASrequiresAPageRefreshViaJavascript = Boolean.TRUE;
 	public final String TIMEOUT_MSG = "Your session has timed out. Please login again.";
 	
 	protected KSLightBox lightbox;
@@ -52,16 +52,39 @@ public class SpringSecurityLoginDialogHandler implements SessionTimeoutHandler{
     protected PasswordTextBox password;
     protected Label errorLabel;
     
-	
+  private native void reload() /*-{
+    $wnd.location.reload();
+   }-*/;
+
 	@Override
+	public boolean isSessionTimeout(Throwable error) {
+        boolean InvocationException = error.toString().contains("com.google.gwt.user.client.rpc.InvocationException");
+        boolean CAS = error.toString().contains(""); // The return login page will from cas because spring filter it
+        boolean normalLogin =    error.toString().contains("Login"); // the return login will from normal spring Authentication
+
+        //until I havent had a chance to see what the CAS loging looks like I am making it default that the javascript do
+        // a page refresh rather than showing a login dialogbox. Thus we will be taken to login.jsp screen correlating with
+        // the chosen filter {cas or normal spring form}
+
+        if(CAS )
+        {
+            CASrequiresAPageRefreshViaJavascript = true;
+        }
+
+    	return CAS || normalLogin ;
+    }
+    
+    @Override
 	public void handleSessionTimeout() {
+        if(!CASrequiresAPageRefreshViaJavascript){
     	if (lightbox == null){
     		createLoginPanel();
     	} else {
     		resetLoginPanel();
     	}
     	lightbox.setSize(460, 220);
-        lightbox.show();		
+        lightbox.show();
+        }else{reload();}
 	}
 
 	private void createLoginPanel(){

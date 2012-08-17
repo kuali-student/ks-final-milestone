@@ -15,25 +15,31 @@
 
 package org.kuali.student.core.messages.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.messages.dto.LocaleKeyList;
-import org.kuali.student.common.messages.dto.Message;
-import org.kuali.student.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.common.messages.dto.MessageList;
-import org.kuali.student.common.messages.service.MessageService;
-import org.kuali.student.core.messages.dao.MessageManagementDAO;
-import org.kuali.student.core.messages.entity.MessageEntity;
+import org.kuali.student.r1.core.messages.dao.MessageManagementDAO;
+import org.kuali.student.r1.core.messages.entity.MessageEntity;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
+import org.kuali.student.r2.common.messages.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-@WebService(endpointInterface = "org.kuali.student.common.messages.service.MessageService", serviceName = "MessageService", portName = "MessageService", targetNamespace = "http://student.kuali.org/wsdl/messages")
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+@WebService(endpointInterface = "org.kuali.student.r2.common.messages.service.MessageService", serviceName = "MessageService", portName = "MessageService", targetNamespace = "http://student.kuali.org/wsdl/messages")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class MessageServiceImpl implements MessageService{
     
@@ -52,91 +58,107 @@ public class MessageServiceImpl implements MessageService{
         this.messageDAO = messageDAO;
     }
 
-	public LocaleKeyList getLocales() {
+    @Transactional(readOnly=true)
+	public List<LocaleInfo> getLocales(ContextInfo contextInfo) {
         
 		List<String> locales = this.messageDAO.getLocales();
 		
-		LocaleKeyList keyList = new LocaleKeyList();
-		keyList.setLocales(locales);
+		List<LocaleInfo> localeInfos = new ArrayList<LocaleInfo>();
+		for (String locale : locales){
+		    LocaleInfo localeInfo = new LocaleInfo();
+		    localeInfo.setLocaleLanguage(locale);
+		    localeInfos.add(localeInfo);
+		}
   
-		return keyList;
+		return localeInfos;
 	}
-	
-	public MessageGroupKeyList getMessageGroups() {
+    
+    @Override
+    @Transactional(readOnly=true)
+    public List<String> getMessageGroupKeys(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		List<String> groups = this.messageDAO.getMessageGroups();
 		
-		MessageGroupKeyList keyList = new MessageGroupKeyList();
-		keyList.setMessageGroupKeys(groups);
-
-		return keyList;
+		return groups;
 	}
 
-	public Message getMessage(String localeKey, String messageGroupKey, String messageKey) {
-		Message message = null;
-		if(localeKey == null || messageGroupKey == null || messageKey == null){
+    @Override
+    @Transactional(readOnly=true)
+	public MessageInfo getMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, ContextInfo contextInfo) {
+        MessageInfo message = null;
+		if(localeInfo == null || messageGroupKey == null || messageKey == null){
 			return null;
 		}
 		else{
-			MessageEntity messageEntity = this.messageDAO.getMessage(localeKey, messageGroupKey, messageKey);
+			MessageEntity messageEntity = this.messageDAO.getMessage(localeInfo.getLocaleLanguage(), messageGroupKey, messageKey);
 			if(messageEntity != null){
-				message = new Message();
+				message = new MessageInfo();
 				MessageAssembler.toMessage(messageEntity,message); 
 			}
 		}
 		return message;
 	}
 
-	public MessageList getMessages(String localeKey, String messageGroupKey) {
-		if(localeKey == null || messageGroupKey == null){
-			return new MessageList();
+    @Override
+    @Transactional(readOnly=true)
+	public List<MessageInfo> getMessages(LocaleInfo localeInfo, String messageGroupKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		if(localeInfo == null || messageGroupKey == null){
+			return new ArrayList<MessageInfo>();
 		}
 		else{
-			List<MessageEntity> messages =  this.messageDAO.getMessages(localeKey, messageGroupKey);
+			List<MessageEntity> messages =  this.messageDAO.getMessages(localeInfo.getLocaleLanguage(), messageGroupKey);
 	        
-	        MessageList messageList = new MessageList();
-	        List<Message> messageDTOs =  MessageAssembler.toMessageList(messages,Message.class);
-	        messageList.setMessages(messageDTOs);
-			return messageList;
+	        return MessageAssembler.toMessageList(messages, MessageInfo.class);
 		}
 	}
 
-	public MessageList getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) {
-		if(localeKey == null || messageGroupKeyList == null){
-			return new MessageList();
+	@Override
+    @Transactional(readOnly=true)
+	public List<MessageInfo> getMessagesByGroups(LocaleInfo localeInfo, List<String> messageGroupKeys, ContextInfo contextInfo)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		if(localeInfo == null || messageGroupKeys == null){
+		    return new ArrayList<MessageInfo>();
 		}
 		else{
-			List<MessageEntity> messages =  this.messageDAO.getMessagesByGroups(localeKey, messageGroupKeyList.getMessageGroupKeys());
-		    MessageList messageList = new MessageList();
-		    List<Message> messageDTOs =  MessageAssembler.toMessageList(messages,Message.class);
-		    messageList.setMessages(messageDTOs);
-			return messageList;
+			List<MessageEntity> messages =  this.messageDAO.getMessagesByGroups(localeInfo.getLocaleLanguage(), messageGroupKeys);
+		    return MessageAssembler.toMessageList(messages, MessageInfo.class);
 		}
 	}
-
-	@Transactional(readOnly=false)
-	public Message updateMessage(String localeKey, String messageGroupKey, String messageKey, Message messageInfo) {
+    
+	@Override
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+	public MessageInfo updateMessage(LocaleInfo localeInfo, String messageKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 		
-		if(localeKey == null || messageGroupKey == null || messageKey == null || messageInfo == null){
+		if(localeInfo == null || messageInfo.getGroupName() == null || messageKey == null || messageInfo == null){
 			return null;
 		}
 		else{
 		    MessageEntity messageEntity = new MessageEntity();    
 		    MessageAssembler.toMessageEntity( messageInfo, messageEntity);
-		    messageEntity =  messageDAO.updateMessage(localeKey, messageGroupKey, messageKey, messageEntity);
+		    messageEntity =  messageDAO.updateMessage(localeInfo.getLocaleLanguage(), messageInfo.getGroupName(), messageKey, messageEntity);
 		    MessageAssembler.toMessage( messageEntity,messageInfo);
 		    return messageInfo;
 		}        
 	}
 
-	@Transactional(readOnly=false)
-	public Message addMessage(Message messageInfo) {
+	@Override
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+	public StatusInfo addMessage(LocaleInfo localeInfo, String messageGroupKey, MessageInfo messageInfo, ContextInfo contextInfo)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		if(messageInfo != null)	{
 			MessageEntity messageEntity = new MessageEntity();    
 			MessageAssembler.toMessageEntity(messageInfo, messageEntity);
 			messageEntity =  messageDAO.addMessage(messageEntity);
 			MessageAssembler.toMessage(messageEntity, messageInfo);
 		}
-		return messageInfo;
+		StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+		return status;
 	}
+
+    
+
+    @Override
+    public StatusInfo deleteMessage(LocaleInfo localeInfo, String messageKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
     
 }

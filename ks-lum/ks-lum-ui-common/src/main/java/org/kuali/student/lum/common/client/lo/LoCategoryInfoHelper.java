@@ -1,8 +1,8 @@
 package org.kuali.student.lum.common.client.lo;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.helper.PropertyEnum;
-import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.helper.PropertyEnum;
+import org.kuali.student.r2.common.dto.MetaInfo;
 
 import java.util.Date;
 
@@ -15,14 +15,14 @@ public class LoCategoryInfoHelper {
     public enum Properties implements PropertyEnum
     {
         ID ("id"),
-        DESC ("desc"),
+        DESCR ("descr"),
         EFFECTIVE_DATE ("effectiveDate"),
         EXPIRATION_DATE ("expirationDate"),
-        LO_REPOSITORY ("loRepository"),
+        LO_REPOSITORY_KEY ("loRepositoryKey"),
         NAME ("name"),
-        STATE ("state"),
-        TYPE ("type"),
-        META ("metaInfo");
+        STATE_KEY ("stateKey"),
+        TYPE_KEY ("typeKey"),
+        META ("meta");
         private final String key;
 
         private Properties (final String key)
@@ -61,12 +61,12 @@ public class LoCategoryInfoHelper {
         return (String) data.get(Properties.ID.getKey());
     }
 
-    public void setDesc(Data descData) {
-        HelperUtil.setDataField(Properties.DESC, data, descData);
+    public void setDescr(Data descData) {
+        HelperUtil.setDataField(Properties.DESCR, data, descData);
     }
 
-    public Data getDesc() {
-        return HelperUtil.getDataField(Properties.DESC, data);
+    public Data getDescr() {
+        return HelperUtil.getDataField(Properties.DESCR, data);
     }
 
     public void setEffectiveDate(Date effectiveDate) {
@@ -85,12 +85,12 @@ public class LoCategoryInfoHelper {
         return (Date) data.get(Properties.EXPIRATION_DATE.getKey());
     }
 
-    public void setLoRepository(String loRepository) {
-        data.set(Properties.LO_REPOSITORY.getKey(), loRepository);
+    public void setLoRepositoryKey(String loRepositoryKey) {
+        data.set(Properties.LO_REPOSITORY_KEY.getKey(), loRepositoryKey);
     }
 
-    public String getLoRepository() {
-        return (String) data.get(Properties.LO_REPOSITORY.getKey());
+    public String getLoRepositoryKey() {
+        return (String) data.get(Properties.LO_REPOSITORY_KEY.getKey());
     }
 
     public void setName(String name) {
@@ -101,27 +101,27 @@ public class LoCategoryInfoHelper {
         return (String) data.get(Properties.NAME.getKey());
     }
 
-    public void setState(String state) {
-        data.set(Properties.STATE.getKey(), state);
+    public void setStateKey(String stateKey) {
+        data.set(Properties.STATE_KEY.getKey(), stateKey);
     }
 
-    public String getState() {
-        return (String) data.get(Properties.STATE.getKey());
+    public String getStateKey() {
+        return (String) data.get(Properties.STATE_KEY.getKey());
     }
 
-    public void setType(String type) {
-        data.set(Properties.TYPE.getKey(), type);
+    public void setTypeKey(String typeKey) {
+        data.set(Properties.TYPE_KEY.getKey(), typeKey);
     }
 
-    public String getType() {
-        return (String) data.get(Properties.TYPE.getKey());
+    public String getTypeKey() {
+        return (String) data.get(Properties.TYPE_KEY.getKey());
     }
 
-    public void setMetaInfo(Data meta) {
+    public void setMeta(Data meta) {
         data.set(Properties.META.getKey(), meta);
     }
 
-    public Data getMetaInfo() {
+    public Data getMeta() {
         return (Data) data.get(Properties.META.getKey());
     }
 

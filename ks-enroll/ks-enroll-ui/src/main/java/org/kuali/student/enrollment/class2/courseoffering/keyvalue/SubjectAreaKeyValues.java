@@ -27,12 +27,11 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.r1.core.enumerationmanagement.service.EnumerationManagementService;
+
 /**
  * @deprecated This class is leftover from Core Slice. Delete when no longer needed or un deprecate if needed.
  */
@@ -63,6 +62,9 @@ public class SubjectAreaKeyValues extends KeyValuesBase implements Serializable 
             throw new RuntimeException(e);
         } catch (OperationFailedException e) {
             throw new RuntimeException(e);
+// TODO Re-enable when switching to r2 enumeration service
+//        } catch (PermissionDeniedException e) {
+//            throw new RuntimeException(e);
         }
         
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

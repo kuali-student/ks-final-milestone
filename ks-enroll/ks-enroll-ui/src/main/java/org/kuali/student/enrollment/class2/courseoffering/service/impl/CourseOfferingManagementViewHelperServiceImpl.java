@@ -5,7 +5,6 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
@@ -23,18 +22,18 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.r2.core.state.service.StateService;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
@@ -197,7 +196,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 
         // Get the format object for the id selected
         try {
-            course = getCourseService().getCourse(courseOffering.getCourseId());
+            course = getCourseService().getCourse(courseOffering.getCourseId(), getContextInfo());
             for (FormatInfo f : course.getFormats()) {
                 if(f.getId().equals(formatId)) {
                     format = f;
@@ -234,10 +233,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         // Get the matching activity offering type for the selected activity
         TypeInfo activityOfferingType = null;
         try {
-            List<TypeInfo> types = getTypeService().getAllowedTypesForType(activity.getActivityType(), getContextInfo());
+            List<TypeInfo> types = getTypeService().getAllowedTypesForType(activity.getTypeKey(), getContextInfo());
             // only one AO type should be mapped to each Activity type
             if(types.size() > 1) {
-                throw new RuntimeException("More than one allowed type is matched to activity type of: " + activity.getActivityType());
+                throw new RuntimeException("More than one allowed type is matched to activity type of: " + activity.getTypeKey());
             }
 
             activityOfferingType = types.get(0);
@@ -380,14 +379,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                             getCourseOfferingService().updateActivityOffering(activityOfferingInfo.getId(), activityOfferingInfo,getContextInfo());
                         } else {
                             if ( ! isErrorAdded) {
-                                GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
+                                GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY);
                                 isErrorAdded = true;
                             }
                         }
                     }
                 } else {
                     if ( ! isErrorAdded) {
-                        GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
+                        GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY);
                         isErrorAdded = true;
                     }
                 }

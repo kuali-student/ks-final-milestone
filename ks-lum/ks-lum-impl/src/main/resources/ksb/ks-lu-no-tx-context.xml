@@ -20,11 +20,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 
 
                            http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
     <!-- This context requires that a spring Transaction Manager named 'transactionManager'
         be defined
@@ -116,39 +116,39 @@
         <property name="entityManagerFactory" ref="luEntityManagerFactory"/>
     </bean>
 
-    <bean id="luDao" class="org.kuali.student.lum.lu.dao.impl.LuDaoImpl">
+    <bean id="luDao" class="org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl">
         <property name="em" ref="luEntityManager"/>
     </bean>
 
     <bean id="luSearchManager"
-          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0"
                          value="classpath:lu-search-config.xml"/>
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
     </bean>
 
     <bean id="lumDictionary"
-          class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+          class="org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <constructor-arg index="0"
                          value="${ks.lum.dictionary.old.serviceContextLocations}"/>
     </bean>
 
-    <bean id="luClient"
+    <bean id="cluClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.clu.service.CluService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/lu}LuService"/>
+                  value="{http://student.kuali.org/wsdl/clu}CluService"/>
     </bean>
 
     <bean id="proposalClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.core.proposal.service.ProposalService"/>
+                  value="org.kuali.student.r1.core.proposal.service.ProposalService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/proposal}ProposalService"/>
     </bean>
 
-    <bean id="luServiceImpl" class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
+    <bean id="luServiceImpl" class="org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl">
         <property name="luDao" ref="luDao"/>
         <property name="searchManager" ref="luSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
@@ -162,15 +162,13 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="luServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.lum.lu.service.LuService"/>
-                <property name="localServiceName" value="LuService"/>
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lu"/>
+                          value="org.kuali.student.r2.lum.clu.service.CluService"/>
+                <property name="localServiceName" value="CluService"/>
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/clu"/>
                 <property name="busSecurity" value="${ks.lum.bus.security}"/>
             </bean>
         </property>
     </bean>
-
-
 
     <!-- Learning Objective service config -->
     <bean id="loEntityManagerFactory" parent="lumDefaultEntityManagerFactory">
@@ -184,12 +182,12 @@
         <property name="entityManagerFactory" ref="loEntityManagerFactory"/>
     </bean>
 
-    <bean id="loDao" class="org.kuali.student.lum.lo.dao.impl.LoDaoImpl">
+    <bean id="loDao" class="org.kuali.student.r2.lum.lo.dao.impl.LoDaoImpl">
         <property name="em" ref="loEntityManager"/>
     </bean>
 
     <bean id="loSearchManager"
-          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0"
                          value="classpath:lo-search-config.xml"/>
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
@@ -207,33 +205,35 @@
         <property name="entityManagerFactory" ref="lrcEntityManagerFactory"/>
     </bean>
 
-    <bean id="lrcDao" class="org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl">
+    <bean id="lrcDao" class="org.kuali.student.r1.lum.lrc.dao.impl.LrcDaoImpl">
         <property name="em" ref="lrcEntityManager"/>
     </bean>
 
     <bean id="lrcSearchManager"
-          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0"
                          value="classpath:lrc-search-config.xml"/>
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
     </bean>
 
     <bean id="lumCrossServiceSearchManager"
-          class="org.kuali.student.common.search.service.impl.CrossSearchManager">
+          class="org.kuali.student.r1.common.search.service.impl.CrossSearchManager">
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
 
     <bean id="lumSearchDispatcher"
-          class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
+          class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
         <property name="services">
             <list>
                 <ref bean="loClient"/>
-                <ref bean="luClient"/>
+                <ref bean="cluClient"/>
                 <ref bean="lrcClient"/>
                 <ref bean="orgClient"/>
                 <ref bean="enumServiceClient"/>
                 <ref bean="atpClient"/>
                 <ref bean="statementServiceClient"/>
+                <ref bean="subjectCodeClient"/>
+                <ref bean="proposalClient"/>
             </list>
         </property>
     </bean>
@@ -241,12 +241,12 @@
     <bean id="lrcClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.lum.lrc.service.LrcService"/>
+                  value="org.kuali.student.r1.lum.lrc.service.LrcService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/lrc}LearningResultService"/>
     </bean>
 
-    <bean id="lrcServiceImpl" class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+    <bean id="lrcServiceImpl" class="org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl">
         <property name="lrcDao" ref="lrcDao"/>
         <property name="searchManager" ref="lrcSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
@@ -259,7 +259,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="lrcServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.lum.lrc.service.LrcService"/>
+                          value="org.kuali.student.r1.lum.lrc.service.LrcService"/>
                 <property name="localServiceName" value="LearningResultService"/>
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lrc"/>
                 <property name="busSecurity" value="${ks.lum.bus.security}"/>
@@ -270,13 +270,13 @@
     <bean id="loClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.lum.lo.service.LearningObjectiveService"/>
+                  value="org.kuali.student.r2.lum.lo.service.LearningObjectiveService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/lo}LearningObjectiveService"/>
     </bean>
 
     <bean id="loServiceImpl"
-          class="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl">
+          class="org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl">
         <property name="loDao" ref="loDao"/>
         <property name="searchManager" ref="loSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
@@ -289,7 +289,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="loServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.lum.lo.service.LearningObjectiveService"/>
+                          value="org.kuali.student.r2.lum.lo.service.LearningObjectiveService"/>
                 <property name="localServiceName" value="LearningObjectiveService"/>
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lo"/>
                 <property name="busSecurity" value="${ks.lum.bus.security}"/>
@@ -300,7 +300,7 @@
     <bean id="orgClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.core.organization.service.OrganizationService"/>
+                  value="org.kuali.student.r2.core.organization.service.OrganizationService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/organization}OrganizationService"/>
     </bean>
@@ -308,15 +308,15 @@
     <bean id="enumServiceClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService"/>
+                  value="org.kuali.student.r1.core.enumerationmanagement.service.EnumerationManagementService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/enumerationmanagement}EnumerationManagementService"/>
     </bean>
 
     <!-- CourseService config -->
     <bean id="courseServiceImpl"
-          class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
-        <property name="luService" ref="luClient"/>
+          class="org.kuali.student.r2.lum.course.service.impl.CourseServiceImpl">
+        <property name="cluService" ref="cluClient"/>
         <property name="courseAssembler" ref="courseAssembler"/>
         <property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
@@ -330,7 +330,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="courseServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.lum.course.service.CourseService"/>
+                          value="org.kuali.student.r2.lum.course.service.CourseService"/>
                 <property name="localServiceName" value="CourseService"/>
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/course"/>
                 <property name="busSecurity" value="${ks.lum.bus.security}"/>
@@ -339,90 +339,92 @@
     </bean>
  
     <bean id="courseServiceMethodInvoker"
-          class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
-        <property name="luService" ref="luClient"/>
+          class="org.kuali.student.r2.lum.course.service.impl.CourseServiceMethodInvoker">
+        <property name="cluService" ref="cluClient"/>
         <property name="loService" ref="loClient"/>
         <property name="lrcService" ref="lrcClient"/>
     </bean>
 
     <bean id="courseAssembler"
-          class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
+          class="org.kuali.student.r2.lum.course.service.assembler.CourseAssembler">
         <property name="formatAssembler" ref="formatAssembler"/>
         <property name="courseJointAssembler" ref="courseJointAssembler"/>
         <property name="loAssembler" ref="loAssembler"/>
         <property name="loService" ref="loClient"/>
-        <property name="luService" ref="luClient"/>
+        <property name="cluService" ref="cluClient"/>
         <property name="lrcService" ref="lrcClient"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="atpService" ref="atpClient"/>
     </bean>
 
     <bean id="formatAssembler"
-          class="org.kuali.student.lum.course.service.assembler.FormatAssembler">
+          class="org.kuali.student.r2.lum.course.service.assembler.FormatAssembler">
         <property name="activityAssembler" ref="activityAssembler"/>
-        <property name="luService" ref="luClient"/>
+        <property name="cluService" ref="cluClient"/>
     </bean>
 
     <bean id="activityAssembler"
-          class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
-        <property name="luService" ref="luClient"/>
+          class="org.kuali.student.r2.lum.course.service.assembler.ActivityAssembler">
+        <property name="cluService" ref="cluClient"/>
     </bean>
 
     <bean id="courseJointAssembler"
-          class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
-        <property name="luService" ref="luClient"/>
+          class="org.kuali.student.r2.lum.course.service.assembler.CourseJointAssembler">
+        <property name="cluService" ref="cluClient"/>
     </bean>
 
     <bean id="lumDictionaryService"
-          class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+          class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg index="0" value="${ks.lum.dictionary.serviceContextLocations}"/>
     </bean>
 
-    <bean id="lumServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+    <bean id="lumServiceValidator" class="org.kuali.student.r2.common.validator.DefaultValidatorImpl">
         <property name="messageService" ref="ks.messageServiceMock"/>
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
 
-
     <bean id="lumValidatorFactory-parent"
-          abstract="true" class="org.kuali.student.common.validator.ValidatorFactory">
+          abstract="true" class="org.kuali.student.r2.common.validator.ValidatorFactory">
         <property name="defaultValidator" ref="lumServiceValidator"/>
         <property name="validatorList">
         	<list>
 				<!--  Add Custom Validators Here -->
-				
+				<bean class="org.kuali.student.r2.lum.program.service.validation.ProgramManagingBodiesValidator" >
+        			<property name="messageService" ref="ks.messageServiceMock"/>
+       				<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+				</bean>
+
 				<!--  Custom Validator for Revenue. Checks to see if the sum of all the orgs adds up to 100% -->
-			    <bean class="org.kuali.student.lum.course.service.utils.RevenuePercentValidator"/>
-			    <bean class="org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator"/>    	
-				<bean class="org.kuali.student.lum.course.service.utils.ActiveDatesValidator">
+			    <bean class="org.kuali.student.r2.lum.course.service.utils.RevenuePercentValidator"/>
+			    <bean class="org.kuali.student.r2.lum.course.service.utils.ExpenditurePercentValidator"/>
+				<bean class="org.kuali.student.r2.lum.course.service.utils.ActiveDatesValidator">
 					<property name="atpService" ref="atpClient"/>
 				</bean>
-				<!--<bean  class="org.kuali.student.lum.course.service.utils.RepeatableCreditValidator">
-					<property name="courseService" ref="courseServiceImpl"/>
-				</bean>-->
+				<bean class="org.kuali.student.r2.lum.course.service.utils.SubjectAreaUnitOwnerValidator">
+					<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+				</bean>
+				<bean class="org.kuali.student.r2.lum.course.service.utils.ActivityTypeValidator"/>
 			</list>
         </property>
     </bean>
 
     <bean id="lumValidatorFactory" parent="lumValidatorFactory-parent"/>
 	
-    
-
     <!-- Program Service Config -->
-
     <bean id="programSearchManager"
-          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0"
                          value="classpath:lu-search-config.xml"/>
     </bean>
 
-    <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler">
+    <bean id="statementTreeViewAssembler" class="org.kuali.student.r1.core.statement.service.assembler.StatementTreeViewAssembler">
    </bean>
 
     <bean id="programRequirementAssembler"
-          class="org.kuali.student.lum.program.service.impl.ProgramRequirementAssembler">
+          class="org.kuali.student.r2.lum.program.service.impl.ProgramRequirementAssembler">
         <property name="statementService" ref="statementServiceImpl"/>
         <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/>
-        <property name="luService" ref="luServiceImpl"/>
+        <property name="cluService" ref="luServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
@@ -431,20 +433,20 @@
     </bean>
 
     <bean id="loAssembler"
-              class="org.kuali.student.lum.course.service.assembler.LoAssembler">
+              class="org.kuali.student.r2.lum.course.service.assembler.LoAssembler">
         <property name="loService" ref="loServiceImpl"/>
     </bean>
 
     <bean id="cluAssemblerUtils"
-          class="org.kuali.student.lum.service.assembler.CluAssemblerUtils">
-        <property name="luService" ref="luClient"/>
+          class="org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils">
+        <property name="cluService" ref="cluClient"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
     </bean>
 
     <bean id="majorDisciplineAssembler"
-          class="org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler">
-        <property name="luService" ref="luClient"/>
+          class="org.kuali.student.r2.lum.program.service.assembler.MajorDisciplineAssembler">
+        <property name="cluService" ref="cluClient"/>
         <property name="programVariationAssembler" ref="programVariationAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
@@ -452,42 +454,42 @@
     </bean>
 
     <bean id="programAssemblerUtils"
-          class="org.kuali.student.lum.program.service.assembler.ProgramAssemblerUtils">
-        <property name="luService" ref="luServiceImpl"/>
+          class="org.kuali.student.r2.lum.program.service.assembler.ProgramAssemblerUtils">
+        <property name="cluService" ref="luServiceImpl"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
     </bean>
 
  	<bean id="credentialProgramAssembler"
-          class="org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler">
+          class="org.kuali.student.r2.lum.program.service.assembler.CredentialProgramAssembler">
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
-        <property name="luService" ref="luClient"/>
+        <property name="cluService" ref="cluClient"/>
     </bean>
 
     <bean id="coreProgramAssembler"
-          class="org.kuali.student.lum.program.service.assembler.CoreProgramAssembler">
-        <property name="luService" ref="luServiceImpl"/>
+          class="org.kuali.student.r2.lum.program.service.assembler.CoreProgramAssembler">
+        <property name="cluService" ref="luServiceImpl"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
     </bean>
 
     <bean id="programVariationAssembler"
-          class="org.kuali.student.lum.program.service.assembler.ProgramVariationAssembler">
-        <property name="luService" ref="luClient"/>
+          class="org.kuali.student.r2.lum.program.service.assembler.ProgramVariationAssembler">
+        <property name="cluService" ref="cluClient"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
     </bean>
 
     <bean id="programServiceMethodInvoker"
-          class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
-        <property name="luService" ref="luClient"/>
+          class="org.kuali.student.r2.lum.program.service.impl.ProgramServiceMethodInvoker">
+        <property name="cluService" ref="cluClient"/>
         <property name="loService" ref="loClient"/>
         <property name="statementService" ref="statementServiceClient"/>
     </bean>
 
     <bean id="programServiceImpl"
-          class="org.kuali.student.lum.program.service.impl.ProgramServiceImpl">
-        <property name="luService" ref="luClient"/>
+          class="org.kuali.student.r2.lum.program.service.impl.ProgramServiceImpl">
+        <property name="cluService" ref="cluClient"/>
         <property name="programRequirementAssembler" ref="programRequirementAssembler"/>
         <property name="searchManager" ref="programSearchManager"/>
         <property name="dictionaryService" ref="lumDictionaryService"/>
@@ -506,7 +508,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="programServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.lum.program.service.ProgramService"/>
+                          value="org.kuali.student.r2.lum.program.service.ProgramService"/>
                 <property name="localServiceName" value="ProgramService"/>
                 <property name="serviceNameSpaceURI"
                           value="http://student.kuali.org/wsdl/program"/>
@@ -519,20 +521,25 @@
     <bean id="atpClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.core.atp.service.AtpService"/>
+                  value="org.kuali.student.r2.core.atp.service.AtpService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/atp}AtpService"/>
     </bean>
     
     <bean id="documentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.document.service.DocumentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
+    </bean>
+
+    <bean id="subjectCodeClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.subjectcode.service.SubjectCodeService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/subjectCode}SubjectCodeService"/>
     </bean>
 
     <bean id="statementServiceClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.core.statement.service.StatementService"/>
+                  value="org.kuali.student.r1.core.statement.service.StatementService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/statement}StatementService"/>
     </bean>
@@ -543,26 +550,26 @@
     -->
     <bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"
-                  value="org.kuali.student.common.exceptions.OperationFailedException"/>
+                  value="org.kuali.student.r2.common.exceptions.OperationFailedException"/>
         <property name="exceptionMapping">
             <map>
                 <entry key="javax.persistence.EntityExistsException"
-                       value="org.kuali.student.common.exceptions.AlreadyExistsException"/>
+                       value="org.kuali.student.r2.common.exceptions.AlreadyExistsException"/>
                 <entry key="org.hibernate.exception.ConstraintViolationException"
-                       value="org.kuali.student.common.exceptions.AlreadyExistsException"/>
+                       value="org.kuali.student.r2.common.exceptions.AlreadyExistsException"/>
             </map>
         </property>
     </bean>
     <aop:config>
         <aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.lum.lu.service.impl.LuServiceImpl.*(..))"
+                    pointcut="execution(* org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl.*(..))"
                     method="afterThrowing" throwing="ex"/>
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.lum.lrc.service.impl.LrcServiceImpl.*(..))"
+                    pointcut="execution(* org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl.*(..))"
                     method="afterThrowing" throwing="ex"/>
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl.*(..))"
+                    pointcut="execution(* org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl.*(..))"
                     method="afterThrowing" throwing="ex"/>
         </aop:aspect>
     </aop:config>

@@ -4,8 +4,8 @@ package org.kuali.student.lum.program.service.impl;
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 
-import org.kuali.student.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
+import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.r2.lum.program.service.assembler.ProgramAssemblerConstants;
 
 public class CredentialProgramDataGenerator {
     private String CPType;

@@ -23,7 +23,7 @@
     <!-- LookupView -->
     <bean id="KS-StateInfo-AdminLookupView" parent="KSLookupView"
         p:title="State Lookup"
-        p:dataObjectClassName="org.kuali.student.r2.core.state.dto.StateInfo"
+        p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.StateInfo"
         p:viewHelperServiceClass="org.kuali.student.enrollment.state.service.impl.StateInfoAdminLookupableImpl">
 
         <property name="criteriaFields">

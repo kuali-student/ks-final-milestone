@@ -15,8 +15,11 @@
  */
 package org.kuali.student.enrollment.class1.process.controller;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -25,7 +28,11 @@ import org.kuali.student.enrollment.class1.process.form.ProcessInfoForm;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
+import org.kuali.student.r2.core.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.springframework.stereotype.Controller;
@@ -34,13 +41,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.kuali.rice.core.api.criteria.Predicate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 
 /**
  * This class //TODO ...
@@ -54,7 +67,9 @@ public class ProcessInfoController extends UifControllerBase {
 
     private transient ProcessService processService;
     private ContextInfo contextInfo;
-    private  ProcessInfo processInfo;
+    private OrganizationService organizationService;
+    private OrgInfo orgInfo;
+
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProcessInfoForm();
@@ -70,34 +85,31 @@ public class ProcessInfoController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=save")
-    public ModelAndView save(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView save(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProcessInfoForm createForm = (ProcessInfoForm) form;
-        processInfo = new ProcessInfo();
-        processInfo.setKey("kuali.process."+ createForm.getTypeKey() + "."+createForm.getName() );
+        ProcessInfo processInfo = new ProcessInfo();
+        processInfo.setKey("kuali.process."+ form.getTypeKey() + "."+form.getName() );
         String key =  processInfo.getKey().replaceAll(" ", ".");
         processInfo.setKey(key);
-        processInfo.setName(createForm.getName());
-        processInfo.setTypeKey(createForm.getTypeKey());
-        processInfo.setStateKey("kuali.process.process.state.active");
-        processInfo.setOwnerOrgId(createForm.getOwnerOrgId());
+        processInfo.setName(form.getName());
+        processInfo.setTypeKey(form.getTypeKey());
+        processInfo.setStateKey("active");
+        processInfo.setOwnerOrgId(form.getOwnerOrgId());
         RichTextInfo richTextInfo = new RichTextInfo();
-        richTextInfo.setPlain(createForm.getDescr());
+        richTextInfo.setPlain(form.getDescr());
         processInfo.setDescr(richTextInfo);
 
         try {
             processService = getProcessService();
-             ProcessInfo createProcessInfo = processService.createProcess(processInfo.getKey(), processInfo.getTypeKey(), processInfo, getContextInfo());
+            ProcessInfo createProcessInfo = processService.createProcess(processInfo.getKey(), processInfo.getTypeKey(), processInfo, getContextInfo());
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Create new failed. ", e);
         }
-
-
-        createForm.setValidateDirty(false);
-        createForm.setProcessInfo(processInfo);
-        createForm.setKey(processInfo.getKey());
-        return close(form, result, request, response);
+        form.setProcessInfo(processInfo);
+        form.setKey(processInfo.getKey());
+        GlobalVariables.getMessageMap().addGrowlMessage("Saved!", "Save Successful");
+        return getUIFModelAndView(form, null);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=create")
@@ -112,77 +124,136 @@ public class ProcessInfoController extends UifControllerBase {
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=search")
-    public ModelAndView view(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
+    public ModelAndView search(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<ProcessInfo> results = new ArrayList<ProcessInfo>();
-
-        /*List<String> type = getProcessService().getProcessCategoryIdsByType(form.getTypeKey(), getContextInfo());
+        String name = form.getName();
+        String type = form.getTypeKey();
+        String state = form.getStateKey();
+        String orgId = form.getOwnerOrgId();
+        String descr = form.getDescr();
 
         try {
+            QueryByCriteria.Builder query = buildQueryByCriteria(name,type,state,orgId,descr);
+
             processService = getProcessService();
 
 
-            List<ProcessInfo> processInfos = processService.getProcessesForProcessCategory(type.get(type.size()-1), getContextInfo());
+            List<ProcessInfo> processInfos = processService.searchForProcess(query.build(), getContextInfo());
             if (!processInfos.isEmpty()){
                 results.addAll(processInfos);
             }
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error Performing Search",e); //To change body of catch statement use File | Settings | File Templates.
-        }*/
+        }
 
         resetForm(form);
 
         form.setProcessInfos(results);
 
+        return getUIFModelAndView(form, null);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=view")
+    public ModelAndView view(@ModelAttribute("KualiForm") ProcessInfoForm form) throws Exception {
         Properties urlParameters = new Properties();
 
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
-        urlParameters.put(UifParameters.VIEW_ID, "processInfoResultView");
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startView");
+        urlParameters.put(UifParameters.VIEW_ID, "processCreateView");
 
         return super.performRedirect(form, "processInfoController", urlParameters);
     }
 
-    /*@RequestMapping(params = "methodToCall=edit")
-    public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm form, BindingResult result,
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=startView")
+    public ModelAndView startView(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HoldIssueInfo holdIssue = getSelectedHoldIssue(form, "edit");
+        ProcessInfo processInfo = getSelectedProcessInfo(form, "startView");
 
-        String controllerPath;
-        Properties urlParameters = new Properties();
-
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "view");
-        urlParameters.put("id", holdIssue.getId());
-        urlParameters.put(UifParameters.VIEW_ID, "holdModifyView");
-
-        controllerPath = "createHold";
-
-        return performRedirect(form, controllerPath, urlParameters);
-    }
-
-    @RequestMapping(params = "methodToCall=delete")
-    public ModelAndView delete(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm form, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<HoldIssueInfo> holdIssueInfos = form.getHoldIssueInfo();
-        HoldIssueInfo holdIssue = getSelectedHoldIssue(form, "delete");
-
-        try {
-            if(holdIssue.getStateKey().equals("active")) {
-                holdIssue.setStateKey("inactive");
-                getHoldService().updateHoldIssue(holdIssue.getId(), holdIssue, getContextInfo());
-            }
-        } catch(Exception e) {
+        organizationService = getOrganizationService();
+        try{
+            orgInfo = organizationService.getOrg(processInfo.getOwnerOrgId(),getContextInfo());
+        } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Error Performing Delete",e);
+            throw new RuntimeException("organization not found. ", e);
         }
 
-        form.setHoldIssueInfo(holdIssueInfos);
+        if ((processInfo.getKey() != null) && !processInfo.getKey().trim().isEmpty()) {
+            try {
+                ProcessInfo process = getProcessService().getProcess(processInfo.getKey(), getContextInfo());
+                form.setName(process.getName());
+                form.setTypeKey(process.getTypeKey());
+                form.setDescr(process.getDescr().getPlain());
+                form.setOwnerOrgId(process.getOwnerOrgId());
+                form.setStateKey(process.getStateKey());
+                form.setOrgName(orgInfo.getShortName());
+            } catch (Exception ex) {
+                throw new RuntimeException("unable to get hold issue");
+            }
+        }
+
+        return start(form, result, request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=delete")
+    public ModelAndView delete(@ModelAttribute("KualiForm") ProcessInfoForm form) throws Exception {
+        List<ProcessInfo> processInfos = form.getProcessInfos();
+        List<InstructionInfo> instructionInfos = new ArrayList<InstructionInfo>();
+        List<InstructionInfo> activeInstructions = new ArrayList<InstructionInfo>();
+        ProcessInfo processInfo = getSelectedProcessInfo(form, "delete");
+        boolean isInstructionActive = false;
+
+        try{
+            instructionInfos = getProcessService().getInstructionsByProcess(processInfo.getKey(), getContextInfo());
+            for(InstructionInfo instruction : instructionInfos){
+                if(instruction.getStateKey().equals("kuali.process.instruction.state.active")){
+                    isInstructionActive = true;
+                    activeInstructions.add(instruction);
+                }
+            }
+
+            if(isInstructionActive != true) {
+                if(!processInfo.getStateKey().equals("inactive") || !processInfo.getStateKey().equals("disabled")) {
+                    processInfo.setStateKey(form.getStateKey());
+                    getProcessService().updateProcess(processInfo.getKey(), processInfo, getContextInfo());
+                    GlobalVariables.getMessageMap().addGrowlMessage("Saved!", "Save Successful");
+                }
+            } else if(isInstructionActive == true && form.getStateKey().equals("disabled")){
+                processInfo.setStateKey(form.getStateKey());
+                getProcessService().updateProcess(processInfo.getKey(), processInfo, getContextInfo());
+                GlobalVariables.getMessageMap().addGrowlMessage("Saved!", "Process Disabled but there exists active instructions");
+            } else {
+                GlobalVariables.getMessageMap().addGrowlMessage("Saved not Possible", "There exists active instructions");
+            }
+        } catch (Exception ex) {
+        throw new RuntimeException("Unable to get process");
+    }
+
+        form.setProcessInfos(processInfos);
         return getUIFModelAndView(form);
     }
 
-    private void resetForm(HoldIssueInfoSearchForm form) {
-        form.setHoldIssueInfo(new ArrayList<HoldIssueInfo>());
-    } */
+    private ProcessInfo getSelectedProcessInfo(ProcessInfoForm form, String actionLink){
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("Selected collection was not set for " + actionLink);
+        }
+
+        int selectedLineIndex = -1;
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("Selected line index was not set");
+        }
+
+        Collection<ProcessInfo> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
+        ProcessInfo processInfo = ((List<ProcessInfo>) collection).get(selectedLineIndex);
+
+        return processInfo;
+    }
 
     private ContextInfo getContextInfo() {
         if (null == contextInfo) {
@@ -199,11 +270,18 @@ public class ProcessInfoController extends UifControllerBase {
         return processService;
     }
 
+    protected OrganizationService getOrganizationService(){
+        if(organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return organizationService;
+    }
+
     private void resetForm(ProcessInfoForm form) {
         form.setProcessInfos(new ArrayList<ProcessInfo>());
     }
 
-    /*private static QueryByCriteria.Builder buildQueryByCriteria(String name, String type,String state, String orgId, String descr){
+    private static QueryByCriteria.Builder buildQueryByCriteria(String name, String type,String state, String orgId, String descr){
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
@@ -216,17 +294,17 @@ public class ProcessInfoController extends UifControllerBase {
         }
 
         if (StringUtils.isNotBlank(type)){
-            p = like("holdIssueType", "%" + type + "%");
+            p = like("processType", "%" + type + "%");
             pList.add(p);
         }
 
         if (StringUtils.isNotBlank(state)){
-            p = equal("holdIssueState", state);
+            p = equal("processState", state);
             pList.add(p);
         }
 
         if (StringUtils.isNotBlank(orgId)){
-            p = like("organizationId", orgId);
+            p = like("ownerOrgID", orgId);
             pList.add(p);
         }
 
@@ -241,5 +319,5 @@ public class ProcessInfoController extends UifControllerBase {
             qBuilder.setPredicates(and(preds));
         }
         return qBuilder;
-    }*/
+    }
 }

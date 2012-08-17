@@ -19,6 +19,7 @@
 	<inherits name='org.kuali.student.core.workflow.ui.WorkflowUI' />
 	<inherits name='org.kuali.student.core.comments.ui.CommentsUI' />
 	<inherits name='org.kuali.student.core.document.ui.DocumentUI' />
+	<inherits name='org.kuali.student.r2.core.versionmanagement.VersionManagement' />
 
 	<replace-with
 		class="org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.impl.DynamicTableImplDefault">
@@ -56,7 +57,7 @@
 		<generate-with
 		class="com.johnsoncs.gwt.widgets.server.rebind.ClassReferenceGenerator">
 		<when-type-assignable
-		class="org.kuali.student.lum.lu.ui.course.client.widgets.a.rebind.ClassReferences"/>
+		class="org.kuali.student.lum.lu.ui.course.atpService.widgets.a.rebind.ClassReferences"/>
 		</generate-with>
 	-->
 </module>

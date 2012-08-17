@@ -143,11 +143,12 @@
 		<artifactId>jasperreports</artifactId>
 		<scope>compile</scope>
 	</dependency>
-	<!-- dependency>
+	<dependency>
 		<groupId>net.sf.jasperreports</groupId>
 		<artifactId>jasperreports-fonts</artifactId>
-		<version>4.0.1</version>
-	</dependency -->
+		<version>4.0.0</version>
+        <scope>test</scope>
+	</dependency>
     <dependency>
 		<groupId>com.lowagie</groupId>
 		<artifactId>itext</artifactId>

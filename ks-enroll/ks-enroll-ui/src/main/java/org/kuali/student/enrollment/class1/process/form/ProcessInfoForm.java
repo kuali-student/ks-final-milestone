@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class1.process.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 
 import java.util.List;
@@ -112,6 +111,7 @@ public class ProcessInfoForm extends UifFormBase {
     public void setProcessInfo(ProcessInfo processInfo) {
         this.processInfo = processInfo;
     }
+
     public String getOrgName() {
         return orgName;
     }

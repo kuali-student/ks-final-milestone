@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
 
+@Deprecated
 public class ContinueCancelGroup extends ButtonGroup<ButtonEnumerations.ContinueCancelEnum>{
 	public ContinueCancelGroup(){
 		super();

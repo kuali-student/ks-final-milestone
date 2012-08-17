@@ -25,6 +25,7 @@ import java.util.List;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class UploadStatus implements Serializable{
 
 	private static final long serialVersionUID = 1L;

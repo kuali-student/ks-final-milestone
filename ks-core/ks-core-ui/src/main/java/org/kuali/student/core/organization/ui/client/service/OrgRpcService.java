@@ -18,20 +18,19 @@ package org.kuali.student.core.organization.ui.client.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
-import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
-import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
-import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
-import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
-import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
-import org.kuali.student.core.organization.dto.OrgTreeInfo;
-import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
@@ -48,37 +47,33 @@ public interface OrgRpcService extends RemoteService, BaseDataOrchestrationRpcSe
 	
 	public OrgInfo createOrganization(OrgInfo orgInfo);
     public OrgOrgRelationInfo createOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo);
-    
     public List<OrgHierarchyInfo> getOrgHierarchies();
     public OrgInfo getOrganization(String orgId);
     public List<OrgInfo> getOrganizationsByIdList(List<String> orgIdList);
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId);
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByRelatedOrg(String orgId);
     public List<String> getAllDescendants(String orgId, String orgHierarchy);
-    public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypes();
-    public OrgOrgRelationTypeInfo getOrgOrgRelationType(String orgOrgRelationTypeKey);
-    public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypes();
-    public List<OrgTypeInfo> getOrgTypes();
+    public List<TypeInfo> getOrgOrgRelationTypes();
+    public TypeInfo getOrgOrgRelationType(String orgOrgRelationTypeKey);
+    public List<TypeInfo> getOrgPersonRelationTypes();
+    public List<TypeInfo> getOrgTypes();
     public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(String orgId);
-       
     public OrgPositionRestrictionInfo addPositionRestrictionToOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo);
     public List<OrgTreeInfo> getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels);
-
     public OrgInfo updateOrganization(OrgInfo orgInfo);
     public OrgPositionRestrictionInfo updatePositionRestrictionForOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo);
     public OrgOrgRelationInfo updateOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo);
-       
     public OrgPersonRelationInfo createOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey, OrgPersonRelationInfo orgPersonRelationInfo);
     public OrgPersonRelationInfo updateOrgPersonRelation(String orgPersonRelationId, OrgPersonRelationInfo orgPersonRelationInfo);
     public StatusInfo removeOrgPersonRelation(String orgPersonRelationId);
-    public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypesForOrgType(String orgTypeKey);
+    public List<TypeInfo> getOrgPersonRelationTypesForOrgType(String orgTypeKey);
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId);
     public StatusInfo removeOrgOrgRelation(String orgOrgRelationId);
-    public StatusInfo removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey);
+    public StatusInfo deleteOrgPositionRestriction(String orgPositionRestrictionId);
     public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException, org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
     public SectionConfigInfo getSectionConfig() throws org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
     public Data fetchOrg(String orgId);
     public List<OrgPositionPersonRelationInfo> getOrgPositionPersonRelation(String orgId);
     public Map<String, MembershipInfo> getNamesForPersonIds(List<String> personIds);
-
+    public List<ValidationResultInfo> validate(Data data);
 }

@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author alubbers
  *
  */
+@Deprecated
 public class ULPanel extends ComplexPanel {
 
     private UListElement list;

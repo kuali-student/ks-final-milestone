@@ -24,7 +24,8 @@ import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
@@ -46,7 +47,7 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<PopulationWrapper> populationWrappers = new ArrayList<PopulationWrapper>();
 
-        ContextInfo context = ContextInfo.createDefaultContextInfo();
+        ContextInfo context = ContextUtils.createDefaultContextInfo();
 
         try {
             //perform the lookup using the service

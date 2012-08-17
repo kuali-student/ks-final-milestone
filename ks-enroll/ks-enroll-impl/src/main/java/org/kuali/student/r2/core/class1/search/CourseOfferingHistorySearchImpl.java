@@ -1,18 +1,18 @@
 package org.kuali.student.r2.core.class1.search;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import javax.persistence.TemporalType;
 import java.text.DateFormat;
@@ -60,9 +60,9 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
 
     @Override
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
-    throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        if (!searchRequestInfo.getSearchKey().equals(PAST_CO_SEARCH.getKey())) {
+        if (!StringUtils.equals(searchRequestInfo.getSearchKey(),PAST_CO_SEARCH.getKey())) {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
 
@@ -88,8 +88,9 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
         }
 
         List<String> luiIds = genericEntityDao.getEm().createQuery("select lui.id from LuiEntity lui,AtpEntity atp " +
-                "where lui.atpId=atp.atpCode and lui.cluId = :cluId and " +
-                "lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' " +
+                "where lui.atpId=atp.id and lui.cluId = :cluId and " +
+                "lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' and " +
+                "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY + "' " +
                 "and atp.startDate >= :startDate").setParameter("startDate", startDate, TemporalType.DATE).setParameter("cluId", courseId).getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();

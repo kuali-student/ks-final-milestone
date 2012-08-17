@@ -26,8 +26,8 @@ public interface SingleUseLoConstants
 	public static final String LO_REPOSITORY = "loRepository";
 	public static final String CHILD_SINGLE_USE_LOS = "childSingleUseLos";
 	public static final String EFFECTIVE_DATE = "effectiveDate";
-	public static final String TYPE = "type";
-	public static final String STATE = "state";
+	public static final String TYPE = "typeKey";
+	public static final String STATE = "stateKey";
 	public static final String _RUNTIME_DATA = "_runtimeData";
 }
 

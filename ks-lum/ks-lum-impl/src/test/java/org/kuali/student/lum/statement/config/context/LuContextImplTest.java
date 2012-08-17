@@ -1,70 +1,32 @@
 package org.kuali.student.lum.statement.config.context;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.CircularRelationshipException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.UnsupportedActionException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.CluPublicationInfo;
-import org.kuali.student.lum.lu.dto.CluResultInfo;
-import org.kuali.student.lum.lu.dto.CluResultTypeInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
-import org.kuali.student.lum.lu.dto.CluSetTypeInfo;
-import org.kuali.student.lum.lu.dto.DeliveryMethodTypeInfo;
-import org.kuali.student.lum.lu.dto.InstructionalFormatTypeInfo;
-import org.kuali.student.lum.lu.dto.LuCodeTypeInfo;
-import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuPublicationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.dto.LuiInfo;
-import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
-import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.statement.config.context.util.NLCluSet;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.lum.statement.config.context.util.NLCluSet;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.lum.clu.dto.*;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.statement.config.context.CluContextImpl;
+
+import java.util.*;
 
 public class LuContextImplTest {
 
-	private LuService luService = new LuServiceMock();
-	private LuContextImpl luContext = new LuContextImpl();
+	private CluService cluService = new LuServiceMock();
+	private CluContextImpl cluContext = new CluContextImpl();
 
 	private ReqComponentInfo reqComponent1;
 	private ReqComponentInfo reqComponent2;
-	
+
+
 	private void setupReqComponent1() {
 		reqComponent1 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
@@ -91,7 +53,7 @@ public class LuContextImplTest {
         reqCompField4.setValue("CLU-NL-1");
         reqCompFieldList.add(reqCompField4);
 		reqComponent1.setReqCompFields(reqCompFieldList);
-		
+
 		ReqCompFieldInfo reqCompField5 = new ReqCompFieldInfo();
         reqCompField5.setType(ReqComponentFieldTypes.CLUSET_KEY.getId());
         reqCompField5.setValue("CLUSET-NL-1");
@@ -143,7 +105,7 @@ public class LuContextImplTest {
         reqCompField4.setValue(null);
         reqCompFieldList.add(reqCompField4);
 		reqComponent2.setReqCompFields(reqCompFieldList);
-		
+
 		ReqCompFieldInfo reqCompField5 = new ReqCompFieldInfo();
         reqCompField5.setType(ReqComponentFieldTypes.CLUSET_KEY.getId());
         reqCompField5.setValue(null);
@@ -171,18 +133,18 @@ public class LuContextImplTest {
 
 	@Before
 	public void beforeMethod() {
-		luContext.setLuService(luService);
+		cluContext.setCluService(cluService);
 		setupReqComponent1();
 		setupReqComponent2();
 	}
 
 	@Test
     public void testCreateContextMap_Clu() throws OperationFailedException {
-		Map<String, Object> contextMap = luContext.createContextMap(reqComponent1);
-		CluInfo clu = (CluInfo) contextMap.get(LuContextImpl.CLU_TOKEN);
-		CluInfo courseClu = (CluInfo) contextMap.get(LuContextImpl.COURSE_CLU_TOKEN);
-		CluInfo programClu = (CluInfo) contextMap.get(LuContextImpl.PROGRAM_CLU_TOKEN);
-		CluInfo testClu = (CluInfo) contextMap.get(LuContextImpl.TEST_CLU_TOKEN);
+		Map<String, Object> contextMap = cluContext.createContextMap(reqComponent1, new ContextInfo());
+		CluInfo clu = (CluInfo) contextMap.get(CluContextImpl.CLU_TOKEN);
+		CluInfo courseClu = (CluInfo) contextMap.get(CluContextImpl.COURSE_CLU_TOKEN);
+		CluInfo programClu = (CluInfo) contextMap.get(CluContextImpl.PROGRAM_CLU_TOKEN);
+		CluInfo testClu = (CluInfo) contextMap.get(CluContextImpl.TEST_CLU_TOKEN);
 
 		Assert.assertNotNull(contextMap);
 		Assert.assertEquals("CLU-NL-1", clu.getId());
@@ -190,20 +152,20 @@ public class LuContextImplTest {
 		Assert.assertEquals("CLU-NL-1", programClu.getId());
 		Assert.assertEquals("CLU-NL-1", testClu.getId());
 
-		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getType());
+		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getTypeKey());
 		Assert.assertEquals("MATH 152", clu.getOfficialIdentifier().getShortName());
 		Assert.assertEquals("MATH 152 Linear Systems", clu.getOfficialIdentifier().getLongName());
 	}
 
 	@Test
     public void testCreateContextMap_CluSet() throws OperationFailedException {
-		Map<String, Object> contextMap = luContext.createContextMap(reqComponent1);
-		NLCluSet cluSet = (NLCluSet) contextMap.get(LuContextImpl.CLU_SET_TOKEN);
-		NLCluSet courseCluSet = (NLCluSet) contextMap.get(LuContextImpl.COURSE_CLU_SET_TOKEN);
-		NLCluSet programCluSet = (NLCluSet) contextMap.get(LuContextImpl.PROGRAM_CLU_SET_TOKEN);
-		NLCluSet testCluSet = (NLCluSet) contextMap.get(LuContextImpl.TEST_CLU_SET_TOKEN);
+		Map<String, Object> contextMap = cluContext.createContextMap(reqComponent1, new ContextInfo());
+		NLCluSet cluSet = (NLCluSet) contextMap.get(CluContextImpl.CLU_SET_TOKEN);
+		NLCluSet courseCluSet = (NLCluSet) contextMap.get(CluContextImpl.COURSE_CLU_SET_TOKEN);
+		NLCluSet programCluSet = (NLCluSet) contextMap.get(CluContextImpl.PROGRAM_CLU_SET_TOKEN);
+		NLCluSet testCluSet = (NLCluSet) contextMap.get(CluContextImpl.TEST_CLU_SET_TOKEN);
 
-		
+
 		Assert.assertNotNull(contextMap);
 		Assert.assertEquals("CLUSET-NL-1", cluSet.getCluSetId());
 		Assert.assertEquals("CLUSET-NL-1", courseCluSet.getCluSetId());
@@ -219,18 +181,18 @@ public class LuContextImplTest {
 		Assert.assertEquals("MATH180", cluSet.getCluAsCode(1));
 		Assert.assertEquals("MATH 180", cluSet.getCluAsShortName(1));
 	}
-	
+
 	@Test
     public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
-		Map<String, Object> contextMap = luContext.createContextMap(reqComponent2);
-		CluInfo clu = (CluInfo) contextMap.get(LuContextImpl.CLU_TOKEN);
-		CluInfo courseClu = (CluInfo) contextMap.get(LuContextImpl.COURSE_CLU_TOKEN);
-		CluInfo programClu = (CluInfo) contextMap.get(LuContextImpl.PROGRAM_CLU_TOKEN);
-		CluInfo testClu = (CluInfo) contextMap.get(LuContextImpl.TEST_CLU_TOKEN);
-		NLCluSet cluSet = (NLCluSet) contextMap.get(LuContextImpl.CLU_SET_TOKEN);
-		NLCluSet courseCluSet = (NLCluSet) contextMap.get(LuContextImpl.COURSE_CLU_SET_TOKEN);
-		NLCluSet programCluSet = (NLCluSet) contextMap.get(LuContextImpl.PROGRAM_CLU_SET_TOKEN);
-		NLCluSet testCluSet = (NLCluSet) contextMap.get(LuContextImpl.TEST_CLU_SET_TOKEN);
+		Map<String, Object> contextMap = cluContext.createContextMap(reqComponent2, new ContextInfo());
+		CluInfo clu = (CluInfo) contextMap.get(CluContextImpl.CLU_TOKEN);
+		CluInfo courseClu = (CluInfo) contextMap.get(CluContextImpl.COURSE_CLU_TOKEN);
+		CluInfo programClu = (CluInfo) contextMap.get(CluContextImpl.PROGRAM_CLU_TOKEN);
+		CluInfo testClu = (CluInfo) contextMap.get(CluContextImpl.TEST_CLU_TOKEN);
+		NLCluSet cluSet = (NLCluSet) contextMap.get(CluContextImpl.CLU_SET_TOKEN);
+		NLCluSet courseCluSet = (NLCluSet) contextMap.get(CluContextImpl.COURSE_CLU_SET_TOKEN);
+		NLCluSet programCluSet = (NLCluSet) contextMap.get(CluContextImpl.PROGRAM_CLU_SET_TOKEN);
+		NLCluSet testCluSet = (NLCluSet) contextMap.get(CluContextImpl.TEST_CLU_SET_TOKEN);
 
 		Assert.assertNotNull(contextMap);
 		Assert.assertEquals(null, clu);
@@ -244,16 +206,16 @@ public class LuContextImplTest {
 
 	}
 
-	private static class LuServiceMock implements LuService {
+	private static class LuServiceMock implements CluService {
 
 		private Map<String, CluInfo> cluMap = new HashMap<String, CluInfo>();
 		private Map<String, CluSetInfo> cluSetMap = new HashMap<String, CluSetInfo>();
 		private Map<String, CluSetTreeViewInfo> cluSetTreeViewMap = new HashMap<String, CluSetTreeViewInfo>();
-		
+
 		public LuServiceMock() {
 			CluInfo clu1 = new CluInfo();
 			clu1.setId("CLU-NL-1");
-			clu1.setType("kuali.lu.type.CreditCourse");
+			clu1.setTypeKey("kuali.lu.type.CreditCourse");
 			CluIdentifierInfo cluIdent1 = new CluIdentifierInfo();
 			cluIdent1.setId("IDENT-NL-1");
 			cluIdent1.setCode("MATH152");
@@ -264,7 +226,7 @@ public class LuContextImplTest {
 
 			CluInfo clu2 = new CluInfo();
 			clu2.setId("CLU-NL-3");
-			clu2.setType("kuali.lu.type.CreditCourse");
+			clu2.setTypeKey("kuali.lu.type.CreditCourse");
 			CluIdentifierInfo cluIdent2 = new CluIdentifierInfo();
 			cluIdent2.setId("IDENT-NL-3");
 			cluIdent2.setCode("MATH180");
@@ -272,1176 +234,669 @@ public class LuContextImplTest {
 			cluIdent2.setLongName("MATH 180 Differential Calculus with Physical Applications");
 			clu2.setOfficialIdentifier(cluIdent2);
 			cluMap.put("CLU-NL-3", clu1);
-			
+
 			CluSetInfo cluSet = new CluSetInfo();
 			cluSet.setId("CLUSET-NL-1");
 			cluSet.setCluIds(Arrays.asList(new String[] {"CLU-NL-1", "CLU-NL-3"}));
 			cluSetMap.put("CLUSET-NL-1", cluSet);
-			
+
 			CluSetTreeViewInfo treeView = new CluSetTreeViewInfo();
 			treeView.setClus(Arrays.asList(new CluInfo[] {clu1, clu2}));
 			cluSetTreeViewMap.put("CLUSET-NL-1", treeView);
 		}
-		
-		@Override
-		public StatusInfo addCluResourceRequirement(String resourceTypeKey,
-				String cluId) throws AlreadyExistsException,
-				DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo addCluSetToCluSet(String cluSetId,
-				String addedCluSetId) throws CircularRelationshipException,
-				DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException, UnsupportedActionException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo addCluSetsToCluSet(String cluSetId,
-				List<String> addedCluSetIdList)
-				throws CircularRelationshipException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				UnsupportedActionException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo addCluToCluSet(String cluId, String cluSetId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException, UnsupportedActionException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo addClusToCluSet(List<String> cluIdList,
-				String cluSetId) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				UnsupportedActionException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluInfo createClu(String luTypeKey, CluInfo cluInfo)
-				throws AlreadyExistsException, DataValidationErrorException,
-				DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluCluRelationInfo createCluCluRelation(String cluId,
-				String relatedCluId, String luLuRelationTypeKey,
-				CluCluRelationInfo cluCluRelationInfo)
-				throws AlreadyExistsException, CircularRelationshipException,
-				DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluLoRelationInfo createCluLoRelation(String cluId, String loId,
-				String cluLoRelationType, CluLoRelationInfo cluLoRelationInfo)
-				throws AlreadyExistsException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				DataValidationErrorException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluPublicationInfo createCluPublication(String cluId,
-				String luPublicationType, CluPublicationInfo cluPublicationInfo)
-				throws AlreadyExistsException, DataValidationErrorException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluResultInfo createCluResult(String cluId,
-				String cluResultType, CluResultInfo cluResultInfo)
-				throws AlreadyExistsException, DataValidationErrorException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				DoesNotExistException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluSetInfo createCluSet(String cluSetType, CluSetInfo cluSetInfo)
-				throws AlreadyExistsException, DataValidationErrorException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				UnsupportedActionException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo)
-				throws AlreadyExistsException, DataValidationErrorException,
-				DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public LuiLuiRelationInfo createLuiLuiRelation(String luiId,
-				String relatedLuiId, String luLuRelationType,
-				LuiLuiRelationInfo luiLuiRelationInfo)
-				throws AlreadyExistsException, CircularRelationshipException,
-				DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo deleteClu(String cluId) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				DependentObjectsExistException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo deleteCluCluRelation(String cluCluRelationId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo deleteCluLoRelation(String cluLoRelationId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo deleteCluPublication(String cluPublicationId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, DependentObjectsExistException,
-				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo deleteCluResult(String cluResultId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, DependentObjectsExistException,
-				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo deleteCluSet(String cluSetId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo deleteLui(String luiId)
-				throws DependentObjectsExistException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getAllCluIdsInCluSet(String cluSetId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluInfo> getAllClusInCluSet(String cluSetId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getAllowedCluLoRelationTypesForLuType(
-				String luTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getAllowedLuLuRelationTypesByCluId(String cluId,
-				String relatedCluId) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getAllowedLuLuRelationTypesByLuiId(String luiId,
-				String relatedLuiId) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getAllowedLuLuRelationTypesForLuType(
-				String luTypeKey, String relatedLuTypeKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getAllowedResultComponentTypesForResultUsageType(
-				String resultUsageTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getAllowedResultUsageTypesForLuType(String luTypeKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluInfo getClu(String cluId) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			return cluMap.get(cluId);
-		}
-
-		@Override
-		public CluCluRelationInfo getCluCluRelation(String cluCluRelationId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluCluRelationInfo> getCluCluRelationsByClu(String cluId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getCluIdsByLuType(String luTypeKey, String luState)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getCluIdsByRelation(String relatedCluId,
-				String luLuRelationType) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getCluIdsByResultComponent(String resultComponentId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getCluIdsByResultUsageType(String resultUsageTypeKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getCluIdsFromCluSet(String cluSetId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluLoRelationInfo getCluLoRelation(String cluLoRelationId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluLoRelationTypeInfo getCluLoRelationType(
-				String cluLoRelationTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluLoRelationTypeInfo> getCluLoRelationTypes()
-				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluLoRelationInfo> getCluLoRelationsByLo(String loId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluPublicationInfo getCluPublication(String cluPublicationId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluPublicationInfo> getCluPublicationsByCluId(String cluId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluPublicationInfo> getCluPublicationsByType(
-				String luPublicationTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluResultInfo getCluResult(String cluResultId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluResultInfo> getCluResultByClu(String cluId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluResultTypeInfo getCluResultType(String cluResultTypeKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluResultTypeInfo> getCluResultTypes()
-				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluResultTypeInfo> getCluResultTypesForLuType(
-				String luTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getCluSetIdsFromCluSet(String cluSetId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluSetInfo getCluSetInfo(String cluSetId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			return cluSetMap.get(cluSetId);
-		}
-
-		@Override
-		public List<CluSetInfo> getCluSetInfoByIdList(List<String> cluSetIdList)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluSetTreeViewInfo getCluSetTreeView(String cluSetId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return cluSetTreeViewMap.get(cluSetId);
-		}
-
-		@Override
-		public CluSetTypeInfo getCluSetType(String cluSetTypeKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluSetTypeInfo> getCluSetTypes()
-				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluInfo> getClusByIdList(List<String> cluIdList)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluInfo> getClusByLuType(String luTypeKey, String luState)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluInfo> getClusByRelation(String relatedCluId,
-				String luLuRelationType) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluInfo> getClusFromCluSet(String cluSetId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public DeliveryMethodTypeInfo getDeliveryMethodType(
-				String deliveryMethodTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<DeliveryMethodTypeInfo> getDeliveryMethodTypes()
-				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public InstructionalFormatTypeInfo getInstructionalFormatType(
-				String instructionalFormatTypeKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<InstructionalFormatTypeInfo> getInstructionalFormatTypes()
-				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public LuCodeTypeInfo getLuCodeType(String luCodeTypeKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<LuCodeTypeInfo> getLuCodeTypes()
-				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public LuLuRelationTypeInfo getLuLuRelationType(
-				String luLuRelationTypeKey) throws OperationFailedException,
-				MissingParameterException, DoesNotExistException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<LuLuRelationTypeInfo> getLuLuRelationTypes()
-				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public LuPublicationTypeInfo getLuPublicationType(
-				String luPublicationTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<LuPublicationTypeInfo> getLuPublicationTypes()
-				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getLuPublicationTypesForLuType(String luTypeKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public LuTypeInfo getLuType(String luTypeKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<LuTypeInfo> getLuTypes() throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public LuiInfo getLui(String luiId) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getLuiIdsByCluId(String cluId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getLuiIdsByRelation(String relatedLuiId,
-				String luLuRelationType) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<LuiInfo> getLuisByIdList(List<String> luiIdList)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<LuiInfo> getLuisByRelation(String relatedLuiId,
-				String luLuRelationType) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getRelatedCluIdsByCluId(String cluId,
-				String luLuRelationType) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<CluInfo> getRelatedClusByCluId(String cluId,
-				String luLuRelationType) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getRelatedLuiIdsByLuiId(String luiId,
-				String luLuRelationType) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<LuiInfo> getRelatedLuisByLuiId(String luiId,
-				String luLuRelationType) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getResourceRequirementsForCluId(String cluId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public ResultUsageTypeInfo getResultUsageType(String resultUsageTypeKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<ResultUsageTypeInfo> getResultUsageTypes()
-				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public Boolean isCluInCluSet(String cluId, String cluSetId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public Boolean isCluSetDynamic(String cluSetId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo removeCluFromCluSet(String cluId, String cluSetId)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException, UnsupportedActionException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo removeCluResourceRequirement(String resourceTypeKey,
-				String cluId) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo removeCluSetFromCluSet(String cluSetId,
-				String removedCluSetId) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				UnsupportedActionException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluInfo updateClu(String cluId, CluInfo cluInfo)
-				throws DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				VersionMismatchException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluCluRelationInfo updateCluCluRelation(String cluCluRelationId,
-				CluCluRelationInfo cluCluRelationInfo)
-				throws DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				VersionMismatchException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluLoRelationInfo updateCluLoRelation(String cluLoRelationId,
-				CluLoRelationInfo cluLoRelationInfo)
-				throws DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				VersionMismatchException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluPublicationInfo updateCluPublication(String cluPublicationId,
-				CluPublicationInfo cluPublicationInfo)
-				throws DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				VersionMismatchException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluResultInfo updateCluResult(String cluResultId,
-				CluResultInfo cluResultInfo)
-				throws DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				VersionMismatchException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluSetInfo updateCluSet(String cluSetId, CluSetInfo cluSetInfo)
-				throws DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				VersionMismatchException, UnsupportedActionException,
-				CircularRelationshipException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluInfo updateCluState(String cluId, String luState)
-				throws DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public LuiInfo updateLui(String luiId, LuiInfo luiInfo)
-				throws DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				VersionMismatchException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId,
-				LuiLuiRelationInfo luiLuiRelationInfo)
-				throws DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				VersionMismatchException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public LuiInfo updateLuiState(String luiId, String luState)
-				throws DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<ValidationResultInfo> validateClu(String validationType,
-				CluInfo cluInfo) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<ValidationResultInfo> validateCluCluRelation(
-				String validationType, CluCluRelationInfo cluCluRelationInfo)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<ValidationResultInfo> validateCluLoRelation(
-				String validationType, CluLoRelationInfo cluLoRelationInfo)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<ValidationResultInfo> validateCluPublication(
-				String validationType, CluPublicationInfo cluPublicationInfo)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<ValidationResultInfo> validateCluResult(
-				String validationType, CluResultInfo cluResultInfo)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<ValidationResultInfo> validateCluSet(String validationType,
-				CluSetInfo cluSetInfo) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<ValidationResultInfo> validateLui(String validationType,
-				LuiInfo luiInfo) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<ValidationResultInfo> validateLuiLuiRelation(
-				String validationType, LuiLuiRelationInfo luiLuiRelationInfo)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<String> getObjectTypes() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public SearchCriteriaTypeInfo getSearchCriteriaType(
-				String searchCriteriaTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public SearchResultTypeInfo getSearchResultType(
-				String searchResultTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<SearchResultTypeInfo> getSearchResultTypes()
-				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public SearchTypeInfo getSearchType(String searchTypeKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<SearchTypeInfo> getSearchTypes()
-				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<SearchTypeInfo> getSearchTypesByCriteria(
-				String searchCriteriaTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<SearchTypeInfo> getSearchTypesByResult(
-				String searchResultTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public SearchResult search(SearchRequest searchRequest)
-				throws MissingParameterException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public CluInfo createNewCluVersion(String cluId, String versionComment)
-				throws DataValidationErrorException, DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException,
-				VersionMismatchException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public StatusInfo setCurrentCluVersion(String cluVersionId,
-				Date currentVersionStart) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				IllegalVersionSequencingException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
-				String refObjectId) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException {
-			VersionDisplayInfo versionInfo = new VersionDisplayInfo();
-			versionInfo.setId(refObjectId);
-			return versionInfo;
-		}
-
-		@Override
-		public VersionDisplayInfo getCurrentVersionOnDate(
-				String refObjectTypeURI, String refObjectId, Date date)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public VersionDisplayInfo getFirstVersion(String refObjectTypeURI,
-				String refObjectId) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
-				String refObjectId) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public VersionDisplayInfo getVersionBySequenceNumber(
-				String refObjectTypeURI, String refObjectId, Long sequence)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<VersionDisplayInfo> getVersions(String refObjectTypeURI,
-				String refObjectId) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<VersionDisplayInfo> getVersionsInDateRange(
-				String refObjectTypeURI, String refObjectId, Date from, Date to)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException,
-				PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
+
+        @Override
+        public List<org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo> getVersions(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo getFirstVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo getLatestVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo getCurrentVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo getVersionBySequenceNumber(String refObjectUri, String refObjectId, Long sequence, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo getCurrentVersionOnDate(String refObjectUri, String refObjectId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo> getVersionsInDateRange(String refObjectUri, String refObjectId, Date from, Date to, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<TypeInfo> getDeliveryMethodTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public TypeInfo getDeliveryMethodType(String deliveryMethodTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<TypeInfo> getInstructionalFormatTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public TypeInfo getInstructionalFormatType(String instructionalFormatTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<TypeInfo> getLuTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public TypeInfo getLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<TypeInfo> getLuCodeTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public TypeInfo getLuCodeType(String luCodeTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<TypeInfo> getCluCluRelationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public TypeInfo getLuLuRelationType(String cluCluRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getAllowedLuLuRelationTypesForLuType(String luTypeKey, String relatedLuTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<TypeInfo> getLuPublicationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public TypeInfo getLuPublicationType(String luPublicationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getLuPublicationTypesForLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<TypeInfo> getCluResultTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public TypeInfo getCluResultType(String cluResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<TypeInfo> getCluResultTypesForLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<TypeInfo> getResultUsageTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public TypeInfo getResultUsageType(String resultUsageTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getAllowedResultUsageTypesForLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getAllowedResultComponentTypesForResultUsageType(String resultUsageTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<TypeInfo> getCluLoRelationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public TypeInfo getCluLoRelationType(String cluLoRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getAllowedCluLoRelationTypesForLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<TypeInfo> getCluSetTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public TypeInfo getCluSetType(String cluSetTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluInfo getClu(String cluId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluInfo> getClusByIds(List<String> cluIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluInfo> getClusByLuType(String luTypeKey, String luState, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getCluIdsByLuType(String luTypeKey, String luState, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getAllowedCluCluRelationTypesByClu(String cluId, String relatedCluId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluInfo> getClusByRelatedCluAndRelationType(String relatedCluId, String cluCLuRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getCluIdsByRelatedCluAndRelationType(String relatedCluId, String cluCluRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluInfo> getRelatedClusByCluAndRelationType(String cluId, String cluCluRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getRelatedCluIdsByCluAndRelationType(String cluId, String cluCluRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluCluRelationInfo getCluCluRelation(String cluCluRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluCluRelationInfo> getCluCluRelationsByClu(String cluId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluPublicationInfo> getCluPublicationsByClu(String cluId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluPublicationInfo> getCluPublicationsByType(String luPublicationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluPublicationInfo getCluPublication(String cluPublicationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluResultInfo getCluResult(String cluResultId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluResultInfo> getCluResultByClu(String cluId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getCluIdsByResultUsageType(String resultUsageTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getCluIdsByResultComponent(String resultComponentId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluLoRelationInfo getCluLoRelation(String cluLoRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluLoRelationInfo> getCluLoRelationsByLo(String loId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getResourceRequirementsForClu(String cluId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluSetInfo getCluSet(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluSetTreeViewInfo getCluSetTreeView(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluSetInfo> getCluSetsByIds(List<String> cluSetIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getCluSetIdsFromCluSet(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public Boolean isCluSetDynamic(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluInfo> getClusFromCluSet(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getCluIdsFromCluSet(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<CluInfo> getAllClusInCluSet(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getAllCluIdsInCluSet(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public Boolean isCluInCluSet(String cluId, String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<ValidationResultInfo> validateClu(String validationTypeKey, CluInfo cluInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluInfo createClu(String luTypeKey, CluInfo cluInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluInfo updateClu(String cluId, CluInfo cluInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo deleteClu(String cluId, ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluInfo createNewCluVersion(String cluId, String versionComment, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo setCurrentCluVersion(String cluVersionId, Date currentVersionStart, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluInfo updateCluState(String cluId, String luState, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<ValidationResultInfo> validateCluCluRelation(String validationTypeKey, String cluId, String relatedCluId, String cluCluRelationTypeKey, CluCluRelationInfo cluCluRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluCluRelationInfo createCluCluRelation(String cluId, String relatedCluId, String cluCluRelationTypeKey, CluCluRelationInfo cluCluRelationInfo, ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluCluRelationInfo updateCluCluRelation(String cluCluRelationId, CluCluRelationInfo cluCluRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo deleteCluCluRelation(String cluCluRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<ValidationResultInfo> validateCluPublication(String validationTypeKey, String cluId, String luPublicationTypeKey, CluPublicationInfo cluPublicationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluPublicationInfo createCluPublication(String cluId, String luPublicationTypeKey, CluPublicationInfo cluPublicationInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluPublicationInfo updateCluPublication(String cluPublicationId, CluPublicationInfo cluPublicationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo deleteCluPublication(String cluPublicationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<ValidationResultInfo> validateCluResult(String validationTypeKey, String cluId, String cluResultTypeKey, CluResultInfo cluResultInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluResultInfo createCluResult(String cluId, String cluResultTypeKey, CluResultInfo cluResultInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluResultInfo updateCluResult(String cluResultId, CluResultInfo cluResultInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo deleteCluResult(String cluResultId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<ValidationResultInfo> validateCluLoRelation(String validationTypeKey, String cluId, String loId, String cluLoRelationTypeKey, CluLoRelationInfo cluLoRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluLoRelationInfo createCluLoRelation(String cluId, String loId, String cluLoRelationTypeKey, CluLoRelationInfo cluLoRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluLoRelationInfo updateCluLoRelation(String cluLoRelationId, CluLoRelationInfo cluLoRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo deleteCluLoRelation(String cluLoRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo addCluResourceRequirement(String resourceTypeKey, String cluId, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo removeCluResourceRequirement(String resourceTypeKey, String cluId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<ValidationResultInfo> validateCluSet(String validationTypeKey, String cluSetTypeKey, CluSetInfo cluSetInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluSetInfo createCluSet(String cluSetTypeKey, CluSetInfo cluSetInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public CluSetInfo updateCluSet(String cluSetId, CluSetInfo cluSetInfo, ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException, VersionMismatchException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo deleteCluSet(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo addCluSetToCluSet(String cluSetId, String addedCluSetId, ContextInfo contextInfo) throws CircularRelationshipException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo addCluSetsToCluSet(String cluSetId, List<String> addedCluSetIds, ContextInfo contextInfo) throws CircularRelationshipException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo removeCluSetFromCluSet(String cluSetId, String removedCluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo addCluToCluSet(String cluId, String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo addClusToCluSet(List<String> cluSetIds, String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public org.kuali.student.r2.common.dto.StatusInfo removeCluFromCluSet(String cluId, String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public SearchResult search(SearchRequest request) throws MissingParameterException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
 	}
 }

@@ -20,7 +20,7 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 /**
  * This class holds the constants used by the Academic Calendar service
@@ -52,7 +52,7 @@ public class AcademicCalendarServiceConstants {
      * Dynamic Attributes Keys
      */
     public static final String CAMPUS_KEY_DYNAMIC_ATTRIBUTE_KEY = "kuali.atp.attribute.campus.key";
-    
+
     /**
      * Registration Date Groups
      */

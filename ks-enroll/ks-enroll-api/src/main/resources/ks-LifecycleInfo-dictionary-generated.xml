@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- LifecycleInfo-->
 	<bean id="LifecycleInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="lifecycleInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.state.dto.LifecycleInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.class1.state.dto.LifecycleInfo"/>
 		<property name="objectLabel" value="Lifecycle"/>
 		<property name="objectDescription">
 			<value>

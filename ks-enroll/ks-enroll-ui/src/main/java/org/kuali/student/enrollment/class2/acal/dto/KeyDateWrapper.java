@@ -3,8 +3,8 @@ package org.kuali.student.enrollment.class2.acal.dto;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 public class KeyDateWrapper extends TimeSetWrapper{
 

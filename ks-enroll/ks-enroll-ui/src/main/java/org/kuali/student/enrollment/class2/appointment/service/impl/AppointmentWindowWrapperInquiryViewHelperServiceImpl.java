@@ -12,9 +12,9 @@ import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrap
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.common.util.constants.AppointmentServiceConstants;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
@@ -22,8 +22,8 @@ import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;

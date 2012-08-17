@@ -10,18 +10,18 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -61,16 +61,16 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
 
         CourseInfo course = null;
         try {
-            course = getCourseService().getCourse(courseId);
-        } catch (org.kuali.student.common.exceptions.OperationFailedException ofe) {
+            course = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
+        } catch (OperationFailedException ofe) {
             System.out.println("call getCourseService().getCourse(courseId), and get OperationFailedException:  " + ofe.toString());
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException dnee) {
+        } catch (DoesNotExistException dnee) {
             System.out.println("call getCourseService().getCourse(courseId), and get DoesNotExistException:  " + dnee.toString());
-        } catch (org.kuali.student.common.exceptions.InvalidParameterException ipe) {
+        } catch (InvalidParameterException ipe) {
             System.out.println("call getCourseService().getCourse(courseId), and get InvalidParameterException:  " + ipe.toString());
-        } catch (org.kuali.student.common.exceptions.PermissionDeniedException pde) {
+        } catch (PermissionDeniedException pde) {
             System.out.println("call getCourseService().getCourse(courseId), and get PermissionDeniedException:  " + pde.toString());
-        } catch (org.kuali.student.common.exceptions.MissingParameterException mpe) {
+        } catch (MissingParameterException mpe) {
             System.out.println("call getCourseService().getCourse(courseId), and get MissingParameterException:  " + mpe.toString());
         }
         // TODO - this entire method needs more complete exception handling; then remove this
@@ -158,7 +158,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                 activityOfferingInfo.setTermId(termId);
                 activityOfferingInfo.setActivityId(activity.getId());
                 try {
-                    List<TypeInfo> activityOfferingTypes = getCourseOfferingService().getActivityOfferingTypesForActivityType(activity.getActivityType(), new ContextInfo());
+                    List<TypeInfo> activityOfferingTypes = getCourseOfferingService().getActivityOfferingTypesForActivityType(activity.getTypeKey(), new ContextInfo());
                     if (activityOfferingTypes.size() > 1) {
                         System.out.println(">>for core slice, it should be 1-to-1 mapping. so only take the first one -- " + activityOfferingTypes.get(0).getKey());
                     }

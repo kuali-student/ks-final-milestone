@@ -26,6 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -57,6 +59,21 @@ public class KitchenSinkController extends UifControllerBase {
         //return super.start(uiTestForm, result, request, response);
         return getUIFModelAndView(uiTestForm);
 */
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=collection")
+    public ModelAndView collection(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+
+
+        List<KitchenSinkFormCollection1> collectionList = new ArrayList<KitchenSinkFormCollection1>();
+        collectionList.add(new KitchenSinkFormCollection1("Item #1", "This is the first item", "2001-01-01"));
+        collectionList.add(new KitchenSinkFormCollection1("John Adams", "POTUS #2", "1735-10-30"));
+        collectionList.add(new KitchenSinkFormCollection1("Big Bang Theory", "A funny television show", "2007-09-24"));
+        collectionList.add(new KitchenSinkFormCollection1("Chainbreaker IPA", "A tasty beverage", "2011-06-09"));
+        form.setCollection(collectionList);
+
         return getUIFModelAndView(form);
     }
 

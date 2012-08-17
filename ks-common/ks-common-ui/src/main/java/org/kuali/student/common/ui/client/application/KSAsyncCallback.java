@@ -17,9 +17,11 @@ package org.kuali.student.common.ui.client.application;
 
 import org.kuali.student.common.ui.client.security.SessionTimeoutHandler;
 import org.kuali.student.common.ui.client.security.SpringSecurityLoginDialogHandler;
+import org.kuali.student.common.ui.client.service.exceptions.VersionMismatchClientException;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -31,7 +33,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public abstract class KSAsyncCallback<T> implements AsyncCallback<T>{
        
-	private static final SessionTimeoutHandler handler = GWT.create(SpringSecurityLoginDialogHandler.class);
+	private static final SessionTimeoutHandler sessionTimeoutHandler = GWT.create(SpringSecurityLoginDialogHandler.class);
 	
 	/**
 	 * It is recommended that this method not be overrided, as it provides session timeout handling. 
@@ -39,10 +41,12 @@ public abstract class KSAsyncCallback<T> implements AsyncCallback<T>{
 	 *  
 	 */
 	public void onFailure(Throwable caught) {  
-        if (isSessionTimeout(caught)){
+	    if (sessionTimeoutHandler.isSessionTimeout(caught)){
         	handleTimeout(caught);
-        	handler.handleSessionTimeout();
-        } else {        
+        	sessionTimeoutHandler.handleSessionTimeout();
+        } else if (caught instanceof VersionMismatchClientException){
+            handleVersionMismatch(caught);
+        }else {        
         	handleFailure(caught);
         }
     }
@@ -54,7 +58,7 @@ public abstract class KSAsyncCallback<T> implements AsyncCallback<T>{
      * @param caught
      */
     public void handleFailure(Throwable caught){
-    	if (!isSessionTimeout(caught)){
+    	if (!sessionTimeoutHandler.isSessionTimeout(caught)){
     		KSErrorDialog.show(caught);
     	}
         GWT.log("Exception:", caught);
@@ -69,9 +73,13 @@ public abstract class KSAsyncCallback<T> implements AsyncCallback<T>{
     public void handleTimeout(Throwable caught){
     	handleFailure(caught);
     }
-    
-    private boolean isSessionTimeout(Throwable caught){
-        //TODO: Better detection of session timeout
-    	return caught.toString().contains("Login");
+        
+    public void handleVersionMismatch(Throwable caught){
+        String message = null;
+        if (caught.getMessage() != null){
+            message = "Version Error: " + caught.getMessage() + "\n\n";
+        }
+        message += "This page has been updated by another user since you loaded it. Please refresh and re-apply changes before saving.";
+        Window.alert(message);
     }
 }

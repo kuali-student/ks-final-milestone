@@ -15,14 +15,15 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.KSBrowser;
@@ -62,17 +63,19 @@ public class CatalogBrowserConfigurer {
 		layout.setDefaultView(Sections.BROWSE_BY_SUBJECT_AREA);
 	}
 
-	private SectionView createBrowseBySubjectAreaSection() {
+	protected SectionView createBrowseBySubjectAreaSection() {
+		//constructor sets the attributes of the browse subject area tab
 		VerticalSectionView nestedSectionView = 
-			new VerticalSectionView(Sections.BROWSE_BY_SUBJECT_AREA, "", CATALOG_BROWSER_MODEL);
+			new VerticalSectionView(Sections.BROWSE_BY_SUBJECT_AREA, "Browse by Subject Area", CATALOG_BROWSER_MODEL);
 		String fieldKey = CatalogBrowserConstants.FULLY_QUALIFIED_BY_SUBJECT_AREA;
 		addField(nestedSectionView, fieldKey, null,	configureKSBrowser(fieldKey));
 		return nestedSectionView;
 	}
 
-	private SectionView createBrowseBySchoolSection() {
+	protected SectionView createBrowseBySchoolSection() {
+		//constructor sets the attributes of the browse school tab
 		VerticalSectionView nestedSectionView = 
-			new VerticalSectionView(Sections.BROWSE_BY_SCHOOL, "", CATALOG_BROWSER_MODEL);
+			new VerticalSectionView(Sections.BROWSE_BY_SCHOOL, "Browse by School", CATALOG_BROWSER_MODEL);
 		String fieldKey = CatalogBrowserConstants.FULLY_QUALIFIED_BY_SCHOOL_OR_COLLEGE;
 		addField(nestedSectionView, fieldKey, null,	configureKSBrowser(fieldKey));
 		return nestedSectionView;

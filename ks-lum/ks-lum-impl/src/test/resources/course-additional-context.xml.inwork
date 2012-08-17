@@ -38,13 +38,13 @@
 	-->
 	
 	<jaxws:endpoint id="luServiceWS" implementor="#luClient"
-		implementorClass="org.kuali.student.lum.lu.service.impl.LuServiceImpl" address="/luService" />
+		implementorClass="org.kuali.student.lum.lu.service.impl.CLuServiceImpl" address="/luService" />
 	
 	<bean id="luClient"
-		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl" />
+		class="org.kuali.student.lum.lu.service.impl.CLuServiceImpl" />
 		
 	<bean id="searchManager"
-		class="org.kuali.student.common.search.service.impl.SearchManagerImpl"
+		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl"
 		autowire="byType">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
 	</bean>
@@ -99,7 +99,7 @@
     <bean id="mapExceptionAdvisor"
         class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"
-            value="org.kuali.student.common.exceptions.OperationFailedException" />
+            value="org.kuali.student.r2.common.exceptions.OperationFailedException" />
         <property name="exceptionMapping">
             <map>
                 <entry key="javax.persistence.EntityExistsException"

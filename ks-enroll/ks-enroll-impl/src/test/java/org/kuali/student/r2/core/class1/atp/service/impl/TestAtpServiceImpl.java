@@ -37,7 +37,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -670,7 +670,7 @@ public class TestAtpServiceImpl {
             // should return empty list for bogus relation type
             aaRelInfos = atpService.getAtpAtpRelationsByTypeAndAtp("testAtpId1",
                     "totallyBogusRelationTypeJustMadeUpForTesting", callContext);
-            // sigh. service is returning an empty list, but client seems to get a null. have asked KSDevs chat about how to fix; not finding a solution via my google-fu
+            // sigh. service is returning an empty list, but atpService seems to get a null. have asked KSDevs chat about how to fix; not finding a solution via my google-fu
             assertTrue(null == aaRelInfos || aaRelInfos.size() == 0);
             // assertEquals(0, aaRelInfos.size());
         } catch (Exception e) {

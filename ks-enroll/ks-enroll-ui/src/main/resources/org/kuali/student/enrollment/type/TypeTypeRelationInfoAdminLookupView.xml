@@ -23,7 +23,7 @@
     <!-- LookupView -->
     <bean id="KS-TypeTypeRelationInfo-AdminLookupView" parent="KSLookupView"
           p:title="Type-Type Relation Lookup"
-          p:dataObjectClassName="org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo"
+          p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo"
           p:viewHelperServiceClass="org.kuali.student.enrollment.type.service.impl.TypeTypeRelationInfoAdminLookupableImpl">
 
         <property name="criteriaFields">
@@ -35,7 +35,7 @@
             <list>
                 <bean parent="Uif-DataField" p:propertyName="id" > 
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo" p:inquiryParameters="id" />
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo" p:inquiryParameters="id" />
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="typeKey" />

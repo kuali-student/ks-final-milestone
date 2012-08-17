@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class NavigationEvent extends UncheckedApplicationEvent<NavigationEventHandler>{
     public static final Type<NavigationEventHandler> TYPE = new Type<NavigationEventHandler>();
     

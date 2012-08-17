@@ -49,3 +49,4 @@ public class AcademicRecordServiceConstants {
     public static final String REF_OBJECT_URI_STUDENT_TEST_SCORE_RECORD = NAMESPACE + "/" + StudentTestScoreRecordInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_STUDENT_TRANSFER_CREDIT_RECORD = NAMESPACE + "/" + StudentTransferCreditRecordInfo.class.getSimpleName();
 }
+

@@ -9,11 +9,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
-import org.kuali.student.core.statement.util.PropositionBuilder;
-import org.kuali.student.core.statement.util.RulesEvaluationUtil;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.service.StatementService;
+import org.kuali.student.r2.core.statement.util.PropositionBuilder;
+import org.kuali.student.r2.core.statement.util.RulesEvaluationUtil;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -33,7 +33,7 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.roster.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.roster.dto.LprRosterInfo;
 import org.kuali.student.enrollment.roster.service.LprRosterService;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.OperationStatusInfo;
@@ -50,7 +50,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import org.kuali.student.r2.core.process.service.ProcessService;
@@ -304,7 +304,7 @@ public class CourseRegistrationServiceImpl
         try {
             // TODO fill in nlUsageType and language parameters once the
             // implementation actually uses them
-            statements = courseService.getCourseStatements(courseOffering.getCourseId(), null, null);
+            statements = courseService.getCourseStatements(courseOffering.getCourseId(), null, null, null);
         } catch (Exception e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
@@ -317,7 +317,7 @@ public class CourseRegistrationServiceImpl
                 PropositionBuilder.TranslationResults translationResults = null;
                 try {
                     translationResults = propositionBuilder.translateStatement(statementTree, null);
-                } catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
+                } catch (org.kuali.student.r2.common.exceptions.InvalidParameterException e) {
                     throw new OperationFailedException("Exception thrown attempting statement translation for statement: " + statementTree.getId(), e);
                 }
 

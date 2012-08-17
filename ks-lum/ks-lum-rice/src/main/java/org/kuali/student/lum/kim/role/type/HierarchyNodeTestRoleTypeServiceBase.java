@@ -16,7 +16,6 @@ package org.kuali.student.lum.kim.role.type;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.KimConstants;
-//import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
@@ -26,7 +25,7 @@ import java.util.Map;
 
 /**
  * Dummy class to test Hierarchy Node Test
- * 
+ *
  * @author delyea
  *
  */

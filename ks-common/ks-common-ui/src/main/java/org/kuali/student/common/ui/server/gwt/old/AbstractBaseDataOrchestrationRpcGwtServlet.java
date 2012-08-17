@@ -15,27 +15,31 @@
 
 package org.kuali.student.common.ui.server.gwt.old;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.old.Assembler;
-import org.kuali.student.common.assembly.old.data.SaveResult;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.old.Assembler;
+import org.kuali.student.r1.common.assembly.old.data.SaveResult;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 /**
  * Generic implementation of data orchestration calls and workflow calls
@@ -101,7 +105,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 
 	protected String getCurrentUser() {
-		String username = SecurityUtils.getCurrentUserId();
+		String username = SecurityUtils.getCurrentPrincipalId();
 		//backdoorId is only for convenience
 		if(username==null&&this.getThreadLocalRequest().getSession().getAttribute("backdoorId")!=null){
 			username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");
@@ -114,35 +118,45 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
-		String user = getCurrentUser();
-		boolean result = false;
-		if (checkDocumentLevelPermissions()) {
-			if (type == null) {
-				return null;
-			}
-			String namespaceCode = type.getPermissionNamespace();
-			String permissionTemplateName = type.getPermissionTemplateName();
-			Map<String, String> roleQuals = new LinkedHashMap<String, String>();
-                        roleQuals.put (StudentIdentityConstants.DOCUMENT_TYPE_NAME, getDefaultWorkflowDocumentType());
-			if (attributes != null) {
-				roleQuals.putAll(attributes);
-			}
-			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
-				LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
-				result = getPermissionService().isAuthorizedByTemplate(user, namespaceCode, permissionTemplateName, null, roleQuals);
-			}
-			else {
-				LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '" + permissionTemplateName + "' for user '" + user + "'");
-				return Boolean.TRUE;
-			}
-		}
-		else {
-			LOG.info("Will not check for document level permissions. Defaulting authorization to true.");
-			result = true;
-		}
-		LOG.info("Result of authorization check for user '" + user + "': " + result);
-		return Boolean.valueOf(result);
-	}
+        try
+        {
+            String user = getCurrentUser();
+            boolean result = false;
+            if (checkDocumentLevelPermissions()) {
+                if (type == null) {
+                    return null;
+                }
+                String namespaceCode = type.getPermissionNamespace();
+                String permissionTemplateName = type.getPermissionTemplateName();
+                Map<String, String> roleQuals = new LinkedHashMap<String, String>();
+                roleQuals.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, getDefaultWorkflowDocumentType());
+                if (attributes != null) {
+                    roleQuals.putAll(attributes);
+                }
+                if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
+                    LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '"
+                            + user + "'");
+                    result = getPermissionService().isAuthorizedByTemplate(user, namespaceCode, permissionTemplateName,
+                            new LinkedHashMap<String, String>(), roleQuals);
+                }
+                else {
+                    LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '"
+                            + permissionTemplateName + "' for user '" + user + "'");
+                    return Boolean.TRUE;
+                }
+            }
+            else {
+                LOG.info("Will not check for document level permissions. Defaulting authorization to true.");
+                result = true;
+            }
+            LOG.info("Result of authorization check for user '" + user + "': " + result);
+            return Boolean.valueOf(result);
+        } catch (Exception ex) {
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 
 	protected abstract String deriveAppIdFromData(Data data);
 	protected abstract String deriveDocContentFromData(Data data);

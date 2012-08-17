@@ -15,7 +15,7 @@
  */
 package org.kuali.student.r2.core.scheduling.dao;
 
-import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity;
 
 public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> {

@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.search.dto.ResultColumnInfo;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.search.dto.ResultColumnInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 /**
  * This is a ListItems adapter for search results returned by the search service.
@@ -139,7 +139,7 @@ public class SearchResultListItems implements ListItems{
     
     private int getAttrKeyNdx(List<SearchResultRow> results, String keyAttrKey) {
 
-    	if (results.size() > 0){
+        if (results != null && !results.isEmpty()){
 	        for (int i=0; i < results.get(0).getCells().size(); i++){
 	        	if (results.get(0).getCells().get(i).getKey().equals(keyAttrKey)) {
 	        		return i;
@@ -194,7 +194,10 @@ public class SearchResultListItems implements ListItems{
      */
     @Override
     public String getItemText(String id) {
-        return getListItem(id).getCells().get(itemTextAttrNdx).getValue();
+    	if(getListItem(id)!=null){
+    		return getListItem(id).getCells().get(itemTextAttrNdx).getValue();
+    	}
+    	return "";
     }
     
     private SearchResultRow getListItem(String id) {

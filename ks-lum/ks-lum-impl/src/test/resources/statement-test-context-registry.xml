@@ -39,30 +39,30 @@
 
     <!-- Natural Language Translation Contexts -->
     
-    <bean id="basicContext" class="org.kuali.student.lum.statement.config.context.BasicContextImpl">
+    <bean id="basicContext" class="org.kuali.student.r2.lum.statement.config.context.BasicContextImpl">
     </bean>
-    <bean id="luContext" class="org.kuali.student.lum.statement.config.context.LuContextImpl">
-        <property name="luService" ref="luServiceImpl" />
+    <bean id="luContext" class="org.kuali.student.r2.lum.statement.config.context.CluContextImpl">
+        <property name="CluService" ref="luServiceImpl" />
     </bean>
-    <bean id="lrcContext" class="org.kuali.student.lum.statement.config.context.LrcContextImpl">
+    <bean id="lrcContext" class="org.kuali.student.r2.lum.statement.config.context.LrcContextImpl">
         <property name="lrcService" ref="lrcServiceImpl"/>
     </bean>
-    <bean id="gpaContext" class="org.kuali.student.lum.statement.config.context.GpaContextImpl">
+    <bean id="gpaContext" class="org.kuali.student.r2.lum.statement.config.context.GpaContextImpl">
     </bean>
-    <bean id="personContext" class="org.kuali.student.lum.statement.config.context.PersonContextImpl">
+    <bean id="personContext" class="org.kuali.student.r2.lum.statement.config.context.PersonContextImpl">
     </bean>
-    <bean id="orgContext" class="org.kuali.student.lum.statement.config.context.OrganizationContextImpl">
+    <bean id="orgContext" class="org.kuali.student.r2.lum.statement.config.context.OrganizationContextImpl">
         <property name="organizationService" ref="orgServiceImpl" />
     </bean>
-    <bean id="atpContext" class="org.kuali.student.lum.statement.config.context.AtpContextImpl">
+    <bean id="atpContext" class="org.kuali.student.r2.lum.statement.config.context.AtpContextImpl">
         <property name="atpService" ref="atpServiceImpl" />
     </bean>
 
     <bean id="contextRegistryReqComponent"
-        class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
+        class="org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
-				<entry key="kuali.reqComponent.type.test">
+                <entry key="kuali.reqComponent.type.test">
                     <list>
 						<ref local="orgContext" />
                     </list>
@@ -120,31 +120,31 @@
     </bean>
 
     <bean id="naturalLanguageMessageBuilder"
-        class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder">
+        class="org.kuali.student.r1.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder">
         <constructor-arg index="0" ref="messageBuilderMap" />
     </bean>
 
     <bean id="reqComponentTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.ReqComponentTranslator">
+        class="org.kuali.student.r1.core.statement.naturallanguage.translators.ReqComponentTranslator">
         <property name="contextRegistry" ref="contextRegistryReqComponent" />
         <property name="language" value="en" />
     </bean>
 
     <bean id="statementTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.StatementTranslator">
+        class="org.kuali.student.r1.core.statement.naturallanguage.translators.StatementTranslator">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
         <property name="language" value="en" />
     </bean>
 
     <bean id="naturalLanguageTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
+        class="org.kuali.student.r1.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="statementTranslator" ref="statementTranslator" />
     </bean>
 <!--     
     <bean id="statementService" autowire="byName"
-        class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+        class="org.kuali.student.r1.core.statement.service.impl.StatementServiceImpl">
         <property name="statementDao" ref="statementDao"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
     </bean>

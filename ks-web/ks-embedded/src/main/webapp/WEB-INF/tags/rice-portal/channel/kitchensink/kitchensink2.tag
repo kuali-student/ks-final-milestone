@@ -29,12 +29,18 @@
 
     <strong>Collections</strong>
     <ul class="chan">
-        <li></li>
+        <li><portal:portalLink displayTitle="true" title="Collection action images"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionActionImages-View&methodToCall=collection" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection column sorting"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionColumnSorting-View&methodToCall=collection" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection table options"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionOptions-View&methodToCall=collection" /></li>
     </ul>
 
     <strong>Button / Header Levels</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Buttons" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Buttons-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Buttons"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Buttons-View&methodToCall=start" /></li>
     </ul>
 </div>
 <channel:portalChannelBottom />

@@ -1,6 +1,6 @@
 package org.kuali.student.r2.core.scheduling.model;
 
-import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -67,6 +67,8 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
         List<Object> orphansToDelete = new ArrayList<Object>();
         this.setSchedReqState(scheduleRequest.getStateKey());
         this.setName(scheduleRequest.getName());
+        this.setRefObjectId(scheduleRequest.getRefObjectId());
+        this.setRefObjectTypeKey(scheduleRequest.getRefObjectTypeKey());
         if (scheduleRequest.getDescr() != null) {
             this.setFormatted(scheduleRequest.getDescr().getFormatted());
             this.setPlain(scheduleRequest.getDescr().getPlain());
@@ -99,6 +101,9 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
                 scheduleRequestComponents.add(srCmpEntity);
              }
          }
+
+         //Now we need to delete the leftovers (orphaned components)
+        orphansToDelete.addAll(existingCmpEntities.values());
 
         // Merge attributes into entity and add leftovers to be deleted
         orphansToDelete.addAll(TransformUtility.mergeToEntityAttributes(ScheduleRequestAttributeEntity.class, scheduleRequest, this));

@@ -6,12 +6,13 @@ package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -66,10 +67,10 @@ public class R1CourseServiceHelper {
     public CourseInfo getCourse(String courseId) throws DoesNotExistException, OperationFailedException {
         CourseInfo course = null;
         try {
-            course = courseService.getCourse(courseId);
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            course = courseService.getCourse(courseId, ContextUtils.getContextInfo());
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("The course does not exist. course: " + courseId, e);
-        } catch (org.kuali.student.common.exceptions.OperationFailedException ex) {
+        } catch (org.kuali.student.r2.common.exceptions.OperationFailedException ex) {
             throw new OperationFailedException("Bad data. Couldn't create course offering with id: " + courseId, ex);
         } catch (Exception e) {
             throw new OperationFailedException("Bad data. Couldn't create course offering with id: " + courseId, e);
@@ -106,8 +107,8 @@ public class R1CourseServiceHelper {
         // all versions of the course
         List<VersionDisplayInfo> versions;
         try {
-            versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, versionIndCourseId);
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, versionIndCourseId, context);
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("The course does not exist. course: " + versionIndCourseId, e);
         } catch (Exception e) {
             throw new OperationFailedException("unexpected trying to get course " + versionIndCourseId, e);

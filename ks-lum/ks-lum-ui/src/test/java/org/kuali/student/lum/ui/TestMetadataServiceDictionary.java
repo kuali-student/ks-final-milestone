@@ -14,6 +14,9 @@
  */
 package org.kuali.student.lum.ui;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -28,24 +31,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Ignore;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.dictionary.MetadataFormatter;
+import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.dictionary.MetadataFormatter;
-import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.common.dictionary.service.DictionaryService;
-import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-
-@Ignore
 public class TestMetadataServiceDictionary {
 
 	@Test
@@ -115,6 +114,7 @@ public class TestMetadataServiceDictionary {
 		for (String className : startingClasses) {
 			String outFile = "target/metadata-for-" + className + ".txt";
 			File file = new File(outFile);
+			file.getParentFile().mkdirs();
 			OutputStream outputStream = null;
 			try {
 				outputStream = new FileOutputStream(file, false);
@@ -160,28 +160,15 @@ public class TestMetadataServiceDictionary {
 
 			// These first 6 are because the recursion stops but the final field still is flagged as DATA even though it cannot have sub fields
 
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+			//error: org.kuali.student.r2.lum.course.dto.CourseInfo.courseSpecificLOs.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
 			//error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.variations.*.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
 			//error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.orgCoreProgram.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
 			//error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
 			//error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.statement.statements.*.statements.*.statements.* is of type DATA but it has no properties
 			//error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
-
-			// These 8 are caused by reusing search params external to the search config file in cross searches. 
-			// Need to update dictionary to allow for reuse of external params
 			
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byCourse that has a parameter lu.queryParam.luOptionalCode that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byCourse that has a parameter lu.queryParam.luOptionalDivision that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byCourse that has a parameter lu.queryParam.luOptionalLevel that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byCourse that has a parameter lu.queryParam.luOptionalState that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byCourse that has a parameter lu.queryParam.luOptionalType that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byProgram that has a parameter lu.queryParam.luOptionalLongName that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byProgram that has a parameter lu.queryParam.luOptionalState that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byProgram that has a parameter lu.queryParam.luOptionalType that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//Also 16 similar ones for major discipline and variation lo search.
-			
-			// 30 errors found when validating metadata
-			if (errors.size() != 30) {
+			// 33 errors found when validating metadata
+			if (errors.size() != 33) {
 				fail(errors.size() + " errors found when validating metadata");
 			}
 		}

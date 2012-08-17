@@ -34,8 +34,9 @@ public class ScheduleRequestTestDataLoader {
     private  String principalId = ScheduleRequestTestDataLoader.class.getSimpleName();
 
     public  void loadData() {
-        loadSchedReq("schedReq-1", "schedReq-1", "refObjId", "refObjType", SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, "<p>schedreq Desc 101</p>", "schedreq Desc 101", "A");
-        loadSchedReq("schedReq-2", "schedReq-2", "refObjId", "refObjType", SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, "<p>schedreq Desc 102</p>", "schedreq Desc 102", "B");
+        loadSchedReq("schedReq-G", "schedReq-G", "refObjId", "refObjType", SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, "<p>schedreq Desc 101</p>", "schedreq Desc 101", "G");
+        loadSchedReq("schedReq-D", "schedReq-D", "refObjId", "refObjType", SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, "<p>schedreq Desc 102</p>", "schedreq Desc 102", "D");
+        loadSchedReq("schedReq-U", "schedReq-U", "refObjId", "refObjType", SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, "<p>schedreq Desc 103</p>", "schedreq Desc 103", "U");
     }
 
     private void loadSchedReq(String id,

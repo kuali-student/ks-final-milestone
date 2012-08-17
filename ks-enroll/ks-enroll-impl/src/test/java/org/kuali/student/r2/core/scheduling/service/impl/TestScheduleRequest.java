@@ -27,6 +27,7 @@ import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants
 import org.kuali.student.r2.core.scheduling.dao.ScheduleRequestDao;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.infc.Schedule;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -96,9 +97,9 @@ public class TestScheduleRequest {
             // expected
         }
 
-        ScheduleRequestInfo obj = schedulingService.getScheduleRequest("schedReq-1", callContext);
+        ScheduleRequestInfo obj = schedulingService.getScheduleRequest("schedReq-G", callContext);
         assertNotNull(obj);
-        assertEquals("schedReq-1", obj.getName());
+        assertEquals("schedReq-G", obj.getName());
         assertEquals("refObjId", obj.getRefObjectId());
         assertEquals("refObjType", obj.getRefObjectTypeKey());
         assertEquals(SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, obj.getTypeKey());
@@ -107,31 +108,84 @@ public class TestScheduleRequest {
         assertEquals("schedreq Desc 101", obj.getDescr().getPlain());
         assertNotNull(obj.getScheduleRequestComponents());
         ScheduleRequestComponentInfo srComp = obj.getScheduleRequestComponents().get(0);
-        assertTrue(srComp.getBuildingIds().contains("building A1"));
-        assertTrue(srComp.getCampusIds().contains("campus A1"));
-        assertTrue(srComp.getOrgIds().contains("org A1"));
-        assertTrue(srComp.getRoomIds().contains("room A1"));
-        assertTrue(srComp.getResourceTypeKeys().contains("resource A1"));
-        assertTrue(srComp.getTimeSlotIds().contains("timeslot A1"));
+        assertTrue(srComp.getBuildingIds().contains("building G1"));
+        assertTrue(srComp.getCampusIds().contains("campus G1"));
+        assertTrue(srComp.getOrgIds().contains("org G1"));
+        assertTrue(srComp.getRoomIds().contains("room G1"));
+        assertTrue(srComp.getResourceTypeKeys().contains("resource G1"));
+        assertTrue(srComp.getTimeSlotIds().contains("timeslot G1"));
     }
 
     @Test
     public void testDeleteScheduleRequest() throws Exception {
-        ScheduleRequestInfo obj = schedulingService.getScheduleRequest("schedReq-2", callContext);
+        ScheduleRequestInfo obj = schedulingService.getScheduleRequest("schedReq-D", callContext);
         assertNotNull(obj);
 
-        StatusInfo status = schedulingService.deleteScheduleRequest("schedReq-2", callContext);
+        StatusInfo status = schedulingService.deleteScheduleRequest("schedReq-D", callContext);
         assertTrue(status.getIsSuccess());
 
         try {
-            schedulingService.getScheduleRequest("schedReq-2", callContext);
+            schedulingService.getScheduleRequest("schedReq-D", callContext);
         } catch (DoesNotExistException ee) {
         }
     }
 
     @Test
+    public void testUpdateScheduleRequest() throws Exception {
+        ScheduleRequestInfo obj = schedulingService.getScheduleRequest("schedReq-U", callContext);
+        assertNotNull(obj);
+        assertEquals("schedReq-U", obj.getName());
+
+        ScheduleRequestInfo modified = new  ScheduleRequestInfo(obj);
+        modified.setName(obj.getName() + "-modified");
+        modified.setRefObjectId(obj.getRefObjectId() + "-modified");
+        modified.setRefObjectTypeKey(obj.getRefObjectTypeKey() + "-modified");
+        modified.setStateKey(obj.getStateKey() + "-modified");
+        int compCnt = modified.getScheduleRequestComponents().size();
+        modified.getScheduleRequestComponents().add(loadSchedReqComponent("M"));
+
+        ScheduleRequestInfo updated = schedulingService.updateScheduleRequest(modified.getId(), modified, callContext);
+        assertNotNull(updated);
+        assertEquals(modified.getName(), updated.getName());
+        assertEquals(modified.getRefObjectId(), updated.getRefObjectId());
+        assertEquals(modified.getRefObjectTypeKey(), updated.getRefObjectTypeKey());
+        assertEquals(modified.getStateKey(), updated.getStateKey());
+        assertEquals(compCnt + 1, updated.getScheduleRequestComponents().size());
+        ScheduleRequestComponentInfo newComp = getScheduleRequestComponent(updated.getScheduleRequestComponents(), "M");
+        assertNotNull(newComp);
+        assertTrue(newComp.getBuildingIds().contains("building M1"));
+        assertTrue(newComp.getCampusIds().contains("campus M1"));
+        assertTrue(newComp.getOrgIds().contains("org M1"));
+        assertTrue(newComp.getRoomIds().contains("room M1"));
+        assertTrue(newComp.getResourceTypeKeys().contains("resource M1"));
+        assertTrue(newComp.getTimeSlotIds().contains("timeslot M1"));
+
+        ScheduleRequestInfo retrieved = schedulingService.getScheduleRequest(modified.getId(), callContext);
+        assertNotNull(retrieved);
+        assertEquals(modified.getName(), retrieved.getName());
+        assertEquals(modified.getRefObjectId(), retrieved.getRefObjectId());
+        assertEquals(modified.getRefObjectTypeKey(), retrieved.getRefObjectTypeKey());
+        assertEquals(modified.getTypeKey(), retrieved.getTypeKey());
+        assertEquals(modified.getStateKey(), retrieved.getStateKey());
+        assertEquals(modified.getDescr().getFormatted(), retrieved.getDescr().getFormatted());
+        assertEquals(modified.getDescr().getPlain(), retrieved.getDescr().getPlain());
+        assertNotNull(retrieved.getScheduleRequestComponents());
+        assertEquals(compCnt + 1, retrieved.getScheduleRequestComponents().size());
+
+        //test orphan to delete
+        retrieved.getScheduleRequestComponents().remove(0);
+        ScheduleRequestInfo updated1 = schedulingService.updateScheduleRequest(retrieved.getId(), retrieved, callContext);
+        assertNotNull(updated1);
+        assertEquals(1, updated1.getScheduleRequestComponents().size());
+
+        ScheduleRequestInfo retrieved1 = schedulingService.getScheduleRequest(modified.getId(), callContext);
+        assertNotNull(retrieved1);
+        assertEquals(1, retrieved1.getScheduleRequestComponents().size());
+    }
+
+    @Test
     public void testCreateScheduleRequest() throws Exception {
-        ScheduleRequestInfo orig = loadSchedReq("schedReq-created", "refObjId", "refObjType", SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, "<p>schedreq Desc</p>", "schedreq Desc", "C");
+        ScheduleRequestInfo orig = loadSchedReq("schedReq-C", "refObjId", "refObjType", SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE, "<p>schedreq Desc</p>", "schedreq Desc", "C");
         ScheduleRequestInfo created = schedulingService.createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE, orig, callContext);
         assertNotNull(created);
         assertEquals(orig.getName(), created.getName());
@@ -190,6 +244,13 @@ public class TestScheduleRequest {
         info.setDescr(rtInfo);
 
         List<ScheduleRequestComponentInfo> comps = new ArrayList<ScheduleRequestComponentInfo>();
+        comps.add(loadSchedReqComponent(suffix));
+        info.setScheduleRequestComponents(comps);
+
+        return info;
+    }
+
+    private ScheduleRequestComponentInfo loadSchedReqComponent(String suffix) {
         ScheduleRequestComponentInfo comp = new ScheduleRequestComponentInfo();
         comp.setBuildingIds(getIds("building", suffix));
         comp.setCampusIds(getIds("campus", suffix));
@@ -197,10 +258,8 @@ public class TestScheduleRequest {
         comp.setRoomIds(getIds("room", suffix));
         comp.setResourceTypeKeys(getIds("resource", suffix));
         comp.setTimeSlotIds(getIds("timeslot", suffix));
-        comps.add(comp);
-        info.setScheduleRequestComponents(comps);
 
-        return info;
+        return comp;
     }
 
     private List<String> getIds(String attr, String suffix){
@@ -208,5 +267,16 @@ public class TestScheduleRequest {
         ids.add(attr + " " + suffix + "1");
         ids.add(attr + " " + suffix + "2");
         return ids;
+    }
+
+    private ScheduleRequestComponentInfo getScheduleRequestComponent(List<ScheduleRequestComponentInfo> comps, String suffix){
+        for(ScheduleRequestComponentInfo comp : comps) {
+            List<String>  buildingIds = comp.getBuildingIds();
+            if(buildingIds.contains("building " + suffix + "1")){
+                return comp;
+            }
+        }
+
+        return null;
     }
 }

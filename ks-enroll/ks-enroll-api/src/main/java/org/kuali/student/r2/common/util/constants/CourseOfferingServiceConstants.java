@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 /**
  * Course Offering Service Constants
@@ -51,6 +52,7 @@ public class CourseOfferingServiceConstants {
     public static final String IS_MAX_ENROLLMENT_ESTIMATE_ATTR = "kuali.attribute.max.enrollment.is.estimate";
     public static final String WAIT_LIST_INDICATOR_ATTR = "kuali.attribute.wait.list.indicator";
     public static final String COURSE_NUMBER_IN_SUFX_ATTR = "kuali.attribute.course.number.internal.suffix";
+    public static final String IS_REGISTRATION_GROUP_GENERATED_INDICATOR_ATTR = "kuali.attribute.registration.group.is.generated";
 
     // The type/states are defined in LuiServiceConstants.java
 

@@ -116,7 +116,7 @@ public class SwitchSection extends BaseSection {
     }
     
     /**
-     * This is handled differently than handleUserSelection because it is assumed that the client
+     * This is handled differently than handleUserSelection because it is assumed that the atpService
      * is setting the correct values into the widgets, therefore no need to delete sections
      * (also reduces chance of actually deleting data before it is even shown)
      */

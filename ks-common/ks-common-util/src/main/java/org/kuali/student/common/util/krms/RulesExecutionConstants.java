@@ -22,11 +22,11 @@ public class RulesExecutionConstants {
     public static final String MILESTONES_BY_TYPE_TERM_NAME = "milestonesByType";
     public static final String MILESTONE_TERM_NAME = "milestone";
     public static final String STUDENT_REGISTRATION_HOLDS_TERM_NAME = "studentRegistrationHolds";
-
+    
     public static final Term completedCourseIdsTerm = new Term(STUDENT_COMPLETED_COURSE_IDS_TERM_NAME);
     public static final Term enrolledCourseIdsTerm = new Term(STUDENT_ENROLLED_COURSE_IDS_TERM_NAME);
     public static final Term studentDeceasedTerm = new Term(STUDENT_DECEASED_TERM_NAME);
-
+    
     public static final String COURSE_SET_ID_TERM_PROPERTY = "courseSetIdProperty";
     public static final String COURSE_ID_TERM_PROPERTY = "courseIdProperty";
     public static final String TEST_SET_ID_TERM_PROPERTY = "testSetIdProperty";
