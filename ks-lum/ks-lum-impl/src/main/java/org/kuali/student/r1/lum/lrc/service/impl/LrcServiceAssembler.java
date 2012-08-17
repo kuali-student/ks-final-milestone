@@ -43,16 +43,25 @@ import org.springframework.beans.BeanUtils;
 public class LrcServiceAssembler extends BaseAssembler {
    
 
-    public static ResultValuesGroupInfo toResultValuesGroupInfo(ResultComponent entity) {
+    public static ResultValuesGroupInfo toResultValuesGroupInfo(ResultComponent entity) throws DoesNotExistException {
         ResultValuesGroupInfo dto = new ResultValuesGroupInfo();
 
-        List<String> resultValues = new ArrayList<String>(entity.getResultValues().size());
+        List<String> resultValueKeys = new ArrayList<String>(entity.getResultValues().size());
         for (ResultValue rv : entity.getResultValues()) {
-        	resultValues.add(rv.getValue());
+            String rvId = rv.getResultComponent().getId();
+            if (rvId.startsWith("kuali.creditType.credit.degree.")) {
+                resultValueKeys.add("kuali.result.value.credit.degree." + rv.getValue());
+            } else if (rvId.equals("kuali.resultComponent.grade.letter")) {
+                resultValueKeys.add("kuali.result.value.grade.letter." + rv.getValue().toLowerCase());
+            } else if (rvId.equals("kuali.resultComponent.grade.passFail")) {
+                resultValueKeys.add("kuali.result.value.grade.pf." + rv.getValue().substring(0, 1).toLowerCase());
+            } else {
+                throw new DoesNotExistException("No mapping exists for Result Values with Component " + rvId);
+            }
         }
         dto.setKey(entity.getId());
         dto.setDescr(toRichTextInfo(entity.getDescr()));
-        dto.setResultValueKeys(resultValues);
+        dto.setResultValueKeys(resultValueKeys);
         dto.setAttributes(AssemblerHelper.toAttributeList(entity.getAttributes()));
 		dto.setMeta(entity.toDTO());
         dto.setTypeKey(entity.getType().getId());
@@ -60,7 +69,7 @@ public class LrcServiceAssembler extends BaseAssembler {
         return dto;
     }
 
-    public static List<ResultValuesGroupInfo> toReListComonentInfos(List<ResultComponent> entities) {
+    public static List<ResultValuesGroupInfo> toReListComonentInfos(List<ResultComponent> entities) throws DoesNotExistException {
         List<ResultValuesGroupInfo> dtos = new ArrayList<ResultValuesGroupInfo>(entities.size());
         for (ResultComponent entity : entities) {
             dtos.add(toResultValuesGroupInfo(entity));
