@@ -16,17 +16,12 @@
 
 package org.kuali.student.r2.core.organization.service;
 
-import java.util.List;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -35,14 +30,17 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
 import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
-import org.kuali.student.r2.common.type.dto.TypeInfo;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.util.List;
 
 /**
  * <h3><a name="KSDOC-ServiceDescriptions-Description"></a>Description</h3>
@@ -100,7 +98,7 @@ import org.kuali.student.r2.common.type.dto.TypeInfo;
 
 @WebService(name = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface OrganizationService {
+public interface OrganizationService extends SearchService {
 
     //
     // Lookup Methods for Org Hierarchy Id Entity Pattern.
@@ -412,6 +410,26 @@ public interface OrganizationService {
     public List<TypeInfo> getOrgOrgRelationTypesForOrgType(@WebParam(name = "orgTypeKey") String orgTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
+     * Retrieves the Types of relationships between organizations that
+     * are allowed for a particular type of organization.
+     *
+     * @param orgTypeKey an identifier for an Org Type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of relationship types between organizations for
+     *         the specified organization type or an empty list if
+     *         none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException orgTypeKey or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    @Deprecated
+    public TypeInfo getOrgOrgRelationTypeForOrgType(@WebParam(name = "orgTypeKey") String orgTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
      * Retrieves the Types of relationships between organizations that
      * are allowed for a particular organization hierarchy.
      *
@@ -856,6 +874,26 @@ public interface OrganizationService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByTypeAndOrg(@WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey, @WebParam(name = "orgId") String orgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of OrgPersonRelations of the specified
+     * OrgPersonRelationType for an Org.
+     *
+     * @param orgPersonRelationTypeKey the identifier for an
+     *        OrgPersonRelationType
+     * @param orgId the identifier for an Org
+     * @param contextInfo information containing the principalId and locale
+     *        information about the caller of service operation
+     * @return a list of OrgPersonRelations of the specified OrgPersonRelationType for
+     *         the given Org or an empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException orgPersonRelationTypeKey,
+     *         orgId, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    @Deprecated
+    public OrgPersonRelationInfo getOrgPersonRelationByTypeAndOrg(@WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey, @WebParam(name = "orgId") String orgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves all OrgPersonRelations to the given Person.
