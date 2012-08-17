@@ -18,7 +18,7 @@ package org.kuali.student.r2.core.process.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.process.infc.ProcessCategory;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -29,8 +29,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProcessCategoryInfo", propOrder = { "id", "typeKey", 
-                "stateKey", "name", "descr", "meta", "attributes",
-                "_futureElements" })
+                "stateKey", "name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class ProcessCategoryInfo 
     extends IdEntityInfo 
@@ -38,8 +37,9 @@ public class ProcessCategoryInfo
 
     private static final long serialVersionUID = 1L;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
     
 
     /**
@@ -62,7 +62,7 @@ public class ProcessCategoryInfo
     public String toString() {
         return "ProcessCategoryInfo{" +
                 "id='" + getId() + "' " +
-                "_futureElements=" + _futureElements +
+                // "_futureElements=" + _futureElements + TODO KSCM-372: Non-GWT translatable code
                 '}';
     }
 }

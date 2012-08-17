@@ -18,7 +18,7 @@ package org.kuali.student.r2.core.scheduling.dto;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.core.scheduling.infc.MeetingTime;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,7 +34,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MeetingTimeInfo", propOrder = {"id", "startDate", "duration", "roomId", "_futureElements"})
+@XmlType(name = "MeetingTimeInfo", propOrder = {"id", "startDate", "duration", "roomId"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class MeetingTimeInfo implements MeetingTime, Serializable {
 
     @XmlElement
@@ -45,8 +45,9 @@ public class MeetingTimeInfo implements MeetingTime, Serializable {
     private TimeAmountInfo duration;
     @XmlElement
     private String roomId;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     public MeetingTimeInfo() {

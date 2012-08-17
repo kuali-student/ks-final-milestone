@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.common.dto.KeyNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.organization.infc.OrgCode;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Detailed information about organization codes.
@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgCodeInfo", propOrder = {
     "key", "value", "descr",
-    "meta", "attributes", "_futureElements"})
+    "meta", "attributes"/*, "_futureElements"*/})
 public class OrgCodeInfo
         extends KeyNamelessEntityInfo
         implements OrgCode, Serializable {
@@ -46,8 +46,9 @@ public class OrgCodeInfo
     private String value;
     @XmlAnyElement
     private RichTextInfo descr;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //    TODO KSCM-372: Non-GWT translatable code
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     /**
      * Constructs a new OrgCodeInfo.

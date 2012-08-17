@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.organization.infc.OrgPersonRelation;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Information about an organization to person relationship.
@@ -39,7 +39,7 @@ import org.w3c.dom.Element;
                 "id", "typeKey", "stateKey", 
                 "orgId", "personId",
                 "effectiveDate", "expirationDate",
-                "meta", "attributes", "_futureElements" })
+                "meta", "attributes"/*, "_futureElements"*/ })
 
 public class OrgPersonRelationInfo 
     extends RelationshipInfo 
@@ -52,9 +52,9 @@ public class OrgPersonRelationInfo
 
     @XmlElement
     private String personId;
-
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //    TODO KSCM-372: Non-GWT translatable code
+    //@XmlAnyElement
+   // private List<Element> _futureElements;
 
 
     /**

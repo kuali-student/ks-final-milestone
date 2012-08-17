@@ -30,7 +30,7 @@ import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.organization.infc.Org;
 import org.kuali.student.r2.core.organization.infc.OrgCode;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Detailed information about a single organization.
@@ -42,7 +42,7 @@ import org.w3c.dom.Element;
     "id", "typeKey", "stateKey", "longName", "longDescr",
     "shortName", "sortName", "shortDescr", "orgCodes",
     "effectiveDate", "expirationDate",
-    "meta", "attributes", "_futureElements"})
+    "meta", "attributes"/*, "_futureElements"*/})
 public class OrgInfo
         extends IdNamelessEntityInfo
         implements Org, Serializable {
@@ -64,8 +64,9 @@ public class OrgInfo
     private Date expirationDate;
     @XmlElement
     private List<OrgCodeInfo> orgCodes;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //    TODO KSCM-372: Non-GWT translatable code
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     /**
      * Constructs a new OrgInfo.

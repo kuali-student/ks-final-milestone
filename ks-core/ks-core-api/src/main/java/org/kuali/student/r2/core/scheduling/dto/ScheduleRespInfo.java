@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleResp;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,7 +34,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleRespInfo", propOrder = {"id", "typeKey", "stateKey",
         "batchRespId", "scheduleRequestId", "scheduleId", "statusMessage",
-        "meta", "attributes", "_futureElements"})
+        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class ScheduleRespInfo extends IdNamelessEntityInfo implements ScheduleResp, Serializable {
 
     @XmlElement
@@ -45,8 +45,9 @@ public class ScheduleRespInfo extends IdNamelessEntityInfo implements ScheduleRe
     private String scheduleId;
     @XmlElement
     private String statusMessage;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ScheduleRespInfo() {
     }

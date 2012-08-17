@@ -18,7 +18,7 @@ package org.kuali.student.r2.core.process.dto;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.core.process.infc.Process;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -26,8 +26,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProcessInfo", propOrder = { "key", "typeKey", "stateKey",
-                "name", "descr", "ownerOrgId", "meta", "attributes",
-                "_futureElements" })
+                "name", "descr", "ownerOrgId", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class ProcessInfo 
     extends KeyEntityInfo 
@@ -42,8 +41,9 @@ public class ProcessInfo
     @XmlElement 
     private String ownerOrgId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     //////////////////////////
     // CONSTRUCTORS ETC.
@@ -89,7 +89,7 @@ public class ProcessInfo
     public String toString() {
         return "ProcessInfo{" +
                 "ownerOrgId='" + ownerOrgId + '\'' +
-                ", _futureElements=" + _futureElements +
+                // "_futureElements=" + _futureElements + TODO KSCM-372: Non-GWT translatable code
                 '}';
     }
 }

@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.organization.infc.OrgHierarchy;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Information for an organization hierarchy.
@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
     "rootOrgId",
     "effectiveDate",
     "expirationDate",
-    "meta", "attributes", "_futureElements"})
+    "meta", "attributes"/*, "_futureElements"*/})
 public class OrgHierarchyInfo
         extends IdEntityInfo
         implements OrgHierarchy, Serializable {
@@ -52,8 +52,9 @@ public class OrgHierarchyInfo
     private Date effectiveDate;
     @XmlElement
     private Date expirationDate;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //    TODO KSCM-372: Non-GWT translatable code
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     /**
      * Constructs a new OrgHierarchyInfo.

@@ -18,7 +18,7 @@ package org.kuali.student.r2.core.scheduling.dto;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequest;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -36,7 +36,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleRequestInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "refObjectId", "refObjectTypeKey", "scheduleRequestComponents",
-        "meta", "attributes", "_futureElements"})
+        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest, Serializable {
 
     @XmlElement
@@ -45,8 +45,9 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
     private String refObjectTypeKey;
     @XmlElement
     private List<ScheduleRequestComponentInfo> scheduleRequestComponents;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ScheduleRequestInfo() {
     }

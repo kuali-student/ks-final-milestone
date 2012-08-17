@@ -19,7 +19,7 @@ package org.kuali.student.r2.core.process.dto;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.process.infc.Instruction;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -33,8 +33,7 @@ import java.util.List;
                 "appliedPopulationId", "appliedAtpTypeKeys",
                 "message", "position", "isWarning", 
                 "continueOnFail", "isExemptible",
-                "meta", "attributes",
-		"_futureElements" })
+                "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class InstructionInfo 
     extends RelationshipInfo 
@@ -73,8 +72,9 @@ public class InstructionInfo
     @XmlElement 
     private Boolean isExemptible;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     //////////////////////////
     // CONSTRUCTORS ETC.

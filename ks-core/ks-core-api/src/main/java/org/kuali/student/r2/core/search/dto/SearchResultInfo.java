@@ -28,12 +28,12 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchResultInfo", propOrder = {
                 "startAt", "totalResults", "rows", "sortColumn",
-                "sortDirection", "_futureElements" })
+                "sortDirection"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class SearchResultInfo 
     implements SearchResult, Serializable {
@@ -55,8 +55,9 @@ public class SearchResultInfo
     @XmlElement    
     private SortDirection sortDirection;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**

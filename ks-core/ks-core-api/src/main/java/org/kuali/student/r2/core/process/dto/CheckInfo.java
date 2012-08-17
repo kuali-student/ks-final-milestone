@@ -18,7 +18,7 @@ package org.kuali.student.r2.core.process.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.process.infc.Check;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -38,8 +38,7 @@ import java.util.List;
     "leftComparisonAgendaId",
     "rightComparisonAgendaId",
     "meta",
-    "attributes",
-    "_futureElements"})
+    "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class CheckInfo 
     extends IdEntityInfo 
@@ -72,8 +71,9 @@ public class CheckInfo
     @XmlElement 
     private String childProcessKey;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     //////////////////////////
     // CONSTRUCTORS ETC.

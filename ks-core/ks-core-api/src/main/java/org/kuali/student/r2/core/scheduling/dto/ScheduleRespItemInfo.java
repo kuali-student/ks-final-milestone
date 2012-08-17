@@ -16,7 +16,7 @@
 package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRespItem;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -32,7 +32,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleRespItemInfo", propOrder = {"id", "scheduleIds", "scheduleRequestItemId", "scheduleResponseId", "_futureElements"})
+@XmlType(name = "ScheduleRespItemInfo", propOrder = {"id", "scheduleIds", "scheduleRequestItemId", "scheduleResponseId"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class ScheduleRespItemInfo implements ScheduleRespItem, Serializable {
 
     @XmlElement
@@ -43,8 +43,9 @@ public class ScheduleRespItemInfo implements ScheduleRespItem, Serializable {
     private String scheduleRequestItemId;
     @XmlElement
     private String scheduleResponseId;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ScheduleRespItemInfo() {
     }

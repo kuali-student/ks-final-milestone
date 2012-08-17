@@ -21,7 +21,7 @@ import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.core.scheduling.infc.MeetingTime;
 import org.kuali.student.r2.core.scheduling.infc.Schedule;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponent;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -39,7 +39,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "atpId", "scheduleComponents", "blackoutDates", "blackoutMilestoneIds", "additionalMeetingTimes",
-        "meta", "attributes", "_futureElements"})
+        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable {
 
     @XmlElement
@@ -52,8 +52,9 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
     private List<String> blackoutMilestoneIds;
     @XmlElement
     private List<MeetingTimeInfo> additionalMeetingTimes;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ScheduleInfo() {
     }

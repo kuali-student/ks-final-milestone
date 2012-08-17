@@ -18,7 +18,7 @@ package org.kuali.student.r2.core.scheduling.dto;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -36,7 +36,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TimeSlotInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "weekdays", "startTime", "endTime",
-        "meta", "attributes", "_futureElements"})
+        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable {
 
     @XmlElement
@@ -45,8 +45,9 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
     private TimeOfDayInfo startTime;
     @XmlElement
     private TimeOfDayInfo endTime;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public TimeSlotInfo() {
     }

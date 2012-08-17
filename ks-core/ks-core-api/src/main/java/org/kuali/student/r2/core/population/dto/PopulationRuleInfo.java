@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.population.dto;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.population.infc.PopulationRule;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -40,8 +40,7 @@ import java.util.List;
     "variesByTime",
     "supportsGetMembers",
     "meta",
-    "attributes",
-    "_futureElements"})
+    "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class PopulationRuleInfo
         extends IdEntityInfo
         implements PopulationRule, Serializable {
@@ -65,8 +64,10 @@ public class PopulationRuleInfo
     private Boolean variesByTime;
     @XmlElement
     private Boolean supportsGetMembers;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
+
 
     /**
      * Constructs a new PopulationRuleInfo.

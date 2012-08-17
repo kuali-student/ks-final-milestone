@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.organization.infc.OrgOrgRelation;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Detailed information about a single organization to organization
@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
                 "id", "typeKey", "stateKey",
                 "orgId", "relatedOrgId",
                 "effectiveDate", "expirationDate",
-                "meta", "attributes", "_futureElements" })
+                "meta", "attributes"/*, "_futureElements"*/ })
 
 public class OrgOrgRelationInfo 
     extends RelationshipInfo
@@ -53,9 +53,9 @@ public class OrgOrgRelationInfo
 
     @XmlElement
     private String relatedOrgId;
-
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //    TODO KSCM-372: Non-GWT translatable code
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
 
     /**

@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.population.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.population.infc.Population;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -34,8 +34,7 @@ import java.util.List;
     "variesByTime",
     "supportsGetMembers",
     "meta",
-    "attributes",
-    "_futureElements"})
+    "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class PopulationInfo
         extends IdEntityInfo
         implements Population, Serializable {
@@ -47,8 +46,10 @@ public class PopulationInfo
     private Boolean variesByTime; // readonly
     @XmlElement
     private Boolean supportsGetMembers; // readonly
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
+
 
     /**
      * Constructs a new PopulationInfo.

@@ -18,7 +18,7 @@ package org.kuali.student.r2.core.population.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.population.infc.PopulationCategory;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -35,8 +35,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PopulationCategoryInfo", propOrder = { "id", "typeKey",
-        "stateKey", "name", "descr", "meta", "attributes",
-        "_futureElements" })
+        "stateKey", "name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class PopulationCategoryInfo
         extends IdEntityInfo
         implements PopulationCategory, Serializable {
@@ -46,8 +45,9 @@ public class PopulationCategoryInfo
     // DATA VARIABLES
     //////////////////////
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     //////////////////////
     // CONSTRUCTORS
@@ -78,7 +78,7 @@ public class PopulationCategoryInfo
     public String toString() {
         return "PopulationCategoryInfo{" +
                 "id='" + getId() + "' " +
-                "_futureElements=" + _futureElements +
+                // "_futureElements=" + _futureElements + TODO KSCM-372: Non-GWT translatable code
                 '}';
     }
 }

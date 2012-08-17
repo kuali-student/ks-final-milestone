@@ -29,7 +29,7 @@ import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.organization.infc.OrgPositionRestriction;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Information which constrains/describes organization to person
@@ -45,7 +45,7 @@ import org.w3c.dom.Element;
     "title", "descr",
     "stdDuration",
     "minNumRelations", "maxNumRelations",
-    "meta", "attributes", "_futureElements"})
+    "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class OrgPositionRestrictionInfo extends HasAttributesAndMetaInfo
         implements OrgPositionRestriction, Serializable {
 
@@ -66,8 +66,9 @@ public class OrgPositionRestrictionInfo extends HasAttributesAndMetaInfo
     private Integer minNumRelations;
     @XmlElement
     private String maxNumRelations;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //    TODO KSCM-372: Non-GWT translatable code
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     /**
      * Constructs a new OrgPositionrestrictionInfo.
