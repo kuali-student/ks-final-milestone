@@ -77,6 +77,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 coInfo.setCreditCnt(getCreditCount(coInfo, null));
                 CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);
                 courseOfferingEditWrapper.setGradingOption(getGradingOption(coInfo.getGradingOptionId()));
+                StateInfo state = getStateService().getState(coInfo.getStateKey(),getContextInfo());
+                courseOfferingEditWrapper.setStateName(state.getName());
                 form.getCourseOfferingEditWrapperList().add(courseOfferingEditWrapper);
             }
         } else {

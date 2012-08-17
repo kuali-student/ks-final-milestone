@@ -14,8 +14,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.r1.common.search.dto.*;
-import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -34,18 +32,19 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.stereotype.Controller;
@@ -761,7 +760,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         // reload the AOs
         CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();
         getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
-        getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theCourseOffering);
+        getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm, theCourseOffering);
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
@@ -790,6 +789,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         Object selectedObject;
         List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
         List<ActivityOfferingWrapper> selectedIndexList = theForm.getSelectedToDeleteList();
+        boolean bEncounteredNonDraftAOInDeletion = false;
+        boolean bLegalAOInDeletion = false;
 
         // clear the list
         selectedIndexList.clear();
@@ -816,37 +817,29 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         else {
             // check if there is Draft AO selected
             selectedIndexList.clear();
-            boolean bEncounteredNonDraftAOInDeletion = false;
             for(ActivityOfferingWrapper ao : aoList) {
                 if(ao.isLegalToDelete() && ao.getIsChecked()) {
                     selectedIndexList.add(ao);
-                }else if (ao.getIsChecked()){
+                    bLegalAOInDeletion = true;
+                } else if (ao.getIsChecked()){
                     if (!bEncounteredNonDraftAOInDeletion) {
                         bEncounteredNonDraftAOInDeletion = true;
-                        GlobalVariables.getMessageMap().putError("selectedOfferingAction",
-                            CourseOfferingConstants.AO_NOT_DRAFT_FOR_DELETION_ERROR);
                     }
                 }
             }
+        }
+
+        if (bEncounteredNonDraftAOInDeletion) {
             if (selectedIndexList.isEmpty()) {
-                LOG.error("Error: No selected Draft Activity Offering");
-                GlobalVariables.getMessageMap().putErrorForSectionId("confirmationResultSection",
-                        CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED);
+                GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage",
+                        CourseOfferingConstants.AO_NOT_DRAFT_FOR_DELETION_ERROR);
                 return getUIFModelAndView(theForm);
+            } else {
+                GlobalVariables.getMessageMap().putWarningForSectionId("selectedAoDeleteConfirmationPage",
+                        CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE);
             }
+
         }
-
-        // GlobalVariables.getMessageMap().putErrorForSectionId("add_planned_course", PlanConstants.ERROR_KEY_UNKNOWN_COURSE);
-
-/*
-        Integer toBeDeleted = selectedIndexList.size();
-
-        if(selectedIndexList.size() >= 1) {
-            GlobalVariables.getMessageMap().putWarningForSectionId("confirmationResultSection",
-                    CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE, toBeDeleted.toString());
-        }
-
-*/
         return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
     }
 

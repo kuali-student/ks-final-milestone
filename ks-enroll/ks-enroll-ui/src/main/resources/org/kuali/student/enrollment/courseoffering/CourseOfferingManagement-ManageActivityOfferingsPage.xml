@@ -33,7 +33,7 @@
     </bean>
 
 
-    <bean id="KS-CourseOfferingManagement-ActivityOfferingResultSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseOfferingManagement-ActivityOfferingResultSection" p:id="ActivityOfferingResultSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="@{theCourseOffering.courseOfferingCode} - @{theCourseOffering.courseOfferingTitle} (@{theCourseOffering.creditCnt} Credits)" />
         <property name="disclosure.render" value="false"/>
         <property name="header.cssClasses">
