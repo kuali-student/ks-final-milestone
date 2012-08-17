@@ -7,7 +7,7 @@ import org.apache.commons.collections.keyvalue.MultiKey;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.class1.state.service.StateServiceDecorator;
+import org.kuali.student.r2.core.class1.state.decorators.StateServiceDecorator;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 
