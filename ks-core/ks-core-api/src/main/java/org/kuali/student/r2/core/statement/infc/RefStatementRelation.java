@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.statement.infc;
+package org.kuali.student.r2.core.statement.infc;
 
 import org.kuali.student.r2.common.infc.Relationship;
 

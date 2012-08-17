@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.statement.service;
+package org.kuali.student.r2.core.statement.service;
 
 import java.util.List;
 
@@ -34,9 +34,9 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.class1.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.class1.statement.dto.StatementInfo;
+import org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementInfo;
 import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 

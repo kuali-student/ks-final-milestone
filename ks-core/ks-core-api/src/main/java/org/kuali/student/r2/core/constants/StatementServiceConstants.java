@@ -16,10 +16,10 @@
 package org.kuali.student.r2.core.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.core.class1.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.class1.statement.dto.StatementInfo;
-import org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 
 /**
  * This class holds the constants used by the Statement service

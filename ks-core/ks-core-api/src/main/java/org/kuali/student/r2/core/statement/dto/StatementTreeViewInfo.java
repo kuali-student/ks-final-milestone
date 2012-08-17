@@ -13,13 +13,13 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.statement.dto;
+package org.kuali.student.r2.core.statement.dto;
 
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.core.class1.statement.infc.ReqComponent;
-import org.kuali.student.r2.core.class1.statement.infc.StatementTreeView;
+import org.kuali.student.r2.core.statement.infc.ReqComponent;
+import org.kuali.student.r2.core.statement.infc.StatementTreeView;
 //import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -103,16 +103,4 @@ public class StatementTreeViewInfo extends IdEntityInfo implements StatementTree
     public String toString() {
         return "StatementTreeViewInfo[id=" + getId() + "]";
     }
-
-//    @Deprecated
-//	public RichTextInfo getDesc() {
-//		return this.getDescr();
-//	}
-//
-//    @Deprecated
-//	public void setDesc(RichTextInfo desc) {
-//		this.setDescr(desc);
-//		
-//	}
-
 }

@@ -13,12 +13,12 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.statement.dto;
+package org.kuali.student.r2.core.statement.dto;
 
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.core.class1.statement.infc.Statement;
+import org.kuali.student.r2.core.statement.infc.Statement;
 //import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -54,13 +54,23 @@ public class StatementInfo extends IdEntityInfo implements Statement,
 	public StatementInfo() {
 	}
 
-    public void setOperator(StatementOperator operator) {
-        this.operator = operator;
+    public StatementInfo(Statement statement) {
+        super(statement);
+        if (null != statement) {
+            // shallow copy is fine here
+            this.operator = statement.getOperator();
+            this.statementIds = new ArrayList<String>(statement.getStatementIds());
+            this.reqComponentIds = new ArrayList<String>(statement.getReqComponentIds());
+        }
     }
 
 	@Override
 	public StatementOperator getOperator() {
 		return this.operator;
+    }
+
+    public void setOperator(StatementOperator operator) {
+        this.operator = operator;
 	}
 
 	@Override
@@ -91,16 +101,5 @@ public class StatementInfo extends IdEntityInfo implements Statement,
 	public String toString() {
 		return "StatementInfo[id=" + getId() + "]";
 	}
-
-	// @Deprecated
-	// public RichTextInfo getDesc() {
-	// return this.getDescr();
-	// }
-	//
-	// @Deprecated
-	// public void setDesc(RichTextInfo desc) {
-	// this.setDescr(desc);
-	//
-	// }
 
 }

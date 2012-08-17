@@ -10,7 +10,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.service.impl.ComplexSubstructuresHelper;
-import org.kuali.student.r2.core.class1.statement.dto.StatementInfo;
+import org.kuali.student.r2.core.statement.dto.StatementInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
