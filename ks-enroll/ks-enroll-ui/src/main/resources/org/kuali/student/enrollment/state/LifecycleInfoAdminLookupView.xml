@@ -23,7 +23,7 @@
     <!-- LookupView -->
     <bean id="KS-LifecycleInfo-AdminLookupView" parent="KSLookupView"
           p:title="Type-Type Relation Lookup"
-          p:dataObjectClassName="org.kuali.student.r2.core.state.dto.LifecycleInfo"
+          p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.LifecycleInfo"
           p:viewHelperServiceClass="org.kuali.student.enrollment.state.service.impl.LifecycleInfoAdminLookupableImpl">
 
         <property name="criteriaFields">

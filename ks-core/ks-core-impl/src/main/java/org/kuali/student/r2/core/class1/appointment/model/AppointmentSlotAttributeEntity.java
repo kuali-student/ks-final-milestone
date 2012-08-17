@@ -20,8 +20,6 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -33,14 +31,14 @@ import javax.persistence.Table;
 @Table(name = "KSEN_APPT_SLOT_ATTR")
 public class AppointmentSlotAttributeEntity extends BaseAttributeEntity<AppointmentSlotEntity> {
 
-    public AppointmentSlotAttributeEntity() {
+	public AppointmentSlotAttributeEntity() {
 		super();
-    }
+	}
 
 	public AppointmentSlotAttributeEntity(Attribute att,
 			AppointmentSlotEntity owner) {
 		super(att, owner);
-    }
-
-
+	}
+   
+	
 }

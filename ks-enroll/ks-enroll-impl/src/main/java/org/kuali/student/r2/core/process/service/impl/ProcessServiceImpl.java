@@ -30,7 +30,7 @@ import org.kuali.student.r2.core.process.model.InstructionEntity;
 import org.kuali.student.r2.core.process.model.ProcessCategoryEntity;
 import org.kuali.student.r2.core.process.model.ProcessEntity;
 import org.kuali.student.r2.core.process.service.ProcessService;
-import org.kuali.student.r2.common.state.service.StateService;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;

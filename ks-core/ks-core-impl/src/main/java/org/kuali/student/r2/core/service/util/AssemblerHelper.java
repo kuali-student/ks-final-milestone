@@ -14,7 +14,7 @@ import org.kuali.student.r1.common.entity.Type;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.springframework.beans.BeanUtils;
 

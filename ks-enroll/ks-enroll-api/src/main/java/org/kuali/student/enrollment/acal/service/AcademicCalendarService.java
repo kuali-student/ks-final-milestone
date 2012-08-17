@@ -42,9 +42,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.state.dto.StateInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 /**
  * This service manages Academic Calendars. There are three kinds of calendars

@@ -23,9 +23,9 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
-import org.kuali.student.r2.common.constants.StateServiceConstants;
-import org.kuali.student.r2.common.state.dto.StateInfo;
-import org.kuali.student.r2.common.state.service.StateService;
+import org.kuali.student.r2.common.util.constants.StateServiceConstants;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;

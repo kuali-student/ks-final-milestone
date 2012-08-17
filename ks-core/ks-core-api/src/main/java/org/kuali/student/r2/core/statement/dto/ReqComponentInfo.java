@@ -13,12 +13,12 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.statement.dto;
+package org.kuali.student.r2.core.class1.statement.dto;
 
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.core.statement.infc.ReqCompField;
-import org.kuali.student.r2.core.statement.infc.ReqComponent;
+import org.kuali.student.r2.core.class1.statement.infc.ReqCompField;
+import org.kuali.student.r2.core.class1.statement.infc.ReqComponent;
 //import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;

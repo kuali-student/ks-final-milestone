@@ -9,7 +9,6 @@
 package org.kuali.student.r2.core.class1.organization.service.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
@@ -17,11 +16,6 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r1.common.validator.old.Validator;
 import org.kuali.student.r1.core.organization.dao.OrganizationDao;
-import org.kuali.student.r1.core.organization.entity.Org;
-import org.kuali.student.r1.core.organization.entity.OrgOrgRelation;
-import org.kuali.student.r1.core.organization.entity.OrgPersonRelation;
-import org.kuali.student.r1.core.organization.entity.OrgPersonRelationType;
-import org.kuali.student.r1.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -42,15 +36,13 @@ import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.jws.WebParam;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class OrganizationServiceMockImpl implements OrganizationService {
 

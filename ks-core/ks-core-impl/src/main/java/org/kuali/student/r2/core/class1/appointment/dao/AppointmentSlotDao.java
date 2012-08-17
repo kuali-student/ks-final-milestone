@@ -21,8 +21,6 @@ import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
 
 import java.util.List;
 
-import static javax.persistence.TemporalType.DATE;
-
 /**
  * JPQL queries for Appointment Slots.
  *

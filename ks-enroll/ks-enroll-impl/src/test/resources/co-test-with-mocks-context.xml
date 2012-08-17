@@ -26,7 +26,7 @@
     </bean>
     <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceMockImpl">
     </bean>
-    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl">
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl">
     </bean>
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl">
     </bean>

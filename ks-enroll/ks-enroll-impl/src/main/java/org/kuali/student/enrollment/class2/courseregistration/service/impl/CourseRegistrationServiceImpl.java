@@ -9,11 +9,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r2.core.statement.service.StatementService;
-import org.kuali.student.r2.core.statement.util.PropositionBuilder;
-import org.kuali.student.r2.core.statement.util.RulesEvaluationUtil;
+import org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.class1.statement.service.StatementService;
+import org.kuali.student.r2.core.class1.statement.util.PropositionBuilder;
+import org.kuali.student.r2.core.class1.statement.util.RulesEvaluationUtil;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;

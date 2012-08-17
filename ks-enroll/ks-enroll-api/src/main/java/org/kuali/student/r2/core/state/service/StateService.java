@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.state.service;
+package org.kuali.student.r2.core.class1.state.service;
 
 import java.util.List;
 
@@ -37,9 +37,9 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
-import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.r2.core.state.dto.LifecycleInfo;
-import org.kuali.student.r2.common.constants.StateServiceConstants;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
+import org.kuali.student.r2.common.util.constants.StateServiceConstants;
 
 /**
  * Provides a state management and state flow information.

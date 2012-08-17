@@ -19,8 +19,8 @@ package org.kuali.student.r2.core.class1.state.service.impl;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.state.dto.LifecycleInfo;
-import org.kuali.student.r2.common.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 
 
 /**

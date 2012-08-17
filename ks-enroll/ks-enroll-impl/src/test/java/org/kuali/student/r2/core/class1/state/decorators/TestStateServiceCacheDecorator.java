@@ -4,7 +4,6 @@
  */
 package org.kuali.student.r2.core.class1.state.decorators;
 
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,7 +13,6 @@ import org.junit.BeforeClass;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl;
-import org.kuali.student.r2.core.state.dto.LifecycleInfo;
 
 /**
  *

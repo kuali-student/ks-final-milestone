@@ -23,7 +23,7 @@
     <!-- InquiryView -->
     <bean id="KS-StateInfo-AdminInquiryView" parent="KSInquiryView">
         <property name="headerText" value="State Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.student.r2.core.state.dto.StateInfo"/>
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.class1.state.dto.StateInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.state.service.impl.StateInfoAdminInquirableImpl" />
         <property name="Items">
             <list>

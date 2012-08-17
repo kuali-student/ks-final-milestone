@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- TypeInfo-->
 	<bean id="TypeInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="typeInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.TypeInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.class1.type.dto.TypeInfo"/>
 		<property name="objectLabel" value="Type"/>
 		<property name="objectDescription">
 			<value>

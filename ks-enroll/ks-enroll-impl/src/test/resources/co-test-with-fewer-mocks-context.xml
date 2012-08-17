@@ -31,7 +31,7 @@
   </bean>-->
   
 <!--  STILL USING THESE MOCKS-->
-    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl"/>
 
     <bean id="courseService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl">
     </bean>

@@ -20,8 +20,6 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -36,9 +34,9 @@ public class AppointmentAttributeEntity extends BaseAttributeEntity<AppointmentE
     public AppointmentAttributeEntity() {
     }
 
-    public AppointmentAttributeEntity(Attribute att, AppointmentEntity owner) {
+	public AppointmentAttributeEntity(Attribute att, AppointmentEntity owner) {
 		super(att, owner);
-    }
+	}
 
-
-    }
+    
+}

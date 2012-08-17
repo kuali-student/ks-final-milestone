@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.statement.dto;
+package org.kuali.student.r2.core.class1.statement.dto;
 
 import javax.xml.bind.annotation.XmlEnum;
 

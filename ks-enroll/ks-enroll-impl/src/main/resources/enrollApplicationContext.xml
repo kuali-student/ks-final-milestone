@@ -170,7 +170,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     </bean>
 
-    <bean id="typeMockService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl">
+    <bean id="typeMockService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl">
     </bean>
 
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">

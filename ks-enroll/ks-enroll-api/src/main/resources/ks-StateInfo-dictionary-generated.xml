@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- StateInfo-->
 	<bean id="StateInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="stateInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.state.dto.StateInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.class1.state.dto.StateInfo"/>
 		<property name="objectLabel" value="State"/>
 		<property name="objectDescription">
 			<value>

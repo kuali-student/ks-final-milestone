@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -34,7 +35,6 @@ import java.util.*;
 import org.kuali.student.enrollment.roster.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.roster.dto.LprRosterInfo;
 import org.kuali.student.enrollment.roster.service.LprRosterService;
-import org.kuali.student.r2.common.dto.TypeInfo;
 
 public class GradingServiceImpl implements GradingService {
     private LprService lprService;

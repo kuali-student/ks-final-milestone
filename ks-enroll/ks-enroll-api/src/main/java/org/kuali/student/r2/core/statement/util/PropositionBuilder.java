@@ -1,4 +1,4 @@
-package org.kuali.student.r2.core.statement.util;
+package org.kuali.student.r2.core.class1.statement.util;
 
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.framework.engine.Agenda;
@@ -19,10 +19,10 @@ import org.kuali.student.common.util.krms.proposition.SingleCourseCompletionProp
 import org.kuali.student.common.util.krms.proposition.SingleCourseEnrollmentProposition;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.core.constants.StatementServiceConstants;
-import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementOperator;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.class1.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.class1.statement.dto.StatementOperator;
+import org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;

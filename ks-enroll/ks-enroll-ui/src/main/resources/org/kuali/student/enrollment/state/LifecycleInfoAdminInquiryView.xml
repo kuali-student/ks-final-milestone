@@ -23,7 +23,7 @@
     <!-- InquiryView -->
     <bean id="KS-LifecycleInfo-AdminInquiryView" parent="KSInquiryView">
         <property name="headerText" value="Lifecycle Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.student.r2.core.state.dto.LifecycleInfo"/>
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.class1.state.dto.LifecycleInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.state.service.impl.LifecycleInfoAdminInquirableImpl" />
         <property name="Items">
             <list>

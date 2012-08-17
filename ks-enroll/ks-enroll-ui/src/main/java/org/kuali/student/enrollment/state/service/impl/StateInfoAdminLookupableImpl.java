@@ -17,10 +17,9 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.constants.StateServiceConstants;
-import org.kuali.student.r2.core.state.dto.LifecycleInfo;
-import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.common.util.constants.StateServiceConstants;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 
 public class StateInfoAdminLookupableImpl
         extends LookupableImpl {

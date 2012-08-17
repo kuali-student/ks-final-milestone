@@ -1,27 +1,20 @@
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
-import javax.jws.WebService;
 
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 
 import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r1.common.search.service.SearchDispatcher;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.search.service.impl.SearchManagerImpl;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -45,11 +38,6 @@ import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
-import org.kuali.student.r2.common.class1.state.model.StateEntity;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.state.dto.StateInfo;
-import org.kuali.student.r2.common.state.service.StateService;
-import org.kuali.student.r2.common.type.service.TypeService;
 
 import org.springframework.transaction.annotation.Transactional;
 

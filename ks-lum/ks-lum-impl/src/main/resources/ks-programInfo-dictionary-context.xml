@@ -4206,7 +4206,7 @@
 		parent="baseComplex">
 		<property name="name" value="statement" />
 		<property name="dataObjectStructure"
-			ref="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo" />
+			ref="org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo" />
 	</bean>
 	<bean id="programRequirementInfo.statement" parent="programRequirementInfo.statement-parent" />
 

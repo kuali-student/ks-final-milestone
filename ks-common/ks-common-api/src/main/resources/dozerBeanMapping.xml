@@ -24,7 +24,7 @@
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.common.dto.TypeInfo</class-a>
-		<class-b>org.kuali.student.r2.common.dto.TypeInfo</class-b>
+		<class-b>org.kuali.student.r2.core.class1.type.dto.TypeInfo</class-b>
 		<field>
 			<a>id</a>
 			<b>key</b>

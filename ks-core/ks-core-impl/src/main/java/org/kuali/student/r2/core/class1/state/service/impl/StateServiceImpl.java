@@ -3,16 +3,12 @@ package org.kuali.student.r2.core.class1.state.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.core.class1.state.dao.LifecycleDao;
-import org.kuali.student.r2.core.class1.state.dao.StateDao;
-import org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao;
-import org.kuali.student.r2.common.class1.state.model.LifecycleEntity;
-import org.kuali.student.r2.common.class1.state.model.StateEntity;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -26,44 +22,47 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.state.dto.LifecycleInfo;
-import org.kuali.student.r2.common.state.dto.StateInfo;
-import org.kuali.student.r2.common.state.service.StateService;
-
+import org.kuali.student.r2.core.class1.state.dao.LifecycleDao;
+import org.kuali.student.r2.core.class1.state.dao.StateDao;
+import org.kuali.student.r2.core.class1.state.model.LifecycleEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(name = "StateService", serviceName = "StateService", portName = "StateService", targetNamespace = "http://student.kuali.org/wsdl/state")
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-public class StateServiceImpl implements StateService{
+@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+public class StateServiceImpl implements StateService {
 
-	private StateDao stateDao;
-	private LifecycleDao lifecycleDao;
+    private StateDao stateDao;
+    private LifecycleDao lifecycleDao;
     private CriteriaLookupService lifecycleCriteriaLookupService;
     private CriteriaLookupService stateCriteriaLookupService;
-	
-	public StateDao getStateDao() {
-		return stateDao;
-	}
 
-	public void setStateDao(StateDao stateDao) {
-		this.stateDao = stateDao;
-	}
+    public StateDao getStateDao() {
+        return stateDao;
+    }
 
-	public LifecycleDao getLifecycleDao() {
+    public void setStateDao(StateDao stateDao) {
+        this.stateDao = stateDao;
+    }
+
+    public LifecycleDao getLifecycleDao() {
         return lifecycleDao;
     }
 
     public void setLifecycleDao(LifecycleDao lifecycleDao) {
         this.lifecycleDao = lifecycleDao;
     }
-    
+
     public CriteriaLookupService getLifecycleCriteriaLookupService() {
         return lifecycleCriteriaLookupService;
     }
 
     public void setLifecycleCriteriaLookupService(CriteriaLookupService lifecycleCriteriaLookupService) {
         this.lifecycleCriteriaLookupService = lifecycleCriteriaLookupService;
-    }	
+    }
 
     public CriteriaLookupService getStateCriteriaLookupService() {
         return stateCriteriaLookupService;
@@ -115,7 +114,7 @@ public class StateServiceImpl implements StateService{
         }
         return result;
     }
-    
+
     @Override
     public List<String> getLifecycleKeysByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LifecycleEntity> lifecycles = lifecycleDao.getLifecyclesByRefObjectUri(refObjectUri);
@@ -127,7 +126,7 @@ public class StateServiceImpl implements StateService{
         }
         return result;
     }
-    
+
     @Override
     public List<String> searchForLifecycleKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> lifecycleKeys = new ArrayList<String>();
@@ -139,7 +138,7 @@ public class StateServiceImpl implements StateService{
         }
         return lifecycleKeys;
     }
-    
+
     @Override
     public List<LifecycleInfo> searchForLifecycles(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LifecycleInfo> lifecycleInfos = new ArrayList<LifecycleInfo>();
@@ -296,8 +295,8 @@ public class StateServiceImpl implements StateService{
     @Override
     @Transactional
     public StateInfo updateState(String stateKey, StateInfo stateInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException, 
-            InvalidParameterException, MissingParameterException, OperationFailedException, 
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         StateEntity entity = stateDao.find(stateKey);
         if (entity == null) {
@@ -313,8 +312,8 @@ public class StateServiceImpl implements StateService{
 
     @Override
     @Transactional
-    public StatusInfo deleteState(String stateKey, ContextInfo contextInfo) 
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
+    public StatusInfo deleteState(String stateKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         StateEntity entity = stateDao.find(stateKey);
         if (entity == null) {

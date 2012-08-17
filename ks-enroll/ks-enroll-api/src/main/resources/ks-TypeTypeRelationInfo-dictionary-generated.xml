@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- TypeTypeRelationInfo-->
 	<bean id="TypeTypeRelationInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="typeTypeRelationInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.TypeTypeRelationInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo"/>
 		<property name="objectLabel" value="Type Type Relation"/>
 		<property name="objectDescription">
 			<value>

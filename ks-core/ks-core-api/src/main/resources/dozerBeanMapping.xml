@@ -251,7 +251,7 @@
 	<mapping>
 		<class-a>org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo
 		</class-a>
-		<class-b>org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo
+		<class-b>org.kuali.student.r2.core.class1.statement.dto.RefStatementRelationInfo
 		</class-b>
 		<field
 			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
@@ -276,13 +276,13 @@
 	<mapping>
 		<class-a>org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo
 		</class-a>
-		<class-b>org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo
+		<class-b>org.kuali.student.r2.core.class1.statement.dto.ReqCompFieldInfo
 		</class-b>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.core.statement.dto.ReqComponentInfo
 		</class-a>
-		<class-b>org.kuali.student.r2.core.statement.dto.ReqComponentInfo
+		<class-b>org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo
 		</class-b>
 		<field>
 			<a>metaInfo</a>
@@ -304,7 +304,7 @@
 	<mapping>
 		<class-a>org.kuali.student.r1.core.statement.dto.StatementInfo
 		</class-a>
-		<class-b>org.kuali.student.r2.core.statement.dto.StatementInfo
+		<class-b>org.kuali.student.r2.core.class1.statement.dto.StatementInfo
 		</class-b>
 		<field
 			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
@@ -333,7 +333,7 @@
 	<mapping>
 		<class-a>org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo
 		</class-a>
-		<class-b>org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo
+		<class-b>org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo
 		</class-b>
 		<field
 			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">

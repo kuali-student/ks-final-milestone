@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.state.dto;
+package org.kuali.student.r2.core.class1.state.dto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.core.state.infc.State;
+import org.kuali.student.r2.core.class1.state.infc.State;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.w3c.dom.Element;

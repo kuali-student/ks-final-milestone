@@ -23,7 +23,7 @@
     <!-- InquiryView -->
     <bean id="KS-TypeTypeRelationInfo-AdminInquiryView" parent="KSInquiryView">
         <property name="headerText" value="Type-Type Relation Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo"/>
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.type.service.impl.TypeTypeRelationInfoAdminInquirableImpl" />
         <property name="Items">
             <list>

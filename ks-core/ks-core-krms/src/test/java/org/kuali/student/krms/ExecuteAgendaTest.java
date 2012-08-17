@@ -29,7 +29,7 @@ import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.student.krms.KSKRMSTestCase;
 import org.kuali.rice.test.BaselineTestCase.BaselineMode;
 import org.kuali.rice.test.BaselineTestCase.Mode;
-import org.kuali.student.r2.core.statement.util.RulesEvaluationUtil;
+import org.kuali.student.r2.core.class1.statement.util.RulesEvaluationUtil;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -4,10 +4,10 @@
 	<import resource="classpath:ks-base-dictionary-context.xml" />
 
 	<!-- StatementInfo -->
-	<bean id="org.kuali.student.r2.core.statement.dto.StatementInfo-parent"
+	<bean id="org.kuali.student.r2.core.class1.statement.dto.StatementInfo-parent"
 		abstract="true" parent="objectStructureDefinition">
 		<property name="name"
-			value="org.kuali.student.r2.core.statement.dto.StatementInfo" />
+			value="org.kuali.student.r2.core.class1.statement.dto.StatementInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="statementInfo.descr" />
@@ -23,8 +23,8 @@
 
 		<property name="hasMetaData" value="true" />
 	</bean>
-	<bean id="org.kuali.student.r2.core.statement.dto.StatementInfo"
-		parent="org.kuali.student.r2.core.statement.dto.StatementInfo-parent" />
+	<bean id="org.kuali.student.r2.core.class1.statement.dto.StatementInfo"
+		parent="org.kuali.student.r2.core.class1.statement.dto.StatementInfo-parent" />
 
 	<bean id="statementInfo.descr-parent" abstract="true" parent="baseComplex">
 		<property name="name" value="descr" />
@@ -113,10 +113,10 @@
 	<bean id="R1statementInfo.typeKey" parent="R1statementInfo.typeKey-parent" />
 
 	<!-- ReqComponentInfo -->
-	<bean id="org.kuali.student.r2.core.statement.dto.ReqComponentInfo-parent"
+	<bean id="org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo-parent"
 		abstract="true" parent="objectStructureDefinition">
 		<property name="name"
-			value="org.kuali.student.r2.core.statement.dto.ReqComponentInfo" />
+			value="org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo" />
 		<property name="attributes">
 			<list>
 				<!-- TODO KSCM COnfirm it's not used doesn t exist on java class <ref 
@@ -132,8 +132,8 @@
 		</property>
 		<property name="hasMetaData" value="true" />
 	</bean>
-	<bean id="org.kuali.student.r2.core.statement.dto.ReqComponentInfo"
-		parent="org.kuali.student.r2.core.statement.dto.ReqComponentInfo-parent" />
+	<bean id="org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo"
+		parent="org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo-parent" />
 
 	<bean
 		id="R1org.kuali.student.r1.core.statement.dto.ReqComponentInfo-parent"
@@ -197,7 +197,7 @@
 		parent="baseComplexRepeating">
 		<property name="name" value="reqCompFields" />
 		<property name="dataObjectStructure"
-			ref="org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo" />
+			ref="org.kuali.student.r2.core.class1.statement.dto.ReqCompFieldInfo" />
 		<property name="caseConstraint">
 			<bean parent="caseConstraint">
 				<property name="operator" value="EQUALS" />
@@ -344,10 +344,10 @@
 	<bean id="reqComponentInfo.typeKey" parent="reqComponentInfo.typeKey-parent" />
 
 	<!-- ReqCompFieldInfo -->
-	<bean id="org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo-parent"
+	<bean id="org.kuali.student.r2.core.class1.statement.dto.ReqCompFieldInfo-parent"
 		abstract="true" parent="objectStructureDefinition">
 		<property name="name"
-			value="org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo" />
+			value="org.kuali.student.r2.core.class1.statement.dto.ReqCompFieldInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="reqCompFieldInfo.id" />
@@ -358,8 +358,8 @@
 		</property>
 		<property name="hasMetaData" value="true" />
 	</bean>
-	<bean id="org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo"
-		parent="org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo-parent" />
+	<bean id="org.kuali.student.r2.core.class1.statement.dto.ReqCompFieldInfo"
+		parent="org.kuali.student.r2.core.class1.statement.dto.ReqCompFieldInfo-parent" />
 
 	<bean id="org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo-parent"
 		abstract="true" parent="objectStructureDefinition">
@@ -773,10 +773,10 @@
 
 	<!-- StatementTreeViewInfo -->
 	<bean
-		id="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo-parent"
+		id="org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo-parent"
 		abstract="true" parent="objectStructureDefinition">
 		<property name="name"
-			value="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo" />
+			value="org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="statementTreeViewInfo.descr" />
@@ -813,8 +813,8 @@
 		<property name="hasMetaData" value="true" />
 	</bean>
 
-	<bean id="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo"
-		parent="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo-parent" />
+	<bean id="org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo"
+		parent="org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo-parent" />
 
 	<bean id="org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo"
 		parent="org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo-parent" />
@@ -866,7 +866,7 @@
 		parent="baseComplexRepeating">
 		<property name="name" value="reqComponents" />
 		<property name="dataObjectStructure"
-			ref="org.kuali.student.r2.core.statement.dto.ReqComponentInfo" />
+			ref="org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo" />
 	</bean>
 	<bean id="statementTreeViewInfo.reqComponents" parent="statementTreeViewInfo.reqComponents-parent" />
 
@@ -888,7 +888,7 @@
 		parent="baseComplexRepeating">
 		<property name="name" value="statements" />
 		<property name="dataObjectStructure"
-			ref="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo" />
+			ref="org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo" />
 	</bean>
 	<bean id="statementTreeViewInfo.statements" parent="statementTreeViewInfo.statements-parent" />
 

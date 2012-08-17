@@ -15,9 +15,9 @@ import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgCodeInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementInfo;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.class1.statement.dto.StatementInfo;
+import org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo;
 
 public class CoreConverterTest {
     

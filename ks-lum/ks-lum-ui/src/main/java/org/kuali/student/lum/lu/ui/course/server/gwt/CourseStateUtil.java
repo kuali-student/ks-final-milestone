@@ -3,8 +3,8 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo;
 
 public class CourseStateUtil {
 

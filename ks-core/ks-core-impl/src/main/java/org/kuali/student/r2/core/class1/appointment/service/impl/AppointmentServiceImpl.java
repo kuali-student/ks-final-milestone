@@ -17,15 +17,10 @@
 package org.kuali.student.r2.core.class1.appointment.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
@@ -38,14 +33,15 @@ import org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentEntity;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity;
+import org.kuali.student.r2.core.population.service.PopulationService;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
 import javax.annotation.Resource;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-
-import org.kuali.student.r2.core.population.service.PopulationService;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -205,9 +201,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         AppointmentEntity appointmentEntity = appointmentDao.find(appointmentId);
         if (null != appointmentEntity) {
             appointmentEntity.fromDto(appointmentInfo);
-
+            
             appointmentEntity.setEntityUpdated(contextInfo);
-
+            
             appointmentDao.merge(appointmentEntity);
             return appointmentEntity.toDto();
         } else {
@@ -324,9 +320,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     public AppointmentWindowInfo createAppointmentWindow(String appointmentWindowTypeKey, AppointmentWindowInfo appointmentWindowInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         // TODO: Check what to do in inconsistency between appointmentWindowTypeKey and type in appointmentWindowInfo
         AppointmentWindowEntity apptWin = new AppointmentWindowEntity(appointmentWindowTypeKey, appointmentWindowInfo);
-
+        
         apptWin.setEntityCreated(contextInfo);
-
+        
         appointmentWindowDao.persist(apptWin);
         return apptWin.toDto();
     }
@@ -337,9 +333,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         AppointmentWindowEntity appointmentWindowEntity = appointmentWindowDao.find(appointmentWindowId);
         if (null != appointmentWindowEntity) {
             appointmentWindowEntity.fromDto(appointmentWindowInfo);
-
+            
             appointmentWindowEntity.setEntityUpdated(contextInfo);
-
+            
             appointmentWindowDao.merge(appointmentWindowEntity);
             return appointmentWindowEntity.toDto();
         } else {
@@ -414,9 +410,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public AppointmentSlotInfo createAppointmentSlot(String appointmentWindowId, String appointmentSlotTypeKey, AppointmentSlotInfo appointmentSlotInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentSlotEntity appointmentSlotEntity = new AppointmentSlotEntity(appointmentSlotTypeKey, appointmentSlotInfo);
-
+       
         appointmentSlotEntity.setEntityCreated(contextInfo);
-
+        
         // Need to manually set the entity since appointmentSlotInfo only has an id for its corresponding AppointmentWindow
         AppointmentWindowEntity windowEntity = appointmentWindowDao.find(appointmentWindowId);
         if(null == windowEntity) {
@@ -496,9 +492,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         AppointmentSlotEntity appointmentSlotEntity = appointmentSlotDao.find(appointmentSlotId);
         if (null != appointmentSlotEntity) {
             appointmentSlotEntity.fromDto(appointmentSlotInfo);
-
+            
             appointmentSlotEntity.setEntityUpdated(contextInfo);
-
+            
             appointmentSlotDao.merge(appointmentSlotEntity);
             return appointmentSlotEntity.toDto();
         } else {

@@ -198,7 +198,7 @@
         <aop:aspect id="dataAccessToBusinessException"
             ref="mapExceptionAdvisor">
             <aop:after-throwing
-                pointcut="execution(* org.kuali.student.r2.core.statement.service.*.*(..))"
+                pointcut="execution(* org.kuali.student.r2.core.class1.statement.service.*.*(..))"
                 method="afterThrowing" throwing="ex" />
         </aop:aspect>
     </aop:config>

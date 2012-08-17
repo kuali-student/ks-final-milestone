@@ -13,10 +13,10 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.statement.dto;
+package org.kuali.student.r2.core.class1.statement.dto;
 
 import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.kuali.student.r2.core.statement.infc.RefStatementRelation;
+import org.kuali.student.r2.core.class1.statement.infc.RefStatementRelation;
 //import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;

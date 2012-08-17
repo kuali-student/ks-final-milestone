@@ -12,10 +12,10 @@ import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.r1.common.validator.ServerDateParser;
-import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementInfo;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.class1.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.class1.statement.dto.StatementInfo;
+import org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
@@ -24,9 +24,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestStatementDictionary {
 
-//	 org.kuali.student.r2.core.statement.dto.StatementInfo - Used Instead
-//	 org.kuali.student.r2.core.statement.dto.ReqComponentInfo - Used Instead
-//	 org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo - Used Instead
+//	 org.kuali.student.r2.core.class1.statement.dto.StatementInfo - Used Instead
+//	 org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo - Used Instead
+//	 org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo - Used Instead
 	
 	@Test
 	public void testLoadStatementInfoDictionary() {

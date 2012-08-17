@@ -281,7 +281,7 @@
       <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
         <property name="jaxWsService" value="true" />
         <property name="service" ref="typeServiceCacheDecorator" />
-        <property name="serviceInterface" value="org.kuali.student.r2.common.type.service.TypeService" />
+        <property name="serviceInterface" value="org.kuali.student.r2.core.class1.type.service.TypeService" />
         <property name="localServiceName" value="TypeService" />
         <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/type" />
         <property name="busSecurity" value="${ks.lum.bus.security}" />
@@ -295,7 +295,7 @@
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="stateServiceCacheDecorator" />
-                <property name="serviceInterface" value="org.kuali.student.r2.common.state.service.StateService" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.class1.state.service.StateService" />
                 <property name="localServiceName" value="StateService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/state" />
                 <property name="busSecurity" value="${ks.lum.bus.security}" />
@@ -581,7 +581,7 @@
     <property name="luiService" ref="luiService" />
   </bean>
 
-  <bean id="rulesEvaluationUtil" class="org.kuali.student.r2.core.statement.util.RulesEvaluationUtil">
+  <bean id="rulesEvaluationUtil" class="org.kuali.student.r2.core.class1.statement.util.RulesEvaluationUtil">
     <property name="termResolvers">
       <list>
         <ref bean="completedCoursesResolver" />
@@ -589,7 +589,7 @@
     </property>
   </bean>
 
-  <bean id="propositionBuilder" class="org.kuali.student.r2.core.statement.util.PropositionBuilder" />
+  <bean id="propositionBuilder" class="org.kuali.student.r2.core.class1.statement.util.PropositionBuilder" />
 
   <bean id="ks.exp.courseRegistrationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">

@@ -2,7 +2,7 @@ package org.kuali.student.lum.dto.test;
 
 import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.service.impl.ComplexSubstructuresHelper;
-import org.kuali.student.r2.core.statement.dto.StatementInfo;
+import org.kuali.student.r2.core.class1.statement.dto.StatementInfo;
 import org.kuali.student.r2.lum.clu.dto.*;
 
 import java.lang.reflect.Field;

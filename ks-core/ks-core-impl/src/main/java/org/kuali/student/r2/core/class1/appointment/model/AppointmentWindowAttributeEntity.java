@@ -20,8 +20,6 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -33,14 +31,14 @@ import javax.persistence.Table;
 @Table(name = "KSEN_APPT_WINDOW_ATTR")
 public class AppointmentWindowAttributeEntity  extends BaseAttributeEntity<AppointmentWindowEntity> {
 
-    public AppointmentWindowAttributeEntity() {
+	public AppointmentWindowAttributeEntity() {
 		super();
-    }
+	}
 
 	public AppointmentWindowAttributeEntity(Attribute att,
 			AppointmentWindowEntity owner) {
 		super(att, owner);
-    }
+	}
 
-
+    
 }

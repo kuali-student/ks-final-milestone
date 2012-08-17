@@ -6,13 +6,12 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 //import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.enrollment.courseoffering.dto.*;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
-import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 public  class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingServiceDecorator implements HoldsPermissionService{
     public static final String ENRLLMENT_NAMESPACE = "KS-ENROLL";

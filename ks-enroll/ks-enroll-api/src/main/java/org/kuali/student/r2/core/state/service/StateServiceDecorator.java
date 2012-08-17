@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.r2.core.state.service;
+package org.kuali.student.r2.core.class1.state.service;
 
 import java.util.List;
 
@@ -31,23 +31,23 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
-import org.kuali.student.r2.core.state.dto.LifecycleInfo;
-import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 
 /**
  *
  * @author nwright
  */
 
-public class StateServiceDecorator implements StateService {
+public class StateServiceDecorator implements org.kuali.student.r2.core.class1.state.service.StateService {
     
-    private StateService nextDecorator;
+    private org.kuali.student.r2.core.class1.state.service.StateService nextDecorator;
 
-    public StateService getNextDecorator() {
+    public org.kuali.student.r2.core.class1.state.service.StateService getNextDecorator() {
         return nextDecorator;
     }
 
-    public void setNextDecorator(StateService nextDecorator) {
+    public void setNextDecorator(org.kuali.student.r2.core.class1.state.service.StateService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
 
