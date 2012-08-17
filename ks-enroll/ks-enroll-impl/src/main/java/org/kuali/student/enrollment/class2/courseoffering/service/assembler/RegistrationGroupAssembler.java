@@ -21,14 +21,14 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 public class RegistrationGroupAssembler {
 
     private LuiService luiService;
-    private RegistrationGroupTransformer regGroupTransformer;
+    private RegistrationGroupTransformer registrationGroupTransformer;
 
-    public RegistrationGroupTransformer getRegGroupTransformer() {
-        return regGroupTransformer;
+    public RegistrationGroupTransformer getRegistrationGroupTransformer() {
+        return registrationGroupTransformer;
     }
 
-    public void setRegGroupTransformer(RegistrationGroupTransformer transformer) {
-        this.regGroupTransformer = transformer;
+    public void setRegistrationGroupTransformer(RegistrationGroupTransformer registrationGroupTransformer) {
+        this.registrationGroupTransformer = registrationGroupTransformer;
     }
 
     public LuiService getLuiService() {
@@ -41,7 +41,7 @@ public class RegistrationGroupAssembler {
 
     public RegistrationGroupInfo assemble(LuiInfo lui, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (lui != null) {
-            RegistrationGroupInfo rg = regGroupTransformer.transform(lui);
+            RegistrationGroupInfo rg = registrationGroupTransformer.lui2Rg(lui, context);
             assembleLuiLuiRelations(rg, lui.getId(), context);
             return rg;
         } else {
@@ -83,7 +83,7 @@ public class RegistrationGroupAssembler {
     }
 
     public LuiInfo disassemble(RegistrationGroupInfo rg, ContextInfo context) {
-        LuiInfo lui = regGroupTransformer.transform(rg);
+        LuiInfo lui = registrationGroupTransformer.rg2Lui(rg, context);
         return lui;
     }
 }
