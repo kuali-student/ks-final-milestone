@@ -37,7 +37,16 @@ public class HolidayCalendarWrapper {
     public void setId(String id) {
         this.id = id;
     }
-    
+
+    public String getHolidayCalendarHeading(){
+        String sHeading = "No calendar available";
+        HolidayCalendarInfo holidayCalendarInfo = getHolidayCalendarInfo();
+        if (holidayCalendarInfo != null) {
+            sHeading = holidayCalendarInfo.getName();
+        }
+        return sHeading;
+    }
+
     public HolidayCalendarInfo getHolidayCalendarInfo(){
         return holidayCalendarInfo;
     }

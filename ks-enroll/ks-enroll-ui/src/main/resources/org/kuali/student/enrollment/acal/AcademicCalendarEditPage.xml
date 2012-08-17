@@ -258,7 +258,8 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
-        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarInfo.name}"/>
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarHeading}"/>
+<!--        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarInfo.name}"/> -->
         <property name="layoutManager.lineGroupPrototype.footer.render" value="@{#isAddLine}"/>
         <property name="layoutManager.lineGroupPrototype.header.style" value="margin-bottom:5px;padding-bottom:0;"/>
         <property name="addLineLabel.labelText" value=""/>
