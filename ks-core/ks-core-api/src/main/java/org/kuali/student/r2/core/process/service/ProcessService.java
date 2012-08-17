@@ -19,7 +19,16 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
@@ -48,16 +57,16 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a ProcessCategory
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException processCategoryId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processCategoryId or
+     * @throws DoesNotExistException processCategoryId not found
+     * @throws InvalidParameterException invalid processCategoryId or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processCategoryId or
+     * @throws MissingParameterException missing processCategoryId or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public ProcessCategoryInfo getProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId,
-                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -72,16 +81,16 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of ProcessCategory Ids of the given type
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException an processCategoryId in list not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processCategoryId or
+     * @throws DoesNotExistException an processCategoryId in list not found
+     * @throws InvalidParameterException invalid processCategoryId or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processCategoryId or
+     * @throws MissingParameterException missing processCategoryId or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ProcessCategoryInfo> getProcessCategoriesByIds(@WebParam(name = "processCategoryIds") List<String> processCategoryIds,
-                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -95,13 +104,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of ProcessCategory Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processTypeKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processTypeKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid processTypeKey or contextInfo
+     * @throws MissingParameterException missing processTypeKey or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> getProcessCategoryIdsByType(@WebParam(name = "processTypeKey") String processTypeKey,
-                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -115,13 +124,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of ProcessCategories
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid processKey or contextInfo
+     * @throws MissingParameterException missing processKey or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ProcessCategoryInfo> getProcessCategoriesForProcess(@WebParam(name = "processKey") String processKey,
-                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -135,13 +144,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return list of ProcessCategory Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> searchForProcessCategoryIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -155,13 +164,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return list of ProcessCategories
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ProcessCategoryInfo> searchForProcessCategories(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -187,18 +196,18 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return Results from performing the validation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException validationTypeKey not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid validationTypeKey, processInfo,
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, processInfo,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing validationTypeKey, processInfo,
+     * @throws MissingParameterException missing validationTypeKey, processInfo,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ValidationResultInfo> validateProcessCategory(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                              @WebParam(name = "processCategoryTypeKey") String processCategoryTypeKey,
-                                                              @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo,
-                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "processCategoryTypeKey") String processCategoryTypeKey,
+            @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -213,18 +222,18 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the ProcessCategory just created
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException one or more values invalid for this
+     * @throws DataValidationErrorException one or more values invalid for this
      * operation
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processInfo or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processInfo or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information designated
+     * @throws InvalidParameterException invalid processInfo or contextInfo
+     * @throws MissingParameterException missing processInfo or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information designated
      * as read-only
      */
     public ProcessCategoryInfo createProcessCategory(@WebParam(name = "processCategoryTypeKey") String processCategoryTypeKey,
-                                                     @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo,
-                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             InvalidParameterException,
             MissingParameterException,
@@ -241,23 +250,23 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the details of ProcessCategory just updated
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException One or more values invalid for this
+     * @throws DataValidationErrorException One or more values invalid for this
      * operation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException processCategoryId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processCategoryId, processInfo,
+     * @throws DoesNotExistException processCategoryId not found
+     * @throws InvalidParameterException invalid processCategoryId, processInfo,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processCategoryId, processInfo,
+     * @throws MissingParameterException missing processCategoryId, processInfo,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information designated
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information designated
      * as read-only
-     * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException The action was attempted on an out of
+     * @throws VersionMismatchException The action was attempted on an out of
      * date version.
      */
     public ProcessCategoryInfo updateProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId,
-                                                     @WebParam(name = "processInfo") ProcessCategoryInfo processInfo,
-                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "processInfo") ProcessCategoryInfo processInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -274,16 +283,16 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return status of the operation (success, failed)
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException processCategoryId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processCategoryId or
+     * @throws DoesNotExistException processCategoryId not found
+     * @throws InvalidParameterException invalid processCategoryId or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processCategoryId or
+     * @throws MissingParameterException missing processCategoryId or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId,
-                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -299,19 +308,19 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return status
-     * @throws org.kuali.student.r2.common.exceptions.AlreadyExistsException processKey already related to
+     * @throws AlreadyExistsException processKey already related to
      * processCategoryId
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException processKey or processCategoryId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processKey, processCategoryId,
+     * @throws DoesNotExistException processKey or processCategoryId not found
+     * @throws InvalidParameterException invalid processKey, processCategoryId,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processKey, processCategoryId,
+     * @throws MissingParameterException missing processKey, processCategoryId,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo addProcessToProcessCategory(@WebParam(name = "processKey") String processKey,
-                                                  @WebParam(name = "processCategoryId") String processCategoryId,
-                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "processCategoryId") String processCategoryId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws AlreadyExistsException,
             DoesNotExistException,
             InvalidParameterException,
@@ -327,18 +336,18 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return status
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException processKey or processCategoryId not found
+     * @throws DoesNotExistException processKey or processCategoryId not found
      * or unrelated
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processKey, processCategoryId,
+     * @throws InvalidParameterException invalid processKey, processCategoryId,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processKey, processCategoryId,
+     * @throws MissingParameterException missing processKey, processCategoryId,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo removeProcessFromProcessCategory(@WebParam(name = "processKey") String processKey,
-                                                       @WebParam(name = "processCategoryId") String processCategoryId,
-                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "processCategoryId") String processCategoryId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -352,14 +361,14 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a Process
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException processKey not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws DoesNotExistException processKey not found
+     * @throws InvalidParameterException invalid processKey or contextInfo
+     * @throws MissingParameterException missing processKey or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public ProcessInfo getProcess(@WebParam(name = "processKey") String processKey,
-                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -374,14 +383,14 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Process keys of the given type
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException an processKey in list not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws DoesNotExistException an processKey in list not found
+     * @throws InvalidParameterException invalid processKey or contextInfo
+     * @throws MissingParameterException missing processKey or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ProcessInfo> getProcessesByKeys(@WebParam(name = "processKeys") List<String> processKeys,
-                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -395,13 +404,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Process keys
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processTypeKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processTypeKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid processTypeKey or contextInfo
+     * @throws MissingParameterException missing processTypeKey or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> getProcessKeysByType(@WebParam(name = "processTypeKey") String processTypeKey,
-                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -415,15 +424,15 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Processes
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processCategoryId or
+     * @throws InvalidParameterException invalid processCategoryId or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processCategoryId or
+     * @throws MissingParameterException missing processCategoryId or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ProcessInfo> getProcessesForProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId,
-                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -437,13 +446,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return list of Process Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> searchForProcessKeys(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -457,10 +466,10 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return list of Processs
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ProcessInfo> searchForProcess(@WebParam(name = "criteria") QueryByCriteria criteria,
                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -489,18 +498,18 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return Results from performing the validation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException validationTypeKey not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid validationTypeKey, processInfo,
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, processInfo,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing validationTypeKey, processInfo,
+     * @throws MissingParameterException missing validationTypeKey, processInfo,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ValidationResultInfo> validateProcess(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                      @WebParam(name = "processTypeKey") String processTypeKey,
-                                                      @WebParam(name = "processInfo") ProcessInfo processInfo,
-                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "processTypeKey") String processTypeKey,
+            @WebParam(name = "processInfo") ProcessInfo processInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -516,22 +525,22 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the Process just created
-     * @throws org.kuali.student.r2.common.exceptions.AlreadyExistsException the Process being created already exists
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException one or more values invalid for this
+     * @throws AlreadyExistsException the Process being created already exists
+     * @throws DataValidationErrorException one or more values invalid for this
      * operation
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processKey, processInfo, or
+     * @throws InvalidParameterException invalid processKey, processInfo, or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processKey, processInfo, or
+     * @throws MissingParameterException missing processKey, processInfo, or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information designated
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information designated
      * as read-only
      */
     public ProcessInfo createProcess(@WebParam(name = "processKey") String processKey,
-                                     @WebParam(name = "processTypeKey") String processTypeKey,
-                                     @WebParam(name = "processInfo") ProcessInfo processInfo,
-                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "processTypeKey") String processTypeKey,
+            @WebParam(name = "processInfo") ProcessInfo processInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws AlreadyExistsException,
             DataValidationErrorException,
             InvalidParameterException,
@@ -548,23 +557,23 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the details of Process just updated
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException One or more values invalid for this
+     * @throws DataValidationErrorException One or more values invalid for this
      * operation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException processKey not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processKey, processInfo, or
+     * @throws DoesNotExistException processKey not found
+     * @throws InvalidParameterException invalid processKey, processInfo, or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processKey, processInfo, or
+     * @throws MissingParameterException missing processKey, processInfo, or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information designated
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information designated
      * as read-only
-     * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException The action was attempted on an out of
+     * @throws VersionMismatchException The action was attempted on an out of
      * date version.
      */
     public ProcessInfo updateProcess(@WebParam(name = "processKey") String processKey,
-                                     @WebParam(name = "processInfo") ProcessInfo processInfo,
-                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "processInfo") ProcessInfo processInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -581,16 +590,16 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return status of the operation (success, failed)
-     * @throws org.kuali.student.r2.common.exceptions.DependentObjectsExistException Instructions related to this
+     * @throws DependentObjectsExistException Instructions related to this
      * Process
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException processKey not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws DoesNotExistException processKey not found
+     * @throws InvalidParameterException invalid processKey or contextInfo
+     * @throws MissingParameterException missing processKey or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteProcess(@WebParam(name = "processKey") String processKey,
-                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DependentObjectsExistException,
             DoesNotExistException,
             InvalidParameterException,
@@ -605,15 +614,15 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a Check
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException checkId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException contextInfo is not valid
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException checkId or contextInfo is missing or
+     * @throws DoesNotExistException checkId not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException checkId or contextInfo is missing or
      * null
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occurred
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public CheckInfo getCheck(@WebParam(name = "checkId") String checkId,
-                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -627,15 +636,15 @@ public interface ProcessService {
      * @param contextInfo information containing the principalId and locale
      * information about the caller of service operation
      * @return a list of Check Ids of the given type
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException a checkId in list not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException contextInfo is not valid
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException checkId or contextInfo is missing or
+     * @throws DoesNotExistException a checkId in list not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException checkId or contextInfo is missing or
      * null
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<CheckInfo> getChecksByIds(@WebParam(name = "checkIds") List<String> checkIds,
-                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -649,13 +658,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Check Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid checkTypeKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing checkTypeKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid checkTypeKey or contextInfo
+     * @throws MissingParameterException missing checkTypeKey or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> getCheckIdsByType(@WebParam(name = "checkTypeKey") String checkTypeKey,
-                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -669,13 +678,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return list of Check Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> searchForCheckIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -689,13 +698,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return list of Checks
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<CheckInfo> searchForChecks(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -720,18 +729,18 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return Results from performing the validation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException validationTypeKey not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid validationTypeKey, checkInfo,
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, checkInfo,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing validationTypeKey, checkInfo,
+     * @throws MissingParameterException missing validationTypeKey, checkInfo,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ValidationResultInfo> validateCheck(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                    @WebParam(name = "checkTypeKey") String checkTypeKey,
-                                                    @WebParam(name = "checkInfo") CheckInfo checkInfo,
-                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "checkTypeKey") String checkTypeKey,
+            @WebParam(name = "checkInfo") CheckInfo checkInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -746,19 +755,19 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the Check just created
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException one or more values invalid for this
+     * @throws DataValidationErrorException one or more values invalid for this
      * operation
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException checkInfo or contextInfo is not valid
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException checkTypeKey, checkInfo or contextInfo
+     * @throws InvalidParameterException checkInfo or contextInfo is not valid
+     * @throws MissingParameterException checkTypeKey, checkInfo or contextInfo
      * is missing or null
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occurred
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information designated
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated
      * as read-only
      */
     public CheckInfo createCheck(@WebParam(name = "checkTypeKey") String checkTypeKey,
-                                 @WebParam(name = "checkInfo") CheckInfo checkInfo,
-                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "checkInfo") CheckInfo checkInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             InvalidParameterException,
             MissingParameterException,
@@ -774,22 +783,22 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the details of Check just updated
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException One or more values invalid for this
+     * @throws DataValidationErrorException One or more values invalid for this
      * operation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException checkId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException checkInfo or contextInfo is not valid
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException checkId, checkInfo, or contextInfo is
+     * @throws DoesNotExistException checkId not found
+     * @throws InvalidParameterException checkInfo or contextInfo is not valid
+     * @throws MissingParameterException checkId, checkInfo, or contextInfo is
      * missing or null
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occurred
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information designated
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated
      * as read-only
-     * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException The action was attempted on an out of
+     * @throws VersionMismatchException The action was attempted on an out of
      * date version.
      */
     public CheckInfo updateCheck(@WebParam(name = "checkId") String checkId,
-                                 @WebParam(name = "checkInfo") CheckInfo checkInfo,
-                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "checkInfo") CheckInfo checkInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -806,16 +815,16 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return status of the operation (success, failed)
-     * @throws org.kuali.student.r2.common.exceptions.DependentObjectsExistException Instructions related to this Check
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException checkIs not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException contextInfo is not valid
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException checkId or contextInfo is missing or
+     * @throws DependentObjectsExistException Instructions related to this Check
+     * @throws DoesNotExistException checkIs not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException checkId or contextInfo is missing or
      * null
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteCheck(@WebParam(name = "checkId") String checkId,
-                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DependentObjectsExistException,
             DoesNotExistException,
             InvalidParameterException,
@@ -830,14 +839,14 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return an Instruction
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException instructionId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid instructionId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing instructionId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws DoesNotExistException instructionId not found
+     * @throws InvalidParameterException invalid instructionId or contextInfo
+     * @throws MissingParameterException missing instructionId or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public InstructionInfo getInstruction(@WebParam(name = "instructionId") String instructionId,
-                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -852,14 +861,14 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Instruction Ids of the given type
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException an instructionId in list not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid instructionId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing instructionId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws DoesNotExistException an instructionId in list not found
+     * @throws InvalidParameterException invalid instructionId or contextInfo
+     * @throws MissingParameterException missing instructionId or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<InstructionInfo> getInstructionsByIds(@WebParam(name = "instructionIds") List<String> instructionIds,
-                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -873,15 +882,15 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Instruction Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid instructionTypeKey or
+     * @throws InvalidParameterException invalid instructionTypeKey or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing instructionTypeKey or
+     * @throws MissingParameterException missing instructionTypeKey or
      * contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> getInstructionIdsByType(@WebParam(name = "instructionTypeKey") String instructionTypeKey,
-                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -895,13 +904,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Instructions
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid processKey or contextInfo
+     * @throws MissingParameterException missing processKey or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<InstructionInfo> getInstructionsByProcess(@WebParam(name = "processKey") String processKey,
-                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -914,14 +923,14 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Instructions
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException contextInfo is not valie
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException checkId or contextInfo is misisng or
+     * @throws InvalidParameterException contextInfo is not valie
+     * @throws MissingParameterException checkId or contextInfo is misisng or
      * null
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occurred
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<InstructionInfo> getInstructionsByCheck(@WebParam(name = "checkId") String checkId,
-                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -935,17 +944,17 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Instructions
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException process and check and instruction relation
+     * @throws DoesNotExistException process and check and instruction relation
      * does not exist
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException contextInfo is not valid
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException processKey, checkId, or contextInfo is
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException processKey, checkId, or contextInfo is
      * missing or null
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occuured
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occuured
      */
     public List<InstructionInfo> getInstructionsByProcessAndCheck(@WebParam(name = "processKey") String processKey,
-                                                                  @WebParam(name = "checkId") String checkId,
-                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "checkId") String checkId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -960,13 +969,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return list of Instruction Ids
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<String> searchForInstructionIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -980,13 +989,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return list of Instructions
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing criteria or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<InstructionInfo> searchForInstructions(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -1014,21 +1023,21 @@ public interface ProcessService {
      * @param contextInfo information containing the principalId and locale
      * information about the caller of service operation
      * @return Results from performing the validation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException validationTypeKey, processKey, or checkId
+     * @throws DoesNotExistException validationTypeKey, processKey, or checkId
      * not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException instructionInfo or contextInfo is
+     * @throws InvalidParameterException instructionInfo or contextInfo is
      * invalid
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing validationTypeKey, processKey,
+     * @throws MissingParameterException missing validationTypeKey, processKey,
      * checkId, instructionTypeKey instructionInfo, or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occured
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occured
      */
     public List<ValidationResultInfo> validateInstruction(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                          @WebParam(name = "processKey") String processKey,
-                                                          @WebParam(name = "checkId") String checkId,
-                                                          @WebParam(name = "instructionTypeKey") String instructionTypeKey,
-                                                          @WebParam(name = "instructionInfo") InstructionInfo instructionInfo,
-                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "processKey") String processKey,
+            @WebParam(name = "checkId") String checkId,
+            @WebParam(name = "instructionTypeKey") String instructionTypeKey,
+            @WebParam(name = "instructionInfo") InstructionInfo instructionInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -1045,22 +1054,22 @@ public interface ProcessService {
      * @param contextInfo information containing the principalId and locale
      * information about the caller of service operation
      * @return the Instruction just created
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException one or more values invalid for this
+     * @throws DataValidationErrorException one or more values invalid for this
      * operation
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException instructionInfo or contextInfo is
+     * @throws InvalidParameterException instructionInfo or contextInfo is
      * invalid
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException checkId, instructionInfo, or
+     * @throws MissingParameterException checkId, instructionInfo, or
      * contextInfo is missing or null
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occurred
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information designated
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated
      * as read-only
      */
     public InstructionInfo createInstruction(@WebParam(name = "processKey") String processKey,
-                                             @WebParam(name = "checkId") String checkId,
-                                             @WebParam(name = "instructionTypeKey") String instructionTypeKey,
-                                             @WebParam(name = "instructionInfo") InstructionInfo instructionInfo,
-                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "checkId") String checkId,
+            @WebParam(name = "instructionTypeKey") String instructionTypeKey,
+            @WebParam(name = "instructionInfo") InstructionInfo instructionInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             InvalidParameterException,
             MissingParameterException,
@@ -1077,23 +1086,23 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the details of Instruction just updated
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException One or more values invalid for this
+     * @throws DataValidationErrorException One or more values invalid for this
      * operation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException instructionId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid instructionId, instructionInfo,
+     * @throws DoesNotExistException instructionId not found
+     * @throws InvalidParameterException invalid instructionId, instructionInfo,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing instructionId, instructionInfo,
+     * @throws MissingParameterException missing instructionId, instructionInfo,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information designated
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information designated
      * as read-only
-     * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException The action was attempted on an out of
+     * @throws VersionMismatchException The action was attempted on an out of
      * date version.
      */
     public InstructionInfo updateInstruction(@WebParam(name = "instructionId") String instructionId,
-                                             @WebParam(name = "instructionInfo") InstructionInfo instructionInfo,
-                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "instructionInfo") InstructionInfo instructionInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1117,19 +1126,19 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return the details of Instruction just updated
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException One or more values invalid for this
+     * @throws DataValidationErrorException One or more values invalid for this
      * operation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException instructionId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid instructionId, instructionInfo,
+     * @throws DoesNotExistException instructionId not found
+     * @throws InvalidParameterException invalid instructionId, instructionInfo,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing instructionId, instructionInfo,
+     * @throws MissingParameterException missing instructionId, instructionInfo,
      * or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo reorderInstructions(@WebParam(name = "processKey") String processKey,
-                                          @WebParam(name = "instructionIds") List<String> instructionIds,
-                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "instructionIds") List<String> instructionIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1144,14 +1153,14 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return status of the operation (success, failed)
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException instructionId not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid instructionId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing instructionId or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws DoesNotExistException instructionId not found
+     * @throws InvalidParameterException invalid instructionId or contextInfo
+     * @throws MissingParameterException missing instructionId or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteInstruction(@WebParam(name = "instructionId") String instructionId,
-                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -1169,13 +1178,13 @@ public interface ProcessService {
      * @param contextInfo Context information containing the principalId and
      * locale information about the caller of service operation
      * @return a list of Instructions
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException invalid processKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException missing processKey or contextInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException authorization failure
+     * @throws InvalidParameterException invalid processKey or contextInfo
+     * @throws MissingParameterException missing processKey or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<InstructionInfo> getInstructionsForEvaluation(@WebParam(name = "processKey") String processKey,
-                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
