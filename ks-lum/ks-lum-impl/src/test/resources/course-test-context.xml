@@ -387,7 +387,6 @@
     </bean>
 
     <bean id="statementTreeViewAssembler" class="org.kuali.student.r1.core.statement.service.assembler.StatementTreeViewAssembler" lazy-init="true">
-        <property name="statementService" ref="statementServiceImpl"/>
    </bean>
 
 	<bean id="statementServiceImpl"
@@ -455,7 +454,7 @@
 	</bean>
 
 	<bean id="lrcServiceImpl"
-		class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+		class="org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl">
 		<property name="lrcDao" ref="lrcDao" />
         <property name="searchManager" ref="lrcSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>        
@@ -597,9 +596,9 @@
 				</entry>
 				<entry key-ref="lrcEntityManager">
 					<list>
-                        <bean class="org.kuali.student.r2.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.multiple" p:versionNumber="0" />
-						<bean class="org.kuali.student.r2.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.fixed" p:versionNumber="0"/>
-						<bean class="org.kuali.student.r2.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.range" p:versionNumber="0"/>
+                        <bean class="org.kuali.student.r1.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.multiple" p:versionNumber="0" />
+						<bean class="org.kuali.student.r1.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.fixed" p:versionNumber="0"/>
+						<bean class="org.kuali.student.r1.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.range" p:versionNumber="0"/>
 					</list>
 				</entry>
 				<entry key-ref="atpEntityManager">
