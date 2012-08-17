@@ -570,6 +570,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
+        if(selectedAolist.size() > 0)  {
+            GlobalVariables.getMessageMap().putWarningForSectionId("manageActivityOfferingsPage",
+                    CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE);
+        }
+
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
 
     }
@@ -834,11 +839,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage",
                         CourseOfferingConstants.AO_NOT_DRAFT_FOR_DELETION_ERROR);
                 return getUIFModelAndView(theForm);
-            } else {
+            }
+ /*
+            else {
                 GlobalVariables.getMessageMap().putWarningForSectionId("selectedAoDeleteConfirmationPage",
                         CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE);
             }
-
+*/
         }
         return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
     }
