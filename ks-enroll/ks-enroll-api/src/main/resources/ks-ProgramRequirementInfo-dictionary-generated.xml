@@ -219,7 +219,7 @@ Rule Statement for the requirement
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="statement"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo"/>
 				<property name="objectLabel" value="Statement"/>
 				<property name="objectDescription">
 					<value>
@@ -357,7 +357,7 @@ Statement operator
 			</value>
 		</property>
 		<property name="minOccurs" value="1"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo"/>
 	</bean>
 
 	<bean id="ProgramRequirementInfo.statement.reqComponents-generated" abstract="true" parent="CollectionDefinition">
@@ -376,7 +376,7 @@ Required components
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.statement.dto.ReqComponentInfo"/>
 	</bean>
 
 	<bean id="ProgramRequirementInfo.statement.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

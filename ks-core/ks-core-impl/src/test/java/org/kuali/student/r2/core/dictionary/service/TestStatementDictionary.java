@@ -24,9 +24,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestStatementDictionary {
 
-//	 org.kuali.student.r2.core.class1.statement.dto.StatementInfo - Used Instead
-//	 org.kuali.student.r2.core.class1.statement.dto.ReqComponentInfo - Used Instead
-//	 org.kuali.student.r2.core.class1.statement.dto.StatementTreeViewInfo - Used Instead
+//	 org.kuali.student.r2.core.statement.dto.StatementInfo - Used Instead
+//	 org.kuali.student.r2.core.statement.dto.ReqComponentInfo - Used Instead
+//	 org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo - Used Instead
 	
 	@Test
 	public void testLoadStatementInfoDictionary() {

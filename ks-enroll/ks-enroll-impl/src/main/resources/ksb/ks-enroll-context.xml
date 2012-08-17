@@ -581,7 +581,7 @@
     <property name="luiService" ref="luiService" />
   </bean>
 
-  <bean id="rulesEvaluationUtil" class="org.kuali.student.r2.core.class1.statement.util.RulesEvaluationUtil">
+  <bean id="rulesEvaluationUtil" class="org.kuali.student.r2.core.statement.util.RulesEvaluationUtil">
     <property name="termResolvers">
       <list>
         <ref bean="completedCoursesResolver" />
@@ -589,7 +589,7 @@
     </property>
   </bean>
 
-  <bean id="propositionBuilder" class="org.kuali.student.r2.core.class1.statement.util.PropositionBuilder" />
+  <bean id="propositionBuilder" class="org.kuali.student.r2.core.statement.util.PropositionBuilder" />
 
   <bean id="ks.exp.courseRegistrationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">
