@@ -139,6 +139,7 @@ public class TestScheduleRequest {
         assertEquals(1, schedReqIds.size());
     }
 
+    @Test
     public void testDeleteScheduleRequest() throws Exception {
         ScheduleRequestInfo obj = schedulingService.getScheduleRequest("schedReq-D", callContext);
         assertNotNull(obj);
