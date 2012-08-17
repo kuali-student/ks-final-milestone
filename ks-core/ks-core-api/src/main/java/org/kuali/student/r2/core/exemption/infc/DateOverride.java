@@ -29,22 +29,22 @@ import java.util.Date;
 public interface DateOverride {
 
     /**
-     * Name: Milestone id
-     * The key for the Milestone.
+     * The id for the Milestone that is being overridden
+     * @name Milestone id
      */
     public String getMilestoneId();
 
     /**
-     * Name: Effective Start Date
-     * The start date thats hould be in effect to replace the
+     * The start date thats should be in effect to replace the
      * Milestone.
+     * @name Effective Start Date
      */
     public Date getEffectiveStartDate();
 
     /**
-     * Name: Effective End Date
      * The new end date that should be in effect to replace the
      * Milestone.
+     * @name Effective End Date
      */
     public Date getEffectiveEndDate();
 }
