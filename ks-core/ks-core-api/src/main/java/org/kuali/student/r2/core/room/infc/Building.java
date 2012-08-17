@@ -26,7 +26,11 @@ import org.kuali.student.r2.common.infc.IdEntity;
 public interface Building extends IdEntity {
 
     /**
-     * Unique code for the building (for example, "UWTT")
+     * Unique code for the building (for example, "FRESON HALL")
+     *
+     * Must be unique.
+     *
+     * (?) or should it be unique within the campus?
      *
      * @name Building Code
      * @required

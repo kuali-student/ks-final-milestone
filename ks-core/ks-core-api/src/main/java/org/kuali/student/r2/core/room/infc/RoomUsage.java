@@ -33,7 +33,6 @@ public interface RoomUsage extends HasId, HasAttributesAndMeta {
      * Preferred capacity of the room
      *
      * @name Preferred Capacity
-     * @required
      */
     public Integer getPreferredCapacity();
 
@@ -41,21 +40,26 @@ public interface RoomUsage extends HasId, HasAttributesAndMeta {
      * Hard capacity of the room
      *
      * @name Hard Capacity
-     * @required
      */
     public Integer getHardCapacity();
 
     /**
-     * Usage type (classe, exam, meeting, ...)
+     * Usage Type
      *
-     * @name Usage Type key
+     * For example classes, final exam, meeting, ...
+     *
+     * @name Usage Type Key
+     * @required
      */
     public String getUsageTypeKey();
 
     /**
-     * Layout type (class, exam, business school, ...)
+     * Layout Type
+     *
+     * For example: standard classroom, final exam double spaced, business school seating
      *
      * @name Layout Type key
+     * @required
      */
     public String getLayoutTypeKey();
 }
