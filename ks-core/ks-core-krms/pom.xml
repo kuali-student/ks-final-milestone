@@ -8,7 +8,6 @@
 	</parent>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-core-krms</artifactId>
-	<version>1.3.0-services-SNAPSHOT</version>
 	<name>KS Core KRMS</name>
 	<description>KS KRMS integration</description>
 
