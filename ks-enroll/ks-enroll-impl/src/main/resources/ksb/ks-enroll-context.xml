@@ -418,6 +418,10 @@
        <property name="lrcService" ref="lrcPersistenceService" />
    </bean>
 
+   <bean id="seatPoolUtilityService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.SeatPoolUtilityServiceImpl">
+   </bean>
+
+
    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="acalService" />
@@ -439,6 +443,7 @@
   <bean id="coMockService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
     <property name="courseService" ref="courseServiceImpl" />
     <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
+    <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
   </bean>
 
   <bean id="ks.exp.courseOfferingMockService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -457,11 +462,12 @@
 
   <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
     <property name="luiService" ref="luiService" />
-    <property name="regGroupTransformer" ref="regGroupTransformer" />
+    <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
   </bean>
 
-  <bean id="regGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer" />
-
+  <bean id="registrationGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer">
+    <property name="luiService" ref="luiService" />
+  </bean>
 
   <bean id="ks.exp.courseOfferingValidationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">
