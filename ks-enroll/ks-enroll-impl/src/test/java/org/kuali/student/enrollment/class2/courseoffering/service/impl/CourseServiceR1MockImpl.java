@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.lum.lu.service.LuServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -42,9 +44,14 @@ import org.kuali.student.r2.lum.course.service.CourseService;
  *
  * @author nwright
  */
-public class CourseServiceR1MockImpl implements CourseService {
+public class CourseServiceR1MockImpl implements CourseService, MockService {
 
     private Map<String, CourseInfo> courses = new LinkedHashMap<String, CourseInfo>();
+
+    @Override
+    public void clear() {
+        this.courses.clear();
+    }
 
     @Override
     public CourseInfo createCourse(CourseInfo courseInfo, ContextInfo contextInfo)
@@ -193,8 +200,26 @@ public class CourseServiceR1MockImpl implements CourseService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
     public List<VersionDisplayInfo> getVersions(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+        // Note: the refObjectTypeURI should only be clus because that is the only object that is versioned
+        List<VersionDisplayInfo> list = new ArrayList<VersionDisplayInfo> ();
+        for (CourseInfo info : this.courses.values()) {
+            // the refObjectid is the VERSION INDEPENDENT ID See LuDaoImpl from CM
+            if (refObjectId.equals(info.getVersionInfo().getVersionIndId())) {
+                VersionInfo vi = info.getVersionInfo();
+                VersionDisplayInfo vd = new VersionDisplayInfo ();
+                vd.setId(info.getId());
+                vd.setRefObjectUri(LuServiceConstants.CLU_NAMESPACE_URI);
+                vd.setVersionedFromId(vi.getVersionedFromId());
+                vd.setCurrentVersionStart(vi.getCurrentVersionStart());
+                vd.setCurrentVersionEnd(vi.getCurrentVersionEnd());
+                vd.setSequenceNumber(vi.getSequenceNumber());
+                vd.setVersionComment(vi.getVersionComment());
+                vd.setVersionIndId(vi.getVersionIndId());
+                list.add (vd);
+            }
+        }
+        return list;
     }
 }
