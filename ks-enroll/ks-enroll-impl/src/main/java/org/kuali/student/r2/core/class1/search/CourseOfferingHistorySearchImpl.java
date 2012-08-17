@@ -89,7 +89,8 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
 
         List<String> luiIds = genericEntityDao.getEm().createQuery("select lui.id from LuiEntity lui,AtpEntity atp " +
                 "where lui.atpId=atp.id and lui.cluId = :cluId and " +
-                "lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' " +
+                "lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' and " +
+                "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY + "' " +
                 "and atp.startDate >= :startDate").setParameter("startDate", startDate, TemporalType.DATE).setParameter("cluId", courseId).getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();
