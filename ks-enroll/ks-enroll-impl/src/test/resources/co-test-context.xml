@@ -166,6 +166,7 @@
     <property name="typeService" ref="typeService"/>
     <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
     <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
+    <property name="registrationGroupTransformer" ref="registrationGroupTransformer"/>
     <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao"/>
   </bean>
 
@@ -183,7 +184,7 @@
 
   <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
     <property name="luiService" ref="luiService" />
-    <property name="regGroupTransformer" ref="regGroupTransformer"/>
+    <property name="registrationGroupTransformer" ref="registrationGroupTransformer"/>
   </bean>
 
   <bean id="grAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
@@ -242,12 +243,16 @@
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="regGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer" />
+  <bean id="registrationGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer">
+    <property name="luiService" ref="luiService" />
+  </bean>
+
   <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
 	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader" autowire="byType" />
-	 
-<!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
+    <bean id="luiServiceDataLoader" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader" autowire="byType" />
+
+    <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
 	 <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
 
     <bean id="populationDao" class="org.kuali.student.r2.core.population.dao.PopulationDao"/>

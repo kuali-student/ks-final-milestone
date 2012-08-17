@@ -438,10 +438,12 @@
   
   <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
     <property name="luiService" ref="luiService" />
-    <property name="regGroupTransformer" ref="regGroupTransformer"/>
+    <property name="registrationGroupTransformer" ref="registrationGroupTransformer"/>
   </bean>
-  
-  <bean id="regGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer" />
+
+    <bean id="registrationGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer">
+        <property name="luiService" ref="luiService" />
+    </bean>
     
    <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
     <property name="courseService" ref="courseServiceImpl" />
