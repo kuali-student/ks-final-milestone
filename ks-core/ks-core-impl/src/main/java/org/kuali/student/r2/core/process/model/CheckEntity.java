@@ -54,7 +54,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     @Column(name = "ISSUE_ID")
     private String issueId;
 
-    @Column(name = "MILESTONE_TYPE")
+    @Column(name = "MSTONE_TYPE")
     private String milestoneType;
 
     @Column(name = "AGENDA_ID")
