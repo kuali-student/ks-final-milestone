@@ -13,7 +13,7 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.r2.common.util.constants;
+package org.kuali.student.r2.core.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
