@@ -44,6 +44,9 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String previousCourseOfferingCodeUI;
     private String nextCourseOfferingCodeUI;
 
+    private String toBeScheduledCourseOfferingsUI;
+    private int toBeScheduledCourseOfferingsCount;
+
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
@@ -252,5 +255,21 @@ public class CourseOfferingManagementForm extends UifFormBase {
         }else{
             setNextCourseOfferingCodeUI(StringUtils.EMPTY);
         }
+    }
+
+    public String getToBeScheduledCourseOfferingsUI() {
+        return toBeScheduledCourseOfferingsUI;
+    }
+
+    public void setToBeScheduledCourseOfferingsUI(String toBeScheduledCourseOfferingsUI) {
+        this.toBeScheduledCourseOfferingsUI = toBeScheduledCourseOfferingsUI;
+    }
+
+    public int getToBeScheduledCourseOfferingsCount() {
+        return toBeScheduledCourseOfferingsCount;
+    }
+
+    public void setToBeScheduledCourseOfferingsCount(int toBeScheduledCourseOfferingsCount) {
+        this.toBeScheduledCourseOfferingsCount = toBeScheduledCourseOfferingsCount;
     }
 }

@@ -52,6 +52,24 @@
                 <ref bean="KS-CourseOfferingManagement-SelectedAoDeleteConfirmationPage"/>
             </list>
         </property>
+        <property name="dialogs">
+          <list>
+            <bean id="schedulingConfirmDialog" parent="schedulingConfirmDialog-Group"/>
+          </list>
+        </property>
     </bean>
+
+    <bean id="schedulingConfirmDialog-Group" parent="Uif-DialogGroup">
+        <property name="hidden" value="true"/>
+        <property name="headerText" value="Mark as Ready for Scheduling"/>
+        <property name="promptText" value=""/>
+        <property name="items">
+          <list>
+            <bean parent="Uif-DataField" p:label="Course Offerings" p:propertyName="toBeScheduledCourseOfferingsUI" p:fieldLabel.style="font-weight:bold;"/>
+            <bean parent="Uif-MessageField" p:label="Activity Offerings" p:messageText="All contained in the course offerings (@{toBeScheduledCourseOfferingsCount})" p:fieldLabel.style="font-weight:bold;"/>
+          </list>
+        </property>
+      </bean>
+
 
 </beans>

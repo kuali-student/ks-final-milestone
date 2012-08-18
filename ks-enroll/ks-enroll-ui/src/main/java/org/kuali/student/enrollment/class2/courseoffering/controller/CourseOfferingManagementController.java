@@ -775,6 +775,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
+
+            if (!hasDialogBeenAnswered("schedulingConfirmDialog", theForm)){
+                loadSelectedCOsForScheduling(theForm);
+                return showDialog("schedulingConfirmDialog", theForm, request, response);
+            }
+
+            String res = getStringDialogResponse("schedulingConfirmDialog", theForm, request, response);
+
             getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingEditWrapperList());
         }
 
@@ -782,6 +790,18 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     }
 
+    private void loadSelectedCOsForScheduling(CourseOfferingManagementForm theForm){
+        String textToDisplay = StringUtils.EMPTY;
+        int count = 1;
+        for (CourseOfferingEditWrapper co : theForm.getCourseOfferingEditWrapperList()) {
+             if (co.getIsChecked()){
+                  textToDisplay = textToDisplay + co.getCoInfo().getCourseOfferingCode() + ",";
+                 count++;
+             }
+        }
+        theForm.setToBeScheduledCourseOfferingsUI(StringUtils.stripEnd(textToDisplay,","));
+        theForm.setToBeScheduledCourseOfferingsCount(count-1);
+    }
 
     /**
      * Method used to confirm delete AOs
