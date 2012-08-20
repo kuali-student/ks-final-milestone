@@ -1061,19 +1061,23 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
         }
 
-        if (bEncounteredNonDraftAOInDeletion) {
-            if (selectedIndexList.isEmpty()) {
+        if (selectedIndexList.isEmpty()) {
+            if (bEncounteredNonDraftAOInDeletion) {
                 GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage",
                         CourseOfferingConstants.AO_NOT_DRAFT_FOR_DELETION_ERROR);
-                return getUIFModelAndView(theForm);
+            } else {
+                GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage",
+                        CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED);
             }
- /*
-            else {
-                GlobalVariables.getMessageMap().putWarningForSectionId("selectedAoDeleteConfirmationPage",
-                        CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE);
-            }
-*/
+            return getUIFModelAndView(theForm);
         }
+        /*
+                    else {
+                        GlobalVariables.getMessageMap().putWarningForSectionId("selectedAoDeleteConfirmationPage",
+                                CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE);
+                    }
+        */
+
         return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
     }
 
