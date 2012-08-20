@@ -1143,12 +1143,13 @@
         <groupId>net.sf.jasperreports</groupId>
         <artifactId>jasperreports</artifactId>
         <version>${net.sf.jasperreports.version}</version>
+        <exclusions>
+          <exclusion>
+            <artifactId>commons-beanutils</artifactId>
+            <groupId>commons-beanutils</groupId>
+          </exclusion>
+        </exclusions>
       </dependency>
-      <!-- dependency>
-        <groupId>net.sf.jasperreports</groupId>
-        <artifactId>jasperreports-fonts</artifactId>
-        <version>4.0.1</version>
-        </dependency -->
       <dependency>
         <groupId>com.lowagie</groupId>
         <artifactId>itext</artifactId>
