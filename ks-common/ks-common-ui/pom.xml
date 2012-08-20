@@ -142,6 +142,12 @@
 		<groupId>net.sf.jasperreports</groupId>
 		<artifactId>jasperreports</artifactId>
 		<scope>compile</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>commons-beanutils</artifactId>
+            <groupId>commons-beanutils</groupId>
+          </exclusion>
+        </exclusions>
 	</dependency>
 	<dependency>
 		<groupId>net.sf.jasperreports</groupId>
