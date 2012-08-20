@@ -873,6 +873,16 @@
         <groupId>org.apache.velocity</groupId>
         <artifactId>velocity-tools</artifactId>
         <version>${velocity.tools.version}</version>
+          <exclusions>
+              <exclusion>
+                  <groupId>commons-digester</groupId>
+                  <artifactId>commons-digester</artifactId>
+              </exclusion>
+              <exclusion>
+                  <artifactId>commons-beanutils</artifactId>
+                  <groupId>commons-beanutils</groupId>
+              </exclusion>
+          </exclusions>
       </dependency>
       <dependency>
         <groupId>commons-lang</groupId>
@@ -1174,6 +1184,12 @@
 	    <groupId>net.sf.dozer</groupId>
 	    <artifactId>dozer</artifactId>
 	    <version>${dozer.version}</version>
+        <exclusions>
+          <exclusion>
+            <artifactId>commons-beanutils</artifactId>
+            <groupId>commons-beanutils</groupId>
+          </exclusion>
+        </exclusions>
 	  </dependency>
     </dependencies>
   </dependencyManagement>
