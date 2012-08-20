@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
@@ -371,4 +372,20 @@ public class TestCourseOfferingServiceImplM4 {
             assert(false);
         }
     }
+
+    @Ignore
+    @Test
+    public void testGenerateRegistrationGroupsSimple() throws DoesNotExistException,
+       			InvalidParameterException, MissingParameterException,
+       			OperationFailedException, PermissionDeniedException, AlreadyExistsException {
+
+        before();
+        TypeServiceMockImpl instance = new TypeServiceMockImpl();   //?
+
+        List<RegistrationGroupInfo> rgList = coServiceImpl.generateRegistrationGroupsForFormatOffering("Lui-6", contextInfo);
+
+       	org.junit.Assert.assertEquals(6, rgList.size());
+
+    }
+
 }

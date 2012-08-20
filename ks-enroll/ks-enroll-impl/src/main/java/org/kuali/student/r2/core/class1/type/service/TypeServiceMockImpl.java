@@ -37,7 +37,6 @@ public class TypeServiceMockImpl implements TypeService, MockService {
     private Map<String, Map<String, TypeInfo>> allowedTypes = new HashMap<String, Map<String, TypeInfo>>();
     private Map<String, Map<String, TypeInfo>> groupTypes = new HashMap<String, Map<String, TypeInfo>>();
 
-
     {
         init();
     }
@@ -254,11 +253,71 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         typeArrays.add(new String[]{"kuali.atp.atp.relation.associated", "associated", "Associated", TypeServiceConstants.REF_OBJECT_URI_TYPE_TYPE_RELATION});
 
         // Lui
-        
         typeArrays.add(new String[] {LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, "Lecture Activity Offering", "Lecture Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
-        
+        typeArrays.add(new String[] {LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, "Lab Activity Offering", "Lab Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.DISCUSSION_ACTIVITY_OFFERING_TYPE_KEY, "Discussion Activity Offering", "Discussion Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.TUTORIAL_ACTIVITY_OFFERING_TYPE_KEY, "Tutorial Activity Offering", "Tutorial Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.WEB_LECTURE_ACTIVITY_OFFERING_TYPE_KEY, "Web Lecture Activity Offering", "Web Lecture Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.WEB_DISCUSS_ACTIVITY_OFFERING_TYPE_KEY, "Web Discuss Activity Offering", "Web Discuss Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.DIRECTED_ACTIVITY_OFFERING_TYPE_KEY, "Directed Activity Offering", "Directed Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.STUDIO_ACTIVITY_OFFERING_TYPE_KEY, "Studio Activity Offering", "Studio Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.CORRESPOND_ACTIVITY_OFFERING_TYPE_KEY, "Correspond Activity Offering", "Correspond Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.ACTIVITY_ACTIVITY_OFFERING_TYPE_KEY, "Activity Activity Offering", "Activity Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.COLLOQUIUM_ACTIVITY_OFFERING_TYPE_KEY, "Colloquium Activity Offering", "Colloquium Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.DEMONSTRATION_ACTIVITY_OFFERING_TYPE_KEY, "Demonstration Activity Offering", "Demonstration Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.FIELD_ACTIVITY_OFFERING_TYPE_KEY, "Field Activity Offering", "Field Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.HOMEWORK_ACTIVITY_OFFERING_TYPE_KEY, "Homework Activity Offering", "Homework Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.INDEPEND_ACTIVITY_OFFERING_TYPE_KEY, "Independ Activity Offering", "Independ Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.INTERNSHIP_ACTIVITY_OFFERING_TYPE_KEY, "Internship Activity Offering", "Internship Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.PRIVATE_ACTIVITY_OFFERING_TYPE_KEY, "Private Activity Offering", "Private Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.RECITATION_ACTIVITY_OFFERING_TYPE_KEY, "Recitation Activity Offering", "Recitation Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.RESEARCH_ACTIVITY_OFFERING_TYPE_KEY, "Research Activity Offering", "Research Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY, "Self Paced Activity Offering", "Self Paced Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY, "Comp Based Activity Offering", "Comp Based Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY, "Video Conf Activity Offering", "Video Conf Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.CLERKSHIP_ACTIVITY_OFFERING_TYPE_KEY, "Clerkship Activity Offering", "Clerkship Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.CLINIC_ACTIVITY_OFFERING_TYPE_KEY, "Clinic Activity Offering", "Clinic Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.CONFERENCE_ACTIVITY_OFFERING_TYPE_KEY, "Conference Activity Offering", "Conference Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.PRACTICUM_ACTIVITY_OFFERING_TYPE_KEY, "Practicum Activity Offering", "Practicum Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.QUIZ_ACTIVITY_OFFERING_TYPE_KEY, "Quiz Activity Offering", "Quiz Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.SEMINAR_ACTIVITY_OFFERING_TYPE_KEY, "Seminar Activity Offering", "Seminar Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+
         for (String[] typeArray : typeArrays) {
             createTypeInfo(typeArray[0], typeArray[1], typeArray[2], typeArray[3]);
+        }
+        // Registration Groups Grouping
+        Set<TypeInfo> rgGroup = new HashSet<TypeInfo>();
+        TypeInfo rgGroupType = createTypeInfo(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, "Group for Registration Groups", "Group for Registration Groups", AtpServiceConstants.REF_OBJECT_URI_ATP);
+        rgGroup.add(getType(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.DISCUSSION_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.TUTORIAL_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.WEB_LECTURE_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.WEB_DISCUSS_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.DIRECTED_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.STUDIO_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.CORRESPOND_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.ACTIVITY_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.COLLOQUIUM_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.DEMONSTRATION_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.FIELD_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.HOMEWORK_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.INDEPEND_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.INTERNSHIP_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.PRIVATE_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.RECITATION_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.RESEARCH_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.CLERKSHIP_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.CLINIC_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.CONFERENCE_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.PRACTICUM_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.QUIZ_ACTIVITY_OFFERING_TYPE_KEY));
+        rgGroup.add(getType(LuiServiceConstants.SEMINAR_ACTIVITY_OFFERING_TYPE_KEY));
+        for (TypeInfo type : rgGroup) {
+            createTypeTypeRelationInfo(rgGroupType, type);
         }
 
         // Term Types Grouping
