@@ -82,7 +82,7 @@ public class RegistrationGroupAssembler {
 
     }
 
-    public LuiInfo disassemble(RegistrationGroupInfo rg, ContextInfo context) {
+    public LuiInfo disassemble(RegistrationGroupInfo rg, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
         LuiInfo lui = registrationGroupTransformer.rg2Lui(rg, context);
         return lui;
     }

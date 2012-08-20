@@ -10,6 +10,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +23,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -272,7 +274,7 @@ public class TestCourseOfferingServiceImplM4 {
         }
     }
     @Test
-    public void testCreateRegistrationGroupInfoGet() {
+    public void testCreateUpdateRegistrationGroupInfoGet() {
         before();
 
         RegistrationGroupInfo info = _constructRegistrationGroupInfoById(null);
@@ -286,6 +288,26 @@ public class TestCourseOfferingServiceImplM4 {
             Assert.assertEquals(created.getRegistrationCode(), fetched.getRegistrationCode());
             Assert.assertEquals(created.getCourseOfferingId(), fetched.getCourseOfferingId());
             Assert.assertEquals(created.getId(), fetched.getId());
+
+            List<LuiLuiRelationInfo> llrs = luiService.getLuiLuiRelationsByLui(fetched.getId(), contextInfo);
+
+            List<String> activityOfferingIds = new ArrayList<String>();
+            activityOfferingIds.add("Lui-2");
+            activityOfferingIds.add("Lui-Lab2");
+            fetched.setActivityOfferingIds(null);
+            fetched.setActivityOfferingIds(activityOfferingIds);
+            fetched.setFormatOfferingId(null);
+            fetched.setFormatOfferingId("Lui-7");
+            RegistrationGroupInfo updated = coServiceImpl.updateRegistrationGroup(fetched.getId(), fetched, contextInfo);
+
+            List<LuiLuiRelationInfo> llrs1 = luiService.getLuiLuiRelationsByLui(updated.getId(), contextInfo);
+            coServiceImpl.deleteRegistrationGroup(updated.getId(), contextInfo);
+
+            List<LuiLuiRelationInfo> llrsAfter = luiService.getLuiLuiRelationsByLui(updated.getId(), contextInfo);
+
+            RegistrationGroupInfo fetchedAfterDelete = coServiceImpl.getRegistrationGroup(updated.getId(), contextInfo);
+            System.out.println("here");
+
 
         } catch (Exception e) {
             e.printStackTrace();

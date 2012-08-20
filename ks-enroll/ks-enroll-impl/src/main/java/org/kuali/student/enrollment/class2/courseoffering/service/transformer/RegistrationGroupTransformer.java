@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -18,7 +20,6 @@ import java.util.List;
 
 public class RegistrationGroupTransformer {
     private LuiService luiService;
-
     public LuiService getLuiService() {
         return luiService;
     }
@@ -27,7 +28,7 @@ public class RegistrationGroupTransformer {
         this.luiService = luiService;
     }
 
-    public RegistrationGroupInfo lui2Rg(LuiInfo lui, ContextInfo context) {
+    public RegistrationGroupInfo lui2Rg(LuiInfo lui, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         RegistrationGroupInfo regGroup = new RegistrationGroupInfo();
         regGroup.setId(lui.getId());
@@ -35,7 +36,6 @@ public class RegistrationGroupTransformer {
         regGroup.setStateKey(lui.getStateKey());
         regGroup.setTypeKey(lui.getTypeKey());
         regGroup.setDescr(lui.getDescr());
-
 
         if (lui.getOfficialIdentifier() != null){
             regGroup.setRegistrationCode(lui.getOfficialIdentifier().getCode());
@@ -52,9 +52,7 @@ public class RegistrationGroupTransformer {
         }
         regGroup.setAttributes(attributes);
 
-        //regDateGroup.setMinimumEnrollment(lui.getMinimumEnrollment());
         regGroup.setName(lui.getName());
-        regGroup.setFormatOfferingId(lui.getCluId());
         regGroup.setTermId(lui.getAtpId());
 
         // below undecided
@@ -75,7 +73,7 @@ public class RegistrationGroupTransformer {
     }
     
     
-    public LuiInfo rg2Lui(RegistrationGroupInfo regGroup, ContextInfo context) {
+    public LuiInfo rg2Lui(RegistrationGroupInfo regGroup, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         
         LuiInfo lui = new LuiInfo();
         lui.setId(regGroup.getId());
@@ -103,8 +101,13 @@ public class RegistrationGroupTransformer {
         lui.setAttributes(attributes);
 
         lui.setName(regGroup.getName());
-        lui.setCluId(regGroup.getFormatOfferingId());
-        // lui.setMinimumEnrollment(regGroup.getMinimumEnrollment());
+
+        //set cluId
+        String formatId = getFo(regGroup.getFormatOfferingId(), context).getFormatId();
+        if (formatId != null && !formatId.isEmpty()) {
+            lui.setCluId(formatId);
+        }
+
         lui.setAtpId(regGroup.getTermId());
         
         //below undecided
@@ -127,12 +130,14 @@ public class RegistrationGroupTransformer {
         List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(luiId, context);
         if (rels != null && !rels.isEmpty()) {
             for (LuiLuiRelationInfo rel : rels) {
-                if (rel.getLuiId().equals(luiId)) {
-                    if (rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY)) {
-                        if (!activityIds.contains(rel.getRelatedLuiId())) {
-                            activityIds.add(rel.getRelatedLuiId());
-                        }
+                if (rel.getLuiId().equals(luiId)
+                    && rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY)) {
+                    if (!activityIds.contains(rel.getRelatedLuiId())) {
+                        activityIds.add(rel.getRelatedLuiId());
                     }
+                } else if (rel.getRelatedLuiId().equals(luiId)
+                        && rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY)) {
+                    rg.setFormatOfferingId(rel.getLuiId());
                 }
             }
         }
@@ -140,6 +145,16 @@ public class RegistrationGroupTransformer {
         if (!activityIds.isEmpty()) {
             rg.setActivityOfferingIds(activityIds);
         }
+    }
+
+    private FormatOfferingInfo getFo(String formatOfferingId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        LuiInfo lui = luiService.getLui(formatOfferingId, context);
+        FormatOfferingInfo fo = new FormatOfferingInfo();
+        new FormatOfferingTransformer().lui2Format(lui, fo);
+
+        return fo;
     }
 
 }

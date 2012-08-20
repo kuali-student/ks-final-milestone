@@ -239,7 +239,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // Everything saved to the DB, now return RG sent back by createLui and transformed by transformer back to caller
         RegistrationGroupInfo RgInfo = new RegistrationGroupInfo();
         RgInfo = registrationGroupTransformer.lui2Rg(lui, context);
-        RgInfo.setFormatOfferingId(luiLuiRelFoRg.getLuiId());
         RgInfo.setCourseOfferingId(coInfo.getId());
         RgInfo.setRegistrationCode(registrationGroupInfo.getRegistrationCode());
         return RgInfo;
@@ -1511,33 +1510,51 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             PermissionDeniedException,
             ReadOnlyException, VersionMismatchException {
 
+        // validate params
+        if (!registrationGroupId.equals(registrationGroupInfo.getId())) {
+            throw new InvalidParameterException(registrationGroupId + " does not match the corresponding value in the object " + registrationGroupInfo.getId());
+        }
+
+        // get it
+        LuiInfo lui = luiService.getLui(registrationGroupId, context);
+
+        //TO DO: Check that the Registration code is unique within a CO. If it is a duplicate, do not change it
+
         Set<String> existingRelatedLuiIds = new HashSet<String>();
         Set<String> newRelatedLuiIds = new HashSet<String>(registrationGroupInfo.getActivityOfferingIds());
-        newRelatedLuiIds.add(registrationGroupInfo.getCourseOfferingId());
 
-        // Delete relations for removed Activity Offerings or Course Offering
+        //Update LLR
         List<LuiLuiRelationInfo> llrs = luiService.getLuiLuiRelationsByLui(registrationGroupId, context);
         for (LuiLuiRelationInfo llr : llrs) {
-            if (registrationGroupId.equals(llr.getLuiId()) && LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY.equals(llr.getTypeKey())) {
+            if (registrationGroupId.equals(llr.getLuiId()) && LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY.equals(llr.getTypeKey())) {
                 String relatedLuiId = llr.getRelatedLuiId();
                 existingRelatedLuiIds.add(relatedLuiId);
                 if (!newRelatedLuiIds.contains(relatedLuiId)) {
                     luiService.deleteLuiLuiRelation(llr.getId(), context);
                 }
+            } else if (registrationGroupId.equals(llr.getRelatedLuiId())
+                    && LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY.equals(llr.getTypeKey())
+                    && !llr.getLuiId().equals(registrationGroupInfo.getFormatOfferingId())) {
+                luiService.deleteLuiLuiRelation(llr.getId(), context);
+                createLuiLuiRelationForRegGroups(registrationGroupInfo.getFormatOfferingId(), registrationGroupId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, context);
             }
         }
-
         // Create relations for added Activity Offerings or Course Offering
         for (String luiId : newRelatedLuiIds) {
             if (!existingRelatedLuiIds.contains(luiId)) {
-                createLuiLuiRelationForRegGroups(registrationGroupId, luiId, LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY, context);
+                createLuiLuiRelationForRegGroups(registrationGroupId, luiId, LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
             }
         }
 
-        LuiInfo regGroupLui = registrationGroupAssembler.disassemble(registrationGroupInfo, context);
+        LuiInfo regGroupLui = registrationGroupTransformer.rg2Lui(registrationGroupInfo, context);
         LuiInfo updatedRegGroupLui = luiService.updateLui(regGroupLui.getId(), regGroupLui, context);
-        return registrationGroupAssembler.assemble(updatedRegGroupLui, context);
 
+        // Everything saved to the DB, now return RG sent back by createLui and transformed by transformer back to caller
+        RegistrationGroupInfo RgInfo = new RegistrationGroupInfo();
+        RgInfo = registrationGroupTransformer.lui2Rg(updatedRegGroupLui, context);
+        RgInfo.setCourseOfferingId(registrationGroupInfo.getCourseOfferingId());
+        RgInfo.setRegistrationCode(updatedRegGroupLui.getOfficialIdentifier().getCode());
+        return RgInfo;
     }
 
     @Override
@@ -1803,7 +1820,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
             luiRel.setLuiId(luiId);
             luiRel.setRelatedLuiId(relatedLuiId);
-            luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY);
             luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
             luiRel.setEffectiveDate(new Date());
             try {
