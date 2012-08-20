@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
     private List<ActivityOfferingWrapper> filteredAOsForSelectedFO;
+    private List<RegistrationGroupWrapper> filteredRGsForSelectedFO;
 
     //For Adding Activity
     private String formatIdForNewAO;
@@ -51,6 +53,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         filteredAOsForSelectedFO = new ArrayList<ActivityOfferingWrapper>();
+        filteredRGsForSelectedFO = new ArrayList<RegistrationGroupWrapper>();
         courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
         setCourseOfferingCopyWrapper(null);
     }
@@ -165,6 +168,14 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setFilteredAOsForSelectedFO(List<ActivityOfferingWrapper> filteredAOsForSelectedFO) {
         this.filteredAOsForSelectedFO = filteredAOsForSelectedFO;
+    }
+
+    public List<RegistrationGroupWrapper> getFilteredRGsForSelectedFO() {
+        return filteredRGsForSelectedFO;
+    }
+
+    public void setFilteredRGsForSelectedFO(List<RegistrationGroupWrapper> filteredRGsForSelectedFO) {
+        this.filteredRGsForSelectedFO = filteredRGsForSelectedFO;
     }
 
     public String getFormatIdForNewAO() {
