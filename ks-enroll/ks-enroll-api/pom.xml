@@ -145,7 +145,25 @@
                         <configuration>
                             <writeManual>true</writeManual>
                         </configuration> 
-                    </execution>                  
+                    </execution>           
+                    <!-- This generates the mock-implementation java code--> 
+                    <execution>
+                        <id>generate-mock-implementations</id>
+                        <phase>${ks.mockimpl.phase}</phase>
+                        <goals>
+                            <goal>kscreatemock</goal>
+                        </goals>
+                        
+                    </execution>      
+                    <!-- This generates the validation decorator java code--> 
+                    <execution>
+                        <id>generate-validation-decorators</id>
+                        <phase>${ks.vdecorator.phase}</phase>
+                        <goals>
+                            <goal>kscreatevdec</goal>
+                        </goals>
+                        
+                    </execution>       
                 </executions>
                 <configuration>
                     <!-- this defines that location of the source code used for all contract docs executions -->

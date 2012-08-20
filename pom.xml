@@ -186,6 +186,8 @@
     <ks.contractdoc.phase>site</ks.contractdoc.phase>
     <ks.dictionarydoc.phase>site</ks.dictionarydoc.phase> 
     <ks.dictionarycreate.phase>none</ks.dictionarycreate.phase>    
+    <ks.mockimpl.phase>none</ks.mockimpl.phase>
+    <ks.vdecorator.phase>none</ks.vdecorator.phase>
   </properties>
   <build>
     <pluginManagement>
