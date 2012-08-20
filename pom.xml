@@ -1090,10 +1090,16 @@
           </exclusion>
         </exclusions>
       </dependency>
+      <!-- Should use the rice beantutils overwrite to prevent rice data dictionary validation errors.
       <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils</artifactId>
         <version>1.8.3</version>
+      </dependency-->
+      <dependency>
+        <groupId>org.kuali.commons</groupId>
+        <artifactId>commons-beanutils</artifactId>
+        <version>1.8.3-kuali</version>
       </dependency>
       <dependency>
         <groupId>xalan</groupId>
