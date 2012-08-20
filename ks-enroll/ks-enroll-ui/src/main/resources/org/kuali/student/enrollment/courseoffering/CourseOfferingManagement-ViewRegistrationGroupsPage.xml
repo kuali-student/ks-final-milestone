@@ -55,7 +55,7 @@
                             </bean>
                             <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}"/>
                             <ref bean="KS-ViewRegistrationGroupsPage-ActivityOfferingsPerFormatSection"/>
-                            <!--<ref bean="KS-ViewRegistrationGroupsPage-RegGroupsPerFormatSection"/>-->
+                            <ref bean="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection"/>
                             <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}"/>
                         </list>
                     </property>
@@ -103,5 +103,47 @@
         </property>
     </bean>
 
+    <bean id="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection" parent="Uif-TableCollectionSection"
+          p:renderAddLine="false"  p:renderLineActions="false" p:refreshWhenChangedPropertyNames="formatOfferingIdForViewRG"
+          p:methodToCallOnRefresh="filterRGsPerFO">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
+        <property name="propertyName" value="filteredRGsForSelectedFO" />
+        <property name="headerText" value="@{formatOfferingName} Registration Groups"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+                <entry key="bPaginate" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField"
+                      p:label="ID"
+                      p:propertyName="rgInfo.id" p:valign="middle">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="CODE"
+                      p:messageText="@{#line.aoActivityCodeText}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="STATUS"
+                      p:messageText="@{#line.aoStateNameText}" />
+                <bean parent="Uif-MessageField"
+                      p:label="TYPE"
+                      p:messageText="@{#line.aoTypeNameText}"/>
+                <bean parent="Uif-MessageField"
+                      p:label="INSTRUCTOR"
+                      p:messageText="@{#line.aoInstructorText}"/>
+                <bean parent="Uif-MessageField"
+                      p:label="MAX ENR"
+                      p:messageText="@{#line.aoMaxEnrText}"/>
+            </list>
+        </property>
+    </bean>
 
 </beans>
