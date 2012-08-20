@@ -161,7 +161,7 @@
     <gwt.codehaus.plugin.version>2.3.0-1</gwt.codehaus.plugin.version>
     <tomcat.plugin.version>1.1</tomcat.plugin.version>
     <plugin.impex.version>1.0.31</plugin.impex.version>
-    <ks-contract-docs.plugin.version>1.0.1-SNAPSHOT</ks-contract-docs.plugin.version>
+    <ks-contract-docs.plugin.version>1.0.2-SNAPSHOT</ks-contract-docs.plugin.version>
    <!--  <jetty.plugin.version>8.0.0.M2</jetty.plugin.version> -->
 
     <!-- added by bonnie -->
