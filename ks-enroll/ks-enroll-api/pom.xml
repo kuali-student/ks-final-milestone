@@ -151,6 +151,12 @@
                     <!-- this defines that location of the source code used for all contract docs executions -->
                     <sourceDirs>
                         <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                        <!-- core api -->
+                        <sourceDir>${project.basedir}/../../ks-core/ks-core-api/src/main/java</sourceDir>
+                        <!-- common api -->
+                        <sourceDir>${project.basedir}/../../ks-common/ks-common-api/src/main/java</sourceDir>
+                        <!-- lum api -->
+                        <sourceDir>${project.basedir}/../../ks-lum/ks-lum-api/src/main/java</sourceDir>
                     </sourceDirs>                    
                 </configuration>
                 <dependencies>
