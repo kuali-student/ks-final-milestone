@@ -152,9 +152,10 @@
   </bean>-->
 
    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+       <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
   </bean>
 
-  <bean id="coServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
+  <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
     <property name="luiService" ref="luiService" />
     <property name="rgAssembler" ref="rgAssembler" />
     <property name="courseService" ref="courseService" />
@@ -204,19 +205,6 @@
   </bean>
 
   <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
-
-
-  <bean id="coServiceValidationDecorator"
-    class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
-    <property name="nextDecorator" ref="coServiceImpl" />
-    <property name="validator" ref="validator" />
-  </bean>
-
-  <bean id="coService"
-    class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceAuthorizationDecorator">
-    <property name="nextDecorator" ref="coServiceValidationDecorator" />
-    <property name="permissionService" ref="permissionService" />
-  </bean>
 
   <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 

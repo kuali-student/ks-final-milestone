@@ -1476,11 +1476,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(String formatOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-//        throw new UnsupportedOperationException();
         try {
             return businessLogic.generateRegistrationGroupsForFormatOffering(formatOfferingId,context);
         } catch (Exception e) {
-            throw new RuntimeException("Registration Groups generation has failed! "+ e);
+            throw new RuntimeException("Registration Groups generation has failed! ", e);
         }
     }
 
