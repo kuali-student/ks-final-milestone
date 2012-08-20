@@ -142,6 +142,12 @@
 	<dependency>
 	    <groupId>net.sf.dozer</groupId>
 	    <artifactId>dozer</artifactId>
+        <exclusions>
+          <exclusion>
+            <artifactId>commons-beanutils</artifactId>
+            <groupId>commons-beanutils</groupId>
+          </exclusion>
+        </exclusions>
 	</dependency>
 
 
