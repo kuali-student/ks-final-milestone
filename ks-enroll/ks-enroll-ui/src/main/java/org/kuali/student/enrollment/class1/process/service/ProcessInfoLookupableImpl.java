@@ -23,10 +23,9 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
-
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
