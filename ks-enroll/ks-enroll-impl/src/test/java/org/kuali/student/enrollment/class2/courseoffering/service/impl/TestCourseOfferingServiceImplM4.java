@@ -304,8 +304,13 @@ public class TestCourseOfferingServiceImplM4 {
             coServiceImpl.deleteRegistrationGroup(updated.getId(), contextInfo);
 
             List<LuiLuiRelationInfo> llrsAfter = luiService.getLuiLuiRelationsByLui(updated.getId(), contextInfo);
-
-            RegistrationGroupInfo fetchedAfterDelete = coServiceImpl.getRegistrationGroup(updated.getId(), contextInfo);
+            try{
+                RegistrationGroupInfo fetchedAfterDelete = coServiceImpl.getRegistrationGroup(updated.getId(), contextInfo);
+                //This should throw an exception since the reg group was deleted
+                assert(false);
+            }catch(DoesNotExistException e){
+                assert(true);
+            }
             System.out.println("here");
 
 
