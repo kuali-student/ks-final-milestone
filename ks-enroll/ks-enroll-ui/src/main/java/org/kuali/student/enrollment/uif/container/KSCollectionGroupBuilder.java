@@ -13,28 +13,31 @@ import java.util.List;
 
 public class KSCollectionGroupBuilder extends CollectionGroupBuilder{
 
-    protected List<Action> getLineActions(View view, Object model, CollectionGroup collectionGroup,
-			Object collectionLine, int lineIndex) {
-
+    @Override
+    protected List<Action> initializeLineActions(List<Action> lineActions, View view, Object model,
+            CollectionGroup collectionGroup, Object collectionLine, int lineIndex, String actionScript) {
         String lineSuffix = UifConstants.IdSuffixes.LINE + Integer.toString(lineIndex);
         if (StringUtils.isNotBlank(collectionGroup.getSubCollectionSuffix())) {
             lineSuffix = collectionGroup.getSubCollectionSuffix() + lineSuffix;
         }
-        List<Action> lineActions = ComponentUtils.copyComponentList(collectionGroup.getLineActions(), lineSuffix);
+        List<Action> actions = ComponentUtils.copyComponentList(lineActions, lineSuffix);
 
-		for (Action action : lineActions) {
-			action.addActionParameter(UifParameters.SELLECTED_COLLECTION_PATH, collectionGroup.getBindingInfo()
-					.getBindingPath());
-			action.addActionParameter(UifParameters.SELECTED_LINE_INDEX, Integer.toString(lineIndex));
-			action.setJumpToIdAfterSubmit(collectionGroup.getId() + "_div");
-
-            if (StringUtils.isBlank(action.getActionScript())){
-                action.setActionScript("performCollectionAction('"+collectionGroup.getId()+"');");
+        for (Action action : actions) {
+            action.addActionParameter(UifParameters.SELLECTED_COLLECTION_PATH,
+                    collectionGroup.getBindingInfo().getBindingPath());
+            action.addActionParameter(UifParameters.SELECTED_LINE_INDEX, Integer.toString(lineIndex));
+            action.setJumpToIdAfterSubmit(collectionGroup.getId());
+            String script;
+            if (StringUtils.isNotBlank(action.getActionScript())) {
+                script = action.getActionScript();
+            }else{
+                script = actionScript;
             }
-		}
+            action.setActionScript(script);
+        }
 
-		ComponentUtils.updateContextsForLine(lineActions, collectionLine, lineIndex);
+        ComponentUtils.updateContextsForLine(actions, collectionLine, lineIndex);
 
-		return lineActions;
-	}
+        return actions;
+    }
 }
