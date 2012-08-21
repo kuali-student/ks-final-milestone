@@ -66,6 +66,18 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     @Resource
 	private RegistrationGroupCodeGenerator registrationCodeGenerator;
 
+
+    @Resource
+    private CourseOfferingService coServiceImpl;
+
+    public CourseOfferingService getCoServiceImpl() {
+        return coServiceImpl;
+    }
+
+    public void setCoServiceImpl(CourseOfferingService coServiceImpl) {
+        this.coServiceImpl = coServiceImpl;
+    }
+
     public CourseOfferingService getCoService() {
         return coService;
     }
@@ -460,15 +472,15 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
         // check for any existing registration groups
 
-        List<RegistrationGroupInfo> existingRegistrationGroups = coService.getRegistrationGroupsByFormatOffering(formatOfferingId, context);
+        List<RegistrationGroupInfo> existingRegistrationGroups = coServiceImpl.getRegistrationGroupsByFormatOffering(formatOfferingId, context);
         if (existingRegistrationGroups.size() > 0) {
             //throw new AlreadyExistsException("Registration groups already exist for formatOfferingId=" + formatOfferingId);
-            coService.deleteRegistrationGroupsByFormatOffering(formatOfferingId, context);
+            coServiceImpl.deleteRegistrationGroupsByFormatOffering(formatOfferingId, context);
         }
-        FormatOfferingInfo formatOffering = coService.getFormatOffering(formatOfferingId, context);
+        FormatOfferingInfo formatOffering = coServiceImpl.getFormatOffering(formatOfferingId, context);
 
         List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
-        List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByFormatOffering(
+        List<ActivityOfferingInfo> aoList = coServiceImpl.getActivityOfferingsByFormatOffering(
                 formatOfferingId, context);
 
         Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap =
@@ -482,7 +494,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 activityOfferingTypeToAvailableActivityOfferingMap,
                 generatedPermutations);
 
-        CourseOfferingInfo courseOffering = coService.getCourseOffering(formatOffering.getCourseOfferingId(), context);
+        CourseOfferingInfo courseOffering = coServiceImpl.getCourseOffering(formatOffering.getCourseOfferingId(), context);
 
         for (List<String> activityOfferingPermutation : generatedPermutations) {
             String registrationCode = registrationCodeGenerator.generateRegistrationGroupCode(formatOffering, aoList, null);
@@ -492,7 +504,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             RegistrationGroupInfo rg = _makeRegGroup(registrationCode, activityOfferingPermutation, formatOffering);
 
             try {
-                coService.createRegistrationGroup(formatOfferingId,
+                coServiceImpl.createRegistrationGroup(formatOfferingId,
                         LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg,
                         context);
 

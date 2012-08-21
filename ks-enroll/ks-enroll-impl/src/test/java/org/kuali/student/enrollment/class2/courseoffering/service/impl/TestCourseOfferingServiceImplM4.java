@@ -401,19 +401,19 @@ public class TestCourseOfferingServiceImplM4 {
         }
     }
 
-    //@Ignore
     @Test
     public void testGenerateRegistrationGroupsSimple() throws DoesNotExistException,
        			InvalidParameterException, MissingParameterException,
        			OperationFailedException, PermissionDeniedException, AlreadyExistsException {
 
         before();
-        TypeServiceMockImpl instance = new TypeServiceMockImpl();   //?
-
-        List<RegistrationGroupInfo> rgList = coServiceImpl.generateRegistrationGroupsForFormatOffering("Lui-6", contextInfo);
-
-       	org.junit.Assert.assertEquals(1, rgList.size());
-
+        try {
+            List<RegistrationGroupInfo> rgList = coServiceImpl.generateRegistrationGroupsForFormatOffering("Lui-6", contextInfo);
+            Assert.assertEquals(1, rgList.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
     }
 
 }
