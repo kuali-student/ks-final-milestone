@@ -423,12 +423,32 @@
 
 
    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
-        <property name="courseService" ref="courseServiceImpl" />
-        <property name="acalService" ref="acalService" />
+       <property name="courseService" ref="courseServiceImpl" />
+       <property name="acalService" ref="acalService" />
+       <property name="coService" ref="coServiceImpl" />
+       <property name="registrationCodeGenerator" ref="regGroupCodeGenerator" />
    </bean>
 
+   <bean id="coServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
+       <property name="luiService" ref="luiService" />
+       <property name="rgAssembler" ref="rgAssembler" />
+       <property name="courseService" ref="courseServiceImpl" />
+       <property name="acalService" ref="acalService" />
+       <property name="stateService" ref="stateService" />
+       <property name="lprService" ref="lprPersistenceService" />
+       <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
+       <property name="businessLogic" ref="coBusinessLogic" />
+       <property name="atpService" ref="atpEnrService"/>
+       <property name="typeService" ref="typeService"/>
+       <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
+       <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
+       <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
+   </bean>
+
+    <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
+
     <bean id="ks.exp.courseOfferingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
+       <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="coService" />
