@@ -86,6 +86,14 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return courseService;
     }
 
+    public void setRegistrationCodeGenerator(RegistrationGroupCodeGenerator registrationCodeGenerator) {
+        this.registrationCodeGenerator = registrationCodeGenerator;
+    }
+
+    public RegistrationGroupCodeGenerator getRegistrationCodeGenerator() {
+        return registrationCodeGenerator;
+    }
+
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }
