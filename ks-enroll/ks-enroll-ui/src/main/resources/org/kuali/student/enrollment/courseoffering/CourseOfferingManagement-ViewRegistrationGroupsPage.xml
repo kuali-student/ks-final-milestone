@@ -106,6 +106,7 @@
     <bean id="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection" parent="Uif-TableCollectionSection"
           p:renderAddLine="false"  p:renderLineActions="false" p:refreshWhenChangedPropertyNames="formatOfferingIdForViewRG"
           p:methodToCallOnRefresh="filterRGsPerFO">
+        <property name="id" value="registrationGroupsPerFormatSection" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="filteredRGsForSelectedFO" />
         <property name="headerText" value="@{formatOfferingName} Registration Groups"/>

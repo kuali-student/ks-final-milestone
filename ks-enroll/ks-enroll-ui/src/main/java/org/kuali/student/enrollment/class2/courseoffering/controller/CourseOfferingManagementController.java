@@ -214,7 +214,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(formatOfferingList.get(0).getId(), getContextInfo());
         List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, filteredAOs);
         theForm.setFilteredRGsForSelectedFO(filteredRGs);
-
+        if(rgInfos != null && rgInfos.size()>0) {
+            getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
+        }
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
 
     }
@@ -235,10 +237,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView filterRGsPerFO (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<ActivityOfferingWrapper> filteredAOs = getAOsForSelectedFO(theForm.getFormatOfferingIdForViewRG(), theForm);
-
         List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(theForm.getFormatOfferingIdForViewRG(), getContextInfo());
         List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, filteredAOs);
         theForm.setFilteredRGsForSelectedFO(filteredRGs);
+        if(rgInfos != null && rgInfos.size()>0) {
+            getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
+        }
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
