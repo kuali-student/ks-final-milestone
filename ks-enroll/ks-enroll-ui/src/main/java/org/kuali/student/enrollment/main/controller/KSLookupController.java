@@ -2,13 +2,20 @@ package org.kuali.student.enrollment.main.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.controller.LookupController;
+import org.kuali.rice.krad.web.controller.UifControllerHelper;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.uif.view.KSLookupView;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -34,6 +41,40 @@ import java.util.Properties;
 public class KSLookupController extends LookupController {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KSLookupController.class);
+
+   @RequestMapping(params = "methodToCall=start")
+    @Override
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        LookupForm lookupForm = (LookupForm) form;
+
+        // if request is not a redirect, determine if we need to redirect for an externalizable object lookup
+        if (!lookupForm.isRedirectedLookup()) {
+            Class lookupObjectClass = null;
+            try {
+                lookupObjectClass = Class.forName(lookupForm.getDataObjectClassName());
+            } catch (ClassNotFoundException e) {
+                throw new RiceRuntimeException("Unable to get class for name: " + lookupForm.getDataObjectClassName());
+            }
+
+            ModuleService responsibleModuleService =
+                    KRADServiceLocatorWeb.getKualiModuleService().getResponsibleModuleService(lookupObjectClass);
+            if (responsibleModuleService != null && responsibleModuleService.isExternalizable(lookupObjectClass)) {
+                String lookupUrl = responsibleModuleService.getExternalizableDataObjectLookupUrl(lookupObjectClass,
+                        KRADUtils.convertRequestMapToProperties(request.getParameterMap()));
+
+                Properties redirectUrlProps = new Properties();
+                redirectUrlProps.put(UifParameters.REDIRECTED_LOOKUP, "true");
+                UifControllerHelper.prepareHistory(request, form);
+                // clear current form from session
+                GlobalVariables.getUifFormManager().removeSessionForm(form);
+
+                return performRedirect(form, lookupUrl, redirectUrlProps);
+            }
+        }
+
+        return super.start(lookupForm, result, request, response);
+    }
 
     /**
      * Overrides the KRAD search functionality to perform redirect on single search result.
