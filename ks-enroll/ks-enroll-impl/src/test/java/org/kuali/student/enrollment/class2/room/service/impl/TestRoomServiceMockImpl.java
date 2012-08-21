@@ -29,6 +29,7 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -39,6 +40,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:mock-room-service-impl-test-context.xml"})
@@ -89,7 +91,122 @@ public class TestRoomServiceMockImpl {
     }
 
     @Test
-    public void testCrud()
+    public void testGetMethods()  throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException,
+            DoesNotExistException, VersionMismatchException, DependentObjectsExistException {
+        if (debugMode) {
+            logger.debug("testing testGetMethods");
+        }
+
+        // test rooms
+        List<String> idList = new ArrayList<String>();
+        idList.add("1115097");
+        idList.add("2118406");
+        idList.add("1505039");
+        List<RoomInfo> rooms = roomService.getRoomsByIds(idList, contextInfo);
+        assertEquals(3, rooms.size());
+
+        List<String> roomIds = roomService.getRoomIdsByBuilding("097", contextInfo);
+        assertNotNull(roomIds);
+        assertEquals(1,roomIds.size());
+        assertEquals("1115097",roomIds.get(0));
+
+        roomIds.clear();
+        roomIds = roomService.getRoomIdsByBuildingAndFloor("406", "2", contextInfo);
+        assertNotNull(roomIds);
+        assertEquals(1,roomIds.size());
+        assertEquals("2118406",roomIds.get(0));
+
+        roomIds.clear();
+        roomIds = roomService.getRoomIdsByBuildingAndRoomType("097","kuali.room.type.classroom.general", contextInfo);
+        assertEquals(1, roomIds.size());
+        assertEquals("1115097",roomIds.get(0));
+
+        roomIds.clear();
+        List<String> roomTypes = new ArrayList<String>();
+        roomTypes.add("kuali.room.type.classroom.general");
+        roomIds = roomService.getRoomIdsByBuildingAndRoomTypes("039", roomTypes, contextInfo);
+        assertEquals(1, roomIds.size());
+        assertEquals("1505039",roomIds.get(0));
+
+        roomIds.clear();
+        idList.clear();
+        idList.add("usageType");
+        roomIds = roomService.getRoomsByBuildingAndRoomUsageTypes("039", idList, contextInfo);
+        assertEquals(2, roomIds.size());
+        assertEquals("1505039",roomIds.get(0));
+
+
+        idList.clear();
+        idList.add("097");
+        idList.add("406");
+        idList.add("039");
+        List<BuildingInfo> buildings =  roomService.getBuildingsByIds(idList, contextInfo);
+        assertEquals(3, buildings.size());
+
+        List<String> buildingIds = roomService.getBuildingIdsByCampus("MAIN", contextInfo);
+        assertNotNull(buildingIds);
+        assertEquals(3, buildingIds.size());
+
+        idList.clear();
+        idList.add("1001");
+        idList.add("1010");
+        idList.add("1168");
+        List<RoomResponsibleOrgInfo> roomResponsibleOrgInfoList =  roomService.getRoomResponsibleOrgsByIds(idList, contextInfo);
+        assertEquals(3, roomResponsibleOrgInfoList.size());
+
+        List<String> reponseOrgIdList = new ArrayList<String>();
+        reponseOrgIdList = roomService.getRoomResponsibleOrgIdsByRoom("1505039", contextInfo);
+        assertNotNull(reponseOrgIdList);
+        assertEquals(1, reponseOrgIdList.size());
+        assertTrue(reponseOrgIdList.get(0).equalsIgnoreCase("1168"));
+
+        reponseOrgIdList.clear();
+        reponseOrgIdList = roomService.getRoomResponsibleOrgIdsByType("kuali.room.type.classroom.general", contextInfo);
+        assertNotNull(reponseOrgIdList);
+        assertEquals(3, reponseOrgIdList.size());
+
+        reponseOrgIdList = roomService.getRoomResponsibleOrgIdsForBuilding("097", contextInfo);
+        assertNotNull(reponseOrgIdList);
+        assertEquals(1, reponseOrgIdList.size());
+        assertTrue(reponseOrgIdList.get(0).equalsIgnoreCase("1001"));
+
+    }
+
+    @Test(expected = DoesNotExistException.class)
+    public void testExceptionsToGetMethods()throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException,
+            DoesNotExistException, VersionMismatchException, DependentObjectsExistException {
+        if (debugMode) {
+            logger.debug("testing testGetMethods");
+        }
+
+        // test rooms
+        List<String> idList = new ArrayList<String>();
+        idList.add("1115097");
+        idList.add("2118406");
+        idList.add("039");
+        List<RoomInfo> rooms = roomService.getRoomsByIds(idList, contextInfo);
+        assertEquals(3, rooms.size());
+        idList.clear();
+        idList.add("097");
+        idList.add("2118406");
+        List<BuildingInfo> buildings =  roomService.getBuildingsByIds(idList, contextInfo);
+        assertEquals(3, buildings.size());
+
+        idList.clear();
+        idList.add("097");
+        idList.add("1010");
+        idList.add("1168");
+        List<RoomResponsibleOrgInfo> roomResponsibleOrgInfoList =  roomService.getRoomResponsibleOrgsByIds(idList, contextInfo);
+        assertEquals(3, roomResponsibleOrgInfoList.size());
+
+
+    }
+
+
+    @Test
+    public void testReadAndDelete()
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException,
             DoesNotExistException, VersionMismatchException, DependentObjectsExistException {
@@ -98,48 +215,28 @@ public class TestRoomServiceMockImpl {
         }
 
         // test building info
-        BuildingInfo expected = new BuildingInfo();
-
-        BuildingInfo actual = roomService.createBuilding("testBuildingType", expected, contextInfo);
-        assertNotNull(actual);
-        expected = roomService.getBuilding(actual.getId(),contextInfo);
+        // Valid buildingIDs: "097", 406, 039
+        BuildingInfo expected = roomService.getBuilding("097",contextInfo);
         assertNotNull(expected);
-        assertEquals(expected.getId(), actual.getId());
-        actual = roomService.updateBuilding("updatedBuildingId", expected, contextInfo);
-        assertNotNull(actual);
-        assert(actual.getId().equals("updatedBuildingId"));
-        StatusInfo deleteStatus = roomService.deleteBuilding(actual.getId(), contextInfo);
+        assertEquals(expected.getId(), "097");
+        StatusInfo deleteStatus = roomService.deleteBuilding(expected.getId(), contextInfo);
         assertNotNull(deleteStatus);
         assert(deleteStatus.getIsSuccess());
 
 
-        // test room info
-        RoomInfo expectedRoom = new RoomInfo();
-        RoomInfo actualRoom = roomService.createRoom(expected.getId(),"testRoomType", expectedRoom, contextInfo);
-        assertNotNull(actualRoom);
-        expectedRoom = roomService.getRoom(actualRoom.getId(), contextInfo);
+        // test room info  Valid room IDs: 1115097, 2118406, 1505039
+        RoomInfo expectedRoom = roomService.getRoom("1115097", contextInfo);
         assertNotNull(expectedRoom);
-        assertEquals(expectedRoom.getId(), actualRoom.getId());
-        actualRoom = roomService.updateRoom("updatedRoomId", expectedRoom, contextInfo);
-        assertNotNull(actualRoom);
-        assert(actualRoom.getId().equals("updatedRoomId"));
-        StatusInfo deleteRm = roomService.deleteBuilding(actualRoom.getId(), contextInfo);
+        assertEquals(expectedRoom.getId(), "1115097");
+        StatusInfo deleteRm = roomService.deleteRoom(expectedRoom.getId(), contextInfo);
         assertNotNull(deleteRm);
         assert(deleteRm.getIsSuccess());
 
-
-
-        // test RoomResponsibleOrgInfo
-        RoomResponsibleOrgInfo expectedRespInfo = new RoomResponsibleOrgInfo();
-        RoomResponsibleOrgInfo actualRespInfo = roomService.createRoomResponsibleOrg(actualRoom.getId(),"testOrgId", "testOrgType", expectedRespInfo, contextInfo);
-        assertNotNull(actualRespInfo);
-        expectedRespInfo = roomService.getRoomResponsibleOrg(actualRespInfo.getOrgId(), contextInfo);
+        // test RoomResponsibleOrgInfo   the IDs 1001, 1010, 1168, org ID 102
+        RoomResponsibleOrgInfo  expectedRespInfo = roomService.getRoomResponsibleOrg("1001", contextInfo);
         assertNotNull(expectedRespInfo);
-        assertEquals(expectedRespInfo.getId(), actualRespInfo.getId());
-        actualRespInfo = roomService.updateRoomResponsibleOrg("updateOrgId", expectedRespInfo,contextInfo);
-        assertNotNull(actualRespInfo);
-        assert(actualRespInfo.getOrgId().equals("updateOrgId"));
-        StatusInfo deleteResp = roomService.deleteRoomResponsibleOrg(actualRespInfo.getOrgId(), contextInfo);
+        assertEquals(expectedRespInfo.getId(), "1001");
+        StatusInfo deleteResp = roomService.deleteRoomResponsibleOrg("1168", contextInfo);
         assertNotNull(deleteResp);
         assert(deleteResp.getIsSuccess());
     }

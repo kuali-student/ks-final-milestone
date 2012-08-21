@@ -44,89 +44,154 @@ import java.util.List;
 public class RoomServiceMockImpl implements RoomService {
     private static Logger log = Logger.getLogger(RoomServiceMockImpl.class);
 
+    private RoomInfo room1;
+    private RoomInfo room2;
+    private RoomInfo room3;
+    private BuildingInfo building1;
+    private BuildingInfo building2;
+    private BuildingInfo building3;
+    private RoomResponsibleOrgInfo responsibleInfo1;
+    private RoomResponsibleOrgInfo responsibleInfo2;
+    private RoomResponsibleOrgInfo responsibleInfo3;
+    private List<RoomInfo> roomList;
+    private List<BuildingInfo> buildingList;
+    private List<RoomResponsibleOrgInfo>  responsibleInfoList;
+
 
     public RoomServiceMockImpl() {
+        createRooms();
+        createBuildings();
+        createRespOrgs();
     }
 
 
     @Override
     public RoomInfo getRoom(@WebParam(name = "roomId") String roomId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return createRoomInfo(roomId, "testB1", "testF1", "testCd", "testRoom");
+        for(RoomInfo info : roomList) {
+            if(info.getId().equalsIgnoreCase(roomId)) {
+                return info;
+            }
+        }
+        throw new DoesNotExistException("No room info found for ID: " + roomId);
     }
 
     @Override
     public List<RoomInfo> getRoomsByIds(@WebParam(name = "roomIds") List<String> roomIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<RoomInfo> roomList = new ArrayList<RoomInfo>();
+        List<RoomInfo> rooms = new ArrayList<RoomInfo>();
         for(String id : roomIds) {
-            RoomInfo info = createRoomInfo(id, "testB1", "testF1", "testCd", "testRoom");
-            roomList.add(info);
+            boolean found = false;
+            for(RoomInfo info : roomList)  {
+                if(info.getId().equalsIgnoreCase(id)) {
+                    found = true;
+                    rooms.add(info);
+                }
+            }
+            if(!found) {
+                throw new DoesNotExistException("No room info found for ID: " + id);
+            }
         }
-        return roomList;
+        return rooms;
     }
 
     @Override
     public List<String> getRoomIdsByBuilding(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String>  roomIdList = new ArrayList<String>();
-        for(int i=1; i < 6; i++) {
-            String id = buildingId+"Room"+i;
-            roomIdList.add(id);
+        boolean found = false;
+        for(RoomInfo info : roomList) {
+            if(info.getBuildingId().equalsIgnoreCase(buildingId)) {
+                found = true;
+                roomIdList.add(info.getId());
+            }
         }
-
+        if(!found) {
+            throw new DoesNotExistException("No room info found for building ID: " + buildingId);
+        }
         return roomIdList;
     }
 
     @Override
     public List<String> getRoomIdsByBuildingAndFloor(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "floor") String floor, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String>  roomIdList = new ArrayList<String>();
-        for(int i=1; i < 3; i++) {
-            String id = buildingId+floor+"Room"+i;
-            roomIdList.add(id);
+        boolean found = false;
+        for(RoomInfo info : roomList) {
+            if(info.getBuildingId().equalsIgnoreCase(buildingId) && info.getFloor().equalsIgnoreCase(floor)) {
+                found = true;
+                roomIdList.add(info.getId());
+            }
         }
-
+        if(!found) {
+            throw new DoesNotExistException("No room info found for building ID: " + buildingId + " and floor: "+ floor);
+        }
         return roomIdList;
     }
 
     @Override
     public List<String> getRoomIdsByType(@WebParam(name = "roomTypeKey") String roomTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String>  roomIdList = new ArrayList<String>();
-        for(int i=1; i < 2; i++) {
-            String id = "roomTypeKeyRoom"+i;
-            roomIdList.add(id);
+        for(RoomInfo info : roomList) {
+            if(info.getTypeKey().equalsIgnoreCase(roomTypeKey) ) {
+                roomIdList.add(info.getId());
+            }
         }
-
         return roomIdList;
     }
 
     @Override
     public List<String> getRoomIdsByBuildingAndRoomType(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "roomTypeKey") String roomTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String>  roomIdList = new ArrayList<String>();
-        for(int i=1; i < 3; i++) {
-            String id = buildingId+"roomTypeKeyRoom"+i;
-            roomIdList.add(id);
+        boolean found = false;
+        for(RoomInfo info : roomList) {
+            if(info.getBuildingId().equalsIgnoreCase(buildingId) && info.getTypeKey().equalsIgnoreCase(roomTypeKey)) {
+                found = true;
+                roomIdList.add(info.getId());
+            }
         }
-
+        if(!found) {
+            throw new DoesNotExistException("No room info found for building ID: " + buildingId + " and type: "+ roomTypeKey);
+        }
         return roomIdList;
     }
 
     @Override
     public List<String> getRoomsByBuildingAndRoomUsageTypes(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "roomUsageTypeKeys") List<String> roomUsageTypeKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String>  roomIdList = new ArrayList<String>();
-        for(int i=1; i < 3; i++) {
-            String id = buildingId+"roomUsageTypeKeys"+i;
-            roomIdList.add(id);
+        List<String> roomIdList = new ArrayList<String>();
+        boolean found = false;
+        for (RoomInfo info : roomList) {
+            if (info.getBuildingId().equalsIgnoreCase(buildingId)) {
+                for (String usageKey : roomUsageTypeKeys) {
+                    List<RoomUsageInfo> usageList = info.getRoomUsages();
+                    for (RoomUsageInfo usage : usageList) {
+                        if (usage.getUsageTypeKey().equalsIgnoreCase(usageKey)) {
+                            found = true;
+                            roomIdList.add(info.getId());
+                        }
+                    }
+                }
+            }
         }
-
+        if (!found) {
+            throw new DoesNotExistException("No room info found for building ID: " + buildingId + " roomTypeKey");
+        }
         return roomIdList;
     }
 
     @Override
     public List<String> getRoomIdsByBuildingAndRoomTypes(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "roomTypeKeys") List<String> roomTypeKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String>  roomIdList = new ArrayList<String>();
-        for(int i=1; i < 5; i++) {
-            String id = buildingId+"roomTypeKeys"+i;
-            roomIdList.add(id);
+        List<String> roomIdList = new ArrayList<String>();
+        boolean found = false;
+        for (RoomInfo info : roomList) {
+            if (info.getBuildingId().equalsIgnoreCase(buildingId)) {
+                for (String type : roomTypeKeys) {
+                    if (info.getTypeKey().equalsIgnoreCase(type)) {
+                        found = true;
+                        roomIdList.add(info.getId());
+                    }
+                }
+            }
         }
-
+        if (!found) {
+            throw new DoesNotExistException("No room info found for building ID: " + buildingId + " and roomTypeKeys");
+        }
         return roomIdList;
     }
 
@@ -145,7 +210,7 @@ public class RoomServiceMockImpl implements RoomService {
     public List<RoomInfo> searchForRooms(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<RoomInfo> roomList = new ArrayList<RoomInfo>();
         for(int i = 1; i < 3; i++) {
-            RoomInfo info = createRoomInfo("room"+i, "testB1", "testF1", "testCd", "testRoom");
+            RoomInfo info = null;
             roomList.add(info);
         }
         return roomList;
@@ -191,7 +256,9 @@ public class RoomServiceMockImpl implements RoomService {
 
     @Override
     public RoomInfo createRoom(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "roomTypeKey") String roomTypeKey, @WebParam(name = "roomInfo") RoomInfo roomInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        RoomInfo info = createRoomInfo("createRoomId1", buildingId, "testFloor1", "createRoomCd","createRoomTest");
+        String typeKey = "kuali.room.type.classroom.general";
+        String stateKey = "kuali.room.room.state.active";
+        RoomInfo info = createRoomInfo("createRoomId1", buildingId, "testFloor1", "createRoomCd","createRoomTest", typeKey, stateKey);
         info.setTypeKey(roomTypeKey);
         return info;
     }
@@ -217,8 +284,12 @@ public class RoomServiceMockImpl implements RoomService {
 
     @Override
     public StatusInfo deleteRoom(@WebParam(name = "roomId") String roomId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        RoomInfo room = getRoom(roomId, contextInfo);
+        if(room == null)  {
+            throw new DoesNotExistException("Room does not exist for ID: "+roomId);
+        }
         StatusInfo info = new StatusInfo();
-        info.setMessage("test room deleted");
+        info.setMessage("room id: " + roomId + " deleted");
         info.setSuccess(true);
 
         return info;
@@ -226,16 +297,30 @@ public class RoomServiceMockImpl implements RoomService {
 
     @Override
     public BuildingInfo getBuilding(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return  createBuildingInfo(buildingId, "testGetBuildingCd","testCompus", "testName1", "Mocked BuildingInfo for the getBuilding method");
+        for(BuildingInfo info : buildingList) {
+            if(info.getId().equalsIgnoreCase(buildingId)) {
+                return info;
+            }
+        }
+
+        throw new DoesNotExistException("No building info found for building ID: " + buildingId);
     }
 
     @Override
     public List<BuildingInfo> getBuildingsByIds(@WebParam(name = "buildingIds") List<String> buildingIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<BuildingInfo> infoList = new ArrayList<BuildingInfo>();
-        BuildingInfo info;
+
         for(String id : buildingIds)   {
-            info = createBuildingInfo(id, "testGetBuildingCd","testCompus", "testName1", "Mocked BuildingInfo for the getBuilding method");
-            infoList.add(info);
+            boolean found = false;
+            for(BuildingInfo info : buildingList) {
+                if(info.getId().equalsIgnoreCase(id)) {
+                    found = true;
+                    infoList.add(info);
+                }
+            }
+            if(!found) {
+                throw new DoesNotExistException("No building exists for ID: " + id);
+            }
         }
         return infoList;
     }
@@ -243,10 +328,16 @@ public class RoomServiceMockImpl implements RoomService {
     @Override
     public List<String> getBuildingIdsByCampus(@WebParam(name = "campusKey") String campusKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> idList = new ArrayList<String>();
-        idList.add(campusKey+"Building1");
-        idList.add(campusKey+"Building2");
-        idList.add(campusKey+"Building3");
-        idList.add(campusKey+"Building4");
+        boolean found = false;
+        for(BuildingInfo info : buildingList) {
+            if(info.getCampusKey().equalsIgnoreCase(campusKey)) {
+                found = true;
+                idList.add(info.getId());
+            }
+        }
+        if(!found) {
+            throw new DoesNotExistException("No building exists for campusKey: " + campusKey);
+        }
 
         return idList;
     }
@@ -326,7 +417,12 @@ public class RoomServiceMockImpl implements RoomService {
     @Override
     public StatusInfo deleteBuilding(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo info = new StatusInfo();
-        info.setMessage("test deleteBuilding with buildingId");
+        BuildingInfo building = getBuilding(buildingId, contextInfo);
+        if(building == null)  {
+            throw new DoesNotExistException("building does not exist for ID: "+buildingId);
+        }
+
+        info.setMessage("test deleteBuilding with buildingId" + buildingId);
         info.setSuccess(true);
 
         return info;
@@ -334,20 +430,29 @@ public class RoomServiceMockImpl implements RoomService {
 
     @Override
     public RoomResponsibleOrgInfo getRoomResponsibleOrg(@WebParam(name = "roomResponsibleOrgId") String roomResponsibleOrgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        Date effectiveDate = new Date(1344398400000L);
-        Date expireDate = new Date(1345176000000L);
-        return  createResponsibleInfo("responseID1", "testRoomID", roomResponsibleOrgId, effectiveDate, expireDate);
+        for(RoomResponsibleOrgInfo info : responsibleInfoList) {
+            if(info.getId().equalsIgnoreCase(roomResponsibleOrgId)) {
+                return info;
+            }
+        }
+        throw new DoesNotExistException("RoomResponsibleOrgInfo does not exist for OrgID: "+roomResponsibleOrgId);
     }
 
     @Override
     public List<RoomResponsibleOrgInfo> getRoomResponsibleOrgsByIds(@WebParam(name = "roomResponsibleOrgIds") List<String> roomResponsibleOrgIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<RoomResponsibleOrgInfo>  infoList = new ArrayList<RoomResponsibleOrgInfo>();
 
-        Date effectiveDate = new Date(1344398400000L);
-        Date expireDate = new Date(1345176000000L);
-        for( String orgId : roomResponsibleOrgIds)  {
-            RoomResponsibleOrgInfo info = createResponsibleInfo("responseID1", "testRoomID", orgId, effectiveDate, expireDate);
-            infoList.add(info);
+        for(String id : roomResponsibleOrgIds)  {
+            boolean found = false;
+            for(RoomResponsibleOrgInfo info : responsibleInfoList) {
+                if(info.getId().equalsIgnoreCase(id)) {
+                    found = true;
+                    infoList.add(info);
+                }
+            }
+            if(!found) {
+                throw new DoesNotExistException("RoomResponsibleOrgInfo does not exist for OrgID: "+id);
+            }
         }
         return infoList;
     }
@@ -355,10 +460,12 @@ public class RoomServiceMockImpl implements RoomService {
     @Override
     public List<String> getRoomResponsibleOrgIdsByType(@WebParam(name = "roomResponsibleOrgTypeKey") String roomResponsibleOrgTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> orgIdList = new ArrayList<String>();
-        orgIdList.add("testOrgId1");
-        orgIdList.add("testOrgId2");
-        orgIdList.add("testOrgId3");
-        orgIdList.add("testOrgId4");
+
+        for(RoomResponsibleOrgInfo info : responsibleInfoList) {
+            if(info.getTypeKey().equalsIgnoreCase(roomResponsibleOrgTypeKey)) {
+                orgIdList.add(info.getOrgId());
+            }
+        }
 
         return orgIdList;
     }
@@ -366,18 +473,34 @@ public class RoomServiceMockImpl implements RoomService {
     @Override
     public List<String> getRoomResponsibleOrgIdsByRoom(@WebParam(name = "roomId") String roomId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> orgIdList = new ArrayList<String>();
-        orgIdList.add(roomId+"testOrgId1");
-        orgIdList.add(roomId+"testOrgId2");
-        orgIdList.add(roomId+"testOrgId3");
+        boolean found = false;
+        for(RoomResponsibleOrgInfo info : responsibleInfoList) {
+            if(info.getRoomId().equalsIgnoreCase(roomId)) {
+                found = true;
+                orgIdList.add(info.getId());
+            }
+        }
+        if(!found) {
+            throw new DoesNotExistException("RoomResponsibleOrgInfo does not exist for roomId: "+roomId);
+        }
+
         return orgIdList;
     }
 
     @Override
     public List<String> getRoomResponsibleOrgIdsForBuilding(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> orgIdList = new ArrayList<String>();
-        orgIdList.add(buildingId+"testOrgId1");
-        orgIdList.add(buildingId+"testOrgId2");
-        orgIdList.add(buildingId+"testOrgId3");
+        boolean found = false;
+        for(RoomResponsibleOrgInfo info : responsibleInfoList) {
+            String bId = getRoom(info.getRoomId(), contextInfo).getBuildingId();
+            if(bId.equalsIgnoreCase(buildingId)) {
+                found = true;
+                orgIdList.add(info.getId());
+            }
+        }
+        if(!found) {
+            throw new DoesNotExistException("RoomResponsibleOrgInfo does not exist for buildingId: "+buildingId);
+        }
         return orgIdList;
     }
 
@@ -473,11 +596,15 @@ public class RoomServiceMockImpl implements RoomService {
 
     @Override
     public StatusInfo deleteRoomResponsibleOrg(@WebParam(name = "roomResponsibleOrgId") String roomResponsibleOrgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        StatusInfo info = new StatusInfo();
-        info.setMessage("test delete RoomResponsibleOrg with roomResponsibleOrgId");
-        info.setSuccess(true);
+        StatusInfo status = new StatusInfo();
+        RoomResponsibleOrgInfo info = getRoomResponsibleOrg(roomResponsibleOrgId, contextInfo);
+        if(info == null) {
+            throw new DoesNotExistException("RoomResponsibleOrgInfo does not exist for Id: "+roomResponsibleOrgId);
+        }
+        status.setMessage("test delete RoomResponsibleOrg with roomResponsibleOrgId: " + roomResponsibleOrgId);
+        status.setSuccess(true);
 
-        return info;
+        return status;
     }
 
     private RoomUsageInfo craeteRoomUsageInfo(String id, Integer hardCapacity, Integer preferCapacity) {
@@ -492,7 +619,7 @@ public class RoomServiceMockImpl implements RoomService {
         return usageInfo;
     }
 
-    private RoomInfo createRoomInfo(String roomId, String buildingId, String floor,  String roomCode, String roomName) {
+    private RoomInfo createRoomInfo(String roomId, String buildingId, String floor,  String roomCode, String roomName, String typeKey, String StateKey) {
         RoomInfo info = new RoomInfo();
         List<String> accessKeys = new ArrayList<String>();
         accessKeys.add("kuali.room.type.classroom.general");
@@ -504,8 +631,8 @@ public class RoomServiceMockImpl implements RoomService {
         info.setRoomCode(roomCode);
         info.setId(roomId);
         info.setName(roomName);
-        info.setStateKey("kuali.room.room.state.active");
-        info.setTypeKey("kuali.room.type.classroom.general");
+        info.setStateKey(StateKey);
+        info.setTypeKey(typeKey);
         List<RoomUsageInfo> usageInfoList = new ArrayList<RoomUsageInfo>();
         RoomUsageInfo usageInfo = craeteRoomUsageInfo("test1", 100, 80);
         usageInfoList.add(usageInfo);
@@ -543,5 +670,89 @@ public class RoomServiceMockImpl implements RoomService {
         info.setExpirationDate(expirationDate);
 
         return info;
+    }
+
+    private void createRooms() {
+        String roomId = "1115097";
+        String buildingId = "097";
+        String floor = "1";
+        String roomCode = "1115";
+        String roomName = "CCC 1115";
+        String typeKey = "kuali.room.type.classroom.general";
+        String stateKey = "kuali.room.room.state.active";
+        room1 = createRoomInfo(roomId, buildingId, floor, roomCode, roomName, typeKey, stateKey);
+        roomId = "2118406";
+        buildingId = "406";
+        floor = "2";
+        roomCode = "2118";
+        roomName = "CSI 2118";
+        room2 = createRoomInfo(roomId, buildingId, floor, roomCode, roomName, typeKey, stateKey);
+        roomId = "1505039";
+        buildingId = "039";
+        floor = "1";
+        roomCode = "1505";
+        roomName = "VMH 1505";
+        room3 = createRoomInfo(roomId, buildingId, floor, roomCode, roomName, typeKey, stateKey);
+        roomList = new ArrayList<RoomInfo>();
+        roomList.add(room1);
+        roomList.add(room2);
+        roomList.add(room3);
+    }
+
+    private void createBuildings() {
+        String buildingId = "097";
+        String buildingCode = "CCC";
+        String campusKey = "MAIN";
+        String buildingName = "CAMBRIDGE COMMUNITY CENTER";
+        String desc = "CCC - CAMBRIDGE COMMUNITY CENTER";
+        building1 = createBuildingInfo(buildingId, buildingCode, campusKey, buildingName, desc);
+        buildingId = "406";
+        buildingCode = "CSI";
+        campusKey = "MAIN";
+        buildingName = "COMPUTER SCIENCE INSTRUCTIONAL";
+        desc = "CSI - COMPUTER SCIENCE INSTRUCTIONAL";
+        building2 = createBuildingInfo(buildingId, buildingCode, campusKey, buildingName, desc);
+        buildingId = "039";
+        buildingCode = "VMH";
+        campusKey = "MAIN";
+        buildingName = "VAN MUNCHING HALL";
+        desc = "VMH - VAN MUNCHING HALL";
+        building3 = createBuildingInfo(buildingId, buildingCode, campusKey, buildingName, desc);
+        buildingList = new ArrayList<BuildingInfo>();
+        buildingList.add(building1);
+        buildingList.add(building2);
+        buildingList.add(building3);
+    }
+
+    private void createRespOrgs() {
+        String id = "1001";
+        String roomId = "1115097";
+        String orgId = "102";
+        Date effectiveDate = new Date(1344398400000L);
+        Date expirationDate = new Date(1345176000000L);
+        responsibleInfo1 = createResponsibleInfo(id, roomId, orgId, effectiveDate, expirationDate);
+        id = "1010";
+        roomId = "2118406";
+        orgId = "102";
+        effectiveDate = new Date(1344398400000L);
+        expirationDate = new Date(1345176000000L);
+        responsibleInfo2 = createResponsibleInfo(id, roomId, orgId, effectiveDate, expirationDate);
+        id = "1168";
+        roomId = "1505039";
+        orgId = "102";
+        effectiveDate = new Date(1344398400000L);
+        expirationDate = new Date(1345176000000L);
+        responsibleInfo3 = createResponsibleInfo(id, roomId, orgId, effectiveDate, expirationDate);
+        responsibleInfoList = new ArrayList<RoomResponsibleOrgInfo>();
+        responsibleInfo1.setStateKey("kuali.room.room.state.active");
+        responsibleInfo1.setTypeKey("kuali.room.type.classroom.general");
+        responsibleInfo2.setStateKey("kuali.room.room.state.active");
+        responsibleInfo2.setTypeKey("kuali.room.type.classroom.general");
+        responsibleInfo3.setStateKey("kuali.room.room.state.active");
+        responsibleInfo3.setTypeKey("kuali.room.type.classroom.general");
+
+        responsibleInfoList.add(responsibleInfo1);
+        responsibleInfoList.add(responsibleInfo2);
+        responsibleInfoList.add(responsibleInfo3);
     }
 }
