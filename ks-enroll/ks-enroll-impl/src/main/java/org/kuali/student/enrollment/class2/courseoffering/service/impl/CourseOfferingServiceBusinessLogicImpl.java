@@ -492,11 +492,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             RegistrationGroupInfo rg = _makeRegGroup(registrationCode, activityOfferingPermutation, formatOffering);
 
             try {
-                coService.createRegistrationGroup(formatOfferingId,
-                        LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg,
-                        context);
+                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(formatOfferingId,
+                        LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, context);
 
-                regGroupList.add(rg);
+                regGroupList.add(rgInfo);
             } catch (DataValidationErrorException e) {
                 throw new OperationFailedException(
                         "Failed to validate registration group", e);
