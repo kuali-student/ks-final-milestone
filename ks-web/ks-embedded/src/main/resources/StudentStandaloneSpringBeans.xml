@@ -132,11 +132,13 @@
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoCreateView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoModifyView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoLookupView.xml</value>
 
                 <!-- Process -->
                 <value>classpath:org/kuali/student/enrollment/process/ProcessInfoSearchView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/process/ProcessInfoCreateView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/process/ProcessInfoView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/process/ProcessInfoLookupView.xml</value>
 
                 <!-- Checks -->
                 <value>classpath:org/kuali/student/enrollment/check/CheckInfoCreateView.xml</value>
@@ -154,7 +156,7 @@
                 <value>classpath:org/kuali/student/enrollment/state/LifecycleInfoAdminLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/state/LifecycleInfoAdminInquiryView.xml</value>
 
-                <!-- Kitchen Sink -->
+                <!-- Kitchen Sink-->
                 <value>classpath:org/kuali/student/enrollment/kitchensink/KitchenSinkView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/Buttons.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionColumnSorting.xml</value>

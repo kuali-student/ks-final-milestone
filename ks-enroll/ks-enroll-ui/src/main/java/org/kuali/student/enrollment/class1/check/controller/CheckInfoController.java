@@ -15,12 +15,20 @@
  */
 package org.kuali.student.enrollment.class1.check.controller;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.LookupController;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class1.check.form.CheckInfoForm;
+import org.kuali.student.enrollment.uif.view.KSLookupView;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -33,7 +41,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.kuali.rice.krad.web.form.LookupForm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
@@ -54,7 +62,7 @@ public class CheckInfoController extends UifControllerBase {
     private transient ProcessService processService;
     private ContextInfo contextInfo;
     private CheckInfo checkInfo;
-
+    private LookupController lookupController;
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new CheckInfoForm();
@@ -74,10 +82,44 @@ public class CheckInfoController extends UifControllerBase {
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         CheckInfoForm checkForm = (CheckInfoForm) form;
-
+        ((CheckInfoForm) form).setTypeKey("select");
         return super.start(form, result, request, response);
     }
+    @RequestMapping(params = "methodToCall=startLookUp")
+    public ModelAndView startLookUp(@ModelAttribute("KualiForm") LookupForm lookupForm, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+        lookupForm.setRenderedInLightBox(true);
+        ModelAndView modelAndView = lookupController.search(lookupForm, result, request, response);
+        if(lookupForm.getPostedView() instanceof KSLookupView){
+            KSLookupView ksLookupView = (KSLookupView)lookupForm.getPostedView();
+            String defaultAction = ksLookupView.getDefaultSingleLookupResultAction();
+            if (StringUtils.isNotBlank(defaultAction) && lookupForm.getLookupResults() != null && lookupForm.getLookupResults().size() == 1){
+                Object object = lookupForm.getLookupResults().iterator().next();
 
+                Properties props = new Properties();
+
+                DataObjectEntry ddEntry = KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getDataObjectEntry(lookupForm.getDataObjectClassName());
+
+                List<String> pkKeys = ddEntry.getPrimaryKeys();
+                for (String pkKey : pkKeys) {
+                    props.put(pkKey, ObjectPropertyUtils.getPropertyValue(object, pkKey));
+                }
+
+                if(StringUtils.equals(defaultAction,KRADConstants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE)){
+                    props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+                }  else{
+                    props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
+                }
+                props.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
+                props.put(UifConstants.UrlParams.SHOW_HOME,BooleanUtils.toStringTrueFalse(false));
+                props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE,lookupForm.getDataObjectClassName());
+
+                return performRedirect(lookupForm,defaultAction,props );
+            }
+        }
+
+        return modelAndView;
+    }
    @RequestMapping(params = "methodToCall=create")
     public ModelAndView create(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -93,7 +135,7 @@ public class CheckInfoController extends UifControllerBase {
 
         try {
             processService = getProcessService();
-           //CheckInfo createCheckInfo = processService.createCheck(checkInfo.getTypeKey(), checkInfo, getContextInfo());
+           CheckInfo createCheckInfo = processService.createCheck(checkInfo.getTypeKey(), checkInfo, getContextInfo());
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Create new failed. ", e);

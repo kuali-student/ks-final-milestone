@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="HoldInfo" parent="HoldInfo-parentBean"/>
+    <bean id="HoldInfo-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="objectLabel" value="Hold Issue"/>
+        <property name="dataObjectClass" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+                <ref bean="HoldInfo.id"/>
+                <ref bean="HoldInfo.name"/>
+                <ref bean="HoldInfo.typeKey"/>
+                <ref bean="HoldInfo.descr.plain"/>
+                <ref bean="HoldInfo.organizationId"/>
+                <ref bean="HoldInfo.stateKey"/>
+
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="HoldInfo.id" parent="HoldInfo.id-parentBean"/>
+    <bean id="HoldInfo.id-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="id"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="ID"/>
+        <property name="shortLabel" value="Hold"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="30"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="HoldInfo.typeKey" parent="HoldInfo.typeKey-parentBean"/>
+    <bean id="HoldInfo.typeKey-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="typeKey"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Hold Issue Type"/>
+        <property name="shortLabel" value="Hold"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
+        </property>
+    </bean>
+
+    <bean id="HoldInfo.name" parent="HoldInfo.name-parentBean"/>
+    <bean id="HoldInfo.name-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="name"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Hold Issue"/>
+        <property name="shortLabel" value="Hold"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="15"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:watermarkText="Enter Hold Name" p:size="15"/>
+        </property>
+    </bean>
+
+
+    <bean id="HoldInfo.descr.plain" parent="HoldInfo.descr.plain-parentBean"/>
+    <bean id="HoldInfo.descr.plain-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="descr.plain"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Phrase in Hold Description"/>
+        <property name="shortLabel" value="Hold"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-SmallTextAreaControl" p:watermarkText="Enter phrase"/>
+        </property>
+    </bean>
+
+    <bean id="HoldInfo.organizationId" parent="HoldInfo.organizationId-parentBean"/>
+    <bean id="HoldInfo.organizationId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="organizationId"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Owning Organization"/>
+        <property name="shortLabel" value="Hold"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="16"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="16"/>
+        </property>
+
+    </bean>
+
+    <bean id="HoldInfo.stateKey" parent="HoldInfo.stateKey-parentBean"/>
+    <bean id="HoldInfo.stateKey-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="stateKey"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="State"/>
+        <property name="shortLabel" value="Hold"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="kuali.hold.issue.state.active" p:value="Active"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="kuali.hold.issue.state.inactive" p:value="Inactive"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KS-HoldIssueInfo-LookupView" parent="KSLookupView">
+        <property name="id" value="holdIssueInfoLookupView"/>
+        <property name="headerText" value="Advanced Search:Hold Issue"/>
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class1.hold.service.HoldIssueInfoLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="organizationId">
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
+                    <property name="quickfinder.fieldConversions">
+                        <map>
+                            <entry key="id" value="organizationId"/>
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey"/>
+
+            </list>
+        </property>
+
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="id"/>
+                <bean parent="Uif-DataField"
+                      p:propertyName="name"/>
+                <bean parent="Uif-DataField"
+                      p:propertyName="typeKey"/>
+                <bean parent="Uif-DataField"
+                      p:propertyName="descr.plain"/>
+                <bean parent="Uif-DataField"
+                      p:propertyName="organizationId"/>
+                <bean parent="Uif-DataField"
+                      p:id="state"
+                      p:propertyName="stateKey"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

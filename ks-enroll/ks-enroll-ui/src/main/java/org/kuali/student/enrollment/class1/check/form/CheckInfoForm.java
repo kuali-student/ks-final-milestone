@@ -43,6 +43,8 @@ public class CheckInfoForm extends UifFormBase {
     private String rightComparisonAgendaId;
     private CheckInfo  checkInfo;
     private List<CheckInfo> checkInfoList;
+    private String holdName;
+
 
     public CheckInfoForm() {
         super();
@@ -159,6 +161,13 @@ public class CheckInfoForm extends UifFormBase {
 
     public void setCheckInfoList(List<CheckInfo> checkInfoList) {
         this.checkInfoList = checkInfoList;
+    }
+    public String getHoldName() {
+        return holdName;
+    }
+
+    public void setHoldName(String holdName) {
+        this.holdName = holdName;
     }
 
 }
