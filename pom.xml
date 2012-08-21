@@ -38,6 +38,17 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>kuali.nexus.build</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/repositories/kuali-builds</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
   </repositories>
   <ciManagement>
     <system>hudson</system>
@@ -133,7 +144,7 @@
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.10</junit.version>
-    <kuali.rice.version>2.2.0-M2</kuali.rice.version>
+    <kuali.rice.version>2.2.0-myplan-build-26</kuali.rice.version>
     <log4j.version>1.2.16</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
