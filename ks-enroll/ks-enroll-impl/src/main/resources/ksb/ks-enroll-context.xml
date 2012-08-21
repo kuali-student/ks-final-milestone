@@ -410,6 +410,7 @@
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator" />
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
         <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao" />
+        <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
   </bean>
 
    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
