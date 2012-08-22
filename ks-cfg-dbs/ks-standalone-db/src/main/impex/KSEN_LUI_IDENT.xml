@@ -311,6 +311,13 @@
         LUI_ID_TYPE="kuali.lui.identifier.type.official"
         OBJ_ID="78b9e659-70dd-4270-bbfe-4f6efd9a53af" UPDATEID="admin"
         UPDATETIME="20120613163815" VER_NBR="0"/>
+    <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120822162540"
+        ID="0fd730cd-2f9a-495e-b3dd-0e3d9c1ea0ce" LUI_CD="A"
+        LUI_ID="73419915-dae1-46fc-8f29-9797a3360946"
+        LUI_ID_STATE="kuali.lui.identifier.state.active"
+        LUI_ID_TYPE="kuali.lui.identifier.type.official"
+        OBJ_ID="2ea3307b-f796-46e5-9abb-4e8dd8557b0d" UPDATEID="admin"
+        UPDATETIME="20120822162540" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613164010"
         ID="1043858e-e3f7-4167-83dd-7909750b0a01" LUI_CD="A"
         LUI_ID="a9a85c89-7b7b-4b7c-b4f9-19ff9abdfd99"
@@ -1820,6 +1827,13 @@
         LUI_ID_TYPE="kuali.lui.identifier.type.official"
         OBJ_ID="2a1cef45-a5c0-46ed-aa57-e1f66d7675b9" UPDATEID="admin"
         UPDATETIME="20120613163637" VER_NBR="0"/>
+    <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120822162541"
+        ID="5c033418-65c9-4938-abdb-a17ba7e65063" LUI_CD="C"
+        LUI_ID="0d5a5f6a-9e9a-45aa-9677-a621ed5dd7ed"
+        LUI_ID_STATE="kuali.lui.identifier.state.active"
+        LUI_ID_TYPE="kuali.lui.identifier.type.official"
+        OBJ_ID="8dbe277e-5ec9-4bff-9324-30537b512175" UPDATEID="admin"
+        UPDATETIME="20120822162541" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613164006"
         DIVISION="ENGL" ID="5c4cd7f1-4830-41ac-88a5-e20cab5209d3"
         LNG_NAME="MASTER OF ARTS ESSAY" LUI_CD="ENGL590"
@@ -3015,6 +3029,15 @@
         LUI_ID_TYPE="kuali.lui.identifier.type.official"
         OBJ_ID="56b05590-b7e9-443b-be7f-aa1b9c2381f1" UPDATEID="admin"
         UPDATETIME="20120613163726" VER_NBR="0"/>
+    <KSEN_LUI_IDENT CREATEID="1" CREATETIME="20120822162442"
+        ID="95113aee-b2ba-4c1c-bd38-aaf2d4cf117b"
+        LNG_NAME="Quiz/Lecture"
+        LUI_ID="986a06ce-c053-45e3-88ae-0972a541669a"
+        LUI_ID_STATE="kuali.lui.identifier.state.active"
+        LUI_ID_TYPE="kuali.lui.identifier.type.official"
+        OBJ_ID="c32eb5c9-12f1-4e40-98e9-fae5c9c64b49"
+        SHRT_NAME="Quiz/Lecture" UPDATEID="1"
+        UPDATETIME="20120822162442" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613163637"
         ID="958bb958-cdb0-4ca6-af3a-9c65d540565b" LUI_CD="V"
         LUI_ID="a50adbad-bc5d-4ae4-88f8-9c499d76908e"
@@ -3613,6 +3636,13 @@
         LUI_ID_TYPE="kuali.lui.identifier.type.official"
         OBJ_ID="494f47fe-8bf4-4a22-936f-c2b9dc7ec79c" UPDATEID="admin"
         UPDATETIME="20120613163555" VER_NBR="0"/>
+    <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120822162604"
+        ID="a1c834b6-757b-4e75-ace7-8a69ace1e727" LUI_CD="G"
+        LUI_ID="61c657e9-ae70-49a1-840b-48b7e435abfb"
+        LUI_ID_STATE="kuali.lui.identifier.state.active"
+        LUI_ID_TYPE="kuali.lui.identifier.type.official"
+        OBJ_ID="a8a9e324-1ac9-4330-96ab-a8c2ce20f4ef" UPDATEID="admin"
+        UPDATETIME="20120822162604" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613164203"
         ID="a1fd0a87-b923-484f-ac55-b581c84b60aa" LUI_CD="A"
         LUI_ID="781f4e90-160f-483e-8df7-4ec4dde22ddf"
@@ -3929,6 +3959,13 @@
         LUI_ID_TYPE="kuali.lui.identifier.type.official"
         OBJ_ID="58fb8c67-981d-45c8-8dce-3c9f445b6432" UPDATEID="admin"
         UPDATETIME="20120613164350" VER_NBR="0"/>
+    <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120822162553"
+        ID="b4ff69cc-0764-464d-a8ed-b6962ee77bae" LUI_CD="E"
+        LUI_ID="83211fa2-8917-4ae7-83bb-1ce2f1ac96e3"
+        LUI_ID_STATE="kuali.lui.identifier.state.active"
+        LUI_ID_TYPE="kuali.lui.identifier.type.official"
+        OBJ_ID="3cd428b0-d790-403b-a8bd-0830fe40c7a8" UPDATEID="admin"
+        UPDATETIME="20120822162553" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613163848"
         ID="b510b4c3-479a-426f-a964-e18551231f41" LUI_CD="A2"
         LUI_ID="8859bd16-96ca-4bfa-b64d-7a94891877c5"
@@ -3988,6 +4025,13 @@
         LUI_ID_TYPE="kuali.lui.identifier.type.official"
         OBJ_ID="b1b7811b-457e-4acf-b803-22d32007262e" UPDATEID="admin"
         UPDATETIME="20120613163912" VER_NBR="0"/>
+    <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120822162540"
+        ID="b8868d68-afa5-486b-aa94-4eea2b7fa14d" LUI_CD="B"
+        LUI_ID="7964fc14-5d84-4985-9cae-c928395b41ae"
+        LUI_ID_STATE="kuali.lui.identifier.state.active"
+        LUI_ID_TYPE="kuali.lui.identifier.type.official"
+        OBJ_ID="0626da89-fcf7-429a-b509-3158e452ff03" UPDATEID="admin"
+        UPDATETIME="20120822162540" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613163938"
         DIVISION="ENGL" ID="b8ad7714-aa38-45e6-8147-0d05ee6261dd"
         LNG_NAME="INDEPENDENT STUDY" LUI_CD="ENGL499"
@@ -4374,6 +4418,13 @@
         LUI_ID_TYPE="kuali.lui.identifier.type.official"
         OBJ_ID="9f0930cd-3534-4dd4-aaf9-8c4b6d9d309f" UPDATEID="admin"
         UPDATETIME="20120613163551" VER_NBR="0"/>
+    <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120822162604"
+        ID="d30dc3d9-d451-4142-b18f-559e8ce52ee2" LUI_CD="H"
+        LUI_ID="ca0db4f3-bfa5-4a67-b358-7eb0da7a0fad"
+        LUI_ID_STATE="kuali.lui.identifier.state.active"
+        LUI_ID_TYPE="kuali.lui.identifier.type.official"
+        OBJ_ID="32eb677a-2071-4f77-baee-8a7fdf2b9e71" UPDATEID="admin"
+        UPDATETIME="20120822162604" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613164452"
         ID="d3306150-0a21-4928-a35e-6a134a9e5953" LUI_CD="AN"
         LUI_ID="46cd02e6-bef0-414f-aab3-209dc2f45ce8"
@@ -4481,6 +4532,14 @@
         LUI_ID_TYPE="kuali.lui.identifier.type.official"
         OBJ_ID="3800f9f4-e4e7-4cd8-9b81-8d9282b092fa" UPDATEID="admin"
         UPDATETIME="20120613163858" VER_NBR="0"/>
+    <KSEN_LUI_IDENT CREATEID="1" CREATETIME="20120822162442"
+        DIVISION="COM" ID="d7763325-e27c-4203-bbe9-c20c92c6c7fd"
+        LNG_NAME="MASS MEDIA LAW" LUI_CD="COM 440"
+        LUI_ID="971abf90-d76a-490f-aa30-1d7bfd5b1958"
+        LUI_ID_STATE="kuali.lui.identifier.state.active"
+        LUI_ID_TYPE="kuali.lui.identifier.type.official"
+        OBJ_ID="217ac039-4f5a-4e64-877c-7a1bf9956052" UPDATEID="1"
+        UPDATETIME="20120822162442" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613164212"
         ID="d797c35b-06f3-4744-b677-baee0708b927" LUI_CD="A"
         LUI_ID="9add61b7-70c3-4e71-abed-7a80ab1cadd4"
@@ -4598,6 +4657,13 @@
         LUI_ID_TYPE="kuali.lui.identifier.type.official"
         OBJ_ID="fba2b43b-c201-4d17-8b39-96fa154ccc03" UPDATEID="admin"
         UPDATETIME="20120613163759" VER_NBR="0"/>
+    <KSEN_LUI_IDENT CREATEID="1" CREATETIME="20120822162442"
+        ID="dfae9fa4-6672-4f5e-b88c-4d6bc3936119" LNG_NAME="Lecture"
+        LUI_ID="1097b1bc-9da6-43d3-bc8a-99cf2aa03953"
+        LUI_ID_STATE="kuali.lui.identifier.state.active"
+        LUI_ID_TYPE="kuali.lui.identifier.type.official"
+        OBJ_ID="1d834abc-174c-444e-8800-a2434caf760d"
+        SHRT_NAME="Lecture" UPDATEID="1" UPDATETIME="20120822162442" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613163715"
         ID="e04c3730-7438-4823-b727-571daa2072ed" LUI_CD="Y"
         LUI_ID="34c0ef89-0ea7-4ae1-95d1-bbc593eb3b3f"
@@ -4705,6 +4771,13 @@
         LUI_ID_TYPE="kuali.lui.identifier.type.official"
         OBJ_ID="1a424702-27a7-4521-a040-01f4d36abe98" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
+    <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120822162604"
+        ID="e450a834-79de-41a4-a161-5927dbec5158" LUI_CD="F"
+        LUI_ID="c5c985ab-d9a3-4d6f-82f9-c1f735041c00"
+        LUI_ID_STATE="kuali.lui.identifier.state.active"
+        LUI_ID_TYPE="kuali.lui.identifier.type.official"
+        OBJ_ID="ee91218b-65cd-4103-8e93-73173fbac2a0" UPDATEID="admin"
+        UPDATETIME="20120822162604" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613163916"
         DIVISION="ENGL" ID="e4982917-76e2-41c0-a0c9-d3e97650f607"
         LNG_NAME="SPECIAL STUDIES IN LITERATURE" LUI_CD="ENGL440"
@@ -4762,6 +4835,13 @@
         LUI_ID_TYPE="kuali.lui.identifier.type.official"
         OBJ_ID="6e5c251c-abcb-42ee-95d7-8d846c07e002" UPDATEID="admin"
         UPDATETIME="20120613163833" VER_NBR="0"/>
+    <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120822162553"
+        ID="e82cebe2-563f-4b02-b122-50f2fa6d7648" LUI_CD="D"
+        LUI_ID="81ad8aef-444d-4422-94c4-9ffa65b8aa32"
+        LUI_ID_STATE="kuali.lui.identifier.state.active"
+        LUI_ID_TYPE="kuali.lui.identifier.type.official"
+        OBJ_ID="af0eec11-8488-4580-8f3b-bfb902fd3e88" UPDATEID="admin"
+        UPDATETIME="20120822162553" VER_NBR="0"/>
     <KSEN_LUI_IDENT CREATEID="admin" CREATETIME="20120613163614"
         ID="e8ba2c85-d381-43bf-9984-d78c9fbbceed" LUI_CD="A"
         LUI_ID="49db905e-4ec4-47e2-8d44-829fd3677a34"
