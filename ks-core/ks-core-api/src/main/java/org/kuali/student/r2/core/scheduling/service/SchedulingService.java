@@ -36,6 +36,7 @@ import java.util.List;
 /**
  * @Version 1.0
  * @Author Sri komandur@uw.edu
+ * @Author Mezba Mahtab
  */
 @WebService(name = "SchedulingService", serviceName = "SchedulingService", portName = "SchedulingService", targetNamespace = SchedulingServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
@@ -1521,6 +1522,32 @@ public interface SchedulingService {
                 MissingParameterException,
                 OperationFailedException,
                 PermissionDeniedException;
+
+    /**
+     * Tests if there is conflict amongst two time slots.
+     *
+     * @param timeSlot1Id  a unique Id of the first TimeSlot
+     * @param timeSlot2Id  a unique Id of the second TimeSlot
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return true if there is a conflict (overlap) between the two timeslots,
+     *         false otherwise
+     * @throws DoesNotExistException either of the timeslot ids are not found
+     * @throws InvalidParameterException invalid timeslot ids or contextInfo
+     * @throws MissingParameterException timeSlot1Id, timeSlot2Id, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public Boolean areTimeslotsInConflict(@WebParam(name = "timeSlot1Id") String timeSlot1Id,
+                                          @WebParam(name = "timeSlot2Id") String timeSlot2Id,
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
 }
 

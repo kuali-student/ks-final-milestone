@@ -920,6 +920,41 @@ public class SchedulingServiceMockImpl implements SchedulingService {
         return newStatus();
     }
 
+    @Override
+    public Boolean areTimeslotsInConflict(String timeSlot1Id, String timeSlot2Id, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        TimeSlotInfo timeSlotInfo1 = getTimeSlot(timeSlot1Id, contextInfo);
+        TimeSlotInfo timeSlotInfo2 = getTimeSlot(timeSlot2Id, contextInfo);
+        // Check if any of weekdays is common. If the two timeslots are on different weekdays,
+        // no need to check for start/end times.
+        boolean hasCommonWeekday = false;
+        for (Integer dayOfWeekTs1: timeSlotInfo1.getWeekdays()) {
+            if (timeSlotInfo2.getWeekdays().contains(dayOfWeekTs1)) {
+                hasCommonWeekday = true;
+                break;
+            }
+        }
+        if (!hasCommonWeekday) return false;
+        // there is a common weekday, so now check if there is an overlap of time.
+        // Check if the start times or end times are same, then they overlap.
+        if ((timeSlotInfo1.getStartTime().equals(timeSlotInfo2.getStartTime()))
+            || (timeSlotInfo1.getEndTime().equals(timeSlotInfo2.getEndTime()))) {
+            return true;
+        }
+        // now they have differing start times or end times.
+
+        // if first timeslot starts before second time slot, it must end before second timeslot starts
+        if (timeSlotInfo1.getStartTime().isBefore(timeSlotInfo2.getStartTime())) {
+            return timeSlotInfo1.getEndTime().isBefore(timeSlotInfo2.getStartTime());
+        }
+
+        // if first timeslot starts after second time slot, it must start after second timeslot ends
+        if (timeSlotInfo1.getStartTime().isAfter(timeSlotInfo2.getStartTime())) {
+            return timeSlotInfo1.getStartTime().isAfter(timeSlotInfo2.getEndTime());
+        }
+
+        return false;
+    }
+
     private StatusInfo newStatus() {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);

@@ -331,4 +331,9 @@ public class SchedulingServiceDecorator implements SchedulingService {
     public StatusInfo deleteScheduleTransaction(@WebParam(name = "scheduleTransactionId") String scheduleTransactionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteScheduleTransaction(scheduleTransactionId, contextInfo);
     }
+
+    @Override
+    public Boolean areTimeslotsInConflict(@WebParam(name = "timeSlot1Id") String timeSlot1Id, @WebParam(name = "timeSlot2Id") String timeSlot2Id, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().areTimeslotsInConflict(timeSlot1Id, timeSlot2Id, contextInfo);
+    }
 }
