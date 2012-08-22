@@ -87,7 +87,7 @@
     
    <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
         <property name="persistenceUnitName" value="EnumerationManagement"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/enumeration-persistence.xml" />
+        <property name="persistenceXmlLocation" value="classpath:META-INF/enumeration-persistence-test.xml" />
         <property name="dataSource" ref="dataSource" />
    </bean>
     
