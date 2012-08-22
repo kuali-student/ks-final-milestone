@@ -154,6 +154,8 @@ public class SchedulingServiceDataLoader {
         scheduleRequestInfo.setRefObjectId(scheduleRequestInfoRefObjectId);
         scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
         scheduleRequestInfo.setName(scheduleRequestInfoName);
+        scheduleRequestInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE);
+        scheduleRequestInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_REQUESTED_STATE);
 
         List<ScheduleRequestComponentInfo> componentInfoList = new ArrayList<ScheduleRequestComponentInfo>();
         ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
@@ -162,21 +164,26 @@ public class SchedulingServiceDataLoader {
         buildingIds.add("TestBuilding1");
         buildingIds.add("TestBuilding2");
         componentInfo.setBuildingIds(buildingIds);
+
         List<String> campusIds = new ArrayList<String>();
         campusIds.add("Test-Central");
         componentInfo.setCampusIds(campusIds);
+
         List<String> orgIds = new ArrayList<String>();
         orgIds.add("Test-IT");
         orgIds.add("Test-Comp");
         componentInfo.setOrgIds(orgIds);
+
         List<String> roomIds = new ArrayList<String>();
         roomIds.add("Chem-101");
         roomIds.add("Law-201");
         componentInfo.setRoomIds(roomIds);
+
         List<String> timeSlotIds = new ArrayList<String>();
         timeSlotIds.add("1");
         timeSlotIds.add("2");
         componentInfo.setTimeSlotIds(timeSlotIds);
+
         List<String> resourceTypeKeys = new ArrayList<String>();
         resourceTypeKeys.add(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
         componentInfo.setResourceTypeKeys(resourceTypeKeys);

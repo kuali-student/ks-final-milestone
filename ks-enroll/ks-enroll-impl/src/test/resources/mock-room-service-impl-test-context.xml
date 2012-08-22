@@ -18,5 +18,5 @@
         <constructor-arg value="true" />
     </bean>
 
-    <bean id="roomService" class="org.kuali.student.enrollment.class2.room.service.impl.RoomServiceMockImpl" />
+    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImpl" />
 </beans>

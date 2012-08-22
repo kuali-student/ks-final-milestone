@@ -842,4 +842,46 @@
     </bean>
 
 
+    <!-- Scheduling Service -->
+
+    <bean id="schedulingServiceImpl" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
+        <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
+        <property name="timeSlotDao" ref="timeSlotDao"/>
+    </bean>
+
+    <bean id="schedulingServiceValidationDecorator" class="org.kuali.student.r2.core.scheduling.service.decorators.SchedulingServiceValidationDecorator">
+        <property name="nextDecorator" ref="schedulingServiceImpl"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+
+    <bean id="ks.exp.schedulingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="schedulingServiceValidationDecorator" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.scheduling.service.SchedulingService" />
+                <property name="localServiceName" value="SchedulingService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/scheduling" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Room Service Mock Impl -->
+    <bean id="roomServiceMockImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImpl">
+    </bean>
+
+    <bean id="ks.exp.roomService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="roomServiceMockImpl" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.room.service.RoomService" />
+                <property name="localServiceName" value="RoomService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/room" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
 </beans>

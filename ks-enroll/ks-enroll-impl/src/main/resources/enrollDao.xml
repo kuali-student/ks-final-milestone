@@ -175,7 +175,15 @@
     </bean>
 
     <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao">
-    <property name="em" ref="enrollEntityManager" />
-</bean>
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="scheduleRequestDao" class="org.kuali.student.r2.core.scheduling.dao.ScheduleRequestDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="timeSlotDao" class="org.kuali.student.r2.core.scheduling.dao.TimeSlotDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
 
 </beans>

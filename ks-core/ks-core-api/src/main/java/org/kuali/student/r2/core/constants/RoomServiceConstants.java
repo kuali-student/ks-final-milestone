@@ -34,6 +34,7 @@ public class RoomServiceConstants {
      * Reference Object URI's
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "room";
+    public static final String SERVICE_NAME_LOCAL_PART = "RoomService";
     public static final String REF_OBJECT_URI_ROOM = NAMESPACE + "/" + RoomInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_BUILDING = NAMESPACE + "/" + BuildingInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ROOM_RESPONSIBLE_ORG = NAMESPACE + "/" + RoomResponsibleOrg.class.getSimpleName();

@@ -14,7 +14,7 @@
  *
  * Created by chongzhu on 8/14/12
  */
-package org.kuali.student.enrollment.class2.room.service.impl;
+package org.kuali.student.r2.core.room.service.impl;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.util.StringUtil;

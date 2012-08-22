@@ -435,6 +435,7 @@ public class SchedulingServiceImpl implements SchedulingService {
         TimeSlotEntity entity = new TimeSlotEntity(timeSlotInfo);
 
         entity.setTimeSlotType(timeSlotTypeKey);
+        entity.setEntityCreated(contextInfo);
 
         timeSlotDao.persist(entity);
 
