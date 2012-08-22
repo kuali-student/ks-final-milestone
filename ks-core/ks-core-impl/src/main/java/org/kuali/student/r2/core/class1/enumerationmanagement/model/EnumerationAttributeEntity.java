@@ -24,7 +24,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "KSEN_ENUM_ATTR")
+@Table(name = "KSEM_ENUM_ATTR")
 public class EnumerationAttributeEntity extends BaseAttributeEntity<EnumerationEntity> {
 
 	public EnumerationAttributeEntity() {

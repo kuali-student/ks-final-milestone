@@ -38,7 +38,7 @@ import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
 import org.kuali.student.r2.core.enumerationmanagement.infc.EnumeratedValue;
 
 @Entity
-@Table(name = "KSEN_ENUM_VAL_T")
+@Table(name = "KSEM_ENUM_VAL_T")
 public class EnumeratedValueEntity extends MetaEntity{
 
     @Column(name = "CD")

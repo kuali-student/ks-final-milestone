@@ -30,7 +30,7 @@ import org.kuali.student.r2.core.enumerationmanagement.dto.EnumContextValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
 
 @Entity
-@Table(name="KSEN_CTX_T", uniqueConstraints={@UniqueConstraint(columnNames={"CTX_KEY", "CTX_VAL"})})
+@Table(name="KSEM_CTX_T", uniqueConstraints={@UniqueConstraint(columnNames={"CTX_KEY", "CTX_VAL"})})
 public class EnumContextValueEntity extends MetaEntity {
 
     @Column(name="CTX_KEY")

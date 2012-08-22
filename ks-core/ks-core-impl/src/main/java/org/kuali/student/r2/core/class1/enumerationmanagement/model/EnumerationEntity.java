@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "KSEN_ENUM_T")
+@Table(name = "KSEM_ENUM_T")
 @AttributeOverrides({
     @AttributeOverride(name="id", column=@Column(name="ENUM_KEY"))})
 public class EnumerationEntity extends MetaEntity implements AttributeOwner<EnumerationAttributeEntity> {
