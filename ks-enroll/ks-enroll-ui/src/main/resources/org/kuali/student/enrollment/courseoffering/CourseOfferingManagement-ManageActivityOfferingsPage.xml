@@ -103,7 +103,7 @@
                             </bean>
                             <bean parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" />
                             <bean parent="Uif-ActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}" />
-                            <bean parent="Uif-ActionLink" p:methodToCall="viewRegGroups" p:actionLabel="View Registration Groups" />
+                            <bean parent="Uif-ActionLink" p:methodToCall="manageRegGroups" p:actionLabel="Manage Registration Groups" />
                             <!--<bean parent="Uif-ActionLink" p:methodToCall="" p:actionLabel="test" />-->
                         </list>
                     </property>

@@ -22,7 +22,7 @@
     <bean id="KS-CourseOfferingManagement-ViewRegistrationGroupsPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="viewRegistrationGroupsPage">
         <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="View Registration Groups" />
+            <bean parent="Uif-HeaderThree" p:headerText="Manage Registration Groups" />
         </property>
         <property name="items">
             <list>

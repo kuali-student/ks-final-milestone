@@ -200,8 +200,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
     }
 
-    @RequestMapping(params = "methodToCall=viewRegGroups")
-    public ModelAndView viewRegGroups(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+    @RequestMapping(params = "methodToCall=manageRegGroups")
+    public ModelAndView manageRegGroups(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         String courseOfferingId = theForm.getTheCourseOffering().getId();
         List<FormatOfferingInfo> formatOfferingList =
