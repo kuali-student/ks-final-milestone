@@ -215,6 +215,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, filteredAOs);
         theForm.setFilteredRGsForSelectedFO(filteredRGs);
         if(rgInfos != null && rgInfos.size()>0) {
+            if(theForm.getFormatOfferingIdForViewRG()==null){
+                //Default the selected Format Offering if it was not set already
+                theForm.setFormatOfferingIdForViewRG(formatOfferingList.get(0).getId());
+            }
             getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
         }
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
