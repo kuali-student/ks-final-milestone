@@ -67,7 +67,6 @@
 
     <!-- Datasource Configuration -->
     <param name="datasource.ojb.platform">Oracle9i</param>
-    <param name="oracle.platform">${datasource.platform.${datasource.ojb.platform}}</param>
     <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
     <param name="datasource.username">ksembedded2</param>
     <param name="datasource.password">ksembedded2</param>
