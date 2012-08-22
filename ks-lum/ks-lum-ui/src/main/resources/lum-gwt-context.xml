@@ -994,7 +994,7 @@
 
     <bean id="enumServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r1.core.enumerationmanagement.service.EnumerationManagementService"/>
+                  value="org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/enumerationmanagement}EnumerationManagementService"/>
     </bean>
