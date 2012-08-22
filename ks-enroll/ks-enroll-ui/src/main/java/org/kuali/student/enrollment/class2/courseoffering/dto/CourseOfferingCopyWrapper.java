@@ -138,9 +138,9 @@ public class CourseOfferingCopyWrapper implements Serializable{
         List<String> studentGradingOptionsList = getStudentRegistrationGradingOptionsList();
         if (studentGradingOptionsList.size() > 0) {
             sb.append(studentGradingOptionsList.get(0));
-            for (int i = 0; i < studentGradingOptionsList.size(); i++) {
+            for (int i = 1; i < studentGradingOptionsList.size(); i++) {
                 sb.append(",");
-                sb.append(studentGradingOptionsList.get(i+1));
+                sb.append(studentGradingOptionsList.get(i));
             }
             returnString = sb.toString();
         }
