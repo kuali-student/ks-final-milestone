@@ -17,18 +17,21 @@
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.r2.core.constants.StateServiceConstants;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
-import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.util.constants.*;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.StateServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -82,4 +85,9 @@ public class CourseOfferingResourceLoader {
         LRCService lrcService = (LRCService)GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         return lrcService;
     }
+    public static SchedulingService loadSchedulingService() {
+        SchedulingService schedulingService = (SchedulingService)GlobalResourceLoader.getService(new QName(SchedulingServiceConstants.NAMESPACE, SchedulingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        return schedulingService;
+    }
+
 }

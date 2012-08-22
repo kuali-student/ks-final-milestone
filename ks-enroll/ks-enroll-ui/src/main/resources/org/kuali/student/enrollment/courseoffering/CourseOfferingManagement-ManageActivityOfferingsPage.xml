@@ -163,6 +163,12 @@
                       p:label="FORMAT"
                       p:propertyName="aoInfo.formatOfferingName"/>
                 <bean parent="Uif-DataField"
+                      p:label="Time"
+                      p:propertyName="timeDisplayName"/>
+                <bean parent="Uif-DataField"
+                      p:label="Days"
+                      p:propertyName="daysDisplayName"/>
+                <bean parent="Uif-DataField"
                       p:label="INSTRUCTOR"
                       p:propertyName="firstInstructorDisplayName"/>
                 <bean parent="Uif-DataField"

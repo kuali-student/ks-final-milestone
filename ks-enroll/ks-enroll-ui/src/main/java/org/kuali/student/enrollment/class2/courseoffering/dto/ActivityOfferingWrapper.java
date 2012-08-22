@@ -5,8 +5,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
-
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
@@ -50,6 +48,9 @@ public class ActivityOfferingWrapper implements Serializable{
     private List<ScheduleWrapper> requestedSchedules;
 
     private ScheduleWrapper newScheduleRequest;
+
+    private String timeDisplayName;
+    private String daysDisplayName;
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
@@ -340,5 +341,21 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setNewScheduleRequest(ScheduleWrapper newScheduleRequest) {
         this.newScheduleRequest = newScheduleRequest;
+    }
+
+    public String getTimeDisplayName() {
+        return timeDisplayName;
+    }
+
+    public void setTimeDisplayName(String timeDisplayName) {
+        this.timeDisplayName = timeDisplayName;
+    }
+
+    public String getDaysDisplayName() {
+        return daysDisplayName;
+    }
+
+    public void setDaysDisplayName(String daysDisplayName) {
+        this.daysDisplayName = daysDisplayName;
     }
 }
