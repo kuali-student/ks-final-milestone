@@ -167,15 +167,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
             if (!courseOfferingList.isEmpty() && courseOfferingList.size() == 1 )  {
 
-                CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(courseOfferingList.get(0));
+                CourseOfferingInfo coToShow = courseOfferingList.get(0);
 
-                theForm.getCourseOfferingEditWrapperList().clear();
-                theForm.getCourseOfferingEditWrapperList().add(wrapper);
-                theForm.setTheCourseOffering(courseOfferingList.get(0));
-                getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(courseOfferingList.get(0), theForm);
-                getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,courseOfferingList.get(0));
-
-                return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
+                return prepareManageAOsModelAndView(theForm, coToShow);
 
             } else if (courseOfferingList.size()>1) {
 
@@ -198,6 +192,21 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 return getUIFModelAndView(theForm);
             }
         }
+    }
+
+    private ModelAndView prepareManageAOsModelAndView(CourseOfferingManagementForm theForm, CourseOfferingInfo coToShow) throws Exception {
+        CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(coToShow);
+
+        theForm.getCourseOfferingEditWrapperList().clear();
+        theForm.getCourseOfferingEditWrapperList().add(wrapper);
+        theForm.setTheCourseOffering(coToShow);
+        theForm.setFormatIdForNewAO(null);
+        theForm.setActivityIdForNewAO(null);
+        theForm.setNoOfActivityOfferings(null);
+        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(coToShow, theForm);
+        getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm, coToShow);
+
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=manageRegGroups")
@@ -304,14 +313,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if(selectedObject instanceof CourseOfferingEditWrapper){
             CourseOfferingEditWrapper coWrapper =  (CourseOfferingEditWrapper)selectedObject;
             CourseOfferingInfo theCourseOffering = coWrapper.getCoInfo();
-            theForm.setTheCourseOffering(theCourseOffering);
+
             theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
             theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
             theForm.setRadioSelection(CourseOfferingConstants.COURSEOFFERING_COURSE_OFFERING_CODE);
-            getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
-            getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theCourseOffering);
 
-            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
+            return prepareManageAOsModelAndView(theForm, theCourseOffering);
         }
         else{
             //TODO log error
