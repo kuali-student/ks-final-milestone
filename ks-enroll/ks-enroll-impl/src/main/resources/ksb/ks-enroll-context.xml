@@ -744,10 +744,8 @@
     </bean>
 
     <!-- enumeration service for Appt Rule Types -->
-    <bean id="enumerationService" class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
-        <property name="enumDao" ref="enumerationDao"/>
-        <property name="enumValueDao" ref="enumeratedValueDao"/>
-        <property name="enumContextValueDao" ref="enumContextValueDao"/>
+    <bean id="enumerationService" class="org.kuali.student.r1.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+        <property name="enumDAO" ref="enumDao" />
         <property name="searchManager" ref="enumSearchManager" />
     </bean>
 
