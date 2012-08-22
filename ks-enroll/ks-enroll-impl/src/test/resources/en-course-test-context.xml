@@ -80,18 +80,27 @@
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
-    <bean id="emDao"
-		class="org.kuali.student.r1.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
+    <bean id="enumerationDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao">
         <property name="em" ref="entityManager" />
-	</bean>
+    </bean>
+
+    <bean id="enumeratedValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="enumContextValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumContextValueDao">
+        <property name="em" ref="entityManager" />
+    </bean>
 
 	<bean id="emSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:em-search-config.xml" />
 	</bean>
 
 	<bean id="emServiceImpl"
-		class="org.kuali.student.r1.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
-		<property name="enumDAO" ref="emDao" />
+		class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+        <property name="enumDao" ref="enumerationDao"/>
+        <property name="enumValueDao" ref="enumeratedValueDao"/>
+        <property name="enumContextValueDao" ref="enumContextValueDao"/>
 		<property name="searchManager" ref="emSearchManager"/>
 	</bean>
 
