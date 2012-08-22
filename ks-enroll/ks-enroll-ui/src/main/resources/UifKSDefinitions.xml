@@ -160,7 +160,11 @@
     <bean id="KSInputField" abstract="true" parent="Uif-InputField"
           p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
           p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
-          p:instructionalMessage.render="false" />
+          p:instructionalMessage.render="false" >
+          <property name="instructionalMessage">
+              <bean parent="Uif-InstructionalMessage"/>
+          </property>
+    </bean>
 
     <!-- If the action button is in collection, this will submits the form (useful for redirect) instead of KRAD's default ajax callback and update the collection component -->
     <bean id="KS-SubmitActionLink" parent="Uif-ActionLink" p:actionScript="jq('#kualiForm').submit();" abstract="true" />
