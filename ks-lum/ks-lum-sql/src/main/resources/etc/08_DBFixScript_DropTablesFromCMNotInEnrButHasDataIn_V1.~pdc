@@ -1,6 +1,0 @@
--- Tables being dropped that has data in...Maybe they should remain... as they specific to CM
-DROP TABLE KSSC_SUBJ_CD_TYPE CASCADE CONSTRAINTS;
-
-DROP TABLE KSSC_SUBJ_CD_JN_ORG CASCADE CONSTRAINTS;
-
-DROP TABLE KSSC_SUBJ_CD CASCADE CONSTRAINTS;
