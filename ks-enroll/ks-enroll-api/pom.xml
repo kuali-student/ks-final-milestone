@@ -132,19 +132,31 @@
                         <goals>
                             <goal>kscontractdoc</goal>                      
                         </goals>
+                        <configuration>
+                    <!-- generate on all kuali dependencies -->
+                    <sourceDirs>
+                        <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                        <sourceDir>${project.build.directory}/dependency-sources</sourceDir>
+                    </sourceDirs>                    
+                </configuration>
                     </execution>
                     <!-- This generates the the dictionary documentation docs on the site--> 
                     <execution>
                         <id>generate-dictionary-documentation</id>
                         <phase>${ks.dictionarydoc.phase}</phase>
-                        <configuration>
-                            <inputFiles>
-                                <inputFile>ks-TypeInfo-dictionary.xml</inputFile>
-                            </inputFiles>
-                        </configuration>
                         <goals>
                             <goal>ksdictionarydoc</goal>
                         </goals>
+                        <configuration>
+                    <!-- generate only on the kuali student api -->
+                      <sourceDirs>
+         				           <sourceDir>${project.basedir}/src/main/java</sourceDir>
+         				           <sourceDir>${project.basedir}/../../ks-core/ks-core-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-common/ks-common-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-lum/ks-lum-api/src/main/java</sourceDir>
+                    	     </sourceDirs> 
+                    	                          
+                </configuration>
                         
                     </execution>
                     <!-- This generates the the ks-xxxx-generated.xml files in target/classes -->
@@ -156,7 +168,15 @@
                         </goals>
                         <configuration>
                             <writeManual>true</writeManual>
+           				     <!-- generate only on the kuali student api -->
+          				      <sourceDirs>
+         				           <sourceDir>${project.basedir}/src/main/java</sourceDir>
+         				           <sourceDir>${project.basedir}/../../ks-core/ks-core-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-common/ks-common-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-lum/ks-lum-api/src/main/java</sourceDir>
+                    	     </sourceDirs>                    
                         </configuration> 
+                        
                     </execution>           
                     <!-- This generates the mock-implementation java code--> 
                     <execution>
@@ -165,9 +185,17 @@
                         <goals>
                             <goal>kscreatemock</goal>
                         </goals>
-                        
+                        <configuration>
+                   		<!-- generate only on the kuali student api -->
+                   		 <sourceDirs>
+                 		        <sourceDir>${project.basedir}/src/main/java</sourceDir>
+         				           <sourceDir>${project.basedir}/../../ks-core/ks-core-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-common/ks-common-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-lum/ks-lum-api/src/main/java</sourceDir>
+              		      </sourceDirs>
+               		     </configuration>
                     </execution>      
-                    <!-- This generates the validation decorator java code--> 
+                    <!-- generate only on the kuali student api -->
                     <execution>
                         <id>generate-validation-decorators</id>
                         <phase>${ks.vdecorator.phase}</phase>
@@ -175,15 +203,18 @@
                             <goal>kscreatevdec</goal>
                         </goals>
                         
+                        <configuration>
+                       <sourceDirs>
+                          <sourceDir>${project.basedir}/src/main/java</sourceDir>
+         				           <sourceDir>${project.basedir}/../../ks-core/ks-core-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-common/ks-common-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-lum/ks-lum-api/src/main/java</sourceDir>
+          				           </sourceDirs>
+                        </configuration>
+                        
                     </execution>       
                 </executions>
-                <configuration>
-                    <!-- this defines that location of the source code used for all contract docs executions -->
-                    <sourceDirs>
-                        <sourceDir>${project.basedir}/src/main/java</sourceDir>
-                        <sourceDir>${project.build.directory}/dependency-sources</sourceDir>
-                    </sourceDirs>                    
-                </configuration>
+                
                 <dependencies>
                     <dependency>
                         <groupId>org.kuali.rice</groupId>
