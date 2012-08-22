@@ -53,10 +53,10 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="generate_rgs_top_button"/>
                             <ref bean="KS-ViewRegistrationGroupsPage-ActivityOfferingsPerFormatSection"/>
                             <ref bean="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection"/>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="generate_rgs_bottom_button"/>
                         </list>
                     </property>
                 </bean>
