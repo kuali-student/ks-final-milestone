@@ -207,6 +207,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         List<FormatOfferingInfo> formatOfferingList =
                 getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, getContextInfo());
         theForm.setFormatOfferingName(formatOfferingList.get(0).getName());
+        theForm.setFormatOfferingIdForViewRG(formatOfferingList.get(0).getId());
         List<ActivityOfferingWrapper> filteredAOs = getAOsForSelectedFO(formatOfferingList.get(0).getId(), theForm);
         theForm.setFilteredAOsForSelectedFO(filteredAOs);
 
@@ -215,10 +216,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, filteredAOs);
         theForm.setFilteredRGsForSelectedFO(filteredRGs);
         if(rgInfos != null && rgInfos.size()>0) {
-            if(theForm.getFormatOfferingIdForViewRG()==null){
+//            if(theForm.getFormatOfferingIdForViewRG()==null){
                 //Default the selected Format Offering if it was not set already
-                theForm.setFormatOfferingIdForViewRG(formatOfferingList.get(0).getId());
-            }
+
+//            }
             getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
         }
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
