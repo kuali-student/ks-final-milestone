@@ -46,6 +46,34 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private String courseOfferingCode = "";
 
+    private List<ScheduleWrapper> processedSchedules;
+    private List<ScheduleWrapper> requestedSchedules;
+
+    private ScheduleWrapper newScheduleRequest;
+
+    public ActivityOfferingWrapper(){
+        aoInfo = new ActivityOfferingInfo();
+        instructors = new ArrayList<OfferingInstructorWrapper>();
+        seatpools = new ArrayList<SeatPoolWrapper>();
+        aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+        aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
+        formatOffering = new FormatOfferingInfo();
+        term = new TermInfo();
+        scheduleComponentWrappers = new ArrayList<ScheduleComponentWrapper>();
+        this.setReadOnlyView(false);
+        this.setIsChecked(false);
+        processedSchedules = new ArrayList<ScheduleWrapper>();
+        requestedSchedules = new ArrayList<ScheduleWrapper>();
+        newScheduleRequest = new ScheduleWrapper();
+    }
+
+    public ActivityOfferingWrapper(ActivityOfferingInfo info){
+        super();
+        aoInfo = info;
+        instructors = new ArrayList<OfferingInstructorWrapper>();
+        seatpools = new ArrayList<SeatPoolWrapper>();
+    }
+
     public String getCourseOfferingCode() {
         return courseOfferingCode;
     }
@@ -139,30 +167,6 @@ public class ActivityOfferingWrapper implements Serializable{
     }
     public void setWaitListTypeKey(String waitListTypeKey) {
         this.waitListTypeKey = waitListTypeKey;
-    }
-
-
-
-
-    public ActivityOfferingWrapper(){
-        aoInfo = new ActivityOfferingInfo();
-        instructors = new ArrayList<OfferingInstructorWrapper>();
-        seatpools = new ArrayList<SeatPoolWrapper>();
-        aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
-        aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-        formatOffering = new FormatOfferingInfo();
-        term = new TermInfo();
-        scheduleComponentWrappers = new ArrayList<ScheduleComponentWrapper>();
-        this.setReadOnlyView(false);
-        this.setIsChecked(false);
-
-    }
-
-    public ActivityOfferingWrapper(ActivityOfferingInfo info){
-        super();
-        aoInfo = info;
-        instructors = new ArrayList<OfferingInstructorWrapper>();
-        seatpools = new ArrayList<SeatPoolWrapper>();
     }
 
     public FormatOfferingInfo getFormatOffering() {
@@ -312,5 +316,29 @@ public class ActivityOfferingWrapper implements Serializable{
             return true;
         }
         return false;
+    }
+
+    public List<ScheduleWrapper> getProcessedSchedules() {
+        return processedSchedules;
+    }
+
+    public void setProcessedSchedules(List<ScheduleWrapper> processedSchedules) {
+        this.processedSchedules = processedSchedules;
+    }
+
+    public List<ScheduleWrapper> getRequestedSchedules() {
+        return requestedSchedules;
+    }
+
+    public void setRequestedSchedules(List<ScheduleWrapper> requestedSchedules) {
+        this.requestedSchedules = requestedSchedules;
+    }
+
+    public ScheduleWrapper getNewScheduleRequest() {
+        return newScheduleRequest;
+    }
+
+    public void setNewScheduleRequest(ScheduleWrapper newScheduleRequest) {
+        this.newScheduleRequest = newScheduleRequest;
     }
 }

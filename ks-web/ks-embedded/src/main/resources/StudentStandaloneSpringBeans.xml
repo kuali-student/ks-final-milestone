@@ -41,6 +41,7 @@
 				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
                 <value>classpath:UifKRADOverrideDefinitions.xml</value>
 				<value>classpath:UifKSDefinitions.xml</value>
+                <value>classpath:UifUtils.xml</value>
                 <value>classpath:ks-ActivityOfferingInfo-dictionary.xml</value>
                 <value>classpath:ks-CourseOfferingInfo-dictionary.xml</value>
                 <value>classpath:ks-EnrollmentFeeInfo-dictionary.xml</value>
