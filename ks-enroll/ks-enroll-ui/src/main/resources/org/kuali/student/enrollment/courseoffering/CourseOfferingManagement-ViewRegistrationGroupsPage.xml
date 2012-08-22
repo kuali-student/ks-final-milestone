@@ -44,6 +44,7 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatsForCreateRGKeyValues" p:addBlankOption="false" />
                                 </property>
                             </bean>
+                            <ref bean="KS-ViewRegistrationGroupsPage-ActivityOfferingsPerFormatSection"/>
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="disclosure.render" value="false"/>
                                 <property name="headerText" value="Generate unconstrained registration groups"/>
@@ -54,10 +55,8 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="generate_rgs_top_button"/>
-                            <ref bean="KS-ViewRegistrationGroupsPage-ActivityOfferingsPerFormatSection"/>
                             <ref bean="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection"/>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="generate_rgs_bottom_button"/>
-                        </list>
+                         </list>
                     </property>
                 </bean>
             </list>
