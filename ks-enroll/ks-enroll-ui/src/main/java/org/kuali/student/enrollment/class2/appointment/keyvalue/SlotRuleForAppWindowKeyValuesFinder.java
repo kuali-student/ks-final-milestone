@@ -24,7 +24,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
-import org.kuali.student.r1.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -45,6 +45,8 @@ public class SlotRuleForAppWindowKeyValuesFinder extends UifKeyValuesFinderBase 
 
     private String enumerationKey;
 
+    private ContextInfo contextInfo;
+
     //this method returns the enumeration values as key value pairs to the UI for appoint rule type which is passed as enumerationKey to the
     // enumeration management service.
     @Override
@@ -53,7 +55,7 @@ public class SlotRuleForAppWindowKeyValuesFinder extends UifKeyValuesFinderBase 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         try {
-            List<EnumeratedValueInfo> slotRuleTypeCodes = getEnumerationService().getEnumeratedValues(getEnumerationKey(),null,null,null);
+            List<EnumeratedValueInfo> slotRuleTypeCodes = getEnumerationService().getEnumeratedValues(getEnumerationKey(),null,null,null, this.getContextInfo());
             if(slotRuleTypeCodes!=null)  {
                 for (EnumeratedValueInfo slotRuleTypeCode : slotRuleTypeCodes) {
                     ConcreteKeyValue keyValue = new ConcreteKeyValue();
@@ -83,5 +85,12 @@ public class SlotRuleForAppWindowKeyValuesFinder extends UifKeyValuesFinderBase 
             enumerationService = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX+"enumerationmanagement", "EnumerationManagementService"));
         }
         return this.enumerationService;
+    }
+
+    public ContextInfo getContextInfo() {
+        if (contextInfo == null){
+            contextInfo = org.kuali.student.enrollment.common.util.ContextBuilder.loadContextInfo();
+        }
+        return contextInfo;
     }
 }

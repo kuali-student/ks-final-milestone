@@ -115,6 +115,29 @@
 
 
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl"></bean>
+    <bean id="typeDao" class="org.kuali.student.r2.core.class1.type.dao.TypeDao"/>
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao"/>
+
+
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+        <property name="typeDao" ref="typeDao"/>
+        <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
+    </bean>
+
+    <bean id="appointmentWindowDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    <bean id="appointmentSlotDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentSlotDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    <bean id="appointmentDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    <bean id="appointmentWindowService" class="org.kuali.student.r2.core.class1.appointment.service.impl.AppointmentServiceImpl">
+        <property name="appointmentWindowDao" ref="appointmentWindowDao"/>
+        <property name="appointmentSlotDao" ref="appointmentSlotDao"/>
+        <property name="appointmentDao" ref="appointmentDao"/>
+    </bean>
 
     <bean id="enumServiceValidationDecorator"
           class="org.kuali.student.r2.core.class1.enumerationmanagement.service.decorators.EnumerationManagementServiceValidationDecorator">
