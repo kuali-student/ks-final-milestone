@@ -1209,7 +1209,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
        }
 
        //Generate Registration Groups based on the copied AO
-        generateRegistrationGroupsForFormatOffering(targetAO.getFormatOfferingId(),context);
+       //generateRegistrationGroupsForFormatOffering(targetAO.getFormatOfferingId(),context);
 
         return targetAO;
     }
