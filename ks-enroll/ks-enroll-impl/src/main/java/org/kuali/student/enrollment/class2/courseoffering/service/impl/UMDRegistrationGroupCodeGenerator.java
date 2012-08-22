@@ -103,6 +103,7 @@ public class UMDRegistrationGroupCodeGenerator implements RegistrationGroupCodeG
                 } else {
                     search = "" + i;
                 }
+                break;
             }
         }
         return search;
@@ -113,6 +114,15 @@ public class UMDRegistrationGroupCodeGenerator implements RegistrationGroupCodeG
         try {
             CourseOfferingInfo coInfo = coService.getCourseOffering(fo.getCourseOfferingId(), context);
             List<FormatOfferingInfo> foInfos = coService.getFormatOfferingsByCourseOffering(coInfo.getId(), context);
+            int index = 0;
+            // Remove the fo passed in
+            for (FormatOfferingInfo info: foInfos) {
+                if (info.getId().equals(fo.getId())) {
+                    foInfos.remove(index);
+                    break;
+                }
+                index++;
+            }
             // Basic algorithm: Assume all RGs in a FO have the same two digit prefix.  Get a list of the
             // foreach FO in a CO (associated with fo)
             //    get list of RGs
