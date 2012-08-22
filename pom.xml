@@ -183,6 +183,8 @@
     <ks.gwt.compile.force>false</ks.gwt.compile.force>
     <ks.java2ws.phase>none</ks.java2ws.phase>
     <kuali.attach.sources.phase>verify</kuali.attach.sources.phase>
+    <!-- should align to the same or earlier phase than the contract doc or dictionary doc phase -->
+    <ks.prepare-contract-dependencies.phase>site</ks.prepare-contract-dependencies.phase>
     <ks.contractdoc.phase>site</ks.contractdoc.phase>
     <ks.dictionarydoc.phase>site</ks.dictionarydoc.phase> 
     <ks.dictionarycreate.phase>none</ks.dictionarycreate.phase>    
