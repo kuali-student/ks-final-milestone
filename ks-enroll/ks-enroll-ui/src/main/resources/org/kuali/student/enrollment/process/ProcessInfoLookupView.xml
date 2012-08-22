@@ -4,174 +4,37 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <import resource="classpath:ks-ProcessInfo-dictionary.xml" />
 
-    <bean id="ProcessInfo" parent="ProcessInfo-parentBean"/>
-    <bean id="ProcessInfo-parentBean" abstract="true" parent="DataObjectEntry">
-        <property name="objectLabel" value="Process Issue"/>
-        <property name="dataObjectClass" value="org.kuali.student.r2.core.process.dto.ProcessInfo"/>
-        <property name="titleAttribute" value="id"/>
-        <property name="attributes">
-            <list>
-                <ref bean="ProcessInfo.key"/>
-                <ref bean="ProcessInfo.name"/>
-                <ref bean="ProcessInfo.typeKey"/>
-                <ref bean="ProcessInfo.descr.plain"/>
-                <ref bean="ProcessInfo.ownerOrgId"/>
-                <ref bean="ProcessInfo.stateKey"/>
-
-            </list>
-        </property>
-        <property name="primaryKeys">
-            <list>
-                <value>key</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="ProcessInfo.key" parent="ProcessInfo.key-parentBean"/>
-    <bean id="ProcessInfo.key-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="key"/>
-        <property name="dataType" value="STRING"/>
-        <property name="label" value="KEY"/>
-        <property name="shortLabel" value="Process"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="maxLength" value="30"/>
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="30"/>
-        </property>
-    </bean>
-
-    <bean id="ProcessInfo.typeKey" parent="ProcessInfo.typeKey-parentBean"/>
-    <bean id="ProcessInfo.typeKey-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="typeKey"/>
-        <property name="dataType" value="STRING"/>
-        <property name="label" value="Process Category"/>
-        <property name="shortLabel" value="Process"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-DropdownControl"/>
-        </property>
-        <property name="optionsFinder">
-            <bean class="org.kuali.student.enrollment.class1.process.keyvalues.ProcessInfoTypeKeyValues"/>
-        </property>
-    </bean>
-
-    <bean id="ProcessInfo.name" parent="ProcessInfo.name-parentBean"/>
-    <bean id="ProcessInfo.name-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="name"/>
-        <property name="dataType" value="STRING"/>
-        <property name="label" value="Process Name"/>
-        <property name="shortLabel" value="Process"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="maxLength" value="15"/>
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:watermarkText="Enter Process Name" p:size="15"/>
-        </property>
-    </bean>
-
-
-    <bean id="ProcessInfo.descr.plain" parent="ProcessInfo.descr.plain-parentBean"/>
-    <bean id="ProcessInfo.descr.plain-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="descr.plain"/>
-        <property name="dataType" value="STRING"/>
-        <property name="label" value="Process Description"/>
-        <property name="shortLabel" value="Process"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-SmallTextAreaControl" p:watermarkText="Enter phrase in process description"/>
-        </property>
-    </bean>
-
-    <bean id="ProcessInfo.ownerOrgId" parent="ProcessInfo.ownerOrgId-parentBean"/>
-    <bean id="ProcessInfo.ownerOrgId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="ownerOrgId"/>
-        <property name="dataType" value="STRING"/>
-        <property name="label" value="Owning Organization"/>
-        <property name="shortLabel" value="Process"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="maxLength" value="16"/>
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="16"/>
-        </property>
-
-    </bean>
-
-    <bean id="ProcessInfo.stateKey" parent="ProcessInfo.stateKey-parentBean"/>
-    <bean id="ProcessInfo.stateKey-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="stateKey"/>
-        <property name="dataType" value="STRING"/>
-        <property name="label" value="State"/>
-        <property name="shortLabel" value="Process"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-HorizontalRadioControl">
-                <property name="options">
-                    <list>
-                        <bean parent="Uif-KeyLabelPair" p:key="kuali.Process.issue.state.active" p:value="Active"/>
-                        <bean parent="Uif-KeyLabelPair" p:key="kuali.Process.issue.state.inactive" p:value="Inactive"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
     <bean id="KS-ProcessInfo-LookupView" parent="KSLookupView">
         <property name="id" value="processInfoLookupView"/>
         <property name="headerText" value="Advanced Search:Processes"/>
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.process.dto.ProcessInfo"/>
-        <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class1.process.service.ProcessInfoLookupableImpl"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.process.service.ProcessInfoLookupableImpl"/>
         <property name="criteriaFields">
-        <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain"/>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="ownerOrgId">
-        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
-        <property name="quickfinder.fieldConversions">
-            <map>
-                <entry key="id" value="OwnerOrgId"/>
-            </map>
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="ownerOrgId">
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
+                    <property name="quickfinder.fieldConversions">
+                        <map>
+                            <entry key="id" value="OwnerOrgId"/>
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="name"/>
+                <bean parent="Uif-DataField" p:propertyName="typeKey"/>
+                <bean parent="Uif-DataField" p:propertyName="descr.plain"/>
+                <bean parent="Uif-DataField" p:propertyName="ownerOrgId"/>
+                <bean parent="Uif-DataField" p:propertyName="stateKey"/>
+            </list>
         </property>
     </bean>
-    <bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey"/>
-
-</list>
-        </property>
-
-<property name="resultFields">
-<list>
-    <bean parent="Uif-DataField" p:propertyName="key"/>
-    <bean parent="Uif-DataField"
-          p:propertyName="name"/>
-    <bean parent="Uif-DataField"
-          p:propertyName="typeKey"/>
-    <bean parent="Uif-DataField"
-          p:propertyName="descr.plain"/>
-    <bean parent="Uif-DataField"
-          p:propertyName="ownerOrgId"/>
-    <bean parent="Uif-DataField"
-          p:id="state"
-          p:propertyName="stateKey"/>
-</list>
-</property>
-        </bean>
-
-        </beans>
+</beans>
