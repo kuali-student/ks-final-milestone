@@ -13,6 +13,8 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -96,8 +98,25 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
             for( FormatInfo formatInfo : coCreateWrapper.getCourse().getFormats()){
                 if (StringUtils.equals(formatInfo.getId(), formatOfferingInfo.getFormatId())){
                     // TODO: fix R2 Format to include name and short name
-                    formatOfferingInfo.setName("FIX ME!");
-                    formatOfferingInfo.setShortName("FIX ME!");
+//                    formatOfferingInfo.setName("FIX ME!");
+//                    formatOfferingInfo.setShortName("FIX ME!");
+                    //Bonnie: this is only a temporary walk-around solution.
+                    //Still need to address the issue that FormatInfo does not include name and short name
+                    try{
+                        List<ActivityInfo> activityInfos = formatInfo.getActivities();
+                        StringBuffer st = new StringBuffer();
+                        for (ActivityInfo activityInfo : activityInfos) {
+                            TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), getContextInfo());
+                            st.append(activityType.getName()+"/");
+                        }
+                        String name =st.toString();
+                        name=name.substring(0,name.length()-1);
+                        formatOfferingInfo.setName(name);
+                        formatOfferingInfo.setShortName(name);
+                    } catch(Exception e) {
+                        //need to log error
+                    }
+
                 }
             }
         }
