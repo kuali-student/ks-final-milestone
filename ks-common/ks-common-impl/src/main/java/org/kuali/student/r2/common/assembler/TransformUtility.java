@@ -90,7 +90,7 @@ public class TransformUtility {
                 AttributeInfo attrInfo = attr.toDto();
                 attributes.add(attrInfo);
             }
-       }
+        }
 
         return attributes;
     }
@@ -187,13 +187,13 @@ public class TransformUtility {
         }
         return intDynAttrConverter;
     }
-   static {
-       dynAttrConverterMap.put(Date.class, _getDateDynamicAttributeConverter());
-       dynAttrConverterMap.put(Integer.class, _getIntegerDynamicAttributeConverter());
-   }
+    static {
+        dynAttrConverterMap.put(Date.class, _getDateDynamicAttributeConverter());
+        dynAttrConverterMap.put(Integer.class, _getIntegerDynamicAttributeConverter());
+    }
 
-   public static DynAttrConverter<? extends Object> getConverterByClass(Class clazz) {
-       return dynAttrConverterMap.get(clazz);
-   }
+    public static DynAttrConverter<? extends Object> getConverterByClass(Class clazz) {
+        return dynAttrConverterMap.get(clazz);
+    }
 }
 
