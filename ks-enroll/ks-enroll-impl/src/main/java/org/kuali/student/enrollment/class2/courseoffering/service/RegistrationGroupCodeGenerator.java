@@ -26,6 +26,9 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 /**
  * 
  * Defines a way for the particulars of generating a registration group code to be externalized.
+ * The LUI stores the registration group code in the name field.  Separately, there is also a
+ * registration code which is unique over all registration groups within a term.  That is not yet
+ * implemented for M4.
  * 
  * @author ocleirig
  *

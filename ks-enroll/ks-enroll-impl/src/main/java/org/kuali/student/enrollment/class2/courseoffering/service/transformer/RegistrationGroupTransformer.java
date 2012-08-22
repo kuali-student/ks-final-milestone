@@ -52,7 +52,7 @@ public class RegistrationGroupTransformer {
         }
         regGroup.setAttributes(attributes);
 
-        regGroup.setName(lui.getName());
+        regGroup.setName(lui.getName());  // This is the 4-digit reg group code unique to RG within a CO
         regGroup.setTermId(lui.getAtpId());
 
         // below undecided

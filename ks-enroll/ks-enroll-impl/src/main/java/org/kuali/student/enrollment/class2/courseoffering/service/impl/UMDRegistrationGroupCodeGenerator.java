@@ -51,7 +51,7 @@ public class UMDRegistrationGroupCodeGenerator implements RegistrationGroupCodeG
     public UMDRegistrationGroupCodeGenerator() {
     }
 
-    private boolean _isValidRegCode(String code) {
+    private boolean _isValidRegGroupCode(String code) {
         if (code == null) {
             return false;
         }
@@ -82,11 +82,11 @@ public class UMDRegistrationGroupCodeGenerator implements RegistrationGroupCodeG
             if (rgInfos != null && !rgInfos.isEmpty()) {
                 RegistrationGroupInfo rgInfo = rgInfos.get(0);
                 // Assume 4 digit string
-                String regCode = rgInfo.getRegistrationCode();
-                if (!_isValidRegCode(regCode)) {
-                    throw new RuntimeException("Invalid reg code: " + regCode);
+                String regGroupCode = rgInfo.getName();
+                if (!_isValidRegGroupCode(regGroupCode)) {
+                    throw new RuntimeException("Invalid reg group code: " + regGroupCode);
                 }
-                String prefixStr = regCode.substring(0, 2); // Get first two digits
+                String prefixStr = regGroupCode.substring(0, 2); // Get first two digits
                 int val = Integer.parseInt(prefixStr);
                 prefixUsed.add(val);
             }

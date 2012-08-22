@@ -177,9 +177,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             coCode = "NOCODE";
         }
 
-        //TO DO: Reg group code validation
-        if( registrationGroupInfo.getRegistrationCode() == null ){
-            //If there is no activity code, create a new one
+        // TODO: Reg group code validation
+        if (registrationGroupInfo.getName() == null) {
+            // name stores the reg group code which is different from registration code
             throw new DataValidationErrorException("reg group code is null");
         }
 
@@ -237,11 +237,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         // Everything saved to the DB, now return RG sent back by createLui and transformed by transformer back to caller
-        RegistrationGroupInfo RgInfo = new RegistrationGroupInfo();
-        RgInfo = registrationGroupTransformer.lui2Rg(lui, context);
-        RgInfo.setCourseOfferingId(coInfo.getId());
-        RgInfo.setRegistrationCode(registrationGroupInfo.getRegistrationCode());
-        return RgInfo;
+        RegistrationGroupInfo rgInfo = new RegistrationGroupInfo();
+        rgInfo = registrationGroupTransformer.lui2Rg(lui, context);
+        rgInfo.setCourseOfferingId(coInfo.getId());
+        rgInfo.setRegistrationCode(registrationGroupInfo.getRegistrationCode());
+        return rgInfo;
     }
 
     public CriteriaLookupService getCriteriaLookupService() {
@@ -1552,11 +1552,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         LuiInfo updatedRegGroupLui = luiService.updateLui(regGroupLui.getId(), regGroupLui, context);
 
         // Everything saved to the DB, now return RG sent back by createLui and transformed by transformer back to caller
-        RegistrationGroupInfo RgInfo = new RegistrationGroupInfo();
-        RgInfo = registrationGroupTransformer.lui2Rg(updatedRegGroupLui, context);
-        RgInfo.setCourseOfferingId(registrationGroupInfo.getCourseOfferingId());
-        RgInfo.setRegistrationCode(updatedRegGroupLui.getOfficialIdentifier().getCode());
-        return RgInfo;
+        RegistrationGroupInfo rgInfo = new RegistrationGroupInfo();
+        rgInfo = registrationGroupTransformer.lui2Rg(updatedRegGroupLui, context);
+        rgInfo.setCourseOfferingId(registrationGroupInfo.getCourseOfferingId());
+        rgInfo.setRegistrationCode(updatedRegGroupLui.getOfficialIdentifier().getCode());
+        return rgInfo;
     }
 
     @Override

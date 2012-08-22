@@ -467,7 +467,7 @@ class FakeCOService implements CourseOfferingService {
 
     private static RegistrationGroupInfo createRegGroup(String regGroupCode) {
         RegistrationGroupInfo info = new RegistrationGroupInfo();
-        info.setRegistrationCode(regGroupCode);
+        info.setName(regGroupCode);
         return info;
     }
 

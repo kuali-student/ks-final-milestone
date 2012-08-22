@@ -32,7 +32,6 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -423,27 +422,18 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return activityOfferingTypeToAvailableActivityOfferingMap;
     }
 
-    private RegistrationGroupInfo _makeRegGroup(String registrationCode, List<String> activityOfferingPermuation, FormatOfferingInfo formatOffering) {
-        String name = registrationCode;
-
+    private RegistrationGroupInfo _makeRegGroup(String regGroupCode, List<String> activityOfferingPermuation, FormatOfferingInfo formatOffering) {
         RegistrationGroupInfo rg = new RegistrationGroupInfo();
 
         rg.setActivityOfferingIds(activityOfferingPermuation);
-
         rg.setCourseOfferingId(formatOffering.getCourseOfferingId());
-        rg.setDescr(new RichTextInfo(name, name));
-
+        rg.setDescr(new RichTextInfo(regGroupCode, regGroupCode));
         rg.setFormatOfferingId(formatOffering.getId());
-
         rg.setIsGenerated(true);
-
-        rg.setName(name);
-        rg.setRegistrationCode(registrationCode);
-
+        rg.setName(regGroupCode);
+        rg.setRegistrationCode(null);
         rg.setTermId(formatOffering.getTermId());
-
         rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
-
         rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
         return rg;
     }
@@ -485,11 +475,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         CourseOfferingInfo courseOffering = coService.getCourseOffering(formatOffering.getCourseOfferingId(), context);
 
         for (List<String> activityOfferingPermutation : generatedPermutations) {
-            String registrationCode = registrationCodeGenerator.generateRegistrationGroupCode(formatOffering, aoList, null);
+            String regGroupCode = registrationCodeGenerator.generateRegistrationGroupCode(formatOffering, aoList, null);
 
             // Honours Offering and max enrollment is out of scope for M4 so this hard set is ok.
-            String name = registrationCode;
-            RegistrationGroupInfo rg = _makeRegGroup(registrationCode, activityOfferingPermutation, formatOffering);
+            String name = regGroupCode;
+            RegistrationGroupInfo rg = _makeRegGroup(regGroupCode, activityOfferingPermutation, formatOffering);
 
             try {
                 RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(formatOfferingId,

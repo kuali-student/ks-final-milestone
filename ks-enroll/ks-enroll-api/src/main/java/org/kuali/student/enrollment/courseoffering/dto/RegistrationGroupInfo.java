@@ -47,6 +47,16 @@ public class RegistrationGroupInfo
 
     private static final long serialVersionUID = 1L;
 
+    // PLEASE READ ---------------------------- Aug 22, 2012 (East Coast1 PDT)
+    // registrationCode will store a 5-digit string which is a unique value by registration group in a given term
+    // i.e., no two reg groups will share the same registration code in the same term--this is not used in M4, so the
+    // value is not needed yet.
+    // The <name> field (which is inherited from IdEntityInfo) will store a 4 digit string , that is the registration
+    // group code.  This is unique (for a given term) within the CO which the RG belongs to.  Thus, no two RGs within
+    // the same CO has the same 4 digit reg group code.
+    // Thus, two terms: registration code (unique across all RGs in a term) and registration group code (unique to all
+    // RG belong to a given CO).
+
     @XmlElement
     private String formatOfferingId;
 
