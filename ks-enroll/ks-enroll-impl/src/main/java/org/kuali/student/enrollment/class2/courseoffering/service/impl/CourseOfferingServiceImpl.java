@@ -1208,6 +1208,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
            throw new RuntimeException(e);
        }
 
+       //Generate Registration Groups based on the copied AO
+        generateRegistrationGroupsForFormatOffering(targetAO.getFormatOfferingId(),context);
 
         return targetAO;
     }
