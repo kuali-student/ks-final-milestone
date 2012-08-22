@@ -162,9 +162,18 @@
     </bean>
 
     <!-- Enumeration Dao -->
-    <bean id="enumDao" class="org.kuali.student.r1.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
-        <property name="em" ref="enrollEntityManager"/>
+    <bean id="enumerationDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao">
+        <property name="em" ref="enrollEntityManager" />
     </bean>
+
+    <bean id="enumeratedValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="enumContextValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumContextValueDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
     <!-- Organization Service -->
     <bean id="orgDao" class="org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl">
         <property name="em" ref="enrollEntityManager" />
