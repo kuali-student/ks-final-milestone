@@ -363,6 +363,14 @@
         OBJ_ID="301fa34b-6af8-4cb3-a49d-843cebdc9dae" UPDATEID="admin"
         UPDATETIME="20120613163931" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
+        CLU_ID="1079576d-af1a-4f8f-a519-c380c4180dde" CREATEID="admin"
+        CREATETIME="20120822162541"
+        ID="0d5a5f6a-9e9a-45aa-9677-a621ed5dd7ed"
+        LUI_STATE="kuali.lui.activity.offering.state.draft"
+        LUI_TYPE="kuali.lui.type.activity.offering.quiz"
+        NAME="NOCODE AO" OBJ_ID="6f9800c8-4451-4769-9437-011fe8529e68"
+        UPDATEID="admin" UPDATETIME="20120822162541" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20122"
         CLU_ID="5b3db07e-de19-4606-89ae-b35db4bc8822" CREATEID="admin"
         CREATETIME="20120613163612"
         ID="0d8c8d58-b251-49c2-9168-2cecf9d7d726"
@@ -412,6 +420,14 @@
         LUI_TYPE="kuali.lui.type.activity.offering.quiz"
         OBJ_ID="8c4f3a3f-6f04-4c0e-a0ff-23e0691258c3" UPDATEID="admin"
         UPDATETIME="20120613164230" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20122"
+        CLU_ID="46a666a3-eec0-455a-99cc-ae301542bfd0" CREATEID="1"
+        CREATETIME="20120822162442"
+        ID="1097b1bc-9da6-43d3-bc8a-99cf2aa03953"
+        LUI_STATE="kuali.lui.format.offering.state.planned"
+        LUI_TYPE="kuali.lui.type.course.format.offering" NAME="Lecture"
+        OBJ_ID="dde734ef-99ac-4106-8178-90d763537aba" UPDATEID="1"
+        UPDATETIME="20120822162442" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
         CLU_ID="376ae146-0e86-45ce-9a48-809fa99c8937" CREATEID="admin"
         CREATETIME="20120613163851"
@@ -2331,6 +2347,14 @@
         OBJ_ID="08f418f9-ff8c-46e8-9038-675fe20d2ccb" UPDATEID="admin"
         UPDATETIME="20120613163905" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
+        CLU_ID="a115c426-ef1b-45a7-8213-50b2dd0449a5" CREATEID="admin"
+        CREATETIME="20120822162604"
+        ID="61c657e9-ae70-49a1-840b-48b7e435abfb"
+        LUI_STATE="kuali.lui.activity.offering.state.draft"
+        LUI_TYPE="kuali.lui.type.activity.offering.lecture"
+        NAME="NOCODE AO" OBJ_ID="44543c95-a5db-40ce-9c7b-506284e026c7"
+        UPDATEID="admin" UPDATETIME="20120822162604" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20122"
         CLU_ID="fc15e0a7-9cc4-4532-9fac-eb3ecb41e752" CREATEID="admin"
         CREATETIME="20120613164538"
         ID="6222319e-da91-47f8-b97a-d7b4f9dc6ea1"
@@ -2723,6 +2747,14 @@
         OBJ_ID="ba715558-4fad-4a0b-8697-008cc0c87b65" UPDATEID="admin"
         UPDATETIME="20120613163807" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
+        CLU_ID="1079576d-af1a-4f8f-a519-c380c4180dde" CREATEID="admin"
+        CREATETIME="20120822162540"
+        ID="73419915-dae1-46fc-8f29-9797a3360946"
+        LUI_STATE="kuali.lui.activity.offering.state.draft"
+        LUI_TYPE="kuali.lui.type.activity.offering.quiz"
+        NAME="NOCODE AO" OBJ_ID="effd2291-4e9c-4ff4-92dd-a54824599cff"
+        UPDATEID="admin" UPDATETIME="20120822162540" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20122"
         CLU_ID="43f45329-4aa9-4918-a0ad-15ce2003495b" CREATEID="admin"
         CREATETIME="20120613163935"
         ID="736064c9-7f87-45bf-8af2-3155a61e0d33"
@@ -2880,6 +2912,14 @@
         LUI_TYPE="kuali.lui.type.course.format.offering"
         OBJ_ID="c116be00-12a3-4b66-90bd-d4f2b9a085e2" UPDATEID="admin"
         UPDATETIME="20120613163636" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20122"
+        CLU_ID="1079576d-af1a-4f8f-a519-c380c4180dde" CREATEID="admin"
+        CREATETIME="20120822162540"
+        ID="7964fc14-5d84-4985-9cae-c928395b41ae"
+        LUI_STATE="kuali.lui.activity.offering.state.draft"
+        LUI_TYPE="kuali.lui.type.activity.offering.quiz"
+        NAME="NOCODE AO" OBJ_ID="566ea22f-0e68-49f3-a7e5-d9daef033695"
+        UPDATEID="admin" UPDATETIME="20120822162540" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
         CLU_ID="14d58f60-5524-4597-8e8d-c00bcc1c1909" CREATEID="admin"
         CREATETIME="20120613163714"
@@ -3097,6 +3137,14 @@
         OBJ_ID="8ebd29c7-ae4e-4e3b-8772-16bf141cb98c" UPDATEID="admin"
         UPDATETIME="20120613164508" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
+        CLU_ID="16ab8d94-3393-407b-a13d-6c08670d2ed3" CREATEID="admin"
+        CREATETIME="20120822162553"
+        ID="81ad8aef-444d-4422-94c4-9ffa65b8aa32"
+        LUI_STATE="kuali.lui.activity.offering.state.draft"
+        LUI_TYPE="kuali.lui.type.activity.offering.lecture"
+        NAME="NOCODE AO" OBJ_ID="2f22911f-529b-4992-9c71-e13caa1e46c4"
+        UPDATEID="admin" UPDATETIME="20120822162553" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20122"
         CLU_ID="656de873-827c-4083-b2e1-328747002239" CREATEID="admin"
         CREATETIME="20120613164528"
         ID="820e996a-8d55-4fd0-95b3-8bd8f97b9825"
@@ -3128,6 +3176,14 @@
         LUI_TYPE="kuali.lui.type.activity.offering.lab"
         OBJ_ID="7cae0a4c-49c3-4bd7-bfea-57c8d6680663" UPDATEID="admin"
         UPDATETIME="20120613164434" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20122"
+        CLU_ID="16ab8d94-3393-407b-a13d-6c08670d2ed3" CREATEID="admin"
+        CREATETIME="20120822162553"
+        ID="83211fa2-8917-4ae7-83bb-1ce2f1ac96e3"
+        LUI_STATE="kuali.lui.activity.offering.state.draft"
+        LUI_TYPE="kuali.lui.type.activity.offering.lecture"
+        NAME="NOCODE AO" OBJ_ID="c99ee774-8896-4f8b-b7d6-1027b130ad85"
+        UPDATEID="admin" UPDATETIME="20120822162553" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
         CLU_ID="d6d57bc6-7b53-42ec-90ef-cf14f6073cb1" CREATEID="admin"
         CREATETIME="20120613164331"
@@ -3593,6 +3649,16 @@
         OBJ_ID="ed0216ea-2a6b-4f51-abcc-69c4a1f4b36b" UPDATEID="admin"
         UPDATETIME="20120613163644" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
+        CLU_ID="93e861bf-66ec-4d0e-bb4d-fa1ccdc6d6a4" CREATEID="1"
+        CREATETIME="20120822162442"
+        DESCR_FORMATTED="Survey of laws and regulations that affect the print and broadcast media. Includes material on First Amendment, libel, invasion of privacy, freedom of information, copyright, obscenity, advertising and broadcast regulation, and matters relating to press coverage of the judicial system. Offered: jointly with POL S 461."
+        DESCR_PLAIN="Survey of laws and regulations that affect the print and broadcast media. Includes material on First Amendment, libel, invasion of privacy, freedom of information, copyright, obscenity, advertising and broadcast regulation, and matters relating to press coverage of the judicial system. Offered: jointly with POL S 461."
+        ID="971abf90-d76a-490f-aa30-1d7bfd5b1958"
+        LUI_STATE="kuali.lui.course.offering.state.draft"
+        LUI_TYPE="kuali.lui.type.course.offering" NAME="COM 440 CO"
+        OBJ_ID="0e27641b-be61-42a4-a481-321396717c22" UPDATEID="1"
+        UPDATETIME="20120822162442" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20122"
         CLU_ID="1d102983-5934-40ae-8afb-4cd059de3676" CREATEID="admin"
         CREATETIME="20120613164508"
         ID="973ea993-db34-4397-b379-42c154e43789"
@@ -3652,6 +3718,15 @@
         LUI_TYPE="kuali.lui.type.activity.offering.lecture"
         OBJ_ID="48180322-cd7b-4106-aa2d-0daf4ab75f58" UPDATEID="admin"
         UPDATETIME="20120613164512" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20122"
+        CLU_ID="da18c43d-85f0-4043-95c8-2fa0a1611f3a" CREATEID="1"
+        CREATETIME="20120822162442"
+        ID="986a06ce-c053-45e3-88ae-0972a541669a"
+        LUI_STATE="kuali.lui.format.offering.state.planned"
+        LUI_TYPE="kuali.lui.type.course.format.offering"
+        NAME="Quiz/Lecture"
+        OBJ_ID="ef29fc67-2785-42c2-979d-056d75fc0ec9" UPDATEID="1"
+        UPDATETIME="20120822162442" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
         CLU_ID="06405be7-a0b6-46a0-a00b-0b364a26b320" CREATEID="admin"
         CREATETIME="20120613163728"
@@ -4699,6 +4774,14 @@
         MIN_SEATS="1" OBJ_ID="34837622-dc7f-407d-8b2d-ff4f11576722"
         UPDATEID="admin" UPDATETIME="20120613163944" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
+        CLU_ID="a115c426-ef1b-45a7-8213-50b2dd0449a5" CREATEID="admin"
+        CREATETIME="20120822162604"
+        ID="c5c985ab-d9a3-4d6f-82f9-c1f735041c00"
+        LUI_STATE="kuali.lui.activity.offering.state.draft"
+        LUI_TYPE="kuali.lui.type.activity.offering.lecture"
+        NAME="NOCODE AO" OBJ_ID="d6e7a2ed-7e0c-4bf8-ac4e-c82d1261d6b8"
+        UPDATEID="admin" UPDATETIME="20120822162604" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20122"
         CLU_ID="5b3db07e-de19-4606-89ae-b35db4bc8822" CREATEID="admin"
         CREATETIME="20120613163612"
         ID="c6bb1f79-b4ae-4351-9974-e06f1be7f1c7"
@@ -4798,6 +4881,14 @@
         LUI_TYPE="kuali.lui.type.activity.offering.lecture"
         OBJ_ID="4eeb2671-bc65-48af-933d-20410dd925f7" UPDATEID="admin"
         UPDATETIME="20120613163551" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20122"
+        CLU_ID="a115c426-ef1b-45a7-8213-50b2dd0449a5" CREATEID="admin"
+        CREATETIME="20120822162604"
+        ID="ca0db4f3-bfa5-4a67-b358-7eb0da7a0fad"
+        LUI_STATE="kuali.lui.activity.offering.state.draft"
+        LUI_TYPE="kuali.lui.type.activity.offering.lecture"
+        NAME="NOCODE AO" OBJ_ID="328e33aa-4eb0-479d-9d90-3e140dd6980b"
+        UPDATEID="admin" UPDATETIME="20120822162604" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
         CLU_ID="fa90393b-f203-466a-8cac-d9c3ab1ca169" CREATEID="admin"
         CREATETIME="20120613163745"

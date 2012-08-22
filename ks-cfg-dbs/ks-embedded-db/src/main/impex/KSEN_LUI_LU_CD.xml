@@ -230,6 +230,12 @@
         LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
         OBJ_ID="6f40ff2b-1cc4-405d-8f08-d4e5e5ab2cac" UPDATEID="admin"
         UPDATETIME="20120613163637" VALUE="false" VER_NBR="0"/>
+    <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120822162604"
+        ID="0fbdb07f-5ff6-4436-8d96-f74d82f43f03"
+        LUI_ID="c5c985ab-d9a3-4d6f-82f9-c1f735041c00"
+        LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
+        OBJ_ID="8c509ef8-36b3-436b-99b3-fd5219d3b6b2" UPDATEID="admin"
+        UPDATETIME="20120822162604" VALUE="null" VER_NBR="0"/>
     <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120613164243"
         ID="0ff2794e-971b-4fcf-b907-3d2d5e05aa93"
         LUI_ID="7e825aef-d084-4949-b218-7a34e4bd90ee"
@@ -812,6 +818,12 @@
         LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
         OBJ_ID="ce359ed7-2289-48c5-a787-755c480062d5" UPDATEID="admin"
         UPDATETIME="20120613163722" VALUE="false" VER_NBR="0"/>
+    <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120822162540"
+        ID="3aa6f17a-a63f-4f3b-914b-28f17e5042a5"
+        LUI_ID="73419915-dae1-46fc-8f29-9797a3360946"
+        LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
+        OBJ_ID="6db0f7e0-705b-45d4-8875-6f8655f2c223" UPDATEID="admin"
+        UPDATETIME="20120822162540" VALUE="null" VER_NBR="0"/>
     <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120613164345"
         ID="3c8fd70a-8891-4c51-aa1b-93b4293a0bdc"
         LUI_ID="6d6f727c-0268-40e1-9482-43cce4366c21"
@@ -1700,6 +1712,12 @@
         LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
         OBJ_ID="30f070af-c9e1-4eea-94d1-577cb362c910" UPDATEID="admin"
         UPDATETIME="20120613164452" VALUE="false" VER_NBR="0"/>
+    <KSEN_LUI_LU_CD CREATEID="1" CREATETIME="20120822162442"
+        ID="7c7de098-692b-49bb-93fa-e906157ce196"
+        LUI_ID="971abf90-d76a-490f-aa30-1d7bfd5b1958"
+        LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
+        OBJ_ID="108c47fa-8b00-47be-bea8-8aeb8007970f" UPDATEID="1"
+        UPDATETIME="20120822162442" VER_NBR="0"/>
     <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120613163644"
         ID="7cc94d0f-3b62-4eb7-9760-8bac3d185b57"
         LUI_ID="96dd847a-fdc1-4196-befe-06d2f02aeff0"
@@ -2102,6 +2120,12 @@
         LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
         OBJ_ID="74030e8c-32bb-42ce-afcf-503bc4579ace" UPDATEID="admin"
         UPDATETIME="20120613164508" VALUE="false" VER_NBR="0"/>
+    <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120822162553"
+        ID="9a6bbe90-be10-402b-9794-0b66faecfc9a"
+        LUI_ID="81ad8aef-444d-4422-94c4-9ffa65b8aa32"
+        LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
+        OBJ_ID="c9220785-b502-4cac-9c42-131577e31d16" UPDATEID="admin"
+        UPDATETIME="20120822162553" VALUE="null" VER_NBR="0"/>
     <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120613163759"
         ID="9a858fb7-adb1-4d57-b235-1ea9c62e1b53"
         LUI_ID="34cc9897-1166-489e-8e31-2e56372c6acc"
@@ -2324,6 +2348,12 @@
         LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
         OBJ_ID="aebba4e1-16cd-48c9-b605-340ea6cda407" UPDATEID="admin"
         UPDATETIME="20120613163815" VALUE="false" VER_NBR="0"/>
+    <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120822162604"
+        ID="ac7ea302-9904-466d-afd3-c792b85a091a"
+        LUI_ID="ca0db4f3-bfa5-4a67-b358-7eb0da7a0fad"
+        LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
+        OBJ_ID="f72a9e6a-14fa-46be-81a7-a95d18486d13" UPDATEID="admin"
+        UPDATETIME="20120822162604" VALUE="null" VER_NBR="0"/>
     <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120613164355"
         ID="ad69a32a-6ed9-4c66-88e0-2964c871d441"
         LUI_ID="cdc2b457-bfa9-49fa-8df2-21c8e139e05b"
@@ -2366,6 +2396,12 @@
         LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
         OBJ_ID="412e5266-33f4-4891-bf98-94e27f72dc38" UPDATEID="admin"
         UPDATETIME="20120613164400" VALUE="false" VER_NBR="0"/>
+    <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120822162604"
+        ID="aeb05ced-cf03-4228-a36e-faa02cd8aa14"
+        LUI_ID="61c657e9-ae70-49a1-840b-48b7e435abfb"
+        LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
+        OBJ_ID="946d5654-cb46-4b8c-bcd8-49ced00beda2" UPDATEID="admin"
+        UPDATETIME="20120822162604" VALUE="null" VER_NBR="0"/>
     <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120613164008"
         ID="af815063-31c0-47ca-a705-00b7b1e12018"
         LUI_ID="29826da2-ea52-4dca-8aee-8f10d92bc1c7"
@@ -3116,6 +3152,12 @@
         LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
         OBJ_ID="f6897b06-3f49-4937-9820-2e4cb16f3e88" UPDATEID="admin"
         UPDATETIME="20120613164519" VALUE="false" VER_NBR="0"/>
+    <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120822162540"
+        ID="e2fc532d-c2a5-4d7f-a1ce-e9a9f5f4e5d8"
+        LUI_ID="7964fc14-5d84-4985-9cae-c928395b41ae"
+        LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
+        OBJ_ID="5bb62b9b-d8a9-4025-b1ee-2cbcab714993" UPDATEID="admin"
+        UPDATETIME="20120822162540" VALUE="null" VER_NBR="0"/>
     <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120613164338"
         ID="e335ea0c-6330-4801-b161-134d9a577dcd"
         LUI_ID="365249c1-cce1-4e50-b90a-fab0a1d634f0"
@@ -3242,6 +3284,12 @@
         LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
         OBJ_ID="9f3f485f-e083-4806-ad58-4228aaefa09c" UPDATEID="admin"
         UPDATETIME="20120613163751" VALUE="false" VER_NBR="0"/>
+    <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120822162553"
+        ID="eddecfb4-e5e2-4e8e-a49d-f925cdd5fce0"
+        LUI_ID="83211fa2-8917-4ae7-83bb-1ce2f1ac96e3"
+        LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
+        OBJ_ID="f9db3654-dbc0-43d0-83c0-5c25b57f6761" UPDATEID="admin"
+        UPDATETIME="20120822162553" VALUE="null" VER_NBR="0"/>
     <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120613164203"
         ID="ee48ae8e-7a29-4068-8336-0c591a0bd68a"
         LUI_ID="781f4e90-160f-483e-8df7-4ec4dde22ddf"
@@ -3320,6 +3368,12 @@
         LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
         OBJ_ID="b3d5e6cc-8f4f-4d07-a5ee-3a44c8d37f0a" UPDATEID="admin"
         UPDATETIME="20120613164508" VALUE="false" VER_NBR="0"/>
+    <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120822162541"
+        ID="f5a6d555-5e30-4401-a13e-eb484031d17f"
+        LUI_ID="0d5a5f6a-9e9a-45aa-9677-a621ed5dd7ed"
+        LUI_LUCD_TYPE="kuali.lu.code.honorsOffering"
+        OBJ_ID="62e9ffa6-25df-4fe5-a227-8f63dda8dc2f" UPDATEID="admin"
+        UPDATETIME="20120822162541" VALUE="null" VER_NBR="0"/>
     <KSEN_LUI_LU_CD CREATEID="admin" CREATETIME="20120613163600"
         ID="f5f17d45-c074-4857-91b9-90ae3e99c079"
         LUI_ID="09f24782-c140-4e2a-9056-b7e30b1b533b"
