@@ -880,14 +880,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
-
+            /*
             if (!hasDialogBeenAnswered("schedulingConfirmDialog", theForm)){
                 loadSelectedCOsForScheduling(theForm);
                 return showDialog("schedulingConfirmDialog", theForm, request, response);
             }
 
             String res = getStringDialogResponse("schedulingConfirmDialog", theForm, request, response);
-
+            */
             getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingEditWrapperList());
         }
 

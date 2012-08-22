@@ -124,7 +124,8 @@
                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingActionsKeyValues"/>
                             </property>
                         </bean>
-                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="selectedCOActions"/>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="selectedCOActions"
+                              p:preSubmitCall="confirmDeletionResponse('This will mark all checked Activity Offerings as Ready for Scheduling')" />
                     </list>
                 </property>
             </bean>
