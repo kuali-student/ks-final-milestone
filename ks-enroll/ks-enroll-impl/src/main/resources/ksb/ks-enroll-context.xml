@@ -446,7 +446,7 @@
        <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
    </bean>
 
-    <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UMDRegistrationGroupCodeGenerator" />
+    <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGenerator" />
 
     <bean id="ks.exp.courseOfferingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
        <property name="serviceDefinition">

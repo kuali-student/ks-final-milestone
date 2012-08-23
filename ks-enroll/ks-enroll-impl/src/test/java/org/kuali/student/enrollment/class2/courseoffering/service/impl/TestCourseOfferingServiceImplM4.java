@@ -1,9 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import junit.framework.Assert;
-import org.junit.Ignore;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
-import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingAdminDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
@@ -16,11 +14,9 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -42,13 +38,11 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
-import org.kuali.student.r2.core.population.infc.Population;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -58,11 +52,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.jws.WebParam;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -243,7 +235,7 @@ public class TestCourseOfferingServiceImplM4 {
     // ============================================== TESTS ======================================================
     @Test
     public void testRegCodeGenerator() {
-        RegistrationGroupCodeGenerator generator = new UMDRegistrationGroupCodeGenerator();
+        RegistrationGroupCodeGenerator generator = new FourDigitRegistrationGroupCodeGenerator();
         CourseOfferingService coService = new FakeCOService();
         try {
             FormatOfferingInfo foInfo = coService.getFormatOffering("foo", null);

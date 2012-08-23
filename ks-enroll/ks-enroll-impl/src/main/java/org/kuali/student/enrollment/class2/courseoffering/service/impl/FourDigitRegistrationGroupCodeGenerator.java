@@ -43,12 +43,12 @@ import java.util.Set;
  * This is generating for unconstrained reg groups.
  * @author Charles
  */
-public class UMDRegistrationGroupCodeGenerator implements RegistrationGroupCodeGenerator {
+public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGroupCodeGenerator {
     String prefix = null;
     int regGroupSuffix = 1;
     boolean isValid = true;
 
-    public UMDRegistrationGroupCodeGenerator() {
+    public FourDigitRegistrationGroupCodeGenerator() {
     }
 
     private boolean _isValidRegGroupCode(String code) {
