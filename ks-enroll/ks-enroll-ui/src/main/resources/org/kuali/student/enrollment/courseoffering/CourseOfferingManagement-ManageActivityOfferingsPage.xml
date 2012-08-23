@@ -172,6 +172,12 @@
                       p:label="END TIME"
                       p:propertyName="endTimeDisplay"/>
                 <bean parent="Uif-DataField"
+                      p:label="BUILDING"
+                      p:propertyName="buildingName"/>
+                <bean parent="Uif-DataField"
+                      p:label="ROOM"
+                      p:propertyName="roomName"/>
+                <bean parent="Uif-DataField"
                       p:label="INSTRUCTOR"
                       p:propertyName="firstInstructorDisplayName"/>
                 <bean parent="Uif-DataField"

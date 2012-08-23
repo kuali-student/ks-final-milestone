@@ -29,6 +29,9 @@ import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
@@ -55,6 +58,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
     private StateService stateService;
     private transient LRCService lrcService;
     private SchedulingService schedulingService;
+    private RoomService roomService;
 
 
     public List<TermInfo> findTermByTermCode(String termCode) throws Exception {
@@ -294,18 +298,24 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                     wrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
                 }
 
-/*                calendar.setTimeInMillis(1344443400000L);
-                String startTime = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
+/*
+                calendar.setTimeInMillis(1344443400000L);
+                String sTime = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
                 calendar.setTimeInMillis(1344447000000L);
-                String endTime = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
+                String eTime = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
 
-                List<Integer>  days = new ArrayList<Integer>();
-                days.add(calendar.get(Calendar.DAY_OF_WEEK)-3);
-                days.add(calendar.get(Calendar.DAY_OF_WEEK));
-                wrapper.setStartTimeDisplay(startTime);
-                wrapper.setEndTimeDisplay(endTime);
-                wrapper.setDaysDisplayName(getDays(days));
+                List<Integer>  testDays = new ArrayList<Integer>();
+                testDays.add(calendar.get(Calendar.DAY_OF_WEEK)-2);
+                testDays.add(calendar.get(Calendar.DAY_OF_WEEK));
+                wrapper.setStartTimeDisplay(sTime);
+                wrapper.setEndTimeDisplay(eTime);
+                wrapper.setDaysDisplayName(getDays(testDays));
+                wrapper.setBuildingName("COMPUTER SCIENCE INSTRUCTIONAL");
+                wrapper.setRoomName("CSI 2118");
+                SchedulingService service  = getSchedulingService();
+                RoomService roomService1 = getRoomService();
 */
+
                 // assign the time and days
                 if (info.getScheduleId() != null) {
                     ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(info.getScheduleId(), getContextInfo());
@@ -335,8 +345,20 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                                     }
                                 }
                             }
+                            // assign building and room info
+                            String roomId = componentList.get(0).getRoomId();
+                            if(roomId != null) {
+                                RoomInfo roomInfo = getRoomService().getRoom(roomId, getContextInfo());
+                                if(roomInfo != null) {
+                                    if(roomInfo.getBuildingId() != null  && !roomInfo.getBuildingId().isEmpty()) {
+                                        BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), getContextInfo());
+                                        if(buildingInfo != null)
+                                        wrapper.setBuildingName(buildingInfo.getName());
+                                    }
+                                    wrapper.setRoomName(roomInfo.getName());
+                                }
+                            }
                         }
-
                     }
                 }
                 activityOfferingWrapperList.add(wrapper);
@@ -559,6 +581,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
          }
          return schedulingService;
     }
+
+    public RoomService getRoomService(){
+        if (roomService == null){
+            roomService = CourseOfferingResourceLoader.loadRoomService();
+        }
+        return roomService;
+    }
+
     //get credit count from persisted COInfo or from CourseInfo
     private String getCreditCount(CourseOfferingInfo coInfo, CourseInfo courseInfo) throws Exception{
         return ViewHelperUtil.getCreditCount(coInfo, courseInfo);

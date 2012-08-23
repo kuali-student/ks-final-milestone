@@ -55,6 +55,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private String startTimeDisplay;
     private String endTimeDisplay;
     private String daysDisplayName;
+    private String buildingName;
+    private String roomName;
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
@@ -372,6 +374,22 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setDaysDisplayName(String daysDisplayName) {
         this.daysDisplayName = daysDisplayName;
+    }
+
+    public String getBuildingName() {
+        return buildingName;
+    }
+
+    public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
     public List<ScheduleWrapper> getScheduleRequestsToBeDeleted() {
