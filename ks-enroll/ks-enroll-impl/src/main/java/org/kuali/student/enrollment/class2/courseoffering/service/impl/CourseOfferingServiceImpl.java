@@ -1471,6 +1471,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 throw new InvalidParameterException("Invalid type for reg groups");
             }
         }
+        // Now sort based on reg group code order (alphabetical order works fine)
+        // TODO: figure out how to write a compare method that makes sense given different code generators.
+        Collections.sort(regGroups, new Comparator<RegistrationGroupInfo>() {
+            @Override
+            public int compare(RegistrationGroupInfo o1, RegistrationGroupInfo o2) {
+                if (o1 == null) {
+                    return -1;
+                } else if (o2 == null) {
+                    return 1;
+                } else {
+                    // We assume <name> stores the registration group code as 4-digit string
+                    return o1.getName().compareTo(o2.getName());
+                }
+            }
+        });
         return regGroups;
     }
 

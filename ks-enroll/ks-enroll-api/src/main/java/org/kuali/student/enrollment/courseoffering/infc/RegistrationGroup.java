@@ -68,7 +68,14 @@ public interface RegistrationGroup
 
     /**
      * Uniquely identifies an instance of the course for the purposes
-     * of registration.
+     * of registration.  This code is unique for a given term, thus, no
+     * two registration groups in the same term shares the same registration
+     * code.
+     *
+     * By contrast, the [name] field (this is inherited from IdEntity) is used to store
+     * a registration group code that is unique only within a course offering.
+     * Thus, no two registration groups would share the same registration group
+     * code within the same course offering (in a given term).
      *
      * @name Registration Code
      * @impl maps to lui code in Lui
