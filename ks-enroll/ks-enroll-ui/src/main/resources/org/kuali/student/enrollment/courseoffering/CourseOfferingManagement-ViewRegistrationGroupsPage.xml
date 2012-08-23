@@ -44,18 +44,24 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatsForCreateRGKeyValues" p:addBlankOption="false" />
                                 </property>
                             </bean>
-                            <ref bean="KS-ViewRegistrationGroupsPage-ActivityOfferingsPerFormatSection"/>
-                            <bean parent="Uif-VerticalBoxSection">
-                                <property name="disclosure.render" value="false"/>
-                                <property name="headerText" value="Generate unconstrained registration groups"/>
+                            <bean parent="Uif-VerticalBoxGroup" p:refreshWhenChangedPropertyNames="formatOfferingIdForViewRG" p:methodToCallOnRefresh="filterAOsAndRGsPerFO">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Unconstrained registration groups for this course offering are listed below.  Generate unconstrained registration groups if additional activities have been added or removed since the groups were last generated." />
+                                        <ref bean="KS-ViewRegistrationGroupsPage-ActivityOfferingsPerFormatSection"/>
+                                        <bean parent="Uif-VerticalBoxSection">
+                                            <property name="disclosure.render" value="false"/>
+                                            <property name="headerText" value="Generate unconstrained registration groups"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message" p:messageText="Unconstrained registration groups for this course offering are listed below.  Generate unconstrained registration groups if additional activities have been added or removed since the groups were last generated." />
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="generate_rgs_button"/>
+                                        <ref bean="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection"/>
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="generate_rgs_button"/>
-                            <ref bean="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection"/>
                          </list>
                     </property>
                 </bean>
@@ -64,8 +70,7 @@
     </bean>
 
     <bean id="KS-ViewRegistrationGroupsPage-ActivityOfferingsPerFormatSection" parent="Uif-TableCollectionSection"
-          p:renderAddLine="false"  p:renderLineActions="false" p:refreshWhenChangedPropertyNames="formatOfferingIdForViewRG"
-          p:methodToCallOnRefresh="filterAOsPerFO">
+          p:renderAddLine="false"  p:renderLineActions="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="filteredAOsForSelectedFO" />
         <property name="headerText" value="@{formatOfferingName} Activity Offerings"/>
@@ -103,8 +108,7 @@
     </bean>
 
     <bean id="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection" parent="Uif-TableCollectionSection"
-          p:renderAddLine="false"  p:renderLineActions="false" p:refreshWhenChangedPropertyNames="formatOfferingIdForViewRG"
-          p:methodToCallOnRefresh="filterRGsPerFO">
+          p:renderAddLine="false"  p:renderLineActions="false">
         <property name="id" value="registrationGroupsPerFormatSection" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="filteredRGsForSelectedFO" />

@@ -235,22 +235,17 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     }
 
-    @RequestMapping(params = "methodToCall=filterAOsPerFO")
-    public ModelAndView filterAOsPerFO (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+    @RequestMapping(params = "methodToCall=filterAOsAndRGsPerFO")
+    public ModelAndView filterAOsAndRGsPerFO (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //first update AOs
         List<ActivityOfferingWrapper> filteredAOs = getAOsForSelectedFO(theForm.getFormatOfferingIdForViewRG(), theForm);
         theForm.setFilteredAOsForSelectedFO(filteredAOs);
         if(!filteredAOs.isEmpty()){
             theForm.setFormatOfferingName(filteredAOs.get(0).getFormatOffering().getName());
         }
-        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
 
-    }
-
-    @RequestMapping(params = "methodToCall=filterRGsPerFO")
-    public ModelAndView filterRGsPerFO (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<ActivityOfferingWrapper> filteredAOs = getAOsForSelectedFO(theForm.getFormatOfferingIdForViewRG(), theForm);
+        //then update RGs
         List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(theForm.getFormatOfferingIdForViewRG(), getContextInfo());
         List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, filteredAOs);
         theForm.setFilteredRGsForSelectedFO(filteredRGs);
@@ -259,7 +254,34 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+
     }
+
+//    @RequestMapping(params = "methodToCall=filterAOsPerFO")
+//    public ModelAndView filterAOsPerFO (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+//                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        List<ActivityOfferingWrapper> filteredAOs = getAOsForSelectedFO(theForm.getFormatOfferingIdForViewRG(), theForm);
+//        theForm.setFilteredAOsForSelectedFO(filteredAOs);
+//        if(!filteredAOs.isEmpty()){
+//            theForm.setFormatOfferingName(filteredAOs.get(0).getFormatOffering().getName());
+//        }
+//        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+//
+//    }
+
+//    @RequestMapping(params = "methodToCall=filterRGsPerFO")
+//    public ModelAndView filterRGsPerFO (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+//                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        List<ActivityOfferingWrapper> filteredAOs = getAOsForSelectedFO(theForm.getFormatOfferingIdForViewRG(), theForm);
+//        List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(theForm.getFormatOfferingIdForViewRG(), getContextInfo());
+//        List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, filteredAOs);
+//        theForm.setFilteredRGsForSelectedFO(filteredRGs);
+//        if(rgInfos != null && rgInfos.size()>0) {
+//            getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
+//        }
+//
+//        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+//    }
 
     @RequestMapping(params = "methodToCall=generateUnconstrainedRegGroups")
     public ModelAndView generateUnconstrainedRegGroups (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
