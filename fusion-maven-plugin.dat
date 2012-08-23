@@ -1,0 +1,10 @@
+# module = ks-api branch Path = enrollment/ks-api/trunk revision = 35104
+ks-api::enrollment_ks-api_trunk::UNKNOWN
+# module = ks-core branch Path = enrollment/ks-core/trunk revision = 35104
+ks-core::enrollment_ks-core_trunk::UNKNOWN
+# module = ks-lum branch Path = enrollment/ks-lum/trunk revision = 35104
+ks-lum::enrollment_ks-lum_trunk::UNKNOWN
+# module = ks-enroll branch Path = enrollment/ks-enroll/trunk revision = 35104
+ks-enroll::enrollment_ks-enroll_trunk::UNKNOWN
+# module = ks-deployments branch Path = enrollment/ks-deployments/trunk revision = 35104
+ks-deployments::enrollment_ks-deployments_trunk::UNKNOWN

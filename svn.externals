@@ -1,0 +1,17 @@
+#
+# This file maps local directory names to their actual location in Subversion
+# 
+# This enables development streams to be independently managed and released 
+# while also providing a single spot to perform an aggregated Kuali Student checkout
+# and build
+#
+# The SVN command for using this file to create SVN external definitions is
+# 
+# svn propset svn:externals -F svn.externals .
+#
+
+ks-api http://svn.kuali.org/repos/student/enrollment/ks-api/trunk
+ks-core http://svn.kuali.org/repos/student/enrollment/ks-core/trunk
+ks-lum http://svn.kuali.org/repos/student/enrollment/ks-lum/trunk
+ks-enroll http://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk
+ks-deployments http://svn.kuali.org/repos/student/enrollment/ks-deployments/trunk
