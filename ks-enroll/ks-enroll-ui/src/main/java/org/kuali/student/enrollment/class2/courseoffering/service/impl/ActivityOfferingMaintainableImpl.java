@@ -15,47 +15,55 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.*;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
-import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.room.service.RoomService;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
 
     private transient CourseOfferingService courseOfferingService;
-    private ContextInfo contextInfo;
+    private transient ContextInfo contextInfo;
     private transient TypeService typeService;
     private transient StateService stateService;
     private transient CourseService courseService;
     private transient AcademicCalendarService academicCalendarService;
+    private transient SchedulingService schedulingService;
+    private transient RoomService roomService;
     private transient PopulationService populationService;
     private transient SeatPoolUtilityService seatPoolUtilityService = new SeatPoolUtilityServiceImpl();
+
+    private transient static final String TBA = "TBA";
+    private transient static final String VALID_DAYS = "MTWHFSU";
 
     @Override
     public void saveDataObject() {
@@ -67,6 +75,10 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
             seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo());
 
+            if (!activityOfferingWrapper.getRequestedSchedules().isEmpty()){
+                createSchedulingRequests(activityOfferingWrapper.getAoInfo(),activityOfferingWrapper.getRequestedSchedules());
+            }
+
             try {
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
                 activityOfferingWrapper.setAoInfo(activityOfferingInfo);
@@ -77,6 +89,149 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
     }
 
+    private void createSchedulingRequests(ActivityOfferingInfo activityOfferingInfo,List<ScheduleWrapper> scheduleWrappers){
+
+        for (ScheduleWrapper scheduleWrapper : scheduleWrappers) {
+
+            if (!scheduleWrapper.isAlreadySaved()){
+                ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
+                scheduleRequest.setRefObjectId(activityOfferingInfo.getId());
+                scheduleRequest.setRefObjectTypeKey(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY);
+                scheduleRequest.setName("Schedule request for " + activityOfferingInfo.getName());
+                scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE);
+                scheduleRequest.setStateKey("kuali.scheduling.schedule.request.state.created");
+
+                ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
+                List<String> room = new ArrayList();
+                room.add(scheduleWrapper.getRoom().getId());
+                componentInfo.setRoomIds(room);
+                componentInfo.setResourceTypeKeys(scheduleWrapper.getFeatures());
+
+                TimeSlotInfo timeSlot = new TimeSlotInfo();
+                buildDays(timeSlot.getWeekdays(), scheduleWrapper.getDays());
+
+                DateFormat dateFormat = new SimpleDateFormat("kk:mm S");
+
+                if (!StringUtils.equalsIgnoreCase(scheduleWrapper.getStartTime(),TBA)){
+                    try {
+                        long time = dateFormat.parse(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM()).getTime();
+                        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+                        timeOfDayInfo.setMilliSeconds(time);
+                        timeSlot.setStartTime(timeOfDayInfo);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                if (!StringUtils.equalsIgnoreCase(scheduleWrapper.getEndTime(),TBA)){
+                    try {
+                        long time = dateFormat.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
+                        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+                        timeOfDayInfo.setMilliSeconds(time);
+                        timeSlot.setEndTime(timeOfDayInfo);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                try {
+                    TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY,timeSlot,getContextInfo());
+                    componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                scheduleRequest.getScheduleRequestComponents().add(componentInfo);
+
+                try {
+                    ScheduleRequestInfo createdScheduleRequestInfo = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE,scheduleRequest,getContextInfo());
+                    scheduleWrapper.setScheduleRequest(createdScheduleRequestInfo);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+    }
+
+    private void buildDays(List<Integer> weekdays,String days){
+
+        if (StringUtils.containsIgnoreCase(days,TBA)){
+             return;
+        }
+
+        if (StringUtils.containsIgnoreCase(days,"M")){
+            weekdays.add(Calendar.MONDAY);
+        }
+
+        if (StringUtils.containsIgnoreCase(days,"T")){
+            weekdays.add(Calendar.TUESDAY);
+        }
+
+        if (StringUtils.containsIgnoreCase(days,"W")){
+            weekdays.add(Calendar.WEDNESDAY);
+        }
+
+        if (StringUtils.containsIgnoreCase(days,"H")){
+            weekdays.add(Calendar.THURSDAY);
+        }
+
+        if (StringUtils.containsIgnoreCase(days,"F")){
+            weekdays.add(Calendar.FRIDAY);
+        }
+
+        if (StringUtils.containsIgnoreCase(days,"S")){
+            weekdays.add(Calendar.SATURDAY);
+        }
+
+        if (StringUtils.containsIgnoreCase(days,"U")){
+            weekdays.add(Calendar.SUNDAY);
+        }
+
+    }
+
+    @Override
+    public void processCollectionAddLine(View view, Object model, String collectionPath) {
+
+        if (StringUtils.equals( collectionPath,"requestedSchedules")){
+            ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)((MaintenanceForm)model).getDocument().getNewMaintainableObject().getDataObject();
+            addScheduleRequest(wrapper);
+        }else{
+            super.processCollectionAddLine(view,model,collectionPath);
+        }
+
+    }
+
+    private void addScheduleRequest(ActivityOfferingWrapper wrapper){
+        ScheduleWrapper scheduleWrapper = wrapper.getNewScheduleRequest();
+
+        if (StringUtils.equalsIgnoreCase(TBA,scheduleWrapper.getDays())){
+             scheduleWrapper.setDaysUI(TBA);
+        } else {
+            //Add a space between selected days ("MTWHFSU") for informational purpose
+            char[] days = scheduleWrapper.getDays().toUpperCase().toCharArray();
+            StringBuffer buffer = new StringBuffer();
+            for (char day : days) {
+                buffer.append(day + " ");
+            }
+            scheduleWrapper.setDaysUI(StringUtils.stripEnd(buffer.toString()," "));
+        }
+
+        if (StringUtils.equalsIgnoreCase(TBA,scheduleWrapper.getStartTime())){
+             scheduleWrapper.setStartTimeUI(TBA);
+        } else {
+             scheduleWrapper.setStartTimeUI(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM());
+        }
+
+        if (StringUtils.equalsIgnoreCase(TBA,scheduleWrapper.getEndTime())){
+             scheduleWrapper.setEndTimeUI(TBA);
+        } else {
+             scheduleWrapper.setEndTimeUI(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM());
+        }
+
+        wrapper.getRequestedSchedules().add(scheduleWrapper);
+        wrapper.setNewScheduleRequest(new ScheduleWrapper());
+    }
 
     private  List<SeatPoolDefinitionInfo> getSeatPoolDeleteList(List<SeatPoolDefinitionInfo> newList, List<SeatPoolDefinitionInfo> oldList){
         List<SeatPoolDefinitionInfo> deleteList = new ArrayList<SeatPoolDefinitionInfo>();
@@ -447,6 +602,20 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationService"));
         }
         return populationService;
+    }
+
+    public SchedulingService getSchedulingService() {
+        if(schedulingService == null){
+            schedulingService =  CourseOfferingResourceLoader.loadSchedulingService();
+        }
+        return schedulingService;
+    }
+
+    public RoomService getRoomService(){
+        if (roomService == null){
+            roomService = CourseOfferingResourceLoader.loadRoomService();
+        }
+        return roomService;
     }
 
     /**

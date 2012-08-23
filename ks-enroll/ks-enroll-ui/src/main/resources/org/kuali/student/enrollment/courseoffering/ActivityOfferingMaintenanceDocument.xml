@@ -110,7 +110,8 @@
                     </property>
                 </bean>
 
-                <ref bean="KS-ActivityOffering-ProcessedSchedules"/>
+                <!-- Not for M4 -->
+                <!--<ref bean="KS-ActivityOffering-ProcessedSchedules"/>-->
                 <ref bean="KS-ActivityOffering-RequestedDeliveryLogistics"/>
                 <ref bean="KS-ActivityOffering-RequestedSchedules"/>
 
@@ -376,24 +377,24 @@
     <bean id="KS-ActivityOffering-ProcessedSchedules" parent="Uif-TableCollectionSection"
             p:headerText="Delivery Logistics"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
-            p:propertyName="processedSchedules"
+            p:propertyName="assignedSchedules"
             p:renderAddLine="true"
             p:renderLineActions="false"
             p:layoutManager.renderSequenceField="false">
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="Days" p:propertyName="days" p:readOnly="true">
+                <bean parent="Uif-InputField" p:label="Days" p:propertyName="daysUI" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Start Time" p:propertyName="startTime" p:readOnly="true">
+                <bean parent="Uif-InputField" p:label="Start Time" p:propertyName="startTimeUI" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="End Time" p:propertyName="endTime" p:readOnly="true">
+                <bean parent="Uif-InputField" p:label="End Time" p:propertyName="endTimeUI" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
@@ -421,23 +422,22 @@
     <bean id="KS-ActivityOffering-RequestedSchedules" parent="Uif-TableCollectionSection"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
             p:propertyName="requestedSchedules"
-            p:renderAddLine="true"
-            p:renderLineActions="false"
+            p:renderAddLine="false"
             p:layoutManager.renderSequenceField="false">
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="Days" p:propertyName="days" p:readOnly="true" p:control.size="5">
+                <bean parent="Uif-InputField" p:label="Days" p:propertyName="daysUI" p:readOnly="true" p:control.size="5">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Start Time" p:propertyName="startTime" p:readOnly="true" p:control.size="5">
+                <bean parent="Uif-InputField" p:label="Start Time" p:propertyName="startTimeUI" p:readOnly="true" p:control.size="5">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="End Time" p:propertyName="endTime" p:readOnly="true" p:control.size="5">
+                <bean parent="Uif-InputField" p:label="End Time" p:propertyName="endTimeUI" p:readOnly="true" p:control.size="5">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
@@ -466,18 +466,21 @@
         <property name="headerText" value="Requested Delivery Logistics"/>
         <property name="items">
             <list>
-                <ref bean="KS-ActivityOffering-RequestedDeliveryLogistics-Section1"/>
+                <ref bean="KS-ActivityOffering-RequestedDeliveryLogistics-Section"/>
                 <bean parent="Uif-InputField" p:propertyName="newScheduleRequest.features" p:label="Features" p:width="auto"
                       p:instructionalText="Any features requested will reduce the room assignement possibilities (we only have so many rooms with operable windows!)">
                   <property name="control">
                     <bean parent="Uif-DropdownControl" p:multiple="true" p:size="3" p:options-ref="features-options"/>
                   </property>
                 </bean>
+                <bean parent="Uif-ActionLink" p:actionLabel="Clear selections"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addLine"
+                        p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;requestedSchedules&quot;);"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-ActivityOffering-RequestedDeliveryLogistics-Section1" parent="Uif-HorizontalBoxSection">
+    <bean id="KS-ActivityOffering-RequestedDeliveryLogistics-Section" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
                 <bean parent="KSInputField" p:label="Days" p:required="true" p:propertyName="newScheduleRequest.days">
@@ -492,7 +495,7 @@
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.startTimeAMPM">
+                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.startTimeAMPM" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
                     </property>
@@ -503,7 +506,7 @@
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.endTimeAMPM">
+                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.endTimeAMPM" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
                     </property>
@@ -514,6 +517,7 @@
                     </property>
                 </bean>
                 <bean parent="KSInputField" p:label="Room" p:propertyName="newScheduleRequest.roomNumber"/>
+                <bean parent="KSInputField" p:label="Capacity" p:propertyName="newScheduleRequest.roomCapacity" p:readOnly="true"/>
             </list>
         </property>
     </bean>

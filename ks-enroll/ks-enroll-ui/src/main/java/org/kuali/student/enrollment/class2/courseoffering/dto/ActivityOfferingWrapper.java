@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
@@ -44,7 +45,7 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private String courseOfferingCode = "";
 
-    private List<ScheduleWrapper> processedSchedules;
+    private List<ScheduleWrapper> assignedSchedules;
     private List<ScheduleWrapper> requestedSchedules;
 
     private ScheduleWrapper newScheduleRequest;
@@ -63,7 +64,7 @@ public class ActivityOfferingWrapper implements Serializable{
         scheduleComponentWrappers = new ArrayList<ScheduleComponentWrapper>();
         this.setReadOnlyView(false);
         this.setIsChecked(false);
-        processedSchedules = new ArrayList<ScheduleWrapper>();
+        assignedSchedules = new ArrayList<ScheduleWrapper>();
         requestedSchedules = new ArrayList<ScheduleWrapper>();
         newScheduleRequest = new ScheduleWrapper();
     }
@@ -319,15 +320,18 @@ public class ActivityOfferingWrapper implements Serializable{
         return false;
     }
 
-    public List<ScheduleWrapper> getProcessedSchedules() {
-        return processedSchedules;
+    public List<ScheduleWrapper> getAssignedSchedules() {
+        return assignedSchedules;
     }
 
-    public void setProcessedSchedules(List<ScheduleWrapper> processedSchedules) {
-        this.processedSchedules = processedSchedules;
+    public void setAssignedSchedules(List<ScheduleWrapper> assignedSchedules) {
+        this.assignedSchedules = assignedSchedules;
     }
 
     public List<ScheduleWrapper> getRequestedSchedules() {
+        if (requestedSchedules == null){
+            requestedSchedules = new ArrayList<ScheduleWrapper>();
+        }
         return requestedSchedules;
     }
 

@@ -1,7 +1,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.io.Serializable;
@@ -21,6 +24,8 @@ public class ScheduleWrapper implements Serializable{
     private TimeSlotInfo timeSlot;
     private BuildingInfo building;
     private RoomInfo room;
+    private ScheduleRequestInfo scheduleRequest;
+    private ScheduleInfo actualSchedule;
 
     //Properties
     private String days;
@@ -33,6 +38,11 @@ public class ScheduleWrapper implements Serializable{
     private String roomCapacity;
 
     private List<String> features;
+
+    //For informational display only
+    private String daysUI;
+    private String startTimeUI;
+    private String endTimeUI;
 
     public ScheduleWrapper(){
         features = new ArrayList<String>();
@@ -132,6 +142,53 @@ public class ScheduleWrapper implements Serializable{
 
     public void setFeatures(List<String> features) {
         this.features = features;
+    }
+
+    public ScheduleRequestInfo getScheduleRequest() {
+        return scheduleRequest;
+    }
+
+    public void setScheduleRequest(ScheduleRequestInfo scheduleRequest) {
+        this.scheduleRequest = scheduleRequest;
+    }
+
+    public ScheduleInfo getActualSchedule() {
+        return actualSchedule;
+    }
+
+    public void setActualSchedule(ScheduleInfo actualSchedule) {
+        this.actualSchedule = actualSchedule;
+    }
+
+    public String getDaysUI() {
+        return daysUI;
+    }
+
+    public String getStartTimeUI() {
+        return startTimeUI;
+    }
+
+    public String getEndTimeUI() {
+        return endTimeUI;
+    }
+
+    public void setDaysUI(String daysUI) {
+        this.daysUI = daysUI;
+    }
+
+    public void setStartTimeUI(String startTimeUI) {
+        this.startTimeUI = startTimeUI;
+    }
+
+    public void setEndTimeUI(String endTimeUI) {
+        this.endTimeUI = endTimeUI;
+    }
+
+    public boolean isAlreadySaved() {
+        if (scheduleRequest != null){
+            return StringUtils.isNotBlank(scheduleRequest.getId());
+        }
+        return false;
     }
 
 }
