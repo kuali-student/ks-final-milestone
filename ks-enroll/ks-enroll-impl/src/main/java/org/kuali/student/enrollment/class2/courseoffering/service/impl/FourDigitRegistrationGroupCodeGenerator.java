@@ -51,6 +51,10 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
     public FourDigitRegistrationGroupCodeGenerator() {
     }
 
+    public FourDigitRegistrationGroupCodeGenerator(String prefix) {
+        this.prefix = prefix;
+    }
+
     private boolean _isValidRegGroupCode(String code) {
         if (code == null) {
             return false;
@@ -110,7 +114,7 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
     }
 
     @Override
-    public void initializeGenerator(CourseOfferingService coService, FormatOffering fo, ContextInfo context, Map<String, Object> keyValues) {
+    public RegistrationGroupCodeGenerator initializeGenerator(CourseOfferingService coService, FormatOffering fo, ContextInfo context, Map<String, Object> keyValues) {
         try {
             CourseOfferingInfo coInfo = coService.getCourseOffering(fo.getCourseOfferingId(), context);
             List<FormatOfferingInfo> foInfos = coService.getFormatOfferingsByCourseOffering(coInfo.getId(), context);
@@ -134,10 +138,12 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
             // throw exception if you reach 100
             Set<Integer> prefixUsed = _computePrefixUsed(coService, context, foInfos);
             // Now look for a free prefix to use
-            prefix = _findSmallestUnusedPrefix(prefixUsed);
+            String prefix = _findSmallestUnusedPrefix(prefixUsed);
             if (prefix == null) {
                 throw new RuntimeException("Unable to find a free prefix--all 99 are used");
             }
+            RegistrationGroupCodeGenerator generator = new FourDigitRegistrationGroupCodeGenerator(prefix);
+            return generator;
         } catch (Exception e) {
             isValid = false;
             throw new RuntimeException(e.getMessage());

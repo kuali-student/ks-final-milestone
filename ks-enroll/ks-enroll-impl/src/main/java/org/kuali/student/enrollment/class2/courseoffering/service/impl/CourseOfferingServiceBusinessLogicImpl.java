@@ -476,9 +476,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
         CourseOfferingInfo courseOffering = coService.getCourseOffering(formatOffering.getCourseOfferingId(), context);
 
+
         for (List<String> activityOfferingPermutation : generatedPermutations) {
-            registrationCodeGenerator.initializeGenerator(coService,formatOffering,context, null);
-            String regGroupCode = registrationCodeGenerator.generateRegistrationGroupCode(formatOffering, aoList, null);
+            // New instance created each time if desired
+            RegistrationGroupCodeGenerator generator =
+                    registrationCodeGenerator.initializeGenerator(coService, formatOffering, context, null);
+            String regGroupCode = generator.generateRegistrationGroupCode(formatOffering, aoList, null);
 
             // Honours Offering and max enrollment is out of scope for M4 so this hard set is ok.
             String name = regGroupCode;

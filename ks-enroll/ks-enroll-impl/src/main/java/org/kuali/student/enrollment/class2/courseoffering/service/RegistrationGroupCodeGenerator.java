@@ -41,7 +41,7 @@ public interface RegistrationGroupCodeGenerator {
      * @param fo Format offering
      * @param keyValues Allows for anything to be passed in
      */
-	public void initializeGenerator(CourseOfferingService coService, FormatOffering fo, ContextInfo context, Map<String, Object> keyValues);
+	public RegistrationGroupCodeGenerator initializeGenerator(CourseOfferingService coService, FormatOffering fo, ContextInfo context, Map<String, Object> keyValues);
 	/**
 	 * Generate a Registration Group Code.  This is what the student will see when selecting a Registration Group.
 	 * 
