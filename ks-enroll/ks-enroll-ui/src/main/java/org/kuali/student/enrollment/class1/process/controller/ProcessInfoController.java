@@ -49,6 +49,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
@@ -155,20 +156,24 @@ public class ProcessInfoController extends UifControllerBase {
         return getUIFModelAndView(form, null);
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=view")
-    public ModelAndView view(@ModelAttribute("KualiForm") ProcessInfoForm form) throws Exception {
-        Properties urlParameters = new Properties();
-
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startView");
-        urlParameters.put(UifParameters.VIEW_ID, "processCreateView");
-
-        return super.performRedirect(form, "processInfoController", urlParameters);
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=clear")
+    public ModelAndView clear(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        clearValues(form);
+        return getUIFModelAndView(form);
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=startView")
-    public ModelAndView startView(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=back")
+    public ModelAndView back(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProcessInfo processInfo = getSelectedProcessInfo(form, "startView");
+        clearValues(form);
+        return getUIFModelAndView(form, "searchPage");
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=edit")
+    public ModelAndView edit(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProcessInfo processInfo = getSelectedProcessInfo(form, "edit");
 
         organizationService = getOrganizationService();
         try{
@@ -192,7 +197,7 @@ public class ProcessInfoController extends UifControllerBase {
             }
         }
 
-        return start(form, result, request, response);
+        return getUIFModelAndView(form, "editPage");
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=delete")
@@ -230,7 +235,7 @@ public class ProcessInfoController extends UifControllerBase {
     }
 
         form.setProcessInfos(processInfos);
-        return getUIFModelAndView(form);
+        return getUIFModelAndView(form, null);
     }
 
     private ProcessInfo getSelectedProcessInfo(ProcessInfoForm form, String actionLink){
@@ -279,6 +284,14 @@ public class ProcessInfoController extends UifControllerBase {
 
     private void resetForm(ProcessInfoForm form) {
         form.setProcessInfos(new ArrayList<ProcessInfo>());
+    }
+
+    private void clearValues(ProcessInfoForm form) {
+        form.setName("");
+        form.setOwnerOrgId("");
+        form.setStateKey("");
+        form.setTypeKey("");
+        form.setDescr("");
     }
 
     private static QueryByCriteria.Builder buildQueryByCriteria(String name, String type,String state, String orgId, String descr){

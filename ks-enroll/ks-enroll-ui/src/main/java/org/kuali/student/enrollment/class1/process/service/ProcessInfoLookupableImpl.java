@@ -42,8 +42,9 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
  * @author Kuali Student Team
  */
 public class ProcessInfoLookupableImpl extends LookupableImpl {
+
     private ProcessService processService;
-    ContextInfo contextInfo = new ContextInfo();
+    private ContextInfo contextInfo = new ContextInfo();
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {

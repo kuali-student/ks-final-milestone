@@ -7,8 +7,7 @@
     <import resource="classpath:ks-ProcessInfo-dictionary.xml" />
 
     <bean id="KS-ProcessInfo-LookupView" parent="KSLookupView">
-        <property name="id" value="processInfoLookupView"/>
-        <property name="headerText" value="Advanced Search:Processes"/>
+        <property name="headerText" value="Process Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.process.dto.ProcessInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.process.service.ProcessInfoLookupableImpl"/>
         <property name="criteriaFields">

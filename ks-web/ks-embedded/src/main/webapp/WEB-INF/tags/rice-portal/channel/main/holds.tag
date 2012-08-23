@@ -16,5 +16,10 @@
         <li><portal:portalLink displayTitle="true" title="Manage Check" url="${ConfigProperties.application.url}/kr-krad/createCheck?viewId=checkInfoSearchView&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Manage Instruction" url=" " /></li>
     </ul>
+    <strong>Dev Links</strong>
+        <ul class="chan">
+            <li><portal:portalLink displayTitle="true" title="Process Info Lookup View" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.process.dto.ProcessInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+            <li><portal:portalLink displayTitle="true" title="Hold Issue Info Lookup View" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.hold.dto.HoldIssueInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        </ul>
 </div>
 <channel:portalChannelBottom />
