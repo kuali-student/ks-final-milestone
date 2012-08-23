@@ -118,6 +118,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<FormatOfferingInfo> fos = getFormatOfferingsByCourseOffering(courseOfferingId, context);
         for (FormatOfferingInfo fo:fos){
             deleteFormatOfferingCascaded(fo.getId(), context);
+            // delete all related registration groups
+            deleteRegistrationGroupsByFormatOffering(fo.getId(), context);
         }
 
         // delete offering instructor lprs for the Course Offering
