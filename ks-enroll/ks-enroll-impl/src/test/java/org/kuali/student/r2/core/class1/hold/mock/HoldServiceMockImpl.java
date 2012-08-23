@@ -20,12 +20,14 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.class1.hold.util.EffectiveDateUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -138,10 +140,9 @@ public class HoldServiceMockImpl
         for (AppliedHoldInfo info : holdMap.values()) {
             if (personId.equals(info.getPersonId())) {
                 if (info.getStateKey().equals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY)) {
-                    if (info.getEffectiveDate().before(now)) {
-                        if (info.getReleasedDate() == null || info.getReleasedDate().after(now)) {
+                	
+                	 if (EffectiveDateUtils.isTargetDateEffective(info.getEffectiveDate(), info.getReleasedDate(), now)) {
                             list.add(new AppliedHoldInfo(info));
-                        }
                     }
                 }
             }
@@ -182,10 +183,8 @@ public class HoldServiceMockImpl
             if (issueId.equals(info.getHoldIssueId())) {
                 if (personId.equals(info.getPersonId())) {
                     if (info.getStateKey().equals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY)) {
-                        if (info.getEffectiveDate().before(now)) {
-                            if (info.getReleasedDate() == null || info.getReleasedDate().after(now)) {
+                        if (EffectiveDateUtils.isTargetDateEffective(info.getEffectiveDate(), info.getReleasedDate(), now)) {
                                 list.add(info);
-                            }
                         }
                     }
                 }

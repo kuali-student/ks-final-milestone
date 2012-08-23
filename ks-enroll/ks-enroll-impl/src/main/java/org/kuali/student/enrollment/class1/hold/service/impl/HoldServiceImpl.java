@@ -21,6 +21,7 @@ import org.kuali.student.enrollment.class1.hold.dao.AppliedHoldDao;
 import org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao;
 import org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity;
 import org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity;
+import org.kuali.student.enrollment.class1.hold.util.EffectiveDateUtils;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -457,10 +458,8 @@ public class HoldServiceImpl
         List<AppliedHoldInfo> result = new ArrayList<AppliedHoldInfo>(entities.size());
         for (AppliedHoldEntity entity : entities) {
             AppliedHoldInfo info = entity.toDto();
-            if (info.getEffectiveDate().before(now)) {
-                if (info.getReleasedDate() == null || info.getReleasedDate().after(now)) {
+            if (EffectiveDateUtils.isTargetDateEffective(info.getEffectiveDate(), info.getReleasedDate(), now)) {
                     result.add(info);
-                }
             }
         }
         return result;
@@ -498,10 +497,8 @@ public class HoldServiceImpl
         List<AppliedHoldInfo> result = new ArrayList<AppliedHoldInfo>(entities.size());
         for (AppliedHoldEntity entity : entities) {
             AppliedHoldInfo info = entity.toDto();
-            if (info.getEffectiveDate().before(now)) {
-                if (info.getReleasedDate() == null || info.getReleasedDate().after(now)) {
+            if (EffectiveDateUtils.isTargetDateEffective(info.getEffectiveDate(), info.getReleasedDate(), now)) {
                     result.add(info);
-                }
             }
         }
         return result;
