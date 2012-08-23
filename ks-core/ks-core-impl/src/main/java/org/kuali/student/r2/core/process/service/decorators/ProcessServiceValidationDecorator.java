@@ -85,7 +85,7 @@ public class ProcessServiceValidationDecorator
             OperationFailedException,
             PermissionDeniedException,
             ReadOnlyException {
-        // create 
+        // create
         try {
             List<ValidationResultInfo> errors =
                     this.validateProcessCategory(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
@@ -160,7 +160,8 @@ public class ProcessServiceValidationDecorator
             OperationFailedException,
             PermissionDeniedException,
             ReadOnlyException {
-        // create 
+        // create
+        processInfo.setKey(processKey);
         try {
             List<ValidationResultInfo> errors =
                     this.validateProcess(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),

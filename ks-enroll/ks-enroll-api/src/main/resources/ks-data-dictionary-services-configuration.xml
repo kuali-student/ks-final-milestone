@@ -22,12 +22,19 @@
         <property name="dictionaryLocations" ref="acalServiceDictionaryLocations" />
     </bean>
 
+    <!-- Hold Service-->
     <bean id="dataDictionaryServiceForHold" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
            <property name="serviceNamespaceSuffix" value="hold" />
-        <property name="dictionaryLocations" ref="appliedHoldInfoDictionaryLocation" />
+        <property name="dictionaryLocations" ref="holdServiceDictionaryLocations" />
     </bean>
 
-   <!-- Hold Service-->
+    <!-- Process Service-->
+    <bean id="dataDictionaryServiceForProcess" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="process" />
+        <property name="dictionaryLocations" ref="processServiceDictionaryLocations" />
+    </bean>
+
+
      <!-- Lui Service -->
    <bean id="dataDictionaryServiceForLui" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
         <property name="serviceNamespaceSuffix" value="lui" />

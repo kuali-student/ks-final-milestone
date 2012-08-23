@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -58,6 +59,7 @@ public class TestProcessServiceImpl {
         ProcessInfo process = new ProcessInfo();
         process.setOwnerOrgId("Owner1");
         process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
+        process.setTypeKey("kuali.process.process.type.dummy");
         processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
         process = processService.getProcess(processId, context);
         assertNotNull(process);
@@ -94,6 +96,7 @@ public class TestProcessServiceImpl {
         ProcessInfo process = new ProcessInfo();
         process.setOwnerOrgId("Owner1");
         process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
+        process.setTypeKey("kuali.process.process.type.dummy");
         processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
         // Create & Read
         CheckInfo check = new CheckInfo();
@@ -102,6 +105,7 @@ public class TestProcessServiceImpl {
         check.setMilestoneTypeKey("milestoneTypeKey-1");
         check.setChildProcessKey("kuali.process.registration.basic.eligibility");
         check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE);
+        check.setTypeKey("kuali.process.check.type.dummy");
         CheckInfo checkR = processService.createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check, context);
         check = processService.getCheck(checkR.getId(), context);
         assertNotNull(check);
@@ -147,14 +151,16 @@ public class TestProcessServiceImpl {
         ProcessInfo process = new ProcessInfo();
         process.setOwnerOrgId("Owner1");
         process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
+        process.setTypeKey("kuali.process.process.type.dummy");
         processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
         CheckInfo check = new CheckInfo();
-        check.setId("kuali.check.has.not.paid.bill.from.prior.term");
+        check.setId("kuali.check.paid.bill.prior.term");
         check.setAgendaId("AgendaId-1");
         check.setHoldIssueId("Hold-Issue-2");
         check.setMilestoneTypeKey("milestoneTypeKey-1");
         check.setChildProcessKey(processId);
         check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE);
+        check.setTypeKey("kuali.process.check.type.dummy");
         CheckInfo checkR = processService.createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check, context);
 
         // Create & Read
@@ -163,7 +169,7 @@ public class TestProcessServiceImpl {
         instruction.setAppliedPopulationId("Population-1");
         // instruction.setAppliedPopulationKeys(new ArrayList<String>(){{add("Population-1");}});
 //        instruction.setAttributes();
-        instruction.setCheckId("kuali.check.has.not.paid.bill.from.prior.term");
+        instruction.setCheckId("kuali.check.paid.bill.prior.term");
         instruction.setContinueOnFail(Boolean.TRUE);
 //        instruction.setEffectiveDate();
 //        instruction.setExpirationDate();
@@ -174,6 +180,8 @@ public class TestProcessServiceImpl {
         instruction.setPosition(5);
         instruction.setProcessKey("kuali.process.registration.eligibility.for.term");
         instruction.setStateKey(ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY);
+        instruction.setTypeKey("kuali.process.instruction.type.dummy");
+        instruction.setEffectiveDate(new Date());
         instruction = processService.createInstruction(instruction.getProcessKey(), instruction.getCheckId(), ProcessServiceConstants.INSTRUCTION_TYPE_KEY, instruction, context);
         String instructionId = instruction.getId();
         instruction = processService.getInstruction(instructionId, context);
@@ -183,7 +191,7 @@ public class TestProcessServiceImpl {
         assertNotNull(instruction.getAppliedPopulationId());
 //        assertEquals(1, instruction.getAppliedPopulationKeys().size());
 //        assertTrue(instruction.getAppliedPopulationKeys().contains("Population-1"));
-        assertEquals("kuali.check.has.not.paid.bill.from.prior.term", instruction.getCheckId());
+        assertEquals("kuali.check.paid.bill.prior.term", instruction.getCheckId());
         assertTrue(instruction.getContinueOnFail());
         assertNotNull(instruction.getId());
         assertTrue(instruction.getIsExemptible());
@@ -199,6 +207,7 @@ public class TestProcessServiceImpl {
         process = new ProcessInfo();
         process.setOwnerOrgId("Owner1");
         process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
+        process.setTypeKey("kuali.process.process.type.dummy");
         processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
         check = new CheckInfo();
         check.setId("kuali.check.has.overdue.library.book");
@@ -207,6 +216,7 @@ public class TestProcessServiceImpl {
         check.setMilestoneTypeKey("milestoneTypeKey-1");
         check.setChildProcessKey(processId);
         check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE);
+        check.setTypeKey("kuali.process.check.type.dummy");
         processService.createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check, context);
 
         // Update
@@ -270,17 +280,19 @@ public class TestProcessServiceImpl {
         ProcessInfo process = new ProcessInfo();
         process.setOwnerOrgId("Owner1");
         process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
+        process.setTypeKey("kuali.process.process.type.dummy");
         process = processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
         assertNotNull(process);
 
         //Create Check to search
         CheckInfo check = new CheckInfo();
-        check.setId("kuali.check.has.not.paid.bill.from.prior.term");
+        check.setId("kuali.check.paid.bill.prior.term");
         check.setAgendaId("AgendaId-1");
         check.setHoldIssueId("Hold-Issue-2");
         check.setMilestoneTypeKey("milestoneTypeKey-1");
         check.setChildProcessKey(processId);
         check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE);
+        check.setTypeKey("kuali.process.check.type.dummy");
         check = processService.createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check, context);
         assertNotNull(check);
 
@@ -288,7 +300,7 @@ public class TestProcessServiceImpl {
         InstructionInfo instruction = new InstructionInfo();
         instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add("kuali.atp.type.Fall");}});
         instruction.setAppliedPopulationId("Population-1");
-        instruction.setCheckId("kuali.check.has.not.paid.bill.from.prior.term");
+        instruction.setCheckId("kuali.check.paid.bill.prior.term");
         instruction.setContinueOnFail(Boolean.TRUE);
         instruction.setIsExemptible(Boolean.TRUE);
         instruction.setIsWarning(Boolean.TRUE);
@@ -296,6 +308,8 @@ public class TestProcessServiceImpl {
         instruction.setPosition(5);
         instruction.setProcessKey("kuali.process.registration.eligibility.for.term");
         instruction.setStateKey(ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY);
+        instruction.setTypeKey(ProcessServiceConstants.INSTRUCTION_TYPE_KEY);
+        instruction.setEffectiveDate(new Date());
         instruction = processService.createInstruction(instruction.getProcessKey(), instruction.getCheckId(), ProcessServiceConstants.INSTRUCTION_TYPE_KEY, instruction, context);
         assertNotNull(instruction);
         // Search for process

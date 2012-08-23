@@ -121,7 +121,7 @@
     </bean>
 
     <bean id="processServiceAuthDecorator" class="org.kuali.student.r2.core.process.service.decorators.ProcessServiceAuthorizationDecorator">
-        <property name="nextDecorator" ref="processServiceImpl"/>
+        <property name="nextDecorator" ref="processServiceValidationDecorator"/>
         <property name="permissionService" ref="permissionService"/>
     </bean>
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />

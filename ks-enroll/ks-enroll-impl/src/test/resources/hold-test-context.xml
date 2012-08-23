@@ -84,18 +84,18 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     
-    <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
+    <bean id="holdServiceImpl" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
         <property name="holdIssueDao" ref="holdIssueDao"/>
         <property name="appliedHoldDao" ref="appliedHoldDao"/>
         <property name="criteriaLookupService" ref="holdCriteriaLookupService"/>
     </bean>
 	
     <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">
-        <property name="nextDecorator" ref="holdService"/>
+        <property name="nextDecorator" ref="holdServiceImpl"/>
         <property name="validator" ref="validator"/>
     </bean>
  
-    <bean id="holdServiceAuthDecorator" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceAuthorizationDecorator">
+    <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceAuthorizationDecorator">
         <property name="nextDecorator" ref="holdServiceValidation"/>
         <property name="permissionService" ref="permissionService"/>
     </bean> 
