@@ -27,8 +27,11 @@
         <property name="courseService" ref="courseService" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />
+        <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
     </bean>
-    
+
+    <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
+
     <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl"/>
 
     <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->

@@ -32,8 +32,11 @@
         <property name="courseService" ref="courseService" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />
+        <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
     </bean>
-    
+
+    <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
+
     <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceMockImpl" > 
         <property name="businessLogic" ref="socBusinessLogic" />
     </bean>
