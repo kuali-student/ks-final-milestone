@@ -23,6 +23,7 @@ package org.kuali.student.r2.core.scheduling.service.impl;
  */
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -42,7 +43,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SchedulingServiceMockImpl implements SchedulingService {
+public class SchedulingServiceMockImpl implements SchedulingService, MockService {
 
     ////////////////////////////////
     // DATA VARIABLES
@@ -67,6 +68,7 @@ public class SchedulingServiceMockImpl implements SchedulingService {
     // IMPLEMENTING METHODS
     ////////////////////////////////
 
+    
     @Override
     public ScheduleInfo getSchedule(String scheduleId, ContextInfo contextInfo)
             throws DoesNotExistException
@@ -82,6 +84,16 @@ public class SchedulingServiceMockImpl implements SchedulingService {
     }
 
     @Override
+	public void clear() {
+		
+    	this.scheduleBatchMap.clear();
+    	this.scheduleMap.clear();
+    	this.scheduleRequestMap.clear();
+    	this.scheduleTransactionMap.clear();
+    	this.timeSlotMap.clear();
+	}
+
+	@Override
     public List<ScheduleInfo> getSchedulesByIds(List<String> scheduleIds, ContextInfo contextInfo)
             throws DoesNotExistException
             ,InvalidParameterException

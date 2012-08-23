@@ -9,6 +9,7 @@ import org.kuali.rice.core.api.criteria.AndPredicate;
 import org.kuali.rice.core.api.criteria.LikePredicate;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -23,17 +24,31 @@ import org.kuali.student.r2.core.population.service.PopulationService;
 import javax.jws.WebParam;
 import java.util.*;
 
-public class ProcessPocPopulationServiceMockImpl implements PopulationService {
+public class ProcessPocPopulationServiceMockImpl implements PopulationService, MockService {
 
-    private static Map<String, PopulationInfo> populations;
-    private static Map<String, Set<String>> caches;
-    private List<PopulationInfo> populationInfos;
+    private Map<String, PopulationInfo> populations;
+    private Map<String, Set<String>> caches;
 
     public ProcessPocPopulationServiceMockImpl() {
         initialize();
     }
 
-    private void initialize() {
+    
+    @Override
+	public void clear() {
+    	
+    	if (this.caches != null)
+    		this.caches.clear();
+		
+    	if (this.populations != null)
+			this.populations.clear();
+		
+		initialize();
+		
+	}
+
+
+	private void initialize() {
         try {
             populations = new HashMap<String, PopulationInfo>();
             caches = new HashMap<String, Set<String>>();

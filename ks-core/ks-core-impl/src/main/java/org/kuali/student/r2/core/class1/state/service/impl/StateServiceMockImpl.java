@@ -17,6 +17,7 @@
 package org.kuali.student.r2.core.class1.state.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -34,13 +35,22 @@ import java.util.*;
  */
 
 public class StateServiceMockImpl 
-    implements StateService {
+    implements StateService, MockService {
 
     private final Map<String, LifecycleInfo> lifecycles = new HashMap<String, LifecycleInfo>();
     private final Map<String, StateInfo> states = new HashMap<String, StateInfo>();
     private final Map<String, Collection<String>> lifecycleStates = new HashMap<String, Collection<String>>();
 
+    
     @Override
+	public void clear() {
+    	this.lifecycles.clear();
+    	this.lifecycleStates.clear();
+    	this.states.clear();
+		
+	}
+
+	@Override
     public LifecycleInfo getLifecycle(String lifecycleKey, ContextInfo contextInfo) 
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 

@@ -19,6 +19,7 @@ import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
 import org.kuali.rice.kns.kim.role.PrincipalDerivedRoleTypeServiceImpl;
+import org.kuali.student.common.mock.MockService;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,11 +30,13 @@ import java.util.Map;
  * 
  * @author nwright
  */
-public class KimTypeInfoServiceMockImpl implements KimTypeInfoService {
+public class KimTypeInfoServiceMockImpl implements KimTypeInfoService, MockService {
 
     private Map<String, KimType> kimTypeInfoCache = new HashMap<String, KimType>();
     private Map<String, RoleTypeService> kimRoleTypeServiceCache = new HashMap <String, RoleTypeService> ();
-    {
+    
+    private void init() {
+    	// TODO: this code should be moved into a DataLoader
         KimType.Builder info = KimType.Builder.create();
         info.setId("2");
         info.setServiceName(PrincipalDerivedRoleTypeServiceImpl.class.getName());
@@ -43,7 +46,26 @@ public class KimTypeInfoServiceMockImpl implements KimTypeInfoService {
         this.kimTypeInfoCache.put(info.getId(), data);
         this.kimRoleTypeServiceCache.put (data.getServiceName(), new PrincipalDerivedRoleTypeServiceImpl ());
     }
-    @Override
+    
+	public KimTypeInfoServiceMockImpl() {
+		super();
+		
+		init();
+	}
+
+
+
+	@Override
+	public void clear() {
+    	
+    	this.kimRoleTypeServiceCache.clear();
+    	this.kimTypeInfoCache.clear();
+    	
+    	init();
+		
+	}
+
+	@Override
     public Collection<KimType> findAllKimTypes() {
         return this.kimTypeInfoCache.values();
     }

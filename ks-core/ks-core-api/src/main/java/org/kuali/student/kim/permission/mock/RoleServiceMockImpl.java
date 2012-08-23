@@ -31,6 +31,7 @@ import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.role.*;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.framework.type.KimTypeService;
+import org.kuali.student.common.mock.MockService;
 
 import javax.jws.WebParam;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -38,7 +39,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 /**
  * @author nwright
  */
-public class RoleServiceMockImpl implements RoleService {
+public class RoleServiceMockImpl implements RoleService, MockService {
 
     private transient Map<String, Role> roleCache = new HashMap<String, Role>();
     private transient Map<String, RoleMembership> roleMembershipCache = new HashMap<String, RoleMembership>();
@@ -46,7 +47,16 @@ public class RoleServiceMockImpl implements RoleService {
     private GroupService groupService;
     private KimTypeService kimTypeInfoService;
 
-    public GroupService getGroupService() {
+    
+    @Override
+	public void clear() {
+    	this.roleCache.clear();
+    	this.roleMemberCompleteInfoCache.clear();
+    	this.roleMembershipCache.clear();
+		
+	}
+
+	public GroupService getGroupService() {
         return groupService;
     }
 

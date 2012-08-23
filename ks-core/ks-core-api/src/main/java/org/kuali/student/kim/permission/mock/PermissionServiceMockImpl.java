@@ -31,6 +31,7 @@ import org.kuali.rice.kim.api.permission.PermissionQueryResults;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.student.common.mock.MockService;
 
 import javax.jws.WebParam;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -38,16 +39,27 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 /**
  * @author nwright
  */
-public class PermissionServiceMockImpl implements PermissionService {
+public class PermissionServiceMockImpl implements PermissionService, MockService {
 
     private transient Map<String, Template> permissionTemplateCache = new HashMap<String, Template>();
     private transient Map<String, Permission> permissionCache = new HashMap<String, Permission>();
     private transient Map<String, Role> roleCache = new HashMap<String, Role>();
     private transient Map<String, RoleMembership> roleMembershipCache = new HashMap<String, RoleMembership>();
 
+    
     @Override
+	public void clear() {
+    	
+    	this.permissionCache.clear();
+    	this.permissionTemplateCache.clear();
+    	this.roleCache.clear();
+    	this.roleMembershipCache.clear();
+		
+	}
+
+	@Override
     public List<Template> getAllTemplates() {
-        return new ArrayList(this.permissionTemplateCache.values());
+        return new ArrayList<Template>(this.permissionTemplateCache.values());
     }
 
     @Override

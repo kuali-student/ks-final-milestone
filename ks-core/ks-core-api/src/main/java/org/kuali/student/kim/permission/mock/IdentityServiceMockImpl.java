@@ -32,6 +32,7 @@ import org.kuali.rice.kim.api.identity.privacy.EntityPrivacyPreferences;
 import org.kuali.rice.kim.api.identity.residency.EntityResidency;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.visa.EntityVisa;
+import org.kuali.student.common.mock.MockService;
 
 import javax.jws.WebParam;
 import java.util.HashMap;
@@ -42,11 +43,18 @@ import java.util.Map;
  *
  * @author nwright
  */
-public class IdentityServiceMockImpl implements IdentityService {
+public class IdentityServiceMockImpl implements IdentityService, MockService {
 
     private Map<String, Entity> entities = new HashMap<String,Entity> ();
     
+    
     @Override
+	public void clear() {
+    	this.entities.clear();
+		
+	}
+
+	@Override
     public EntityAddress addAddressToEntity(EntityAddress ea) throws RiceIllegalArgumentException, RiceIllegalStateException {
         throw new UnsupportedOperationException("Not supported yet.");
     }

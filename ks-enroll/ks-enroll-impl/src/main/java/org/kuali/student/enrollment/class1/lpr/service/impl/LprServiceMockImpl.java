@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
@@ -44,7 +45,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
-public class LprServiceMockImpl implements LprService {
+public class LprServiceMockImpl implements LprService, MockService {
 
     private LuiService luiService;
 
@@ -56,7 +57,15 @@ public class LprServiceMockImpl implements LprService {
         this.luiService = luiService;
     }
 
+    
     @Override
+	public void clear() {
+		this.lprMap.clear();
+		this.lprTransactionMap.clear();
+	
+	}
+
+	@Override
     public LprInfo getLpr(String lprId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {

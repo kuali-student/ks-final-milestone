@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
@@ -63,7 +64,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 public class CourseRegistrationServiceMockImpl
     extends AbstractCourseRegistrationService
-    implements CourseRegistrationService {
+    implements CourseRegistrationService, MockService {
 
     private final Map<String, CourseRegistrationInfo> crMap   = new LinkedHashMap<String, CourseRegistrationInfo>();
     private final Map<String, ActivityRegistrationInfo> arMap = new LinkedHashMap<String, ActivityRegistrationInfo>();
@@ -77,7 +78,18 @@ public class CourseRegistrationServiceMockImpl
 
     private CourseOfferingService coService;
 
-    public CourseOfferingService getCourseOfferingService() {
+    
+    @Override
+	public void clear() {
+		this.arMap.clear();
+		this.crMap.clear();
+		this.regMap.clear();
+		this.rrMap.clear();
+		this.studentMap.clear();
+		this.xactionMap.clear();
+	}
+
+	public CourseOfferingService getCourseOfferingService() {
         return coService;
     }
 

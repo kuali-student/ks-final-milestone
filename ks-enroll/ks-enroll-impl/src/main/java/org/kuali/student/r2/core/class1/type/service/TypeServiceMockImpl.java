@@ -38,13 +38,17 @@ public class TypeServiceMockImpl implements TypeService, MockService {
     private Map<String, Map<String, TypeInfo>> groupTypes = new HashMap<String, Map<String, TypeInfo>>();
 
 
-    {
-        init();
-    }
+   
     
     
 
-    @Override
+    public TypeServiceMockImpl() {
+		super();
+		
+		init();
+	}
+
+	@Override
 	public void clear() {
     	
     	this.allowedTypes.clear();

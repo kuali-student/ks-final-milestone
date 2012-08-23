@@ -7,6 +7,7 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 import org.apache.commons.lang.UnhandledException;
 import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -23,11 +24,20 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import javax.jws.WebParam;
 import java.util.*;
 
-public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetService {
+public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetService, MockService {
 
     private CourseOfferingSetServiceBusinessLogic businessLogic;
 
-    public CourseOfferingSetServiceBusinessLogic getBusinessLogic() {
+    
+    @Override
+	public void clear() {
+    	this.socMap.clear();
+    	this.socRolloverResultItemMap.clear();
+    	this.socRolloverResultMap.clear();
+		
+	}
+
+	public CourseOfferingSetServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
     }
 
