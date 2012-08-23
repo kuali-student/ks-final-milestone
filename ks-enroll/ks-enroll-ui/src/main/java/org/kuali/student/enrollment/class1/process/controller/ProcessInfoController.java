@@ -167,7 +167,7 @@ public class ProcessInfoController extends UifControllerBase {
     public ModelAndView back(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         clearValues(form);
-        return getUIFModelAndView(form, "searchPage");
+        return getUIFModelAndView(form, "processInfoSearch-SearchPage");
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=edit")
@@ -197,7 +197,7 @@ public class ProcessInfoController extends UifControllerBase {
             }
         }
 
-        return getUIFModelAndView(form, "editPage");
+        return getUIFModelAndView(form, "processInfoSearch-EditPage");
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=delete")

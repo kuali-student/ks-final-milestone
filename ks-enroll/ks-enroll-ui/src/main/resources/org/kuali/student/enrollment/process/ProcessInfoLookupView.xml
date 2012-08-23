@@ -7,6 +7,7 @@
     <import resource="classpath:ks-ProcessInfo-dictionary.xml" />
 
     <bean id="KS-ProcessInfo-LookupView" parent="KSLookupView">
+        <property name="id" value="processInfoLookupView"/>
         <property name="headerText" value="Process Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.process.dto.ProcessInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.process.service.ProcessInfoLookupableImpl"/>
@@ -19,7 +20,7 @@
                     <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
                     <property name="quickfinder.fieldConversions">
                         <map>
-                            <entry key="id" value="OwnerOrgId"/>
+                            <entry key="id" value="ownerOrgId"/>
                         </map>
                     </property>
                 </bean>

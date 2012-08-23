@@ -24,7 +24,7 @@
         <property name="headerText" value="Advanced Search: Process"/>
         <property name="renderHeader" value="false"/>
         <property name="growlMessagingEnabled" value="true"/>
-        <property name="entryPageId" value="searchPage"/>
+        <property name="entryPageId" value="processInfoSearch-SearchPage"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.process.form.ProcessInfoForm"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo" />
@@ -47,7 +47,7 @@
 
     <bean id="KS-ProcessInfoSearch-SearchPage" parent="Uif-Page">
         <property name="headerText" value="Advanced Search: Process"/>
-        <property name="id" value="searchPage"/>
+        <property name="id" value="processInfoSearch-SearchPage"/>
         <property name="items">
             <list>
                 <ref bean="KS-ProcessInfoSearch-CriteriaSection"/>
@@ -183,7 +183,7 @@
     </bean>
 
     <bean id="KS-ProcessInfoSearch-EditPage" parent="Uif-Page">
-        <property name="id" value="editPage"/>
+        <property name="id" value="processInfoSearch-EditPage"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup">

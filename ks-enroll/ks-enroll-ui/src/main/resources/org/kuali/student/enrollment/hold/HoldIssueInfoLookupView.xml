@@ -10,8 +10,7 @@
         <property name="id" value="holdIssueInfoLookupView"/>
         <property name="headerText" value="Advanced Search:Hold Issue"/>
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
-        <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class1.hold.service.HoldIssueInfoLookupableImpl"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.hold.service.HoldIssueInfoLookupableImpl"/>
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
