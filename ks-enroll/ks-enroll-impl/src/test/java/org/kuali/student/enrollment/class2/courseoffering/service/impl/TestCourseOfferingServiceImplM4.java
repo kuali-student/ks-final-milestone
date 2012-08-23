@@ -239,7 +239,7 @@ public class TestCourseOfferingServiceImplM4 {
         CourseOfferingService coService = new FakeCOService();
         try {
             FormatOfferingInfo foInfo = coService.getFormatOffering("foo", null);
-            generator = generator.initializeGenerator(coService, foInfo, null, null);
+            generator.initializeGenerator(coService, foInfo, null, null);
             String prefix = "02";
             for (int i = 1; i <= 99; i++) {
                 String code = generator.generateRegistrationGroupCode(foInfo, null, null);

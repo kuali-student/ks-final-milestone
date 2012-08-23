@@ -46,8 +46,8 @@ public class UUIDRegistrationGroupCodeGenerator implements
 
 
     @Override
-    public RegistrationGroupCodeGenerator initializeGenerator(CourseOfferingService coService, FormatOffering fo, ContextInfo context, Map<String, Object> keyValues) {
-        return this;
+    public void initializeGenerator(CourseOfferingService coService, FormatOffering fo, ContextInfo context, Map<String, Object> keyValues) {
+        // no initialization
     }
 
     /* (non-Javadoc)

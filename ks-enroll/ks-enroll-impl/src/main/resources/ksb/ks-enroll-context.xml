@@ -427,7 +427,7 @@
        <property name="courseService" ref="courseServiceImpl" />
        <property name="acalService" ref="acalService" />
        <property name="coService" ref="coServiceImpl" />
-       <property name="registrationCodeGenerator" ref="regGroupCodeGenerator" />
+       <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
    </bean>
 
    <bean id="coServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
@@ -446,7 +446,7 @@
        <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
    </bean>
 
-    <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGenerator" />
+    <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
 
     <bean id="ks.exp.courseOfferingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
        <property name="serviceDefinition">

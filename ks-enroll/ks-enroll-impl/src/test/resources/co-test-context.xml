@@ -181,9 +181,12 @@
     <property name="courseService" ref="courseService" />
     <property name="acalService" ref="acalService" />
     <property name="coService" ref="coService" />
+    <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
   </bean>
 
-  <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
+   <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
+
+    <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
     <property name="luiService" ref="luiService" />
     <property name="registrationGroupTransformer" ref="registrationGroupTransformer"/>
   </bean>

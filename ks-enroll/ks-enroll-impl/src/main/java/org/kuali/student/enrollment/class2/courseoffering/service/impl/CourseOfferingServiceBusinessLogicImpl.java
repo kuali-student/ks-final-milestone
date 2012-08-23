@@ -21,6 +21,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
@@ -63,7 +64,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 	private CourseOfferingService coService;
 
     @Resource
-	private RegistrationGroupCodeGenerator registrationCodeGenerator;
+	private RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory;
 
     public CourseOfferingService getCoService() {
         return coService;
@@ -85,12 +86,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return courseService;
     }
 
-    public void setRegistrationCodeGenerator(RegistrationGroupCodeGenerator registrationCodeGenerator) {
-        this.registrationCodeGenerator = registrationCodeGenerator;
+    public RegistrationGroupCodeGeneratorFactory getRegistrationCodeGeneratorFactory() {
+        return registrationCodeGeneratorFactory;
     }
 
-    public RegistrationGroupCodeGenerator getRegistrationCodeGenerator() {
-        return registrationCodeGenerator;
+    public void setRegistrationCodeGeneratorFactory(RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory) {
+        this.registrationCodeGeneratorFactory = registrationCodeGeneratorFactory;
     }
 
     public void setCourseService(CourseService courseService) {
@@ -478,7 +479,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
         // New instance created each time if desired
         RegistrationGroupCodeGenerator generator =
-                registrationCodeGenerator.initializeGenerator(coService, formatOffering, context, null);
+                registrationCodeGeneratorFactory.makeCodeGenerator();
+        generator.initializeGenerator(coService, formatOffering, context, null);
 
         for (List<String> activityOfferingPermutation : generatedPermutations) {
 
