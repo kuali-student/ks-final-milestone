@@ -374,7 +374,8 @@
 
     </bean>
 
-    <bean id="KS-ActivityOffering-ProcessedSchedules" parent="Uif-TableCollectionSection"
+    <!-- Not for M4 -->
+    <!--<bean id="KS-ActivityOffering-ProcessedSchedules" parent="Uif-TableCollectionSection"
             p:headerText="Delivery Logistics"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
             p:propertyName="assignedSchedules"
@@ -399,12 +400,12 @@
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Facility" p:propertyName="facilityName" p:readOnly="true">
+                <bean parent="Uif-InputField" p:label="Facility" p:propertyName="buildingName" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Room" p:propertyName="roomNumber" p:readOnly="true">
+                <bean parent="Uif-InputField" p:label="Room" p:propertyName="roomCode" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
@@ -414,10 +415,9 @@
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
                 </bean>
-                <!--<bean parent="Uif-Message" p:label="Features" p:messageText="NA"/>-->
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="KS-ActivityOffering-RequestedSchedules" parent="Uif-TableCollectionSection"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
@@ -442,12 +442,12 @@
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Facility" p:propertyName="facilityName" p:readOnly="true" p:control.size="20">
+                <bean parent="Uif-InputField" p:label="Facility" p:propertyName="buildingName" p:readOnly="true" p:control.size="20">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Room" p:propertyName="roomNumber" p:readOnly="true" p:control.size="5">
+                <bean parent="Uif-InputField" p:label="Room" p:propertyName="roomName" p:readOnly="true" p:control.size="5">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
@@ -494,6 +494,9 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint" />
+                    </property>
                 </bean>
                 <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.startTimeAMPM" p:required="true">
                     <property name="control">
@@ -505,18 +508,21 @@
                      <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint" />
+                    </property>
                 </bean>
                 <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.endTimeAMPM" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="Facility" p:propertyName="newScheduleRequest.facilityName">
+                <bean parent="KSInputField" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20"/>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="Room" p:propertyName="newScheduleRequest.roomNumber"/>
+                <bean parent="KSInputField" p:label="Room" p:propertyName="newScheduleRequest.roomCode"/>
                 <bean parent="KSInputField" p:label="Capacity" p:propertyName="newScheduleRequest.roomCapacity" p:readOnly="true"/>
             </list>
         </property>

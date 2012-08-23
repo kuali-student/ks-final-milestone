@@ -48,6 +48,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private List<ScheduleWrapper> assignedSchedules;
     private List<ScheduleWrapper> requestedSchedules;
 
+    private List<ScheduleWrapper> scheduleRequestsToBeDeleted;
+
     private ScheduleWrapper newScheduleRequest;
 
     private String startTimeDisplay;
@@ -370,5 +372,16 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setDaysDisplayName(String daysDisplayName) {
         this.daysDisplayName = daysDisplayName;
+    }
+
+    public List<ScheduleWrapper> getScheduleRequestsToBeDeleted() {
+        if (scheduleRequestsToBeDeleted == null){
+            scheduleRequestsToBeDeleted = new ArrayList();
+        }
+        return scheduleRequestsToBeDeleted;
+    }
+
+    public void setScheduleRequestsToBeDeleted(List<ScheduleWrapper> scheduleRequestsToBeDeleted) {
+        this.scheduleRequestsToBeDeleted = scheduleRequestsToBeDeleted;
     }
 }

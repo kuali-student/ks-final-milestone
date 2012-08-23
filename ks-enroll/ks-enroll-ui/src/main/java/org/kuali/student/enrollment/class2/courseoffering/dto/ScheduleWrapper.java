@@ -33,8 +33,9 @@ public class ScheduleWrapper implements Serializable{
     private String startTimeAMPM;
     private String endTime;
     private String endTimeAMPM;
-    private String facilityName;
-    private String roomNumber;
+
+    private String buildingCode;
+    private String roomCode;
     private String roomCapacity;
 
     private List<String> features;
@@ -46,6 +47,8 @@ public class ScheduleWrapper implements Serializable{
 
     public ScheduleWrapper(){
         features = new ArrayList<String>();
+        buildingCode = "097";
+        roomCode = "1115097";
     }
 
     public TimeSlotInfo getTimeSlot() {
@@ -112,28 +115,23 @@ public class ScheduleWrapper implements Serializable{
         this.endTimeAMPM = endTimeAMPM;
     }
 
-    public String getFacilityName() {
-        return facilityName;
+    public String getBuildingName() {
+        if (building != null){
+            return building.getName();
+        }
+        return StringUtils.EMPTY;
     }
 
-    public void setFacilityName(String facilityName) {
-        this.facilityName = facilityName;
+    public String getRoomCode() {
+        return roomCode;
     }
 
-    public String getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
+    public void setRoomCode(String roomCode) {
+        this.roomCode = roomCode;
     }
 
     public String getRoomCapacity() {
         return roomCapacity;
-    }
-
-    public void setRoomCapacity(String roomCapacity) {
-        this.roomCapacity = roomCapacity;
     }
 
     public List<String> getFeatures() {
@@ -189,6 +187,21 @@ public class ScheduleWrapper implements Serializable{
             return StringUtils.isNotBlank(scheduleRequest.getId());
         }
         return false;
+    }
+
+    public String getBuildingCode() {
+        return buildingCode;
+    }
+
+    public void setBuildingCode(String buildingCode) {
+        this.buildingCode = buildingCode;
+    }
+
+    public String getRoomName() {
+        if (room != null){
+            return room.getName();
+        }
+        return StringUtils.EMPTY;
     }
 
 }
