@@ -56,7 +56,7 @@
                         <bean class="org.kuali.student.enrollment.class1.process.keyvalues.ProcessInfoTypeKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Hold Description"
+                <bean parent="Uif-InputField-LabelTop" p:label="Process Description"
                       p:instructionalText="Enter a full description of the purpose of the process"
                       p:propertyName="descr">
                     <property name="control">
