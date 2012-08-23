@@ -24,8 +24,8 @@
         ROLE_NM="Kuali Orgainzation Membership" VER_NBR="2"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role maintains KRMS agendas and rules."
-        KIM_TYP_ID="1" LAST_UPDT_DT="20120822210128" NMSPC_CD="KR-RULE"
-        OBJ_ID="C7E207CB5EE0D30AE040720A04837E7E" ROLE_ID="10003"
+        KIM_TYP_ID="1" LAST_UPDT_DT="20120823090529" NMSPC_CD="KR-RULE"
+        OBJ_ID="C7EC22FAE23C3192E040720A04836F87" ROLE_ID="10003"
         ROLE_NM="Kuali Rules Management System Administrator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with that have received an action request for a given document."
@@ -223,8 +223,8 @@
         ROLE_NM="Initiator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Route Document permission for a given document type."
-        KIM_TYP_ID="139" LAST_UPDT_DT="20120822210131"
-        NMSPC_CD="KR-WKFLW" OBJ_ID="C7E207CB5F2BD30AE040720A04837E7E"
+        KIM_TYP_ID="139" LAST_UPDT_DT="20120823090533"
+        NMSPC_CD="KR-WKFLW" OBJ_ID="C7EC22FAE2873192E040720A04836F87"
         ROLE_ID="936" ROLE_NM="Document Router" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Initiate Document permission for a given document type."
