@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -28,6 +29,9 @@ import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -290,42 +294,45 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                     wrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
                 }
 
- /*             calendar.setTimeInMillis(1344427200000L);
-                String startTime = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + getAmPm(calendar.get(Calendar.AM_PM));
-                calendar.setTimeInMillis(1354941000000L);
-                String endTime = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + getAmPm(calendar.get(Calendar.AM_PM));
+/*                calendar.setTimeInMillis(1344443400000L);
+                String startTime = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
+                calendar.setTimeInMillis(1344447000000L);
+                String endTime = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
 
-                String days = convertIntoDays(calendar.get(Calendar.DAY_OF_WEEK)-2) + convertIntoDays(calendar.get(Calendar.DAY_OF_WEEK));
-                wrapper.setTimeDisplayName(startTime + " " + endTime);
-                wrapper.setDaysDisplayName(days);
- */
+                List<Integer>  days = new ArrayList<Integer>();
+                days.add(calendar.get(Calendar.DAY_OF_WEEK)-3);
+                days.add(calendar.get(Calendar.DAY_OF_WEEK));
+                wrapper.setStartTimeDisplay(startTime);
+                wrapper.setEndTimeDisplay(endTime);
+                wrapper.setDaysDisplayName(getDays(days));
+*/
                 // assign the time and days
-/*
-                ScheduleInfo scheduleInfo =  getSchedulingService().getSchedule(info.getScheduleId(), getContextInfo());
-                if(scheduleInfo !=null) {
-                    List<ScheduleComponentInfo> componentList = scheduleInfo.getScheduleComponents();
-                    if(componentList != null && componentList.size() > 0) {
-                        List<String>  ids = componentList.get(0).getTimeSlotIds();
-                        if(ids != null && ids.size()>0) {
-                            TimeSlotInfo timeSlot = getSchedulingService().getTimeSlot(ids.get(0), getContextInfo());
-                            if(timeSlot != null) {
-                                TimeOfDayInfo startTime = timeSlot.getStartTime();
-                                TimeOfDayInfo endTime = timeSlot.getEndTime();
-                                List<Integer>  days = timeSlot.getWeekdays();
+                if (info.getScheduleId() != null) {
+                    ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(info.getScheduleId(), getContextInfo());
+                    if (scheduleInfo != null) {
+                        List<ScheduleComponentInfo> componentList = scheduleInfo.getScheduleComponents();
+                        if (componentList != null && componentList.size() > 0) {
+                            List<String> ids = componentList.get(0).getTimeSlotIds();
+                            if (ids != null && ids.size() > 0) {
+                                TimeSlotInfo timeSlot = getSchedulingService().getTimeSlot(ids.get(0), getContextInfo());
+                                if (timeSlot != null) {
+                                    TimeOfDayInfo startTime = timeSlot.getStartTime();
+                                    TimeOfDayInfo endTime = timeSlot.getEndTime();
+                                    List<Integer> days = timeSlot.getWeekdays();
 
-                                calendar.setTimeInMillis(startTime.getMilliSeconds());
-                                String start1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + getAmPm(calendar.get(Calendar.AM_PM));
-                                calendar.setTimeInMillis(endTime.getMilliSeconds());
-                                String end1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + getAmPm(calendar.get(Calendar.AM_PM));
-                                wrapper.setTimeDisplayName(start1 + " " + end1);
-                                wrapper.setDaysDisplayName(getDays(days));
+                                    calendar.setTimeInMillis(startTime.getMilliSeconds());
+                                    String start1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
+                                    calendar.setTimeInMillis(endTime.getMilliSeconds());
+                                    String end1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
+                                    wrapper.setStartTimeDisplay(start1);
+                                    wrapper.setEndTimeDisplay(end1);
+                                    wrapper.setDaysDisplayName(getDays(days));
+                                }
                             }
                         }
+
                     }
-
                 }
-*/
-
                 activityOfferingWrapperList.add(wrapper);
             }
         } catch (Exception e) {

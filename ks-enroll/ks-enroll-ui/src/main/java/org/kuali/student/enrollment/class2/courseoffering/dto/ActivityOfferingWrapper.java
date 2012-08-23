@@ -50,7 +50,8 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private ScheduleWrapper newScheduleRequest;
 
-    private String timeDisplayName;
+    private String startTimeDisplay;
+    private String endTimeDisplay;
     private String daysDisplayName;
 
     public ActivityOfferingWrapper(){
@@ -347,12 +348,20 @@ public class ActivityOfferingWrapper implements Serializable{
         this.newScheduleRequest = newScheduleRequest;
     }
 
-    public String getTimeDisplayName() {
-        return timeDisplayName;
+    public String getStartTimeDisplay() {
+        return startTimeDisplay;
     }
 
-    public void setTimeDisplayName(String timeDisplayName) {
-        this.timeDisplayName = timeDisplayName;
+    public void setStartTimeDisplay(String startTimeDisplay) {
+        this.startTimeDisplay = startTimeDisplay;
+    }
+
+    public String getEndTimeDisplay() {
+        return endTimeDisplay;
+    }
+
+    public void setEndTimeDisplay(String endTimeDisplay) {
+        this.endTimeDisplay = endTimeDisplay;
     }
 
     public String getDaysDisplayName() {
