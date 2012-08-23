@@ -123,8 +123,8 @@
         <property name="items">
             <list>
                 <bean parent="Uif-DataField"
-                      p:label="ID"
-                      p:propertyName="rgInfo.id" p:valign="middle">
+                      p:label="REG GROUP CODE"
+                      p:propertyName="rgInfo.name" p:valign="middle">
                 </bean>
                 <bean parent="Uif-MessageField"
                       p:label="CODE"
