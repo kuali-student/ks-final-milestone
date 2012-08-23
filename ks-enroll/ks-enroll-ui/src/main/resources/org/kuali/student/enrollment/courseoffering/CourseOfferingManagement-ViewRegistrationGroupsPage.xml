@@ -54,7 +54,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="generate_rgs_top_button"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="generate_rgs_button"/>
                             <ref bean="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection"/>
                          </list>
                     </property>
