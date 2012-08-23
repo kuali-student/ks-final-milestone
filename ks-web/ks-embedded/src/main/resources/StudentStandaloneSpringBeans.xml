@@ -138,7 +138,6 @@
                 <!-- Process -->
                 <value>classpath:org/kuali/student/enrollment/process/ProcessInfoSearchView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/process/ProcessInfoCreateView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/process/ProcessInfoView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/process/ProcessInfoLookupView.xml</value>
 
                 <!-- Checks -->
