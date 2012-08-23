@@ -32,6 +32,7 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -39,10 +40,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -138,6 +135,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         deleteRegistrationGroupsByFormatOffering(formatOfferingId, context);
 
         // Delete dependent activity offerings
+        // set the ContextInfo attr to indicate deleteActivityOfferingCascaded that AO is deleted from delete FO
+        List<AttributeInfo> attributes = context.getAttributes();
+        AttributeInfo isDeleteAOCalledFromDeleteFO = new AttributeInfo();
+        isDeleteAOCalledFromDeleteFO.setKey("isDeleteAOCalledFromDeleteFO");
+        isDeleteAOCalledFromDeleteFO.setValue("true");
+        attributes.add(isDeleteAOCalledFromDeleteFO);
+
         List<ActivityOfferingInfo> aos = getActivityOfferingsByFormatOffering(formatOfferingId, context);
         for (ActivityOfferingInfo ao: aos) {
             deleteActivityOfferingCascaded(ao.getId(), context);
@@ -1361,6 +1365,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             deleteSeatPoolDefinition(seatPool.getId(),context);
         }
 
+        // Delete RGs attached to this AO
+        if (context.getAttributes() == null || context.getAttributes().isEmpty() || !context.getAttributeValue("isDeleteAOCalledFromDeleteFO").equals("true")) {
+            List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByActivityOffering(activityOfferingId, context);
+            if (regGroups != null && !regGroups.isEmpty()) {
+                for (RegistrationGroupInfo regGroup : regGroups) {
+                    deleteRegistrationGroup(regGroup.getId(), context);
+                }
+            }
+        }
+
         // Delete the Activity offering
         return deleteActivityOffering(activityOfferingId, context);
 
@@ -1453,6 +1467,37 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<RegistrationGroupInfo> getRegistrationGroupsWithActivityOfferings(List<String> activityOfferingIds,
                                                                                   ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
+    }
+
+    private List<RegistrationGroupInfo> getRegistrationGroupsByActivityOffering (String activityOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+        List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
+
+        List<String> rgIds = luiService.getLuiIdsByRelatedLuiAndRelationType(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
+        if (rgIds != null && !rgIds.isEmpty()) {
+            for (String rgId : rgIds) {
+                RegistrationGroupInfo rgInfo = getRegistrationGroup(rgId, context);
+                regGroups.add(rgInfo);
+            }
+
+            // Now sort based on reg group code order (alphabetical order works fine)
+            // TODO: figure out how to write a compare method that makes sense given different code generators.
+            Collections.sort(regGroups, new Comparator<RegistrationGroupInfo>() {
+                @Override
+                public int compare(RegistrationGroupInfo o1, RegistrationGroupInfo o2) {
+                    if (o1 == null) {
+                        return -1;
+                    } else if (o2 == null) {
+                        return 1;
+                    } else {
+                        // We assume <name> stores the registration group code as 4-digit string
+                        return o1.getName().compareTo(o2.getName());
+                    }
+                }
+            });
+            return regGroups;
+        } else {
+            return null;
+        }
     }
 
     @Override
