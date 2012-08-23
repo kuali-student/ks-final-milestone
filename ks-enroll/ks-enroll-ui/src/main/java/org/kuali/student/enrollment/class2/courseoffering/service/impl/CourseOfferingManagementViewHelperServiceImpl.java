@@ -320,13 +320,19 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                                     TimeOfDayInfo endTime = timeSlot.getEndTime();
                                     List<Integer> days = timeSlot.getWeekdays();
 
-                                    calendar.setTimeInMillis(startTime.getMilliSeconds());
-                                    String start1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
-                                    calendar.setTimeInMillis(endTime.getMilliSeconds());
-                                    String end1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
-                                    wrapper.setStartTimeDisplay(start1);
-                                    wrapper.setEndTimeDisplay(end1);
-                                    wrapper.setDaysDisplayName(getDays(days));
+                                    if(startTime != null) {
+                                        calendar.setTimeInMillis(startTime.getMilliSeconds());
+                                        String start1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
+                                        wrapper.setStartTimeDisplay(start1);
+                                    }
+                                    if(endTime != null) {
+                                        calendar.setTimeInMillis(endTime.getMilliSeconds());
+                                        String end1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
+                                        wrapper.setEndTimeDisplay(end1);
+                                    }
+                                    if(days != null && days.size() > 0) {
+                                        wrapper.setDaysDisplayName(getDays(days));
+                                    }
                                 }
                             }
                         }
