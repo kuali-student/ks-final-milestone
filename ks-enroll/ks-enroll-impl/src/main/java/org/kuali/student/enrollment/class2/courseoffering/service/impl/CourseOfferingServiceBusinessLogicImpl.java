@@ -297,7 +297,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             targetFo.setTermId(targetTermId);
             targetFo.setMeta(null);
             CourseOfferingService locoService = this.getCoService();
-            // Rolled over FO should be in planned state
+            // Rolled over FO should be in draft state
             targetFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
             targetFo = locoService.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
                     targetFo.getTypeKey(), targetFo, context);
@@ -452,8 +452,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             PermissionDeniedException, AlreadyExistsException {
 
         // check for any existing registration groups
-
-        List<RegistrationGroupInfo> existingRegistrationGroups = coService.getRegistrationGroupsByFormatOffering(formatOfferingId, context);
+        this._getCoService(); // Make sure coService gets set
+        List<RegistrationGroupInfo> existingRegistrationGroups =
+                coService.getRegistrationGroupsByFormatOffering(formatOfferingId, context);
         if (existingRegistrationGroups.size() > 0) {
             //throw new AlreadyExistsException("Registration groups already exist for formatOfferingId=" + formatOfferingId);
             coService.deleteRegistrationGroupsByFormatOffering(formatOfferingId, context);

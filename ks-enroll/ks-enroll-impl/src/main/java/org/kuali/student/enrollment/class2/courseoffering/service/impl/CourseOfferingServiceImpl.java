@@ -1047,11 +1047,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ActivityOfferingInfo> getActivityOfferingsByFormatOffering(String formatOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ActivityOfferingInfo> activityOfferings = new ArrayList<ActivityOfferingInfo>();
 
-        //Find all related luis to the course Offering
+        // Find all related luis to the course Offering
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, contextInfo);
         for (LuiInfo lui:luis) {
 
@@ -1063,6 +1064,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 activityOfferings.add(activityOffering);
             }
         }
+        Collections.sort(activityOfferings, new Comparator<ActivityOfferingInfo>() {
+            @Override
+            public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
+                if (o1.getActivityCode() == null) {
+                    return 1;
+                } else if (o2.getActivityCode() == null) {
+                    return -1;
+                } else {
+                    return o1.getActivityCode().compareTo(o2.getActivityCode());
+                }
+            }
+        });
         return activityOfferings;
     }
 
