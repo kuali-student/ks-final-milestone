@@ -1525,6 +1525,8 @@ public interface SchedulingService {
 
     /**
      * Tests if there is conflict amongst two time slots.
+     * Two TimeSlots are in conflict if they an overlap (even by a millisecond)
+     * their start and end times and share at least one weekday on which this occurs.
      *
      * @param timeSlot1Id  a unique Id of the first TimeSlot
      * @param timeSlot2Id  a unique Id of the second TimeSlot
@@ -1540,7 +1542,7 @@ public interface SchedulingService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public Boolean areTimeslotsInConflict(@WebParam(name = "timeSlot1Id") String timeSlot1Id,
+    public Boolean areTimeSlotsInConflict(@WebParam(name = "timeSlot1Id") String timeSlot1Id,
                                           @WebParam(name = "timeSlot2Id") String timeSlot2Id,
                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,

@@ -333,7 +333,7 @@ public class SchedulingServiceDecorator implements SchedulingService {
     }
 
     @Override
-    public Boolean areTimeslotsInConflict(@WebParam(name = "timeSlot1Id") String timeSlot1Id, @WebParam(name = "timeSlot2Id") String timeSlot2Id, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().areTimeslotsInConflict(timeSlot1Id, timeSlot2Id, contextInfo);
+    public Boolean areTimeSlotsInConflict(@WebParam(name = "timeSlot1Id") String timeSlot1Id, @WebParam(name = "timeSlot2Id") String timeSlot2Id, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().areTimeSlotsInConflict(timeSlot1Id, timeSlot2Id, contextInfo);
     }
 }

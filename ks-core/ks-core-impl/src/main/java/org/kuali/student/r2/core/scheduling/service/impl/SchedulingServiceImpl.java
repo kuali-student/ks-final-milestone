@@ -553,7 +553,9 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    public Boolean areTimeslotsInConflict(@WebParam(name = "timeSlot1Id") String timeSlot1Id, @WebParam(name = "timeSlot2Id") String timeSlot2Id, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Boolean areTimeSlotsInConflict(@WebParam(name = "timeSlot1Id") String timeSlot1Id, @WebParam(name = "timeSlot2Id") String timeSlot2Id, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        TimeSlotInfo timeSlotInfo1 = getTimeSlot(timeSlot1Id, contextInfo);
+        TimeSlotInfo timeSlotInfo2 = getTimeSlot(timeSlot2Id, contextInfo);
+        return SchedulingServiceUtil.areTimeSlotsInConflict(timeSlotInfo1, timeSlotInfo2);
     }
 }

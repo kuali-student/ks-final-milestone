@@ -16,6 +16,7 @@
 package org.kuali.student.r2.core.scheduling.util;
 
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +26,7 @@ import java.util.List;
  * Collection of utility methods for the Scheduling Service
  *
  * @author andrewlubbers
+ * @author Mezba Mahtab
  */
 public class SchedulingServiceUtil {
 
@@ -97,6 +99,37 @@ public class SchedulingServiceUtil {
             testString.delete(0, codeInString.length());
             result.add(integerDayCode);
         }
+    }
+
+    public static boolean areTimeSlotsInConflict(TimeSlotInfo timeSlotInfo1, TimeSlotInfo timeSlotInfo2) {
+        // Check if any of weekdays is common. If the two TimeSlots are on different weekdays,
+        // no need to check for start/end times.
+        boolean hasCommonWeekday = false;
+        for (Integer dayOfWeekTs1: timeSlotInfo1.getWeekdays()) {
+            if (timeSlotInfo2.getWeekdays().contains(dayOfWeekTs1)) {
+                hasCommonWeekday = true;
+                break;
+            }
+        }
+        if (!hasCommonWeekday) return false;
+        // there is a common weekday, so now check if there is an overlap of time.
+        // Check if the start times or end times are same, then they overlap.
+        if ((timeSlotInfo1.getStartTime().equals(timeSlotInfo2.getStartTime()))
+                || (timeSlotInfo1.getEndTime().equals(timeSlotInfo2.getEndTime()))) {
+            return true;
+        }
+        // now they have differing start times or end times.
+
+        // if first timeslot starts before second time slot, it must end before second timeslot starts
+        if (timeSlotInfo1.getStartTime().isBefore(timeSlotInfo2.getStartTime())) {
+            return timeSlotInfo1.getEndTime().isBefore(timeSlotInfo2.getStartTime());
+        }
+
+        // if first timeslot starts after second time slot, it must start after second timeslot ends
+        if (timeSlotInfo1.getStartTime().isAfter(timeSlotInfo2.getStartTime())) {
+            return timeSlotInfo1.getStartTime().isAfter(timeSlotInfo2.getEndTime());
+        }
+        return false;
     }
 
 }
