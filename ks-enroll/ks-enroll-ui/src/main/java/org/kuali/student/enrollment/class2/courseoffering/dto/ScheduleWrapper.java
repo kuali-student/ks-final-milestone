@@ -36,7 +36,7 @@ public class ScheduleWrapper implements Serializable{
 
     private String buildingCode;
     private String roomCode;
-    private String roomCapacity;
+    private int roomCapacity;
 
     private List<String> features;
 
@@ -130,8 +130,12 @@ public class ScheduleWrapper implements Serializable{
         this.roomCode = roomCode;
     }
 
-    public String getRoomCapacity() {
+    public int getRoomCapacity() {
         return roomCapacity;
+    }
+
+    public void setRoomCapacity(int roomCapacity) {
+        this.roomCapacity = roomCapacity;
     }
 
     public List<String> getFeatures() {

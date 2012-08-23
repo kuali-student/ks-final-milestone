@@ -270,6 +270,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             BuildingInfo building = getRoomService().getBuilding(scheduleWrapper.getBuildingCode(),getContextInfo());
             scheduleWrapper.setBuilding(building);
             RoomInfo room = getRoomService().getRoom(scheduleWrapper.getRoomCode(),getContextInfo());
+            if(room.getRoomUsages() != null && !room.getRoomUsages().isEmpty()){
+                scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
+            }
             scheduleWrapper.setRoom(room);
         } catch (Exception e) {
             throw new RuntimeException(e);

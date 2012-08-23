@@ -457,7 +457,6 @@
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-                <!--<bean parent="Uif-Message" p:label="Features" p:messageText="NA"/>-->
             </list>
         </property>
     </bean>
@@ -498,7 +497,7 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.startTimeAMPM" p:required="true">
+                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.startTimeAMPM" p:required="true" p:style="margin-top:15px">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
                     </property>
@@ -512,7 +511,7 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.endTimeAMPM" p:required="true">
+                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.endTimeAMPM" p:required="true" p:style="margin-top:15px">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
                     </property>
@@ -523,7 +522,7 @@
                     </property>
                 </bean>
                 <bean parent="KSInputField" p:label="Room" p:propertyName="newScheduleRequest.roomCode"/>
-                <bean parent="KSInputField" p:label="Capacity" p:propertyName="newScheduleRequest.roomCapacity" p:readOnly="true"/>
+                <!--<bean parent="KSInputField" p:label="Capacity" p:propertyName="newScheduleRequest.roomCapacity" p:readOnly="true"/>-->
             </list>
         </property>
     </bean>
@@ -555,9 +554,18 @@
     </util:list>
 
     <util:list id="features-options">
-        <bean parent="Uif-KeyLabelPair" p:key="computer" p:value="Computer"/>
-        <bean parent="Uif-KeyLabelPair" p:key="pcs" p:value="PCs"/>
-        <bean parent="Uif-KeyLabelPair" p:key="ethernet" p:value="Ethernet"/>
+        <bean parent="Uif-KeyLabelPair" p:value="*Computers*" p:key="kuali.resource.type.Computers"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  PCs" p:key="kuali.resource.type.PCs"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  Macs" p:key="kuali.resource.type.Macs"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  Ethernet" p:key="kuali.resource.type.Ethernet"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  Wifi" p:key="kuali.resource.type.Wifi"/>
+        <bean parent="Uif-KeyLabelPair" p:value="---" p:key=""/>
+
+        <bean parent="Uif-KeyLabelPair" p:value="*Seating*" p:key="kuali.resource.type.Seating"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  Fixed" p:key="kuali.resource.type.Fixed"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  Auditorium" p:key="kuali.resource.type.Auditorium"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  Lab" p:key="kuali.resource.type.Lab"/>
+        <bean parent="Uif-KeyLabelPair" p:value="---" p:key=""/>
     </util:list>
 
 </beans>
