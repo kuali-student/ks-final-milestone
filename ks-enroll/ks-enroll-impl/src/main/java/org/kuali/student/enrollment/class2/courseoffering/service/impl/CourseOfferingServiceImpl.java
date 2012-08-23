@@ -118,8 +118,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<FormatOfferingInfo> fos = getFormatOfferingsByCourseOffering(courseOfferingId, context);
         for (FormatOfferingInfo fo:fos){
             deleteFormatOfferingCascaded(fo.getId(), context);
-            // delete all related registration groups
-            deleteRegistrationGroupsByFormatOffering(fo.getId(), context);
         }
 
         // delete offering instructor lprs for the Course Offering
@@ -136,6 +134,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteFormatOfferingCascaded(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // Delete related registration groups
+        deleteRegistrationGroupsByFormatOffering(formatOfferingId, context);
+
         // Delete dependent activity offerings
         List<ActivityOfferingInfo> aos = getActivityOfferingsByFormatOffering(formatOfferingId, context);
         for (ActivityOfferingInfo ao: aos) {
