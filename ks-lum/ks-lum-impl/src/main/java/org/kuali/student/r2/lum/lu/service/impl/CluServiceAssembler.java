@@ -16,6 +16,7 @@ import org.kuali.student.r1.common.entity.CurrencyAmount;
 import org.kuali.student.r1.common.entity.TimeAmount;
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -728,8 +729,10 @@ public class CluServiceAssembler extends BaseAssembler {
         LuCodeInfo dto = new LuCodeInfo();
 
         BeanUtils.copyProperties(entity, dto, new String[]{"attributes",
-                "metInfo"});
-
+                "meta", "descr"});
+        RichTextInfo desc = new RichTextInfo();
+        desc.setPlain(entity.getDescr());
+        dto.setDescr(desc);
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
