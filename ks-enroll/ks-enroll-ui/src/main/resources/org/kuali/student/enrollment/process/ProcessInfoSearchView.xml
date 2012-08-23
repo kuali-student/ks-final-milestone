@@ -21,17 +21,11 @@
 
     <bean id="KS-ProcessInfoSearch-View" parent="KSFormView">
         <property name="id" value="processInfoSearchView"/>
-        <property name="headerText" value="Advanced Search: Process"/>
+        <property name="headerText" value="Manage Process"/>
         <property name="renderHeader" value="false"/>
         <property name="growlMessagingEnabled" value="true"/>
         <property name="entryPageId" value="processInfoSearch-SearchPage"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.process.form.ProcessInfoForm"/>
-        <property name="header">
-            <bean parent="Uif-HeaderTwo" />
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase"/>
-        </property>
         <property name="items">
             <list>
                 <ref bean="KS-ProcessInfoSearch-SearchPage"/>
@@ -128,7 +122,6 @@
     </bean>
 
     <bean id="KS-ProcesInfoSearch-ResultSection" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="Search Results" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
@@ -172,18 +165,19 @@
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions" p:style="display:inline;"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:label="Actions" p:style="display:inline;"/>
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="Uif-ActionLink" p:methodToCall="delete" p:preSubmitCall="confirmDeletionResponse('Are you sure you want to delete this hold issue?')" p:actionLabel="Delete" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="delete" p:preSubmitCall="confirmDeletionResponse('Are you sure you want to delete this hold issue?')" p:actionLabel="Delete" />
             </list>
         </property>
     </bean>
 
     <bean id="KS-ProcessInfoSearch-EditPage" parent="Uif-Page">
         <property name="id" value="processInfoSearch-EditPage"/>
+        <property name="headerText" value="View Process"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup">

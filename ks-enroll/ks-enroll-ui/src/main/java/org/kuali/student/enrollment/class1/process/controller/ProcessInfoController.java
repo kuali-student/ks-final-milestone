@@ -110,7 +110,7 @@ public class ProcessInfoController extends UifControllerBase {
         form.setProcessInfo(processInfo);
         form.setKey(processInfo.getKey());
         GlobalVariables.getMessageMap().addGrowlMessage("Saved!", "Save Successful");
-        return getUIFModelAndView(form, null);
+        return getUIFModelAndView(form);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=create")
@@ -153,7 +153,7 @@ public class ProcessInfoController extends UifControllerBase {
 
         form.setProcessInfos(results);
 
-        return getUIFModelAndView(form, null);
+        return getUIFModelAndView(form);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=clear")
@@ -235,7 +235,7 @@ public class ProcessInfoController extends UifControllerBase {
     }
 
         form.setProcessInfos(processInfos);
-        return getUIFModelAndView(form, null);
+        return getUIFModelAndView(form);
     }
 
     private ProcessInfo getSelectedProcessInfo(ProcessInfoForm form, String actionLink){
