@@ -582,6 +582,12 @@
             </dependency>
             <dependency>
                 <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-web</artifactId>
+                <version>${kuali.rice.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-ksb-web</artifactId>
                 <version>${kuali.rice.version}</version>
             </dependency>
