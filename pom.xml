@@ -1176,6 +1176,10 @@
                         <artifactId>antlr</artifactId>
                         <groupId>antlr</groupId>
                     </exclusion>
+                    <exclusion>
+                      <artifactId>commons-beanutils</artifactId>
+                      <groupId>commons-beanutils</groupId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
