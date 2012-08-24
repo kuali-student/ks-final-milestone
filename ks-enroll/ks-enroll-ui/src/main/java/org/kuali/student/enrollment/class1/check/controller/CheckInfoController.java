@@ -25,6 +25,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.LookupController;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -123,6 +124,29 @@ public class CheckInfoController extends UifControllerBase {
         form.setCheckInfoList(results);
 
         return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=update")
+    public ModelAndView update(@ModelAttribute("KualiForm") CheckInfoForm form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CheckInfo checkInfo = form.getCheckInfo();
+
+        checkInfo.setName(form.getName());
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain(form.getDescr());
+        checkInfo.setDescr(richTextInfo);
+
+        try {
+            processService = getProcessService();
+            processService.updateCheck(checkInfo.getId(),checkInfo, getContextInfo());
+            isEdit = false;
+        } catch (Exception e) {
+            return getUIFModelAndView(form);
+        }
+        form.setValidateDirty(false);
+        GlobalVariables.getMessageMap().putInfo("Check Info", "info.enroll.save.success");
+
+        return refresh(form, result, request, response);
     }
 
    @RequestMapping(params = "methodToCall=create")

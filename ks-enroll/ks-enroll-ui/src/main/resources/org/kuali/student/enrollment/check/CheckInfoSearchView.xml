@@ -165,7 +165,7 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Update" p:methodToCall=""/>
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Update" p:methodToCall="update"/>
                             <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="back"/>
                         </list>
                     </property>

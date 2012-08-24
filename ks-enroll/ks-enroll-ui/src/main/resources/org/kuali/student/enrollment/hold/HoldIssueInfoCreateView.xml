@@ -58,7 +58,7 @@
                     <property name="style" value="margin-bottom:0;"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HorizontalFieldGroup">
+                            <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="name" p:required="true">
