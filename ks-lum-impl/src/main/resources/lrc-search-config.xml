@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	 ">
+	 
+	<import resource="lu-dictionary-config.xml" />
+	
+	<search:searchType id="lrc.search.resultComponent" parent="lrc.search.resultComponent-parent"/>
+	<search:searchType id="lrc.search.resultComponent-parent"  abstract="true">
+		<search:name>Basic Search for Result Components</search:name>
+		<search:desc>Return list of Result Components</search:desc>
+		<search:searchResultTypeInfo> 
+			<ref bean="lrc.result.resultComponent"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lrc.criteria.resultComponent"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchType id="lrc.search.resultComponentType" parent="lrc.search.resultComponentType-parent"/>
+	<search:searchType id="lrc.search.resultComponentType-parent"  abstract="true">
+		<search:name>Basic Search for Result Component Types</search:name>
+		<search:desc>Return list of Result Component Types</search:desc>
+		<search:searchResultTypeInfo> 
+			<ref bean="lrc.result.resultComponentType"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lrc.criteria.resultComponentType"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchResultTypeInfo id="lrc.result.resultComponent" parent="lrc.result.resultComponent-parent"/>
+	<search:searchResultTypeInfo id="lrc.result.resultComponent-parent"  abstract="true">
+		<search:name>LRC Full View</search:name>
+		<search:desc>Full view of ResultComponents</search:desc>
+		<search:resultColumns>
+			<ref bean="lrc.resultColumn.resultComponent.id" /> 
+			<ref bean="lrc.resultColumn.resultComponent.name"/>
+			<ref bean="lrc.resultColumn.resultComponent.type"/>		
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchResultTypeInfo id="lrc.result.resultComponentType" parent="lrc.result.resultComponentType-parent"/>
+	<search:searchResultTypeInfo id="lrc.result.resultComponentType-parent"  abstract="true">
+		<search:name>LRC Type View</search:name>
+		<search:desc>View of Lrc Types</search:desc>
+		<search:resultColumns>
+			<ref bean="lrc.resultColumn.resultComponent.id" /> 
+			<ref bean="lrc.resultColumn.resultComponent.name"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="lrc.criteria.resultComponent" parent="lrc.criteria.resultComponent-parent"/>
+	<search:searchCriteriaTypeInfo id="lrc.criteria.resultComponent-parent"  abstract="true">
+		<search:name>LuAdvancedCriteria</search:name>
+		<search:desc>Advanced criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lrc.queryParam.resultComponent.id" />
+			<ref bean="lrc.queryParam.resultComponent.type" />
+			<ref bean="lrc.queryParam.resultComponent.idRestrictionList" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="lrc.criteria.resultComponentType" parent="lrc.criteria.resultComponentType-parent"/>
+	<search:searchCriteriaTypeInfo id="lrc.criteria.resultComponentType-parent"  abstract="true">
+		<search:name>Lrc Type Criteria</search:name>
+		<search:desc>Lrc Type criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lrc.queryParam.resultComponent.id" />
+			<ref bean="lrc.queryParam.resultComponent.idRestrictionList" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:queryParam id="lrc.queryParam.resultComponent.id" parent="lrc.queryParam.resultComponent.id-parent"/>
+	<search:queryParam id="lrc.queryParam.resultComponent.id-parent" optional="true" abstract="true">
+		<ref bean="lrc.queryParam.resultComponent.id.fd"/>	
+	</search:queryParam>			
+	
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.id.fd" parent="lrc.queryParam.resultComponent.id.fd-abstract"/>
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.id.fd-abstract" abstract="true">
+		<dict:name>ResultComponent Key</dict:name>
+		<dict:desc>Result Component Key</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+
+	<search:queryParam id="lrc.queryParam.resultComponent.type" parent="lrc.queryParam.resultComponent.type-parent"/>
+	<search:queryParam id="lrc.queryParam.resultComponent.type-parent" optional="true" abstract="true">
+		<ref bean="lrc.queryParam.resultComponent.type.fd"/>	
+	</search:queryParam>			
+	
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.type.fd" parent="lrc.queryParam.resultComponent.type.fd-abstract"/>
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.type.fd-abstract" abstract="true">
+		<dict:name>ResultComponent Type Key</dict:name>
+		<dict:desc>Result Component Type Key</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+	
+	<search:queryParam id="lrc.queryParam.resultComponent.idRestrictionList" parent="lrc.queryParam.resultComponent.idRestrictionList-parent"/>
+	<search:queryParam id="lrc.queryParam.resultComponent.idRestrictionList-parent" optional="true" abstract="true">
+		<ref bean="lrc.queryParam.resultComponent.idRestrictionList.fd"/>	
+	</search:queryParam>			
+	
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.idRestrictionList.fd" parent="lrc.queryParam.resultComponent.idRestrictionList.fd-abstract"/>
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.idRestrictionList.fd-abstract" abstract="true">
+		<dict:name>Result Component Ids Key</dict:name>
+		<dict:desc>Result Component Ids Key</dict:desc>
+		<dict:dataType>list</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+	
+	<search:resultColumn id="lrc.resultColumn.resultComponent.id" parent="lrc.resultColumn.resultComponent.id-parent"/>
+	<search:resultColumn id="lrc.resultColumn.resultComponent.id-parent"  abstract="true">
+        <search:name>ResultComponent Key</search:name>
+        <search:desc>Result Component Key</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	
+	<search:resultColumn id="lrc.resultColumn.resultComponent.name" parent="lrc.resultColumn.resultComponent.name-parent"/>
+	<search:resultColumn id="lrc.resultColumn.resultComponent.name-parent"  abstract="true">
+        <search:name>ResultComponent Name</search:name>
+        <search:desc>Result Component Name</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:resultColumn id="lrc.resultColumn.resultComponent.type" parent="lrc.resultColumn.resultComponent.type-parent"/>
+	<search:resultColumn id="lrc.resultColumn.resultComponent.type-parent"  abstract="true">
+        <search:name>ResultComponent Type</search:name>
+        <search:desc>Result Component Type</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+	<search:searchType id="lrc.search.resultValue" parent="lrc.search.resultValue-parent"/>
+	<search:searchType id="lrc.search.resultValue-parent"  abstract="true">
+		<search:name>Basic Search for Result Values</search:name>
+		<search:desc>Return list of Result Values</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="lrc.result.resultValue"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lrc.criteria.resultValue"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+ <search:searchCriteriaTypeInfo id="lrc.criteria.resultValue" parent="lrc.criteria.resultValue-parent"/>
+	<search:searchCriteriaTypeInfo id="lrc.criteria.resultValue-parent"  abstract="true">
+		<search:name>Result Value Search Criteria</search:name>
+		<search:desc>Search Criteria for Result Values such as actual grades</search:desc>
+		<search:queryParams>
+			<ref bean="lrc.queryParam.resultValue.id" />
+			<ref bean="lrc.queryParam.resultValue.value" />
+			<ref bean="lrc.queryParam.resultValue.resultComponent.id" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:queryParam id="lrc.queryParam.resultValue.id" parent="lrc.queryParam.resultValue.id-parent"/>
+	<search:queryParam id="lrc.queryParam.resultValue.id-parent" optional="true" abstract="true">
+		<ref bean="lrc.queryParam.resultValue.id.fd"/>
+	</search:queryParam>
+
+	<dict:fieldDescriptor id="lrc.queryParam.resultValue.id.fd" parent="lrc.queryParam.resultValue.id.fd-abstract"/>
+	<dict:fieldDescriptor id="lrc.queryParam.resultValue.id.fd-abstract" abstract="true">
+		<dict:name>Result Value Key</dict:name>
+		<dict:desc>Result Value Key</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+
+	<search:queryParam id="lrc.queryParam.resultValue.value" parent="lrc.queryParam.resultValue.value-parent"/>
+	<search:queryParam id="lrc.queryParam.resultValue.value-parent" optional="true" abstract="true">
+		<ref bean="lrc.queryParam.resultValue.value.fd"/>
+	</search:queryParam>
+
+	<dict:fieldDescriptor id="lrc.queryParam.resultValue.value.fd" parent="lrc.queryParam.resultValue.value.fd-abstract"/>
+	<dict:fieldDescriptor id="lrc.queryParam.resultValue.value.fd-abstract" abstract="true">
+		<dict:name>Result Value Key</dict:name>
+		<dict:desc>Result Value Key</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+
+	<search:queryParam id="lrc.queryParam.resultValue.resultComponent.id" parent="lrc.queryParam.resultValue.resultComponent.id-parent"/>
+	<search:queryParam id="lrc.queryParam.resultValue.resultComponent.id-parent" optional="true" abstract="true">
+		<ref bean="lrc.queryParam.resultValue.resultComponent.id.fd"/>
+	</search:queryParam>
+
+	<dict:fieldDescriptor id="lrc.queryParam.resultValue.resultComponent.id.fd" parent="lrc.queryParam.resultValue.resultComponent.id.fd-abstract"/>
+	<dict:fieldDescriptor id="lrc.queryParam.resultValue.resultComponent.id.fd-abstract" abstract="true">
+		<dict:name>Result Value's Associated Result Component Id</dict:name>
+		<dict:desc>Result Value's Associated Result Component Id</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+
+<search:searchResultTypeInfo id="lrc.result.resultValue" parent="lrc.result.resultValue-parent"/>
+	<search:searchResultTypeInfo id="lrc.result.resultValue-parent"  abstract="true">
+		<search:name>Learning Result Values</search:name>
+		<search:desc>Learning Result Values</search:desc>
+		<search:resultColumns>
+			<ref bean="lrc.resultColumn.resultValue.id"/>
+			<ref bean="lrc.resultColumn.resultValue.value"/>
+   <ref bean="lrc.resultColumn.resultComponent.id" />
+   </search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:resultColumn id="lrc.resultColumn.resultValue.id" parent="lrc.resultColumn.resultValue.id-parent"/>
+	<search:resultColumn id="lrc.resultColumn.resultValue.id-parent"  abstract="true">
+  <search:name>Result Value Key</search:name>
+  <search:desc>Result Value Key</search:desc>
+  <search:dataType>string</search:dataType>
+ </search:resultColumn>
+
+	<search:resultColumn id="lrc.resultColumn.resultValue.value" parent="lrc.resultColumn.resultValue.value-parent"/>
+	<search:resultColumn id="lrc.resultColumn.resultValue.value-parent"  abstract="true">
+  <search:name>The Result Value</search:name>
+  <search:desc>The Value of the Result Value</search:desc>
+  <search:dataType>string</search:dataType>
+ </search:resultColumn>
+
+ 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+		        <entry key="lrc.search.resultComponent">
+		            <value>SELECT rc.id, rc.name, rc.type.id FROM ResultComponent rc </value>
+		        </entry>
+		        <entry key="lrc.search.resultComponentType">
+		            <value>SELECT rc.id, rc.name FROM ResultComponentType rc </value>
+		        </entry>
+		        <entry key="lrc.search.resultValue">
+		            <value>SELECT rv.id, rv.value, rv.resultComponent.id FROM ResultValue rv </value>
+		        </entry>
+				<entry key="lrc.queryParam.resultComponent.id">
+					<value>rc.id = :lrc_queryParam_resultComponent_id</value>
+				</entry>
+				<entry key="lrc.queryParam.resultComponent.type">
+					<value>rc.type.id IN (:lrc_queryParam_resultComponent_type)</value>
+				</entry>
+				<entry key="lrc.queryParam.resultComponent.idRestrictionList">
+					<value>rc.id IN (:lrc_queryParam_resultComponent_idRestrictionList)</value>
+				</entry>
+				<entry key="lrc.queryParam.resultValue.id">
+					<value>rv.id = :lrc_queryParam_resultValue_id</value>
+				</entry>
+				<entry key="lrc.queryParam.resultValue.value">
+					<value>rv.value = :lrc_queryParam_resultValue_value</value>
+				</entry>
+				<entry key="lrc.queryParam.resultValue.resultComponent.id">
+					<value>rv.resultComponent.id = :lrc_queryParam_resultValue_resultComponent_id</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>
