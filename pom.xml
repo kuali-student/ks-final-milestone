@@ -9,7 +9,7 @@
     </parent>
     <groupId>org.kuali.student.enroll</groupId>
     <artifactId>ks-enroll</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>KS Enroll</name>
     <description>KS Enrollment</description>
