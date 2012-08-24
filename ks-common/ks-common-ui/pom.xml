@@ -27,6 +27,13 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!--
+    			GWT Dependencies - all dependencies here override "provided" scope
+    			from parent POM so they will be picked up by any project depending on
+    			ks-common-ui. The correct scope will be resolved in those projects
+    			via dependency management from parent POM.
+    		-->
+        <!-- This is not required when running hosted mode via gwt codehaus plugin, but it is when using launch file -->
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
@@ -85,22 +92,23 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.lowagie</groupId>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+        <groupId>com.lowagie</groupId>
             <artifactId>itext</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.jexcelapi</groupId>
             <artifactId>jxl</artifactId>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
     <profiles>

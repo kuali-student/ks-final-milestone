@@ -10,6 +10,10 @@
     <artifactId>ks-core-web</artifactId>
     <name>KS Core Web</name>
 
+    <properties>
+      <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -59,6 +63,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ks-core-ui</artifactId>
+            <type>jar</type>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -112,13 +117,6 @@
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyclient</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>ks-rice-lessdep</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
             <scope>runtime</scope>
         </dependency>
         <dependency>

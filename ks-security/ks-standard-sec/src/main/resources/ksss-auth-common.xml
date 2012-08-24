@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+
+	<bean id="ksUserDetailsService" class="org.kuali.student.security.spring.KSDefaultUserDetailsService">
+		<property name="identityService" ref="identityServiceClient"/>
+		<property name="roleService" ref="roleServiceClient"/>
+		<!-- uncomment if you do not want to use the default roles of ROLE_KS_ADMIN, ROLE_KS_USER
+		<property name="authorities">
+			<list>
+				<value>ROLE_KS_FACULTY</value>
+			</list>
+		</property>
+		-->
+	</bean>
+	
+	<!--Enabling Kim identity service to authenticate the users	-->
+	<!--Using KSB client proxy to fetch the service	-->
+	<bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.identity.IdentityService" />
+		<property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}identityService" />
+	</bean>
+	
+
+    <bean id="roleServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.role.RoleService"/>
+        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}roleService"/>
+    </bean>
+
+
+	<bean id="ksRiceUserDetailsService" class="org.kuali.student.security.spring.KSRiceDefaultUserDetailsService">
+		<property name="identityService" ref="identityServiceClient"/>
+		<property name="roleService" ref="roleServiceClient"/>
+  	</bean>
+	
+	<bean id="authenticationGwtRpcFilter" class="org.kuali.student.security.filter.AuthenticationGwtRpcFilter"/>
+	
+	<bean id="interceptorContainer" class="org.kuali.student.security.cxf.interceptors.IntercpetorContainer">
+		<property name="inInterceptors">
+			<list>
+				<bean id="attachmentInInterceptor" class="org.kuali.student.security.cxf.interceptors.AttachmentInInterceptor"/>
+			</list>
+		</property>
+		<property name="outInterceptors">
+			<list>
+				<bean id="attachmentOutInterceptor" class="org.kuali.student.security.cxf.interceptors.AttachmentOutInterceptor"/>
+			</list>
+		</property>
+	</bean>
+</beans>

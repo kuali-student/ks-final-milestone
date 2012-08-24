@@ -16,6 +16,15 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.api</groupId>
+            <artifactId>ks-common-api</artifactId>
+            <version>${ks.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ks-cxf</artifactId>
             <version>${project.version}</version>

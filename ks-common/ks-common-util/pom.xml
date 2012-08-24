@@ -78,53 +78,15 @@
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.security</groupId>
-                    <artifactId>spring-security-cas-client</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet.jsp</groupId>
-                    <artifactId>jsp-api</artifactId>
-                </exclusion>
-            </exclusions>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-beanutils</artifactId>
-                    <groupId>commons-beanutils</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-tools</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-digester</groupId>
-                    <artifactId>commons-digester</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.struts</groupId>
-                    <artifactId>struts-taglib</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.struts</groupId>
-                    <artifactId>struts-tiles</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.struts</groupId>
-                    <artifactId>struts-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
@@ -145,34 +107,15 @@
         <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-beanutils</artifactId>
-                    <groupId>commons-beanutils</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- Message builder dependencies-->
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr-runtime</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.antlr</groupId>
-                    <artifactId>stringtemplate</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krms-impl</artifactId>
-            <version>${kuali.rice.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.lowagie</groupId>
-                    <artifactId>itext</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 </project>
