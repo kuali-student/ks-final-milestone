@@ -28,6 +28,20 @@
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.security</groupId>
+                    <artifactId>spring-security-cas-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.servlet.jsp</groupId>
+                    <artifactId>jsp-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
@@ -78,10 +92,30 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>src-dependencies</id>
+                        <phase>${ks.prepare-contract-dependencies.phase}</phase>
+                        <goals>
+                            <!-- use copy-dependencies instead if you don't want to explode the sources -->
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>sources</classifier>
+                            <includeGroupIds>org.kuali</includeGroupIds>
+                            <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
+                            <outputDirectory>${project.build.directory}/dependency-sources</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.kuali.maven.plugins</groupId>
                 <artifactId>maven-kscontractdoc-plugin</artifactId>
                 <version>${ks-contract-docs.plugin.version}</version>
-                <!-- For instructions see https://wiki.kuali.org/display/STUDENT/Understanding+the+Contract+Doc+Maven+Plugin  -->
+                <!-- For instructions see https://wiki.kuali.org/display/STUDENT/Using+the+Contract+Doc+Maven+Plugin  -->
                 <executions>
                     <!-- This generates the standard contract docs on the site-->
                     <execution>
@@ -90,19 +124,31 @@
                         <goals>
                             <goal>kscontractdoc</goal>
                         </goals>
+                        <configuration>
+                            <!-- generate on all kuali dependencies -->
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.build.directory}/dependency-sources</sourceDir>
+                            </sourceDirs>
+                        </configuration>
                     </execution>
                     <!-- This generates the the dictionary documentation docs on the site-->
                     <execution>
                         <id>generate-dictionary-documentation</id>
                         <phase>${ks.dictionarydoc.phase}</phase>
-                        <configuration>
-                            <inputFiles>
-                                <inputFile>ks-TypeInfo-dictionary.xml</inputFile>
-                            </inputFiles>
-                        </configuration>
                         <goals>
                             <goal>ksdictionarydoc</goal>
                         </goals>
+                        <configuration>
+                            <!-- generate only on the kuali student api -->
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                            </sourceDirs>
+
+                        </configuration>
 
                     </execution>
                     <!-- This generates the the ks-xxxx-generated.xml files in target/classes -->
@@ -114,108 +160,53 @@
                         </goals>
                         <configuration>
                             <writeManual>true</writeManual>
-                            <classNames>
-                                <!--                                 Atp -->
-                                <className>AtpInfo</className>
-                                <className>MilestoneInfo</className>
-                                <className>AtpAtpRelationInfo</className>
-                                <!--                                 Acal -->
-                                <className>AcademicCalendarInfo</className>
-                                <className>AcalEventInfo</className>
-                                <className>HolidayCalendarInfo</className>
-                                <className>HolidayInfo</className>
-                                <className>TermInfo</className>
-                                <className>KeyDateInfo</className>
-                                <!--                             Appointment -->
-                                <className>AppointmentWindowInfo</className>
-                                <className>AppointmentSlotInfo</className>
-                                <className>AppointmentInfo</className>
-                                <!--                                LPR -->
-                                <className>LuiPersonRelationInfo</className>
-                                <className>LprRosterInfo</className>
-                                <className>LprRosterEntryInfo</className>
-                                <className>LprTransactionInfo</className>
-                                <className>LprTransactionItemInfo</className>
-                                <className>RequestOptionInfo</className>
-                                <className>LprTransactionItemResultInfo</className>
-                                <!--                                Hold         -->
-                                <className>HoldInfo</className>
-                                <className>IssueInfo</className>
-                                <!--                                LUI                 -->
-                                <className>LuiInfo</className>
-                                <className>LuiIdentifierInfo</className>
-                                <className>LuCodeInfo</className>
-                                <className>FeeInfo</className>
-                                <className>CurrencyAmountInfo</className>
-                                <className>RevenueInfo</className>
-                                <className>AffiliatedOrgInfo</className>
-                                <className>MeetingScheduleInfo</className>
-                                <className>LuiLuiRelationInfo</className>
-                                <className>LuiCapacityInfo</className>
-                                <!--                                Course Offering      -->
-                                <className>CourseOfferingInfo</className>
-                                <className>CourseWaitlistEntryInfo</className>
-                                <className>OfferingInstructorInfo</className>
-                                <className>FormatOfferingInfo</className>
-                                <className>ActivityOfferingInfo</className>
-                                <className>RegistrationGroupInfo</className>
-                                <className>SeatPoolDefinitionInfo</className>
-                                <!-- Course registration -->
-                                <className>CourseRegistrationInfo</className>
-                                <className>ActivityRegistrationInfo</className>
-                                <className>RegGroupRegistrationInfo</className>
-                                <className>RegRequestInfo</className>
-                                <className>RegRequestItemInfo</className>
-                                <className>RegResponseInfo</className>
-                                <className>RegResponseItemInfo</className>
-                                <!-- Exemption -->
-                                <className>ExemptionInfo</className>
-                                <className>ExemptionRequestInfo</className>
-                                <!-- Grading -->
-                                <className>GradeRosterInfo</className>
-                                <className>GradeRosterEntryInfo</className>
-                                <className>GradeValuesGroupInfo</className>
-                                <!-- LRR -->
-                                <className>LearningResultRecordInfo</className>
-                                <className>ResultSourceInfo</className>
-                                <!-- LRC -->
-                                <className>ResultValuesGroupInfo</className>
-                                <className>ResultValueInfo</className>
-                                <className>ResultScaleInfo</className>
-                                <!-- Course -->
-                                <className>CourseInfo</className>
-                                <className>FormatInfo</className>
-                                <className>ActivityInfo</className>
-                                <className>LoDisplayInfo</className>
-                                <!-- Program -->
-                                <className>CoreProgramInfo</className>
-                                <className>CredentialProgramInfo</className>
-                                <className>HonorsProgramInfo</className>
-                                <className>MajorDisciplineInfo</className>
-                                <className>ProgramRequirementInfo</className>
-                                <className>ProgramVariationInfo</className>
-                                <!-- Type -->
-                                <className>TypeInfo</className>
-                                <className>TypeTypeRelationInfo</className>
-                                <!-- State -->
-                                <className>StateInfo</className>
-                                <className>LifecycleInfo</className>
-                            </classNames>
+                            <!-- generate only on the kuali student api -->
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+
+                    </execution>
+                    <!-- This generates the mock-implementation java code-->
+                    <execution>
+                        <id>generate-mock-implementations</id>
+                        <phase>${ks.mockimpl.phase}</phase>
+                        <goals>
+                            <goal>kscreatemock</goal>
+                        </goals>
+                        <configuration>
+                            <!-- generate only on the kuali student api -->
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                            </sourceDirs>
                         </configuration>
                     </execution>
+                    <!-- generate only on the kuali student api -->
+                    <execution>
+                        <id>generate-validation-decorators</id>
+                        <phase>${ks.vdecorator.phase}</phase>
+                        <goals>
+                            <goal>kscreatevdec</goal>
+                        </goals>
+
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+
+                    </execution>
                 </executions>
-                <configuration>
-                    <!-- this defines that location of the source code used for all contract docs executions -->
-                    <sourceDirs>
-                        <sourceDir>${project.basedir}/src/main/java</sourceDir>
-                        <!-- core api -->
-                        <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
-                        <!-- common api -->
-                        <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
-                        <!-- lum api -->
-                        <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
-                    </sourceDirs>
-                </configuration>
+
                 <dependencies>
                     <dependency>
                         <groupId>org.kuali.rice</groupId>
@@ -241,7 +232,6 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-java2ws-plugin</artifactId>
-                <version>${cxf.version}</version>
                 <executions>
                     <execution>
                         <id>academicCalendarService-wsdl</id>
@@ -259,8 +249,7 @@
                         <id>academicRecordService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.enrollment.academicrecord.service.AcademicRecordService
-                            </className>
+                            <className>org.kuali.student.enrollment.academicrecord.service.AcademicRecordService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
@@ -296,8 +285,7 @@
                         <id>courseOfferingService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
-                            </className>
+                            <className>org.kuali.student.enrollment.courseoffering.service.CourseOfferingService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
@@ -309,9 +297,7 @@
                         <id>courseRegistrationService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>
-                                org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService
-                            </className>
+                            <className>org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
@@ -323,8 +309,7 @@
                         <id>courseWaitlistService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.enrollment.coursewaitlist.service.CourseWaitlistService
-                            </className>
+                            <className>org.kuali.student.enrollment.coursewaitlist.service.CourseWaitlistService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
@@ -336,9 +321,7 @@
                         <id>dataDictionaryService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>
-                                org.kuali.student.r2.common.datadictionary.service.DataDictionaryService
-                            </className>
+                            <className>org.kuali.student.r2.common.datadictionary.service.DataDictionaryService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
@@ -350,9 +333,7 @@
                         <id>enumerationmanagementService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>
-                                org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService
-                            </className>
+                            <className>org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
@@ -448,7 +429,7 @@
                         <id>luiPersonRelationService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.enrollment.lpr.service.LuiPersonRelationService</className>
+                            <className>org.kuali.student.enrollment.lpr.service.LprService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
@@ -580,8 +561,7 @@
                         <id>versionManagementService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.r2.core.versionmanagement.service.VersionManagementService
-                            </className>
+                            <className>org.kuali.student.r2.core.versionmanagement.service.VersionManagementService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
