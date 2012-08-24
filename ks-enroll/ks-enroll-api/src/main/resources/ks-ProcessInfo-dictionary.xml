@@ -60,6 +60,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="ProcessInfo.name" parent="ProcessInfo.name-parent"/>
 	<bean id="ProcessInfo.name-parent" abstract="true" parent="ProcessInfo.name-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="required" value="true"/>
 	</bean>
 
 	<bean id="ProcessInfo.descr" parent="ProcessInfo.descr-parent"/>

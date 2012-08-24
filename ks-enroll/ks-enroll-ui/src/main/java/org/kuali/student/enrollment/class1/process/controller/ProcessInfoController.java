@@ -88,29 +88,30 @@ public class ProcessInfoController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProcessInfoForm createForm = (ProcessInfoForm) form;
         ProcessInfo processInfo = new ProcessInfo();
         processInfo.setKey("kuali.process."+ form.getTypeKey() + "."+form.getName() );
         String key =  processInfo.getKey().replaceAll(" ", ".");
         processInfo.setKey(key);
-        processInfo.setName(form.getName());
-        processInfo.setTypeKey(form.getTypeKey());
-        processInfo.setStateKey("active");
-        processInfo.setOwnerOrgId(form.getOwnerOrgId());
+        processInfo.setName(createForm.getName());
+        processInfo.setTypeKey(createForm.getTypeKey());
+        processInfo.setStateKey("kuali.process.process.state.active");
+        processInfo.setOwnerOrgId(createForm.getOwnerOrgId());
         RichTextInfo richTextInfo = new RichTextInfo();
-        richTextInfo.setPlain(form.getDescr());
+        richTextInfo.setPlain(createForm.getDescr());
         processInfo.setDescr(richTextInfo);
 
         try {
             processService = getProcessService();
             ProcessInfo createProcessInfo = processService.createProcess(processInfo.getKey(), processInfo.getTypeKey(), processInfo, getContextInfo());
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Create new failed. ", e);
+            return getUIFModelAndView(createForm);
         }
-        form.setProcessInfo(processInfo);
-        form.setKey(processInfo.getKey());
-        GlobalVariables.getMessageMap().addGrowlMessage("Saved!", "Save Successful");
-        return getUIFModelAndView(form);
+        createForm.setValidateDirty(false);
+        createForm.setStateKey(processInfo.getStateKey());
+        createForm.setProcessInfo(processInfo);
+        createForm.setKey(processInfo.getKey());
+        return close(createForm, result, request, response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=create")
