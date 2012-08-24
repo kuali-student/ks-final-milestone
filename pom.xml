@@ -126,7 +126,7 @@
         <ehcache.version>2.5.0</ehcache.version>
         <google.gwtx.version>1.5.3</google.gwtx.version>
         <gwt.codehaus.plugin.version>2.3.0-1</gwt.codehaus.plugin.version>
-        <gwt.incubator.version>2.0.1</gwt.incubator.version>
+        <gwt.incubator.version>2.3.0</gwt.incubator.version>
         <gwt.version>2.3.0</gwt.version>
         <hibernate.jpa.version>1.0.1.Final</hibernate.jpa.version>
         <hibernate.version>3.6.9.Final</hibernate.version>
