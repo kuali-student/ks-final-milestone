@@ -27,33 +27,33 @@ import java.util.List;
  * @since Thu Aug 6 11:11:11 EDT 2012
  */
 public interface ScheduleTransaction extends IdEntity {
-    /**
-     *  Reference object identifier
-     *
-     * @name Ref Object Id
-     * @required
-     * @readonly
-     */
-    public String getRefObjectId();
-
 
     /**
-     * Schedule Batch identifier
+     * Schedule Batch identifier.
      *
      * @name Schedule Batch id
      * @required
      * @readonly
      */
-    public String getScheduleBatchId ();
+    public String getScheduleBatchId();
 
     /**
-     * Referenced object type key
+     * The type of reference object (e.g. a LUI Type).
      *
      * @name Ref Object Type Key
      * @required
      * @readonly
      */
     public String getRefObjectTypeKey();
+
+    /**
+     * The reference object identifier (e.g. a LUI Id).
+     *
+     * @name Ref Object Id
+     * @required
+     * @readonly
+     */
+    public String getRefObjectId();
 
     /**
      * The Schedule Request Id.
@@ -65,15 +65,15 @@ public interface ScheduleTransaction extends IdEntity {
     public String getScheduleId();
 
     /**
-     * Status of the schedule request
+     * A status message for the schedule transaction.
      *
      * @name Status Message
-     *
      */
     public String getStatusMessage();
 
     /**
-     * The Schedule Request Component Ids. These provide a list of preferences.
+     * The Schedule Request Component Ids. These provide a list of
+     * preferences to be sent to the scheduler.
      *
      * @name Schedule Request Component Ids
      */
