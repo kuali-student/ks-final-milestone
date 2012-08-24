@@ -93,9 +93,7 @@ public class ProcessInfoController extends UifControllerBase {
         ProcessInfo processInfo = new ProcessInfo();
 
         if(isEdit) {
-            processInfo.setKey("kuali.process."+ form.getTypeKey() + "."+form.getName() );
-            String key =  processInfo.getKey().replaceAll(" ", ".");
-            processInfo.setKey(key);
+            processInfo.setKey(form.getKey());
             processInfo.setName(form.getName());
             processInfo.setTypeKey(form.getTypeKey());
             processInfo.setOwnerOrgId(form.getOwnerOrgId());
