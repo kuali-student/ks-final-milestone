@@ -57,6 +57,7 @@ public class TestProcessServiceImpl {
 
         // Create & Read
         ProcessInfo process = new ProcessInfo();
+        process.setName("newProcess");
         process.setOwnerOrgId("Owner1");
         process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
         process.setTypeKey("kuali.process.process.type.dummy");
@@ -94,6 +95,7 @@ public class TestProcessServiceImpl {
         // Create Process for testing
         final String processId = "kuali.process.registration.basic.eligibility";
         ProcessInfo process = new ProcessInfo();
+        process.setName("Basic Eligibility");
         process.setOwnerOrgId("Owner1");
         process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
         process.setTypeKey("kuali.process.process.type.dummy");
@@ -149,6 +151,7 @@ public class TestProcessServiceImpl {
         // Create Process and Check for testing
         String processId = "kuali.process.registration.eligibility.for.term";
         ProcessInfo process = new ProcessInfo();
+        process.setName("Reg Eligibility for Term");
         process.setOwnerOrgId("Owner1");
         process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
         process.setTypeKey("kuali.process.process.type.dummy");
@@ -205,6 +208,7 @@ public class TestProcessServiceImpl {
         // Create Process and Check for testing
         processId = "kuali.process.registration.register.for.courses";
         process = new ProcessInfo();
+        process.setName("Registration for Courses");
         process.setOwnerOrgId("Owner1");
         process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
         process.setTypeKey("kuali.process.process.type.dummy");
@@ -278,6 +282,7 @@ public class TestProcessServiceImpl {
         //Create Process to search
         String processId = "kuali.process.registration.eligibility.for.term";
         ProcessInfo process = new ProcessInfo();
+        process.setName("Reg Eligibility for Term");
         process.setOwnerOrgId("Owner1");
         process.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
         process.setTypeKey("kuali.process.process.type.dummy");
