@@ -124,7 +124,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
         </dependency>
-        <!-- added by bonnie  -->
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
@@ -135,6 +134,11 @@
             <artifactId>rice-web</artifactId>
             <type>war</type>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-web</artifactId>
+            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
