@@ -139,7 +139,7 @@
         <jsr107cache.version>1.0</jsr107cache.version>
         <jta.version>1.1</jta.version>
         <junit.version>4.10</junit.version>
-        <ks-contract-docs.plugin.version>1.0.1-SNAPSHOT</ks-contract-docs.plugin.version>
+        <ks-contract-docs.plugin.version>1.0.2-SNAPSHOT</ks-contract-docs.plugin.version>
         <kuali.rice.version>2.2.0-myplan-build-26</kuali.rice.version>
         <log4j.version>1.2.16</log4j.version>
         <log4j.javadoc.version>1.2</log4j.javadoc.version>
@@ -195,6 +195,10 @@
         <ks.dictionarydoc.phase>site</ks.dictionarydoc.phase>
         <ks.dictionarycreate.phase>none</ks.dictionarycreate.phase>
         <ks.java2ws.phase>none</ks.java2ws.phase>
+        <ks.mockimpl.phase>none</ks.mockimpl.phase>
+        <!-- should align to the same or earlier phase than the contract doc or dictionary doc phase -->
+        <ks.prepare-contract-dependencies.phase>site</ks.prepare-contract-dependencies.phase>
+        <ks.vdecorator.phase>none</ks.vdecorator.phase>
     </properties>
     <build>
         <pluginManagement>
