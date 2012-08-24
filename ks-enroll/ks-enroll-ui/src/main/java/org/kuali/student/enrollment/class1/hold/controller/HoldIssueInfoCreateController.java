@@ -118,15 +118,6 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
  public ModelAndView modity(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                             HttpServletRequest request, HttpServletResponse response) throws Exception {
       HoldIssueInfoCreateForm modifyForm = (HoldIssueInfoCreateForm) form;
-      if (modifyForm.getTypeKey().equals("") || modifyForm.getTypeKey().length() == 0) {
-          GlobalVariables.getMessageMap().putError("typeKey", "error.enroll.hold.type.empty");
-          return getUIFModelAndView(form);
-      }
-
-      if (modifyForm.getOrganizationId().equals("") || modifyForm.getOrganizationId().length() == 0) {
-          GlobalVariables.getMessageMap().putError("organizationId", "error.enroll.hold.organization.empty");
-          return getUIFModelAndView(form);
-      }
 
       holdIssueInfo = new HoldIssueInfo();
       holdIssueInfo.setId(modifyForm.getId());
@@ -140,12 +131,13 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
 
       try {
           holdService = getHoldService();
-          HoldIssueInfo modifyHoldIssueInfo = holdService.updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, getContextInfo() );
+          holdService.updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, getContextInfo() );
       } catch (Exception e) {
           e.printStackTrace();
           throw new RuntimeException("Modify Hold failed. ", e);
       }
-      GlobalVariables.getMessageMap().putInfo("holdIssueInfo", "info.enroll.hold.modify.success");
+      form.setValidateDirty(false);
+      GlobalVariables.getMessageMap().putInfo("Hold Issue Info", "info.enroll.save.success");
       return getUIFModelAndView(form);
  }
 

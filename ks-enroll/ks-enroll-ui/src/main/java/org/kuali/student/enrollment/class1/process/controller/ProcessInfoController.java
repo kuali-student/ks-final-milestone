@@ -71,6 +71,8 @@ public class ProcessInfoController extends UifControllerBase {
     private OrganizationService organizationService;
     private OrgInfo orgInfo;
 
+    private boolean isEdit;
+
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProcessInfoForm();
@@ -88,30 +90,50 @@ public class ProcessInfoController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProcessInfoForm createForm = (ProcessInfoForm) form;
         ProcessInfo processInfo = new ProcessInfo();
-        processInfo.setKey("kuali.process."+ form.getTypeKey() + "."+form.getName() );
-        String key =  processInfo.getKey().replaceAll(" ", ".");
-        processInfo.setKey(key);
-        processInfo.setName(createForm.getName());
-        processInfo.setTypeKey(createForm.getTypeKey());
-        processInfo.setStateKey("kuali.process.process.state.active");
-        processInfo.setOwnerOrgId(createForm.getOwnerOrgId());
-        RichTextInfo richTextInfo = new RichTextInfo();
-        richTextInfo.setPlain(createForm.getDescr());
-        processInfo.setDescr(richTextInfo);
 
-        try {
-            processService = getProcessService();
-            ProcessInfo createProcessInfo = processService.createProcess(processInfo.getKey(), processInfo.getTypeKey(), processInfo, getContextInfo());
-        } catch (Exception e) {
-            return getUIFModelAndView(createForm);
+        if(isEdit) {
+            processInfo.setKey("kuali.process."+ form.getTypeKey() + "."+form.getName() );
+            String key =  processInfo.getKey().replaceAll(" ", ".");
+            processInfo.setKey(key);
+            processInfo.setName(form.getName());
+            processInfo.setTypeKey(form.getTypeKey());
+            processInfo.setOwnerOrgId(form.getOwnerOrgId());
+            RichTextInfo richTextInfo = new RichTextInfo();
+            richTextInfo.setPlain(form.getDescr());
+            processInfo.setDescr(richTextInfo);
+            processInfo.setStateKey(form.getStateKey());
+
+            try {
+                processService = getProcessService();
+                processService.updateProcess(processInfo.getKey(),processInfo, getContextInfo());
+                isEdit = false;
+            } catch (Exception e) {
+                return getUIFModelAndView(form);
+            }
+        } else {
+            processInfo.setKey("kuali.process."+ form.getTypeKey() + "."+form.getName() );
+            String key =  processInfo.getKey().replaceAll(" ", ".");
+            processInfo.setKey(key);
+            processInfo.setName(form.getName());
+            processInfo.setTypeKey(form.getTypeKey());
+            processInfo.setStateKey("kuali.process.process.state.active");
+            processInfo.setOwnerOrgId(form.getOwnerOrgId());
+            RichTextInfo richTextInfo = new RichTextInfo();
+            richTextInfo.setPlain(form.getDescr());
+            processInfo.setDescr(richTextInfo);
+
+            try {
+                processService = getProcessService();
+                ProcessInfo createProcessInfo = processService.createProcess(processInfo.getKey(), processInfo.getTypeKey(), processInfo, getContextInfo());
+            } catch (Exception e) {
+                return getUIFModelAndView(form);
+            }
         }
-        createForm.setValidateDirty(false);
-        createForm.setStateKey(processInfo.getStateKey());
-        createForm.setProcessInfo(processInfo);
-        createForm.setKey(processInfo.getKey());
-        return close(createForm, result, request, response);
+        form.setValidateDirty(false);
+        GlobalVariables.getMessageMap().putInfo("Process", "info.enroll.save.success");
+
+        return refresh(form, result, request, response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=create")
@@ -175,6 +197,7 @@ public class ProcessInfoController extends UifControllerBase {
     public ModelAndView edit(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProcessInfo processInfo = getSelectedProcessInfo(form, "edit");
+        isEdit = true;
 
         organizationService = getOrganizationService();
         try{
