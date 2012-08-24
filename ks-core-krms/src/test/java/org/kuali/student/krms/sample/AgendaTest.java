@@ -58,6 +58,7 @@ import org.kuali.rice.krms.framework.engine.expression.ComparisonOperatorService
 import org.kuali.rice.krms.impl.repository.AgendaBoService;
 import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.student.common.util.krms.ManualContextProvider;
 import org.kuali.student.krms.KSKRMSConstants;
 
 public class AgendaTest {
