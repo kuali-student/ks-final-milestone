@@ -313,8 +313,8 @@ public class SchedulingServiceDecorator implements SchedulingService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateScheduleTransaction(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "scheduleTransactionTypeKey") String scheduleTransactionTypeKey, @WebParam(name = "scheduleTransactionInfo") ScheduleRequestInfo scheduleTransactionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().validateScheduleTransaction(validationTypeKey, scheduleTransactionTypeKey, scheduleTransactionInfo, contextInfo);
+    public List<ValidationResultInfo> validateScheduleTransaction(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "scheduleBatchId") String scheduleBatchId, @WebParam(name = "scheduleTransactionTypeKey") String scheduleTransactionTypeKey, @WebParam(name = "scheduleTransactionInfo") ScheduleRequestInfo scheduleTransactionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().validateScheduleTransaction(validationTypeKey, scheduleBatchId, scheduleTransactionTypeKey, scheduleTransactionInfo, contextInfo);
     }
 
     @Override

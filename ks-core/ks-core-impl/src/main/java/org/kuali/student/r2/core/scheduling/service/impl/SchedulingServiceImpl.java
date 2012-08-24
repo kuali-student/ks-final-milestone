@@ -523,7 +523,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateScheduleTransaction(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "scheduleTransactionTypeKey") String scheduleRequestTypeKey, @WebParam(name = "scheduleTransactionInfo") ScheduleRequestInfo scheduleTransactionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateScheduleTransaction(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "scheduleBatchId") String scheduleBatchId, @WebParam(name = "scheduleTransactionTypeKey") String scheduleRequestTypeKey, @WebParam(name = "scheduleTransactionInfo") ScheduleRequestInfo scheduleTransactionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
 

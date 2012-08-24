@@ -1399,6 +1399,7 @@ public interface SchedulingService {
      * with the given data can be created.
      *
      * @param validationTypeKey             the identifier for the validation Type
+     * @param scheduleBatchId               the identifier for ScheduleBatch
      * @param scheduleTransactionTypeKey    the identifier for the scheduleTransaction
      *                                      Type
      * @param scheduleTransactionInfo       detailed information about the
@@ -1418,6 +1419,7 @@ public interface SchedulingService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateScheduleTransaction(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                  @WebParam(name = "scheduleBatchId") String scheduleBatchId,
                                                                   @WebParam(name = "scheduleTransactionTypeKey") String scheduleTransactionTypeKey,
                                                                   @WebParam(name = "scheduleTransactionInfo") ScheduleRequestInfo scheduleTransactionInfo,
                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
