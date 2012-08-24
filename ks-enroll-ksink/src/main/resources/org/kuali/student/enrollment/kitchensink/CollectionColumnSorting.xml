@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- The Interesting Bits -->
+
+    <bean id="KS-KitchenSink-CollectionColumnSorting" parent="KS-KitchenSink-Collection-Base">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+
+        <!-- simple way to define column sorting:
+        <property name="layoutManager.sortableColumns">
+            <set>
+                <value>id</value>
+                <value>name</value>
+                <value>date</value>
+            </set>
+        </property>
+        -->
+
+        <!-- define column sorting using the richTable options: -->
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <!--
+                            aaSorting defines which column(s) the collection is initially sorted
+                            by.  The default is "[[0,'asc']]" and if no sorting is desired the
+                            value should just be "[]".
+                            -->
+                        <entry key="aaSorting" value="[[1,'asc']]"/>
+
+                        <!--
+                            aoColumnDefs allows customization of individual columns.
+                            (trial-n-error shows that using 'aoColumns' breaks sorting)
+                            Here, the 3rd column (description) is marked as unsortable.
+                            -->
+                        <entry key="aoColumnDefs"
+                               value="[ {'aTargets':[2], 'bSortable':false}
+                                    ]"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-CollectionColumnSorting-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Collections"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-CollectionColumnSorting-Page">
+                    <property name="headerText" value="Collection Column Sorting"/>
+                    <property name="footer">
+                        <bean parent="Uif-VerticalBoxSection">
+                            <property name="header.render" value="false"/>
+                            <property name="style" value="margin-top:10px"/>
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Message">
+                                        <property name="style" value="margin-bottom:15px;font-size:125%"/>
+                                        <property name="messageText">
+                                            <value>
+                                                By default, all column headers are sorted and the collection is sorted
+                                                on the first column. In this example, the initial sort is done on the
+                                                second column "Name" and the third column "Description" is not sortable.
+                                            </value>
+                                        </property>
+                                    </bean>
+                                    <bean parent="KS-KitchenSink-Link-To-Source"
+                                          p:href="https://svn.kuali.org/repos/student/branches/ks-1.3/ks-enroll/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionColumnSorting.xml"/>
+                                    <bean parent="KS-KitchenSink-Link-To-Source"
+                                          p:label="DataTables Reference"
+                                          p:href="http://datatables.net/ref"/>
+                                    <bean parent="KS-KitchenSink-Link-To-KRAD-XML-Source"
+                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M2/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                    <bean parent="KS-KitchenSink-Link-To-KRAD-Java-Source"
+                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M2/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
+                                    <bean parent="KS-KitchenSink-Link-To-KRAD-API"
+                                          p:href="http://site.origin.kuali.org/rice/2.2.0-M2/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                                    <bean parent="KS-KitchenSink-Link-To-Guide"
+                                          p:href="http://site.kuali.org/rice/2.2.0-M2/reference/html/KRAD_Guide.html#d6766e7731"/>
+                                    <bean parent="KS-KitchenSink-Link-To-Bare">
+                                        <property name="finalizeMethodAdditionalArguments">
+                                            <list>
+                                                <value>collectionOptions</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionColumnSorting-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-CollectionColumnSorting-Page">
+                    <property name="header.render" value="false"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionColumnSorting-Page" parent="KS-KitchenSink-Page">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionColumnSorting"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

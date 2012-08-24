@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- View definitions -->
+
+    <bean id="KS-KitchenSink-FormView" parent="KSFormView">
+        <property name="formClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkForm"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkHelper"/>
+        <property name="header.render" value="false"/>
+        <property name="footer.render" value="false"/>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-enroll-ksink/css/kitchensink.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll-ksink/scripts/kitchensink.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-FormView-Bare" parent="KS-KitchenSink-FormView">
+        <property name="breadcrumbs.render" value="false"/>
+    </bean>
+
+
+    <!-- Page definitions -->
+
+    <bean id="KS-KitchenSink-Page" parent="Uif-Page">
+        <property name="header.style" value="border-bottom:solid 1px black"/>
+    </bean>
+
+    <bean id="KS-KitchenSink-Page-Bare" parent="Uif-Page"/>
+
+
+    <!-- Collection definitions -->
+
+    <bean id="KS-KitchenSink-Collection-Base" parent="Uif-TableCollectionSection">
+        <property name="propertyName" value="collection"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.kitchensink.KitchenSinkFormCollection1"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField">
+                    <property name="propertyName" value="id"/>
+                    <property name="label" value="ID"/>
+                </bean>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="name"/>
+                    <property name="label" value="Name"/>
+                </bean>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="description"/>
+                    <property name="label" value="Description"/>
+                </bean>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="date"/>
+                    <property name="label" value="Date"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Miscellaneous definitions -->
+
+    <bean id="KS-KitchenSink-Link-To-Guide" parent="KS-KitchenSink-LinkField-Base"
+          p:label="KRAD Guide"/>
+    <bean id="KS-KitchenSink-Link-To-Source" parent="KS-KitchenSink-LinkField-Base"
+          p:label="XML Configuration"/>
+    <bean id="KS-KitchenSink-Link-To-KRAD-XML-Source" parent="KS-KitchenSink-LinkField-Base"
+          p:label="KRAD XML Configuration"/>
+    <bean id="KS-KitchenSink-Link-To-KRAD-Java-Source" parent="KS-KitchenSink-LinkField-Base"
+          p:label="KRAD Java Class"/>
+    <bean id="KS-KitchenSink-Link-To-KRAD-API" parent="KS-KitchenSink-LinkField-Base"
+          p:label="KRAD API"/>
+    <bean id="KS-KitchenSink-LinkField-Base" parent="Uif-LinkField" abstract="true">
+        <property name="target" value="_blank"/>
+        <property name="finalizeMethodToCall" value="setSourceLinkText"/>
+    </bean>
+
+    <bean id="KS-KitchenSink-Link-To-Bare" parent="Uif-LinkField" abstract="true">
+        <property name="label" value="Widget-Only Link"/>
+        <property name="target" value="_blank"/>
+        <property name="style" value="border-top:solid 1px #333333;padding-top:5px;"/>
+        <property name="finalizeMethodToCall" value="setDirectLinkUrl"/>
+        <!-- pass a the 3rd "methodToCall" param to setDirectLinkUrl() method:
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>buttons</value>
+            </list>
+        </property>
+        -->
+    </bean>
+
+</beans>

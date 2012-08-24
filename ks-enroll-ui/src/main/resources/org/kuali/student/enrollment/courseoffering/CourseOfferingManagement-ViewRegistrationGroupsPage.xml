@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+    <!--
+     Copyright 2007-2012 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+    <bean id="KS-CourseOfferingManagement-ViewRegistrationGroupsPage" parent="Uif-Page" p:disclosure.render="false"
+          p:id="viewRegistrationGroupsPage">
+        <property name="header">
+            <bean parent="Uif-HeaderThree" p:headerText="Manage Registration Groups" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="headerText" value="@{theCourseOffering.courseOfferingCode} - @{theCourseOffering.courseOfferingTitle} (@{theCourseOffering.creditCnt} Credits)" />
+                    <property name="disclosure.render" value="false"/>
+                    <property name="header.cssClasses">
+                        <list merge="true">
+                            <value>ks-borderBottom</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="formatOfferingIdForViewRG" p:label="Select Format" p:labelPlacement="LEFT" p:required="true" >
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatsForCreateRGKeyValues" p:addBlankOption="false" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxGroup" p:refreshWhenChangedPropertyNames="formatOfferingIdForViewRG" p:methodToCallOnRefresh="filterAOsAndRGsPerFO">
+                                <property name="items">
+                                    <list>
+                                        <ref bean="KS-ViewRegistrationGroupsPage-ActivityOfferingsPerFormatSection"/>
+                                        <bean parent="Uif-VerticalBoxSection">
+                                            <property name="disclosure.render" value="false"/>
+                                            <property name="headerText" value="Generate unconstrained registration groups"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message" p:messageText="Unconstrained registration groups for this course offering are listed below.  Generate unconstrained registration groups if additional activities have been added or removed since the groups were last generated." />
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="generate_rgs_button"/>
+                                        <ref bean="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection"/>
+                                    </list>
+                                </property>
+                            </bean>
+                         </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ViewRegistrationGroupsPage-ActivityOfferingsPerFormatSection" parent="Uif-TableCollectionSection"
+          p:renderAddLine="false"  p:renderLineActions="false">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
+        <property name="propertyName" value="filteredAOsForSelectedFO" />
+        <property name="headerText" value="@{formatOfferingName} Activity Offerings"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 2, 'asc' ]]"/>
+                <entry key="bPaginate" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField"
+                      p:label="CODE"
+                      p:propertyName="aoInfo.activityCode">
+                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="STATUS"
+                      p:propertyName="stateName" />
+                <bean parent="Uif-DataField"
+                      p:label="TYPE"
+                      p:propertyName="typeName"/>
+                <bean parent="Uif-DataField"
+                      p:label="INSTRUCTOR"
+                      p:propertyName="firstInstructorDisplayName"/>
+                <bean parent="Uif-DataField"
+                      p:label="MAX ENR"
+                      p:propertyName="aoInfo.maximumEnrollment"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection" parent="Uif-TableCollectionSection"
+          p:renderAddLine="false"  p:renderLineActions="false">
+        <property name="id" value="registrationGroupsPerFormatSection" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
+        <property name="propertyName" value="filteredRGsForSelectedFO" />
+        <property name="headerText" value="@{formatOfferingName} Registration Groups"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 0, 'asc' ]]"/>
+                <entry key="bPaginate" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField"
+                      p:label="REG GROUP ID"
+                      p:propertyName="rgInfo.name" p:valign="middle">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="CODE"
+                      p:messageText="@{#line.aoActivityCodeText}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="STATUS"
+                      p:messageText="@{#line.aoStateNameText}" />
+                <bean parent="Uif-MessageField"
+                      p:label="TYPE"
+                      p:messageText="@{#line.aoTypeNameText}"/>
+                <bean parent="Uif-MessageField"
+                      p:label="INSTRUCTOR"
+                      p:messageText="@{#line.aoInstructorText}"/>
+                <bean parent="Uif-MessageField"
+                      p:label="MAX ENR"
+                      p:messageText="@{#line.aoMaxEnrText}"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

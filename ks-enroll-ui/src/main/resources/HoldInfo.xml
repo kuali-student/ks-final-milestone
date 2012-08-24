@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+    <!-- HoldInfo-->
+    <bean id="HoldInfo" parent="HoldInfo-parent"/>
+    <bean id="HoldInfo-parent" abstract="true" parent="DataObjectEntry">
+    	<property name="dataObjectClass" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
+        <property name="objectLabel" value="Hold Info"/>
+        <property name="titleAttribute" value="id"/>
+        <!-- 
+        <property name="name" value="holdInfo"/>        
+        <property name="objectDescription" value=""/>
+        -->
+        
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>                
+                <!-- 
+<ref bean="holdInfo.id"/>
+<ref bean="holdInfo.typeKey"/>
+<ref bean="holdInfo.stateKey"/>
+<ref bean="holdInfo.name"/>
+<ref bean="holdInfo.descr"/>
+<ref bean="holdInfo.effectiveDate"/>
+<ref bean="holdInfo.isOverridable"/>
+<ref bean="holdInfo.isWarning"/>
+<ref bean="holdInfo.issueId"/>
+<ref bean="holdInfo.overridable"/>
+<ref bean="holdInfo.personId"/>
+<ref bean="holdInfo.releasedDate"/>
+<ref bean="holdInfo.warning"/>
+<ref bean="holdInfo.attributes"/>
+<ref bean="holdInfo.meta"/>
+                -->
+                <ref bean="HoldInfo.id"/>
+                <ref bean="HoldInfo.personId"/>
+                <ref bean="HoldInfo.issueId"/>
+                <ref bean="HoldInfo.effectiveDate"/>
+            </list>
+        </property>
+    </bean>
+    
+	<bean id="HoldInfo.id" parent="HoldInfo.id-parent"/>
+    <bean id="HoldInfo.id-parent" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="id"/>    
+        <property name="dataType" value="STRING" />           
+        <property name="label" value="ID" />
+        <property name="required" value="true"/>
+        <property name="unique" value="true"/> 
+        <property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	  p:allowWhitespace="false" />
+    	</property>
+    	<property name="controlField">
+      		<bean parent="Uif-TextControl" p:size="42"/>
+    	</property> 
+    </bean>
+
+    <bean id="HoldInfo.personId" parent="HoldInfo.personId-parent"/>
+    <bean id="HoldInfo.personId-parent" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="personId"/>
+        <property name="dataType" value="STRING" />        
+        <property name="label" value="Person ID" />
+        <property name="required" value="true"/>
+        <property name="controlField">
+      		<bean parent="Uif-TextControl" p:size="42"/>
+    	</property>
+    	<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	  p:allowWhitespace="false" />
+    	</property>    
+    </bean>
+    
+    <bean id="HoldInfo.issueId" parent="HoldInfo.issueId-parent"/>
+    <bean id="HoldInfo.issueId-parent" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="issueId"/>
+        <property name="dataType" value="STRING" />          
+        <property name="label" value="Issue ID"/>
+        <property name="required" value="true"/>   	
+    	<property name="controlField">
+      		<bean parent="Uif-TextControl" p:size="42"/>
+    	</property>
+    	<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	  p:allowWhitespace="false" />
+    	</property>     	
+    </bean>
+
+    <bean id="HoldInfo.effectiveDate" parent="HoldInfo.effectiveDate-parent"/>
+    <bean id="HoldInfo.effectiveDate-parent" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="effectiveDate"/>
+        <property name="dataType" value="DATE" />          
+        <property name="label" value="Effective Date" />
+        <property name="required" value="true"/>
+        <property name="controlField">
+      		<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+    	</property>
+    	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+    </bean>
+</beans>
