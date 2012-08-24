@@ -55,20 +55,6 @@
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-impl</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.security</groupId>
-                    <artifactId>spring-security-cas-client</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet.jsp</groupId>
-                    <artifactId>jsp-api</artifactId>
-                </exclusion>
-            </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -97,20 +83,6 @@
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts-core</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>commons-logging</artifactId>
-					<groupId>commons-logging</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>antlr</artifactId>
-					<groupId>antlr</groupId>
-				</exclusion>
-                <exclusion>
-                  <artifactId>commons-beanutils</artifactId>
-                  <groupId>commons-beanutils</groupId>
-                </exclusion>
-			</exclusions>
 		</dependency>
     </dependencies>
 </project>
