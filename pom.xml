@@ -10,7 +10,7 @@
     <groupId>org.kuali.student.api</groupId>
     <artifactId>ks-api</artifactId>
     <packaging>pom</packaging>
-    <name>KS Services API</name>
+    <name>KS API</name>
     <profiles>
         <profile>
             <id>default</id>
