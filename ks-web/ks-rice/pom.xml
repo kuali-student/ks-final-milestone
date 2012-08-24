@@ -84,20 +84,6 @@
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
             <version>${kuali.rice.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.security</groupId>
-                    <artifactId>spring-security-cas-client</artifactId>
-                </exclusion>
-        <exclusion>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-        </exclusion>
-        <exclusion>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-        </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
