@@ -15,14 +15,14 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
-import org.kuali.student.r2.common.infc.Status;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  * @Author Mezba Mahtab mezba.mahtab@utoronto.ca
  */
-public interface ScheduleBatch {
+public interface ScheduleBatch extends IdEntity  {
     /**
      * The Requester is the Person who made this request.
      *
@@ -45,12 +45,5 @@ public interface ScheduleBatch {
      * @name Status Message
      */
     public String getStatusMessage();
-
-    /**
-     * Overall status of the scheduling transaction
-     *
-     * @name Status
-     */
-    public Status getFinalStatus();
 
 }

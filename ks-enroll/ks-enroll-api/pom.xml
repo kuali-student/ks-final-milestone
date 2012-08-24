@@ -107,11 +107,31 @@
             </resource>            
         </resources>
         <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>src-dependencies</id>
+            <phase>${ks.prepare-contract-dependencies.phase}</phase>
+            <goals>
+              <!-- use copy-dependencies instead if you don't want to explode the sources -->
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <configuration>
+              <classifier>sources</classifier>
+             <includeGroupIds>org.kuali</includeGroupIds>
+              <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
+              <outputDirectory>${project.build.directory}/dependency-sources</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
             <plugin>
                 <groupId>org.kuali.maven.plugins</groupId>
                 <artifactId>maven-kscontractdoc-plugin</artifactId>
                 <version>${ks-contract-docs.plugin.version}</version>
-<!-- For instructions see https://wiki.kuali.org/display/STUDENT/Understanding+the+Contract+Doc+Maven+Plugin  -->
+<!-- For instructions see https://wiki.kuali.org/display/STUDENT/Using+the+Contract+Doc+Maven+Plugin  -->
                 <executions>  
                     <!-- This generates the standard contract docs on the site-->
                     <execution>
@@ -120,19 +140,31 @@
                         <goals>
                             <goal>kscontractdoc</goal>                      
                         </goals>
+                        <configuration>
+                    <!-- generate on all kuali dependencies -->
+                    <sourceDirs>
+                        <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                        <sourceDir>${project.build.directory}/dependency-sources</sourceDir>
+                    </sourceDirs>                    
+                </configuration>
                     </execution>
                     <!-- This generates the the dictionary documentation docs on the site--> 
                     <execution>
                         <id>generate-dictionary-documentation</id>
                         <phase>${ks.dictionarydoc.phase}</phase>
-                        <configuration>
-                            <inputFiles>
-                                <inputFile>ks-TypeInfo-dictionary.xml</inputFile>
-                            </inputFiles>
-                        </configuration>
                         <goals>
                             <goal>ksdictionarydoc</goal>
                         </goals>
+                        <configuration>
+                    <!-- generate only on the kuali student api -->
+                      <sourceDirs>
+         				           <sourceDir>${project.basedir}/src/main/java</sourceDir>
+         				           <sourceDir>${project.basedir}/../../ks-core/ks-core-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-common/ks-common-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-lum/ks-lum-api/src/main/java</sourceDir>
+                    	     </sourceDirs> 
+                    	                          
+                </configuration>
                         
                     </execution>
                     <!-- This generates the the ks-xxxx-generated.xml files in target/classes -->
@@ -144,21 +176,53 @@
                         </goals>
                         <configuration>
                             <writeManual>true</writeManual>
+           				     <!-- generate only on the kuali student api -->
+          				      <sourceDirs>
+         				           <sourceDir>${project.basedir}/src/main/java</sourceDir>
+         				           <sourceDir>${project.basedir}/../../ks-core/ks-core-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-common/ks-common-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-lum/ks-lum-api/src/main/java</sourceDir>
+                    	     </sourceDirs>                    
                         </configuration> 
-                    </execution>                  
+                        
+                    </execution>           
+                    <!-- This generates the mock-implementation java code--> 
+                    <execution>
+                        <id>generate-mock-implementations</id>
+                        <phase>${ks.mockimpl.phase}</phase>
+                        <goals>
+                            <goal>kscreatemock</goal>
+                        </goals>
+                        <configuration>
+                   		<!-- generate only on the kuali student api -->
+                   		 <sourceDirs>
+                 		        <sourceDir>${project.basedir}/src/main/java</sourceDir>
+         				           <sourceDir>${project.basedir}/../../ks-core/ks-core-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-common/ks-common-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-lum/ks-lum-api/src/main/java</sourceDir>
+              		      </sourceDirs>
+               		     </configuration>
+                    </execution>      
+                    <!-- generate only on the kuali student api -->
+                    <execution>
+                        <id>generate-validation-decorators</id>
+                        <phase>${ks.vdecorator.phase}</phase>
+                        <goals>
+                            <goal>kscreatevdec</goal>
+                        </goals>
+                        
+                        <configuration>
+                       <sourceDirs>
+                          <sourceDir>${project.basedir}/src/main/java</sourceDir>
+         				           <sourceDir>${project.basedir}/../../ks-core/ks-core-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-common/ks-common-api/src/main/java</sourceDir>
+          				           <sourceDir>${project.basedir}/../../ks-lum/ks-lum-api/src/main/java</sourceDir>
+          				           </sourceDirs>
+                        </configuration>
+                        
+                    </execution>       
                 </executions>
-                <configuration>
-                    <!-- this defines that location of the source code used for all contract docs executions -->
-                    <sourceDirs>
-                        <sourceDir>${project.basedir}/src/main/java</sourceDir>
-                        <!-- core api -->
-                        <sourceDir>${project.basedir}/../../ks-core/ks-core-api/src/main/java</sourceDir>
-                        <!-- common api -->
-                        <sourceDir>${project.basedir}/../../ks-common/ks-common-api/src/main/java</sourceDir>
-                        <!-- lum api -->
-                        <sourceDir>${project.basedir}/../../ks-lum/ks-lum-api/src/main/java</sourceDir>
-                    </sourceDirs>                    
-                </configuration>
+                
                 <dependencies>
                     <dependency>
                         <groupId>org.kuali.rice</groupId>
@@ -184,7 +248,6 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-java2ws-plugin</artifactId>
-                <version>${cxf.version}</version>
                 <executions>
                     <execution>
                         <id>academicCalendarService-wsdl</id>

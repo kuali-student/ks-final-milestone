@@ -16,6 +16,8 @@
 package org.kuali.student.r2.core.exemption.service;
 
 import java.util.*;
+
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -24,9 +26,18 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.dto.ExemptionRequestInfo;
 
-public class ExemptionServiceMockImpl implements ExemptionService {
+public class ExemptionServiceMockImpl implements ExemptionService, MockService {
 
+	
     @Override
+	public void clear() {
+
+    	this.exemptionMap.clear();
+    	this.exemptionRequestMap.clear();
+    	
+	}
+
+	@Override
     public List<ValidationResultInfo> validateExemptionRequest(String validationTypeKey, ExemptionRequestInfo exemptionRequestInfo, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // validate

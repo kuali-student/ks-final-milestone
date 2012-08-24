@@ -1,9 +1,9 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;

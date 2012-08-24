@@ -1,17 +1,19 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.infc.LuiLuiRelation;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.assembler.TransformUtility;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUILUI_RELTN")

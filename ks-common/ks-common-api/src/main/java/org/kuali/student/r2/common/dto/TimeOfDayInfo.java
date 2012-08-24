@@ -17,8 +17,12 @@ package org.kuali.student.r2.common.dto;
 
 import org.kuali.student.r2.common.infc.TimeOfDay;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 //import javax.xml.bind.Element;
-import javax.xml.bind.annotation.*;
 //import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -49,5 +53,35 @@ public class TimeOfDayInfo implements TimeOfDay {
 
     public void setMilliSeconds(Long milliSeconds) {
         this.milliSeconds = milliSeconds;
+    }
+
+    /**
+     * Tests if this TimeOfDay is after the specified TimeOfDay.
+     * @param timeOfDay the specified TimeOfDay
+     * @return true if this TimeOfDay is after the specified TimeOfDay, false otherwise.
+     */
+    public boolean isAfter(TimeOfDay timeOfDay) {
+        return this.milliSeconds>timeOfDay.getMilliSeconds();
+    }
+
+    /**
+     * Tests if this TimeOfDay is before the specified TimeOfDay.
+     * @param timeOfDay the specified TimeOfDay
+     * @return true if this TimeOfDay is before the specified TimeOfDay, false otherwise.
+     */
+    public boolean isBefore(TimeOfDay timeOfDay) {
+        return this.milliSeconds<timeOfDay.getMilliSeconds();
+    }
+
+    /**
+     * Compares two TimeOfDays for equality. The result is true if and
+     * only if the argument is not null and is a TimeOfDay object that represents the same
+     * point in time, to the millisecond, as this object.
+     * @param obj the object to compare with
+     * @return true if the objects are the same; false otherwise.
+     */
+    public boolean equals (Object obj) {
+        TimeOfDay timeOfDay = (TimeOfDay) obj;
+        return this.milliSeconds==timeOfDay.getMilliSeconds();
     }
 }

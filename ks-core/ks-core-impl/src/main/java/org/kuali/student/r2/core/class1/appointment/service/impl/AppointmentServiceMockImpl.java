@@ -5,6 +5,7 @@
 package org.kuali.student.r2.core.class1.appointment.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -25,13 +26,21 @@ import java.util.Map;
  *
  * @author nwright
  */
-public class AppointmentServiceMockImpl implements AppointmentService {
+public class AppointmentServiceMockImpl implements AppointmentService, MockService {
 
     private Map<String, AppointmentWindowInfo> windows = new LinkedHashMap<String, AppointmentWindowInfo>();
     private Map<String, AppointmentSlotInfo> slots = new LinkedHashMap<String, AppointmentSlotInfo>();
     private Map<String, AppointmentInfo> appointments = new LinkedHashMap<String, AppointmentInfo>();
 
+    
     @Override
+	public void clear() {
+    	this.appointments.clear();
+    	this.slots.clear();
+    	this.windows.clear();
+	}
+
+	@Override
     public AppointmentInfo createAppointment(String personId,
             String appointmentSlotId,
             String appointmentTypeKey,

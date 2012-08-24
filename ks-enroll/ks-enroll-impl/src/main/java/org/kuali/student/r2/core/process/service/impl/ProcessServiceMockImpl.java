@@ -13,6 +13,7 @@
 package org.kuali.student.r2.core.process.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -51,7 +52,7 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class ProcessServiceMockImpl
-        implements ProcessService {
+        implements ProcessService, MockService {
 
     ///////////////////////////
     // Data Variables
@@ -74,6 +75,8 @@ public class ProcessServiceMockImpl
     ////////////////////////////////
     // FUNCTIONALS
     ////////////////////////////////
+    
+    
     @Override
     public ProcessCategoryInfo getProcessCategory(String processCategoryId,
             ContextInfo contextInfo)
@@ -89,6 +92,16 @@ public class ProcessServiceMockImpl
     }
 
     @Override
+	public void clear() {
+		this.checkMap.clear();
+		this.instructionMap.clear();
+		this.processCategoriesForProcessMap.clear();
+		this.processCategoryMap.clear();
+		this.processMap.clear();
+
+	}
+
+	@Override
     public List<ProcessCategoryInfo> getProcessCategoriesByIds(List<String> processCategoryIds,
             ContextInfo contextInfo)
             throws DoesNotExistException,

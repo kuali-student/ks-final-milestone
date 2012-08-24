@@ -1,21 +1,22 @@
 package org.kuali.student.enrollment.class2.courseofferingset.model;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResult;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
-import javax.persistence.*;
-import java.text.ParseException;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
