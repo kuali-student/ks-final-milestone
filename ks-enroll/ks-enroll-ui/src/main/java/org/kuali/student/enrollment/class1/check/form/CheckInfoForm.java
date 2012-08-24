@@ -44,7 +44,8 @@ public class CheckInfoForm extends UifFormBase {
     private CheckInfo  checkInfo;
     private List<CheckInfo> checkInfoList;
     private String holdName;
-
+    private String processName;
+    private String eventcalendar;
 
     public CheckInfoForm() {
         super();
@@ -168,6 +169,24 @@ public class CheckInfoForm extends UifFormBase {
 
     public void setHoldName(String holdName) {
         this.holdName = holdName;
+    }
+
+
+    public String getEventcalendar() {
+        return eventcalendar;
+    }
+
+    public void setEventcalendar(String eventcalendar) {
+        this.eventcalendar = eventcalendar;
+    }
+
+
+    public String getProcessName() {
+        return processName;
+    }
+
+    public void setProcessName(String processName) {
+        this.processName = processName;
     }
 
 }

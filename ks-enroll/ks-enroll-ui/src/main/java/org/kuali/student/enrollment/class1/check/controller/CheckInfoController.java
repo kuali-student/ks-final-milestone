@@ -156,7 +156,10 @@ public class CheckInfoController extends UifControllerBase {
        CheckInfo checkInfo = new CheckInfo();
        checkInfo.setName(createForm.getName());
        checkInfo.setTypeKey(createForm.getTypeKey());
-       checkInfo.setStateKey(createForm.getStateKey());
+       checkInfo.setStateKey("kuali.process.check.state.active");
+       checkInfo.setChildProcessKey(createForm.getChildProcessKey());
+       checkInfo.setHoldIssueId(createForm.getHoldIssueId());
+       checkInfo.setMilestoneTypeKey(createForm.getMilestoneTypeKey());
         RichTextInfo richTextInfo = new RichTextInfo();
         richTextInfo.setPlain(createForm.getDescr());
        checkInfo.setDescr(richTextInfo);
@@ -166,10 +169,12 @@ public class CheckInfoController extends UifControllerBase {
            processService = getProcessService();
            processService.createCheck(checkInfo.getTypeKey(), checkInfo, getContextInfo());
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Create new failed. ", e);
+            return getUIFModelAndView(createForm);
         }
 
+       createForm.setValidateDirty(false);
+       createForm.setStateKey(checkInfo.getStateKey());
+       createForm.setCheckInfo(checkInfo);
        return close(createForm, result, request, response);
     }
 

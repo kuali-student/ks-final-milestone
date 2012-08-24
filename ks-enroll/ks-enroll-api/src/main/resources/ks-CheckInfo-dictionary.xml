@@ -50,6 +50,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CheckInfo.typeKey" parent="CheckInfo.typeKey-parent"/>
 	<bean id="CheckInfo.typeKey-parent" abstract="true" parent="CheckInfo.typeKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="required" value="true"/>
 	</bean>
 
 	<bean id="CheckInfo.stateKey" parent="CheckInfo.stateKey-parent"/>
@@ -60,6 +61,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CheckInfo.name" parent="CheckInfo.name-parent"/>
 	<bean id="CheckInfo.name-parent" abstract="true" parent="CheckInfo.name-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="required" value="true"/>
 	</bean>
 
 	<bean id="CheckInfo.descr" parent="CheckInfo.descr-parent"/>
@@ -80,11 +82,41 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CheckInfo.holdIssueId" parent="CheckInfo.holdIssueId-parent"/>
 	<bean id="CheckInfo.holdIssueId-parent" abstract="true" parent="CheckInfo.holdIssueId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="caseConstraint">
+            <bean parent="CaseConstraint">
+                <property name="propertyName" value="typeKey" />
+                <property name="whenConstraint">
+                    <list>
+                        <bean parent="WhenConstraint">
+                            <property name="value" value="hold" />
+                            <property name="constraint">
+                                <bean parent="RequiredConstraint" />
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="CheckInfo.milestoneTypeKey" parent="CheckInfo.milestoneTypeKey-parent"/>
 	<bean id="CheckInfo.milestoneTypeKey-parent" abstract="true" parent="CheckInfo.milestoneTypeKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="caseConstraint">
+            <bean parent="CaseConstraint">
+                <property name="propertyName" value="typeKey" />
+                <property name="whenConstraint">
+                    <list>
+                        <bean parent="WhenConstraint">
+                            <property name="value" value="milestone" />
+                            <property name="constraint">
+                                <bean parent="RequiredConstraint" />
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="CheckInfo.agendaId" parent="CheckInfo.agendaId-parent"/>
@@ -95,6 +127,21 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CheckInfo.childProcessKey" parent="CheckInfo.childProcessKey-parent"/>
 	<bean id="CheckInfo.childProcessKey-parent" abstract="true" parent="CheckInfo.childProcessKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="caseConstraint">
+            <bean parent="CaseConstraint">
+                <property name="propertyName" value="typeKey" />
+                <property name="whenConstraint">
+                    <list>
+                        <bean parent="WhenConstraint">
+                            <property name="value" value="process" />
+                            <property name="constraint">
+                                <bean parent="RequiredConstraint" />
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="CheckInfo.rightComparisonValue" parent="CheckInfo.rightComparisonValue-parent"/>

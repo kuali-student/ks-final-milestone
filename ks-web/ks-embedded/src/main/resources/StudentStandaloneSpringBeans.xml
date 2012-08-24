@@ -85,7 +85,7 @@
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarEditPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicTermPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicTermLookupView.xml</value>
-
+                <value>classpath:org/kuali/student/enrollment/acal/AcalEventInfoLookupView.xml</value>
                 <!-- Appointments -->
                 <value>classpath:org/kuali/student/enrollment/appointment/RegistrationWindowsEditPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/appointment/SelectTermForRegWindowsPage.xml</value>
