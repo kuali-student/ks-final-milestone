@@ -3,6 +3,7 @@ package org.kuali.student.krms.util;
 import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.*;
 import org.kuali.rice.krms.framework.engine.*;
+import org.kuali.student.common.util.krms.ManualContextProvider;
 
 import java.util.*;
 
