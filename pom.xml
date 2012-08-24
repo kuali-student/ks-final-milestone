@@ -641,6 +641,12 @@
                 <groupId>commons-digester</groupId>
                 <artifactId>commons-digester</artifactId>
                 <version>${commons.digester.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>commons-beanutils</artifactId>
+                        <groupId>commons-beanutils</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- Should use the rice beantutils override to prevent rice data dictionary validation errors.
             <dependency>
@@ -685,6 +691,18 @@
                     <exclusion>
                         <groupId>commons-beanutils</groupId>
                         <artifactId>commons-beanutils</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.struts</groupId>
+                        <artifactId>struts-taglib</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.struts</groupId>
+                        <artifactId>struts-tiles</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.struts</groupId>
+                        <artifactId>struts-core</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
