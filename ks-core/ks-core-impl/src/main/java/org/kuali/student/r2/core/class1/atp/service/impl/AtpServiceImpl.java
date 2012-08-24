@@ -9,6 +9,7 @@ import javax.jws.WebParam;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
+import org.kuali.student.r1.common.dao.SearchableDao;
 import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r1.common.search.service.SearchDispatcher;
 import org.kuali.student.r1.common.search.service.SearchManager;
@@ -50,7 +51,7 @@ public class AtpServiceImpl implements AtpService {
     private AtpMilestoneRelationDao atpMilestoneRelationDao;
     private CriteriaLookupService criteriaLookupService;
     private SearchManager searchManager;
-    private SearchDispatcher searchDispatcher;
+    private SearchableDao searchableDao;     //Remove this, just a temp fix to get CM running.
 
     public AtpDao getAtpDao() {
         return atpDao;
@@ -90,6 +91,14 @@ public class AtpServiceImpl implements AtpService {
 
     public CriteriaLookupService getCriteriaLookupService() {
         return criteriaLookupService;
+    }
+
+    public SearchableDao getSearchableDao() {
+        return searchableDao;
+    }
+
+    public void setSearchableDao(SearchableDao searchableDao) {
+        this.searchableDao = searchableDao;
     }
 
     /**
@@ -178,7 +187,7 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        return this.searchDispatcher.dispatchSearch(searchRequest);
+        return this.searchManager.search(searchRequest, searchableDao);
     }
 
 

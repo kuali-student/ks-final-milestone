@@ -152,7 +152,7 @@
     <!-- Atp Service Config -->
     <bean id="atpEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
         <property name="persistenceUnitName" value="Atp"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/atp-persistence.xml" />
+        <property name="persistenceXmlLocation" value="classpath:META-INF/atp-core-persistence.xml" />
         <property name="dataSource" ref="coreDataSource" />
     </bean>
 
@@ -165,10 +165,16 @@
         <property name="em" ref="atpEntityManager" />
     </bean>
 
+    <bean id="atpSearchableDao"
+          class="org.kuali.student.r1.core.atp.dao.impl.AtpDaoImpl">
+        <property name="em" ref="atpEntityManager"/>
+    </bean>
+
     <bean id="atpServiceImpl"
           class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
+        <property name="searchableDao" ref="atpSearchableDao"/>
     </bean>
 
     <bean id="atpSearchManager"
@@ -529,9 +535,9 @@
     <bean id="atpServiceClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r2.core.atp.service.AtpService"/>
+                  value="org.kuali.student.r1.core.atp.service.AtpService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/atp}AtpService"/>
+                  value="{http://student.kuali.org/wsdl/atpr1}AtpServiceR1"/>
     </bean>
 
 

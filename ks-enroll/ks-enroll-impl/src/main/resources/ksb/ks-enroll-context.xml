@@ -91,8 +91,26 @@
     <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
     <!-- <property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
     <property name="criteriaLookupService" ref="criteriaLookupService"/>
-      <property name="searchManager" ref="atpSearchManager"/>
+    <property name="searchManager" ref="atpSearchManager"/>
+    <property name="searchableDao" ref="atpSearchableDao"/>
   </bean>
+
+    <!-- Temp ATP fix for CM : Start -->
+    <bean id="atpEntityManagerFactory" parent="enrollDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Atp"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/atp-core-persistence.xml" />
+        <property name="dataSource" ref="enrollDataSource" />
+    </bean>
+
+    <bean id="atpEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="atpEntityManagerFactory" />
+    </bean>
+
+    <bean id="atpSearchableDao"
+          class="org.kuali.student.r1.core.atp.dao.impl.AtpDaoImpl">
+        <property name="em" ref="atpEntityManager"/>
+    </bean>
+    <!-- Temp ATP fix for CM : End -->
 
     <bean id="atpSearchManager"
           class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
