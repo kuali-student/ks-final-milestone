@@ -128,45 +128,37 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
         </dependency>
 
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-web</artifactId>
-            <version>${kuali.rice.version}</version>
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
-            <version>${kuali.rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krms-impl</artifactId>
-            <version>${kuali.rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-kns</artifactId>
-            <version>${kuali.rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-edl-impl</artifactId>
-            <version>${kuali.rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-ksb-web</artifactId>
-            <version>${kuali.rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-development-tools</artifactId>
-            <version>${kuali.rice.version}</version>
         </dependency>
 
 
