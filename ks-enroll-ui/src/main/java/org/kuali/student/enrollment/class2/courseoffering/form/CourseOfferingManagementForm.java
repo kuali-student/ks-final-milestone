@@ -48,6 +48,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     private String toBeScheduledCourseOfferingsUI;
     private int toBeScheduledCourseOfferingsCount;
+    private boolean selectedIllegalAOInDeletion = false;
 
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
@@ -282,5 +283,13 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setToBeScheduledCourseOfferingsCount(int toBeScheduledCourseOfferingsCount) {
         this.toBeScheduledCourseOfferingsCount = toBeScheduledCourseOfferingsCount;
+    }
+
+    public boolean isSelectedIllegalAOInDeletion() {
+        return selectedIllegalAOInDeletion;
+    }
+
+    public void setSelectedIllegalAOInDeletion(boolean selectedIllegalAOInDeletion) {
+        this.selectedIllegalAOInDeletion = selectedIllegalAOInDeletion;
     }
 }
