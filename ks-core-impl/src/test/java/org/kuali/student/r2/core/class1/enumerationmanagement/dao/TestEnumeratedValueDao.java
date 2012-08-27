@@ -23,27 +23,38 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumContextValueEntity;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedValueEntity;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
 
-@PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
+@PersistenceFileLocation("classpath:META-INF/enumeration-persistence-test.xml")
 public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao", testSqlFile = "classpath:ks-em.sql")
     public EnumeratedValueDao enumeratedValueDao;
 
     @Dao(value = "org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao")
     public EnumerationDao enumerationDao;
-    
+
+    private String principalId = "123";
+
+    private ContextInfo context = new ContextInfo();
+
+    @Before
+    public void setup() {
+        context.setPrincipalId(principalId);
+    }
+
     @Test
     public void testAddEnumeratedValue() {
         
         EnumerationEntity keyA = enumerationDao.find("kuali.lu.subjectArea");
-                
+
         EnumeratedValueEntity entity = new EnumeratedValueEntity();
         entity.setEnumeration(keyA);
         entity.setAbbrevValue("AbbrevA");
@@ -52,10 +63,12 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         entity.setExpirationDate(new Date(System.currentTimeMillis()+10000000L));
         entity.setSortKey("1");
         entity.setValue("ValueA");
+        entity.setEntityCreated(context);
 
         EnumContextValueEntity contextEntity = new EnumContextValueEntity();
         contextEntity.setContextKey("type A");
         contextEntity.setContextValue("context value A");
+        contextEntity.setEntityCreated(context);
         
         entity.getContextValueEntities().add(contextEntity);
         List<EnumeratedValueEntity> entityList = new ArrayList<EnumeratedValueEntity>();
@@ -132,18 +145,22 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         EnumContextValueEntity contextEntity1 = new EnumContextValueEntity();
         contextEntity1.setContextKey("country");
         contextEntity1.setContextValue("US");
+        contextEntity1.setEntityCreated(context);
         
         EnumContextValueEntity contextEntity2 = new EnumContextValueEntity();
         contextEntity2.setContextKey("country");
         contextEntity2.setContextValue("US");
+        contextEntity2.setEntityCreated(context);
         
         EnumContextValueEntity contextEntity3 = new EnumContextValueEntity();
         contextEntity3.setContextKey("country");
         contextEntity3.setContextValue("CA");
+        contextEntity3.setEntityCreated(context);
         
         EnumContextValueEntity contextEntity4 = new EnumContextValueEntity();
         contextEntity4.setContextKey("country");
         contextEntity4.setContextValue("CA");
+        contextEntity4.setEntityCreated(context);
         
         entity1.getContextValueEntities().add(contextEntity1);
         List<EnumeratedValueEntity> entityList1 = new ArrayList<EnumeratedValueEntity>();
@@ -164,7 +181,12 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         List<EnumeratedValueEntity> entityList4 = new ArrayList<EnumeratedValueEntity>();
         entityList4.add(entity4);
         contextEntity4.setEnumeratedValueList(entityList4);
-        
+
+        entity1.setEntityCreated(context);
+        entity2.setEntityCreated(context);
+        entity3.setEntityCreated(context);
+        entity4.setEntityCreated(context);
+
         enumeratedValueDao.persist(entity1);
         enumeratedValueDao.persist(entity2);
         enumeratedValueDao.persist(entity3);
@@ -243,6 +265,7 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         keyA.setEnumerationType(existing.getEnumerationType());
         keyA.setEnumerationState(existing.getEnumerationState());
         keyA.setName("KeyA");
+        keyA.setEntityCreated(context);
         
     	EnumeratedValueEntity entity = new EnumeratedValueEntity();
         entity.setEnumeration(keyA);
@@ -256,11 +279,14 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         EnumContextValueEntity contextEntity = new EnumContextValueEntity();
         contextEntity.setContextKey("type testA");
         contextEntity.setContextValue("context value testA");
+        contextEntity.setEntityCreated(context);
         
         entity.getContextValueEntities().add(contextEntity);
         List<EnumeratedValueEntity> entityList = new ArrayList<EnumeratedValueEntity>();
         entityList.add(entity);
         contextEntity.setEnumeratedValueList(entityList);
+
+        entity.setEntityCreated(context);
 
         enumeratedValueDao.persist(entity);
         
@@ -284,6 +310,7 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         keyB.setDescrPlain("KeyB plain description");
         keyB.setEnumerationType(existing.getEnumerationType());
         keyB.setEnumerationState(existing.getEnumerationState());
+        keyB.setEntityCreated(context);
         
         EnumerationEntity entity = new EnumerationEntity();
         entity.setName("Name3");
@@ -291,6 +318,7 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         entity.setDescrPlain("entity plain description");
         entity.setEnumerationType(existing.getEnumerationType());
         entity.setEnumerationState(existing.getEnumerationState());
+        entity.setEntityCreated(context);
         
     	EnumeratedValueEntity enumValue = new EnumeratedValueEntity();
         enumValue.setEnumeration(keyB);
@@ -305,11 +333,14 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         EnumContextValueEntity contextEntity = new EnumContextValueEntity();
         contextEntity.setContextKey("type testB");
         contextEntity.setContextValue("context value testB");
+        contextEntity.setEntityCreated(context);
         
         enumValue.getContextValueEntities().add(contextEntity);
         List<EnumeratedValueEntity> entityList = new ArrayList<EnumeratedValueEntity>();
         entityList.add(enumValue);
         contextEntity.setEnumeratedValueList(entityList);
+
+        enumValue.setEntityCreated(context);
                 
         enumeratedValueDao.persist(enumValue);
         EnumeratedValueEntity enumeratedValue = enumeratedValueDao.getByEnumerationKeyAndCode("Key3", "CodeB");
