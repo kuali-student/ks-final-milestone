@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.r2.core.exemption.service;
+package org.kuali.student.r2.core.exemption.service.impl;
 
 import java.util.*;
 
@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.dto.ExemptionRequestInfo;
+import org.kuali.student.r2.core.exemption.service.ExemptionService;
 
 public class ExemptionServiceMockImpl implements ExemptionService, MockService {
 

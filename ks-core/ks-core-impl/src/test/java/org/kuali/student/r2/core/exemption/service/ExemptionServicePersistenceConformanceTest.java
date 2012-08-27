@@ -4,17 +4,19 @@
  */
 package org.kuali.student.r2.core.exemption.service;
 
-import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.ExemptionServiceConstants;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.dto.ExemptionRequestInfo;
+import org.kuali.student.r2.core.exemption.service.impl.ExemptionServiceMockImpl;
+
+import java.util.Date;
 
 /**
  *
@@ -67,41 +69,41 @@ public class ExemptionServicePersistenceConformanceTest {
         ExemptionInfo result = instance.createExemption(exemptionRequestId, info.getTypeKey(), info, contextInfo);
         Date after = new Date();
         if (result == info) {
-            fail("returned object should not be the same as the one passed in");
+            Assert.fail("returned object should not be the same as the one passed in");
         }
-        assertNotNull(result.getId());
-        assertEquals(info.getTypeKey(), result.getTypeKey());
-        assertEquals(info.getStateKey(), result.getStateKey());
-        assertEquals(info.getPersonId(), result.getPersonId());
-        assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
+        Assert.assertNotNull(result.getId());
+        Assert.assertEquals(info.getTypeKey(), result.getTypeKey());
+        Assert.assertEquals(info.getStateKey(), result.getStateKey());
+        Assert.assertEquals(info.getPersonId(), result.getPersonId());
+        Assert.assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
         if (result.getMeta().getCreateTime().before(before)) {
-            fail("create time should not be before the call");
+            Assert.fail("create time should not be before the call");
         }
         if (result.getMeta().getCreateTime().after(after)) {
-            fail("create time should not be after the call");
+            Assert.fail("create time should not be after the call");
         }
         if (result.getMeta().getUpdateTime().before(before)) {
-            fail("update time should not be before the call");
+            Assert.fail("update time should not be before the call");
         }
         if (result.getMeta().getUpdateTime().after(after)) {
-            fail("update time should not be after the call");
+            Assert.fail("update time should not be after the call");
         }
-        assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getUpdateId());
-        assertNotNull(result.getMeta().getVersionInd());
+        Assert.assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getUpdateId());
+        Assert.assertNotNull(result.getMeta().getVersionInd());
 
         // READ/get
         info = new ExemptionInfo(result);
 
         result = instance.getExemption(info.getId(), contextInfo);
-        assertEquals(result.getId(), info.getId());
-        assertEquals(result.getTypeKey(), info.getTypeKey());
-        assertEquals(result.getStateKey(), info.getStateKey());
-        assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
-        assertEquals(result.getMeta().getUpdateId(), info.getMeta().getUpdateId());
-        assertEquals(result.getMeta().getCreateTime(), info.getMeta().getCreateTime());
-        assertEquals(result.getMeta().getUpdateTime(), info.getMeta().getUpdateTime());
-        assertEquals(result.getMeta().getVersionInd(), info.getMeta().getVersionInd());
-        assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
+        Assert.assertEquals(result.getId(), info.getId());
+        Assert.assertEquals(result.getTypeKey(), info.getTypeKey());
+        Assert.assertEquals(result.getStateKey(), info.getStateKey());
+        Assert.assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
+        Assert.assertEquals(result.getMeta().getUpdateId(), info.getMeta().getUpdateId());
+        Assert.assertEquals(result.getMeta().getCreateTime(), info.getMeta().getCreateTime());
+        Assert.assertEquals(result.getMeta().getUpdateTime(), info.getMeta().getUpdateTime());
+        Assert.assertEquals(result.getMeta().getVersionInd(), info.getMeta().getVersionInd());
+        Assert.assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
 
         // update
         info = new ExemptionInfo(result);
@@ -111,25 +113,25 @@ public class ExemptionServicePersistenceConformanceTest {
         result = instance.updateExemption(info.getId(), info, contextInfo);
         after = new Date();
         if (result == info) {
-            fail("returned object should not be the same as the one passed in");
+            Assert.fail("returned object should not be the same as the one passed in");
         }
-        assertEquals(info.getId(), result.getId());
-        assertEquals(info.getTypeKey(), result.getTypeKey());
-        assertEquals(info.getStateKey(), result.getStateKey());
-        assertEquals(info.getPersonId(), result.getPersonId());
-        assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
+        Assert.assertEquals(info.getId(), result.getId());
+        Assert.assertEquals(info.getTypeKey(), result.getTypeKey());
+        Assert.assertEquals(info.getStateKey(), result.getStateKey());
+        Assert.assertEquals(info.getPersonId(), result.getPersonId());
+        Assert.assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
         if (result.getMeta().getCreateTime().after(before)) {
-            fail("create time should be before the update call");
+            Assert.fail("create time should be before the update call");
         }
         if (result.getMeta().getUpdateTime().before(before)) {
-            fail("update time should not be before the call");
+            Assert.fail("update time should not be before the call");
         }
         if (result.getMeta().getUpdateTime().after(after)) {
-            fail("update time should not be after the call");
+            Assert.fail("update time should not be after the call");
         }
-        assertEquals(TEST_PRINCIPAL_ID2, result.getMeta().getUpdateId());
+        Assert.assertEquals(TEST_PRINCIPAL_ID2, result.getMeta().getUpdateId());
         if (info.getMeta().getVersionInd().compareTo(result.getMeta().getVersionInd()) >= 0) {
-            fail("version ind should be lexically greater than the old version id");
+            Assert.fail("version ind should be lexically greater than the old version id");
         }
 
         // delete
@@ -153,26 +155,26 @@ public class ExemptionServicePersistenceConformanceTest {
                 contextInfo);
         Date after = new Date();
         if (result == exemptionRequestInfo) {
-            fail("returned object should not be the same as the one passed in");
+            Assert.fail("returned object should not be the same as the one passed in");
         }
-        assertNotNull(result.getId());
-        assertEquals(exemptionRequestInfo.getTypeKey(), result.getTypeKey());
-        assertEquals(exemptionRequestInfo.getStateKey(), result.getStateKey());
-        assertEquals(exemptionRequestInfo.getPersonId(), result.getPersonId());
-        assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
+        Assert.assertNotNull(result.getId());
+        Assert.assertEquals(exemptionRequestInfo.getTypeKey(), result.getTypeKey());
+        Assert.assertEquals(exemptionRequestInfo.getStateKey(), result.getStateKey());
+        Assert.assertEquals(exemptionRequestInfo.getPersonId(), result.getPersonId());
+        Assert.assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
         if (result.getMeta().getCreateTime().before(before)) {
-            fail("create time should not be before the call");
+            Assert.fail("create time should not be before the call");
         }
         if (result.getMeta().getCreateTime().after(after)) {
-            fail("create time should not be after the call");
+            Assert.fail("create time should not be after the call");
         }
         if (result.getMeta().getUpdateTime().before(before)) {
-            fail("update time should not be before the call");
+            Assert.fail("update time should not be before the call");
         }
         if (result.getMeta().getUpdateTime().after(after)) {
-            fail("update time should not be after the call");
+            Assert.fail("update time should not be after the call");
         }
-        assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getUpdateId());
-        assertNotNull(result.getMeta().getVersionInd());
+        Assert.assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getUpdateId());
+        Assert.assertNotNull(result.getMeta().getVersionInd());
     }
 }

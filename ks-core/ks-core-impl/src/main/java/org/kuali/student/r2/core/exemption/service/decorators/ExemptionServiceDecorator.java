@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.r2.core.exemption.service;
+package org.kuali.student.r2.core.exemption.service.decorators;
 
 import java.util.Date;
 import java.util.List;
@@ -12,6 +12,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.dto.ExemptionRequestInfo;
+import org.kuali.student.r2.core.exemption.service.ExemptionService;
 
 /**
  *

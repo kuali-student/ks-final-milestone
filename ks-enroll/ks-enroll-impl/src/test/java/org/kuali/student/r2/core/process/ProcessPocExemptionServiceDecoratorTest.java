@@ -16,7 +16,7 @@ import org.kuali.student.r2.core.constants.ExemptionServiceConstants;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
-import org.kuali.student.r2.core.exemption.service.ExemptionServiceMockImpl;
+import org.kuali.student.r2.core.exemption.service.impl.ExemptionServiceMockImpl;
 import org.kuali.student.r2.core.process.service.impl.ProcessServiceDataLoader;
 
 import java.text.SimpleDateFormat;

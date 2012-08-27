@@ -12,7 +12,7 @@ import org.kuali.student.r2.core.exemption.dto.DateOverrideInfo;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.dto.ExemptionRequestInfo;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
-import org.kuali.student.r2.core.exemption.service.ExemptionServiceDecorator;
+import org.kuali.student.r2.core.exemption.service.decorators.ExemptionServiceDecorator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
