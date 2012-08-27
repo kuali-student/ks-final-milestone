@@ -694,7 +694,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
-        if(selectedAolist.size() > 0)  {
+        if(selectedAolist.size() > 0 && theForm.isSelectedIllegalAOInDeletion())  {
             GlobalVariables.getMessageMap().putWarningForSectionId("manageActivityOfferingsPage",
                     CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE);
         }
@@ -987,13 +987,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                         CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED);
             }
             return getUIFModelAndView(theForm);
+        }  else {
+            theForm.setSelectedIllegalAOInDeletion(false);
+            if (bEncounteredNonDraftAOInDeletion) {
+                theForm.setSelectedIllegalAOInDeletion(true);
+            }
         }
-        /*
-                    else {
-                        GlobalVariables.getMessageMap().putWarningForSectionId("selectedAoDeleteConfirmationPage",
-                                CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE);
-                    }
-        */
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
     }
