@@ -1,13 +1,12 @@
 package org.kuali.student.enrollment.courseoffering.infc;
 
-import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
 
 import java.util.List;
 
 
-public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
+public interface CourseOfferingDisplay extends IdNamelessEntity {
 
 
 
@@ -158,7 +157,5 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
      * @readOnly on updates
      */
     public String getTermName();
-
-
 
 }

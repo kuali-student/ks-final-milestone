@@ -19,7 +19,6 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -161,6 +160,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * primary activity type offerings.
      * 
      * @name Maximum Enrollment
+     * @readOnly
      * @impl maps to Lui.maximumEnrollment
      */
     public Integer getMaximumEnrollment();

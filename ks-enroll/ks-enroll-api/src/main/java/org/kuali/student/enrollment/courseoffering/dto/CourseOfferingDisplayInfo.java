@@ -1,6 +1,6 @@
 package org.kuali.student.enrollment.courseoffering.dto;
 
-import org.kuali.student.enrollment.courseoffering.infc.CourseOfferingAdminDisplay;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOfferingDisplay;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
@@ -15,10 +15,10 @@ import java.util.List;
  * @author Kuali Student Team (Sambit)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingAdminDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "courseId",
+@XmlType(name = "CourseOfferingDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "courseId",
         "termId", "courseOfferingCode", "courseOfferingTitle", "subjectArea","termName", "termCode", "displayGrading",
          "displayCredit","typeName", "stateName", "activtyOfferingTypes", "meta", "attributes", "_futureElements"})
-public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo implements CourseOfferingAdminDisplay, Serializable {
+public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements CourseOfferingDisplay, Serializable {
 
     @XmlElement
     private String courseId;
@@ -61,28 +61,28 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public CourseOfferingAdminDisplayInfo() {
+    public CourseOfferingDisplayInfo() {
 
     }
 
-    public CourseOfferingAdminDisplayInfo(CourseOfferingAdminDisplay courseOfferingAdminDisplay) {
+    public CourseOfferingDisplayInfo(CourseOfferingDisplay courseOfferingDisplay) {
 
-        super(courseOfferingAdminDisplay);
-        if (courseOfferingAdminDisplay != null) {
+        super(courseOfferingDisplay);
+        if (courseOfferingDisplay != null) {
 
-            this.termCode = courseOfferingAdminDisplay.getTermCode();
-            this.termName = courseOfferingAdminDisplay.getTermName();
-            this.termId = courseOfferingAdminDisplay.getTermId();
-            this.displayCredit = courseOfferingAdminDisplay.getDisplayCredit();
-            this.displayGrading = courseOfferingAdminDisplay.getDisplayGrading();
-            this.activtyOfferingTypes = new ArrayList<String>(courseOfferingAdminDisplay.getActivtyOfferingTypes());
-            this.typeName = courseOfferingAdminDisplay.getTypeName();
-            this.stateName = courseOfferingAdminDisplay.getStateName();
-            this.courseId = courseOfferingAdminDisplay.getCourseId();
-            this.termId = courseOfferingAdminDisplay.getTermId();
-            this.courseOfferingTitle = courseOfferingAdminDisplay.getCourseOfferingTitle();
-            this.courseOfferingCode = courseOfferingAdminDisplay.getCourseOfferingCode();
-            this.subjectArea = courseOfferingAdminDisplay.getSubjectArea();
+            this.termCode = courseOfferingDisplay.getTermCode();
+            this.termName = courseOfferingDisplay.getTermName();
+            this.termId = courseOfferingDisplay.getTermId();
+            this.displayCredit = courseOfferingDisplay.getDisplayCredit();
+            this.displayGrading = courseOfferingDisplay.getDisplayGrading();
+            this.activtyOfferingTypes = new ArrayList<String>(courseOfferingDisplay.getActivtyOfferingTypes());
+            this.typeName = courseOfferingDisplay.getTypeName();
+            this.stateName = courseOfferingDisplay.getStateName();
+            this.courseId = courseOfferingDisplay.getCourseId();
+            this.termId = courseOfferingDisplay.getTermId();
+            this.courseOfferingTitle = courseOfferingDisplay.getCourseOfferingTitle();
+            this.courseOfferingCode = courseOfferingDisplay.getCourseOfferingCode();
+            this.subjectArea = courseOfferingDisplay.getSubjectArea();
         }
     }
 

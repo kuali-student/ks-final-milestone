@@ -22,10 +22,10 @@ import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingAdminDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingAdminDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -1331,7 +1331,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	}
 
 	@Override
-	public CourseOfferingAdminDisplayInfo getCourseOfferingAdminDisplay(
+	public CourseOfferingDisplayInfo getCourseOfferingDisplay(
 			String courseOfferingId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -1340,7 +1340,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	}
 
 	@Override
-	public List<CourseOfferingAdminDisplayInfo> getCourseOfferingAdminDisplaysByIds(
+	public List<CourseOfferingDisplayInfo> getCourseOfferingDisplaysByIds(
 			List<String> courseOfferingIds, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -1350,7 +1350,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	}
 
 	@Override
-	public ActivityOfferingAdminDisplayInfo getActivityOfferingAdminDisplay(
+	public ActivityOfferingDisplayInfo getActivityOfferingDisplay(
 			String activityOfferingId, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -1359,7 +1359,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	}
 
 	@Override
-	public List<ActivityOfferingAdminDisplayInfo> getActivityOfferingAdminDisplaysByIds(
+	public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByIds(
 			List<String> activityOfferingIds, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -1368,7 +1368,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	}
 
 	@Override
-	public List<ActivityOfferingAdminDisplayInfo> getActivityOfferingAdminDisplaysForCourseOffering(
+	public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysForCourseOffering(
 			String courseOfferingId, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,

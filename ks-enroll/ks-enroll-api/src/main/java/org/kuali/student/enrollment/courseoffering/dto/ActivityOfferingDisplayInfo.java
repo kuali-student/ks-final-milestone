@@ -16,8 +16,6 @@
 
 package org.kuali.student.enrollment.courseoffering.dto;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -26,24 +24,24 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingAdminDisplay;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import org.w3c.dom.Element;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ActivityOfferingAdminDisplayInfo", propOrder = {
+@XmlType(name = "ActivityOfferingDisplayInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
                 "typeName", "stateName", "courseOfferingTitle",
                 "courseOfferingCode", "formatOfferingId", "formatOfferingName",
-                "activityOfferingCode", "instructorId",  "instructorName", 
+                "activityOfferingCode", "instructorId",  "instructorName", "isHonorsOffering", "location",
                 "scheduleWeekdays", "scheduleTime",
                 "meta", "attributes", "_futureElements"})
 
-public class ActivityOfferingAdminDisplayInfo 
+public class ActivityOfferingDisplayInfo
     extends IdEntityInfo 
-    implements ActivityOfferingAdminDisplay {
+    implements ActivityOfferingDisplay {
 
     private static final long serialVersionUID = 1L;
 
@@ -72,7 +70,13 @@ public class ActivityOfferingAdminDisplayInfo
     private String instructorId;   
 
     @XmlElement
-    private String instructorName;   
+    private String instructorName;
+
+    @XmlElement
+    private Boolean isHonorsOffering;
+
+    @XmlElement
+    private String location;
 
     @XmlElement
     private String scheduleWeekdays;
@@ -85,35 +89,37 @@ public class ActivityOfferingAdminDisplayInfo
 
 
     /**
-     * Constructs a new ActivityOfferingAdminDisplayInfo.
+     * Constructs a new ActivityOfferingDisplayInfo.
      */
-    public ActivityOfferingAdminDisplayInfo() {
+    public ActivityOfferingDisplayInfo() {
     }
 
     /**
-     * Constructs a new ActivityOfferingAdminDisplayInfo from another
-     * ActivityOfferingAdminDisplay.
+     * Constructs a new ActivityOfferingDisplayInfo from another
+     * ActivityOfferingDisplay.
      *
-     * @param offeringAdmin the activity offering admin display to copy
+     * @param offeringDisplay the activity offering admin display to copy
      */
-    public ActivityOfferingAdminDisplayInfo(ActivityOfferingAdminDisplay offeringAdmin) {
-        super(offeringAdmin); 
+    public ActivityOfferingDisplayInfo(ActivityOfferingDisplay offeringDisplay) {
+        super(offeringDisplay);
         
-        if (offeringAdmin == null) {
+        if (offeringDisplay == null) {
             return;
         }
 
-        this.typeName = offeringAdmin.getTypeName();
-        this.stateName = offeringAdmin.getStateName();
-        this.courseOfferingTitle = offeringAdmin.getCourseOfferingTitle();
-        this.courseOfferingCode = offeringAdmin.getCourseOfferingCode();
-        this.formatOfferingId = offeringAdmin.getFormatOfferingId();
-        this.formatOfferingName = offeringAdmin.getFormatOfferingName();
-        this.activityOfferingCode = offeringAdmin.getActivityOfferingCode();
-        this.instructorId = offeringAdmin.getInstructorId();
-        this.instructorName = offeringAdmin.getInstructorName();
-        this.scheduleWeekdays = offeringAdmin.getScheduleWeekdays();
-        this.scheduleTime = offeringAdmin.getScheduleTime();
+        this.typeName = offeringDisplay.getTypeName();
+        this.stateName = offeringDisplay.getStateName();
+        this.courseOfferingTitle = offeringDisplay.getCourseOfferingTitle();
+        this.courseOfferingCode = offeringDisplay.getCourseOfferingCode();
+        this.formatOfferingId = offeringDisplay.getFormatOfferingId();
+        this.formatOfferingName = offeringDisplay.getFormatOfferingName();
+        this.activityOfferingCode = offeringDisplay.getActivityOfferingCode();
+        this.instructorId = offeringDisplay.getInstructorId();
+        this.instructorName = offeringDisplay.getInstructorName();
+        this.isHonorsOffering = offeringDisplay.getIsHonorsOffering();
+        this.location = offeringDisplay.getLocation();
+        this.scheduleWeekdays = offeringDisplay.getScheduleWeekdays();
+        this.scheduleTime = offeringDisplay.getScheduleTime();
     }
 
     @Override
@@ -195,6 +201,24 @@ public class ActivityOfferingAdminDisplayInfo
 
     public void setInstructorName(String instructorName) {
         this.instructorName = instructorName;
+    }
+
+    @Override
+    public Boolean getIsHonorsOffering() {
+        return this.isHonorsOffering;
+    }
+
+    public void setIsHonorsOffering(Boolean isHonorsOffering) {
+        this.isHonorsOffering = isHonorsOffering;
+    }
+
+    @Override
+    public String getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     @Override

@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  *
  * @author tom
  */
-public interface ActivityOfferingAdminDisplay
+public interface ActivityOfferingDisplay
     extends IdEntity {
 
     /**
@@ -122,7 +122,7 @@ public interface ActivityOfferingAdminDisplay
     public String getInstructorId();
 
     /**
-     * Gets the iname of the nstructor of record for this
+     * Gets the name of the instructor of record for this
      * ActivityOffering.
      *
      * @name Instructor Display Name
@@ -130,6 +130,21 @@ public interface ActivityOfferingAdminDisplay
      * @impl ActivityOffering.OfferingInstructor.Person.name
      */
     public String getInstructorName();
+
+    /**
+     * Indicates that the Activity Offering is an Honors option
+     *
+     * @readOnly
+     * @impl 'H' icon displayed if true
+     */
+    public Boolean getIsHonorsOffering();
+
+    /**
+     * The building and room location
+     * @readOnly
+     * @impl "BAG 291A"
+     */
+    public String getLocation();
 
     /**
      * Gets a display string represnting the weekday pattern using
@@ -166,4 +181,5 @@ public interface ActivityOfferingAdminDisplay
      *       ActivityOffering.Schedule.ScheduleComponents.TimeSlots.Duration
      */
     public String getScheduleTime();
+
 }
