@@ -245,7 +245,14 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 aoCount++;
             }
             // re-generating Reg Groups for given FO
-            generateRegistrationGroupsForFormatOffering(targetFo.getId(), context);
+            try {
+                List<RegistrationGroupInfo> regGroups = this._getCoService().getRegistrationGroupsByFormatOffering(sourceFo.getId(), context);
+                if (regGroups != null && !regGroups.isEmpty()) {
+                    generateRegistrationGroupsForFormatOffering(targetFo.getId(), context);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         // TODO: Need to get more info out of this method.  Services may need better way to allow for flexibility in
         // TODO: returning content to adjust for changes in service calls
