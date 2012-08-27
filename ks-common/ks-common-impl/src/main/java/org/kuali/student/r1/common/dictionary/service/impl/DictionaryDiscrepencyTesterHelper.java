@@ -143,7 +143,7 @@ public class DictionaryDiscrepencyTesterHelper
 
  private List<String> doTestOnClass (String className, ApplicationContext ac)
  {
-  ObjectStructureDefinition os =   os = objectStructures.get (className);
+  ObjectStructureDefinition os = objectStructures.get (className);
   String simpleName = calcSimpleName (className);
 //Debuggin System.out.println("processing " + simpleName);
   if (os == null)
