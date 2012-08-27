@@ -220,7 +220,7 @@
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="X" p:render="@{!#isAddLine}" />
+                            <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="X" p:render="@{!#isAddLine}" p:id="Delete @{#line.name}" />
                         </list>
                     </property>
 
