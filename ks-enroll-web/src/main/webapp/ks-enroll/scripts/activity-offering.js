@@ -29,8 +29,8 @@ function calculatePercent(jqObject){
 //    var seatLimitAdd =  jQuery('#seatLimit_add_control');
 //    var seatLimitPercentAdd =  jQuery('#seatLimitPercent_add #_span');
     var maxEnroll =  jQuery('#maximumEnrollment_control');
-    var seatpoolCount = jQuery('#seatpoolCount #_span');
-    var seatsRemaining = jQuery('#seatsRemaining #_span');
+    var seatpoolCount = jQuery('#seatpoolCount .uif-message');
+    var seatsRemaining = jQuery('#seatsRemaining .uif-message');
 
     var count = 0;
     var seatsTotal = 0;
