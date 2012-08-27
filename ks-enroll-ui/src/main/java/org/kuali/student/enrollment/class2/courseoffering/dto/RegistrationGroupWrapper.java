@@ -36,7 +36,9 @@ public class RegistrationGroupWrapper implements Serializable {
     private String aoInstructorText;
     private String aoMaxEnrText;
 
-    public RegistrationGroupWrapper() {}
+    public RegistrationGroupWrapper() {
+        rgInfo = new RegistrationGroupInfo();
+    }
 
     public RegistrationGroupInfo getRgInfo() {
         return rgInfo;
