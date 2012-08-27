@@ -39,7 +39,6 @@
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
