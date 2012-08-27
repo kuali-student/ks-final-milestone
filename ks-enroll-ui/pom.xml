@@ -36,9 +36,9 @@
             <artifactId>rice-impl</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.lum</groupId>
+            <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-lum-api</artifactId>
-            <version>${project.version}</version>
+            <version>${ks.api.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
