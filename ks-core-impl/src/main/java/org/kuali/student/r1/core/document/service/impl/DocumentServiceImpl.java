@@ -49,13 +49,15 @@ import org.kuali.student.r1.core.document.entity.RefObjectType;
 import org.kuali.student.r1.core.document.service.DocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.WebService;
+
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
  *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-//@WebService(endpointInterface = "org.kuali.student.r1.core.document.service.DocumentService", serviceName = "DocumentService", portName = "DocumentService", targetNamespace = "http://student.kuali.org/wsdl/documentService")
+@WebService(endpointInterface = "org.kuali.student.r1.core.document.service.DocumentService", serviceName = "DocumentService", portName = "DocumentService", targetNamespace = "http://student.kuali.org/wsdl/documentService")
 public class DocumentServiceImpl implements DocumentService {
     private DocumentDao dao;
     private DictionaryService dictionaryServiceDelegate;
