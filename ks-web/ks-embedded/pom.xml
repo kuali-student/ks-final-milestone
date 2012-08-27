@@ -312,7 +312,7 @@
         <dependency>
             <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-lum-api</artifactId>
-            <version>${ks.lum.version}</version>
+            <version>${ks.api.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
