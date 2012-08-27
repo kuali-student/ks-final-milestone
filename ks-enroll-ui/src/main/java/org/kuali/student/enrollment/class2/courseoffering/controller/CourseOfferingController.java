@@ -120,7 +120,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 if (StringUtils.isNotBlank(courseOfferingInfo.getGradingOptionId())){
 
                 }
-                co.setTermCode(termInfo.getName());
+                co.setTermCode(termInfo.getCode());
                 co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
                 co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
                 coWrapper.getExistingTermOfferings().add(co);
