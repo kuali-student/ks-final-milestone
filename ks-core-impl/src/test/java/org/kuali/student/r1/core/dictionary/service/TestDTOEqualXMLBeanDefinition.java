@@ -8,7 +8,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryDiscrepencyTesterHelper;
-import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r2.core.statement.dto.StatementInfo;
 
 public class TestDTOEqualXMLBeanDefinition {
 
