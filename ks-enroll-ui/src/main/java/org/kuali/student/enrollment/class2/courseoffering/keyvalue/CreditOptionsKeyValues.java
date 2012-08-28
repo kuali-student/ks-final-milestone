@@ -79,18 +79,20 @@ public class CreditOptionsKeyValues extends UifKeyValuesFinderBase implements Se
 
             for (ResultValuesGroupInfo rVGI : creditOptions) {
                 String value = null;
-                String key =  rVGI.getKey();
-                if(key.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                    value="Fixed";
-                } else if (key.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
-                    value="Variable";
-                } else if (key.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
-                    value="Multiple";
+                String translatedR2TypeKey = "";
+                String typeKey =  rVGI.getTypeKey();
+                if(typeKey.equals(LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED)||typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                    keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, "Fixed"));
+                } else if (typeKey.equals(LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_RANGE) || typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
+                    keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, "Fixed"));
+                    keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE, "Variable"));
+                    keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE, "Multiple"));
+                } else if (typeKey.equals(LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_MULTIPLE) || typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
+                    keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, "Fixed"));
+                    keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE, "Multiple"));
                 } else {
-                    value="Unknown Type";
+                    keyValues.add(new ConcreteKeyValue(typeKey, "Unknown Type"));
                 }
-
-                keyValues.add(new ConcreteKeyValue(rVGI.getKey(), value));
             }
         }
 
