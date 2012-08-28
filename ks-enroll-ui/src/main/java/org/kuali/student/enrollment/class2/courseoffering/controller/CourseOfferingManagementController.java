@@ -690,6 +690,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             for(ActivityOfferingWrapper ao : selectedAolist)  {
                 CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
             }
+
+            // check for changes to states in CO and related FOs
+            ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getTheCourseOffering(), ContextBuilder.loadContextInfo());
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -883,7 +887,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         if (StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
             StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
-            getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(), theForm.getSelectedOfferingAction());
+            getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(), theForm.getTheCourseOffering(), theForm.getSelectedOfferingAction());
         }
 
         // reload the AOs

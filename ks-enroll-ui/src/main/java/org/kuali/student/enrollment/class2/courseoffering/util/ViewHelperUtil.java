@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.identity.Person;
@@ -22,28 +23,42 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class //TODO ...
@@ -61,26 +76,6 @@ public class ViewHelperUtil {
 
     public static PersonService getPersonService() {
         return KimApiServiceLocator.getPersonService();
-    }
-
-    public static String buildDerivedFormatName(TypeService typeService, ContextInfo contextInfo, FormatInfo formatInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        StringBuilder formatNameBuilder = new StringBuilder();
-
-        // Create a derived name based on the activities, until https://jira.kuali.org/browse/KSENROLL-1518 is finished
-        List<ActivityInfo> activities = formatInfo.getActivities();
-        for (ActivityInfo activity : activities) {
-            if(formatNameBuilder.length() != 0) {
-                formatNameBuilder.append(" / ");
-            }
-            TypeInfo type = typeService.getType(activity.getTypeKey(), contextInfo);
-            formatNameBuilder.append(type.getName());
-        }
-
-        if(formatInfo.getActivities().size() == 1) {
-            formatNameBuilder.append(" Only");
-        }
-
-        return formatNameBuilder.toString();
     }
 
     public static List<KeyValue> collectActivityTypeKeyValues(CourseInfo course, TypeService typeService, ContextInfo contextInfo) {
@@ -140,7 +135,7 @@ public class ViewHelperUtil {
                     for (Float creditF : creditValuesF ){
                         creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
                     }
-                creditCount =  creditCount.substring(2);  //trim leading ", "
+                    creditCount =  creditCount.substring(2);  //trim leading ", "
                 }
             }
         } else { //Lookup original course values
@@ -224,5 +219,70 @@ public class ViewHelperUtil {
         }
 
         return result;
+    }
+
+    /**
+     * Evaluates whether to update the state of a Course Offering (and possibly its Format Offerings) based on
+     * the state of its Activity Offerings
+     *
+     * This is a utility method that combines logic for updating related objects when the state of one or more
+     * Activity Offerings is changed.
+     *
+     * @param coInfo the Course Offering to evaluate
+     */
+    public static void updateCourseOfferingStateFromActivityOfferingStateChange(CourseOfferingInfo coInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
+
+        CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
+
+        List<FormatOfferingInfo> formatOfferings = coService.getFormatOfferingsByCourseOffering(coInfo.getId(), context);
+
+        int draftAOCount;
+        int draftFOCount = 0;
+        String oldFoState, newFoState;
+        for (FormatOfferingInfo fo : formatOfferings) {
+            draftAOCount = 0;
+            oldFoState = fo.getStateKey();
+            newFoState = null;
+            List<ActivityOfferingInfo> activityOfferings = coService.getActivityOfferingsByFormatOffering(fo.getId(), context);
+            for (ActivityOfferingInfo ao : activityOfferings) {
+                if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, ao.getStateKey())) {
+                    draftAOCount++;
+                }
+            }
+
+            // if ALL the AOs within this FO are in a draft state (or if there are no AOs), and the current state of the FO is Planned, update the FO state to Draft
+            if((activityOfferings.size() == 0 || draftAOCount == activityOfferings.size()) && StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, fo.getStateKey())) {
+                newFoState =  LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY;
+
+            }
+            // otherwise if any AOs are in a non-draft state, and the FO is in a draft state, update the FO to Planned
+            else if (draftAOCount < activityOfferings.size() && StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY, fo.getStateKey())) {
+                newFoState = LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY;
+            }
+
+            if(newFoState != null && !StringUtils.equals(oldFoState, newFoState)) {
+                fo.setStateKey(newFoState);
+                coService.updateFormatOffering(fo.getId(), fo, context);
+            }
+
+            if (StringUtils.equals(fo.getStateKey(), LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY)) {
+                draftFOCount++;
+            }
+        }
+
+        String newCoState = null;
+        // if ALL the FOs within the CO are in a draft state (or there are no FOs), and the current state of the CO is Planned, update the CO state to Draft
+        if ((draftFOCount == formatOfferings.size() || formatOfferings.size() == 0) && StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY, coInfo.getStateKey())) {
+            newCoState = LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY;
+        }
+        // otherwise if any FOs are in a non-draft state, and the CO is in a draft state, update the CO to Planned
+        else if(draftFOCount < formatOfferings.size() && StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, coInfo.getStateKey())) {
+            newCoState = LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY;
+        }
+
+        if(newCoState != null) {
+            coInfo.setStateKey(newCoState);
+            coService.updateCourseOffering(coInfo.getId(), coInfo, context);
+        }
     }
 }

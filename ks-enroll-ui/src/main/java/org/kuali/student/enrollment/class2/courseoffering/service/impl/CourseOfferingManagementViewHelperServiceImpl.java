@@ -375,7 +375,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
      * @param selectedAction The state change action to perform.
      * @throws Exception
      */
-    public void changeActivityOfferingsState(List<ActivityOfferingWrapper> aoList, String selectedAction) throws Exception {
+    public void changeActivityOfferingsState(List<ActivityOfferingWrapper> aoList, CourseOfferingInfo courseOfferingInfo, String selectedAction) throws Exception {
         StateInfo draftState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, getContextInfo());
         StateInfo approvedState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, getContextInfo());
 
@@ -416,6 +416,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 }
             }
         }
+
+        // check for changes to states in the related COs and FOs
+        ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(courseOfferingInfo, getContextInfo());
     }
 
     /**
@@ -437,14 +440,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
     public void markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers, boolean checkedOnly) throws Exception {
         boolean isErrorAdded = false;
         for (CourseOfferingEditWrapper coWrapper : coWrappers) {
-            boolean doCOStateChange = false;  // Flag to indicate whether the CO needs a state change.
             if ((coWrapper.getIsChecked() && checkedOnly) || ! checkedOnly) {
                 boolean isCOStateDraft =  StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, coWrapper.getCoInfo().getStateKey());
                 boolean isCOStatePlanned =  StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY, coWrapper.getCoInfo().getStateKey());
                 if (isCOStateDraft || isCOStatePlanned) {
-                    if (isCOStateDraft) {
-                        doCOStateChange = true;
-                    }
                     List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCoInfo().getId(),getContextInfo());
                     //  Iterate through the AOs and state change Draft -> Approved.
                     for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
@@ -466,14 +465,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                     }
                 }
             }
-            /*
-             * Change the CourseOffering state if necessary.
-             * If the state of the CO is "Draft" then iterate through AOs and FOs. If any are not in state draft then the state of the CO should be changed.
-             */
-            if (doCOStateChange) {
-                coWrapper.getCoInfo().setStateKey(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY);
-                getCourseOfferingService().updateCourseOffering(coWrapper.getCoInfo().getId(), coWrapper.getCoInfo(), getContextInfo());
-            }
+
+            // check for changes to states in CO and related FOs
+            ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coWrapper.getCoInfo(), getContextInfo());
         }
     }
 
