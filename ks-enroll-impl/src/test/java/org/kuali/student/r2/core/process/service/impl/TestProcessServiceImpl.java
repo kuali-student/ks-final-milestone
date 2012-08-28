@@ -102,6 +102,7 @@ public class TestProcessServiceImpl {
         processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
         // Create & Read
         CheckInfo check = new CheckInfo();
+        check.setName("kuali.process.check.is.alive");
         check.setAgendaId("AgendaId-1");
         check.setHoldIssueId("Hold-Issue-2");
         check.setMilestoneTypeKey("milestoneTypeKey-1");
@@ -120,6 +121,7 @@ public class TestProcessServiceImpl {
 
         // Update
         check.setHoldIssueId("Hold-Issue-1");
+        check.setName("kuali.process.check.is.not.expelled");
         check.setMilestoneTypeKey("milestoneTypeKey-2");
         check.setChildProcessKey(null);
         check.setAgendaId("AgendaId-2");
@@ -157,6 +159,7 @@ public class TestProcessServiceImpl {
         process.setTypeKey("kuali.process.process.type.dummy");
         processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
         CheckInfo check = new CheckInfo();
+        check.setName("kuali.process.check.is.not.suspended");
         check.setId("kuali.check.paid.bill.prior.term");
         check.setAgendaId("AgendaId-1");
         check.setHoldIssueId("Hold-Issue-2");
@@ -214,6 +217,7 @@ public class TestProcessServiceImpl {
         process.setTypeKey("kuali.process.process.type.dummy");
         processService.createProcess(processId, ProcessServiceConstants.PROCESS_TYPE_KEY, process, context);
         check = new CheckInfo();
+        check.setName("kuali.process.check.paid.all.fees");
         check.setId("kuali.check.has.overdue.library.book");
         check.setAgendaId("AgendaId-1");
         check.setHoldIssueId("Hold-Issue-2");
@@ -291,6 +295,7 @@ public class TestProcessServiceImpl {
 
         //Create Check to search
         CheckInfo check = new CheckInfo();
+        check.setName("Check Name");
         check.setId("kuali.check.paid.bill.prior.term");
         check.setAgendaId("AgendaId-1");
         check.setHoldIssueId("Hold-Issue-2");
