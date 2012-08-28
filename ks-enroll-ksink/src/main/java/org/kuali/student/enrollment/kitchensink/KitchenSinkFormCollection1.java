@@ -27,11 +27,13 @@ import java.util.Date;
  */
 public class KitchenSinkFormCollection1 {
 
+    private static Integer count = 0;
+
+    private Boolean selected;
     private Integer id;
     private String name;
     private String description;
     private Date date;
-    private static Integer count = 0;
 
     public KitchenSinkFormCollection1() { }
 
@@ -45,6 +47,14 @@ public class KitchenSinkFormCollection1 {
         catch (ParseException ex) {
             this.date = new Date();
         }
+    }
+
+    public Boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
     }
 
     public Integer getId() {

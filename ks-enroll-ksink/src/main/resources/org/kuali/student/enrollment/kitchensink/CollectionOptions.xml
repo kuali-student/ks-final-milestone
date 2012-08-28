@@ -69,7 +69,7 @@
             <!-- see http://datatables.net/ref for all options -->
             <bean parent="Uif-PagedRichTable">
                 <property name="templateOptions">
-                <map merge="true">
+                    <map merge="true">
                         <!-- bFilter removes "Search" field: -->
                         <entry key="bFilter" value="false"/>
                         <!-- bInfo removes "Page x of y" text: -->
@@ -136,7 +136,7 @@
                                     <bean parent="KS-KitchenSink-Link-To-Bare">
                                         <property name="finalizeMethodAdditionalArguments">
                                             <list>
-                                                <value>collectionOptions</value>
+                                                <value>collection</value>
                                             </list>
                                         </property>
                                     </bean>

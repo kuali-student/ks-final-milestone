@@ -26,38 +26,21 @@
         <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink">
-                    <property name="methodToCall" value="view"/>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image">
-                            <!-- TODO: use config param for image "source" -->
-                            <property name="source" value="/ks-embedded-dev/ks-enroll-ksink/images/view.png"/>
-                            <property name="title" value="View"/>
-                            <property name="altText" value="View"/>
-                        </bean>
-                    </property>
+                <bean parent="Uif-KsKrad-Button-ImageOnly">
+                    <property name="imageSource" value="../ks-enroll-ksink/images/view_text_16x16.png"/>
+                    <property name="title" value="View"/>
+                    <property name="actionScript" value="alert('View click');return false;"/>
                 </bean>
-                <bean parent="Uif-ActionLink">
-                    <property name="methodToCall" value="edit"/>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image">
-                            <!-- TODO: use config param for image "source" -->
-                            <property name="source" value="/ks-embedded-dev/ks-enroll-ksink/images/edit.png"/>
-                            <property name="title" value="Edit"/>
-                            <property name="altText" value="Edit"/>
-                        </bean>
-                    </property>
+                <bean parent="Uif-KsKrad-Button-ImageOnly">
+                    <property name="imageSource" value="../ks-enroll-ksink/images/edit_text_16x16.png"/>
+                    <property name="title" value="Edit"/>
+                    <property name="actionScript" value="alert('Edit click');return false;"/>
                 </bean>
-                <bean parent="Uif-ActionLink">
-                    <property name="methodToCall" value="delete"/>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image">
-                            <!-- TODO: use config param for image "source" -->
-                            <property name="source" value="/ks-embedded-dev/ks-enroll-ksink/images/delete.png"/>
-                            <property name="title" value="Delete"/>
-                            <property name="altText" value="Delete"/>
-                        </bean>
-                    </property>
+                <bean parent="Uif-KsKrad-Button-ImageOnly">
+                    <property name="imageSource" value="../ks-enroll-ksink/images/delete_16x16.png"/>
+                    <property name="imageSourceOnHover" value="../ks-enroll-ksink/images/delete2_16x16.png"/>
+                    <property name="title" value="Delete"/>
+                    <property name="actionScript" value="alert('Delete click');return false;"/>
                 </bean>
             </list>
         </property>
@@ -71,7 +54,7 @@
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-CollectionActionImages-Page">
-                    <property name="headerText" value="Collection Action Images"/>
+                    <property name="headerText" value="Collection Action Image Buttons"/>
                     <property name="footer">
                         <bean parent="Uif-VerticalBoxSection">
                             <property name="header.render" value="false"/>
@@ -83,7 +66,7 @@
                                         <property name="messageText">
                                             <value>
                                                 This example shows how to replace the action links in the "Actions"
-                                                column with image links.
+                                                column with image buttons.
                                             </value>
                                         </property>
                                     </bean>
@@ -100,7 +83,7 @@
                                     <bean parent="KS-KitchenSink-Link-To-Bare">
                                         <property name="finalizeMethodAdditionalArguments">
                                             <list>
-                                                <value>collectionOptions</value>
+                                                <value>collection</value>
                                             </list>
                                         </property>
                                     </bean>

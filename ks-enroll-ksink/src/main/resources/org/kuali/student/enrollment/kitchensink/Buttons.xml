@@ -24,28 +24,38 @@
 
     <bean id="KS-KitchenSink-Button-Primary" parent="Uif-PrimaryActionButton">
         <property name="actionLabel" value="Primary"/>
-        <property name="actionScript" value="alert('Click.');"/>
+        <property name="actionScript" value="alert('click');"/>
     </bean>
     <bean id="KS-KitchenSink-Button-PrimarySmall" parent="Uif-PrimaryActionButton-Small">
         <property name="actionLabel" value="Primary Small"/>
-        <property name="actionScript" value="alert('Click.');"/>
+        <property name="actionScript" value="alert('click');"/>
     </bean>
     <bean id="KS-KitchenSink-Button-Secondary" parent="Uif-SecondaryActionButton">
         <property name="actionLabel" value="Secondary"/>
-        <property name="actionScript" value="alert('Click.');"/>
+        <property name="actionScript" value="alert('click');"/>
     </bean>
     <bean id="KS-KitchenSink-Button-SecondarySmall" parent="Uif-SecondaryActionButton-Small">
         <property name="actionLabel" value="Secondary Small"/>
-        <property name="actionScript" value="alert('Click.');"/>
+        <property name="actionScript" value="alert('click');"/>
     </bean>
     <bean id="KS-KitchenSink-Button-SecondarySmallImage" parent="Uif-SecondaryActionButton-Small">
-        <property name="actionLabel" value="With Icon Right"/>
-        <property name="actionScript" value="alert('Click.');"/>
+        <property name="actionLabel" value="With Image Right"/>
+        <property name="actionScript" value="alert('click');"/>
         <property name="actionImagePlacement" value="RIGHT"/>
         <property name="actionImage">
-            <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['krad.externalizable.images.url']}h2_expand-back-ks.png"/>
+            <bean parent="Uif-Image">
+                <property name="source" value="@{#ConfigProperties['krad.externalizable.images.url']}h2_expand-back-ks.png"/>
+                <!-- using ConfigProperties sometimes throws a freemarker exception; if so use -->
+                <!--<property name="source" value="../krad/images/h2_expand-back-ks.png"/>-->
+            </bean>
         </property>
+    </bean>
+    <bean id="Uif-KsKrad-Button-ImageOnly-Example" parent="Uif-KsKrad-Button-ImageOnly">
+        <!-- Uif-KsKrad-Button-ImageOnly defined in file ks-enroll-ui/../UifKradExtensionDefinitions.xml -->
+        <property name="actionScript" value="alert('click');"/>
+        <property name="imageSource" value="../ks-enroll-ksink/images/delete_16x16.png"/>
+        <property name="imageSourceOnHover" value="../ks-enroll-ksink/images/delete2_16x16.png"/>
+        <property name="title" value="Custom KS Image-Only Button"/>
     </bean>
 
 
@@ -67,7 +77,8 @@
                                         <property name="style" value="margin-bottom:15px;font-size:125%"/>
                                         <property name="messageText">
                                             <value>
-                                                Examples of the various buttons, both enabled and disabled.
+                                                Various button examples.  The final example is a custom class for
+                                                image-only buttons, an extension of KRAD's secondary small button.
                                             </value>
                                         </property>
                                     </bean>
@@ -115,6 +126,7 @@
                                         <ref bean="KS-KitchenSink-Button-Secondary"/>
                                         <ref bean="KS-KitchenSink-Button-SecondarySmall"/>
                                         <ref bean="KS-KitchenSink-Button-SecondarySmallImage"/>
+                                        <ref bean="Uif-KsKrad-Button-ImageOnly-Example"/>
                                     </list>
                                 </property>
                             </bean>
@@ -126,6 +138,7 @@
                                         <bean parent="KS-KitchenSink-Button-Secondary" p:disabled="true"/>
                                         <bean parent="KS-KitchenSink-Button-SecondarySmall" p:disabled="true"/>
                                         <bean parent="KS-KitchenSink-Button-SecondarySmallImage" p:disabled="true"/>
+                                        <bean parent="Uif-KsKrad-Button-ImageOnly-Example" p:disabled="true"/>
                                     </list>
                                 </property>
                             </bean>

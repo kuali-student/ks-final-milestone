@@ -103,7 +103,7 @@
                                     <bean parent="KS-KitchenSink-Link-To-Bare">
                                         <property name="finalizeMethodAdditionalArguments">
                                             <list>
-                                                <value>collectionOptions</value>
+                                                <value>collection</value>
                                             </list>
                                         </property>
                                     </bean>

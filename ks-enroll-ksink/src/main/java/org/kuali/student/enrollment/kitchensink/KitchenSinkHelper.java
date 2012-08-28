@@ -29,6 +29,10 @@ import java.text.MessageFormat;
  */
 public class KitchenSinkHelper extends ViewHelperServiceImpl {
 
+    public void delete(int selectedIndex, KitchenSinkForm form) throws Exception{
+        form.getCollection().remove(selectedIndex);
+    }
+
     public void setSourceLinkText(LinkField linkField, Object model) {
         linkField.setLinkText(linkField.getHref());
     }
