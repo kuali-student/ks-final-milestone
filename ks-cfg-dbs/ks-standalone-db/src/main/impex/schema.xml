@@ -2408,7 +2408,6 @@
         </index>
     </table>
     <table name="KSEN_SCHED_RQST_CMP_BLDG">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CMP_ID" required="true" size="255" type="VARCHAR"/>
         <column name="BUILDING_ID" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_SCHED_RQST_CMP" name="KSEN_SCHED_RQST_CMP_BLDG_FK1">
@@ -2423,7 +2422,6 @@
         </index>
     </table>
     <table name="KSEN_SCHED_RQST_CMP_CAMPUS">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CMP_ID" required="true" size="255" type="VARCHAR"/>
         <column name="CAMPUS_ID" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_SCHED_RQST_CMP" name="KSEN_SCHED_RQST_CMP_CAMPUS_FK1">
@@ -2438,7 +2436,6 @@
         </index>
     </table>
     <table name="KSEN_SCHED_RQST_CMP_ORG">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CMP_ID" required="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_SCHED_RQST_CMP" name="KSEN_SCHED_RQST_CMP_ORG_FK1">
@@ -2453,7 +2450,6 @@
         </index>
     </table>
     <table name="KSEN_SCHED_RQST_CMP_ROOM">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CMP_ID" required="true" size="255" type="VARCHAR"/>
         <column name="ROOM_ID" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_SCHED_RQST_CMP" name="KSEN_SCHED_RQST_CMP_ROOM_FK1">
@@ -2468,7 +2464,6 @@
         </index>
     </table>
     <table name="KSEN_SCHED_RQST_CMP_RT">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CMP_ID" required="true" size="255" type="VARCHAR"/>
         <column name="RSRC_TYPE_KEY" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_SCHED_RQST_CMP" name="KSEN_SCHED_RQST_RT_FK1">
@@ -2483,7 +2478,6 @@
         </index>
     </table>
     <table name="KSEN_SCHED_RQST_CMP_TMSLOT">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CMP_ID" required="true" size="255" type="VARCHAR"/>
         <column name="TM_SLOT_ID" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_SCHED_RQST_CMP" name="KSEN_SCHED_RQST_CMP_TMSLOT_FK1">
