@@ -29,10 +29,12 @@
 
     <strong>Collections</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Collection action images"
+        <li><portal:portalLink displayTitle="true" title="Collection action image buttons"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionActionImages-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection column sorting"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionColumnSorting-View&methodToCall=collection" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection row selection"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelection-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection table options"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionOptions-View&methodToCall=collection" /></li>
     </ul>

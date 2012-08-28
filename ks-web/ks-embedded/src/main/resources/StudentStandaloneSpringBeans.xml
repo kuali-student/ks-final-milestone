@@ -40,6 +40,7 @@
                 <!-- rice and basic ks xmls -->
 				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
                 <value>classpath:UifKRADOverrideDefinitions.xml</value>
+                <value>classpath:UifKradExtensionDefinitions.xml</value>
 				<value>classpath:UifKSDefinitions.xml</value>
                 <value>classpath:UifUtils.xml</value>
                 <value>classpath:ks-ActivityOfferingInfo-dictionary.xml</value>
@@ -162,6 +163,7 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionColumnSorting.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionOptions.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionActionImages.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
