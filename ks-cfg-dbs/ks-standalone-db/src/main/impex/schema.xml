@@ -2393,6 +2393,7 @@
     </table>
     <table name="KSEN_SCHED_RQST_CMP">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="SCHED_RQST_ID" size="255" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CREATETIME" required="true" type="TIMESTAMP"/>
