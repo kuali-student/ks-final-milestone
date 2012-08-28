@@ -113,7 +113,6 @@
         <cglib.nodep.version>2.1_3</cglib.nodep.version>
         <com.lowagie.itext.version>2.1.7</com.lowagie.itext.version>
         <commons.beanutils.version>1.8.3-kuali</commons.beanutils.version>
-        <commons.codec.version>20041127.091804</commons.codec.version>
         <commons.digester.version>2.1</commons.digester.version>
         <commons.fileupload.version>1.2.1</commons.fileupload.version>
         <commons.io.version>1.4</commons.io.version>
@@ -684,11 +683,6 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons.io.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${commons.codec.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.velocity</groupId>
