@@ -45,15 +45,6 @@
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-kim-api</artifactId>
         </dependency>
-        <!-- Should use the rice beantutils overwrite to prevent rice data dictionary validation errors.
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-        </dependency-->
-        <dependency>
-            <groupId>org.kuali.commons</groupId>
-            <artifactId>commons-beanutils</artifactId>
-        </dependency>
         <dependency>
             <groupId>backport-util-concurrent</groupId>
             <artifactId>backport-util-concurrent</artifactId>
