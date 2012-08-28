@@ -132,14 +132,16 @@
         <jaxws.spring.version>1.8</jaxws.spring.version>
         <jetty.plugin.version>7.3.1.v20110307</jetty.plugin.version>
         <jetty.version>6.1.6</jetty.version>
+        <jdk.min.version>1.6</jdk.min.version>
         <jsr107cache.version>1.0</jsr107cache.version>
         <jta.version>1.1</jta.version>
         <junit.version>4.10</junit.version>
-        <ks-contract-docs.plugin.version>1.0.2-SNAPSHOT</ks-contract-docs.plugin.version>
+        <ks-contract-docs.plugin.version>1.0.2</ks-contract-docs.plugin.version>
         <kuali.rice.version>2.2.0-myplan-build-26</kuali.rice.version>
         <log4j.version>1.2.16</log4j.version>
         <log4j.javadoc.version>1.2</log4j.javadoc.version>
         <logkit.version>2.0</logkit.version>
+        <maven.min.version>3.0.3</maven.min.version>
         <metro.version>1.4</metro.version>
         <mysql.connector.version>5.1.18</mysql.connector.version>
         <net.sf.jasperreports.version>4.0.1</net.sf.jasperreports.version>
@@ -150,6 +152,7 @@
         <org.apache.poi.version>3.6</org.apache.poi.version>
         <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
         <plugin.impex.version>1.0.31</plugin.impex.version>
+        <plugin.enforcer.version>1.1.1</plugin.enforcer.version>
         <selenium.version>2.7.0</selenium.version>
         <servlet.api.version>2.5</servlet.api.version>
         <slf4j.version>1.6.2</slf4j.version>
@@ -191,15 +194,23 @@
         <ks.contractdoc.phase>site</ks.contractdoc.phase>
         <ks.dictionarydoc.phase>site</ks.dictionarydoc.phase>
         <ks.dictionarycreate.phase>none</ks.dictionarycreate.phase>
+        <ks.enforcer.phase>validate</ks.enforcer.phase>
         <ks.java2ws.phase>none</ks.java2ws.phase>
         <ks.mockimpl.phase>none</ks.mockimpl.phase>
         <!-- should align to the same or earlier phase than the contract doc or dictionary doc phase -->
         <ks.prepare-contract-dependencies.phase>site</ks.prepare-contract-dependencies.phase>
         <ks.vdecorator.phase>none</ks.vdecorator.phase>
     </properties>
+    <prerequisites>
+        <maven>${maven.min.version}</maven>
+    </prerequisites>
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${plugin.enforcer.version}</version>
+                </plugin>
                 <plugin>
                   <artifactId>maven-compiler-plugin</artifactId>
                   <configuration>
@@ -291,6 +302,41 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <!-- use this plugin to help ensure build reproducibility -->
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-rules</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <phase>${ks.enforcer.phase}</phase>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <message>To build this project, maven ${maven.min.version} (or higher) is required. Please install the specified version.</message>
+                                    <version>${maven.min.version}</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <message>To build this project, java ${jdk.min.version} (or higher - but not 1.7) is required. Please install the specified version.</message>
+                                    <version>[${jdk.min.version}},1.7)</version>
+                                </requireJavaVersion>
+                                <requirePluginVersions>
+                                    <message>Build reproducibility: It is a best practice to explicitly specify plugin versions!</message>
+                                </requirePluginVersions>
+                                <bannedDependencies>
+                                    <excludes>
+                                        <!-- excluding standard release of commons-beanutils -->
+                                        <exclude>commons-beanutils:commons-beanutils</exclude>
+                                        <exclude>org.apache.commons:commons-beanutils</exclude>
+                                    </excludes>
+                                </bannedDependencies>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
