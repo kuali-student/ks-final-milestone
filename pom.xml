@@ -182,7 +182,6 @@
         <!-- gwt properties -->
         <ks.gwt.compile.draftCompile>false</ks.gwt.compile.draftCompile>
         <ks.gwt.compile.force>false</ks.gwt.compile.force>
-        <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
         <ks.gwt.compile.soyc>false</ks.gwt.compile.soyc>
         <ks.gwt.compile.style>OBF</ks.gwt.compile.style>
 
@@ -196,6 +195,7 @@
         <ks.dictionarycreate.phase>none</ks.dictionarycreate.phase>
         <ks.enforcer.phase>validate</ks.enforcer.phase>
         <ks.java2ws.phase>none</ks.java2ws.phase>
+        <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
         <ks.mockimpl.phase>none</ks.mockimpl.phase>
         <!-- should align to the same or earlier phase than the contract doc or dictionary doc phase -->
         <ks.prepare-contract-dependencies.phase>site</ks.prepare-contract-dependencies.phase>
