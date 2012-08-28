@@ -202,7 +202,7 @@ public class CourseOfferingEditWrapper implements Serializable {
             return true;
         }
 
-        return true;
+        return false;
     }
 
 }
