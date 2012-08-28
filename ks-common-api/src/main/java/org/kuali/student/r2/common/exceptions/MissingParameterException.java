@@ -18,7 +18,7 @@ package org.kuali.student.r2.common.exceptions;
 
 import javax.xml.ws.WebFault;
 
-@WebFault(faultBean="org.kuali.student.r2.common.exceptions.jaxws.MissingParameterExceptionBean")
+@WebFault(name="MissingParameter")
 public class MissingParameterException extends Exception {
 
     private static final long serialVersionUID = 1L;

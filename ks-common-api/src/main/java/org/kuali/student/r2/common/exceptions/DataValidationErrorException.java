@@ -16,27 +16,25 @@
 
 package org.kuali.student.r2.common.exceptions;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.util.List;
-
-import javax.xml.ws.WebFault;
-
 import org.apache.log4j.Logger;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
-@WebFault(faultBean="org.kuali.student.r2.common.exceptions.jaxws.DataValidationErrorExceptionBean")
+import javax.xml.ws.WebFault;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+@WebFault(name = "DataValidationError")
 public class DataValidationErrorException 
     extends Exception {
 
     private static final Logger LOG = Logger.getLogger(DataValidationErrorException.class);
     
     private static final long serialVersionUID = 1L;
-    
+
     private List<ValidationResultInfo> validationResults;
     
-
     public DataValidationErrorException() {
     }
     
@@ -62,8 +60,16 @@ public class DataValidationErrorException
     }
 
     public List<ValidationResultInfo> getValidationResults() {
+        if(validationResults == null){
+            validationResults = new ArrayList<ValidationResultInfo>();
+        }
         return validationResults;
     }
+
+    public void setValidationResults(List<ValidationResultInfo> validationResults) {
+        this.validationResults = validationResults;
+    }
+
 
     @Override
     public void printStackTrace(PrintStream s) {

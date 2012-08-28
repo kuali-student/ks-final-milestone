@@ -16,7 +16,7 @@
 
 package org.kuali.student.r2.common.exceptions;
 
-public class EnumerationException 
+public class EnumerationException
     extends RuntimeException {
     
     private static final long serialVersionUID = 1L;

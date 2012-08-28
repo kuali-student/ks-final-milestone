@@ -95,10 +95,10 @@ public class CourseOfferingInfo
     @XmlElement
     private String gradingOptionId;
 
-    @XmlAnyElement
+    @XmlElement
     private String gradingOption;
 
-    @XmlAnyElement
+    @XmlElement
     private String creditCnt;
 
     @XmlElement

@@ -18,7 +18,7 @@ package org.kuali.student.r2.common.exceptions;
 
 import javax.xml.ws.WebFault;
 
-@WebFault(faultBean="org.kuali.student.r2.common.exceptions.jaxws.IllegalVersionSequencingExceptionBean")
+@WebFault(name="IllegalVersionSequencing")
 public class IllegalVersionSequencingException extends Exception {
 
     private static final long serialVersionUID = 1L;
