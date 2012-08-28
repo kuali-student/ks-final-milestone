@@ -15,12 +15,6 @@
 
 package org.kuali.student.r2.core.class1.enumerationmanagement.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.util.List;
-
 import org.junit.Test;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
@@ -28,12 +22,19 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
 
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 /**
  * Enumeration Dao test class.
  *
  * @Version 2.0
  */
-@PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
+@PersistenceFileLocation("classpath:META-INF/enumeration-persistence-test.xml")
 public class TestEnumerationDao extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao", testSqlFile = "classpath:ks-em.sql")
     public EnumerationDao enumerationDao;
@@ -48,7 +49,7 @@ public class TestEnumerationDao extends AbstractTransactionalDaoTest{
         
         assertEquals(returnedEntity.getName(), "Subject Area Enumeration");
         assertEquals(returnedEntity.getId(), "kuali.lu.subjectArea");
-        assertEquals(returnedEntity.getDescrPlain(), "Subject Area Enumeration");
+        assertEquals(returnedEntity.getDescrPlain(), "subjectArea.descr");
        
     }    
 
@@ -63,7 +64,9 @@ public class TestEnumerationDao extends AbstractTransactionalDaoTest{
         entity.setId("Key3");
 
         entity.setDescrPlain("desc3");
-        
+        entity.setCreateId("123");
+        entity.setCreateTime(new Date());
+
         enumerationDao.persist(entity);
         
         EnumerationEntity returnedEntity = enumerationDao.find("Key3");
