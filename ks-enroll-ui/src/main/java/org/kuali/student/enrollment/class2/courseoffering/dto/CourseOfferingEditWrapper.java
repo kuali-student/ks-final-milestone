@@ -196,13 +196,13 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     public boolean isLegalToDelete() {
 
-        if(StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_DRAFT_STATE_KEY) ||
-                StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) ||
-                StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) {
+        if (StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_DRAFT_STATE_KEY) ||
+            StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) ||
+            StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) {
             return true;
         }
 
-        return false;
+        return true;
     }
 
 }

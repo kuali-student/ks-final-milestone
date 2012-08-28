@@ -53,8 +53,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="3"  p:renderAddLine="false">
+    <bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
         <property name="propertyName" value="courseOfferingEditWrapperList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />

@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -707,53 +708,53 @@ public class CourseOfferingManagementController extends UifControllerBase  {
      * Method used to confirm delete AOs
      */
     @RequestMapping(params = "methodToCall=deleteCoConfirmation")
-    public ModelAndView deleteCoConfirmation(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView deleteCoConfirmation(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
 
         CourseOfferingInfo theCourseOffering = null;
 
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        if (!StringUtils.isBlank(selectedCollectionPath)) {
+        if ( ! StringUtils.isBlank(selectedCollectionPath)) {
             Object selectedObject = _getSelectedObject(theForm, "deleteCo");
             theCourseOffering = ((CourseOfferingEditWrapper) selectedObject).getCoInfo();
             theForm.setTheCourseOffering(theCourseOffering);
-            // load the related AOs
-            try {
-                getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
         }
 
-        if(theCourseOffering == null) {
+        if (theCourseOffering == null) {
             theCourseOffering = theForm.getTheCourseOffering();
         }
-        if(theCourseOffering == null) {
+        if (theCourseOffering == null) {
             throw new RuntimeException("No Course Offering selected!");
         }
 
-        String termId = theCourseOffering.getTermId();
-        String subjectCode = theCourseOffering.getSubjectArea();
+        //  Verify the state of the CourseOffering is appropriate for deleting.
+        //  FIXME: This logic is duplicated in CoreOfferingEditWrapper.isLegalToDelete().
+        String coState = theCourseOffering.getStateKey();
+        if (StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)
+                || StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY)) {
+            LOG.error(String.format("Course offering [%s] cannot not be deleted because the state was [%s].",
+                theCourseOffering.getCourseOfferingCode(), coState));
+            GlobalVariables.getMessageMap().putErrorForSectionId(CourseOfferingConstants.MANAGE_CO_LIST_SECTION,
+                CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_DELETE);
+            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
+        }
+
         theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
 
-        // load all the activity offerings
-        if (theForm.getActivityWrapperList().isEmpty()) {
-            try {
-                getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-
+        // Load activity offerings
+        try {
+            getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
         for (ActivityOfferingWrapper ao : theForm.getActivityWrapperList()) {
-            // verify if any AO status is not draft throw exception
-            if (!ao.isLegalToDelete()) {
-                LOG.error("Error: Course Offering cannot be deleted.");
-                GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingManagement-CourseOfferingListSection",
-                        CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_CO_CANNOT_DELETE);
-                return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
+            //  Verify AO state.
+            if ( ! ao.isLegalToDelete()) {
+                LOG.error(String.format("Course Offering [%s] cannot be deleted because Activity Offering [%s] is in an invalid state for deleting.",
+                    theCourseOffering.getCourseOfferingCode(), ao.getActivityCode()));
+                GlobalVariables.getMessageMap().putErrorForSectionId(CourseOfferingConstants.MANAGE_CO_LIST_SECTION,
+                        CourseOfferingConstants.COURSEOFFERING_INVALID_AO_STATE_FOR_DELETE);
+                 return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
             }
         }
 
@@ -764,39 +765,38 @@ public class CourseOfferingManagementController extends UifControllerBase  {
      * Method used to delete a Course Offering with all Draft activity Offerings
      **/
     @RequestMapping(params = "methodToCall=deleteCo")
-    public ModelAndView deleteCo(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                             HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView deleteCo(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) {
         CourseOfferingInfo  theCourseOffering = theForm.getTheCourseOffering();
-        if(theCourseOffering == null) {
+        if (theCourseOffering == null) {
             throw new RuntimeException("No Course Offering selected!");
         }
 
         String termId = theCourseOffering.getTermId();
         String subjectCode = theCourseOffering.getSubjectArea();
-        // load all the activity offerings
+        //  Load AOs
         if (theForm.getActivityWrapperList().isEmpty()) {
             try {
                 getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error(String.format("Could not get AOs for Course offering [%s].", theCourseOffering.getCourseOfferingCode()));
                 throw new RuntimeException(e);
             }
-
         }
+
         try {
             for (ActivityOfferingWrapper ao : theForm.getActivityWrapperList()) {
-                // verify if any AO status is not draft throw exception
-                if (!ao.isLegalToDelete()) {
-                    LOG.error("Error: Course Offering cannot be deleted.");
-                    GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingManagement-CourseOfferingListSection",
-                            CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_CO_CANNOT_DELETE);
+                // Verify AO status
+                if ( ! ao.isLegalToDelete()) {
+                    LOG.error(String.format("Course Offering [%s] cannot be deleted because Activity Offering [%s] is in an invalid state for deleting.",
+                        theCourseOffering.getCourseOfferingCode(), ao.getActivityCode()));
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CourseOfferingConstants.MANAGE_CO_LIST_SECTION,
+                            CourseOfferingConstants.COURSEOFFERING_INVALID_AO_STATE_FOR_DELETE);
                     return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
                 }
             }
             CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(theCourseOffering.getId(), ContextBuilder.loadContextInfo());
-            //reload existing COs
+            // Reload existing COs
             getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -364,7 +364,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 activityOfferingWrapperList.add(wrapper);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error: Does not find a valid term with the Course Id = "+ courseOfferingId+ ". Exception " + e, e);
+            throw new RuntimeException(String.format("Could not load AOs for course offering [%s].", courseOfferingId), e);
         }
         form.setActivityWrapperList(activityOfferingWrapperList);
     }
