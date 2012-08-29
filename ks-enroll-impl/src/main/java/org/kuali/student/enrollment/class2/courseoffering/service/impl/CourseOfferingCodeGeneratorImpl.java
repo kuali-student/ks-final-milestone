@@ -60,8 +60,8 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
 
         List<String> internalCodes = new ArrayList<String>();
         for(CourseOfferingInfo coInfo:existingCourseOfferings){
-            if(coInfo.getCourseNumberInternalSuffix() != null){
-                internalCodes.add(coInfo.getCourseNumberInternalSuffix());
+            if(coInfo.getCourseNumberSuffix() != null){
+                internalCodes.add(coInfo.getCourseNumberSuffix());
             }
         }
 
