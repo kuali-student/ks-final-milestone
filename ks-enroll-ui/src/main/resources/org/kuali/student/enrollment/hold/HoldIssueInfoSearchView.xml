@@ -145,19 +145,28 @@
                 <bean parent="Uif-DataField"
                       p:label="Hold Name"
                       p:propertyName="name" />
-                <bean parent="Uif-DataField"
-                      p:label="Category Name"
-                      p:propertyName="typeKey" />
+                <bean parent="Uif-InputField" p:label="Category Name" p:propertyName="typeKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean id="HoldIssueTypes" class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues" />
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField"
                       p:label="Hold Description"
                       p:propertyName="descr.plain"/>
                 <bean parent="Uif-DataField"
                       p:label="Owning Organization"
                       p:propertyName="organizationId"/>
-                <bean parent="Uif-DataField"
-                      p:id="state"
-                      p:label="State"
-                      p:propertyName="stateKey"/>
+                <bean parent="Uif-InputField" p:label="State" p:propertyName="stateKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean id="HoldIssueStates" class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoStateKeyValues" />
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">

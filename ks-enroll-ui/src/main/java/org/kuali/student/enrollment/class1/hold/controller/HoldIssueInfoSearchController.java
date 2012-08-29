@@ -104,13 +104,7 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
 
         try {
             QueryByCriteria.Builder query = buildQueryByCriteria(name,type,state,orgId,descr);
-
-            holdService = getHoldService();
-
-            List<HoldIssueInfo> holdIssueInfos = holdService.searchForHoldIssues(query.build(), getContextInfo());
-            if (!holdIssueInfos.isEmpty()){
-                results.addAll(holdIssueInfos);
-            }
+            results = getHoldService().searchForHoldIssues(query.build(), getContextInfo());
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error Performing Search",e); //To change body of catch statement use File | Settings | File Templates.
