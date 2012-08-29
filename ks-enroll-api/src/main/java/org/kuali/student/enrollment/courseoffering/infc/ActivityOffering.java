@@ -92,13 +92,23 @@ public interface ActivityOffering extends IdEntity {
     public String getActivityCode();
 
     /**
-     * Gets the schedule Id for this offering.
+     * Gets the schedule Id for this activity offering.
+     * 
+     * No value will exist until the scheduling process has been completed for this activity offering.
      *
      * @name Schedule Id
-     * @impl maps to Scheduling service not implemented
      */
     public String getScheduleId();
 
+    /**
+     * Indicates where this activity offering is in the scheduling process.
+     * 
+     * @return the scheduling state type key
+     * @readonly
+     * @impl The scheduling state is a calculated field
+     */
+    public String getSchedulingStateKey();
+    
     /**
      * Indicates that the course is an Honors Course.
      *

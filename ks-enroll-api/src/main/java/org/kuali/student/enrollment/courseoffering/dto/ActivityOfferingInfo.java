@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "ActivityOfferingInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
                 "formatOfferingId", "formatOfferingName",
-                "activityId", "termId", "termCode", "activityCode", "scheduleId",
+                "activityId", "termId", "termCode", "activityCode", "scheduleId", "schedulingStateKey",
                 "isHonorsOffering", "gradingOptionKeys", "instructors",
                 "weeklyInclassContactHours", "weeklyOutofclassContactHours", 
                 "weeklyTotalContactHours",  "isEvaluated",
@@ -76,6 +76,9 @@ public class ActivityOfferingInfo
 
     @XmlElement
     private String scheduleId;
+    
+    @XmlElement
+    private String schedulingStateKey;
 
     @XmlElement
     private Boolean isHonorsOffering;
@@ -491,8 +494,19 @@ public class ActivityOfferingInfo
     public void setWaitlistCheckinFrequency(TimeAmountInfo waitlistCheckinFrequency) {
         this.waitlistCheckinFrequency = waitlistCheckinFrequency;
     }
+    
+    
 
-    @Override
+    public void setSchedulingStateKey(String schedulingStateKey) {
+		this.schedulingStateKey = schedulingStateKey;
+	}
+
+	@Override
+	public String getSchedulingStateKey() {
+		return schedulingStateKey;
+	}
+
+	@Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("ActivityOfferingInfo [id=");
@@ -509,6 +523,8 @@ public class ActivityOfferingInfo
         builder.append(termId);
         builder.append(", scheduleId=");
         builder.append(scheduleId);
+        builder.append(", schedulingStateKey=");
+        builder.append(schedulingStateKey);
         builder.append("]");
         return builder.toString();
     }
