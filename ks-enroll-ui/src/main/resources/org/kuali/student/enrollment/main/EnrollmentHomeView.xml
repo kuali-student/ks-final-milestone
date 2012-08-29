@@ -101,7 +101,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:linkText="Add Hold"
+                <bean parent="Uif-Link" p:linkText="Create Hold"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/createHold?viewId=holdCreateView&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Manage Hold"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/holdIssueInfoSearch?viewId=holdSearchView&amp;methodToCall=start"/>
@@ -122,11 +122,11 @@
                 <bean parent="Uif-Link" p:linkText="Create Process"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/processInfoController?viewId=processCreateView&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Create Check"
-                      p:href=""/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/createCheck?viewId=checkCreateView&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Manage Process"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/processInfoController?viewId=processInfoSearchView&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Manage Check"
-                      p:href=""/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/createCheck?viewId=checkInfoSearchView&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Manage Instruction"
                       p:href=""/>
             </list>
