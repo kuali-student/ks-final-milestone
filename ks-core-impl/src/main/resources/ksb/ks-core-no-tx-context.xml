@@ -233,8 +233,16 @@
         <property name="entityManagerFactory" ref="emEntityManagerFactory" />
     </bean>
 
-    <bean id="enumerationDao" class="org.kuali.student.r1.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
-        <property name="em" ref="emEntityManager" />
+    <bean id="enumDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao">
+        <property name="em" ref="emEntityManager"/>
+    </bean>
+
+    <bean id="enumValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao">
+        <property name="em" ref="emEntityManager"/>
+    </bean>
+
+    <bean id="enumContextValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumContextValueDao">
+        <property name="em" ref="emEntityManager"/>
     </bean>
 
     <bean id="emSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
@@ -242,8 +250,10 @@
     </bean>
 
     <bean id="emServiceImpl"
-          class="org.kuali.student.r1.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
-        <property name="enumDAO" ref="enumerationDao"/>
+          class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+        <property name="enumDao" ref="enumDao"/>
+        <property name="enumValueDao" ref="enumValueDao"/>
+        <property name="enumContextValueDao" ref="enumContextValueDao"/>
         <property name="searchManager" ref="enumSearchManager" />
     </bean>
 
@@ -258,7 +268,7 @@
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="emServiceImpl" />
                 <property name="serviceInterface"
-                          value="org.kuali.student.r1.core.enumerationmanagement.service.EnumerationManagementService"/>
+                          value="org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService"/>
                 <property name="localServiceName" value="EnumerationManagementService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/enumerationmanagement" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
