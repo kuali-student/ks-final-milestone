@@ -40,7 +40,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "atpId", "scheduleComponents",
+        "scheduleTime", "scheduleWeekdays", "location",
         "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class ScheduleDisplayInfo extends IdEntityInfo implements ScheduleDisplay, Serializable {
 
@@ -49,9 +49,11 @@ public class ScheduleDisplayInfo extends IdEntityInfo implements ScheduleDisplay
     ////////////////////////
 
     @XmlElement
-    private String atpId;
+    private String scheduleTime;
     @XmlElement
-    private List<ScheduleComponentInfo> scheduleComponents;
+    private String scheduleWeekdays;
+    @XmlElement
+    private String location;
 
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
@@ -67,11 +69,9 @@ public class ScheduleDisplayInfo extends IdEntityInfo implements ScheduleDisplay
     public ScheduleDisplayInfo(ScheduleDisplay scheduleDisplay) {
         super (scheduleDisplay);
         if (null != scheduleDisplay) {
-            this.atpId = scheduleDisplay.getAtpId();
-            this.scheduleComponents = new ArrayList<ScheduleComponentInfo>();
-            for (ScheduleComponent scheduleComponent : scheduleDisplay.getScheduleComponents()) {
-                this.scheduleComponents.add(new ScheduleComponentInfo(scheduleComponent));
-            }
+            this.scheduleTime= scheduleDisplay.getScheduleTime();
+            this.scheduleWeekdays= scheduleDisplay.getScheduleWeekdays();
+            this.location = scheduleDisplay.getLocation();
         }
     }
 
@@ -80,25 +80,29 @@ public class ScheduleDisplayInfo extends IdEntityInfo implements ScheduleDisplay
     ////////////////////////////////////
 
     @Override
-    public String getAtpId() {
-        return this.atpId;
+    public String getScheduleTime() {
+        return scheduleTime;
     }
 
-    public void setAtpId(String atpId) {
-        this.atpId = atpId;
+    public void setScheduleTime(String scheduleTime) {
+        this.scheduleTime = scheduleTime;
     }
 
     @Override
-    public List<ScheduleComponentInfo> getScheduleComponents() {
-        if (null == this.scheduleComponents) {
-            return new ArrayList<ScheduleComponentInfo>();
-        }
-        else {
-            return this.scheduleComponents;
-        }
+    public String getScheduleWeekdays() {
+        return scheduleWeekdays;
     }
 
-    public void setScheduleComponentIds(List<ScheduleComponentInfo> scheduleComponents) {
-        this.scheduleComponents = scheduleComponents;
+    public void setScheduleWeekdays(String scheduleWeekdays) {
+        this.scheduleWeekdays = scheduleWeekdays;
+    }
+
+    @Override
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

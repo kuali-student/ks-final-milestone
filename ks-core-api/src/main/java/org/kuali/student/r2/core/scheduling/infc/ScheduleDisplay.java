@@ -2,9 +2,6 @@ package org.kuali.student.r2.core.scheduling.infc;
 
 import org.kuali.student.r2.common.infc.DisplayObject;
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
-
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,18 +14,19 @@ import java.util.List;
 public interface ScheduleDisplay extends IdEntity, DisplayObject {
 
     /**
-     * The ATP Id. Schedule Components are applied to this ATP.
-     *
-     * @name Atp Id
-     * @required
+     * Display string representing the time of the Activity Offering.
+     * Eg. 9:00am - 11:00am
      */
-    public String getAtpId();
+    public String getScheduleTime();
 
     /**
-     * The Schedule Components. These provide a list of Time Slots
-     * coupled with Room locations.
-     *
-     * @name Schedule Components
+     * Display string representing the weekday pattern on which the Activity Offering meets.
+     * Eg. MWF
      */
-    public List<ScheduleComponentInfo> getScheduleComponents();
+    public String getScheduleWeekdays();
+
+    /**
+     * The building and room location.
+     */
+    public String getLocation ();
 }
