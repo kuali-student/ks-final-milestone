@@ -1329,6 +1329,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return ao;
     }
 
+    
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteActivityOffering(String activityOfferingId, ContextInfo context)
@@ -2119,6 +2120,68 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return statusInfo;
     }
 
+	@Override
+	public StatusInfo updateCourseOfferingState(
+			@WebParam(name = "courseOfferingId") String courseOfferingId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		
+		throw new UnsupportedOperationException("To be Implemented in M5");
+	}
+
+	@Override
+	public StatusInfo updateFormatOfferingState(
+			@WebParam(name = "formatOfferingId") String formatOfferingId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("To be Implemented in M5");
+	}
+
+	@Override
+	public StatusInfo updateActivityOfferingState(
+			@WebParam(name = "activityOfferingId") String activityOfferingId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("To be Implemented in M5");
+	}
+
+	@Override
+	public StatusInfo updateRegistrationGroupState(
+			@WebParam(name = "registrationGroupId") String registrationGroupId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("To be Implemented in M5");
+	}
+
+	@Override
+	public StatusInfo updateActivityOfferingClusterState(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("To be Implemented in M5");
+	}
+
+	@Override
+	public StatusInfo updateSeatPoolDefinitionState(
+			@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("To be Implemented in M5");
+	}
+
+    
 
 
 }

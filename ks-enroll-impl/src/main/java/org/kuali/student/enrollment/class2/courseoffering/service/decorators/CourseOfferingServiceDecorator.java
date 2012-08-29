@@ -1,8 +1,12 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
+import java.util.List;
+
+import javax.jws.WebParam;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -24,8 +28,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-
-import java.util.List;
 
 
 public class CourseOfferingServiceDecorator implements CourseOfferingService {
@@ -559,6 +561,67 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 			 {
 		return getNextDecorator().deleteActivityOfferingCascaded(activityOfferingId, context);
 	}
+
+	@Override
+	public StatusInfo updateCourseOfferingState(
+			@WebParam(name = "courseOfferingId") String courseOfferingId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().updateCourseOfferingState(courseOfferingId, nextStateKey, contextInfo);
+	}
+
+	@Override
+	public StatusInfo updateFormatOfferingState(
+			@WebParam(name = "formatOfferingId") String formatOfferingId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().updateFormatOfferingState(formatOfferingId, nextStateKey, contextInfo);
+	}
+
+	@Override
+	public StatusInfo updateActivityOfferingState(
+			@WebParam(name = "activityOfferingId") String activityOfferingId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().updateActivityOfferingState(activityOfferingId, nextStateKey, contextInfo);
+	}
+
+	@Override
+	public StatusInfo updateRegistrationGroupState(
+			@WebParam(name = "registrationGroupId") String registrationGroupId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().updateRegistrationGroupState(registrationGroupId, nextStateKey, contextInfo);
+	}
+
+	@Override
+	public StatusInfo updateActivityOfferingClusterState(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().updateActivityOfferingClusterState(activityOfferingClusterId, nextStateKey, contextInfo);
+	}
+
+	@Override
+	public StatusInfo updateSeatPoolDefinitionState(
+			@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().updateSeatPoolDefinitionState(seatPoolDefinitionId, nextStateKey, contextInfo);
+	}
+	
 
 
 }

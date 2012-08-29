@@ -1,27 +1,37 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.jws.WebParam;
+
 import junit.framework.Assert;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -35,11 +45,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
@@ -48,16 +57,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
-import javax.jws.WebParam;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 
 /*
@@ -961,4 +960,76 @@ class FakeCOService implements CourseOfferingService {
     public List<String> searchForSeatpoolDefinitionIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+	@Override
+	public StatusInfo updateCourseOfferingState(
+			@WebParam(name = "courseOfferingId") String courseOfferingId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo updateFormatOfferingState(
+			@WebParam(name = "formatOfferingId") String formatOfferingId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException
+			 {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo updateActivityOfferingState(
+			@WebParam(name = "activityOfferingId") String activityOfferingId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException
+			 {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo updateRegistrationGroupState(
+			@WebParam(name = "registrationGroupId") String registrationGroupId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException
+			 {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo updateActivityOfferingClusterState(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException
+			 {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo updateSeatPoolDefinitionState(
+			@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException
+			 {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
 }
