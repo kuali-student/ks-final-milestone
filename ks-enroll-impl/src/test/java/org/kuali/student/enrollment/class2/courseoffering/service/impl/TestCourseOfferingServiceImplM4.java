@@ -1031,5 +1031,15 @@ class FakeCOService implements CourseOfferingService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public StatusInfo scheduleActivityOffering(String activityOfferingId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
     
 }

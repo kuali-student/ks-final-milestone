@@ -825,6 +825,16 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			throw new OperationFailedException("Dependent object still exists for Activity Offering with id = " + activityOfferingId, e);
 		}
 	}
+	
+	
+
+	@Override
+	public StatusInfo scheduleActivityOffering(String activityOfferingId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new OperationFailedException("implement for M5");
+	}
 
 	@Override
 	public List<ValidationResultInfo> validateActivityOffering(

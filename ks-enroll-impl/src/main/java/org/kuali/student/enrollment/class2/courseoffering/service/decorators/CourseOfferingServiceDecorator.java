@@ -621,6 +621,15 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 			PermissionDeniedException {
 		return getNextDecorator().updateSeatPoolDefinitionState(seatPoolDefinitionId, nextStateKey, contextInfo);
 	}
+
+	@Override
+	public StatusInfo scheduleActivityOffering(String activityOfferingId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().scheduleActivityOffering(activityOfferingId, contextInfo);
+	}
+	
 	
 
 

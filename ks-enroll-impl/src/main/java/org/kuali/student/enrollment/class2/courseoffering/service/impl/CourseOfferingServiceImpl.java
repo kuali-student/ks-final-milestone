@@ -1381,8 +1381,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return deleteActivityOffering(activityOfferingId, context);
 
     }
+    
+    
 
     @Override
+	public StatusInfo scheduleActivityOffering(String activityOfferingId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("Implement for M5");
+	}
+
+	@Override
     public List<ValidationResultInfo> validateActivityOffering(String validationType,
                                                                ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
             throws DoesNotExistException,
