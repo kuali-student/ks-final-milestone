@@ -92,7 +92,7 @@
     <bean id="KS-CourseOfferingManagement-CourseOfferingLinks" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-LinkGroup"  p:linkSeparator="|">
+                <bean parent="Uif-LinkGroup" >
                     <property name="items">
                         <list>
                             <!-- This is a hack to get an inquiry screen to display -->
@@ -101,18 +101,23 @@
                                     <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="theCourseOffering.id" />
                                 </property>
                             </bean>
+                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" />
+                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}" />
+                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="manageRegGroups" p:actionLabel="Manage Registration Groups" />
                             <!--<bean parent="Uif-ActionLink" p:methodToCall="" p:actionLabel="test" />-->
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-LinkGroup" p:linkSeparator="|"  p:style="float:right">
+                <bean parent="Uif-LinkGroup" p:style="float:right">
                     <property name="items">
                         <list>
                             <bean parent="Uif-ActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="&lt; @{previousCourseOfferingCodeUI}" p:render="@{!previousCourseOfferingCodeUI?.empty}"/>
+                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{!previousCourseOfferingCodeUI?.empty}"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" />
+                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{!nextCourseOfferingCodeUI?.empty}"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="loadNextCO" p:actionLabel="@{nextCourseOfferingCodeUI} &gt;" p:render="@{!nextCourseOfferingCodeUI?.empty}"/>
                         </list>
                     </property>
