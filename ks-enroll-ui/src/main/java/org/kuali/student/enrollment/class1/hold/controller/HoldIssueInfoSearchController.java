@@ -20,6 +20,8 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.container.DialogGroup;
+import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -47,6 +49,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
@@ -67,6 +70,13 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
     private ContextInfo contextInfo;
     private transient OrganizationService organizationService;
     private OrgInfo orgInfo;
+
+    private Map<String, String> actionParameters;
+
+    //Constants
+    private static final String HOLD_STATE_ACTIVE = "kuali.hold.issue.state.active";
+    private static final String HOLD_STATE_INACTIVE = "kuali.hold.issue.state.inactive";
+
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -91,21 +101,15 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         String state = searchForm.getStateKey();
         String orgId = searchForm.getOrganizationId();
         String descr = searchForm.getDescr();
-        String orgName =   searchForm.getOrgName();
 
         try {
             QueryByCriteria.Builder query = buildQueryByCriteria(name,type,state,orgId,descr);
 
             holdService = getHoldService();
 
-
             List<HoldIssueInfo> holdIssueInfos = holdService.searchForHoldIssues(query.build(), getContextInfo());
             if (!holdIssueInfos.isEmpty()){
-                for(HoldIssueInfo holdIssue : holdIssueInfos) {
-                    holdIssue.setStateKey(setStateName(holdIssue.getStateKey()));
-                    holdIssue.setTypeKey(setTypeName(holdIssue.getTypeKey()));
-                    results.add(holdIssue);
-                }
+                results.addAll(holdIssueInfos);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -179,12 +183,24 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=delete")
     public ModelAndView delete(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String dialogId = "deleteConfirmationDialog";
+
+        if(!hasDialogBeenDisplayed(dialogId, searchForm)) {
+            actionParameters = searchForm.getActionParameters();
+            return showDialog(dialogId, searchForm, request, response);
+        } else if (searchForm.getActionParamaterValue("resetDialog").equals("true")){
+            searchForm.getDialogManager().removeAllDialogs();
+            searchForm.setLightboxScript("closeLightbox('" + dialogId + "');");
+            return getUIFModelAndView(searchForm);
+        }
+
+        searchForm.setActionParameters(actionParameters);
         List<HoldIssueInfo> holdIssueInfos = searchForm.getHoldIssueInfo();
         HoldIssueInfo holdIssue = getSelectedHoldIssue(searchForm, "delete");
 
         try {
-            if(holdIssue.getStateKey().equals("kuali.hold.issue.state.active")) {
-                holdIssue.setStateKey("kuali.hold.issue.state.inactive");
+            if(holdIssue.getStateKey().equals(HOLD_STATE_ACTIVE)) {
+                holdIssue.setStateKey(HOLD_STATE_INACTIVE);
                 getHoldService().updateHoldIssue(holdIssue.getId(), holdIssue, getContextInfo());
             }
         } catch(Exception e) {
@@ -192,7 +208,8 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
             throw new RuntimeException("Error Performing Delete",e);
         }
 
-        searchForm.setHoldIssueInfo(holdIssueInfos);
+        searchForm.setLightboxScript("closeLightbox('" + dialogId + "');");
+        searchForm.getDialogManager().removeAllDialogs();
         return getUIFModelAndView(searchForm);
     }
 
@@ -281,19 +298,5 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
             qBuilder.setPredicates(and(preds));
         }
         return qBuilder;
-    }
-
-    private String setStateName(String stateKey) {
-        if(stateKey.equals("kuali.hold.issue.state.active")) {
-            return "Active";
-        } else {
-            return "Inactive";
-        }
-    }
-
-    private String setTypeName(String typeKey) {
-        HoldIssueInfoTypeKeyValues keyValue = new HoldIssueInfoTypeKeyValues();
-        String typeName = keyValue.getTypeKeyValue(typeKey).getValue();
-        return typeName;
     }
 }
