@@ -197,7 +197,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             targetFo = locoService.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
                     targetFo.getTypeKey(), targetFo, context);
             List<ActivityOfferingInfo> aoInfoList = locoService.getActivityOfferingsByFormatOffering(sourceFo.getId(), context);
-            Map<ActivityOfferingInfo, ActivityOfferingInfo> sourceAoToTargetAo = new HashMap<ActivityOfferingInfo, ActivityOfferingInfo>();
+            Map<String, String> sourceAoIdToTargetAoId = new HashMap<String, String>();
             for (ActivityOfferingInfo sourceAo : aoInfoList) {
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY) &&
                     StringUtils.equals(sourceAo.getTypeKey(),LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)){
@@ -226,7 +226,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 targetAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                 targetAo = this._getCoService().createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
                         targetAo.getTypeKey(), targetAo, context);
-                sourceAoToTargetAo.put(sourceAo, targetAo);
+                sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
                 //attach SPs to the AO created
                 try {
                     List<SeatPoolDefinitionInfo> sourceSPList = this._getCoService().getSeatPoolDefinitionsForActivityOffering(sourceAo.getId(), context);
@@ -249,7 +249,35 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             try {
                 List<RegistrationGroupInfo> regGroups = this._getCoService().getRegistrationGroupsByFormatOffering(sourceFo.getId(), context);
                 if (regGroups != null && !regGroups.isEmpty()) {
-                    generateRegistrationGroupsForFormatOffering(targetFo.getId(), context);
+                    for (RegistrationGroupInfo sourceRg : regGroups) {
+                        RegistrationGroupInfo targetRg = new RegistrationGroupInfo();
+                        targetRg.setId(null);
+                        targetRg.setCourseOfferingId(targetCo.getId());
+                        targetRg.setDescr(sourceRg.getDescr());
+                        targetRg.setFormatOfferingId(targetFo.getId());
+                        targetRg.setIsGenerated(sourceRg.getIsGenerated());
+                        targetRg.setName(sourceRg.getName());
+                        targetRg.setRegistrationCode(null);
+                        targetRg.setTermId(targetFo.getTermId());
+                        targetRg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
+                        targetRg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
+
+                        List<String> sourceAoIdList = sourceRg.getActivityOfferingIds();
+                        List<String> targetAoIdList = new ArrayList<String>();
+                        if (sourceAoIdList != null && !sourceAoIdList.isEmpty()) {
+                            for (String sourceAoId : sourceAoIdList) {
+                                String tempTargetAoId = sourceAoIdToTargetAoId.get(sourceAoId);
+                                if (tempTargetAoId!=null) {
+                                    targetAoIdList.add (tempTargetAoId);
+                                }
+                            }
+                            targetRg.setActivityOfferingIds(targetAoIdList);
+                        }
+
+                        RegistrationGroupInfo rgInfo = this._getCoService().createRegistrationGroup(targetFo.getId(),
+                                LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, targetRg, context);
+
+                    }
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
