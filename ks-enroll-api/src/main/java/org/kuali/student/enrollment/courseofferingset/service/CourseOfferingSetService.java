@@ -479,19 +479,17 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
     /**
      * Requests that the course offerings in this Soc be submitted to the scheduler.
      * 
-     * THIS IS A PLACEHOLDER FOR M5 DEVELOPMENT
-     * NOTE: we don't know yet with this should return and how to do ASYNC calls.
+     * For M5 we return immediately but eventually this will need to be an asynchronous process.
      *
-     * @param socId Unique Id of the soc
+     * @param socId Id of the Set of Courses
      * @param context  Context information containing the principalId and locale
      *                 information about the caller of service operation
      * @throws DoesNotExistException     socId not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
+     * @throws InvalidParameterException contextInfo object is invalid
+     * @throws MissingParameterException one or more missing parameters
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    @Deprecated
     public StatusInfo scheduleSoc(@WebParam(name = "socId") String socId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
