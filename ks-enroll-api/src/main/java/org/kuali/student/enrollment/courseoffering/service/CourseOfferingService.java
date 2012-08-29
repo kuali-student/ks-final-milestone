@@ -16,9 +16,15 @@
 
 package org.kuali.student.enrollment.courseoffering.service;
 
+import java.util.List;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -40,11 +46,6 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import java.util.List;
 
 /**
  * Course Offering is a Class II service supporting the process of offering
@@ -522,6 +523,23 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public CourseOfferingInfo updateCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
+     * Updates the state of an existing CourseOffering into another state provided that it is valid to do so. 
+     * 
+     * @param courseOfferingId Id of the CourseOffering to be updated.
+     * @param nextStateKey The State Key into which the identified courseOffering will be placed if the operation succeeds.
+     * @param contextInfo Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException  the identified CourseOffering does not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo updateCourseOfferingState (@WebParam (name = "courseOfferingId") String courseOfferingId,@WebParam (name = "nextStateKey")  String nextStateKey, @WebParam (name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
      * Updates an existing CourseOffering from its canonical. This should
      * reinitialize and overwrite any changes to the course offering that were
      * made since its creation with the defaults from the canonical course
@@ -711,6 +729,23 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public FormatOfferingInfo updateFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "formatOfferingInfo") FormatOfferingInfo formatOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
 
+    /**
+     * Updates the state of an existing FormatOffering to another state provided that it is valid to do so. 
+     * 
+     * @param formatOfferingId Id of the FormatOffering to be updated.
+     * @param nextStateKey The State Key into which the identified FormatOffering will be placed if the operation succeeds.
+     * @param contextInfo Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException  the identified FormatOffering does not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo updateFormatOfferingState (@WebParam (name = "formatOfferingId") String formatOfferingId,@WebParam (name = "nextStateKey")  String nextStateKey,@WebParam (name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException,  InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
     /**
      * Validates a format offering. Depending on the value of validationType,
      * this validation could be limited to tests on just the current object and
@@ -1014,6 +1049,24 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      */
     public ActivityOfferingInfo updateActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, ReadOnlyException;
 
+    
+    /**
+     * Updates the state of an existing ActivityOffering to another state provided that it is valid to do so. 
+     * 
+     * @param activityOfferingId Id of the ActivityOffering to be updated.
+     * @param nextStateKey The State Key into which the identified ActivityOffering will be placed if the operation succeeds.
+     * @param contextInfo Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException the identified ActivityOffering does not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo updateActivityOfferingState (@WebParam (name = "activityOfferingId") String activityOfferingId,@WebParam (name = "nextStateKey")  String nextStateKey,@WebParam (name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
     /**
      * Deletes an existing ActivityOffering. Deleting an activity will also
      * delete any relation it has with course offerings. An activity offering
@@ -1311,6 +1364,23 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public RegistrationGroupInfo updateRegistrationGroup(@WebParam(name = "registrationGroupId") String registrationGroupId, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
+     * Updates the state of an existing RegistrationGroup to another state provided that it is valid to do so. 
+     * 
+     * @param registrationGroupId Id of the RegistrationGroup to be updated.
+     * @param nextStateKey The State Key into which the identified RegistrationGroup will be placed if the operation succeeds.
+     * @param contextInfo Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException  the identified RegsitrationGroup does not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo updateRegistrationGroupState (@WebParam (name = "registrationGroupId") String registrationGroupId,@WebParam (name = "nextStateKey")  String nextStateKey,@WebParam (name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
      * Deletes an existing Registration Group. Removes the relationship to the
      * course offering and activity offering. The activity offerings are not
      * automatically deleted
@@ -1529,6 +1599,23 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public ActivityOfferingClusterInfo updateActivityOfferingCluster(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
+     * Updates the state of an existing ActivityOfferingCluster to another state provided that it is valid to do so. 
+     * 
+     * @param activityOfferingClusterId Id of the ActivityOfferingCluster to be updated.
+     * @param nextStateKey The State Key into which the identified ActivityOfferingCluster will be placed if the operation succeeds.
+     * @param contextInfo Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException        the identified ActivityOfferingCluster does not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo updateActivityOfferingClusterState (@WebParam (name = "activityOfferingClusterId") String activityOfferingClusterId,@WebParam (name = "nextStateKey")  String nextStateKey,@WebParam (name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
      * Deletes an activity offering cluster  based on the identifier
      *
      * @param activityOfferingClusterId Identifier of the Activity Offering
@@ -1662,10 +1749,26 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public SeatPoolDefinitionInfo updateSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "seatPoolDefinitionInfo") SeatPoolDefinitionInfo seatPoolDefinitionInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
+     * Updates the state of an existing SeatPoolDefinition to another state provided that it is valid to do so. 
+     * 
+     * @param seatPoolDefinitionId Id of the SeatPoolDefinition to be updated.
+     * @param nextStateKey The State Key into which the identified SeatPoolDefinition will be placed if the operation succeeds.
+     * @param contextInfo Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException  the identified SeatPoolDefinition does not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo updateSeatPoolDefinitionState (@WebParam (name = "seatPoolDefinitionId") String seatPoolDefinitionId,@WebParam (name = "nextStateKey")  String nextStateKey,@WebParam (name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
      * Validate a seat pool definition
      *
-     * @param validationTypeKey
-     * @param seatPoolDefinitionInfo
+     * @param validationTypeKey     * @param seatPoolDefinitionInfo
      * @param context
      * @throws DataValidationErrorException
      * @throws DoesNotExistException
