@@ -859,7 +859,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     }
 
     @Override
-    public List<ValidationResultInfo> validateScheduleTransaction(String validationTypeKey, String scheduleTransactionTypeKey, ScheduleRequestInfo scheduleTransactionInfo, ContextInfo contextInfo)
+    public List<ValidationResultInfo> validateScheduleTransaction(String validationTypeKey, String scheduleBatchId, String scheduleTransactionTypeKey, ScheduleRequestInfo scheduleTransactionInfo, ContextInfo contextInfo)
             throws DoesNotExistException
             ,InvalidParameterException
             ,MissingParameterException
