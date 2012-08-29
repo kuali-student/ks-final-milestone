@@ -1,5 +1,6 @@
 #
-# This file maps local directory names to their actual location in Subversion
+# The svn.externals file controls what local directories appear in the
+# checkout, and what actual location inside Subversion they represent.
 # 
 # This enables development streams to be independently managed and released 
 # while also providing a single spot to perform an aggregated Kuali Student checkout
