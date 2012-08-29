@@ -106,17 +106,21 @@ public class TestStatementDictionary {
   }
 		assertEquals(0, validationResults.size());
 
-  fieldInfo = new ReqCompFieldInfo ();
-  fieldInfo.setTypeKey ("kuali.reqComponent.field.type.gradeType.id");
-  fieldInfo.setValue ("bad with an embedded space in value");
-  info.setReqCompFields (Arrays.asList (fieldInfo));
-  validationResults = val.validateObject(info, os, null);
-		System.out.println("h3. With just a blank ReqComponentInfo");
-		for (ValidationResultInfo vr : validationResults)
-  {
-   System.out.println (vr.getElement () + " " + vr.getMessage ());
-  }
-		assertEquals(1, validationResults.size());
+//  commented out this test because the gradeType.id was changed to be name that allows spaces
+//             <!-- Note: the grade.id is really a key so it should coform to the baseKualiType 
+//		BUT in R1.1 we are displaying the value and the atpService wants to see percent
+//		sign in it so changed this to baseKualiName -->
+//  fieldInfo = new ReqCompFieldInfo ();
+//  fieldInfo.setTypeKey ("kuali.reqComponent.field.type.gradeType.id");
+//  fieldInfo.setValue ("bad with an embedded space in value");
+//  info.setReqCompFields (Arrays.asList (fieldInfo));
+//  validationResults = val.validateObject(info, os, null);
+//		System.out.println("h3. With just a blank ReqComponentInfo");
+//		for (ValidationResultInfo vr : validationResults)
+//  {
+//   System.out.println (vr.getElement () + " " + vr.getMessage ());
+//  }
+//		assertEquals(1, validationResults.size());
 
 	}
 }

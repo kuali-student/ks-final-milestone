@@ -59,12 +59,12 @@
  </bean>
  <bean id="atpInfo.typeKey" parent="atpInfo.typeKey-parent"/>
  
-  <bean id="atpInfo.adminOrgId-parent" abstract="true" parent="baseKualiTypeRequired">
+ <bean id="atpInfo.adminOrgId-parent" abstract="true" parent="baseKualiOrgId">
   <property name="name" value="adminOrgId"/>
  </bean>
  <bean id="atpInfo.adminOrgId" parent="atpInfo.adminOrgId-parent"/>
  
-   <bean id="atpInfo.code-parent" abstract="true" parent="baseKualiTypeRequired">
+ <bean id="atpInfo.code-parent" abstract="true" parent="baseKualiCode">
   <property name="name" value="code"/>
  </bean>
  <bean id="atpInfo.code" parent="atpInfo.code-parent"/>
