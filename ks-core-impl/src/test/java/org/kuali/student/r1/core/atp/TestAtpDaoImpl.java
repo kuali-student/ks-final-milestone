@@ -15,12 +15,15 @@
 
 package org.kuali.student.r1.core.atp;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r1.core.atp.dao.AtpDao;
 
+@Ignore
+// ignored after KSENROLL-2438 (modularization)
 @PersistenceFileLocation("classpath:META-INF/atp-persistence.xml")
 public class TestAtpDaoImpl extends AbstractTransactionalDaoTest {
 	@Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpDao", testSqlFile = "classpath:ks-atp.sql")
