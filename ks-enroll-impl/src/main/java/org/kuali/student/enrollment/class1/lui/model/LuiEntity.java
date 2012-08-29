@@ -11,11 +11,35 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
 
-import javax.persistence.*;
-import java.util.*;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUI")
+@NamedQueries({
+    @NamedQuery(name="Lui.getLuisByType", query="Select lui from LuiEntity lui where lui.luiType =:typeId"),
+    @NamedQuery(name="Lui.getLuisByClu", query="Select lui from LuiEntity lui where lui.cluId=:cluId"),
+    @NamedQuery(name="Lui.getLuisByAtpAndType", query="Select lui from LuiEntity lui where lui.atpId=:atpId and lui.luiType = :typeKey"),
+    @NamedQuery(name="Lui.getLuisByAtpAndClu", query="Select lui from LuiEntity lui where lui.atpId=:atpId and lui.cluId = :cluId")
+})
 public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttributeEntity> {
 
     @Column(name = "NAME")

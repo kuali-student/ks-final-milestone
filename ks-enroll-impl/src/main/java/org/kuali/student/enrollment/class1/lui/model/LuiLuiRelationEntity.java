@@ -8,7 +8,17 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.util.RichTextHelper;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -17,6 +27,14 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LUILUI_RELTN")
+@NamedQueries({
+    @NamedQuery(name="LuiLuiRelationENR.getLuiLuiRelationsByLui", query="SELECT rel from LuiLuiRelationEntity rel where rel.lui.id=:luiId OR rel.relatedLui.id=:luiId"),
+    @NamedQuery(name="LuiLuiRelationENR.getLuiIdsByRelation", query="select rel.lui.id from LuiLuiRelationEntity rel where rel.relatedLui.id=:relatedLuiId and rel.luiLuiRelationType=:luLuRelationTypeKey"),
+    @NamedQuery(name="LuiLuiRelationENR.getLuisByRelation", query = "select rel.lui from LuiLuiRelationEntity rel where rel.relatedLui.id=:relatedLuiId and rel.luiLuiRelationType=:luLuRelationTypeKey"),
+    @NamedQuery(name="LuiLuiRelationENR.getRelatedLuisByLuiId", query="select rel.relatedLui.id from LuiLuiRelationEntity rel where rel.lui.id=:luiId and rel.luiLuiRelationType=:luLuRelationTypeKey"),
+    @NamedQuery(name="LuiLuiRelationENR.getLuiLuiRelationsByRelatedLuiAndLuiId", query="Select rel from LuiLuiRelationEntity rel where rel.lui.id=:luiId AND rel.relatedLui.id=:relatedLuiId"),
+    @NamedQuery(name="LuiLuiRelationENR.getRelatedLuisByLuiIdAndRelationType", query="Select rel.relatedLui from LuiLuiRelationEntity rel where rel.lui.id=:luiId AND rel.luiLuiRelationType=:luiLuiRelationTypeKey")
+})
 public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<LuiLuiRelationAttributeEntity> {
 
     @Column(name = "NAME")
