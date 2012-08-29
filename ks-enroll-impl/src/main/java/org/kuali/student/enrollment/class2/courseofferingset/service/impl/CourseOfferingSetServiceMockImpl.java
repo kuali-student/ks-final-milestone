@@ -326,7 +326,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     public StatusInfo scheduleSoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("scheduleSoc has not been implemented");
+        throw new OperationFailedException("implement in M5");
     }
 
     @Override
