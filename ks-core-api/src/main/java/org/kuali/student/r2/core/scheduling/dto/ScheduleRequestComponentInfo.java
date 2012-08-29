@@ -79,11 +79,9 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
     @Override
     public List<String> getBuildingIds() {
         if (null == this.buildingIds) {
-            return new ArrayList<String>();
+            this.buildingIds = new ArrayList<String>();
         }
-        else {
-            return this.buildingIds;
-        }
+        return this.buildingIds;
     }
 
     public void setBuildingIds(List<String> buildingIds) {
@@ -93,11 +91,9 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
     @Override
     public List<String> getCampusIds() {
         if (null == this.campusIds) {
-            return new ArrayList<String>();
+            this.campusIds = new ArrayList<String>();
         }
-        else {
-            return this.campusIds;
-        }
+        return this.campusIds;
     }
 
     public void setCampusIds(List<String> campusIds) {
@@ -107,11 +103,9 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
     @Override
     public List<String> getOrgIds() {
         if (null == this.orgIds) {
-            return new ArrayList<String>();
+            this.orgIds = new ArrayList<String>();
         }
-        else {
-            return this.orgIds;
-        }
+        return this.orgIds;
     }
 
     public void setOrgIds(List<String> orgIds) {
@@ -121,11 +115,9 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
     @Override
     public List<String> getResourceTypeKeys() {
         if (null == this.resourceTypeKeys) {
-            return new ArrayList<String>();
+            this.resourceTypeKeys = new ArrayList<String>();
         }
-        else {
-            return this.resourceTypeKeys;
-        }
+        return this.resourceTypeKeys;
     }
 
     public void setResourceTypeKeys(List<String> resourceTypeKeys) {
@@ -135,11 +127,9 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
     @Override
     public List<String> getRoomIds() {
         if (null == this.roomIds) {
-            return new ArrayList<String>();
+            this.roomIds = new ArrayList<String>();
         }
-        else {
-            return this.roomIds;
-        }
+        return this.roomIds;
     }
 
     public void setRoomIds(List<String> roomIds) {
@@ -149,11 +139,9 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
     @Override
     public List<String> getTimeSlotIds() {
         if (null == this.timeSlotIds) {
-            return new ArrayList<String>();
+            this.timeSlotIds = new ArrayList<String>();
         }
-        else {
-            return timeSlotIds;
-        }
+        return timeSlotIds;
     }
 
     public void setTimeSlotIds(List<String> timeSlotIds) {

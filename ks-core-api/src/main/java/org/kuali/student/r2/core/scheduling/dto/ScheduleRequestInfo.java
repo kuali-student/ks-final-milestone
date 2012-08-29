@@ -85,11 +85,9 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
     @Override
     public List<ScheduleRequestComponentInfo> getScheduleRequestComponents() {
         if (null == this.scheduleRequestComponents) {
-            return new ArrayList<ScheduleRequestComponentInfo>();
+            this.scheduleRequestComponents = new ArrayList<ScheduleRequestComponentInfo>();
         }
-        else {
-            return this.scheduleRequestComponents;
-        }
+        return this.scheduleRequestComponents;
     }
 
     public void setScheduleRequestComponents(List<ScheduleRequestComponentInfo> scheduleRequestComponents) {

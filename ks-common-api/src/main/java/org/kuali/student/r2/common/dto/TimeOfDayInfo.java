@@ -21,13 +21,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 //import javax.xml.bind.Element;
 //import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TimeOfDayInfo", propOrder = {"milliSeconds"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
-public class TimeOfDayInfo implements TimeOfDay {
+public class TimeOfDayInfo implements TimeOfDay, Serializable {
 
     @XmlElement
     private Long milliSeconds;

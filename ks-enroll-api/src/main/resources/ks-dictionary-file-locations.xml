@@ -144,7 +144,35 @@
             </list>
         </constructor-arg>
      </bean>
-    <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE 
+    <!-- Scheduling Service -->
+    <bean id="scheduleRequestInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ScheduleRequestInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="scheduleRequestComponentInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ScheduleRequestComponentInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="timeSlotInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-TimeSlotInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="timeOfDayInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-TimeOfDayInfo-dictionary.xml" />
+    </bean>
+
+    <bean name="schedulingServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="scheduleRequestInfoDictionaryLocation" />
+                <bean parent="scheduleRequestComponentInfoDictionaryLocation"/>
+                <bean parent="timeSlotInfoDictionaryLocation"/>
+                <bean parent="timeOfDayInfoDictionaryLocation"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE
      and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
      that is used in the rice dictionary validation service impl -->
     <bean name="allDictionaryFileLocations" class="java.util.ArrayList">
@@ -155,14 +183,14 @@
                 <bean parent="milestoneInfoDictionaryLocation" />
                 <bean parent="atpAtpRelationInfoDictionaryLocation" />
                 <bean parent="acalInfoDictionaryLocation" />
-                <bean parent="holidayCalendarInfoDictionaryLocation" />                  
+                <bean parent="holidayCalendarInfoDictionaryLocation" />
                 <bean parent="termInfoDictionaryLocation" />
                 <bean parent="holidayInfoDictionaryLocation" />
-                <bean parent="keyDateInfoDictionaryLocation" />   
+                <bean parent="keyDateInfoDictionaryLocation" />
                 <bean parent="appliedHoldInfoDictionaryLocation" />
-                <bean parent="holdIssueInfoDictionaryLocation" />                
+                <bean parent="holdIssueInfoDictionaryLocation" />
                 <bean parent="luiInfoDictionaryLocation" />
-                <bean parent="luiLuiRelationInfoDictionaryLocation" />  
+                <bean parent="luiLuiRelationInfoDictionaryLocation" />
                 <bean parent="courseOfferingInfoDictionaryLocation" />
                 <bean parent="activityOfferingInfoDictionaryLocation" />
                 <bean parent="formatOfferingInfoDictionaryLocation" />
@@ -171,6 +199,10 @@
                 <bean parent="processInfoDictionaryLocation" />
                 <bean parent="checkInfoDictionaryLocation" />
                 <bean parent="instructionInfoDictionaryLocation" />
+                <bean parent="scheduleRequestInfoDictionaryLocation" />
+                <bean parent="scheduleRequestComponentInfoDictionaryLocation"/>
+                <bean parent="timeSlotInfoDictionaryLocation"/>
+                <bean parent="timeOfDayInfoDictionaryLocation"/>
             </list>
         </constructor-arg>
     </bean>
