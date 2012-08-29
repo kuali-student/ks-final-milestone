@@ -482,13 +482,13 @@
     <bean id="KS-ActivityOffering-RequestedDeliveryLogistics-Section" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean parent="KSInputField" p:label="Days" p:required="true" p:propertyName="newScheduleRequest.days">
+                <bean parent="KSInputField" p:label="Days" p:propertyName="newScheduleRequest.days">
                     <property name="constraintText" value="MTWHFSU or &quot;TBA&quot;"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10"/>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="Start Time" p:required="true" p:propertyName="newScheduleRequest.startTime">
+                <bean parent="KSInputField" p:label="Start Time" p:propertyName="newScheduleRequest.startTime">
                     <property name="constraintText" value="HH:MM or &quot;TBA&quot;"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
@@ -497,12 +497,12 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.startTimeAMPM" p:required="true" p:style="margin-top:15px">
+                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.startTimeAMPM" p:style="margin-top:15px">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="End Time" p:required="true" p:propertyName="newScheduleRequest.endTime">
+                <bean parent="KSInputField" p:label="End Time" p:propertyName="newScheduleRequest.endTime">
                     <property name="constraintText" value="HH:MM or &quot;TBA&quot;"/>
                      <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
@@ -511,7 +511,7 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.endTimeAMPM" p:required="true" p:style="margin-top:15px">
+                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.endTimeAMPM" p:style="margin-top:15px">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
                     </property>

@@ -177,6 +177,12 @@
         <class>org.kuali.student.r2.core.process.model.ProcessAttributeEntity</class>
         <class>org.kuali.student.r2.core.process.model.ProcessEntity</class>
 
+        <class>org.kuali.student.r2.core.scheduling.model.TimeSlotEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.TimeSlotAttributeEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestAttributeEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestComponentEntity</class>
+
         <!--class>org.kuali.student.r2.core.population.model.PopulationEntity</class -->
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>

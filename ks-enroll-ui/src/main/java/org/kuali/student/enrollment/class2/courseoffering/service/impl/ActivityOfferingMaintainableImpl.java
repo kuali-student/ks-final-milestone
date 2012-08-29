@@ -13,6 +13,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.*;
@@ -110,9 +111,10 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 scheduleRequest.setRefObjectTypeKey(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY);
                 scheduleRequest.setName("Schedule request for " + activityOfferingInfo.getCourseOfferingCode() + " - " + activityOfferingInfo.getActivityCode());
                 scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE);
-                scheduleRequest.setStateKey("kuali.scheduling.schedule.request.state.created");
+                scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_CREATED_STATE);
 
                 ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
+                componentInfo.setId(UUIDHelper.genStringUUID());
                 List<String> room = new ArrayList();
                 room.add(scheduleWrapper.getRoom().getId());
                 componentInfo.setRoomIds(room);
@@ -126,7 +128,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 TimeSlotInfo timeSlot = new TimeSlotInfo();
                 timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
                 timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
-                List<Integer> days = buildDays(scheduleWrapper.getDays());
+                List<Integer> days = buildDaysForDTO(scheduleWrapper.getDays());
                 timeSlot.setWeekdays(days);
 
                 DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
@@ -173,7 +175,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     }
 
-    private List<Integer> buildDays(String days){
+    private List<Integer> buildDaysForDTO(String days){
 
         List<Integer> weekdays  = new ArrayList();
 
@@ -210,6 +212,39 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
 
         return weekdays;
+    }
+
+    private String buildDaysForUI(List<Integer> days){
+
+        String returnValue = StringUtils.EMPTY;
+
+        for (Integer day : days) {
+            switch (day.intValue()){
+                case Calendar.MONDAY:
+                   returnValue = returnValue + "M ";
+                   break;
+                case Calendar.TUESDAY:
+                    returnValue = returnValue + "T ";
+                   break;
+                case Calendar.WEDNESDAY:
+                    returnValue = returnValue + "W ";
+                   break;
+                case Calendar.THURSDAY:
+                    returnValue = returnValue + "H ";
+                   break;
+                case Calendar.FRIDAY:
+                    returnValue = returnValue + "F ";
+                   break;
+                case Calendar.SATURDAY:
+                    returnValue = returnValue + "S ";
+                   break;
+                case Calendar.SUNDAY:
+                    returnValue = returnValue + "U ";
+                   break;
+            }
+        }
+
+        return StringUtils.removeEnd(returnValue," ");
     }
 
     @Override
@@ -398,10 +433,65 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
             wrapper.setSeatpools(seatPoolWrapperList);
 
+            buildSchedulingRequest(wrapper);
+
             return wrapper;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected void buildSchedulingRequest(ActivityOfferingWrapper wrapper){
+        try {
+            List<ScheduleRequestInfo> requestInfos = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY,wrapper.getId(),getContextInfo());
+
+            for (ScheduleRequestInfo requestInfo : requestInfos) {
+
+                ScheduleWrapper scheduleWrapper = new ScheduleWrapper(requestInfo);
+                ScheduleRequestComponentInfo requestComponentInfo = requestInfo.getScheduleRequestComponents().get(0);  // Will be only one component
+                List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(requestComponentInfo.getTimeSlotIds(),getContextInfo());
+
+                if (!timeSlotInfos.isEmpty()){
+                    scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
+
+                    DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+                    Date timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
+                    scheduleWrapper.setStartTimeUI(dateFormat.format(timeForDisplay));
+
+                    timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
+                    scheduleWrapper.setEndTimeUI(dateFormat.format(timeForDisplay));
+
+                    scheduleWrapper.setDaysUI(buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
+                }
+
+                if (!requestComponentInfo.getRoomIds().isEmpty()){
+
+                    RoomInfo room = getRoomService().getRoom(requestComponentInfo.getRoomIds().get(0),getContextInfo());
+
+                    scheduleWrapper.setRoom(room);
+                    scheduleWrapper.setRoomCode(room.getRoomCode());
+
+                    if (!room.getRoomUsages().isEmpty()){
+                        scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
+                    }
+
+                    BuildingInfo buildingInfo = getRoomService().getBuilding(room.getBuildingId(),getContextInfo());
+                    scheduleWrapper.setBuilding(buildingInfo);
+                    scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
+                }
+
+                wrapper.getRequestedSchedules().add(scheduleWrapper);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getAmPm(int ampm) {
+        if (ampm == 1) {
+            return "pm";
+        }
+        return "am";
     }
 
     /**

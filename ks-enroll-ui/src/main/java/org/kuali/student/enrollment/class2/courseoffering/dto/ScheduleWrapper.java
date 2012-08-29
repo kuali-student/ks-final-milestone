@@ -51,6 +51,10 @@ public class ScheduleWrapper implements Serializable{
         roomCode = "1115097";
     }
 
+    public ScheduleWrapper(ScheduleRequestInfo scheduleRequest){
+        this.scheduleRequest = scheduleRequest;
+    }
+
     public TimeSlotInfo getTimeSlot() {
         return timeSlot;
     }
