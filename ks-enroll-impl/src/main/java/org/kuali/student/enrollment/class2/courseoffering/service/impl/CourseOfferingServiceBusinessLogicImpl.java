@@ -197,6 +197,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             targetFo = locoService.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
                     targetFo.getTypeKey(), targetFo, context);
             List<ActivityOfferingInfo> aoInfoList = locoService.getActivityOfferingsByFormatOffering(sourceFo.getId(), context);
+            Map<ActivityOfferingInfo, ActivityOfferingInfo> sourceAoToTargetAo = new HashMap<ActivityOfferingInfo, ActivityOfferingInfo>();
             for (ActivityOfferingInfo sourceAo : aoInfoList) {
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY) &&
                     StringUtils.equals(sourceAo.getTypeKey(),LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)){
@@ -225,7 +226,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 targetAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                 targetAo = this._getCoService().createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
                         targetAo.getTypeKey(), targetAo, context);
-
+                sourceAoToTargetAo.put(sourceAo, targetAo);
                 //attach SPs to the AO created
                 try {
                     List<SeatPoolDefinitionInfo> sourceSPList = this._getCoService().getSeatPoolDefinitionsForActivityOffering(sourceAo.getId(), context);
