@@ -101,8 +101,8 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="modify"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{isSaveSuccess ? 'Back' : 'Update'}" p:methodToCall="@{isSaveSuccess ? 'close' : 'modify'}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel" p:hidden="@{isSaveSuccess}"/>
                     </list>
                 </property>
             </bean>

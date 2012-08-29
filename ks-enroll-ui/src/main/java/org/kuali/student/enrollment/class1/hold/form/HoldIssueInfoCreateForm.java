@@ -37,6 +37,7 @@ public class HoldIssueInfoCreateForm extends UifFormBase {
     private String organizationId;
     private String orgName;
 
+    private boolean isSaveSuccess;
 
    private HoldIssueInfo holdIssueInfo;
 
@@ -109,4 +110,11 @@ public class HoldIssueInfoCreateForm extends UifFormBase {
         this.orgName = orgName;
     }
 
+    public boolean getIsSaveSuccess() {
+        return isSaveSuccess;
+    }
+
+    public void setIsSaveSuccess(boolean saveSuccess) {
+        isSaveSuccess = saveSuccess;
+    }
 }

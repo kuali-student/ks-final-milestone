@@ -81,6 +81,7 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         HoldIssueInfoCreateForm holdForm = (HoldIssueInfoCreateForm) form;
+        holdForm.setIsSaveSuccess(false);
 
         return super.start(form, result, request, response);
     }
@@ -111,22 +112,24 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
         createForm.setValidateDirty(false);
         createForm.setId(createHoldIssueInfo.getId());
         createForm.setStateKey(createHoldIssueInfo.getStateKey());
-        return close(createForm, result, request, response);
+        createForm.setIsSaveSuccess(true);
+        GlobalVariables.getMessageMap().putInfo("Process", "info.enroll.save.success");
+        createForm.setIsSaveSuccess(true);
+        return refresh(createForm, result, request, response);
     }
 
   @RequestMapping(params = "methodToCall=modify")
- public ModelAndView modity(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+ public ModelAndView modity(@ModelAttribute("KualiForm") HoldIssueInfoCreateForm form, BindingResult result,
                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-      HoldIssueInfoCreateForm modifyForm = (HoldIssueInfoCreateForm) form;
 
       holdIssueInfo = new HoldIssueInfo();
-      holdIssueInfo.setId(modifyForm.getId());
-      holdIssueInfo.setName(modifyForm.getName());
-      holdIssueInfo.setTypeKey(modifyForm.getTypeKey());
-      holdIssueInfo.setStateKey(modifyForm.getStateKey());
-      holdIssueInfo.setOrganizationId(modifyForm.getOrganizationId());
+      holdIssueInfo.setId(form.getId());
+      holdIssueInfo.setName(form.getName());
+      holdIssueInfo.setTypeKey(form.getTypeKey());
+      holdIssueInfo.setStateKey(form.getStateKey());
+      holdIssueInfo.setOrganizationId(form.getOrganizationId());
       RichTextInfo richTextInfo = new RichTextInfo();
-      richTextInfo.setPlain(modifyForm.getDescr());
+      richTextInfo.setPlain(form.getDescr());
       holdIssueInfo.setDescr(richTextInfo);
 
       try {
@@ -138,7 +141,8 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
       }
       form.setValidateDirty(false);
       GlobalVariables.getMessageMap().putInfo("Hold Issue Info", "info.enroll.save.success");
-      return getUIFModelAndView(form);
+      form.setIsSaveSuccess(true);
+      return refresh(form, result, request, response);
  }
 
     @RequestMapping(params = "methodToCall=view")
