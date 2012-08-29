@@ -38,6 +38,8 @@ public class ProcessInfoForm extends UifFormBase {
     private String ownerOrgId;
     private String orgName;
 
+    private boolean isSaveSuccess;
+
     private List<ProcessInfo> processInfos;
 
     private ProcessInfo processInfo;
@@ -118,5 +120,13 @@ public class ProcessInfoForm extends UifFormBase {
 
     public void setOrgName(String orgName) {
         this.orgName = orgName;
+    }
+
+    public boolean getIsSaveSuccess() {
+        return isSaveSuccess;
+    }
+
+    public void setIsSaveSuccess(boolean saveSuccess) {
+        isSaveSuccess = saveSuccess;
     }
 }

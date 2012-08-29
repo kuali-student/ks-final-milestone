@@ -83,6 +83,7 @@ public class ProcessInfoController extends UifControllerBase {
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         ProcessInfoForm processInfoForm = (ProcessInfoForm)form;
+        processInfoForm.setIsSaveSuccess(false);
 
         return super.start(form, result, request, response);
     }
@@ -90,12 +91,9 @@ public class ProcessInfoController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProcessInfo processInfo = new ProcessInfo();
+        ProcessInfo processInfo = getProcessService().getProcess(form.getKey(), getContextInfo());
 
         if(isEdit) {
-            processInfo.setKey(form.getKey());
-            processInfo.setName(form.getName());
-            processInfo.setTypeKey(form.getTypeKey());
             processInfo.setOwnerOrgId(form.getOwnerOrgId());
             RichTextInfo richTextInfo = new RichTextInfo();
             richTextInfo.setPlain(form.getDescr());
@@ -130,19 +128,9 @@ public class ProcessInfoController extends UifControllerBase {
         }
         form.setValidateDirty(false);
         GlobalVariables.getMessageMap().putInfo("Process", "info.enroll.save.success");
+        form.setIsSaveSuccess(true);
 
         return refresh(form, result, request, response);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=create")
-    public ModelAndView create(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Properties urlParameters = new Properties();
-
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
-        urlParameters.put(UifParameters.VIEW_ID, "processCreateView");
-
-        return super.performRedirect(form, "processInfoController", urlParameters);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=search")
@@ -188,6 +176,7 @@ public class ProcessInfoController extends UifControllerBase {
     public ModelAndView back(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         clearValues(form);
+        resetForm(form);
         return getUIFModelAndView(form, "processInfoSearch-SearchPage");
     }
 
@@ -196,6 +185,7 @@ public class ProcessInfoController extends UifControllerBase {
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProcessInfo processInfo = getSelectedProcessInfo(form, "edit");
         isEdit = true;
+        form.setIsSaveSuccess(false);
 
         organizationService = getOrganizationService();
         try{
@@ -208,6 +198,7 @@ public class ProcessInfoController extends UifControllerBase {
         if ((processInfo.getKey() != null) && !processInfo.getKey().trim().isEmpty()) {
             try {
                 ProcessInfo process = getProcessService().getProcess(processInfo.getKey(), getContextInfo());
+                form.setKey(process.getKey());
                 form.setName(process.getName());
                 form.setTypeKey(process.getTypeKey());
                 form.setDescr(process.getDescr().getPlain());

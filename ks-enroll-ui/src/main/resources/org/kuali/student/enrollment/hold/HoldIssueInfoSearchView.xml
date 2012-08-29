@@ -56,7 +56,7 @@
                                     <list>
                                         <bean parent="Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="name" >
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:watermarkText="Enter Hold Name" p:size="15"/>
+                                                <bean parent="Uif-TextControl" p:size="20"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop" p:label="Category Name" p:propertyName="typeKey" >
@@ -69,7 +69,7 @@
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop" p:label="Phrase in Hold Description" p:propertyName="descr" >
                                             <property name="control">
-                                                <bean parent="Uif-SmallTextAreaControl" p:watermarkText="Enter phrase"/>
+                                                <bean parent="Uif-SmallTextAreaControl"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop"  p:label="Owning Organization"  p:propertyName="orgName" p:style="font-weight:bold;white-space:nowrap;">
