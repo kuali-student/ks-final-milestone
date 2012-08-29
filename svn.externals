@@ -9,6 +9,10 @@
 # 
 # svn propset svn:externals -F svn.externals .
 #
+# *** IMPORTANT ***
+# you must rerun the svn propset command and commit after editing any of
+# the external paths
+#
 
 ks-api http://svn.kuali.org/repos/student/enrollment/ks-api/trunk
 ks-core http://svn.kuali.org/repos/student/enrollment/ks-core/trunk
