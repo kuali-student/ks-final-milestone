@@ -1088,7 +1088,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      *                           and locale information about the caller of
      *                           service operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException          the SeatPoolDefinition does not
+     * @throws DoesNotExistException          the identified ActivityOffering does not
      *                                        exist
      * @throws InvalidParameterException      One or more parameters invalid
      * @throws MissingParameterException      One or more parameters missing
@@ -1110,7 +1110,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      *                           and locale information about the caller of
      *                           service operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException     the SeatPoolDefinition does not exist
+     * @throws DoesNotExistException     the identified Activity o does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException  unable to complete request
@@ -1118,6 +1118,24 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      */
     public StatusInfo deleteActivityOfferingCascaded(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Attempt to schedule a single Activity Offering using the Scheduling Service.
+     * 
+     * This is designed to be used for one-off scheduling of activity offerings created after the mass scheduling event.
+     * 
+     * @param activityOfferingId Id of the Activity Offering to be scheduled.
+     * @param contextInfo  Context information containing the principalId
+     *                     and locale information about the caller of
+     *                     service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException the identified activity offering does not exist.
+     * @throws InvalidParameterException the contextInfo parameter object is invalid.
+     * @throws MissingParameterException one or more of the method parameter's is missing.
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo scheduleActivityOffering (String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
     /**
      * Validates an activity offering. Depending on the value of validationType,
      * this validation could be limited to tests on just the current object and
