@@ -224,6 +224,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{isSaveSuccess ? 'Back' : 'Update'}" p:methodToCall="@{isSaveSuccess ? 'back' : 'save'}"/>
+                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="back" p:hidden="@{isSaveSuccess}"/>
                         </list>
                     </property>
                 </bean>

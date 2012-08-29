@@ -82,6 +82,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{isSaveSuccess ? 'Close' : 'Save'}" p:methodToCall="@{isSaveSuccess ? 'close' : 'save'}"/>
+                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close" p:hidden="@{isSaveSuccess}"/>
                         </list>
                     </property>
                 </bean>
