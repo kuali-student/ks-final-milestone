@@ -554,11 +554,21 @@
 
     <bean id="emServiceImpl"
           class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
-        <property name="enumDAO" ref="emDao"/>
+        <property name="enumDao" ref="enumDao"/>
+        <property name="enumValueDao" ref="enumValueDao"/>
+        <property name="enumContextValueDao" ref="enumContextValueDao"/>
         <property name="searchManager" ref="emSearchManager"/>
     </bean>
-    <bean id="emDao"
-          class="org.kuali.student.r1.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
+
+    <bean id="enumDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="enumValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="enumContextValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumContextValueDao">
         <property name="em" ref="entityManager"/>
     </bean>
 

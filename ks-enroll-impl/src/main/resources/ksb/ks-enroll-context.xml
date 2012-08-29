@@ -746,8 +746,10 @@
     </bean>
 
     <!-- enumeration service for Appt Rule Types -->
-    <bean id="enumerationService" class="org.kuali.student.r1.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
-        <property name="enumDAO" ref="enumDao" />
+    <bean id="enumerationService" class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+        <property name="enumDao" ref="enumDao"/>
+        <property name="enumValueDao" ref="enumValueDao"/>
+        <property name="enumContextValueDao" ref="enumContextValueDao"/>
         <property name="searchManager" ref="enumSearchManager" />
     </bean>
 
@@ -755,7 +757,6 @@
           class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:em-search-config.xml" />
     </bean>
-
 
     <!-- Search service -->
     <bean id="apptWindowCountsSearchImpl" class="org.kuali.student.r2.core.class1.search.ApptWindowCountsSearchImpl">
