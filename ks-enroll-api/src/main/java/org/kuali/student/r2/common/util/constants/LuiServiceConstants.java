@@ -15,7 +15,6 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
-import org.kuali.rice.krad.keyvalues.IndicatorPersonSearchTypeValuesFinder;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -200,7 +199,6 @@ public class LuiServiceConstants {
     public static final String LUI_AO_STATE_OFFERED_KEY = "kuali.lui.activity.offering.state.offered";
     public static final String LUI_AO_STATE_SUSPENDED_KEY = "kuali.lui.activity.offering.state.suspended";
     public static final String LUI_AO_STATE_CANCELED_KEY = "kuali.lui.activity.offering.state.canceled";
-    public static final String LUI_AO_STATE_UNSCHEDULED_KEY = "kuali.lui.activity.offering.state.unscheduled";
 
     public static final String[] ACTIVITY_OFFERING_PROCESS_STATE_KEYS = {
         LUI_AO_STATE_DRAFT_KEY,
@@ -209,8 +207,7 @@ public class LuiServiceConstants {
         LUI_AO_STATE_SCHEDULED_KEY,
         LUI_AO_STATE_OFFERED_KEY,
         LUI_AO_STATE_SUSPENDED_KEY,
-        LUI_AO_STATE_CANCELED_KEY,
-        LUI_AO_STATE_UNSCHEDULED_KEY
+        LUI_AO_STATE_CANCELED_KEY
     };
 
     public static boolean isValidActivityOfferingState(String possibleState) {
