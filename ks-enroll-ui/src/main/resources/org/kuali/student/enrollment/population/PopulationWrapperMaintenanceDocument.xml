@@ -175,7 +175,7 @@
         <property name="items">
             <list>
                 <bean id="KS-PopulationWrapper-AddPopulationsSubSection" parent="Uif-TableCollectionSubSection"
-                      p:collectionLookup.render="false" p:width="25%" p:id="populations_table">
+                      p:collectionLookup.render="false" p:width="27%" p:id="populations_table">
                     <property name="headerText" value="" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
                     <property name="propertyName" value="childPopulations" />
