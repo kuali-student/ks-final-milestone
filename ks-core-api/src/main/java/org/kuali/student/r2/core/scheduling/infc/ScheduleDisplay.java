@@ -13,20 +13,4 @@ import org.kuali.student.r2.common.infc.IdEntity;
  */
 public interface ScheduleDisplay extends IdEntity, DisplayObject {
 
-    /**
-     * Display string representing the time of the Activity Offering.
-     * Eg. 9:00am - 11:00am
-     */
-    public String getScheduleTime();
-
-    /**
-     * Display string representing the weekday pattern on which the Activity Offering meets.
-     * Eg. MWF
-     */
-    public String getScheduleWeekdays();
-
-    /**
-     * The building and room location.
-     */
-    public String getLocation ();
 }
