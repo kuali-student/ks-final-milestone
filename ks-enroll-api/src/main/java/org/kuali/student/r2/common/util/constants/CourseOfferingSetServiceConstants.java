@@ -40,11 +40,13 @@ public class CourseOfferingSetServiceConstants {
     public static final String UNITS_CONTENT_OWNER_SOC_TYPE_KEY = "kuali.soc.type.units.content.owner";
     public static final String UNITS_DEPLOYMENT_OWNER_SOC_TYPE_KEY = "kuali.soc.type.units.deployment.owner";
 
+    // SOC states (see https://wiki.kuali.org/display/STUDENT/Set+of+Course+Offerings+%28SOC%29+States)
     // SOC states (see https://wiki.kuali.org/display/STUDENT/Course+Offering+Set+Types+and+States)
     public static final String DRAFT_SOC_STATE_KEY = "kuali.soc.state.draft";
     public static final String OPEN_SOC_STATE_KEY = "kuali.soc.state.open";
     public static final String LOCKED_SOC_STATE_KEY = "kuali.soc.state.locked ";
     public static final String FINALEDITS_SOC_STATE_KEY = "kuali.soc.state.finaledits";
+    public static final String PUBLISHING_SOC_STATE_KEY = "kuali.soc.state.publishing";
     public static final String PUBLISHED_SOC_STATE_KEY = "kuali.soc.state.published";
     public static final String CLOSED_SOC_STATE_KEY = "kuali.soc.state.closed ";
 
