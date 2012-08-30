@@ -89,7 +89,7 @@ public class TestCourseOfferingCodeGeneratorImpl {
         List<CourseOfferingInfo> cos = new ArrayList<CourseOfferingInfo>();
         for(char c='A';c<='Z';c++){
             CourseOfferingInfo a = new CourseOfferingInfo();
-            a.setCourseNumberInternalSuffix(String.valueOf(c));
+            a.setCourseNumberSuffix(String.valueOf(c));
 
             cos.add(a);
         }

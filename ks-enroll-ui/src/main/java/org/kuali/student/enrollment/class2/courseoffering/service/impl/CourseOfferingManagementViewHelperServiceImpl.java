@@ -32,8 +32,8 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
@@ -317,6 +317,55 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 */
 
                 // assign the time and days
+                List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY  , info.getId(), getContextInfo());
+                if (scheduleRequestInfoList != null && scheduleRequestInfoList.size() > 0) {
+                    ScheduleRequestInfo scheduleRequestInfo = scheduleRequestInfoList.get(0);
+                    List<ScheduleRequestComponentInfo> componentList = scheduleRequestInfo.getScheduleRequestComponents();
+                    if (componentList != null && componentList.size() > 0) {
+                        List<String> ids = componentList.get(0).getTimeSlotIds();
+                        if (ids != null && ids.size() > 0) {
+                            TimeSlotInfo timeSlot = getSchedulingService().getTimeSlot(ids.get(0), getContextInfo());
+                            if (timeSlot != null) {
+                                TimeOfDayInfo startTime = timeSlot.getStartTime();
+                                TimeOfDayInfo endTime = timeSlot.getEndTime();
+                                List<Integer> days = timeSlot.getWeekdays();
+
+                                if (startTime != null) {
+                                    calendar.setTimeInMillis(startTime.getMilliSeconds());
+                                    String start1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
+                                    wrapper.setStartTimeDisplay(start1);
+                                }
+                                if (endTime != null) {
+                                    calendar.setTimeInMillis(endTime.getMilliSeconds());
+                                    String end1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
+                                    wrapper.setEndTimeDisplay(end1);
+                                }
+                                if (days != null && days.size() > 0) {
+                                    wrapper.setDaysDisplayName(getDays(days));
+                                }
+                            }
+                        }
+
+                        // assign building and room info
+                        List<String> roomIds = componentList.get(0).getRoomIds();
+                        if (roomIds != null && roomIds.size() > 0) {
+                            if (roomIds.get(0) != null) {
+                                RoomInfo roomInfo = getRoomService().getRoom(roomIds.get(0), getContextInfo());
+                                if (roomInfo != null) {
+                                    if (roomInfo.getBuildingId() != null && !roomInfo.getBuildingId().isEmpty()) {
+                                        BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), getContextInfo());
+                                        if (buildingInfo != null)
+                                            wrapper.setBuildingName(buildingInfo.getName());
+                                    }
+                                    wrapper.setRoomName(roomInfo.getName());
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+/*
                 if (info.getScheduleId() != null) {
                     ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(info.getScheduleId(), getContextInfo());
                     if (scheduleInfo != null) {
@@ -361,6 +410,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                         }
                     }
                 }
+*/
                 activityOfferingWrapperList.add(wrapper);
             }
         } catch (Exception e) {
