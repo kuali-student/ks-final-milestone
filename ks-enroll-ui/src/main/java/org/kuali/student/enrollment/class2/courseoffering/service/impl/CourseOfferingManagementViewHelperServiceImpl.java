@@ -44,6 +44,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -72,8 +73,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 
         // Do search.  In ideal case, terms returns one element, which is the desired term.
         AcademicCalendarService acalService = _getAcalService();
-        List<TermInfo> terms = acalService.searchForTerms(criteria, new ContextInfo());
-        return terms;
+        return acalService.searchForTerms(criteria, new ContextInfo());
     }
 
     public void loadCourseOfferingsByTermAndSubjectCode (String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception{
@@ -132,7 +132,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                         throw new RuntimeException("Alert: find more than one term for specified termCode: "+termCode);
                     }
                 } else {
-                    new Exception("Error: Does not find a valid term with Term = "+ termCode);
+                    throw new RuntimeException("Error: Does not find a valid term with Term = "+ termCode);
                 }
             }
 
@@ -241,7 +241,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         }
 
         // Get the matching activity offering type for the selected activity
-        TypeInfo activityOfferingType = null;
+        TypeInfo activityOfferingType;
         try {
             List<TypeInfo> types = getTypeService().getAllowedTypesForType(activity.getTypeKey(), getContextInfo());
             // only one AO type should be mapped to each Activity type
@@ -278,7 +278,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
     public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception{
         String courseOfferingId = theCourseOfferingInfo.getId();
         List<ActivityOfferingInfo> activityOfferingInfoList;
-        List<ActivityOfferingWrapper> activityOfferingWrapperList = null;
+        List<ActivityOfferingWrapper> activityOfferingWrapperList;
 
         try {
             activityOfferingInfoList =_getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, getContextInfo());
@@ -298,25 +298,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                     wrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
                 }
 
-/*
-                calendar.setTimeInMillis(1344443400000L);
-                String sTime = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
-                calendar.setTimeInMillis(1344447000000L);
-                String eTime = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
-
-                List<Integer>  testDays = new ArrayList<Integer>();
-                testDays.add(calendar.get(Calendar.DAY_OF_WEEK)-2);
-                testDays.add(calendar.get(Calendar.DAY_OF_WEEK));
-                wrapper.setStartTimeDisplay(sTime);
-                wrapper.setEndTimeDisplay(eTime);
-                wrapper.setDaysDisplayName(getDays(testDays));
-                wrapper.setBuildingName("COMPUTER SCIENCE INSTRUCTIONAL");
-                wrapper.setRoomName("CSI 2118");
-                SchedulingService service  = getSchedulingService();
-                RoomService roomService1 = getRoomService();
-*/
-
                 // assign the time and days
+                SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
                 List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY  , info.getId(), getContextInfo());
                 if (scheduleRequestInfoList != null && scheduleRequestInfoList.size() > 0) {
                     ScheduleRequestInfo scheduleRequestInfo = scheduleRequestInfoList.get(0);
@@ -332,13 +315,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 
                                 if (startTime != null) {
                                     calendar.setTimeInMillis(startTime.getMilliSeconds());
-                                    String start1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
-                                    wrapper.setStartTimeDisplay(start1);
+                                    wrapper.setStartTimeDisplay(format.format(calendar.getTime()));
                                 }
                                 if (endTime != null) {
                                     calendar.setTimeInMillis(endTime.getMilliSeconds());
-                                    String end1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
-                                    wrapper.setEndTimeDisplay(end1);
+                                    wrapper.setEndTimeDisplay(format.format(calendar.getTime()));
                                 }
                                 if (days != null && days.size() > 0) {
                                     wrapper.setDaysDisplayName(getDays(days));
@@ -364,53 +345,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 
                     }
                 }
-
-/*
-                if (info.getScheduleId() != null) {
-                    ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(info.getScheduleId(), getContextInfo());
-                    if (scheduleInfo != null) {
-                        List<ScheduleComponentInfo> componentList = scheduleInfo.getScheduleComponents();
-                        if (componentList != null && componentList.size() > 0) {
-                            List<String> ids = componentList.get(0).getTimeSlotIds();
-                            if (ids != null && ids.size() > 0) {
-                                TimeSlotInfo timeSlot = getSchedulingService().getTimeSlot(ids.get(0), getContextInfo());
-                                if (timeSlot != null) {
-                                    TimeOfDayInfo startTime = timeSlot.getStartTime();
-                                    TimeOfDayInfo endTime = timeSlot.getEndTime();
-                                    List<Integer> days = timeSlot.getWeekdays();
-
-                                    if(startTime != null) {
-                                        calendar.setTimeInMillis(startTime.getMilliSeconds());
-                                        String start1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
-                                        wrapper.setStartTimeDisplay(start1);
-                                    }
-                                    if(endTime != null) {
-                                        calendar.setTimeInMillis(endTime.getMilliSeconds());
-                                        String end1 = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + getAmPm(calendar.get(Calendar.AM_PM));
-                                        wrapper.setEndTimeDisplay(end1);
-                                    }
-                                    if(days != null && days.size() > 0) {
-                                        wrapper.setDaysDisplayName(getDays(days));
-                                    }
-                                }
-                            }
-                            // assign building and room info
-                            String roomId = componentList.get(0).getRoomId();
-                            if(roomId != null) {
-                                RoomInfo roomInfo = getRoomService().getRoom(roomId, getContextInfo());
-                                if(roomInfo != null) {
-                                    if(roomInfo.getBuildingId() != null  && !roomInfo.getBuildingId().isEmpty()) {
-                                        BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), getContextInfo());
-                                        if(buildingInfo != null)
-                                        wrapper.setBuildingName(buildingInfo.getName());
-                                    }
-                                    wrapper.setRoomName(roomInfo.getName());
-                                }
-                            }
-                        }
-                    }
-                }
-*/
                 activityOfferingWrapperList.add(wrapper);
             }
         } catch (Exception e) {
@@ -677,18 +611,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         return isMatched;        
     }
 
-    private String getAmPm(int ampm) {
-        if (ampm == 1) {
-            return "pm";
-        }
-        return "am";
-    }
 
     private String convertIntoDays(int day) {
-        String dayOfWeek = "";
+        String dayOfWeek;
         switch (day) {
             case 1:
-                dayOfWeek = "SU";
+                dayOfWeek = "U";
                 break;
             case 2:
                 dayOfWeek = "M";
@@ -700,7 +628,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 dayOfWeek = "W";
                 break;
             case 5:
-                dayOfWeek = "TH";
+                dayOfWeek = "H";
                 break;
             case 6:
                 dayOfWeek = "F";
@@ -711,6 +639,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             default:
                 dayOfWeek = "";
         }
+        // TODO implement TBA when service stores it.
         return dayOfWeek;
     }
 
@@ -720,7 +649,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         if(intList == null) return sb.toString();
 
         for(Integer d : intList) {
-            sb.append(convertIntoDays(d.intValue()));
+            sb.append(convertIntoDays(d));
         }
         return sb.toString();
     }
