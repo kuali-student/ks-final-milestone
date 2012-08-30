@@ -17,9 +17,10 @@
 package org.kuali.student.enrollment.courseoffering.service;
 
 import java.util.List;
+
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -55,24 +56,24 @@ public interface CourseOfferingServiceBusinessLogic {
             InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * Generate a list of unconstrained registration groups for the formatOffering given.
+     * This is a bulk create method for generateRegistrationGroupsForAOC().  Instead of working on a single Activity Offering Cluster it will
+     * work on all of the AOC's of the format offering specified.
      * 
-     * Pre conditions are that there are no existing generated registration groups (i.e. that the 
-     * 
-     * @param formatOfferingId The format offering identifier to generate registration groups for.
-     * @param context Context information containing the principalId and locale information about the caller of service operation 
-     * @return The list of all generated registration groups for the format offering given. 
-     * 
+     * @param formatOfferingId The identifier of the format offering to generate registration groups for.
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation 
+     * @return status of the operation (success, failed) 
      * @throws DoesNotExistException The formatOfferingId does not refer to an existing FormatOffering.
      * @throws InvalidParameterException The formatOfferingId or context is invalid.
      * @throws MissingParameterException the formatOfferingId or context is missing.
-     * @throws OperationFailedException unable to complete request
+     * @throws OperationFailedException unable to complete request, can also occur when verification of any AOC in the format offering fails.
      * @throws PermissionDeniedException authorization failure
      * @throws AlreadyExistsException Registration Groups exist for the formatOfferingId 
+     * @throws DataValidationErrorException TODO
+     * @throws DataValidationErrorException verification of any of the underlying Activity Offering Cluster's failed.
      */
-	public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(
+	public StatusInfo generateRegistrationGroupsForFormatOffering(
 			String formatOfferingId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, AlreadyExistsException;
+			PermissionDeniedException, AlreadyExistsException, DataValidationErrorException;
 }
