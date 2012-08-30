@@ -53,6 +53,7 @@ public class ScheduleDisplayInfo extends IdEntityInfo implements ScheduleDisplay
 
     @XmlElement
     private AtpInfo atp;
+
     @XmlElement
     private List<ScheduleComponentDisplayInfo> scheduleComponentDisplays;
 

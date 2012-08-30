@@ -2,6 +2,11 @@ package org.kuali.student.r2.core.scheduling.infc;
 
 import org.kuali.student.r2.common.infc.DisplayObject;
 import org.kuali.student.r2.common.infc.HasId;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.List;
 
@@ -11,51 +16,33 @@ import java.util.List;
  * Date: 8/28/12
  * Time: 1:27 PM
  *
- * This interface represents a reusable display object in the Scheduling Service for ScheduleRequests.
+ * This interface represents a reusable display object in the Scheduling Service for ScheduleRequestComponents.
  */
 public interface ScheduleRequestComponentDisplay extends HasId, DisplayObject {
 
     /**
-     * The Campus Id to specify a Campus.
-     *
-     * @name Campus Ids
+     * The Building.
      */
-    public List<String> getCampusIds();
+    public List<BuildingInfo> getBuildings();
 
     /**
-     * The Building Id to specify a Building.
-     *
-     * @name Building Ids
+     * The Rooms.
      */
-    public List<String> getBuildingIds();
+    public List<RoomInfo> getRooms();
 
     /**
-     * The Room Id to specify a Room.
-     *
-     * @name Room Ids
-     */
-    public List<String> getRoomIds();
-
-    /**
-     * The Org Id to specify a Room or Building "owned" by an
+     * The Orgs to specify a Room or Building "owned" by an
      * Organization.
-     *
-     * @name Org Ids
      */
-    public List<String> getOrgIds();
+    public List<OrgInfo> getOrgs();
 
     /**
-     * The Resource Types to specify a Room with types of fixed
-     * Resources.
-     *
-     * @name Resource Type Keys
+     * The resource types.
      */
-    public List<String> getResourceTypeKeys();
+    public List<TypeInfo> getResourceTypes();
 
     /**
-     * The Time Slot Ids to specify a time slot.
-     *
-     * @name Time Slot Ids
+     * The Time Slots
      */
-    public List<String> getTimeSlotIds();
+    public List<TimeSlotInfo> getTimeSlots();
 }

@@ -15,6 +15,7 @@ import java.util.List;
  * Time: 1:40 PM
  *
  * This interface represents a reusable display object in the Scheduling Service for ScheduleComponents.
+ * @author Mezba Mahtab
  */
 public interface ScheduleComponentDisplay extends HasId, DisplayObject {
 

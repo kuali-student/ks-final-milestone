@@ -45,7 +45,7 @@ import java.util.List;
  * @Author Mezba Mahtab
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
+@XmlType(name = "ScheduleComponentDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "room", "building", "timeSlots",
         "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class ScheduleComponentDisplayInfo implements ScheduleComponentDisplay, Serializable {

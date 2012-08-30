@@ -16,6 +16,7 @@ import java.util.List;
  * This interface represents a reusable display object in the Scheduling Service for Schedules.
  */
 public interface ScheduleDisplay extends IdEntity, DisplayObject {
+
     /**
      * The ATP. Schedule Components are applied to this ATP.
      * @required
