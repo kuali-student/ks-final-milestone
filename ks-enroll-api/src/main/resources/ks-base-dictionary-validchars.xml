@@ -30,9 +30,17 @@
     <bean id="AlphanumericHyphenPeriod" parent="AlphaNumericPatternConstraint"
           p:allowDash="true" p:allowPeriod="true"/>
     <bean id="Digits" parent="NumericPatternConstraint"/>
-    <bean id="Positive.integer" parent="ValidCharactersConstraint">
-        <property name="value" value="[1-9][0-9]*"/>
+
+    <bean id="Integer" parent="IntegerPatternConstraint">
         <property name="applyClientSide" value="true"/>
+        <property name="allowNegative" value="true"/>
+        <property name="labelKey" value="validation.validChars.integer"/>
+    </bean>
+
+    <bean id="Positive.integer" parent="IntegerPatternConstraint">
+        <property name="applyClientSide" value="true"/>
+        <property name="allowNegative" value="false"/>
+        <property name="omitZero" value="true" />
         <property name="labelKey" value="validation.validChars.positive.integer"/>
     </bean>
     <bean id="RelationalOperator" parent="ValidCharactersConstraint">
