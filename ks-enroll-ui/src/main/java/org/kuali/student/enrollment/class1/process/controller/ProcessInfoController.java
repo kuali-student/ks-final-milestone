@@ -91,9 +91,10 @@ public class ProcessInfoController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProcessInfo processInfo = getProcessService().getProcess(form.getKey(), getContextInfo());
+        ProcessInfo processInfo =  new ProcessInfo();
 
         if(isEdit) {
+            processInfo = getProcessService().getProcess(form.getKey(), getContextInfo());
             processInfo.setOwnerOrgId(form.getOwnerOrgId());
             RichTextInfo richTextInfo = new RichTextInfo();
             richTextInfo.setPlain(form.getDescr());
@@ -122,6 +123,7 @@ public class ProcessInfoController extends UifControllerBase {
             try {
                 processService = getProcessService();
                 ProcessInfo createProcessInfo = processService.createProcess(processInfo.getKey(), processInfo.getTypeKey(), processInfo, getContextInfo());
+                isEdit=true;
             } catch (Exception e) {
                 return getUIFModelAndView(form);
             }
