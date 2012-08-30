@@ -180,12 +180,16 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 	@Test
 	public void testGenerateRegistrationGroupsSimple() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException, AlreadyExistsException {
+			OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
 
-		List<RegistrationGroupInfo> rgList = coService
+		StatusInfo status = coService
 				.generateRegistrationGroupsForFormatOffering(
 						"CO-1:LEC-AND-LAB", callContext);
+		
+		Assert.assertTrue (status.getIsSuccess());
 
+		List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
+		
 		Assert.assertEquals(6, rgList.size());
 
 	}
@@ -193,14 +197,20 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 	@Test
 	public void testGenerateAndDeleteRegistrationGroups() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
 		
+		
 		List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsForCourseOffering("CO-1", callContext);
 		
 		assertEquals (0, rgList.size());
 		
-		rgList = coService
+		StatusInfo status = coService
 				.generateRegistrationGroupsForFormatOffering(
 						"CO-1:LEC-AND-LAB", callContext);
 
+		
+		Assert.assertTrue(status.getIsSuccess());
+		
+		rgList = coService.getRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
+		
 		Assert.assertEquals(6, rgList.size());
 		
 		// this is harder so for now just skip
@@ -224,21 +234,22 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 		boolean exception = false;
 		
 		try {
-			rgList = coService
+			status = coService
 					.generateRegistrationGroupsForFormatOffering(
 							"CO-1:LEC-AND-LAB", callContext);
+			
 		} catch (AlreadyExistsException e) {
 			exception = true;
 		}
 		
 		Assert.assertTrue("Exception should have occured when generating on top of existing reg groups.", exception);
 
-		StatusInfo status = coService.deleteGeneratedRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
+		status = coService.deleteGeneratedRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
 		
 		assertTrue("Failed to delete existing generated registration groups", status.getIsSuccess());
 
 		try {
-			rgList = coService
+			status = coService
 					.generateRegistrationGroupsForFormatOffering(
 							"CO-1:LEC-AND-LAB", callContext);
 		} catch (AlreadyExistsException e) {
@@ -673,7 +684,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 	}
 
 	@Test
-	public void testDeleteCourseOfferingCascaded() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException {
+	public void testDeleteCourseOfferingCascaded() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
 		
 		boolean dependantObjects = false;
 		
@@ -685,11 +696,13 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 		
 		assertTrue("No dependent objects exist for CO-1", dependantObjects);
 		
-		List<RegistrationGroupInfo> rgs = coService.generateRegistrationGroupsForFormatOffering("CO-1:LEC-ONLY", callContext);
+		StatusInfo status = coService.generateRegistrationGroupsForFormatOffering("CO-1:LEC-ONLY", callContext);
+		
+		List<RegistrationGroupInfo> rgs = coService.getRegistrationGroupsByFormatOffering("CO-1:LEC-ONLY", callContext);
 		
 		assertTrue(rgs.size() > 0);
 		
-		StatusInfo status = coService.deleteCourseOfferingCascaded("CO-1", callContext);
+		status = coService.deleteCourseOfferingCascaded("CO-1", callContext);
 		
 		assertTrue(status.getIsSuccess());
 		

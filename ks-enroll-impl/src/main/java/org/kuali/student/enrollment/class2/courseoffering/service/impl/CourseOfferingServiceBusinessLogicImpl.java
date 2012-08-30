@@ -22,14 +22,19 @@ import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGr
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfoExtended;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -45,6 +50,8 @@ import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 
 /**
  *
@@ -432,6 +439,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return activityOfferingTypeToAvailableActivityOfferingMap;
     }
 
+    /*
+     * Note: The Registration Group Code is what the admnin's want to see the reg groups on a per course offering basis.
+     * 
+     * The Registration Code will be a globally unique key used during registration and exactly how this works is not yet defined (see the null below).
+     */
     private RegistrationGroupInfo _makeRegGroup(String regGroupCode, List<String> activityOfferingPermuation, FormatOfferingInfo formatOffering) {
         RegistrationGroupInfo rg = new RegistrationGroupInfo();
 
@@ -452,11 +464,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
      * The core generation logic should work with in the impl as well.
      */
     @Override
-    public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(
+    public StatusInfo generateRegistrationGroupsForFormatOffering(
             String formatOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
-            PermissionDeniedException, AlreadyExistsException {
+            PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
 
         // check for any existing registration groups
         this._getCoService(); // Make sure coService gets set
@@ -511,7 +523,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         "Failed to write registration group", e);
             }
         }
-        return regGroupList;
+        
+        StatusInfo success = new StatusInfo();
+        
+        success.setSuccess(true);
+        
+		return success;
     }
 
 

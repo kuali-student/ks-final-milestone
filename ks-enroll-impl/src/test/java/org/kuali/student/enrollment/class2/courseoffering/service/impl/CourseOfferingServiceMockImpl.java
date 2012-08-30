@@ -962,13 +962,13 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	
 
 	@Override
-	public List<RegistrationGroupInfo> generateRegistrationGroupsForCluster(
+	public StatusInfo generateRegistrationGroupsForCluster(
             String registrationGroupTemplateId, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		throw new OperationFailedException(
-				"generateRegistrationGroupsForFormatOffering has not been implemented");
+				"Implement for M5");
 	}
 
 	@Override
@@ -1133,7 +1133,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
 
     @Override
-    public List<ValidationResultInfo> verifyActivityOfferingClusterForGeneration(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> verifyActivityOfferingClusterForGeneration(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("unsupported");
     }
 
@@ -1524,11 +1524,11 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	}
 
 	@Override
-	public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(
+	public StatusInfo generateRegistrationGroupsForFormatOffering(
 			String formatOfferingId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, AlreadyExistsException {
+			PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
 
 		return businessLogic.generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
 	}
@@ -1706,6 +1706,21 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		} catch (Exception e) {
 			throw new OperationFailedException("updateSeatPoolDefinitionState (id=" + seatPoolDefinitionId + ", nextStateKey=" + nextStateKey, e);
 		}
+	}
+
+	@Override
+	public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOfferingCluster(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		List<RegistrationGroupInfo>regGroups = new ArrayList<RegistrationGroupInfo>();
+		
+		ActivityOfferingClusterInfo aoc = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+		
+		return regGroups;
 	}
     
     

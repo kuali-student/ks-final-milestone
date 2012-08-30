@@ -34,6 +34,7 @@ import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -282,7 +283,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=generateUnconstrainedRegGroups")
     public ModelAndView generateUnconstrainedRegGroups (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().generateRegistrationGroupsForFormatOffering(theForm.getFormatOfferingIdForViewRG(), getContextInfo());
+    	String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
+        
+    	StatusInfo info = getCourseOfferingService().generateRegistrationGroupsForFormatOffering(formatOfferingId, getContextInfo());
+         
+    	List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(formatOfferingId, getContextInfo());
+         
         List<ActivityOfferingWrapper> filteredAOs = theForm.getFilteredAOsForSelectedFO();
         List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, filteredAOs);
         theForm.setFilteredRGsForSelectedFO(filteredRGs);
