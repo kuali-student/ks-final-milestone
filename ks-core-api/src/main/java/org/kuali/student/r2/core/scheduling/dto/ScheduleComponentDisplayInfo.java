@@ -19,8 +19,11 @@ package org.kuali.student.r2.core.scheduling.dto;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.infc.DateRange;
+import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.infc.Atp;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.scheduling.infc.MeetingTime;
 import org.kuali.student.r2.core.scheduling.infc.Schedule;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponent;
@@ -36,25 +39,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents a reusable display object in the Scheduling Service for Schedules.
+ * This class represents a reusable display object in the Scheduling Service for Schedule Component.
  *
  * @Version 2.0
  * @Author Mezba Mahtab
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "atp", "scheduleComponentDisplays",
+        "room", "building", "timeSlots",
         "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
-public class ScheduleDisplayInfo extends IdEntityInfo implements ScheduleDisplay, Serializable {
+public class ScheduleComponentDisplayInfo implements ScheduleComponentDisplay, Serializable {
 
     ////////////////////////
     // DATA VARIABLES
     ////////////////////////
 
     @XmlElement
-    private AtpInfo atp;
+    private String id;
+
     @XmlElement
-    private List<ScheduleComponentDisplayInfo> scheduleComponentDisplays;
+    private RoomInfo room;
+
+    @XmlElement
+    private BuildingInfo building;
+
+    @XmlElement
+    private List<TimeSlotInfo> timeSlots;
 
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
@@ -64,16 +74,16 @@ public class ScheduleDisplayInfo extends IdEntityInfo implements ScheduleDisplay
     // CONSTRUCTORS
     ////////////////////////
 
-    public ScheduleDisplayInfo() {
+    public ScheduleComponentDisplayInfo() {
     }
 
-    public ScheduleDisplayInfo(ScheduleDisplay scheduleDisplay) {
-        super (scheduleDisplay);
-        if (null != scheduleDisplay) {
-            this.atp= scheduleDisplay.getAtp();
-            this.scheduleComponentDisplays = new ArrayList<ScheduleComponentDisplayInfo>();
-            for (ScheduleComponentDisplayInfo scheduleComponentDisplayInfo : scheduleDisplay.getScheduleComponentDisplays()) {
-                this.scheduleComponentDisplays.add(new ScheduleComponentDisplayInfo(scheduleComponentDisplayInfo));
+    public ScheduleComponentDisplayInfo(ScheduleComponentDisplay scheduleComponentDisplay) {
+        if (null != scheduleComponentDisplay) {
+            this.room= scheduleComponentDisplay.getRoom();
+            this.building = scheduleComponentDisplay.getBuilding();
+            this.timeSlots = new ArrayList<TimeSlotInfo>();
+            for (TimeSlotInfo timeSlotInfo: scheduleComponentDisplay.getTimeSlots()) {
+                this.timeSlots.add(new TimeSlotInfo(timeSlotInfo));
             }
         }
     }
@@ -83,20 +93,38 @@ public class ScheduleDisplayInfo extends IdEntityInfo implements ScheduleDisplay
     ////////////////////////////////////
 
     @Override
-    public AtpInfo getAtp() {
-        return atp;
+    public String getId() {
+        return id;
     }
 
-    public void setAtp(AtpInfo atp) {
-        this.atp = atp;
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
-    public List<ScheduleComponentDisplayInfo> getScheduleComponentDisplays() {
-        return scheduleComponentDisplays;
+    public RoomInfo getRoom() {
+        return room;
     }
 
-    public void setScheduleComponentDisplays(List<ScheduleComponentDisplayInfo> scheduleComponentDisplays) {
-        this.scheduleComponentDisplays = scheduleComponentDisplays;
+    public void setRoom(RoomInfo room) {
+        this.room = room;
+    }
+
+    @Override
+    public BuildingInfo getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(BuildingInfo building) {
+        this.building = building;
+    }
+
+    @Override
+    public List<TimeSlotInfo> getTimeSlots() {
+        return timeSlots;
+    }
+
+    public void setTimeSlots(List<TimeSlotInfo> timeSlots) {
+        this.timeSlots = timeSlots;
     }
 }
