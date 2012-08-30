@@ -44,6 +44,7 @@ import javax.annotation.Resource;
 import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -625,7 +626,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
                 notDeletedOptions.add(optionEntity);
             }
         }
-        entity.setOptions(notDeletedOptions);
+        entity.setOptions(new HashSet<SocRolloverResultOptionEntity>(notDeletedOptions));
         entity.fromDTO(info);
        
         entity.setEntityUpdated(context);

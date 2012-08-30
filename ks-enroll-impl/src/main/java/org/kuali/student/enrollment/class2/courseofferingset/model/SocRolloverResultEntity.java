@@ -14,6 +14,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -45,9 +46,9 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
     private String mesgFormatted;
     @Column(name = "MESG_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String mesgPlain;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "socRolloverResult")
-    private List<SocRolloverResultOptionEntity> options = new ArrayList<SocRolloverResultOptionEntity>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "socRolloverResult",fetch = FetchType.EAGER)
+    private Set<SocRolloverResultOptionEntity> options = new HashSet<SocRolloverResultOptionEntity>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<SocRolloverResultAttributeEntity> attributes = new HashSet<SocRolloverResultAttributeEntity>();
 
     private static Logger LOGGER = Logger.getLogger(SocRolloverResultEntity.class);
@@ -254,14 +255,14 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
         this.targetTermId = targetTermId;
     }
 
-    public List<SocRolloverResultOptionEntity> getOptions() {
+    public Set<SocRolloverResultOptionEntity> getOptions() {
         if (this.options == null) {
-            this.options = new ArrayList<SocRolloverResultOptionEntity>();
+            this.options = new HashSet<SocRolloverResultOptionEntity>();
         }
         return options;
     }
 
-    public void setOptions(List<SocRolloverResultOptionEntity> options) {
+    public void setOptions(Set<SocRolloverResultOptionEntity> options) {
         this.options = options;
     }
 }
