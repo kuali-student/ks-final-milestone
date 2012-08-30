@@ -109,7 +109,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 scheduleRequest.setRefObjectId(activityOfferingInfo.getId());
                 scheduleRequest.setRefObjectTypeKey(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY);
                 scheduleRequest.setName("Schedule request for " + activityOfferingInfo.getCourseOfferingCode() + " - " + activityOfferingInfo.getActivityCode());
-                scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE);
+                scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
                 scheduleRequest.setStateKey("kuali.scheduling.schedule.request.state.created");
 
                 ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
@@ -124,7 +124,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 componentInfo.setResourceTypeKeys(scheduleWrapper.getFeatures());
 
                 TimeSlotInfo timeSlot = new TimeSlotInfo();
-                timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+                timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING);
                 timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
                 List<Integer> days = buildDays(scheduleWrapper.getDays());
                 timeSlot.setWeekdays(days);
@@ -154,7 +154,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 }
 
                 try {
-                    TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY,timeSlot,getContextInfo());
+                    TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING,timeSlot,getContextInfo());
                     componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -163,7 +163,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 scheduleRequest.getScheduleRequestComponents().add(componentInfo);
 
                 try {
-                    ScheduleRequestInfo createdScheduleRequestInfo = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE,scheduleRequest,getContextInfo());
+                    ScheduleRequestInfo createdScheduleRequestInfo = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,scheduleRequest,getContextInfo());
                     scheduleWrapper.setScheduleRequest(createdScheduleRequestInfo);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
