@@ -170,24 +170,32 @@
     </bean>
 
     <!-- This is a collection of Child Populations -->
-
-    <bean id="KS-PopulationWrapper-AddPopulationsSection" parent="Uif-HorizontalBoxSubSection" >
-        <property name="headerText" value=""/>
+    <bean id="KS-PopulationWrapper-AddPopulationsSection" parent="Uif-HorizontalBoxSubSection">
+        <property name="headerText" value="Population(s)"/>
         <property name="items">
             <list>
-                <bean id="KS-PopulationWrapper-AddPopulationsSubSection" parent="KS-HorizontalCollectionSubSection"
-                      p:collectionLookup.render="false" p:required="true" p:renderLineActions="true">
-                    <property name="headerText" value="Population(s)" />
-                    <property name="propertyName" value="childPopulations" />
+                <bean id="KS-PopulationWrapper-AddPopulationsSubSection" parent="Uif-TableCollectionSubSection"
+                      p:collectionLookup.render="false" p:width="25%" p:id="populations_table">
+                    <property name="headerText" value="" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
-                    <property name="collectionLookup.quickfinderAction.render" value="false" />
-                    <property name="layoutManager.lineGroupPrototype.header.cssClasses">
-                        <list merge="true">
-                            <value>ks-borderBottom2</value>
+                    <property name="propertyName" value="childPopulations" />
+                    <property name="layoutManager.renderSequenceField" value="false" />
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                    <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                    <property name="layoutManager.richTable.render" value="false" />
+                    <property name="addLineActions">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
+                                  p:actionEvent="addLine" p:id="addPop_button"/>
                         </list>
                     </property>
-                    <property name="layoutManager.addLineGroup.header.render" value="false" />
-                    <property name="items">
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete"
+                                p:actionEvent="deleteLine" p:id="deletePop_button"/>
+                        </list>
+                    </property>
+                    <property name="addLineItems">
                         <list>
                             <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="name"
                                   p:style="font-weight:bold;" p:required="true">
@@ -213,22 +221,17 @@
                             </bean>
                         </list>
                     </property>
-                    <property name="addLineActions">
+                    <property name="items">
                         <list>
-                            <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add" p:id="button_searchPopulation" />
+                            <bean parent="Uif-DataField" p:fieldLabel.render="false" p:propertyName="name"
+                                  p:style="font-weight:bold;" p:required="true">
+                            </bean>
                         </list>
                     </property>
-                    <property name="lineActions">
-                        <list>
-                            <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="X" p:render="@{!#isAddLine}" p:id="Delete @{#line.name}" />
-                        </list>
-                    </property>
-
-            </bean>
-        </list>
-    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
-
 
     <bean id="PopulationWrapperMaintenanceDocument" parent="PopulationWrapperMaintenanceDocument-parentBean"/>
     <bean id="PopulationWrapperMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
