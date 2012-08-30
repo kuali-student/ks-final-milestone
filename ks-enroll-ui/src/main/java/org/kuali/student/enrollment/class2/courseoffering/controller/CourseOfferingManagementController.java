@@ -874,6 +874,31 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     }
 
+    private boolean isSelected(CourseOfferingManagementForm theForm) {
+        boolean bIsSelected = false;
+        List<ActivityOfferingWrapper> list = theForm.getActivityWrapperList();
+        for (ActivityOfferingWrapper activityOfferingWrapper : list) {
+            if (activityOfferingWrapper.getIsChecked()) {
+                bIsSelected = true;
+                break;
+            }
+        }
+        return bIsSelected;
+    }
+
+    private boolean validateSelected(CourseOfferingManagementForm theForm) {
+        boolean bValidated = true;
+        if (!isSelected(theForm)) {
+            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage",
+                CourseOfferingConstants.NO_AOS_SELECTED);
+            bValidated = false;
+        }
+        else {
+            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.AO_NOT_DRAFT_FOR_DELETION_ERROR);
+        }
+        return bValidated;
+    }
+
     /**
      * Method used to pick the selected AO actions
      */
@@ -885,7 +910,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             return confirmDelete(theForm, result, request, response);
         }
 
-        if (StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
+        if (validateSelected(theForm) &&
+            StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
             StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
             getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(), theForm.getTheCourseOffering(), theForm.getSelectedOfferingAction());
         }
