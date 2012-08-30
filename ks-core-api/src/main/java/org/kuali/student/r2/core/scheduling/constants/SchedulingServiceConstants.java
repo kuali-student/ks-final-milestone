@@ -28,6 +28,7 @@ import java.util.List;
  *
  * @Version 1.0
  * @Author Sri komandur@uw.edu
+ * @Author Mezba mezba.mahtab@utoronto.ca
  */
 public class SchedulingServiceConstants {
 
@@ -47,21 +48,61 @@ public class SchedulingServiceConstants {
     public static final String REF_OBJECT_URI_SCHEDULE_RESP = NAMESPACE + "/" + ScheduleRespInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SCHEDULE_RESP_ITEM = NAMESPACE + "/" + ScheduleRespItemInfo.class.getSimpleName();
 
-    // Schedule request types
-    public static final String SCHEDULE_REQUEST_NORMAL_REQUEST_TYPE = "kuali.scheduling.schedule.request.type.schedule.request";
+    /////////////////////////////
+    // TYPES
+    /////////////////////////////
 
-    // Schedule request states
+    // schedule request types
+    public static final String SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST = "kuali.scheduling.schedule.request.type.schedule.request";
+
+    // schedule transaction types
+    public static final String SCHEDULE_TRANSACTION_TYPE_REQUEST_TRANSACTION = "kuali.scheduling.schedule.transaction.type.request";
+
+    // schedule batch types
+    public static final String SCHEDULE_BATCH_TYPE_BATCH = "kuali.scheduling.schedule.batch.type.schedule.batch";
+
+    // schedule types
+    public static final String SCHEDULE_TYPE_SCHEDULE = "kuali.scheduling.schedule.type.schedule";
+
+    // time slot types
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING = "kuali.scheduling.time.slot.type.activityoffering";
+    public static final String TIME_SLOT_TYPE_FINAL_EXAM = "kuali.scheduling.time.slot.type.finalexam";
+
+    /////////////////////////////
+    // States
+    /////////////////////////////
+
+    // schedule request states
     public static final String SCHEDULE_REQUEST_STATE_LIFECYCLE_KEY = "kuali.scheduling.schedule.request.lifecycle";
-    public static final String SCHEDULE_REQUEST_REQUESTED_STATE = "kuali.scheduling.schedule.state.requested";
-    public static final String SCHEDULE_REQUEST_WITHDRAWN_STATE = "kuali.scheduling.schedule.state.withdrawn";
-    public static final String SCHEDULE_REQUEST_PROCESSED_STATE = "kuali.scheduling.schedule.state.processed";
-    public static final String SCHEDULE_REQUEST_CREATED_STATE = "kuali.scheduling.schedule.request.state.created";
+    public static final String SCHEDULE_REQUEST_STATE_CREATED = "kuali.scheduling.schedule.request.state.created";
+
+    // schedule transaction states
+    public static final String SCHEDULE_TRANSACTION_STATE_LIFECYCLE_KEY = "kuali.scheduling.scheduletransaction.lifecycle";
+    public static final String SCHEDULE_TRANSACTION_STATE_COMPLETED = "kuali.scheduling.scheduletransaction.state.completed";
+
+    // schedule batch states
+    public static final String SCHEDULE_BATCH_STATE_LIFECYCLE_KEY = "kuali.scheduling.schedulebatch.lifecycle";
+    public static final String SCHEDULE_BATCH_STATE_COMPLETED = "kuali.scheduling.schedulebatch.state.completed";
+
+    // schedule states
+    public static final String SCHEDULE_STATE_LIFECYCLE_KEY = "kuali.scheduling.schedule.lifecycle";
+    public static final String SCHEDULE_STATE_ACTIVE = "kuali.scheduling.schedule.state.active";
+
+    // time slot states
+    public static final String TIME_SLOT_LIFECYCLE_KEY = "kuali.scheduling.timeslot.lifecycle";
+    public static final String TIME_SLOT_STATE_ACTIVE = " kuali.scheduling.timeslot.state.active ";
+
+    ////////////////////////////////////////
+    // TYPES / STATES not yet approved
+    // for M5,  but used in the code,
+    // kept for now.
+    ////////////////////////////////////////
+
+    // TODO: go through usages to see if these should remain
 
     // Time slot types
     public static final String TIME_SLOT_STATE_STANDARD_KEY = "kuali.scheduling.time.slot.state.standard";
     public static final String TIME_SLOT_STATE_NON_STANDARD_KEY = "kuali.scheduling.time.slot.state.non.standard";
-    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY = "kuali.scheduling.time.slot.type.activityoffering";
-    public static final String TIME_SLOT_TYPE_FINAL_EXAM_KEY = "kuali.scheduling.time.slot.type.finalexam";
 
     public static final String MONDAY_TIMESLOT_DAY_CODE = "M";
     public static final String TUESDAY_TIMESLOT_DAY_CODE = "Tu";
@@ -85,5 +126,4 @@ public class SchedulingServiceConstants {
 
         TIME_SLOT_DAYS_OF_WEEK_ACTIVITY_OFFERING_TYPE = Collections.unmodifiableList(temp);
     }
-
 }

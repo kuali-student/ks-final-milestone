@@ -592,7 +592,7 @@ public interface SchedulingService {
      * Retrieves a list of ScheduleRequest Ids by Ref Object Type.
      *
      * @param refObjectType an identifier for a ref object Type
-     * @param refObjectId   an
+     * @param refObjectId   a unique id of the ref object
      * @param contextInfo   Context information containing the principalId and
      *                      locale information about the caller of service
      *                      operation
@@ -617,7 +617,7 @@ public interface SchedulingService {
      * Retrieves a list of ScheduleRequest objects by Ref Object Type.
      *
      * @param refObjectType an identifier for a ref object Type
-     * @param refObjectId   an
+     * @param refObjectId   a unique id of the ref object
      * @param contextInfo   Context information containing the principalId and
      *                      locale information about the caller of service
      *                      operation
@@ -1277,7 +1277,7 @@ public interface SchedulingService {
      * Retrieves a list of ScheduleTransaction Ids by Ref Object Type.
      *
      * @param refObjectType an identifier for a ref object Type
-     * @param refObjectId   an
+     * @param refObjectId   a unique id of the ref object
      * @param contextInfo   Context information containing the principalId and
      *                        locale information about the caller of service
      *                        operation
@@ -1302,7 +1302,7 @@ public interface SchedulingService {
      * Retrieves a list of ScheduleTransaction objects by Ref Object Type.
      *
      * @param refObjectType an identifier for a ref object Type
-     * @param refObjectId   an
+     * @param refObjectId   a unique id of the ref object
      * @param contextInfo   Context information containing the principalId and
      *                        locale information about the caller of service
      *                        operation
