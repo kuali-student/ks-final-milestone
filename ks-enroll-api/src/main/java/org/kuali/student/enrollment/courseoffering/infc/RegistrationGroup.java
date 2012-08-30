@@ -53,6 +53,17 @@ public interface RegistrationGroup
      *       group.
      */    
     public String getCourseOfferingId();
+    
+    /**
+     * Activity Offering Cluster that this registration group was generated from.
+     * 
+     * @required
+     * @readonly
+     * @impl The Lui should store this id in a dynamic attribute.
+     *  
+     */
+    public String getActivityOfferingClusterId();
+    
 
     /**
      * Academic term the registration group is being offered
@@ -94,6 +105,7 @@ public interface RegistrationGroup
      */
     public List<String> getActivityOfferingIds();            
 
+    
     /**
      * Tests if this registration group wa sthe product of an
      * automatic generation. manually created registration groups
