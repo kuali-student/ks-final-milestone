@@ -814,7 +814,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         term.setName(termWrapper.getName());
         term.setTypeKey(termWrapper.getTermType());
 
-        if (isOfficial){
+        if (isOfficial) {
            termWrapper.getTermInfo().setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         }
 
@@ -822,12 +822,12 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,getContextInfo());
             termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),getContextInfo()));
             getAcalService().addTermToAcademicCalendar(acalId,termWrapper.getTermInfo().getId(),getContextInfo());
-        }else{
+        } else {
             TermInfo updatedTerm = getAcalService().updateTerm(term.getId(),term,getContextInfo());
             termWrapper.setTermInfo(getAcalService().getTerm(updatedTerm.getId(),getContextInfo()));
         }
 
-        for (KeyDateWrapper keyDateWrapper : termWrapper.getKeyDatesToDeleteOnSave()){
+        for (KeyDateWrapper keyDateWrapper : termWrapper.getKeyDatesToDeleteOnSave()) {
             getAcalService().deleteKeyDate(keyDateWrapper.getKeyDateInfo().getId(),getContextInfo());
         }
 

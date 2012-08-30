@@ -609,7 +609,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                         termInfo = termAssembler.assemble(newAtp, context);
                     }
                     else {
-                        throw new DataValidationErrorException("The term code " + atp.getCode() + " with type( " + atp.getTypeKey() + ") already exists.");
+                        throw new DataValidationErrorException("The term code " + atp.getCode() + " with type (" + atp.getTypeKey() + ") already exists.");
                     }
                 } catch (AssemblyException e) {
                     throw new OperationFailedException("Error assembling term", e);
