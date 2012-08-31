@@ -212,4 +212,7 @@ public class ScheduleWrapper implements Serializable{
         return StringUtils.EMPTY;
     }
 
+    public String getFeatuesUI() {
+        return "N/A";
+    }
 }
