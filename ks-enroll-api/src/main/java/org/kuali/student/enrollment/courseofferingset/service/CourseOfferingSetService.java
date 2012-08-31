@@ -232,6 +232,23 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
             ReadOnlyException, VersionMismatchException;
 
     /**
+     * Updates the state of an existing Set of CourseOfferings to another state provided that it is valid to do so. 
+     * 
+     * @param socId of the Set of CourseOffering's to be updated.
+     * @param nextStateKey The State Key into which the identified Set of CourseOffering's will be placed if the operation succeeds.
+     * @param contextInfo Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException the identified Set of CourseOffering's does not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo updateSocState (@WebParam(name = "socId") String socId, @WebParam (name = "nextStateKey")  String nextStateKey,@WebParam (name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
      * Deletes an existing Soc.
      * 
      * Deleting the Soc does not automatically delete the course offerings in a soc
@@ -785,6 +802,23 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
             ReadOnlyException, VersionMismatchException;
 
     /**
+     * Updates the state of an existing SocRolloverResultState to another state provided that it is valid to do so. 
+     * 
+     * @param socRolloverResultStateId of the SocRolloverResultState to be updated.
+     * @param nextStateKey The State Key into which the identified SocRolloverResultState will be placed if the operation succeeds.
+     * @param contextInfo Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException the identified SocRolloverResultState does not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo updateSocRolloverResultState (@WebParam(name = "socRolloverResultStateId") String socRolloverResultStateId, @WebParam (name = "nextStateKey")  String nextStateKey,@WebParam (name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
      * Deletes an existing SocRolloverResult. 
      *
      * @param socRolloverResultId the Id of the ActivityOffering to be deleted
@@ -920,6 +954,23 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             ReadOnlyException, VersionMismatchException;
 
+    /**
+     * Updates the state of an existing SocRolloverResultItem to another state provided that it is valid to do so. 
+     * 
+     * @param socRolloverResultItemId of the SocRolloverResultItem to be updated.
+     * @param nextStateKey The State Key into which the identified SocRolloverResultItem will be placed if the operation succeeds.
+     * @param contextInfo Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException the identified SocRolloverResultItem does not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo updateSocRolloverResultItemState (@WebParam(name = "socRolloverResultItemId") String socRolloverResultItemId, @WebParam (name = "nextStateKey")  String nextStateKey,@WebParam (name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
     /**
      * Deletes an existing SocRolloverResultItem. 
      *
