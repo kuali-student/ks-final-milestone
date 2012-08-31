@@ -16,12 +16,6 @@
 
 package org.kuali.student.enrollment.courseoffering.service;
 
-import java.util.List;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -46,6 +40,11 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.util.List;
 
 /**
  * Course Offering is a Class II service supporting the process of offering
@@ -917,6 +916,23 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public List<ActivityOfferingInfo> getActivityOfferingsByCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of ActivityOffering records that belongs to an
+     * ActivityOfferingCluster.
+     *
+     * @param activityOfferingClusterId Unique Id of the CourseOffering
+     * @param context          Context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
+     * @return List of ActivityOffering
+     * @throws DoesNotExistException     activityOfferingClusterId not found
+     * @throws InvalidParameterException invalid activityOfferingClusterId
+     * @throws MissingParameterException missing activityOfferingClusterId
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ActivityOfferingInfo> getActivityOfferingsByCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Retrieves a list of ActivityOffering records that belongs to a
      * CourseOffering.
      *
@@ -1317,7 +1333,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * specified ActivityOfferingCluster.
      *
      * @param activityOfferingClusterId Unique Id of the ActivityOfferingCluster
-     * @param context          information containing the principalId and locale
+     * @param contextInfo          information containing the principalId and locale
      *                         information about the caller of service
      *                         operation
      * @return List of RegistrationGroups
