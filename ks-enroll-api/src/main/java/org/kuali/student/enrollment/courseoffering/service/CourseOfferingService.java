@@ -1139,12 +1139,12 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * 
      * This is designed to be used for one-off scheduling of activity offerings created after the mass scheduling event.
      * 
-     * The expectation is that this method starts an asynchronous process to perform the scheduling that will complete or fail eventually independently of this method call. 
+     * The expectation is that this method is synchronous (i.e. it will block until the request is completed or fails).
      * 
-     * The <em>optionKeys</em> parameter can be used to alter the default processing behavior.
+     * We also assume that the underlying scheduling service call will not take an unbounded amount of time to solve
+     * but rather a quick one-off that will return in a short amount of time.
      * 
      * @param activityOfferingId Id of the Activity Offering to be scheduled.
-     * @param optionKeys keys that alter the default processing behavior.   
      * @param contextInfo  Context information containing the principalId
      *                     and locale information about the caller of
      *                     service operation
@@ -1155,7 +1155,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo startSchedulingActivityOffering (@WebParam (name="activityOfferingId")String activityOfferingId, @WebParam (name="optionKeys") List<String> optionKeys,@WebParam (name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo startSchedulingActivityOffering (@WebParam (name="activityOfferingId")String activityOfferingId, @WebParam (name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
     /**
      * Validates an activity offering. Depending on the value of validationType,
