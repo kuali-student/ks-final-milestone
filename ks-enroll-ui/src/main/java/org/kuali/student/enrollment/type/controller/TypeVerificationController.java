@@ -299,6 +299,14 @@ public class TypeVerificationController extends UifControllerBase  {
             checkViewAuthorization(form, methodToCall);
         }
 
+        getEquivalence();
+        getInDBNotInJava();
+        getInJavaNotInDB();
+
+        ((TypeVerificationInfo) form).setEquivalences(typeInfo.getEquivalences());
+        ((TypeVerificationInfo) form).setNotInJava(typeInfo.getNotInJava());
+        ((TypeVerificationInfo) form).setNotInDB(typeInfo.getNotInDB());
+
 
         return getUIFModelAndView(form);
     }
@@ -315,6 +323,7 @@ public class TypeVerificationController extends UifControllerBase  {
         for(String line: typeKeysDB){
             findEqual(line);
         }
+        typeInfo.setEquivalences(equivalences);
             return typeInfo.getEquivalences();
     }
 
@@ -323,12 +332,14 @@ public class TypeVerificationController extends UifControllerBase  {
         for(String line: typeKeysDB){
             findInDbNotInJava(line);
         }
+        typeInfo.setNotInJava(inDBNotInJava);
         return typeInfo.getNotInJava();
     }
 
     @RequestMapping(params = "methodToCall=getInJavaNotInDB")
     public List<TypeVerificationBasics> getInJavaNotInDB(){
         findInJavaNotInDB();
+        typeInfo.setNotInDB(inJavaNotInDB);
         return typeInfo.getNotInDB();
     }
 

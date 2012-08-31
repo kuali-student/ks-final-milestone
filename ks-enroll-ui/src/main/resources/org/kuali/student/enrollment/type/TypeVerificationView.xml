@@ -50,14 +50,16 @@
     <bean id="KS-TypeVerificationPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="validateTypeEntryPage">
         <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="TYpe Verification" />
+            <bean parent="Uif-HeaderThree" p:headerText="Type Verification" />
         </property>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
+                            <ref bean="KS-TypeVerification-EquivalenceSection"/>
+                            <ref bean="KS-TypeVerification-NotInJavaSection"/>
+                            <ref bean="KS-TypeVerification-NotInDBSection"/>
                         </list>
                     </property>
                 </bean>
@@ -66,7 +68,7 @@
     </bean>
 
 
-    <bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false">
+    <bean id="KS-TypeVerification-EquivalenceSection" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.type.dto.TypeVerificationBasics" />
         <property name="propertyName" value="equivalences" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
@@ -91,9 +93,63 @@
                 <bean parent="Uif-DataField"
                       p:label="Constant"
                       p:propertyName="constant"/>
-                <!--<bean parent="Uif-DataField"-->
-                <!--p:label="STATUS"-->
-                <!--p:propertyName="stateKey"/>-->
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-TypeVerification-NotInJavaSection" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.type.dto.TypeVerificationBasics" />
+        <property name="propertyName" value="notInJava" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                <entry key="bPaginate" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField"
+                      p:label="Type Key"
+                      p:propertyName="typeKey"/>
+                <bean parent="Uif-DataField"
+                      p:label="Service"
+                      p:propertyName="service"/>
+                <bean parent="Uif-DataField"
+                      p:label="Constant"
+                      p:propertyName="constant"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-TypeVerification-NotInDBSection" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.type.dto.TypeVerificationBasics" />
+        <property name="propertyName" value="notInDB" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                <entry key="bPaginate" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField"
+                      p:label="Type Key"
+                      p:propertyName="typeKey"/>
+                <bean parent="Uif-DataField"
+                      p:label="Service"
+                      p:propertyName="service"/>
+                <bean parent="Uif-DataField"
+                      p:label="Constant"
+                      p:propertyName="constant"/>
+
             </list>
         </property>
     </bean>
