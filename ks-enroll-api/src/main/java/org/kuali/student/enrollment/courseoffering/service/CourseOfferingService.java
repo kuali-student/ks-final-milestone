@@ -1123,18 +1123,23 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * 
      * This is designed to be used for one-off scheduling of activity offerings created after the mass scheduling event.
      * 
+     * The expectation is that this method starts an asynchronous process to perform the scheduling that will complete or fail eventually independently of this method call. 
+     * 
+     * The <em>optionKeys</em> parameter can be used to alter the default processing behavior.
+     * 
      * @param activityOfferingId Id of the Activity Offering to be scheduled.
+     * @param optionKeys keys that alter the default processing behavior.   
      * @param contextInfo  Context information containing the principalId
      *                     and locale information about the caller of
      *                     service operation
-     * @return status of the operation (success, failed)
+     * @return status of the starting the scheduling process for the activityOffering (success, failed)
      * @throws DoesNotExistException the identified activity offering does not exist.
      * @throws InvalidParameterException the contextInfo parameter object is invalid.
      * @throws MissingParameterException one or more of the method parameter's is missing.
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo scheduleActivityOffering (String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo startSchedulingActivityOffering (@WebParam (name="activityOfferingId")String activityOfferingId, @WebParam (name="optionKeys") List<String> optionKeys,@WebParam (name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
     /**
      * Validates an activity offering. Depending on the value of validationType,
