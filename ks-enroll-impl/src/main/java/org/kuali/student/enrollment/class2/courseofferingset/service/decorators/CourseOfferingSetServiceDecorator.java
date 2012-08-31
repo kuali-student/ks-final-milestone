@@ -105,9 +105,9 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
     }
 
     @Override
-    public StatusInfo scheduleSoc(String socId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public StatusInfo startScheduleSoc(String socId, List<String> optionKeys, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().scheduleSoc(socId, context);
+        return getNextDecorator().startScheduleSoc(socId, optionKeys, context);
     }
 
     @Override
