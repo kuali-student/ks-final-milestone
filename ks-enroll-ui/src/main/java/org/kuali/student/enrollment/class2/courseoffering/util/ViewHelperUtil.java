@@ -251,16 +251,15 @@ public class ViewHelperUtil {
             }
 
             // if ALL the AOs within this FO are in a draft state (or if there are no AOs), and the current state of the FO is Planned, update the FO state to Draft
-            if((activityOfferings.size() == 0 || draftAOCount == activityOfferings.size()) && StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, fo.getStateKey())) {
+            if ((activityOfferings.size() == 0 || draftAOCount == activityOfferings.size()) && StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, fo.getStateKey())) {
                 newFoState =  LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY;
-
             }
             // otherwise if any AOs are in a non-draft state, and the FO is in a draft state, update the FO to Planned
             else if (draftAOCount < activityOfferings.size() && StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY, fo.getStateKey())) {
                 newFoState = LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY;
             }
 
-            if(newFoState != null && !StringUtils.equals(oldFoState, newFoState)) {
+            if (newFoState != null && !StringUtils.equals(oldFoState, newFoState)) {
                 fo.setStateKey(newFoState);
                 coService.updateFormatOffering(fo.getId(), fo, context);
             }
@@ -280,7 +279,7 @@ public class ViewHelperUtil {
             newCoState = LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY;
         }
 
-        if(newCoState != null) {
+        if (newCoState != null) {
             coInfo.setStateKey(newCoState);
             coService.updateCourseOffering(coInfo.getId(), coInfo, context);
         }

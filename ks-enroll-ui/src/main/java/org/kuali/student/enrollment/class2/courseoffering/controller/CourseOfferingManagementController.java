@@ -889,8 +889,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     private boolean validateSelected(CourseOfferingManagementForm theForm) {
         boolean bValidated = true;
         if (!isSelected(theForm)) {
-            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage",
-                CourseOfferingConstants.NO_AOS_SELECTED);
+            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.NO_AOS_SELECTED);
             bValidated = false;
         }
         else {

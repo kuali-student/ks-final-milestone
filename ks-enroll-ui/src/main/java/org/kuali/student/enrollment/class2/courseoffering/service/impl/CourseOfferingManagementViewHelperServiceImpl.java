@@ -382,7 +382,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             if (wrapper.getIsChecked()) {
                 //  If the action is "Set as Draft" then the current state of the AO must be "Approved".
                 if (StringUtils.equals(CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION, selectedAction)) {
-                  //if (StringUtils.equals(wrapper.getAoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_SCHEDULED_KEY)){
+                    // if (StringUtils.equals(wrapper.getAoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_SCHEDULED_KEY)){
                     if (StringUtils.equals(wrapper.getAoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
                         wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                         wrapper.setStateName(draftState.getName());
@@ -412,7 +412,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 }
             }
         }
-
         // check for changes to states in the related COs and FOs
         ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(courseOfferingInfo, getContextInfo());
     }
@@ -441,6 +440,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 boolean isCOStatePlanned =  StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY, coWrapper.getCoInfo().getStateKey());
                 if (isCOStateDraft || isCOStatePlanned) {
                     List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCoInfo().getId(),getContextInfo());
+                    //  If the CO contains no AOs then move on to the next one.
+                    if (activityOfferingInfos.size() == 0) {
+                        GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
+                        isErrorAdded = true;
+                        continue;
+                    }
                     //  Iterate through the AOs and state change Draft -> Approved.
                     for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
                         boolean isAOStateDraft = StringUtils.equals(activityOfferingInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
@@ -579,7 +584,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         return roomService;
     }
 
-    //get credit count from persisted COInfo or from CourseInfo
+    // get credit count from persisted COInfo or from CourseInfo
     private String getCreditCount(CourseOfferingInfo coInfo, CourseInfo courseInfo) throws Exception{
         return ViewHelperUtil.getCreditCount(coInfo, courseInfo);
     }
