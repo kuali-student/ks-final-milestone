@@ -1,9 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
-import java.util.List;
-
-import javax.jws.WebParam;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -28,6 +24,9 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+
+import javax.jws.WebParam;
+import java.util.List;
 
 
 public class CourseOfferingServiceDecorator implements CourseOfferingService {
@@ -375,6 +374,11 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsByCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getActivityOfferingsByCourseOffering(courseOfferingId, context);
+    }
+
+    @Override
+    public List<ActivityOfferingInfo> getActivityOfferingsByCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "context") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getActivityOfferingsByCluster(activityOfferingClusterId, contextInfo);
     }
 
     @Override
