@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.type.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.type.dto.TypeVerificationInfo;
 
 /**
  * This class //TODO ...
@@ -24,5 +25,11 @@ import org.kuali.rice.krad.web.form.UifFormBase;
  * @author Kuali Student Team
  */
 public class TypeValidationForm extends UifFormBase {
+
+    private TypeVerificationInfo typeVerificationInfo;
+
+    public TypeValidationForm(){
+        typeVerificationInfo = new TypeVerificationInfo();
+    }
 
 }
