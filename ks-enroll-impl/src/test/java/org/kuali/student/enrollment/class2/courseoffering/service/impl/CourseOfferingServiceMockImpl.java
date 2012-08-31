@@ -35,6 +35,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Co
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -830,7 +831,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
 	@Override
 	public StatusInfo startSchedulingActivityOffering(String activityOfferingId,
-			List<String> optionKeys, ContextInfo contextInfo) throws DoesNotExistException,
+			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		throw new OperationFailedException("implement for M5");
@@ -1721,6 +1722,28 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		ActivityOfferingClusterInfo aoc = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
 		
 		return regGroups;
+	}
+
+	@Override
+	public List<ActivityOfferingInfo> getActivityOfferingsByCluster(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		List<ActivityOfferingInfo> aoList = new ArrayList<ActivityOfferingInfo>();
+		
+		ActivityOfferingClusterInfo aoc = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+		
+		for (ActivityOfferingSetInfo aocSet : aoc.getActivityOfferingSets()) {
+			
+			List<ActivityOfferingInfo> setAos = getActivityOfferingsByIds(aocSet.getActivityOfferingIds(), contextInfo);
+		
+			aoList.addAll(setAos);
+		}
+		
+		return aoList;
 	}
     
     

@@ -1396,7 +1396,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
 	public StatusInfo startSchedulingActivityOffering(String activityOfferingId,
-			List<String> optionKeys, ContextInfo contextInfo) throws DoesNotExistException,
+			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		throw new UnsupportedOperationException("Implement for M5");
@@ -2203,6 +2203,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
 	@Override
 	public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOfferingCluster(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("implement for M5");
+	}
+
+	@Override
+	public List<ActivityOfferingInfo> getActivityOfferingsByCluster(
 			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
 			@WebParam(name = "contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,

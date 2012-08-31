@@ -519,6 +519,17 @@ class FakeCOService implements CourseOfferingService {
     
 
     @Override
+	public List<ActivityOfferingInfo> getActivityOfferingsByCluster(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOfferingCluster(
 			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
 			@WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -1051,7 +1062,7 @@ class FakeCOService implements CourseOfferingService {
 
 	@Override
 	public StatusInfo startSchedulingActivityOffering(String activityOfferingId,
-			List<String> optionKeys, ContextInfo contextInfo) throws DoesNotExistException,
+			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
