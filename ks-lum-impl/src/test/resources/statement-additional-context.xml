@@ -71,6 +71,13 @@
         <property name="persistenceUnitPostProcessors" ref="postProcessorList" />
     </bean>
 
+    <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
+          <property name="persistenceUnitName" value="persistentUnit"/>
+          <property name="persistenceXmlLocation"
+                    value="classpath:META-INF/junitTest-persistence.xml"/>
+          <property name="dataSource" ref="lumDataSource"/>
+      </bean>
+
     <bean id="AtomikosTxMgr"
         class="com.atomikos.icatch.jta.UserTransactionManager"
         init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer">
@@ -120,15 +127,8 @@
     <bean
         class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
-    <!-- Learning Service Config -->
-    <bean id="luEntityManagerFactory" parent="defaultEntityManagerFactory">
-        <property name="persistenceUnitName" value="Lu"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/lu-persistence.xml" />
-        <property name="dataSource" ref="lumDataSource" />
-    </bean>
-
     <bean id="luEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-        <property name="entityManagerFactory" ref="luEntityManagerFactory" />
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
     
     <bean id="luDao"
@@ -136,14 +136,8 @@
         <property name="em" ref="luEntityManager" />        
     </bean>
 
-    <bean id="stmtEntityManagerFactory" parent="defaultEntityManagerFactory">
-        <property name="persistenceUnitName" value="Statement"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/statement-persistence.xml" />
-        <property name="dataSource" ref="lumDataSource" />
-    </bean>
-
     <bean id="stmtEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-        <property name="entityManagerFactory" ref="stmtEntityManagerFactory" />
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
     
     <bean id="statementDao"
@@ -157,24 +151,16 @@
         <property name="shouldLoadData" value="true"/>
         <property name="preloadMap">
             <map>
-                <entry key="Statement">
+                <entry key="persistentUnit">
                     <list>
                         <value>classpath:ks-statement.sql</value>
 	                    <value>classpath:ks-statement-data.sql</value>
                         <value>classpath:ks-statement-tree.sql</value>
+                        <value>classpath:ks-statement-lu-data.sql</value>
+                        <value>classpath:ks-org.sql</value>
+                        <value>classpath:ks-atp.sql</value>
+                        <value>classpath:ks-lrc.sql</value>
                     </list>
-                </entry>
-                <entry key="Lu">
-                    <value>classpath:ks-statement-lu-data.sql</value>
-                </entry>
-                <entry key="Organization">
-                    <value>classpath:ks-org.sql</value>
-                </entry>
-                <entry key="Atp">
-                    <value>classpath:ks-atp.sql</value>
-                </entry>
-                <entry key="Lrc">
-                    <value>classpath:ks-lrc.sql</value>
                 </entry>
             </map>
         </property>
@@ -248,15 +234,8 @@
         <property name="searchManager" ref="statementSearchManager"/>
     </bean>
 
-    <!-- Atp Service Config -->
-    <bean id="atpEntityManagerFactory" parent="defaultEntityManagerFactory">
-        <property name="persistenceUnitName" value="Atp"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/atp-persistence.xml" />
-        <property name="dataSource" ref="lumDataSource" />
-    </bean>
-
     <bean id="atpEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-        <property name="entityManagerFactory" ref="atpEntityManagerFactory" />
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
     <bean id="atpDao"
@@ -280,14 +259,8 @@
         <constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
     </bean>
 
-    <bean id="orgEntityManagerFactory" parent="defaultEntityManagerFactory">
-        <property name="persistenceUnitName" value="Organization"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/organization-persistence.xml" />
-        <property name="dataSource" ref="lumDataSource" />
-    </bean>
-
     <bean id="orgEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-        <property name="entityManagerFactory" ref="orgEntityManagerFactory" />
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
     <bean id="orgDao"
@@ -307,16 +280,8 @@
         <constructor-arg index="0" value="classpath:organization-search-config.xml" />
     </bean>
 
-    <!-- Learning Result service config -->
-    <bean id="lrcEntityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no" >
-        <property name="persistenceUnitName" value="Lrc"/>
-        <property name="persistenceXmlLocation"
-            value="classpath:META-INF/lrc-persistence.xml" />
-        <property name="dataSource" ref="lumDataSource" />
-    </bean>
-
     <bean id="lrcEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
-        <property name="entityManagerFactory" ref="lrcEntityManagerFactory" />
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
     <bean id="lrcDao"
