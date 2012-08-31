@@ -52,6 +52,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -107,8 +108,15 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             }
 
             //Get past 5 years CO
+            Calendar termStart = Calendar.getInstance();
+            termStart.setTime(term.getStartDate());
+            String termYear = Integer.toString(termStart.get(Calendar.YEAR));
+
+
             SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingHistorySearchImpl.PAST_CO_SEARCH.getKey());
             searchRequest.addParam(CourseOfferingHistorySearchImpl.COURSE_ID,coWrapper.getCourse().getId());
+
+            searchRequest.addParam(CourseOfferingHistorySearchImpl.TARGET_YEAR_PARAM, termYear);
             SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
 
             List<String> courseOfferingIds = new ArrayList(searchResult.getTotalResults());

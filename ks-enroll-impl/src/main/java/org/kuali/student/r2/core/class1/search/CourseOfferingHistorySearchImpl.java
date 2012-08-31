@@ -18,16 +18,11 @@ import javax.persistence.TemporalType;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: venkat
- * Date: 8/15/12
- * Time: 3:24 PM
- * To change this template use File | Settings | File Templates.
+ * @author venkat
  */
 public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwiredImpl {
 
@@ -38,6 +33,8 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
     public static final String COURSE_ID = "cluId";
 
     public static final TypeInfo PAST_CO_SEARCH;
+
+    public static final String TARGET_YEAR_PARAM = "targetYear";
 
     static {
         TypeInfo info = new TypeInfo();
@@ -74,23 +71,32 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
             throw new RuntimeException("Course id is required");
         }
 
+        String targetYear = requestHelper.getParamAsString(TARGET_YEAR_PARAM);
+
+        if (StringUtils.isEmpty(targetYear)) {
+            throw new RuntimeException("Target year parameter is required");
+        }
+
         if (StringUtils.isEmpty(noOfYears)){
             throw new RuntimeException("No of years should be configured");
         }
 
-        Date startDate = null;
-        int year = Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(noOfYears);
+        int year = Integer.parseInt(targetYear) - Integer.parseInt(noOfYears);
 
+        Date startDate;
         try {
             startDate = new SimpleDateFormat("MM/dd/yyyy").parse("01/01/" + year);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
 
+
+        // Return any COs in terms within the calculated year range that are in an Offered or Cancelled state
         List<String> luiIds = genericEntityDao.getEm().createQuery("select lui.id from LuiEntity lui,AtpEntity atp " +
                 "where lui.atpId=atp.id and lui.cluId = :cluId and " +
-                "lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' and " +
-                "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY + "' " +
+                "lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' and (" +
+                    "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY + "' or  " +
+                    "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY + "' )  " +
                 "and atp.startDate >= :startDate").setParameter("startDate", startDate, TemporalType.DATE).setParameter("cluId", courseId).getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();
