@@ -20,7 +20,6 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
-import org.kuali.rice.krad.web.filter.AutoLoginFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -30,38 +29,36 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * This class //TODO ...
+ * This class will set a default user for KS Kitchen Sink pages
  *
  * @author Kuali Student Team
  */
-public class UserLoginBypassFilter extends org.kuali.rice.kew.web.UserLoginFilter {
+public class UserLoginFilter extends org.kuali.rice.kew.web.UserLoginFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        /*
-        if (null == KRADUtils.getUserSessionFromRequest((HttpServletRequest) request)) {
-            if (request instanceof HttpServletRequest) {
-                //TODO - refactor 'if' statements above, and make sure URL includes "kitchensink"
-                String url = ((HttpServletRequest)request).getRequestURL().toString();
-                String queryString = ((HttpServletRequest)request).getQueryString();
+        if ((request instanceof HttpServletRequest)
+        &&  (null == KRADUtils.getUserSessionFromRequest((HttpServletRequest) request))) {
+            String url = ((HttpServletRequest)request).getRequestURL().toString();
 
-                String principalName = ConfigContext.getCurrentContextConfig().getProperty(AutoLoginFilter.USER_PARAM_NAME);
+            if (url.endsWith("/kr-krad/kitchensink")) {
+                String principalName = ConfigContext.getCurrentContextConfig().getProperty("kitchensink.login.autouser");
                 if (null == principalName) {
-                    throw new IllegalStateException("The '"+ AutoLoginFilter.USER_PARAM_NAME +"' parameter is not set.");
+                    throw new IllegalStateException("The 'kitchensink.login.autouser' user name parameter is not configured.");
                 }
+
+                //TODO - super's private method establishUserSession() needs to execute in full, so the two lines
+                //       of code below need to be replaced with something that somehow sets the principal name so
+                //       this statement gets the 'kitchensink.login.autouser' name:
+                //  String principalName = ((AuthenticationService) GlobalResourceLoader.getResourceLoader()
+                //          .getService(new QName("kimAuthenticationService"))).getPrincipalName(request);
                 UserSession userSession = new UserSession(principalName);
                 ((HttpServletRequest)request).getSession().setAttribute(KRADConstants.USER_SESSION_KEY, userSession);
             }
-        }*/
+        }
 
-        //TODO - why is the ClassCastException being thrown?
-        try {
-            super.doFilter(request, response, chain);
-        }
-        catch(ClassCastException ex) {
-            // do nothing ?
-        }
+        super.doFilter(request, response, chain);
     }
 
 }
