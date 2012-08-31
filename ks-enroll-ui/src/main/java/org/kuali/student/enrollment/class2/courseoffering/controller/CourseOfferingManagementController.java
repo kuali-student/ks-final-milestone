@@ -909,8 +909,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             return confirmDelete(theForm, result, request, response);
         }
 
+/*      wrong logic for validation
         if (validateSelected(theForm) &&
-            StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
+                StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
+                StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
+*/
+
+            if ( StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
             StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
             getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(), theForm.getTheCourseOffering(), theForm.getSelectedOfferingAction());
         }

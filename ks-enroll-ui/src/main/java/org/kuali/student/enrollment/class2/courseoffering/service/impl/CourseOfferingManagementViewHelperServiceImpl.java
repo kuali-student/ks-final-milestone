@@ -434,37 +434,44 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
      */
     public void markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers, boolean checkedOnly) throws Exception {
         boolean isErrorAdded = false;
+        boolean isWarningAdded = false;
         for (CourseOfferingEditWrapper coWrapper : coWrappers) {
             if ((coWrapper.getIsChecked() && checkedOnly) || ! checkedOnly) {
                 boolean isCOStateDraft =  StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, coWrapper.getCoInfo().getStateKey());
                 boolean isCOStatePlanned =  StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY, coWrapper.getCoInfo().getStateKey());
-                if (isCOStateDraft || isCOStatePlanned) {
-                    List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCoInfo().getId(),getContextInfo());
-                    //  If the CO contains no AOs then move on to the next one.
-                    if (activityOfferingInfos.size() == 0) {
+
+                List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCoInfo().getId(),getContextInfo());
+                if (activityOfferingInfos.size() == 0) {
+                    if(!isErrorAdded) {
                         GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
                         isErrorAdded = true;
-                        continue;
                     }
-                    //  Iterate through the AOs and state change Draft -> Approved.
-                    for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
-                        boolean isAOStateDraft = StringUtils.equals(activityOfferingInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
-                        if (isAOStateDraft) {
-                            activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
-                            getCourseOfferingService().updateActivityOffering(activityOfferingInfo.getId(), activityOfferingInfo,getContextInfo());
-                        } else {
-                            if ( ! isErrorAdded) {
-                                GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY);
-                                isErrorAdded = true;
-                            }
+                    continue;
+                }
+
+                //  Iterate through the AOs and state change Draft -> Approved.
+                for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
+                    boolean isAOStateDraft = StringUtils.equals(activityOfferingInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+                    if (isAOStateDraft) {
+                        activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
+                        getCourseOfferingService().updateActivityOffering(activityOfferingInfo.getId(), activityOfferingInfo,getContextInfo());
+                    } else {
+                        if ( ! isWarningAdded) {
+                            GlobalVariables.getMessageMap().putWarning("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY);
+                            isWarningAdded = true;
                         }
                     }
+                }
+
+/*
+                if (isCOStateDraft || isCOStatePlanned) {
                 } else {
                     if ( ! isErrorAdded) {
                         GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY);
                         isErrorAdded = true;
                     }
                 }
+*/
             }
 
             // check for changes to states in CO and related FOs
