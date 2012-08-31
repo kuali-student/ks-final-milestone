@@ -45,4 +45,10 @@ public interface ScheduleRequestComponentDisplay extends HasId, DisplayObject {
      * The Time Slots
      */
     public List<TimeSlotInfo> getTimeSlots();
+
+    /**
+     * The flag that holds whether this is a TBA schedule request.
+     * A ScheduleRequestComponent is TBA if the Room is TBA, or timeslot is completely TBA (not there), or is of type TBA (weekday or start/end time TBA).
+     */
+    public Boolean getIsTBA();
 }

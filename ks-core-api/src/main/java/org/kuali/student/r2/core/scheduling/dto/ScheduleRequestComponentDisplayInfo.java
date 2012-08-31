@@ -39,7 +39,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleRequestComponentDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "rooms", "buildings", "timeSlots", "orgs", "resourceTypes",
+        "rooms", "buildings", "timeSlots", "orgs", "resourceTypes", "isTBA",
         "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class ScheduleRequestComponentDisplayInfo implements ScheduleRequestComponentDisplay, Serializable {
 
@@ -64,6 +64,9 @@ public class ScheduleRequestComponentDisplayInfo implements ScheduleRequestCompo
 
     @XmlElement
     private List<TypeInfo> resourceTypes;
+
+    @XmlElement
+    private Boolean isTBA;
 
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
@@ -157,5 +160,14 @@ public class ScheduleRequestComponentDisplayInfo implements ScheduleRequestCompo
 
     public void setResourceTypes(List<TypeInfo> resourceTypes) {
         this.resourceTypes = resourceTypes;
+    }
+
+    @Override
+    public Boolean getIsTBA() {
+        return isTBA;
+    }
+
+    public void setIsTBA(Boolean isTBA) {
+        this.isTBA = isTBA;
     }
 }

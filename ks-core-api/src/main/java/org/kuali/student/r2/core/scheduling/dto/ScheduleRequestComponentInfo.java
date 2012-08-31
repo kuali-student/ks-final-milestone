@@ -16,23 +16,23 @@
 package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
-//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+//import org.w3c.dom.Element;
+
 /**
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleRequestComponentInfo", propOrder = {"id", "buildingIds", "campusIds", "orgIds", "resourceTypeKeys", "roomIds", "timeSlotIds"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+@XmlType(name = "ScheduleRequestComponentInfo", propOrder = {"id", "buildingIds", "campusIds", "orgIds", "resourceTypeKeys", "roomIds", "timeSlotIds", "isTBA" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, Serializable {
 
     @XmlElement
@@ -49,6 +49,9 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
     private List<String> roomIds;
     @XmlElement
     private List<String> timeSlotIds;
+    @XmlElement
+    private Boolean isTBA;
+
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
@@ -158,5 +161,14 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
 
     public void setTimeSlotIds(List<String> timeSlotIds) {
         this.timeSlotIds = timeSlotIds;
+    }
+
+    @Override
+    public Boolean getIsTBA() {
+        return isTBA;
+    }
+
+    public void setIsTBA(Boolean isTBA) {
+        this.isTBA = isTBA;
     }
 }

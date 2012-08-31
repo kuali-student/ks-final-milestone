@@ -45,6 +45,7 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
     private String refObjectTypeKey;
     @XmlElement
     private List<ScheduleRequestComponentInfo> scheduleRequestComponents;
+
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
