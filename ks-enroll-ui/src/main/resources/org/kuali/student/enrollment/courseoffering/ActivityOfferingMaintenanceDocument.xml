@@ -465,8 +465,9 @@
         <property name="headerText" value="Requested Delivery Logistics"/>
         <property name="items">
             <list>
-                <ref bean="KS-ActivityOffering-Re<bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addLine"
-                        p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;requestedSchedules&quot;);"/>questedDeliveryLogistics-Section"/>
+                <ref bean="KS-ActivityOffering-RequestedDeliveryLogistics-Section"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addLine"
+                        p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;requestedSchedules&quot;);"/>
                 <ref bean="KS-ActivityOffering-RequestedDeliveryLogistics-Features-Section"/>
             </list>
         </property>
