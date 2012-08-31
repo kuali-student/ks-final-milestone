@@ -919,18 +919,18 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * Retrieves a list of ActivityOffering records that belongs to an
      * ActivityOfferingCluster.
      *
-     * @param activityOfferingClusterId Unique Id of the CourseOffering
-     * @param context          Context information containing the principalId
+     * @param activityOfferingClusterId Unique Id of the ActivityOfferingCluster
+     * @param contextInfo          Context information containing the principalId
      *                         and locale information about the caller of
      *                         service operation
-     * @return List of ActivityOffering
+     * @return List of ActivityOfferings
      * @throws DoesNotExistException     activityOfferingClusterId not found
-     * @throws InvalidParameterException invalid activityOfferingClusterId
-     * @throws MissingParameterException missing activityOfferingClusterId
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException activityOfferingClusterId or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ActivityOfferingInfo> getActivityOfferingsByCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ActivityOfferingInfo> getActivityOfferingsByCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of ActivityOffering records that belongs to a
