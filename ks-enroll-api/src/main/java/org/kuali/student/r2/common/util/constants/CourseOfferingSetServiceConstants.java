@@ -49,6 +49,25 @@ public class CourseOfferingSetServiceConstants {
     public static final String PUBLISHING_SOC_STATE_KEY = "kuali.soc.state.publishing";
     public static final String PUBLISHED_SOC_STATE_KEY = "kuali.soc.state.published";
     public static final String CLOSED_SOC_STATE_KEY = "kuali.soc.state.closed ";
+    public static final String[] ALL_SOC_STATE_KEYS = {
+            DRAFT_SOC_STATE_KEY,
+            OPEN_SOC_STATE_KEY,
+            LOCKED_SOC_STATE_KEY,
+            FINALEDITS_SOC_STATE_KEY,
+            PUBLISHING_SOC_STATE_KEY,
+            PUBLISHED_SOC_STATE_KEY,
+            CLOSED_SOC_STATE_KEY
+    };
+
+    // SOC scheduling states (see https://wiki.kuali.org/display/STUDENT/SOC+Scheduling+States )
+    public static final String SOC_SCHEDULING_STATE_NOT_STARTED = "kuali.soc.scheduling.state.notstarted";
+    public static final String SOC_SCHEDULING_STATE_IN_PROGRESS = "kuali.soc.scheduling.state.inprogress";
+    public static final String SOC_SCHEDULING_STATE_COMPLETED   = "kuali.soc.scheduling.state.completed";
+    public static final String[] ALL_SOC_SCHEDULING_STATES = {
+            SOC_SCHEDULING_STATE_NOT_STARTED,
+            SOC_SCHEDULING_STATE_IN_PROGRESS,
+            SOC_SCHEDULING_STATE_COMPLETED
+    };
 
     // rollover  types
     public static final String ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.result.rollover";
