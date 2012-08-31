@@ -31,7 +31,7 @@ import org.kuali.student.r1.lum.lrc.entity.ResultComponentType;
 
 @PersistenceFileLocation("classpath:META-INF/lrc-persistence.xml")
 public class TestLrcDaoImpl extends AbstractTransactionalDaoTest {
-	@Dao(value = "org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl", testSqlFile = "classpath:ks-lrc.sql")
+	@Dao(value = "org.kuali.student.r1.lum.lrc.dao.impl.LrcDaoImpl", testSqlFile = "classpath:ks-lrc.sql")
 	public LrcDao dao;
 
 	@Test
