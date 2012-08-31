@@ -37,6 +37,11 @@
                 <value>ks-enroll/scripts/common.js</value>
             </list>
         </property>
+        <property name="dialogs">
+            <list>
+                <bean id="deleteConfirmationDialog" parent="KS-ProcessInfoSearch-DeleteDialog"/>
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-ProcessInfoSearch-SearchPage" parent="Uif-Page">
@@ -165,12 +170,12 @@
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:label="Actions" p:style="display:inline;"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:label="Actions" p:style="display:inline;"/>
         </property>
         <property name="lineActions">
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="delete" p:preSubmitCall="confirmDeletionResponse('Are you sure you want to delete this hold issue?')" p:actionLabel="Delete" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="delete" p:actionLabel="Delete" p:render="@{#line.state eq 'kuali.process.process.state.active'}"/>
             </list>
         </property>
     </bean>
@@ -225,6 +230,40 @@
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="Update" p:methodToCall="save"/>
                             <bean parent="Uif-ActionLink" p:actionLabel="@{isSaveSuccess ? 'Back' : 'Cancel'}" p:methodToCall="back" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ProcessInfoSearch-DeleteDialog" parent="Uif-VerticalBoxGroup" p:hidden="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="headerText" value="Set State for Process"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="dialogStateKey">
+                                <property name="control">
+                                    <bean parent="Uif-HorizontalRadioControl" p:disabled="@{isInstructionActive}">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="kuali.process.process.state.disabled" p:value="Disabled"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="kuali.process.process.state.inactive" p:value="Inactive"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="delete" p:actionLabel="Update"/>
+                                        <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="delete" p:actionLabel="Cancel" p:actionParameters="resetDialog:true"/>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>

@@ -71,6 +71,8 @@ public class ProcessInfoController extends UifControllerBase {
     private OrganizationService organizationService;
     private OrgInfo orgInfo;
 
+    private Map<String, String> actionParameters;
+
     private boolean isEdit;
 
     @Override
@@ -84,6 +86,7 @@ public class ProcessInfoController extends UifControllerBase {
                               HttpServletRequest request, HttpServletResponse response) {
         ProcessInfoForm processInfoForm = (ProcessInfoForm)form;
         processInfoForm.setIsSaveSuccess(false);
+        processInfoForm.setIsInstructionActive(false);
         isEdit=false;
 
         return super.start(form, result, request, response);
@@ -108,7 +111,7 @@ public class ProcessInfoController extends UifControllerBase {
                 isEdit = false;
             } catch (Exception e) {
                 return getUIFModelAndView(form);
-            }
+             }
         } else {
             processInfo.setKey("kuali.process."+ form.getTypeKey() + "."+form.getName() );
             String key =  processInfo.getKey().replaceAll(" ", ".");
@@ -219,14 +222,28 @@ public class ProcessInfoController extends UifControllerBase {
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=delete")
-    public ModelAndView delete(@ModelAttribute("KualiForm") ProcessInfoForm form) throws Exception {
-        List<ProcessInfo> processInfos = form.getProcessInfos();
+    public ModelAndView delete(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        form.setIsInstructionActive(false);
+        form.setDialogStateKey("");
+
+        String dialogId = "deleteConfirmationDialog";
+
+        if(!hasDialogBeenDisplayed(dialogId, form)) {
+            actionParameters = form.getActionParameters();
+            return showDialog(dialogId, form, request, response);
+        } else if (form.getActionParamaterValue("resetDialog").equals("true")){
+            form.getDialogManager().removeAllDialogs();
+            form.setLightboxScript("closeLightbox('" + dialogId + "');");
+            return getUIFModelAndView(form);
+        }
+
+        form.setActionParameters(actionParameters);
         List<InstructionInfo> instructionInfos = new ArrayList<InstructionInfo>();
         List<InstructionInfo> activeInstructions = new ArrayList<InstructionInfo>();
         ProcessInfo processInfo = getSelectedProcessInfo(form, "delete");
-        boolean isInstructionActive = false;
 
-        try{
+        /*try{
             instructionInfos = getProcessService().getInstructionsByProcess(processInfo.getKey(), getContextInfo());
             for(InstructionInfo instruction : instructionInfos){
                 if(instruction.getStateKey().equals("kuali.process.instruction.state.active")){
@@ -235,24 +252,27 @@ public class ProcessInfoController extends UifControllerBase {
                 }
             }
 
-            if(isInstructionActive != true) {
+            if(!isInstructionActive) {
                 if(!processInfo.getStateKey().equals("inactive") || !processInfo.getStateKey().equals("disabled")) {
                     processInfo.setStateKey(form.getStateKey());
                     getProcessService().updateProcess(processInfo.getKey(), processInfo, getContextInfo());
-                    GlobalVariables.getMessageMap().addGrowlMessage("Saved!", "Save Successful");
+                    form.setLightboxScript("closeLightbox('" + dialogId + "');");
+                    form.getDialogManager().removeAllDialogs();
+                    return getUIFModelAndView(form);
                 }
-            } else if(isInstructionActive == true && form.getStateKey().equals("disabled")){
+            } else if(isInstructionActive && form.getStateKey().equals("disabled")){
                 processInfo.setStateKey(form.getStateKey());
                 getProcessService().updateProcess(processInfo.getKey(), processInfo, getContextInfo());
-                GlobalVariables.getMessageMap().addGrowlMessage("Saved!", "Process Disabled but there exists active instructions");
             } else {
-                GlobalVariables.getMessageMap().addGrowlMessage("Saved not Possible", "There exists active instructions");
+                form.setInstructionInfoList(activeInstructions);
+                return showDialog(dialogId, form, request, response);
             }
         } catch (Exception ex) {
-        throw new RuntimeException("Unable to get process");
-    }
-
-        form.setProcessInfos(processInfos);
+            throw new RuntimeException("Unable to get process");
+        }
+*/
+        form.setLightboxScript("closeLightbox('" + dialogId + "');");
+        form.getDialogManager().removeAllDialogs();
         return getUIFModelAndView(form);
     }
 

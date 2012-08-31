@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class1.process.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 
 import java.util.List;
@@ -37,10 +38,13 @@ public class ProcessInfoForm extends UifFormBase {
     private String descr;
     private String ownerOrgId;
     private String orgName;
+    private String dialogStateKey;
 
     private boolean isSaveSuccess;
+    private boolean isInstructionActive;
 
     private List<ProcessInfo> processInfos;
+    private List<InstructionInfo> instructionInfoList;
 
     private ProcessInfo processInfo;
 
@@ -128,5 +132,29 @@ public class ProcessInfoForm extends UifFormBase {
 
     public void setIsSaveSuccess(boolean saveSuccess) {
         isSaveSuccess = saveSuccess;
+    }
+
+    public boolean getIsInstructionActive() {
+        return isInstructionActive;
+    }
+
+    public void setIsInstructionActive(boolean instructionActive) {
+        isInstructionActive = instructionActive;
+    }
+
+    public List<InstructionInfo> getInstructionInfoList() {
+        return instructionInfoList;
+    }
+
+    public void setInstructionInfoList(List<InstructionInfo> instructionInfoList) {
+        this.instructionInfoList = instructionInfoList;
+    }
+
+    public String getDialogStateKey() {
+        return dialogStateKey;
+    }
+
+    public void setDialogStateKey(String dialogStateKey) {
+        this.dialogStateKey = dialogStateKey;
     }
 }
