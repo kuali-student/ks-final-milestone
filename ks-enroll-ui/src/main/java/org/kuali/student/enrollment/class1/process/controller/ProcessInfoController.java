@@ -84,6 +84,7 @@ public class ProcessInfoController extends UifControllerBase {
                               HttpServletRequest request, HttpServletResponse response) {
         ProcessInfoForm processInfoForm = (ProcessInfoForm)form;
         processInfoForm.setIsSaveSuccess(false);
+        isEdit=false;
 
         return super.start(form, result, request, response);
     }
@@ -111,10 +112,12 @@ public class ProcessInfoController extends UifControllerBase {
         } else {
             processInfo.setKey("kuali.process."+ form.getTypeKey() + "."+form.getName() );
             String key =  processInfo.getKey().replaceAll(" ", ".");
+            form.setKey(key);
             processInfo.setKey(key);
             processInfo.setName(form.getName());
             processInfo.setTypeKey(form.getTypeKey());
             processInfo.setStateKey("kuali.process.process.state.active");
+            form.setStateKey("kuali.process.process.state.active");
             processInfo.setOwnerOrgId(form.getOwnerOrgId());
             RichTextInfo richTextInfo = new RichTextInfo();
             richTextInfo.setPlain(form.getDescr());
