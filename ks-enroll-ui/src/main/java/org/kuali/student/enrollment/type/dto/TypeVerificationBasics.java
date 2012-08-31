@@ -26,6 +26,13 @@ public class TypeVerificationBasics {
     private String service;
     private String constant;
 
+
+    public TypeVerificationBasics(){
+        typeKey=null;
+        service=null;
+        constant=null;
+    }
+
     public TypeVerificationBasics(String typeKey, String service, String constant){
         this.typeKey=typeKey;
         this.service=service;

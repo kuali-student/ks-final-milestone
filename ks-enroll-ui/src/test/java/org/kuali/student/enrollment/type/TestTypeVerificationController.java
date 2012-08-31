@@ -43,7 +43,7 @@ import static junit.framework.Assert.*;
 @Transactional
 public class TestTypeVerificationController {
 
-        @Resource
+
         TypeVerificationController tc;
         ArrayList<String> typeKeys = new ArrayList<String>(Arrays.asList(
                 "kuali.attribute.course.evaluation.indicator",
