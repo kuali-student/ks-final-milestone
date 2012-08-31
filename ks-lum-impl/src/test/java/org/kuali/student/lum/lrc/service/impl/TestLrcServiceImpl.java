@@ -56,7 +56,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 @PersistenceFileLocation("classpath:META-INF/lrc-persistence.xml")
 public class TestLrcServiceImpl extends AbstractServiceTest {
     
-	@Client(value = "org.kuali.student.lum.lrc.service.impl.LrcServiceImpl", additionalContextFile="classpath:lrc-additional-context.xml")
+	@Client(value = "org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl", additionalContextFile="classpath:lrc-additional-context.xml")
 	public LrcService client;
 
     @Test
