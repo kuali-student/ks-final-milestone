@@ -697,4 +697,38 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
         this.criteriaLookupService = criteriaLookupService;
     }
+
+	@Override
+	public StatusInfo updateSocState(@WebParam(name = "socId") String socId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("To be Implemented in M5");
+	}
+
+	@Override
+	public StatusInfo updateSocRolloverResultState(
+			@WebParam(name = "socId") String socId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("To be Implemented in M5");
+	}
+
+	@Override
+	public StatusInfo updateSocRolloverResultItemState(
+			@WebParam(name = "socId") String socId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("To be Implemented in M5");
+	}
+    
+    
 }

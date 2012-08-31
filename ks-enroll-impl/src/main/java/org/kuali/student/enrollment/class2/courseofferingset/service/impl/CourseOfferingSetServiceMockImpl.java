@@ -8,6 +8,7 @@ import org.apache.commons.lang.UnhandledException;
 import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -692,4 +693,87 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
     }
+
+	@Override
+	public StatusInfo updateSocState(@WebParam(name = "socId") String socId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		try {
+			/*
+			 * get won't work because it doesn't return the map bound instance.
+			 * We need to get that instance ourselves manually.
+			 */
+			SocInfo soc = this.socMap.get(socId);
+			
+			if (soc == null)
+				throw new DoesNotExistException("No Soc for id= " + socId);
+			
+			soc.setStateKey(nextStateKey);
+			
+			return newStatus();
+			
+		} catch (Exception e) {
+			throw new OperationFailedException("updateSocState (id=" + socId + ", nextStateKey=" + nextStateKey, e);
+		}
+	}
+
+	@Override
+	public StatusInfo updateSocRolloverResultState(
+			@WebParam(name = "socRolloverResultId") String socRolloverResultId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		try {
+			/*
+			 * get won't work because it doesn't return the map bound instance.
+			 * We need to get that instance ourselves manually.
+			 */
+			SocRolloverResultInfo socRolloverResults = this.socRolloverResultMap.get(socRolloverResultId);
+			
+			if (socRolloverResults == null)
+				throw new DoesNotExistException("No SocRolloverResult for id= " + socRolloverResultId);
+			
+			socRolloverResults.setStateKey(nextStateKey);
+			
+			return newStatus();
+			
+		} catch (Exception e) {
+			throw new OperationFailedException("updateSocRolloverResultState (id=" + socRolloverResultId + ", nextStateKey=" + nextStateKey, e);
+		}
+	}
+
+	@Override
+	public StatusInfo updateSocRolloverResultItemState(
+			@WebParam(name = "socRolloverResultItemId") String socRolloverResultItemId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		try {
+			/*
+			 * get won't work because it doesn't return the map bound instance.
+			 * We need to get that instance ourselves manually.
+			 */
+			SocInfo socRolloverResultItem = this.socMap.get(socRolloverResultItemId);
+			
+			if (socRolloverResultItem == null)
+				throw new DoesNotExistException("No SocRolloverResultItem for id= " + socRolloverResultItemId);
+			
+			socRolloverResultItem.setStateKey(nextStateKey);
+			
+			return newStatus();
+			
+		} catch (Exception e) {
+			throw new OperationFailedException("updateSocRolloverResultItemState (id=" + socRolloverResultItemId + ", nextStateKey=" + nextStateKey, e);
+		}
+	}
+    
+    
 }

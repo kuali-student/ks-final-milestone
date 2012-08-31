@@ -335,6 +335,39 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator ().getSocRolloverResultsBySourceAndTargetSocs(sourceSocId, targetSocId, context);
     }
+
+	@Override
+	public StatusInfo updateSocState(@WebParam(name = "socId") String socId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().updateSocState(socId, nextStateKey, contextInfo);
+	}
+
+	@Override
+	public StatusInfo updateSocRolloverResultState(
+			@WebParam(name = "socId") String socId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().updateSocRolloverResultState(socId, nextStateKey, contextInfo);
+	}
+
+	@Override
+	public StatusInfo updateSocRolloverResultItemState(
+			@WebParam(name = "socId") String socId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().updateSocRolloverResultState(socId, nextStateKey, contextInfo);
+	}
+    
     
     
     
