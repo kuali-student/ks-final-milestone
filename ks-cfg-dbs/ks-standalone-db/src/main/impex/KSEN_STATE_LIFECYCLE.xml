@@ -10,12 +10,6 @@
         NAME="kuali.activity.offering.process" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
-        DESCR_FORMATTED="kuali.activity.offering.scheduling.process state lifecycle"
-        DESCR_PLAIN="kuali.activity.offering.scheduling.process state lifecycle"
-        ID="kuali.activity.offering.scheduling.process"
-        NAME="kuali.activity.offering.scheduling.process" VER_NBR="1"/>
-    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
-        CREATETIME="20120301000000"
         DESCR_FORMATTED="kuali.appointment.lifecycle state lifecycle"
         DESCR_PLAIN="kuali.appointment.lifecycle state lifecycle"
         ID="kuali.appointment.lifecycle"
