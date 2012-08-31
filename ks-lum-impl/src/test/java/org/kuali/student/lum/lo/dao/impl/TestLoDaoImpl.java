@@ -35,7 +35,7 @@ import org.kuali.student.r2.lum.lo.entity.LoRepository;
 
 @PersistenceFileLocation("classpath:META-INF/lo-persistence.xml")
 public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
-	@Dao(value = "org.kuali.student.lum.lo.dao.impl.LoDaoImpl", testSqlFile = "classpath:ks-lo.sql")
+	@Dao(value = "org.kuali.student.r2.lum.lo.dao.impl.LoDaoImpl", testSqlFile = "classpath:ks-lo.sql")
 	public LoDao dao;
 
 	@Before
