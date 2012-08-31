@@ -479,19 +479,25 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
     /**
      * Requests that the course offerings in this Soc be submitted to the scheduler.
      * 
-     * For M5 we return immediately but eventually this will need to be an asynchronous process.
+     * This method starts what is know as the mass scheduling event.
+     * 
+     * The expectation is that this method starts an asynchronous process to perform the scheduling that will complete or fail eventually independently of this method call. 
+     * 
+     * The <em>optionKeys</em> parameter can be used to alter the default processing behavior.
      *
      * @param socId Id of the Set of Courses
+     * @param optionKeys  keys that alter the default processing behavior.   
      * @param context  Context information containing the principalId and locale
      *                 information about the caller of service operation
+     * @return status of the starting the scheduling process for the activityOffering (success, failed)
      * @throws DoesNotExistException     socId not found
      * @throws InvalidParameterException contextInfo object is invalid
      * @throws MissingParameterException one or more missing parameters
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo scheduleSoc(@WebParam(name = "socId") String socId,
-            @WebParam(name = "context") ContextInfo context)
+    public StatusInfo startScheduleSoc(@WebParam(name = "socId") String socId, @WebParam (name="optionKeys")
+            List<String> optionKeys, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
 

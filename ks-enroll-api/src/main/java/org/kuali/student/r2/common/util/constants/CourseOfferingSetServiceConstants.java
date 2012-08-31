@@ -104,6 +104,9 @@ public class CourseOfferingSetServiceConstants {
     public static final String LOG_FREQUENCY_OPTION_KEY_PREFIX = "kuali.rollover.processing.log.frequency.";
     public static final String HALT_ERRORS_MAX_OPTION_KEY_PREFIX = "kuali.rollover.processing.halt.error.max.";
     public static final String RUN_SYNCHRONOUSLY_OPTION_KEY = "kuali.rollover.processing.run.synchronously";
+    
+    // scheduling
+    public static final String RUN_SCHEDULING_SYNCHRONOUSLY_OPTION_KEY = "kuali.scheduling.processing.run.synchronously";
 
     // dynamic attributes for rollover info
     public static final String CO_CREATED_RESULT_DYNATTR_KEY = "kuali.soc.rollover.result.dynattr.course.offerings.created";
