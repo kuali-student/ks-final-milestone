@@ -20,9 +20,13 @@
     <security:http pattern="/services/*" security="none" />
     <security:http pattern="/favicon.ico" security="none" />
     <security:http pattern="/login.jsp*" security="none" />
+    <!-- to enable KS Kitchen Sink pages to bypass login.jsp
+    <security:http pattern="\S*?\.(css|js|png|gif|jpg)$" request-matcher="ciRegex" security="none" />
+    <security:http pattern="/kr-krad/kitchensink*" security="none" />
+    -->
 
 	<security:http auto-config="false">
-		<security:intercept-url pattern="/**" access="ROLE_KS_USER" />
+        <security:intercept-url pattern="/**" access="ROLE_KS_USER" />
 		<security:form-login login-page="/login.jsp" />
 		<security:custom-filter ref="ksLogoutFilter"
 			position="LOGOUT_FILTER" />
