@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -19,6 +20,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
+import org.kuali.student.r2.common.infc.ValidationResult;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
 import java.util.List;
@@ -89,6 +92,27 @@ public class CourseOfferingServiceValidationDecorator
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
+
+        if(errors.isEmpty()) {
+            // Check for uniqueness in the course offering code
+            List<CourseOfferingInfo> existingCos = null;
+            try {
+                existingCos = getCourseOfferingsByCourseAndTerm(courseOfferingInfo.getCourseId(), courseOfferingInfo.getTermId(), context);
+            } catch (PermissionDeniedException e) {
+                throw new OperationFailedException("Error validating", e);
+            }
+            for (CourseOfferingInfo existingCo : existingCos) {
+
+                if (StringUtils.equals(existingCo.getCourseOfferingCode(), courseOfferingInfo.getCourseOfferingCode())) {
+                    ValidationResultInfo validationResult = new ValidationResultInfo();
+                    validationResult.setError(CourseOfferingServiceConstants.COURSE_OFFERING_CODE_UNIQUENESS_VALIDATION_MESSAGE);
+                    validationResult.setElement(CourseOfferingServiceConstants.COURSE_OFFERING_CODE_VALIDATION_ELEMENT);
+                    errors.add(validationResult);
+                    break;
+                }
+            }
+        }
+
         return errors;
     }
 

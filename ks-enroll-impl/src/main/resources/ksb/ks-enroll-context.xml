@@ -454,7 +454,7 @@
        <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="coService" />
+                <property name="service" ref="coServiceValidation" />
                 <property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />
                 <property name="localServiceName" value="coService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />

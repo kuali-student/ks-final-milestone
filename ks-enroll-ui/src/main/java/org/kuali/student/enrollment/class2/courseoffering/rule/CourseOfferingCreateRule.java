@@ -10,9 +10,15 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCrea
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,21 +34,43 @@ public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
         if (document.getNewMaintainableObject().getDataObject() instanceof CourseOfferingCreateWrapper){
             CourseOfferingCreateWrapper coWrapper = (CourseOfferingCreateWrapper)document.getNewMaintainableObject().getDataObject();
 
-            String newCoCode = coWrapper.getCatalogCourseCode() + coWrapper.getCourseOfferingSuffix();
-            try {
-                List<CourseOfferingInfo> wrapperList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(coWrapper.getCourse().getId(), coWrapper.getTerm().getId(), getContextInfo());
-                for (CourseOfferingInfo courseOfferingInfo : wrapperList) {
 
-                    if (StringUtils.equals(newCoCode, courseOfferingInfo.getCourseOfferingCode())) {
+            CourseOfferingInfo courseOffering = new CourseOfferingInfo();
+            List<String> optionKeys = new ArrayList<String>();
+
+            CourseInfo courseInfo = coWrapper.getCourse();
+            courseOffering.setTermId(coWrapper.getTerm().getId());
+            courseOffering.setCourseOfferingTitle(courseInfo.getCourseTitle());
+            courseOffering.setCourseId(courseInfo.getId());
+            courseOffering.setCourseCode(courseInfo.getCode());
+            courseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
+            courseOffering.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
+
+            // Catalog course code is case INSENSITIVE, but the suffix is case SENSITIVE
+            String newCoCode = (coWrapper.getCatalogCourseCode().toUpperCase()) + coWrapper.getCourseOfferingSuffix();
+
+            courseOffering.setCourseOfferingCode(newCoCode);
+
+            List<ValidationResultInfo> validationResults;
+            try {
+                validationResults = getCourseOfferingService().validateCourseOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), courseOffering, getContextInfo());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            for(ValidationResultInfo vr : validationResults) {
+                if (vr.isError()) {
+                    if (vr.getMessage().equals(CourseOfferingServiceConstants.COURSE_OFFERING_CODE_UNIQUENESS_VALIDATION_MESSAGE)) {
                         StringBuilder sb = new StringBuilder(EXISTING_CO_CODE_FOUND_ERROR);
                         sb.append(coWrapper.getCatalogCourseCode());
                         GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, sb.toString());
                         coWrapper.setEnableCreateButton(true);
                         return false;
                     }
+                    else {
+                        throw new RuntimeException("Unhandled validation result when attempting to save a Course Offering: " + newCoCode + ", validation message is: " + vr.getMessage());
+                    }
                 }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
             }
 
         }
