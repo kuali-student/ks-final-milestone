@@ -39,7 +39,7 @@
                     <property name="items">
                         <list>
                             <ref bean="KS-AcademicCalendar-CopyPage-From"/>
-                            <ref bean="KS-AcademicCalendar-CopyPage-To"/>
+                            <!-- <ref bean="KS-AcademicCalendar-CopyPage-To"/> -->  <!-- Jira 2070: Commented out Tanveer 08/31/2012 -->
                         </list>
                     </property>
                 </bean>
@@ -98,8 +98,8 @@
             </list>
         </property>
     </bean>
-
-    <bean id="KS-AcademicCalendar-CopyPage-To" parent="Uif-VerticalBoxSubSection"
+    <!-- Jira 2070: Commented out the entire section here Tanveer 08/31/2012 -->
+    <!-- <bean id="KS-AcademicCalendar-CopyPage-To" parent="Uif-VerticalBoxSubSection"
           p:headerText="Copy To:"
           p:render="@{orgAcalInfo != null}"
           p:style="margin-bottom:0;">
@@ -118,10 +118,7 @@
                                   p:required="true"
                                   p:propertyName="academicCalendarInfo.name"
                                   p:fieldLabel.width="15%">
-                                <!--<property name="validCharactersConstraint">-->
-                                    <!--<bean parent="AlphaNumericPatternConstraint"-->
-                                          <!--p:allowWhitespace="true" />-->
-                                <!--</property>-->
+
                                 <property name="control">
                                     <bean parent="Uif-TextControl"
                                           p:size="40"
@@ -167,6 +164,6 @@
                 </bean>
             </list>
         </property>
-    </bean>
+    </bean> -->
 
 </beans>
