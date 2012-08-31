@@ -17,6 +17,7 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
@@ -214,6 +215,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 }
                 targetAo.setFormatOfferingId(targetFo.getId());
                 targetAo.setTermId(targetTermId);
+                TermInfo termInfo = acalService.getTerm(targetTermId, context);
+                targetAo.setTermCode(termInfo.getCode());
                 targetAo.setMeta(null);
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
                     targetAo.setScheduleId(null);

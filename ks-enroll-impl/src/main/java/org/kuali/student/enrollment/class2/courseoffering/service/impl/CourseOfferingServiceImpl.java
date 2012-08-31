@@ -1844,7 +1844,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<ValidationResultInfo> validateSeatPoolDefinition(String validationTypeKey,
                                                                  SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        throw new UnsupportedOperationException();
+        // TODO: KSENROLL-2658
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
