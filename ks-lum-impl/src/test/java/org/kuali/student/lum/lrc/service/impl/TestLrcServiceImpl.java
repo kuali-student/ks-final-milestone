@@ -52,7 +52,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 
-@Daos( { @Dao(value = "org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl",testSqlFile="classpath:ks-lrc.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
+@Daos( { @Dao(value = "org.kuali.student.r1.lum.lrc.dao.impl.LrcDaoImpl",testSqlFile="classpath:ks-lrc.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/lrc-persistence.xml")
 public class TestLrcServiceImpl extends AbstractServiceTest {
     

@@ -47,7 +47,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 
-@Daos( { @Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql" /*
+@Daos( { @Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql" /*
 																										 * ,
 																										 * testDataFile
 																										 * =
