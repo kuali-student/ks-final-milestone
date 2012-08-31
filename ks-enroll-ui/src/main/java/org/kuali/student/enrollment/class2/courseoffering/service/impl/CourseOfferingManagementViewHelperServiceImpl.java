@@ -437,9 +437,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         boolean isWarningAdded = false;
         for (CourseOfferingEditWrapper coWrapper : coWrappers) {
             if ((coWrapper.getIsChecked() && checkedOnly) || ! checkedOnly) {
-                boolean isCOStateDraft =  StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, coWrapper.getCoInfo().getStateKey());
-                boolean isCOStatePlanned =  StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY, coWrapper.getCoInfo().getStateKey());
-
                 List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCoInfo().getId(),getContextInfo());
                 if (activityOfferingInfos.size() == 0) {
                     if(!isErrorAdded) {
@@ -448,7 +445,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                     }
                     continue;
                 }
-
                 //  Iterate through the AOs and state change Draft -> Approved.
                 for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
                     boolean isAOStateDraft = StringUtils.equals(activityOfferingInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
@@ -462,16 +458,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                         }
                     }
                 }
-
-/*
-                if (isCOStateDraft || isCOStatePlanned) {
-                } else {
-                    if ( ! isErrorAdded) {
-                        GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY);
-                        isErrorAdded = true;
-                    }
-                }
-*/
             }
 
             // check for changes to states in CO and related FOs
