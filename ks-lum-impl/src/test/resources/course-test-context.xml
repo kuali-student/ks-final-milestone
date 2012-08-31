@@ -240,7 +240,7 @@
 	</bean>
 
     <!--  Organization Service Config -->
-    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
         <!--<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />-->
     </bean>
 
@@ -292,8 +292,6 @@
         class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
-   		<property name="validatorFactory" ref="validatorFactory"/>
     </bean>
 
     <bean id="atpSearchManager"
@@ -561,6 +559,7 @@
 		<property name="enumerationState"	value="kuali.lu.campusLocation" />
 		<property name="enumerationType"	value="kuali.lu.campusLocation" />
 		<property name="versionNumber" value="0" />
+        <property name="createId" value="createId" />
 	</bean>
 
 	<bean id="northCampus"
@@ -572,6 +571,7 @@
 		<property name="sortKey" value="31" />
 		<property name="value" value="North Campus" />
 		<property name="versionNumber" value="0" />
+        <property name="createId" value="createId" />
 	</bean>
 	<bean id="southCampus"
 		class="org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedValueEntity">
@@ -582,6 +582,7 @@
 		<property name="sortKey" value="32" />
 		<property name="value" value="South Campus" />
 		<property name="versionNumber" value="0" />
+        <property name="createId" value="createId" />
 	</bean>
 
 	<bean id="persistObjectsBean" class="org.kuali.student.common.test.spring.PersistObjectsBean">

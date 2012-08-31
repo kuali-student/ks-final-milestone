@@ -224,7 +224,7 @@
 
     <!--  Organization Service Config -->
     <bean id="coreDictionaryServiceDelegate"
-          class="org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+          class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
         <!--<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />-->
     </bean>
 
@@ -276,8 +276,6 @@
           class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao"/>
         <property name="searchManager" ref="atpSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
-        <property name="validatorFactory" ref="validatorFactory"/>
     </bean>
 
     <bean id="atpSearchManager"
@@ -449,7 +447,7 @@
     </bean>
 
     <bean id="lrcServiceImpl"
-          class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+          class="org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl">
         <property name="lrcDao" ref="lrcDao"/>
         <property name="searchManager" ref="lrcSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
@@ -586,7 +584,7 @@
     </bean>
 
     <bean id="mockDocumentService" class="org.kuali.student.common.test.mock.MockProxyFactoryBean">
-        <property name="interfaceClass" value="org.kuali.student.r1.core.document.service.DocumentService"/>
+        <property name="interfaceClass" value="org.kuali.student.r2.core.document.service.DocumentService"/>
         <property name="methodReturnMap">
             <map>
                 <entry key="getRefDocRelation">
