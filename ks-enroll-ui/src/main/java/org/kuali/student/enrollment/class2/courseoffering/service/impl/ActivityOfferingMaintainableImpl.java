@@ -77,17 +77,13 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
             seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo());
 
-            if (!activityOfferingWrapper.getRequestedSchedules().isEmpty()){
-                createSchedulingRequests(activityOfferingWrapper.getAoInfo(),activityOfferingWrapper.getRequestedSchedules());
-            }
+            createSchedulingRequests(activityOfferingWrapper.getAoInfo(),activityOfferingWrapper.getRequestedSchedules());
 
-            if (!activityOfferingWrapper.getScheduleRequestsToBeDeleted().isEmpty()){
-                for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getScheduleRequestsToBeDeleted()) {
-                    try {
-                        getSchedulingService().deleteScheduleRequest(scheduleWrapper.getScheduleRequest().getId(),getContextInfo());
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+            for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getScheduleRequestsToBeDeleted()) {
+                try {
+                    getSchedulingService().deleteScheduleRequest(scheduleWrapper.getScheduleRequest().getId(),getContextInfo());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             }
 
@@ -485,13 +481,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private String getAmPm(int ampm) {
-        if (ampm == 1) {
-            return "pm";
-        }
-        return "am";
     }
 
     /**

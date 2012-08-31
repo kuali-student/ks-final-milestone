@@ -6,6 +6,11 @@ function clearRoomResourcesSelections(sourceLink) {
         });
 }
 
+function clearFeaturesSelected(){
+    jQuery('#featuresList_control option').attr('selected', false);
+    return false;
+}
+
 function calculatePercent(jqObject){
 
     if(jqObject) {
@@ -68,4 +73,8 @@ function calculatePercent(jqObject){
     } else {
         seatsRemaining.text("");
     }
+}
+
+function setRequestedDeliveryLogisticsFieldRequired(jqObject,required){
+
 }

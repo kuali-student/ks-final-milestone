@@ -476,13 +476,13 @@
     <bean id="KS-ActivityOffering-RequestedDeliveryLogistics-Features-Section" parent="Uif-VerticalBoxSubSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="newScheduleRequest.features" p:label="Features" p:readOnlyDisplayReplacementPropertyName="newScheduleRequest.featuesUI"
+                <bean parent="Uif-InputField" p:id='featuresList' p:propertyName="newScheduleRequest.features" p:label="Features" p:readOnlyDisplayReplacementPropertyName="newScheduleRequest.featuesUI"
                         p:instructionalText="Any features requested will reduce the room assignement possibilities (we only have so many rooms with operable windows!)">
                   <property name="control">
                     <bean parent="Uif-DropdownControl" p:multiple="true" p:size="5" p:options-ref="features-options"/>
                   </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Clear selections"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Clear selections" p:preSubmitCall="clearFeaturesSelected();"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addLine"
                         p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;requestedSchedules&quot;);"/>
             </list>
