@@ -147,6 +147,7 @@
                 <value>classpath:org/kuali/student/enrollment/check/CheckInfoView.xml</value>
                 
                 <!-- Type -->
+                <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/type/TypeInfoAdminLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/type/TypeInfoAdminInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/type/TypeTypeRelationInfoAdminLookupView.xml</value>
