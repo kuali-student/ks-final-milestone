@@ -65,8 +65,10 @@ public class SchedulingServiceConstants {
     public static final String SCHEDULE_TYPE_SCHEDULE = "kuali.scheduling.schedule.type.schedule";
 
     // time slot types
+    // See https://wiki.kuali.org/display/STUDENT/Time+Slot+Types
     public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING = "kuali.scheduling.time.slot.type.activityoffering";
-    public static final String TIME_SLOT_TYPE_FINAL_EXAM = "kuali.scheduling.time.slot.type.finalexam";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA = "kuali.scheduling.time.slot.type.activityoffering.tba";
+    public static final String TIME_SLOT_TYPE_FINAL_EXAM = "kuali.scheduling.time.slot.type.finalexam"; // currently this is a Placeholder, not an Approved
 
     /////////////////////////////
     // States
