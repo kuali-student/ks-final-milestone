@@ -959,9 +959,10 @@ public class CluServiceAssembler extends BaseAssembler {
         }
         AccreditationInfo dto = new AccreditationInfo();
 
-        BeanUtils.copyProperties(entity, dto, new String[]{"attributes"});
+        BeanUtils.copyProperties(entity, dto, new String[]{"attributes", "meta"});
 
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         return dto;
 
