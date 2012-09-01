@@ -42,7 +42,7 @@ import org.kuali.student.r2.lum.lu.entity.SearchParameterValue;
 
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
-	@Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql")
+	@Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql")
 	public LuDao dao;
 
 	private static final SimpleDateFormat DF = new SimpleDateFormat("yyyyMMdd");
