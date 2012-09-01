@@ -11,6 +11,9 @@
 
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
 
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
+
         <class>org.kuali.student.r1.core.atp.entity.Atp</class>
         <class>org.kuali.student.r1.core.atp.entity.AtpAttribute</class>
         <class>org.kuali.student.r1.core.atp.entity.AtpDurationType</class>
