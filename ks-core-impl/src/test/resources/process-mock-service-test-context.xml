@@ -13,5 +13,5 @@
         <constructor-arg value="true" />
     </bean>
     
-    <bean id="processService" class="org.kuali.student.r2.core.process.service.impl.ProcessServiceMockImpl" />
+    <bean id="processService" class="org.kuali.student.r2.core.process.impl.ProcessServiceMockImpl" />
 </beans>
