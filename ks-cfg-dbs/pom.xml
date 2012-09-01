@@ -57,7 +57,7 @@
         <ks.impex.oracle.quota>UNLIMITED</ks.impex.oracle.quota>
         <ks.impex.oracle.error.sqlcode.userDoesNotExist>-01918</ks.impex.oracle.error.sqlcode.userDoesNotExist>
         <ks.impex.oracle.error.sqlcode.userAlreadyExists>-01920</ks.impex.oracle.error.sqlcode.userAlreadyExists>
-        <ks.impex.oracle.dba.username>SYS AS SYSDBA</ks.impex.oracle.dba.username>
+        <ks.impex.oracle.dba.username>master</ks.impex.oracle.dba.username>
         <ks.impex.oracle.dba.password>change_on_install</ks.impex.oracle.dba.password>
 
         <!-- Simple select query for validating connection properties -->
