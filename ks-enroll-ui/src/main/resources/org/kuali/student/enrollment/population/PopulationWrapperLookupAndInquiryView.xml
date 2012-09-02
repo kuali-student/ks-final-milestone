@@ -44,7 +44,6 @@
         <property name="dataObjectEntry" ref="PopulationRuleInfo"/>
     </bean>
 
-
     <!-- LookupView -->
     <bean id="KS-Population-LookupView" parent="KSLookupView">
         <property name="headerText" value="@{viewName != null ? 'Manage Populations' : 'Active Population Lookup'}" />
@@ -56,9 +55,9 @@
         </property>
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:label="Keyword" p:propertyName="keyword" />
+                <bean parent="Uif-LookupCriteriaInputField" p:label="Keyword" p:propertyName="keyword" p:fieldLabel.style="width:20%;" p:style="width:auto;"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="populationInfo.stateKey"
-                      p:label="State" p:required="true" p:defaultValue="kuali.population.population.state.active" p:render="@{viewName != null}">
+                      p:label="State" p:required="true" p:defaultValue="kuali.population.population.state.active" p:render="@{viewName != null}" p:fieldLabel.style="width:20%;" p:style="width:auto;">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl" />
                     </property>
@@ -66,7 +65,6 @@
                         <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationStateKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-
             </list>
         </property>
         <property name="resultFields">
@@ -138,6 +136,20 @@
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Re-defining css for "Create New" link for lookup screen -->
+    <bean id="Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-leftAligned-headerFieldGroup</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-CreateNewLink"/>
             </list>
         </property>
     </bean>
