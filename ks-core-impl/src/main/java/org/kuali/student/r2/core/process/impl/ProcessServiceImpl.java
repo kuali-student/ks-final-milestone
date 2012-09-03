@@ -352,9 +352,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
 
         ProcessEntity toUpdate = new ProcessEntity(processInfo);
-
-        toUpdate.setProcessState(ProcessServiceConstants.PROCESS_LIFECYCLE_KEY);
-
         toUpdate.setProcessType(processInfo.getTypeKey());
         toUpdate.setEntityUpdated(contextInfo);
         processDao.merge(toUpdate);

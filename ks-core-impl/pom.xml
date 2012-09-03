@@ -36,11 +36,6 @@
             <version>${ks.api.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.api</groupId>
-            <artifactId>ks-enroll-api</artifactId>
-            <version>${ks.api.version}</version>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ks-common-impl</artifactId>
             <version>${project.version}</version>
