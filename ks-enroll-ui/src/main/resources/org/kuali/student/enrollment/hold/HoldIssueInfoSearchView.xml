@@ -9,7 +9,7 @@
 
     <bean id="KS-HoldSearch-View" parent="KSFormView">
         <property name="id" value="holdSearchView"/>
-        <property name="headerText" value="Hold Lookup"/>
+        <property name="headerText" value="Advanced Search: Hold"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoSearchForm"/>
         <property name="singlePageView" value="true"/>
         <property name="page">
@@ -117,7 +117,6 @@
     </bean>
 
     <bean id="KS-HoldLookup-ResultSection" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="Search Results" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>

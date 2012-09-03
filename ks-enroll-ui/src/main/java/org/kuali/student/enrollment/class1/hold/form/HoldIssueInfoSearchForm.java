@@ -103,11 +103,4 @@ public class HoldIssueInfoSearchForm extends UifFormBase {
     public void setOrgName(String orgName) {
         this.orgName = orgName;
     }
-    public void clearValues() {
-        setName("");
-        setDescr("");
-        setStateKey("");
-        setTypeKey("");
-        setOrganizationId("");
-    }
 }

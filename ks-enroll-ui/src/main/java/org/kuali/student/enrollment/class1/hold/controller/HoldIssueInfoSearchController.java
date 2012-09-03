@@ -120,7 +120,7 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=clear")
     public ModelAndView clear(@ModelAttribute("KualiForm") HoldIssueInfoSearchForm searchForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        searchForm.clearValues();
+        clearValues(searchForm);
         return getUIFModelAndView(searchForm);
     }
 
@@ -205,6 +205,15 @@ public class HoldIssueInfoSearchController extends UifControllerBase {
         searchForm.setLightboxScript("closeLightbox('" + dialogId + "');");
         searchForm.getDialogManager().removeAllDialogs();
         return getUIFModelAndView(searchForm);
+    }
+
+    private void clearValues(HoldIssueInfoSearchForm form) {
+        form.setName("");
+        form.setOrganizationId("");
+        form.setOrgName("");
+        form.setStateKey("");
+        form.setTypeKey("");
+        form.setDescr("");
     }
 
     private void resetForm(HoldIssueInfoSearchForm searchForm) {
