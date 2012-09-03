@@ -222,6 +222,7 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
      * @throws MissingParameterException    One or more parameters missing
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException if trying to update the state or type
      * @throws VersionMismatchException     The action was attempted on an out of date version.
      */
     public SocInfo updateSoc(@WebParam(name = "socId") String socId,
