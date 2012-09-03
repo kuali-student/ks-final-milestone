@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * This class tests Scheduling Service
@@ -538,9 +539,17 @@ public class TestSchedulingServiceMockImpl {
         // ----------------
         ScheduleBatchInfo expected = new ScheduleBatchInfo() ;
         crudInfoTester.initializeInfoForTestCreate(expected, SchedulingServiceConstants.SCHEDULE_BATCH_TYPE_BATCH, SchedulingServiceConstants.SCHEDULE_BATCH_STATE_COMPLETED);
-
+        expected.setOrgId("111");
+        expected.setRequestingPersonId("222");
+        expected.setStatusMessage("COMPLETED");
         ScheduleBatchInfo actual = schedulingService.createScheduleBatch(expected.getTypeKey(), expected, callContext);
         crudInfoTester.testCreate(expected, actual);
+        assertEquals(expected.getOrgId(), actual.getOrgId());
+        assertEquals("111", actual.getOrgId());
+        assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
+        assertEquals("222", actual.getRequestingPersonId());
+        assertEquals(expected.getStatusMessage(), actual.getStatusMessage());
+        assertEquals("COMPLETED", actual.getStatusMessage());
 
         // test read
         // ----------------
@@ -548,13 +557,28 @@ public class TestSchedulingServiceMockImpl {
         actual = schedulingService.getScheduleBatch(expected.getId(), callContext);
         crudInfoTester.initializeInfoForTestRead(expected);
         crudInfoTester.testRead(expected, actual);
+        assertEquals(expected.getOrgId(), actual.getOrgId());
+        assertEquals("111", actual.getOrgId());
+        assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
+        assertEquals("222", actual.getRequestingPersonId());
+        assertEquals(expected.getStatusMessage(), actual.getStatusMessage());
+        assertEquals("COMPLETED", actual.getStatusMessage());
 
         // test update
         // ----------------
         expected = actual;
         crudInfoTester.initializeInfoForTestUpdate(expected, SchedulingServiceConstants.SCHEDULE_BATCH_STATE_COMPLETED);
+        expected.setOrgId("100");
+        expected.setRequestingPersonId("200");
+        expected.setStatusMessage("UPDATED");
         actual = schedulingService.updateScheduleBatch(actual.getId(), expected, callContext);
         crudInfoTester.testUpdate(expected, actual);
+        assertEquals(expected.getOrgId(), actual.getOrgId());
+        assertEquals("100", actual.getOrgId());
+        assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
+        assertEquals("200", actual.getRequestingPersonId());
+        assertEquals(expected.getStatusMessage(), actual.getStatusMessage());
+        assertEquals("UPDATED", actual.getStatusMessage());
 
         // test delete
         // -----------------
