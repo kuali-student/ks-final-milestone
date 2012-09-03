@@ -4,6 +4,10 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.student.mock.utilities.TestHelper;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import javax.xml.namespace.QName;
@@ -18,13 +22,31 @@ import java.util.List;
  * Time: 5:12 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CheckTypeKeyValues extends KeyValuesBase implements Serializable  {
+public class CheckInfoTypeKeyValues extends KeyValuesBase implements Serializable  {
 
     private static final long serialVersionUID = 1L;
 
     private transient TypeService typeService;
 
     public List<KeyValue> getKeyValues() {
+        /*
+        //TODO:Build real context.
+        ContextInfo context = TestHelper.getContext1();
+
+        try {
+            List<TypeInfo> types = getTypeService().getTypesByRefObjectUri(ProcessServiceConstants.REF_OBJECT_URI_CHECK, context);
+            for (TypeInfo type : types) {
+                if(type.getKey().startsWith("kuali.process.check.type")) { //TODO remove check after data is fixed
+                    ConcreteKeyValue keyValue = new ConcreteKeyValue();
+                    keyValue.setKey(type.getKey());
+                    keyValue.setValue(type.getName());
+                    keyValues.add(keyValue);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }*/
+
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         ConcreteKeyValue topKeyValue = new ConcreteKeyValue();
@@ -49,6 +71,26 @@ public class CheckTypeKeyValues extends KeyValuesBase implements Serializable  {
 
 
         return keyValues;
+    }
+
+    public KeyValue getTypeKeyValue(String typeKey) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        ConcreteKeyValue keyValue = new ConcreteKeyValue();
+
+        ContextInfo context = TestHelper.getContext1();
+
+        try {
+            List<TypeInfo> types = getTypeService().getTypesByRefObjectUri(ProcessServiceConstants.REF_OBJECT_URI_CHECK, context);
+            for (TypeInfo type : types) {
+                if(type.getKey().equals(typeKey)) { //TODO remove check after data is fixed
+                    keyValue.setKey(type.getKey());
+                    keyValue.setValue(type.getName());
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return keyValue;
     }
 
     protected TypeService getTypeService() {

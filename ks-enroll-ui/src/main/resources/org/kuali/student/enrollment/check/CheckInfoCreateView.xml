@@ -59,7 +59,7 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class1.check.keyvalues.CheckTypeKeyValues"/>
+                        <bean class="org.kuali.student.enrollment.class1.check.keyvalues.CheckInfoTypeKeyValues"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:label="Hold Issue" p:propertyName="holdName"

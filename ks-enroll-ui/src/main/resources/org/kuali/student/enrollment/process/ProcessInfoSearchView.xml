@@ -154,19 +154,28 @@
                 <bean parent="Uif-DataField"
                       p:label="Process Name"
                       p:propertyName="name" />
-                <bean parent="Uif-DataField"
-                      p:label="Category Name"
-                      p:propertyName="typeKey"/>
+                <bean parent="Uif-InputField" p:label="Process Category" p:propertyName="typeKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean id="HoldIssueTypes" class="org.kuali.student.enrollment.class1.process.keyvalues.ProcessInfoTypeKeyValues" />
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField"
                       p:label="Process Description"
                       p:propertyName="descr.plain"/>
                 <bean parent="Uif-DataField"
                       p:label="Owning Organization"
                       p:propertyName="ownerOrgId"/>
-                <bean parent="Uif-DataField"
-                      p:id="state"
-                      p:label="State"
-                      p:propertyName="stateKey"/>
+                <bean parent="Uif-InputField" p:label="State" p:propertyName="stateKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean id="ProcessStates" class="org.kuali.student.enrollment.class1.process.keyvalues.ProcessInfoStateKeyValues" />
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">

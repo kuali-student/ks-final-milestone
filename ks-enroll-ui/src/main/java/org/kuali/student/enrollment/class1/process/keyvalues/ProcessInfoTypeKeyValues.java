@@ -7,6 +7,11 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinder;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.mock.utilities.TestHelper;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.HoldServiceConstants;
+import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 
@@ -29,6 +34,24 @@ public class ProcessInfoTypeKeyValues extends UifKeyValuesFinderBase implements 
     private transient TypeService typeService;
 
     public List<KeyValue> getKeyValues(ViewModel model) {
+        /*
+        //TODO:Build real context.
+        ContextInfo context = TestHelper.getContext1();
+
+        try {
+            List<TypeInfo> types = getTypeService().getTypesByRefObjectUri(ProcessServiceConstants.REF_OBJECT_URI_PROCESS, context);
+            for (TypeInfo type : types) {
+                if(type.getKey().startsWith("kuali.process.process.type")) { //TODO remove check after data is fixed
+                    ConcreteKeyValue keyValue = new ConcreteKeyValue();
+                    keyValue.setKey(type.getKey());
+                    keyValue.setValue(type.getName());
+                    keyValues.add(keyValue);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }*/
+
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         ConcreteKeyValue keyValue = new ConcreteKeyValue();
@@ -42,6 +65,26 @@ public class ProcessInfoTypeKeyValues extends UifKeyValuesFinderBase implements 
         keyValues.add(keyValue1);
 
         return keyValues;
+    }
+
+    public KeyValue getTypeKeyValue(String typeKey) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        ConcreteKeyValue keyValue = new ConcreteKeyValue();
+
+        ContextInfo context = TestHelper.getContext1();
+
+        try {
+            List<TypeInfo> types = getTypeService().getTypesByRefObjectUri(ProcessServiceConstants.REF_OBJECT_URI_PROCESS, context);
+            for (TypeInfo type : types) {
+                if(type.getKey().equals(typeKey)) { //TODO remove check after data is fixed
+                    keyValue.setKey(type.getKey());
+                    keyValue.setValue(type.getName());
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return keyValue;
     }
 
     protected TypeService getTypeService() {

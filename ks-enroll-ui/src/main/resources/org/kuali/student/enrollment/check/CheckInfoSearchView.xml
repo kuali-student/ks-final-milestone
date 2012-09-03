@@ -82,7 +82,7 @@
                                                 <bean parent="Uif-DropdownControl" p:required="true"/>
                                             </property>
                                             <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class1.check.keyvalues.CheckTypeKeyValues"/>
+                                                <bean class="org.kuali.student.enrollment.class1.check.keyvalues.CheckInfoTypeKeyValues"/>
                                             </property>
                                         </bean>
                                     </list>
@@ -123,16 +123,25 @@
                 <bean parent="Uif-DataField"
                       p:label="CHECK NAME"
                       p:propertyName="name" />
-                <bean parent="Uif-DataField"
-                      p:label="CHECK TYPE"
-                      p:propertyName="typeKey"/>
+                <bean parent="Uif-InputField" p:label="CHECK TYPE" p:propertyName="typeKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean id="HoldIssueTypes" class="org.kuali.student.enrollment.class1.check.keyvalues.CheckInfoTypeKeyValues" />
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField"
                       p:label="CHECK DESCRIPTION"
                       p:propertyName="descr.plain"/>
-                <bean parent="Uif-DataField"
-                      p:id="state"
-                      p:label="STATE"
-                      p:propertyName="stateKey"/>
+                <bean parent="Uif-InputField" p:label="STATE" p:propertyName="stateKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean id="CheckInfoStates" class="org.kuali.student.enrollment.class1.check.keyvalues.CheckInfoStateKeyValues" />
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">
