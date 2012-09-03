@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+    <!-- ProcessInfo-->
+    <bean id="ProcessInfo" parent="ProcessInfo-parent"/>
+    <bean id="ProcessInfo-parent" abstract="true" parent="DataObjectEntry">
+    	<property name="dataObjectClass" value="org.kuali.student.r2.core.process.dto.ProcessInfo"/>
+        <property name="objectLabel" value="Process Info"/>
+        <property name="titleAttribute" value="id"/>
+
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>                
+                <ref bean="ProcessInfo.id"/>
+                <ref bean="ProcessInfo.ownerOrgId"/>
+            </list>
+        </property>
+    </bean>
+    
+	<bean id="ProcessInfo.id" parent="ProcessInfo.id-parent"/>
+    <bean id="ProcessInfo.id-parent" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="id"/>    
+        <property name="dataType" value="STRING" />           
+        <property name="label" value="ID" />
+        <property name="required" value="true"/>
+        <property name="unique" value="true"/> 
+        <property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	  p:allowWhitespace="false" />
+    	</property>
+    	<property name="controlField">
+      		<bean parent="Uif-TextControl" p:size="42"/>
+    	</property> 
+    </bean>
+
+    <bean id="ProcessInfo.ownerOrgId" parent="ProcessInfo.ownerOrgId-parent"/>
+    <bean id="ProcessInfo.ownerOrgId-parent" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="ownerOrgId"/>
+        <property name="dataType" value="STRING" />        
+        <property name="label" value="Owner ORG ID" />
+        <property name="required" value="false"/>
+        <property name="controlField">
+      		<bean parent="Uif-TextControl" p:size="42"/>
+    	</property>
+    	<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	  p:allowWhitespace="false" />
+    	</property>    
+    </bean>
+
+
+</beans>

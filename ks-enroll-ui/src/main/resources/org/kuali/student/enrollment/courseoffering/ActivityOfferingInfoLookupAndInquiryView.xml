@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="ActivityOfferingInfo" parent="ActivityOfferingInfo-parent">
+        <property name="titleAttribute" value="id"/>
+    </bean>
+
+    <bean id="ActivityOfferingInfo.id" parent="ActivityOfferingInfo.id-parent">
+        <property name="label" value="ID"/>
+    </bean>
+
+    <!-- LookupView -->
+    <bean id="KS-ActivityOffering-LookupView" parent="KSLookupView">
+        <property name="headerText" value="ActivityOffering Lookup " />
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingLookupableImpl" />
+
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="id" />
+                <bean parent="Uif-DataField" p:propertyName="name"/>
+                <bean parent="Uif-DataField" p:propertyName="typeKey" />
+                <bean parent="Uif-DataField" p:propertyName="stateKey" />
+                <bean parent="Uif-DataField" p:propertyName="termId" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ActivityOffering-LookupView2" parent="KSLookupView">
+        <property name="headerText" value="Advance ActivityOffering Lookup " />
+        <property name="viewName" value="KS-ActivityOffering-LookupView2"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.AdvanceActivityOfferingLookupableImpl" />
+
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="termCode" p:label="Term"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseOfferingCode" p:label="Course Offering Code"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="stateKey" />
+                <bean parent="Uif-DataField" p:propertyName="id" />
+                <bean parent="Uif-DataField" p:propertyName="typeKey" />
+                <bean parent="Uif-DataField" p:propertyName="formatOfferingName" />
+                <!--<bean parent="Uif-DataField" p:propertyName="time" />-->
+                <!--<bean parent="Uif-DataField" p:propertyName="Days" />-->
+                <!--<bean parent="Uif-DataField" p:propertyName="Instructor" />-->
+                <!--<bean parent="Uif-DataField" p:propertyName="Seats" />-->
+            </list>
+        </property>
+    </bean>
+
+    <!-- InquiryView -->
+    <bean id="KS-ActivityOffering-InquiryView" parent="KSInquiryView"
+        p:headerText="ActivityOffering Inquiry"
+        p:dataObjectClassName="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo"
+        p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingInquirableImpl">
+        <property name="page.header">
+            <ref bean="KSHeader_Empty" />
+        </property>
+        <property name="Items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection"
+                      p:header.render="false"
+                      p:disclosure.render="false"
+                      p:id="KS-HolidayCalendar-View-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-ActivityOffering-MetaSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ActivityOffering-MetaSection" parent="Uif-VerticalBoxSection"
+          p:headerText="ActivityOffering Information">
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup"
+                      p:layoutManager.numberOfColumns="2"
+                      p:layoutManager.applyDefaultCellWidths="false">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="id" />
+                            <bean parent="Uif-DataField" p:propertyName="name"/>
+                            <bean parent="Uif-DataField" p:propertyName="typeKey" />
+                            <bean parent="Uif-DataField" p:propertyName="stateKey" />
+                            <bean parent="Uif-DataField" p:propertyName="termId" />
+                            <bean parent="Uif-DataField" p:propertyName="termCode" />
+                            <bean parent="Uif-DataField" p:propertyName="courseOfferingId" />
+                            <bean parent="Uif-DataField" p:propertyName="courseOfferingTitle" />
+                            <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" />
+                            <bean parent="Uif-DataField" p:propertyName="activityCode" />
+                            <bean parent="Uif-DataField" p:propertyName="activityId"/>
+                            <bean parent="Uif-DataField" p:propertyName="formatOfferingId" p:label="Format Offering Id"/>
+                            <bean parent="Uif-DataField" p:propertyName="maximumEnrollment" p:label="Total Maximum Enrollment"/>
+                            <bean parent="Uif-DataField" p:propertyName="isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate"/>
+                            <bean parent="Uif-DataField" p:propertyName="isEvaluated" p:label="This course requires an evaluation"/>
+                            <bean parent="Uif-DataField" p:propertyName="isHonorsOffering"/>
+                            <bean parent="Uif-DataField" p:propertyName="activityOfferingURL"/>
+                            <bean parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="4"
+                                      p:layoutManager.style="width: 100%; display:block;">
+                                    <property name="headerText" value="Affiliated Personnel" />
+                                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo" />
+                                    <property name="propertyName" value="instructors" />
+                                    <property name="layoutManager.renderSequenceField" value="false" />
+                                    <property name="layoutManager.separateAddLine" value="false" />
+                                    <property name="layoutManager.richTable.render" value="false" />
+                                    <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                                    <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID" />
+                                            <bean parent="Uif-InputField" p:propertyName="personName" p:label="Name" />
+                                            <bean parent="Uif-InputField" p:propertyName="typeKey" p:label="AFFILIATION" p:readOnly="true">
+                                                <property name="control">
+                                                    <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
+                                                </property>
+                                            </bean>
+                                            <bean parent="Uif-InputField" p:propertyName="percentageEffort" p:label="INST.EFFORT" />
+                                        </list>
+                                    </property>
+
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
