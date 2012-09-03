@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
+import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.springframework.stereotype.Controller;
@@ -51,6 +52,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Properties;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +73,7 @@ public class CheckInfoController extends UifControllerBase {
 
     private transient ProcessService processService;
     private ContextInfo contextInfo;
+    private Map<String,String> actionParameters;
 
     private boolean isEdit;
 
@@ -92,7 +95,9 @@ public class CheckInfoController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        CheckInfoForm checkForm = (CheckInfoForm) form;;
+        CheckInfoForm checkForm = (CheckInfoForm) form;
+        checkForm.setIsSaveSuccess(false);
+        checkForm.setIsInstructionActive(false);
         return super.start(form, result, request, response);
     }
 
@@ -211,6 +216,61 @@ public class CheckInfoController extends UifControllerBase {
         controllerPath = "createCheck";
 
         return performRedirect(searchForm, controllerPath, urlParameters);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=delete")
+    public ModelAndView delete(@ModelAttribute("KualiForm") CheckInfoForm form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        form.setIsInstructionActive(false);
+        form.setDialogStateKey("");
+
+        String dialogId = "deleteConfirmationDialog";
+
+        if(!hasDialogBeenDisplayed(dialogId, form)) {
+            actionParameters = form.getActionParameters();
+            return showDialog(dialogId, form, request, response);
+        } else if (form.getActionParamaterValue("resetDialog").equals("true")){
+            form.getDialogManager().removeAllDialogs();
+            form.setLightboxScript("closeLightbox('" + dialogId + "');");
+            return getUIFModelAndView(form);
+        }
+
+        form.setActionParameters(actionParameters);
+        List<InstructionInfo> instructionInfos = new ArrayList<InstructionInfo>();
+        List<InstructionInfo> activeInstructions = new ArrayList<InstructionInfo>();
+        CheckInfo checkInfo = getSelectedCheckInfo(form, "delete");
+
+        /*try{
+            instructionInfos = getProcessService().getInstructionsByProcess(processInfo.getKey(), getContextInfo());
+            for(InstructionInfo instruction : instructionInfos){
+                if(instruction.getStateKey().equals("kuali.process.instruction.state.active")){
+                    isInstructionActive = true;
+                    activeInstructions.add(instruction);
+                }
+            }
+
+            if(!isInstructionActive) {
+                if(!processInfo.getStateKey().equals("inactive") || !processInfo.getStateKey().equals("disabled")) {
+                    processInfo.setStateKey(form.getStateKey());
+                    getProcessService().updateProcess(processInfo.getKey(), processInfo, getContextInfo());
+                    form.setLightboxScript("closeLightbox('" + dialogId + "');");
+                    form.getDialogManager().removeAllDialogs();
+                    return getUIFModelAndView(form);
+                }
+            } else if(isInstructionActive && form.getStateKey().equals("disabled")){
+                processInfo.setStateKey(form.getStateKey());
+                getProcessService().updateProcess(processInfo.getKey(), processInfo, getContextInfo());
+            } else {
+                form.setInstructionInfoList(activeInstructions);
+                return showDialog(dialogId, form, request, response);
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException("Unable to get process");
+        }
+*/
+        form.setLightboxScript("closeLightbox('" + dialogId + "');");
+        form.getDialogManager().removeAllDialogs();
+        return getUIFModelAndView(form);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=clear")

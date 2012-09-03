@@ -46,6 +46,10 @@ public class CheckInfoForm extends UifFormBase {
     private String holdName;
     private String processName;
     private String eventcalendar;
+    private String dialogStateKey;
+
+    private boolean isSaveSuccess;
+    private boolean isInstructionActive;
 
     public CheckInfoForm() {
         super();
@@ -189,4 +193,27 @@ public class CheckInfoForm extends UifFormBase {
         this.processName = processName;
     }
 
+    public boolean getIsSaveSuccess() {
+        return isSaveSuccess;
+    }
+
+    public void setIsSaveSuccess(boolean saveSuccess) {
+        isSaveSuccess = saveSuccess;
+    }
+
+    public boolean getIsInstructionActive() {
+        return isInstructionActive;
+    }
+
+    public void setIsInstructionActive(boolean instructionActive) {
+        isInstructionActive = instructionActive;
+    }
+
+    public String getDialogStateKey() {
+        return dialogStateKey;
+    }
+
+    public void setDialogStateKey(String dialogStateKey) {
+        this.dialogStateKey = dialogStateKey;
+    }
 }
