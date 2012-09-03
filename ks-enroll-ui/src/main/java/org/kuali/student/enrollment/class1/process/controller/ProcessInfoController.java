@@ -128,6 +128,16 @@ public class ProcessInfoController extends UifControllerBase {
 
             try {
                 processService = getProcessService();
+                if (processInfo.getName() != null && !processInfo.getName().isEmpty()) {
+                    QueryByCriteria.Builder query = buildQueryByCriteria(processInfo.getName(), null, null, null, null);
+                    List<ProcessInfo> processInfos = processService.searchForProcess(query.build(), getContextInfo());
+                    if (processInfos.size() > 0) {
+                        GlobalVariables.getMessageMap().putErrorForSectionId("processName", " error.enroll.process.save.failed",processInfo.getName());
+                        form.setIsSaveSuccess(false);
+
+                        return getUIFModelAndView(form);
+                    }
+                }
                 ProcessInfo createProcessInfo = processService.createProcess(processInfo.getKey(), processInfo.getTypeKey(), processInfo, getContextInfo());
                 isEdit=true;
             } catch (Exception e) {
@@ -197,7 +207,10 @@ public class ProcessInfoController extends UifControllerBase {
 
         organizationService = getOrganizationService();
         try{
+            orgInfo = new OrgInfo();
+            if (processInfo.getOwnerOrgId() != null) {
             orgInfo = organizationService.getOrg(processInfo.getOwnerOrgId(),getContextInfo());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("organization not found. ", e);

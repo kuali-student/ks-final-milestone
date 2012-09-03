@@ -42,10 +42,11 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:label="Process Name" p:propertyName="name"
-                      p:required="true">
+                      p:id="processName" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="25" p:disabled="@{isSaveSuccess}"/>
                     </property>
+
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:label="Process Category" p:propertyName="typeKey"
                       p:required="true">
@@ -79,7 +80,7 @@
                                     </map>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization ID" p:propertyName="ownerOrgId" p:required="true">
+                            <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization ID" p:propertyName="ownerOrgId" p:required="true"  p:hidden="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="10" p:disabled="true"/>
                                 </property>

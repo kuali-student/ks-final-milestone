@@ -212,12 +212,20 @@
                                     <bean parent="Uif-SmallTextAreaControl"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop"  p:label="Owning Organization"  p:propertyName="ownerOrgId" p:style="font-weight:bold;white-space:nowrap;">
+                            <bean parent="Uif-InputField-LabelTop"  p:label="Owning Organization"  p:propertyName="orgName" p:style="font-weight:bold;white-space:nowrap;">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="16"/>
                                 </property>
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
+                                <property name="quickfinder.fieldConversions">
+                                    <map>
+                                        <entry key="id" value="ownerOrgId"/>
+                                        <entry key="longName" value="orgName"/>
+                                    </map>
+                                </property>
                             </bean>
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="ownerOrgId" p:label="" p:readOnly="true" p:hidden="true" />
+
                             <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey">
                                 <property name="control">
                                     <bean parent="Uif-HorizontalRadioControl">
