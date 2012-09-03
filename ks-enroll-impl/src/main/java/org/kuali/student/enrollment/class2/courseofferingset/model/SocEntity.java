@@ -35,8 +35,8 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
     private String subjectArea;
     @Column(name = "UNITS_CONTENT_OWNER_ID")
     private String unitsContentOwnerId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private Set<SocAttributeEntity> attributes = new HashSet<SocAttributeEntity>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
+    private final Set<SocAttributeEntity> attributes = new HashSet<SocAttributeEntity>();
 
     public SocEntity() {
     }
@@ -45,12 +45,12 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
         super(soc);
         this.setId(soc.getId());
         this.setSocType(soc.getTypeKey());
+        this.setSocState(soc.getStateKey());
         this.setTermId(soc.getTermId());
         this.fromDTO(soc);
     }
 
     public void fromDTO(Soc soc) {
-        this.setSocState(soc.getStateKey());
         this.setName(soc.getName());
         if (soc.getDescr() != null) {
             this.setDescrFormatted(soc.getDescr().getFormatted());
@@ -93,8 +93,10 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
     }
 
     public void setAttributes(Set<SocAttributeEntity> attributes) {
-        this.attributes = attributes;
-
+        this.attributes.clear();
+        if (attributes != null) {
+            this.attributes.addAll(attributes);
+        }
     }
 
     public Set<SocAttributeEntity> getAttributes() {

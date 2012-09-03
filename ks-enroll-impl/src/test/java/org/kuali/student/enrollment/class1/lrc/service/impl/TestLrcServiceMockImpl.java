@@ -28,6 +28,7 @@ import javax.annotation.Resource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.test.util.AttributeTester;
 import org.kuali.student.enrollment.test.util.FloatAsStringTester;
 import org.kuali.student.enrollment.test.util.KeyEntityTester;
@@ -77,7 +78,7 @@ public class TestLrcServiceMockImpl {
     }
 
     @Test
-    public void testCrud()
+    public void testAll()
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -88,6 +89,27 @@ public class TestLrcServiceMockImpl {
             VersionMismatchException,
             AlreadyExistsException,
             DependentObjectsExistException {
+        testCrud();
+        testBusinessLogic();
+    }
+
+    private void testCrud()
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException,
+            AlreadyExistsException,
+            DependentObjectsExistException {
+        System.out.println("started testing crud");
+        if (this.getLRCService() instanceof MockService) {
+            System.out.println("clearing mock service");
+            MockService mockService = (MockService) this.getLRCService();
+            mockService.clear();
+        }
         // test create
         ResultScaleInfo expected = new ResultScaleInfo();
         expected.setKey(LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER);
@@ -326,8 +348,8 @@ public class TestLrcServiceMockImpl {
         new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
         new TimeTester().check(expected.getExpirationDate(), actual.getExpirationDate());
         assertEquals(expected.getResultScaleKey(), actual.getResultScaleKey());
-        assertEquals (expected.getValue(), actual.getValue());
-        new FloatAsStringTester ().check(expected.getNumericValue(), actual.getNumericValue());
+        assertEquals(expected.getValue(), actual.getValue());
+        new FloatAsStringTester().check(expected.getNumericValue(), actual.getNumericValue());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterCreate(actual.getMeta());
 
@@ -347,7 +369,7 @@ public class TestLrcServiceMockImpl {
         new TimeTester().check(expected.getExpirationDate(), actual.getExpirationDate());
         assertEquals(expected.getResultScaleKey(), actual.getResultScaleKey());
         assertEquals(expected.getValue(), actual.getValue());
-        new FloatAsStringTester ().check(expected.getNumericValue(), actual.getNumericValue());
+        new FloatAsStringTester().check(expected.getNumericValue(), actual.getNumericValue());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
 
@@ -365,7 +387,7 @@ public class TestLrcServiceMockImpl {
         new KeyEntityTester().check(expected, actual);
         assertEquals(expected.getResultScaleKey(), actual.getResultScaleKey());
         assertEquals(expected.getValue(), actual.getValue());
-        new FloatAsStringTester ().check(expected.getNumericValue(), actual.getNumericValue());
+        new FloatAsStringTester().check(expected.getNumericValue(), actual.getNumericValue());
         new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
         new TimeTester().check(expected.getExpirationDate(), actual.getExpirationDate());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
@@ -378,7 +400,7 @@ public class TestLrcServiceMockImpl {
         new KeyEntityTester().check(expected, actual);
         assertEquals(expected.getResultScaleKey(), actual.getResultScaleKey());
         assertEquals(expected.getValue(), actual.getValue());
-        new FloatAsStringTester ().check(expected.getNumericValue(), actual.getNumericValue());
+        new FloatAsStringTester().check(expected.getNumericValue(), actual.getNumericValue());
         new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
         new TimeTester().check(expected.getExpirationDate(), actual.getExpirationDate());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
@@ -414,6 +436,12 @@ public class TestLrcServiceMockImpl {
         assertEquals(0, keys.size());
         // test by type
         keys = lrcService.getResultValueKeysByType(LrcServiceConstants.RESULT_VALUE_TYPE_KEY_VALUE, callContext);
+        if (keys.size() != 2) {
+            System.out.println("wrong number of keys");
+            for (String key : keys) {
+                System.out.println(key);
+            }
+        }
         assertEquals(2, keys.size());
         if (!keys.remove(actual.getKey())) {
             fail("does ot contain " + actual.getKey());
@@ -533,7 +561,7 @@ public class TestLrcServiceMockImpl {
         status = lrcService.deleteResultValue(LrcServiceConstants.RESULT_VALUE_KEY_GRADE_PF_F, callContext);
     }
 
-    public void testCrudResultValuesGroup()
+    private void testCrudResultValuesGroup()
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -660,7 +688,7 @@ public class TestLrcServiceMockImpl {
                 gradePF,
                 callContext);
 
-           // test create a 4th one
+        // test create a 4th one
         ResultValuesGroupInfo creditRange1To4 = new ResultValuesGroupInfo();
         creditRange1To4.setKey(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS4);
         creditRange1To4.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
@@ -670,7 +698,7 @@ public class TestLrcServiceMockImpl {
         creditRange1To4.setName("1-4 credits");
         creditRange1To4.setDescr(new RichTextHelper().fromPlain("1-4 credits"));
         creditRange1To4.setResultScaleKey(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE);
-        creditRange1To4.setResultValueRange(new ResultValueRangeInfo ());
+        creditRange1To4.setResultValueRange(new ResultValueRangeInfo());
         creditRange1To4.getResultValueRange().setMinValue("1");
         creditRange1To4.getResultValueRange().setMaxValue("4");
         creditRange1To4.getResultValueRange().setIncrement("1");
@@ -758,7 +786,7 @@ public class TestLrcServiceMockImpl {
         }
         assertEquals(0, expectedKeys.size());
 
-        
+
         // check that I can get the RVGs by grade related
         expectedKeys.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
         expectedKeys.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER_PASSING_TRANSLATION);
@@ -772,7 +800,7 @@ public class TestLrcServiceMockImpl {
             }
         }
         assertEquals(0, expectedKeys.size());
-  
+
         // check that I can get the RVGs that are credit related
         expectedKeys.add(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_2_0);
         expectedKeys.add(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS4);
@@ -785,9 +813,9 @@ public class TestLrcServiceMockImpl {
             }
         }
         assertEquals(0, expectedKeys.size());
-        
-  
-        
+
+
+
         // test delete
         StatusInfo status = lrcService.deleteResultValuesGroup(
                 LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER_PASSING_TRANSLATION, callContext);
@@ -819,13 +847,14 @@ public class TestLrcServiceMockImpl {
         } catch (DoesNotExistException dnee) {
             // expected
         }
-        
+
         status = lrcService.deleteResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_2_0, callContext);
         status = lrcService.deleteResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS4, callContext);
+        System.out.println("finished testing crud");
+
     }
 
-    @Test
-    public void testBusinessLogic()
+    private void testBusinessLogic()
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -835,8 +864,12 @@ public class TestLrcServiceMockImpl {
             ReadOnlyException,
             VersionMismatchException,
             AlreadyExistsException {
-
-
+        System.out.println("started testing business logic");
+        if (this.getLRCService() instanceof MockService) {
+            System.out.println("Clearing mock service");
+            MockService mockService = (MockService) this.getLRCService();
+            mockService.clear();
+        }
         ResultValuesGroupInfo rvg = lrcService.getCreateFixedCreditResultValuesGroup("22",
                 LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, callContext);
         assertEquals("kuali.creditType.credit.degree.22", rvg.getKey());
@@ -911,7 +944,7 @@ public class TestLrcServiceMockImpl {
         assertEquals(LrcServiceConstants.RESULT_VALUE_TYPE_KEY_VALUE, rv.getTypeKey());
         assertEquals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, rv.getResultScaleKey());
         assertEquals(value, rv.getValue());
-        new FloatAsStringTester ().check(value, rv.getNumericValue());
+        new FloatAsStringTester().check(value, rv.getNumericValue());
         // get again should not create a new one
         this.lrcService.getCreateResultValueForScale(value, LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, callContext);
         assertEquals("kuali.result.value.credit.degree.75", rv.getKey());
@@ -920,6 +953,8 @@ public class TestLrcServiceMockImpl {
         assertEquals(LrcServiceConstants.RESULT_VALUE_TYPE_KEY_VALUE, rv.getTypeKey());
         assertEquals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, rv.getResultScaleKey());
         assertEquals(value, rv.getValue());
-        new FloatAsStringTester ().check(value, rv.getNumericValue());
+        new FloatAsStringTester().check(value, rv.getNumericValue());
+
+        System.out.println("finished testing business logic");
     }
 }

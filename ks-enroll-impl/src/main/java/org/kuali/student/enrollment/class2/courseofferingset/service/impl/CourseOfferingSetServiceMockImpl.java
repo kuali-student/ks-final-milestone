@@ -4,11 +4,11 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import java.text.SimpleDateFormat;
 import org.apache.commons.lang.UnhandledException;
 import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -19,26 +19,25 @@ import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 import javax.jws.WebParam;
 import java.util.*;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 
 public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetService, MockService {
 
     private CourseOfferingSetServiceBusinessLogic businessLogic;
 
-    
     @Override
-	public void clear() {
-    	this.socMap.clear();
-    	this.socRolloverResultItemMap.clear();
-    	this.socRolloverResultMap.clear();
-		
-	}
+    public void clear() {
+        this.socMap.clear();
+        this.socRolloverResultItemMap.clear();
+        this.socRolloverResultMap.clear();
 
-	public CourseOfferingSetServiceBusinessLogic getBusinessLogic() {
+    }
+
+    public CourseOfferingSetServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
     }
 
@@ -46,89 +45,18 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         this.businessLogic = businessLogic;
     }
 
-    public CourseOfferingSetServiceMockImpl(){
-        Integer year = 2001;
-        for(int i=0;i<10;i++){
-            SocRolloverResultInfo result = new SocRolloverResultInfo();
-            result.setMessage(new RichTextHelper().toRichTextInfo("message plain " +i, "message formatted "+i));
-            result.setTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
-            result.setStateKey(CourseOfferingSetServiceConstants.SUBMITTED_RESULT_STATE_KEY);
-            result.setItemsExpected(5);
-            result.setItemsProcessed(2);
-            result.setCourseOfferingsSkipped(3);
-            result.setSourceSocId("sourceSocId"+i);
-            result.setTargetSocId("targetSocId"+i);
-            result.setSourceTermId("Fall " + year);
-            result.setTargetTermId("Fall " + ++year);
-            result.getOptionKeys().add("my first option");
-            result.getOptionKeys().add("my 2nd option");
-            try{
-                result = createSocRolloverResult(result.getTypeKey(), result,new ContextInfo());
-                List<SocRolloverResultItemInfo> socRolloverResultItemInfos = new ArrayList<SocRolloverResultItemInfo>();
-                SocRolloverResultItemInfo socRolloverResultItemInfo1 = new SocRolloverResultItemInfo();
-                socRolloverResultItemInfo1.setSocRolloverResultId(result.getSourceSocId()+result.getTargetSocId());
-                socRolloverResultItemInfo1.setMessage(new RichTextHelper().toRichTextInfo("Cancelled;Cancelled during source term", "Cancelled;Cancelled during source term"));
-                socRolloverResultItemInfo1.setSourceCourseOfferingId("ENG428");
-                socRolloverResultItemInfo1.setTargetCourseOfferingId("ENG428");
-                socRolloverResultItemInfo1.setTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
-                socRolloverResultItemInfos.add(socRolloverResultItemInfo1);
-                SocRolloverResultItemInfo socRolloverResultItemInfo2 = new SocRolloverResultItemInfo();
-                socRolloverResultItemInfo2.setSocRolloverResultId(result.getSourceSocId()+result.getTargetSocId());
-                socRolloverResultItemInfo2.setMessage(new RichTextHelper().toRichTextInfo("New version;New version of the course exists","New version;New version of the course exists"));
-                socRolloverResultItemInfo2.setSourceCourseOfferingId("ENG364");
-                socRolloverResultItemInfo2.setTargetCourseOfferingId("ENG364");
-                socRolloverResultItemInfo2.setTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
-                socRolloverResultItemInfos.add(socRolloverResultItemInfo2);
-                SocRolloverResultItemInfo socRolloverResultItemInfo3 = new SocRolloverResultItemInfo();
-                socRolloverResultItemInfo3.setSocRolloverResultId(result.getSourceSocId()+result.getTargetSocId());
-                socRolloverResultItemInfo3.setMessage(new RichTextHelper().toRichTextInfo("Retired;No longer offered,as of January 1, 2012","Retired;No longer offered,as of January 1, 2012"));
-                socRolloverResultItemInfo3.setSourceCourseOfferingId("MATH140");
-                socRolloverResultItemInfo3.setTargetCourseOfferingId("MATH140");
-                socRolloverResultItemInfo3.setTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
-                socRolloverResultItemInfos.add(socRolloverResultItemInfo3);
-                SocRolloverResultItemInfo socRolloverResultItemInfo4 = new SocRolloverResultItemInfo();
-                socRolloverResultItemInfo4.setSocRolloverResultId(result.getSourceSocId()+result.getTargetSocId());
-                socRolloverResultItemInfo4.setMessage(new RichTextHelper().toRichTextInfo("Cancelled;Cancelled during source term","Cancelled;Cancelled during source term"));
-                socRolloverResultItemInfo4.setSourceCourseOfferingId("MATH140");
-                socRolloverResultItemInfo4.setTargetCourseOfferingId("MATH140");
-                socRolloverResultItemInfo4.setTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
-                socRolloverResultItemInfos.add(socRolloverResultItemInfo4);
-                createSocRolloverResultItems(result.getSourceSocId()+result.getTargetSocId(),CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY,socRolloverResultItemInfos,new ContextInfo());
-            }catch(DoesNotExistException de){
-
-            }
-            catch(DataValidationErrorException dve){
-
-            }
-            catch(ReadOnlyException roe){
-
-            }
-            catch(MissingParameterException mpe){
-
-            }
-            catch(PermissionDeniedException pde){
-
-            }
-            catch(InvalidParameterException ipe){
-
-            }
-            catch(OperationFailedException ofe){
-
-            }
-        }
+    public CourseOfferingSetServiceMockImpl() {
     }
-    
-    
-    // implement the methods
 
+    // implement the methods
     @Override
     public SocInfo getSoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        if (!this.socMap.containsKey(socId)) {
+        if ( ! this.socMap.containsKey(socId)) {
             throw new DoesNotExistException(socId);
         }
-        return this.socMap.get(socId);
+        return new SocInfo (this.socMap.get(socId));
     }
 
     @Override
@@ -206,7 +134,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         // create 
-        if (!socTypeKey.equals(socInfo.getTypeKey())) {
+        if ( ! socTypeKey.equals(socInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
         // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
@@ -224,12 +152,15 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         // update
-        if (!socId.equals(socInfo.getId())) {
+        if ( ! socId.equals(socInfo.getId())) {
             throw new InvalidParameterException("The id parameter does not match the id on the info object");
         }
         SocInfo copy = new SocInfo(socInfo);
         SocInfo old = this.getSoc(socInfo.getId(), context);
-        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+        if (!socInfo.getStateKey().equals(old.getStateKey())) {
+            throw new ReadOnlyException ("state key can only be changed by calling updateSocState");
+        }
+        if ( ! old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
         copy.setMeta(updateMeta(copy.getMeta(), context));
@@ -341,7 +272,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     public SocRolloverResultInfo getSocRolloverResult(String rolloverResultId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        if (!this.socRolloverResultMap.containsKey(rolloverResultId)) {
+        if ( ! this.socRolloverResultMap.containsKey(rolloverResultId)) {
             throw new DoesNotExistException(rolloverResultId);
         }
         SocRolloverResultInfo info = new SocRolloverResultInfo(this.socRolloverResultMap.get(rolloverResultId));
@@ -362,9 +293,9 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
                 int failure = 0;
                 for (SocRolloverResultItemInfo item : items) {
                     if (CourseOfferingSetServiceConstants.SUCCESSFUL_RESULT_ITEM_STATES.contains(item.getStateKey())) {
-                        success++;
+                        success ++;
                     } else {
-                        failure++;
+                        failure ++;
                     }
                 }
                 info.setCourseOfferingsCreated(success);
@@ -497,7 +428,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         // create 
-        if (!socRolloverResultTypeKey.equals(socRolloverResultInfo.getTypeKey())) {
+        if ( ! socRolloverResultTypeKey.equals(socRolloverResultInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
         SocRolloverResultInfo copy = new SocRolloverResultInfo(socRolloverResultInfo);
@@ -514,12 +445,12 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         // update
-        if (!socRolloverResultId.equals(socRolloverResultInfo.getId())) {
+        if ( ! socRolloverResultId.equals(socRolloverResultInfo.getId())) {
             throw new InvalidParameterException("The id parameter does not match the id on the info object");
         }
         SocRolloverResultInfo copy = new SocRolloverResultInfo(socRolloverResultInfo);
         SocRolloverResultInfo old = this.getSocRolloverResult(socRolloverResultInfo.getId(), context);
-        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+        if ( ! old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
         copy.setMeta(updateMeta(copy.getMeta(), context));
@@ -543,7 +474,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<SocRolloverResultItemInfo> items = this.getSocRolloverResultItemsByResultId(socRolloverResultId, context);
-        if (!items.isEmpty()) {
+        if ( ! items.isEmpty()) {
             throw new DependentObjectsExistException(items.size() + " items exist");
         }
         if (this.socRolloverResultMap.remove(socRolloverResultId) == null) {
@@ -563,7 +494,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     public SocRolloverResultItemInfo getSocRolloverResultItem(String socRolloverResultItemId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        if (!this.socRolloverResultItemMap.containsKey(socRolloverResultItemId)) {
+        if ( ! this.socRolloverResultItemMap.containsKey(socRolloverResultItemId)) {
             throw new DoesNotExistException(socRolloverResultItemId);
         }
         return this.socRolloverResultItemMap.get(socRolloverResultItemId);
@@ -577,7 +508,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         // create 
-        if (!socRolloverResultItemTypeKey.equals(socRolloverResultItemInfo.getTypeKey())) {
+        if ( ! socRolloverResultItemTypeKey.equals(socRolloverResultItemInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
         // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
@@ -597,7 +528,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         int count = 0;
         for (SocRolloverResultItemInfo info : infos) {
-            count++;
+            count ++;
             this.createSocRolloverResultItem(socRolloverResultId, typeKey, info, context);
         }
         return new Integer(count);
@@ -608,12 +539,12 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         // update
-        if (!socRolloverResultItemId.equals(socRolloverResultItemInfo.getId())) {
+        if ( ! socRolloverResultItemId.equals(socRolloverResultItemInfo.getId())) {
             throw new InvalidParameterException("The id parameter does not match the id on the info object");
         }
         SocRolloverResultItemInfo copy = new SocRolloverResultItemInfo(socRolloverResultItemInfo);
         SocRolloverResultItemInfo old = this.getSocRolloverResultItem(socRolloverResultItemInfo.getId(), context);
-        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+        if ( ! old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
         copy.setMeta(updateMeta(copy.getMeta(), context));
@@ -650,20 +581,17 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         //throw new UnsupportedOperationException("Not supported yet.");
         List<SocRolloverResultInfo> socRolloverResultInfos = new ArrayList<SocRolloverResultInfo>();
 
-        EqualPredicate predicate = (EqualPredicate)criteria.getPredicate();
-        String targetTerm = (String)predicate.getValue().getValue();
+        EqualPredicate predicate = (EqualPredicate) criteria.getPredicate();
+        String targetTerm = (String) predicate.getValue().getValue();
         SocRolloverResultInfo result = new SocRolloverResultInfo();
-        for(Map.Entry<String,SocRolloverResultInfo> entry : socRolloverResultMap.entrySet()){
-            if(entry.getValue().getTargetTermId().equalsIgnoreCase(targetTerm)){
+        for (Map.Entry<String, SocRolloverResultInfo> entry : socRolloverResultMap.entrySet()) {
+            if (entry.getValue().getTargetTermId().equalsIgnoreCase(targetTerm)) {
                 socRolloverResultInfos.add(entry.getValue());
-                try{
-                List<SocRolloverResultItemInfo> socRolloverResultItemInfos = getSocRolloverResultItemsByResultId(entry.getValue().getSourceSocId()+entry.getValue().getTargetSocId(),
-                                    new ContextInfo());
-                }catch(UnhandledException ue){
-
-                }
-                catch(DoesNotExistException dne){
-
+                try {
+                    List<SocRolloverResultItemInfo> socRolloverResultItemInfos = getSocRolloverResultItemsByResultId(entry.getValue().getSourceSocId() + entry.getValue().getTargetSocId(),
+                            new ContextInfo());
+                } catch (UnhandledException ue) {
+                } catch (DoesNotExistException dne) {
                 }
             }
         }
@@ -694,86 +622,90 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         return meta;
     }
 
-	@Override
-	public StatusInfo updateSocState(@WebParam(name = "socId") String socId,
-			@WebParam(name = "nextStateKey") String nextStateKey,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		
-		try {
-			/*
-			 * get won't work because it doesn't return the map bound instance.
-			 * We need to get that instance ourselves manually.
-			 */
-			SocInfo soc = this.socMap.get(socId);
-			
-			if (soc == null)
-				throw new DoesNotExistException("No Soc for id= " + socId);
-			
-			soc.setStateKey(nextStateKey);
-			
-			return newStatus();
-			
-		} catch (Exception e) {
-			throw new OperationFailedException("updateSocState (id=" + socId + ", nextStateKey=" + nextStateKey, e);
-		}
-	}
+    @Override
+    public StatusInfo updateSocState(@WebParam(name = "socId") String socId,
+            @WebParam(name = "nextStateKey") String nextStateKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
-	@Override
-	public StatusInfo updateSocRolloverResultState(
-			@WebParam(name = "socRolloverResultId") String socRolloverResultId,
-			@WebParam(name = "nextStateKey") String nextStateKey,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		try {
-			/*
-			 * get won't work because it doesn't return the map bound instance.
-			 * We need to get that instance ourselves manually.
-			 */
-			SocRolloverResultInfo socRolloverResults = this.socRolloverResultMap.get(socRolloverResultId);
-			
-			if (socRolloverResults == null)
-				throw new DoesNotExistException("No SocRolloverResult for id= " + socRolloverResultId);
-			
-			socRolloverResults.setStateKey(nextStateKey);
-			
-			return newStatus();
-			
-		} catch (Exception e) {
-			throw new OperationFailedException("updateSocRolloverResultState (id=" + socRolloverResultId + ", nextStateKey=" + nextStateKey, e);
-		}
-	}
+        try {
+            /*
+             * get won't work because it doesn't return the map bound instance.
+             * We need to get that instance ourselves manually.
+             */
+            SocInfo soc = this.socMap.get(socId);
 
-	@Override
-	public StatusInfo updateSocRolloverResultItemState(
-			@WebParam(name = "socRolloverResultItemId") String socRolloverResultItemId,
-			@WebParam(name = "nextStateKey") String nextStateKey,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		try {
-			/*
-			 * get won't work because it doesn't return the map bound instance.
-			 * We need to get that instance ourselves manually.
-			 */
-			SocInfo socRolloverResultItem = this.socMap.get(socRolloverResultItemId);
-			
-			if (socRolloverResultItem == null)
-				throw new DoesNotExistException("No SocRolloverResultItem for id= " + socRolloverResultItemId);
-			
-			socRolloverResultItem.setStateKey(nextStateKey);
-			
-			return newStatus();
-			
-		} catch (Exception e) {
-			throw new OperationFailedException("updateSocRolloverResultItemState (id=" + socRolloverResultItemId + ", nextStateKey=" + nextStateKey, e);
-		}
-	}
-    
-    
+            if (soc == null) {
+                throw new DoesNotExistException("No Soc for id= " + socId);
+            }
+            // TODO: call verifySocForState to make sure it is legal to change the state
+            soc.setStateKey(nextStateKey);
+            this.updateMeta(soc.getMeta(), contextInfo);
+            // add the state change to the log
+            // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+            Date date = contextInfo.getCurrentDate();
+            soc.getAttributes().add(new AttributeInfo(nextStateKey, formatter.format(date)));
+            return newStatus();
+
+        } catch (Exception e) {
+            throw new OperationFailedException("updateSocState (id=" + socId + ", nextStateKey=" + nextStateKey, e);
+        }
+    }
+
+    @Override
+    public StatusInfo updateSocRolloverResultState(
+            @WebParam(name = "socRolloverResultId") String socRolloverResultId,
+            @WebParam(name = "nextStateKey") String nextStateKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        try {
+            /*
+             * get won't work because it doesn't return the map bound instance.
+             * We need to get that instance ourselves manually.
+             */
+            SocRolloverResultInfo socRolloverResults = this.socRolloverResultMap.get(socRolloverResultId);
+
+            if (socRolloverResults == null) {
+                throw new DoesNotExistException("No SocRolloverResult for id= " + socRolloverResultId);
+            }
+            socRolloverResults.setStateKey(nextStateKey);
+            return newStatus();
+
+        } catch (Exception e) {
+            throw new OperationFailedException("updateSocRolloverResultState (id=" + socRolloverResultId + ", nextStateKey=" + nextStateKey, e);
+        }
+    }
+
+    @Override
+    public StatusInfo updateSocRolloverResultItemState(
+            @WebParam(name = "socRolloverResultItemId") String socRolloverResultItemId,
+            @WebParam(name = "nextStateKey") String nextStateKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        try {
+            /*
+             * get won't work because it doesn't return the map bound instance.
+             * We need to get that instance ourselves manually.
+             */
+            SocInfo socRolloverResultItem = this.socMap.get(socRolloverResultItemId);
+
+            if (socRolloverResultItem == null) {
+                throw new DoesNotExistException("No SocRolloverResultItem for id= " + socRolloverResultItemId);
+            }
+
+            socRolloverResultItem.setStateKey(nextStateKey);
+
+            return newStatus();
+
+        } catch (Exception e) {
+            throw new OperationFailedException("updateSocRolloverResultItemState (id=" + socRolloverResultItemId + ", nextStateKey=" + nextStateKey, e);
+        }
+    }
 }

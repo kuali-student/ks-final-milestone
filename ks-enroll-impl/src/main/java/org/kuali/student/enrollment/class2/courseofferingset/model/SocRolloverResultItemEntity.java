@@ -31,8 +31,8 @@ public class SocRolloverResultItemEntity extends MetaEntity implements Attribute
     private String mesgFormatted;
     @Column(name = "MESG_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String mesgPlain;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private Set<SocRolloverResultItemAttributeEntity> attributes = new HashSet<SocRolloverResultItemAttributeEntity>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
+    private final Set<SocRolloverResultItemAttributeEntity> attributes = new HashSet<SocRolloverResultItemAttributeEntity>();
 
     public SocRolloverResultItemEntity() {
     }
@@ -146,7 +146,10 @@ public class SocRolloverResultItemEntity extends MetaEntity implements Attribute
     }
 
     public void setAttributes(Set<SocRolloverResultItemAttributeEntity> attributes) {
-        this.attributes = attributes;
+        this.attributes.clear();
+        if (attributes != null) {
+            this.attributes.addAll(attributes);
+        }
     }
 
     

@@ -392,8 +392,10 @@
     <!-- socService mock implementation -->
     <!-- socService1 is new service created for testing and for havin mock data from CourseOfferingSetSericeMockImpl service.
          I just created it when there's no actual data and I just used this mock service implementation for testing my code functionality.
-         In future, it can be removed but, its not affecting the actual CourseOfferingSetService anyways.-->
-    <bean id="socService1" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceMockImpl"/>
+         In future, it can be removed but, its not affecting the actual CourseOfferingSetService anyways.
+         TODO: remove this bean
+    -->
+    <bean id="socService1" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceMockImplWithDataLoaded"/>
 
     <bean id="ks.exp.socService1" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">

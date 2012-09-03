@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "KSEN_SOC_ROR")
@@ -47,8 +48,8 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
     private String mesgPlain;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "socRolloverResult")
     private List<SocRolloverResultOptionEntity> options = new ArrayList<SocRolloverResultOptionEntity>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private Set<SocRolloverResultAttributeEntity> attributes = new HashSet<SocRolloverResultAttributeEntity>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
+    private final Set<SocRolloverResultAttributeEntity> attributes = new HashSet<SocRolloverResultAttributeEntity>();
 
     private static Logger LOGGER = Logger.getLogger(SocRolloverResultEntity.class);
 
@@ -179,7 +180,10 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
     }
 
     public void setAttributes(Set<SocRolloverResultAttributeEntity> attributes) {
-        this.attributes = attributes;
+        this.attributes.clear();
+        if (attributes != null) {
+            this.attributes.addAll(attributes);
+        }
     }
 
     public Integer getItemsExpected() {
