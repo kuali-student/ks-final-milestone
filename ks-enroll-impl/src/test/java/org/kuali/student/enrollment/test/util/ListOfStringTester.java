@@ -4,10 +4,12 @@
  */
 package org.kuali.student.enrollment.test.util;
 
-import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Helps create a dynamic 
@@ -43,6 +45,22 @@ public class ListOfStringTester {
             String expected = list.get(i);
             System.out.println(i + ".) " + expected);
         }
+    }
+
+    /*
+     * Generates a List<String> object, where each element is the String representation
+     * of a randomly generated int.
+     * @param length the number of elements to return in the List<String> object.
+     * @param upperBound the maximum value to be generated
+     */
+    public static List<String> generateRandomListOfStringIds (int length, int upperBound) {
+        Random generator = new Random();
+        List<String> arr = new ArrayList<String> ();
+        for (int i=0; i<length; i++) {
+            int randomNum = generator.nextInt(upperBound);
+            arr.add("" + randomNum);
+        }
+        return arr;
     }
 
 }
