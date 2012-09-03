@@ -99,7 +99,7 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
         }
     }
 
-    public void setScheduleComponentIds(List<ScheduleComponentInfo> scheduleComponents) {
+    public void setScheduleComponents(List<ScheduleComponentInfo> scheduleComponents) {
         this.scheduleComponents = scheduleComponents;
     }
 
@@ -145,4 +145,14 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
         this.additionalMeetingTimes = additionalMeetingTimes;
     }
 
+    @Override
+    public String toString() {
+        return "ScheduleInfo{" +
+                "atpId='" + atpId + '\'' +
+                ", scheduleComponents=" + scheduleComponents +
+                ", blackoutDates=" + blackoutDates +
+                ", blackoutMilestoneIds=" + blackoutMilestoneIds +
+                ", additionalMeetingTimes=" + additionalMeetingTimes +
+                '}';
+    }
 }

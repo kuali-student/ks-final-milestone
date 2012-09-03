@@ -16,16 +16,16 @@
 package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponent;
-//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+//import org.w3c.dom.Element;
 
 /**
  * @Version 2.0
@@ -52,7 +52,10 @@ public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
         if (null != scheduleComponent) {
             this.id = scheduleComponent.getId();
             this.roomId = scheduleComponent.getRoomId();
-            this.timeSlotIds = new ArrayList<String>(scheduleComponent.getTimeSlotIds());
+            this.timeSlotIds = new ArrayList<String>();
+            for (String timeSlotId: scheduleComponent.getTimeSlotIds()) {
+                this.timeSlotIds.add(timeSlotId);
+            }
         }
     }
 
@@ -86,5 +89,37 @@ public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
 
     public void setTimeSlotIds(List<String> timeSlotIds) {
         this.timeSlotIds = timeSlotIds;
+    }
+
+    /*
+     * Compares given object for equality to this ScheduleComponentInfo. The
+     * given object will be equal only if it is also a ScheduleComponentInfo and its
+     * id and room id are equal to this object's id and room id, and the time slot ids
+     * are same in the same order.
+     */
+    public boolean equals (Object e) {
+        ScheduleComponentInfo sci = (ScheduleComponentInfo) e; // throws ClassCastException if not the case
+        if (this.id.equals(sci.getId()) && this.roomId.equals(sci.getRoomId())) {
+            // compare time slot ids
+            if (this.timeSlotIds.size() != sci.getTimeSlotIds().size()) return false;
+            for (int i=0; i<this.getTimeSlotIds().size(); i++) {
+                if (!(this.timeSlotIds.get(i).equals(sci.getTimeSlotIds().get(i)))) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    @Override
+    public String toString() {
+        return "ScheduleComponentInfo{" +
+                "id='" + id + '\'' +
+                ", roomId='" + roomId + '\'' +
+                ", timeSlotIds=" + timeSlotIds +
+                '}';
     }
 }
