@@ -84,4 +84,10 @@ public class CourseOfferingServiceConstants {
 
     public static final String APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY = "kuali.course.offering.optionkey.append.course.offering.suffix";
     public static final String APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY = "kuali.course.offering.optionkey.append.course.offering.internal.suffix";
+
+    // Activity Offering Cluster States
+    public static final String AOC_ACTIVE_STATE_KEY = "kuali.activity.offering.cluster.state.active";
+
+    // Activity Offering Cluster Types - note: not a LUI type
+    public static final String AOC_ROOT_TYPE_KEY = "kuali.activity.offering.cluster.type.activity.offering.cluster";
 }
