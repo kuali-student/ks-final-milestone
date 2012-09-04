@@ -1194,7 +1194,7 @@ public class CluServiceImpl implements CluService {
                 "offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
                 "meta", "versionInfo", "intensity",
                 "campusLocations", "accreditations",
-                "adminOrgs"});
+                "adminOrgs", "canCreateLui"});
 
         return clu;
     }
