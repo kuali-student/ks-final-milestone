@@ -318,4 +318,19 @@
         ID="kuali.soc.rollover.result.item.state.retired"
         LIFECYCLE_KEY="kuali.soc.rollover.result.process" NAME="Retired"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120831000000"
+        DESCR_FORMATTED="State denoting that the mass scheduling event has occurred and COs and AOs are now once again available for Departmental Admin staff to edit"
+        DESCR_PLAIN="State denoting that the mass scheduling event has occurred and COs and AOs are now once again available for Departmental Admin staff to edit"
+        ID="kuali.soc.state.finaledits"
+        LIFECYCLE_KEY="kuali.soc.process" NAME="Final Edits" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120831000000"
+        DESCR_FORMATTED="State denoting that all course offerings for the term are going to be scheduled"
+        DESCR_PLAIN="State denoting that all course offerings for the term are going to be scheduled"
+        ID="kuali.soc.state.locked" LIFECYCLE_KEY="kuali.soc.process"
+        NAME="Locked" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120831000000"
+        DESCR_FORMATTED="State applied to courses when the final edits have been completed and courses are ready to be offered to students for enrollment"
+        DESCR_PLAIN="State applied to courses when the final edits have been completed and courses are ready to be offered to students for enrollment"
+        ID="kuali.soc.state.published" LIFECYCLE_KEY="kuali.soc.process"
+        NAME="Published" VER_NBR="0"/>
 </dataset>
