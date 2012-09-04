@@ -9,7 +9,4 @@ insert into KSLR_RESCOMP (ID, VER_NBR, NAME, STATE, TYPE, OBJ_ID) values ('kuali
 insert into KSLR_RESCOMP (ID, VER_NBR, NAME, STATE, TYPE, OBJ_ID) values ('kuali.resultComponent.degree.edd', 0, 'Doctor of Education', null, 'kuali.resultComponentType.degree', 'c9ea9641-05d0-4f4b-abab-4b1ff6c24ea7')
 /
 
-insert into KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, OBJ_ID, DLVR_MTHD, INSTR_FRMT, VER_NBR) values ('kuali.lu.type.credential.Masters', 'A Masters', to_date('2000-01-01', 'yyyy-mm-dd'), null, 'Masters', 'b953a46e-c886-41c5-89b5-b9e6c6093cdc', null, null, 0)
-/
-insert into KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, OBJ_ID, DLVR_MTHD, INSTR_FRMT, VER_NBR) values ('kuali.lu.type.credential.Doctoral', 'A Doctoral', to_date('2000-01-01', 'yyyy-mm-dd'), null, 'Doctoral', '57a7ddfe-24d9-4f9f-a393-edfa627337b8', null, null, 0)
-/
+
