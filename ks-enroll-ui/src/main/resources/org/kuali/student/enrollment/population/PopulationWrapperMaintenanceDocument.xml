@@ -175,7 +175,7 @@
         <property name="items">
             <list>
                 <bean id="KS-PopulationWrapper-AddPopulationsSubSection" parent="Uif-TableCollectionSubSection"
-                      p:collectionLookup.render="false" p:width="27%" p:id="populations_table">
+                      p:collectionLookup.render="false" p:width="27%">
                     <property name="headerText" value="" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
                     <property name="propertyName" value="childPopulations" />
@@ -183,6 +183,7 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
                     <property name="layoutManager.richTable.render" value="false" />
+                    <property name="layoutManager.id" value="populations_table" />
                     <property name="addLineActions">
                         <list>
                             <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
