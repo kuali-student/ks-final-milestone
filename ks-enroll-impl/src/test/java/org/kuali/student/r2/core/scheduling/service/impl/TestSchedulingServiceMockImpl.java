@@ -22,23 +22,22 @@ import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.test.util.CrudInfoTester;
 import org.kuali.student.enrollment.test.util.ListOfObjectTester;
 import org.kuali.student.enrollment.test.util.ListOfStringTester;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
+import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -771,6 +770,420 @@ public class TestSchedulingServiceMockImpl {
         } catch (DoesNotExistException dnee) {
             // expected
         }
+    }
+
+    // test crud TimeSlot
+    @Test
+    public void testCrudTimeSlot() throws DataValidationErrorException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+            ,ReadOnlyException
+            ,Exception {
+
+        // test data
+        // -----------------
+
+        // times
+        Long START_TIME_MILLIS_8_00_AM = (long) (8 * 60 * 60 * 1000);
+        Long START_TIME_MILLIS_10_00_AM = (long) (10 * 60 * 60 * 1000);
+
+        Long END_TIME_MILLIS_8_50_AM = (long) (8 * 60 * 60 * 1000 + 50 * 60 * 1000);
+        Long END_TIME_MILLIS_10_50_AM = (long) (10 * 60 * 60 * 1000 + 50 * 60 * 1000);
+
+        // days of week M W F
+        List<Integer> DOW_M_W_F= new ArrayList<Integer>();
+        DOW_M_W_F.add(Calendar.MONDAY);
+        DOW_M_W_F.add(Calendar.WEDNESDAY);
+        DOW_M_W_F.add(Calendar.FRIDAY);
+        // days of week T TH
+        List<Integer> DOW_T_TH = new ArrayList<Integer>();
+        DOW_T_TH.add(Calendar.TUESDAY);
+        DOW_T_TH.add(Calendar.THURSDAY);
+
+        // test create
+        // ----------------
+        TimeSlotInfo expected = new TimeSlotInfo() ;
+        crudInfoTester.initializeInfoForTestCreate(expected, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        expected.setWeekdays(DOW_M_W_F);
+        TimeOfDayInfo startTime = new TimeOfDayInfo();
+        startTime.setMilliSeconds(START_TIME_MILLIS_8_00_AM);
+        expected.setStartTime(startTime);
+        TimeOfDayInfo endTime = new TimeOfDayInfo();
+        endTime.setMilliSeconds(END_TIME_MILLIS_8_50_AM);
+        expected.setEndTime(endTime);
+        TimeSlotInfo actual = schedulingService.createTimeSlot(expected.getTypeKey(), expected, callContext);
+        crudInfoTester.testCreate(expected, actual);
+        assertEquals(expected.getWeekdays(), actual.getWeekdays());
+        assertEquals(DOW_M_W_F, actual.getWeekdays());
+        assertEquals(expected.getStartTime(), actual.getStartTime());
+        assertEquals(START_TIME_MILLIS_8_00_AM, actual.getStartTime().getMilliSeconds());
+        assertEquals(expected.getEndTime(), actual.getEndTime());
+        assertEquals(END_TIME_MILLIS_8_50_AM, actual.getEndTime().getMilliSeconds());
+
+        // test read
+        // ----------------
+        expected = actual;
+        actual = schedulingService.getTimeSlot(expected.getId(), callContext);
+        crudInfoTester.initializeInfoForTestRead(expected);
+        crudInfoTester.testRead(expected, actual);
+
+        // test update
+        // ----------------
+        expected = actual;
+        expected.setWeekdays(DOW_T_TH);
+        TimeOfDayInfo startTime_update = new TimeOfDayInfo();
+        startTime_update.setMilliSeconds(START_TIME_MILLIS_10_00_AM);
+        expected.setStartTime(startTime_update);
+        TimeOfDayInfo endTime_update = new TimeOfDayInfo();
+        endTime_update.setMilliSeconds(END_TIME_MILLIS_10_50_AM);
+        expected.setEndTime(endTime_update);
+        crudInfoTester.initializeInfoForTestUpdate(expected, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        actual = schedulingService.updateTimeSlot(actual.getId(), expected, callContext);
+        crudInfoTester.testUpdate(expected, actual);
+        assertEquals(expected.getWeekdays(), actual.getWeekdays());
+        assertEquals(DOW_T_TH, actual.getWeekdays());
+        assertEquals(expected.getStartTime(), actual.getStartTime());
+        assertEquals(START_TIME_MILLIS_10_00_AM, actual.getStartTime().getMilliSeconds());
+        assertEquals(expected.getEndTime(), actual.getEndTime());
+        assertEquals(END_TIME_MILLIS_10_50_AM, actual.getEndTime().getMilliSeconds());
+
+        // create a 2nd TimeSlot
+        // -------------------------------
+        TimeSlotInfo expected2 = new TimeSlotInfo() ;
+        crudInfoTester.initializeInfoForTestCreate(expected2, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        expected2.setWeekdays(DOW_T_TH);
+        TimeOfDayInfo startTime2 = new TimeOfDayInfo();
+        startTime2.setMilliSeconds(START_TIME_MILLIS_10_00_AM);
+        expected2.setStartTime(startTime2);
+        TimeOfDayInfo endTime2 = new TimeOfDayInfo();
+        endTime2.setMilliSeconds(END_TIME_MILLIS_10_50_AM);
+        expected2.setEndTime(endTime2);
+        TimeSlotInfo actual2 = schedulingService.createTimeSlot(expected2.getTypeKey(), expected2, callContext);
+
+        // test bulk get
+        // -------------------
+        List<String> IDS = new ArrayList<String>();
+        IDS.add(actual.getId());
+        IDS.add(actual2.getId());
+        List<TimeSlotInfo> infos = schedulingService.getTimeSlotsByIds(IDS, callContext);
+        assertEquals(IDS.size(), infos.size());
+        for (TimeSlotInfo info: infos) {
+            if (!IDS.remove(info.getId())) {
+                fail(info.getId());
+            }
+        }
+        assertEquals(0, IDS.size());
+
+        // test get by type
+        // -------------------
+        assertEquals(actual.getTypeKey(), SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        assertEquals(actual2.getTypeKey(), SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        IDS = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, callContext);
+        assertEquals(2, IDS.size());
+        assertEquals(actual.getId(), IDS.get(0));
+    }
+
+    // test some TimeSlot operations as specified in Jira 525
+    // as well as older tests that I didn't want to delete
+    @Test
+    public void testTimeSlotOperations() throws DataValidationErrorException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+            ,ReadOnlyException
+            ,Exception {
+
+        // Note: these tests also incorporate specific tests as mentioned in Jira 525
+        // See: https://jira.kuali.org/browse/KSENROLL-525
+
+        // times
+        Long START_TIME_MILLIS_8_00_AM = (long) (8 * 60 * 60 * 1000);
+        Long START_TIME_MILLIS_10_00_AM = (long) (10 * 60 * 60 * 1000);
+        Long START_TIME_MILLIS_1_00_PM = (long) (13 * 60 * 60 * 1000);
+        Long START_TIME_MILLIS_3_00_PM = (long) (15 * 60 * 60 * 1000);
+
+        Long END_TIME_MILLIS_8_50_AM = (long) (8 * 60 * 60 * 1000 + 50 * 60 * 1000);
+        Long END_TIME_MILLIS_9_10_AM = (long) (8 * 60 * 60 * 1000 + 70 * 60 * 1000);
+        Long END_TIME_MILLIS_10_50_AM = (long) (10 * 60 * 60 * 1000 + 50 * 60 * 1000);
+        Long END_TIME_MILLIS_11_10_AM = (long) (10 * 60 * 60 * 1000 + 70 * 60 * 1000);
+        Long END_TIME_MILLIS_1_50_PM = (long) (13 * 60 * 60 * 1000 + 50 * 60 * 1000);
+        Long END_TIME_MILLIS_2_10_PM = (long) (13 * 60 * 60 * 1000 + 70 * 60 * 1000);
+        Long END_TIME_MILLIS_3_50_PM = (long) (15 * 60 * 60 * 1000 + 50 * 60 * 1000);
+        Long END_TIME_MILLIS_4_10_PM = (long) (15 * 60 * 60 * 1000 + 70 * 60 * 1000);
+
+        Long START_TIME_MILLIS_5_10_PM = (long) (17 * 60 * 60 * 1000 + 10 * 60 * 1000);
+        Long END_TIME_MILLIS_6_00_PM = (long) (18 * 60 * 60 * 1000);
+
+        // days of week M W F
+        List<Integer> DOW_M_W_F= new ArrayList<Integer>();
+        DOW_M_W_F.add(Calendar.MONDAY);
+        DOW_M_W_F.add(Calendar.WEDNESDAY);
+        DOW_M_W_F.add(Calendar.FRIDAY);
+        // days of week T TH
+        List<Integer> DOW_T_TH = new ArrayList<Integer>();
+        DOW_T_TH.add(Calendar.TUESDAY);
+        DOW_T_TH.add(Calendar.THURSDAY);
+
+        // load data for Jira 525
+        // --------------------------
+        CommonServiceConstants.setIsIdAllowedOnCreate(callContext, true);
+
+        loadTimeSlotInfo("1", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_M_W_F, START_TIME_MILLIS_8_00_AM, END_TIME_MILLIS_8_50_AM);
+        loadTimeSlotInfo("2", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_M_W_F, START_TIME_MILLIS_8_00_AM, END_TIME_MILLIS_9_10_AM);
+        loadTimeSlotInfo("3", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_T_TH, START_TIME_MILLIS_8_00_AM, END_TIME_MILLIS_8_50_AM);
+        loadTimeSlotInfo("4", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_T_TH, START_TIME_MILLIS_8_00_AM, END_TIME_MILLIS_9_10_AM);
+        loadTimeSlotInfo("5", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_M_W_F, START_TIME_MILLIS_10_00_AM, END_TIME_MILLIS_10_50_AM);
+        loadTimeSlotInfo("6", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_M_W_F, START_TIME_MILLIS_10_00_AM, END_TIME_MILLIS_11_10_AM);
+        loadTimeSlotInfo("7", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_T_TH, START_TIME_MILLIS_10_00_AM, END_TIME_MILLIS_10_50_AM);
+        loadTimeSlotInfo("8", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_T_TH, START_TIME_MILLIS_10_00_AM, END_TIME_MILLIS_11_10_AM);
+        loadTimeSlotInfo("9", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_M_W_F, START_TIME_MILLIS_1_00_PM, END_TIME_MILLIS_1_50_PM);
+        loadTimeSlotInfo("10", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_M_W_F, START_TIME_MILLIS_1_00_PM, END_TIME_MILLIS_2_10_PM);
+        loadTimeSlotInfo("11", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_T_TH, START_TIME_MILLIS_1_00_PM, END_TIME_MILLIS_1_50_PM);
+        loadTimeSlotInfo("12", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_T_TH, START_TIME_MILLIS_1_00_PM, END_TIME_MILLIS_2_10_PM);
+        loadTimeSlotInfo("13", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_M_W_F, START_TIME_MILLIS_3_00_PM, END_TIME_MILLIS_3_50_PM);
+        loadTimeSlotInfo("14", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_M_W_F, START_TIME_MILLIS_3_00_PM, END_TIME_MILLIS_4_10_PM);
+        loadTimeSlotInfo("15", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_T_TH, START_TIME_MILLIS_3_00_PM, END_TIME_MILLIS_3_50_PM);
+        loadTimeSlotInfo("16", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_T_TH, START_TIME_MILLIS_3_00_PM, END_TIME_MILLIS_4_10_PM);
+        loadTimeSlotInfo("toDelete", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_M_W_F, START_TIME_MILLIS_5_10_PM, END_TIME_MILLIS_6_00_PM);
+        loadTimeSlotInfo("toUpdate", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_M_W_F, START_TIME_MILLIS_5_10_PM, END_TIME_MILLIS_6_00_PM);
+
+        CommonServiceConstants.setIsIdAllowedOnCreate(callContext, false);
+
+        // start tests
+        // ------------------
+
+        // test get by id for all records
+        for (int i = 1; i<= 16; i++) {
+            TimeSlot ts = schedulingService.getTimeSlot("" + i, callContext);
+            assertNotNull(ts);
+            assertEquals("" + i, ts.getId());
+        }
+
+        // test specific records - 2
+        TimeSlot ts = schedulingService.getTimeSlot("2", callContext);
+        List<Integer> dow = ts.getWeekdays();
+        // should contain Monday, Wednesday, Friday
+        assertTrue(dow.contains(Calendar.MONDAY));
+        assertTrue(dow.contains(Calendar.WEDNESDAY));
+        assertTrue(dow.contains(Calendar.FRIDAY));
+        // should not contain Tuesday or Thursday
+        assertFalse(dow.contains(Calendar.TUESDAY));
+        assertFalse(dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_9_10_AM);
+
+        // test specific records - 3
+        ts = schedulingService.getTimeSlot("3", callContext);
+        dow = ts.getWeekdays();
+        // should not contain Monday, Wednesday, Friday
+        assertFalse(dow.contains(Calendar.MONDAY));
+        assertFalse(dow.contains(Calendar.WEDNESDAY));
+        assertFalse(dow.contains(Calendar.FRIDAY));
+        // should contain Tuesday or Thursday
+        assertTrue(dow.contains(Calendar.TUESDAY));
+        assertTrue(dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_8_50_AM);
+
+        // test specific records - 10
+        ts = schedulingService.getTimeSlot("10", callContext);
+        dow = ts.getWeekdays();
+        // should contain Monday, Wednesday, Friday
+        assertTrue(dow.contains(Calendar.MONDAY));
+        assertTrue(dow.contains(Calendar.WEDNESDAY));
+        assertTrue(dow.contains(Calendar.FRIDAY));
+        // should not contain Tuesday or Thursday
+        assertFalse(dow.contains(Calendar.TUESDAY));
+        assertFalse(dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_1_00_PM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_2_10_PM);
+
+        // test get time slot ids by type
+        List<String> l_actoff = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, callContext);
+        assertEquals(18, l_actoff.size());
+        assertTrue(l_actoff.contains("1"));
+        assertTrue(l_actoff.contains("16"));
+
+        List l_final = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_FINAL_EXAM, callContext);
+        assertEquals(0, l_final.size());
+
+        // test case: all valid ids
+        List<String> valid_ids = new ArrayList<String>();
+        valid_ids.add("2");
+        valid_ids.add("15");
+        List<TimeSlotInfo> l_valid_ts = schedulingService.getTimeSlotsByIds(valid_ids, callContext);
+        assertEquals(2, valid_ids.size());
+
+        assertEquals("2", l_valid_ts.get(0).getId());
+        ts = l_valid_ts.get(0);
+        dow = ts.getWeekdays();
+        // should contain Monday, Wednesday, Friday
+        assertTrue(dow.contains(Calendar.MONDAY));
+        assertTrue(dow.contains(Calendar.WEDNESDAY));
+        assertTrue(dow.contains(Calendar.FRIDAY));
+        // should not contain Tuesday or Thursday
+        assertFalse(dow.contains(Calendar.TUESDAY));
+        assertFalse(dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_9_10_AM);
+
+        assertEquals("15", l_valid_ts.get(1).getId());
+        ts = l_valid_ts.get(1);
+        dow = ts.getWeekdays();
+        // should not contain Monday, Wednesday, Friday
+        assertFalse(dow.contains(Calendar.MONDAY));
+        assertFalse(dow.contains(Calendar.WEDNESDAY));
+        assertFalse(dow.contains(Calendar.FRIDAY));
+        // should contain Tuesday or Thursday
+        assertTrue(dow.contains(Calendar.TUESDAY));
+        assertTrue(dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_3_00_PM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_3_50_PM);
+
+        // test case: all invalid ids
+        List<String> invalid_ids = new ArrayList<String>();
+        invalid_ids.add("100");
+        invalid_ids.add("300");
+        try {
+            schedulingService.getTimeSlotsByIds(invalid_ids, callContext);
+            fail("Should not be here - test invalid_ids");
+        } catch (DoesNotExistException e) {}
+        catch (Exception e) { fail("Should throw DoesNotExistException - invalid_ids"); }
+
+        // test case: mixture of valid and invalid
+        List<String> mix_ids = new ArrayList<String>();
+        mix_ids.add("10");
+        mix_ids.add("1000");
+        try {
+            schedulingService.getTimeSlotsByIds(mix_ids, callContext);
+            fail("Should not be here - test mix_ids");
+        } catch (DoesNotExistException e) {}
+        catch (Exception e) { fail("Should throw DoesNotExistException - mix_ids"); }
+
+        // get valid days of week by time slot
+        List<Integer> valid_days_act_off = schedulingService.getValidDaysOfWeekByTimeSlotType(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, callContext);
+        // should return days Monday through Friday
+        assertTrue(valid_days_act_off.contains(Calendar.MONDAY));
+        assertTrue(valid_days_act_off.contains(Calendar.TUESDAY));
+        assertTrue(valid_days_act_off.contains(Calendar.WEDNESDAY));
+        assertTrue(valid_days_act_off.contains(Calendar.THURSDAY));
+        assertTrue(valid_days_act_off.contains(Calendar.FRIDAY));
+        assertFalse(valid_days_act_off.contains(Calendar.SATURDAY));
+        assertFalse(valid_days_act_off.contains(Calendar.SUNDAY));
+
+        List<Integer> valid_days_final = schedulingService.getValidDaysOfWeekByTimeSlotType(SchedulingServiceConstants.TIME_SLOT_TYPE_FINAL_EXAM, callContext);
+        // should not return any days
+        assertFalse(valid_days_final.contains(Calendar.MONDAY));
+        assertFalse(valid_days_final.contains(Calendar.TUESDAY));
+        assertFalse(valid_days_final.contains(Calendar.WEDNESDAY));
+        assertFalse(valid_days_final.contains(Calendar.THURSDAY));
+        assertFalse(valid_days_final.contains(Calendar.FRIDAY));
+        assertFalse(valid_days_final.contains(Calendar.SATURDAY));
+        assertFalse(valid_days_final.contains(Calendar.SUNDAY));
+
+        // test getTimeSlotsByDaysAndStartTime
+        // should return records 3 and 4
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.TUESDAY);
+        dow.add(Calendar.THURSDAY);
+        TimeOfDayInfo startTime = new TimeOfDayInfo();
+        startTime.setMilliSeconds(START_TIME_MILLIS_8_00_AM);
+        List<TimeSlotInfo> tsi = schedulingService.getTimeSlotsByDaysAndStartTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, dow, startTime, callContext);
+        assertEquals(2, tsi.size());
+
+        assertEquals("3", tsi.get(0).getId());
+        ts = tsi.get(0);
+        List<Integer> ts_dow = ts.getWeekdays();
+        // should not contain Monday, Wednesday, Friday
+        assertFalse(ts_dow.contains(Calendar.MONDAY));
+        assertFalse(ts_dow.contains(Calendar.WEDNESDAY));
+        assertFalse(ts_dow.contains(Calendar.FRIDAY));
+        // should contain Tuesday or Thursday
+        assertTrue(ts_dow.contains(Calendar.TUESDAY));
+        assertTrue(ts_dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_8_00_AM);
+
+        assertEquals("4", tsi.get(1).getId());
+        ts = tsi.get(1);
+        ts_dow = ts.getWeekdays();
+        // should not contain Monday, Wednesday, Friday
+        assertFalse(ts_dow.contains(Calendar.MONDAY));
+        assertFalse(ts_dow.contains(Calendar.WEDNESDAY));
+        assertFalse(ts_dow.contains(Calendar.FRIDAY));
+        // should contain Tuesday or Thursday
+        assertTrue(ts_dow.contains(Calendar.TUESDAY));
+        assertTrue(ts_dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_8_00_AM);
+
+        // test getTimeSlotsByDaysAndStartTimeAndEndTime
+        // should return record 3
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.TUESDAY);
+        dow.add(Calendar.THURSDAY);
+        startTime = new TimeOfDayInfo();
+        startTime.setMilliSeconds(START_TIME_MILLIS_8_00_AM);
+        TimeOfDayInfo endTime = new TimeOfDayInfo();
+        endTime.setMilliSeconds(END_TIME_MILLIS_8_50_AM);
+        tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, dow, startTime, endTime, callContext);
+        assertEquals(1, tsi.size());
+        assertEquals("3", tsi.get(0).getId());
+        ts = tsi.get(0);
+        ts_dow = ts.getWeekdays();
+        // should not contain Monday, Wednesday, Friday
+        assertFalse(ts_dow.contains(Calendar.MONDAY));
+        assertFalse(ts_dow.contains(Calendar.WEDNESDAY));
+        assertFalse(ts_dow.contains(Calendar.FRIDAY));
+        // should contain Tuesday or Thursday
+        assertTrue(ts_dow.contains(Calendar.TUESDAY));
+        assertTrue(ts_dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_8_50_AM);
+
+        // should return record 10
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.MONDAY);
+        dow.add(Calendar.WEDNESDAY);
+        dow.add(Calendar.FRIDAY);
+        startTime = new TimeOfDayInfo();
+        startTime.setMilliSeconds(START_TIME_MILLIS_1_00_PM);
+        endTime = new TimeOfDayInfo();
+        endTime.setMilliSeconds(END_TIME_MILLIS_2_10_PM);
+        tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, dow, startTime, endTime, callContext);
+        assertEquals(1, tsi.size());
+        assertEquals("10", tsi.get(0).getId());
+        ts = tsi.get(0);
+        ts_dow = ts.getWeekdays();
+        // should contain Monday, Wednesday, Friday
+        assertTrue(ts_dow.contains(Calendar.MONDAY));
+        assertTrue(ts_dow.contains(Calendar.WEDNESDAY));
+        assertTrue(ts_dow.contains(Calendar.FRIDAY));
+        // should not contain Tuesday or Thursday
+        assertFalse(ts_dow.contains(Calendar.TUESDAY));
+        assertFalse(ts_dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_1_00_PM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_2_10_PM);
+
+    }
+
+    private void loadTimeSlotInfo (String ts_id, String stateKey, String typeKey, List<Integer> weekdays, Long startTimeInMillisecs, Long endTimeInMillisecs)
+            throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+        TimeSlotInfo ts = new TimeSlotInfo();
+        ts.setId(ts_id);
+        ts.setWeekdays(weekdays);
+        TimeOfDayInfo startTime = new TimeOfDayInfo();
+        startTime.setMilliSeconds(startTimeInMillisecs);
+        ts.setStartTime(startTime);
+        TimeOfDayInfo endTime = new TimeOfDayInfo();
+        endTime.setMilliSeconds(endTimeInMillisecs);
+        ts.setEndTime(endTime);
+        ts.setStateKey(stateKey);
+        ts.setTypeKey(typeKey);
+        schedulingService.createTimeSlot(typeKey, ts, callContext);
     }
 
 }
