@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.courseoffering.service;
 import java.util.List;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -41,7 +42,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  */
 public interface CourseOfferingServiceBusinessLogic {
 
-    public CourseOfferingInfo rolloverCourseOffering(String sourceCoId, String targetTermId, List<String> optionKeys, ContextInfo context)
+    public SocRolloverResultItemInfo rolloverCourseOffering(String sourceCoId, String targetTermId, List<String> optionKeys, ContextInfo context)
             throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;

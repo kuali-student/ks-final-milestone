@@ -45,6 +45,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 
 /**
  * Course Offering is a Class II service supporting the process of offering
@@ -495,7 +496,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException    authorization failure
      */
     @Override
-    public CourseOfferingInfo rolloverCourseOffering(@WebParam(name = "sourceCourseOfferingId") String sourceCourseOfferingId, @WebParam(name = "targetTermId") String targetTermId, @WebParam(name = "optionKeys") List<String> optionKeys, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
+    public SocRolloverResultItemInfo rolloverCourseOffering(@WebParam(name = "sourceCourseOfferingId") String sourceCourseOfferingId, @WebParam(name = "targetTermId") String targetTermId, @WebParam(name = "optionKeys") List<String> optionKeys, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
             DoesNotExistException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException;
