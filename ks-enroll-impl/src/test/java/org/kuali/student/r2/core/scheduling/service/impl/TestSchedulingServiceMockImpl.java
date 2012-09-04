@@ -418,6 +418,55 @@ public class TestSchedulingServiceMockImpl {
         new ListOfObjectTester().check(expected.getScheduleRequestComponents(), actual.getScheduleRequestComponents());
         new ListOfObjectTester().check(scheduleRequestComponentInfos2, actual.getScheduleRequestComponents());
 
+        // create a 2nd ScheduleRequest
+        // --------------------------------
+        ScheduleRequestInfo expected2 = new ScheduleRequestInfo() ;
+        crudInfoTester.initializeInfoForTestCreate(expected2, SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+        expected2.setRefObjectId("421");
+        expected2.setRefObjectTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
+        expected2.setScheduleRequestComponents(scheduleRequestComponentInfos2);
+        ScheduleRequestInfo actual2 = schedulingService.createScheduleRequest(expected2.getTypeKey(), expected2, callContext);
+
+        // test bulk get
+        // -------------------
+        List<String> IDS = new ArrayList<String>();
+        IDS.add(actual.getId());
+        IDS.add(actual2.getId());
+        List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByIds(IDS, callContext);
+        assertEquals(IDS.size(), scheduleRequestInfos.size());
+        for (ScheduleRequestInfo scheduleRequestInfo: scheduleRequestInfos) {
+            if (!IDS.remove(scheduleRequestInfo.getId())) {
+                fail(scheduleRequestInfo.getId());
+            }
+        }
+        assertEquals(0, IDS.size());
+
+        // test get by type
+        // -------------------
+        assertEquals(actual.getTypeKey(), SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+        assertEquals(actual2.getTypeKey(), SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+        IDS = schedulingService.getScheduleRequestIdsByType(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, callContext);
+        assertEquals(2, IDS.size());
+        assertEquals(actual.getId(), IDS.get(0));
+        assertEquals(actual2.getId(), IDS.get(1));
+        IDS = schedulingService.getScheduleRequestIdsByType(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST + "123", callContext);
+        assertEquals(0, IDS.size());
+
+        // test get ids by ref object type key
+        // --------------------------------------
+        assertEquals(actual.getRefObjectId(), "420");
+        assertEquals(actual.getRefObjectTypeKey(), CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
+        assertEquals(actual2.getRefObjectId(), "421");
+        assertEquals(actual2.getRefObjectTypeKey(), CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
+        IDS = schedulingService.getScheduleRequestIdsByRefObject(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY, "420", callContext);
+        assertEquals(1, IDS.size());
+        assertEquals(actual.getId(), IDS.get(0));
+        IDS = schedulingService.getScheduleRequestIdsByRefObject(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY, "421", callContext);
+        assertEquals(1, IDS.size());
+        assertEquals(actual2.getId(), IDS.get(0));
+        IDS = schedulingService.getScheduleRequestIdsByRefObject(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY + "123", "421", callContext);
+        assertEquals(0, IDS.size());
+
         // test delete
         // -----------------
         StatusInfo status = schedulingService.deleteScheduleRequest(actual.getId(), callContext);
