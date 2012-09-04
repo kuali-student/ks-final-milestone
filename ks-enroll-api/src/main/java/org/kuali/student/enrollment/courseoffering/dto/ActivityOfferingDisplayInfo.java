@@ -16,18 +16,18 @@
 
 package org.kuali.student.enrollment.courseoffering.dto;
 
-import java.util.List;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleDisplay;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-
-import org.w3c.dom.Element;
+import java.util.List;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -35,8 +35,7 @@ import org.w3c.dom.Element;
                 "id", "typeKey", "stateKey", "name", "descr", 
                 "typeName", "stateName", "courseOfferingTitle",
                 "courseOfferingCode", "formatOfferingId", "formatOfferingName",
-                "activityOfferingCode", "instructorId",  "instructorName", "isHonorsOffering", "location",
-                "scheduleWeekdays", "scheduleTime",
+                "activityOfferingCode", "instructorId",  "instructorName", "isHonorsOffering", "scheduleDisplay",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingDisplayInfo
@@ -76,13 +75,7 @@ public class ActivityOfferingDisplayInfo
     private Boolean isHonorsOffering;
 
     @XmlElement
-    private String location;
-
-    @XmlElement
-    private String scheduleWeekdays;
-
-    @XmlElement
-    private String scheduleTime;   
+    private ScheduleDisplayInfo scheduleDisplay;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -117,9 +110,7 @@ public class ActivityOfferingDisplayInfo
         this.instructorId = offeringDisplay.getInstructorId();
         this.instructorName = offeringDisplay.getInstructorName();
         this.isHonorsOffering = offeringDisplay.getIsHonorsOffering();
-        this.location = offeringDisplay.getLocation();
-        this.scheduleWeekdays = offeringDisplay.getScheduleWeekdays();
-        this.scheduleTime = offeringDisplay.getScheduleTime();
+        this.scheduleDisplay = (null != offeringDisplay.getScheduleDisplay()) ? new ScheduleDisplayInfo(offeringDisplay.getScheduleDisplay()) : null;
     }
 
     @Override
@@ -213,29 +204,7 @@ public class ActivityOfferingDisplayInfo
     }
 
     @Override
-    public String getLocation() {
-        return this.location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    @Override
-    public String getScheduleWeekdays() {
-        return scheduleWeekdays;
-    }
-
-    public void setScheduleWeekdays(String scheduleWeekdays) {
-        this.scheduleWeekdays = scheduleWeekdays;
-    }
-
-    @Override
-    public String getScheduleTime() {
-        return scheduleTime;
-    }
-
-    public void setScheduleTime(String scheduleTime) {
-        this.scheduleTime = scheduleTime;
+    public ScheduleDisplayInfo getScheduleDisplay() {
+        return this.scheduleDisplay;
     }
 }

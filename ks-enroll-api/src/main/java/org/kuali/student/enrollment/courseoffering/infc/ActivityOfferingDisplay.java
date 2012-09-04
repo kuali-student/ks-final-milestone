@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.courseoffering.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleDisplay;
 
 /**
  * An adminsitrative view of the ActivityOffering.
@@ -140,46 +141,10 @@ public interface ActivityOfferingDisplay
     public Boolean getIsHonorsOffering();
 
     /**
-     * The building and room location
+     * Gets the schedule information for this ActivityOffering
+     *
      * @readOnly
-     * @impl "BAG 291A"
+     * @impl Consult Scheduling service
      */
-    public String getLocation();
-
-    /**
-     * Gets a display string represnting the weekday pattern using
-     * characters.
-     *
-     * @name Schedule Display Weekdays
-     * @readOnly
-     * @impl if unscheduled, this string is built from all of related
-     *       ScheduleRequest.ScheduleComponents.TimeSlots.Weekdays If
-     *       there is more than one related ScheduleRequest, then use
-     *       the most recent active one (the one that will be sent to
-     *       the scheduler).
-     *
-     *       if scheduled, then use
-     *       ActivityOffering.Schedule.ScheduleComponents.TimeSlots.Weekdays
-     */
-    public String getScheduleWeekdays();
-
-    /**
-     * Gets a display string represnting the time and duration.
-     *
-     * @name Schedule Display Time
-     * @readOnly
-     * @impl if unscheduled, this string is built from all of related
-     *       ScheduleRequest.ScheduleComponents.TimeSlots.StartTime
-     *       and ScheduleRequest.ScheduleComponents.TimeSlots.Duration
-     *       and If there is more than one related ScheduleRequest,
-     *       then use the most recent active one (the one that will be
-     *       sent to the scheduler).
-     *
-     *       if scheduled, then use
-     *       ActivityOffering.Schedule.ScheduleComponents.TimeSlots.StartTime
-     *       and
-     *       ActivityOffering.Schedule.ScheduleComponents.TimeSlots.Duration
-     */
-    public String getScheduleTime();
-
+    public ScheduleDisplay getScheduleDisplay();
 }
