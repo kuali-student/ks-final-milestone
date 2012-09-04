@@ -643,6 +643,16 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 			PermissionDeniedException {
 		return getNextDecorator().getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
 	}
+
+	@Override
+	public StatusInfo deleteActivityOfferingClusterCascaded(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().deleteActivityOfferingCascaded(activityOfferingClusterId, contextInfo);
+	}
 	
 	
 

@@ -1106,17 +1106,40 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         throw new OperationFailedException("unsupported");
     }
 
-    @Override
-    public List<ValidationResultInfo> validateActivityOfferingCluster(String validationTypeKey, String formatOfferingId,
-            String activityOfferingClusterTypeKey, ActivityOfferingInfo activityOfferingClusterInfo, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException {// Registration Group Templates are out of scope for M4.
-        return new ArrayList<ValidationResultInfo>();
-    }
+   
 
-    private Map<String, ActivityOfferingClusterInfo> activityOfferingClusterMap = new LinkedHashMap<String, ActivityOfferingClusterInfo>();
+    @Override
+	public List<ValidationResultInfo> validateActivityOfferingCluster(
+			@WebParam(name = "validationTypeKey") String validationTypeKey,
+			@WebParam(name = "formatOfferingId") String formatOfferingId,
+			@WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+    	// Note: validation is handled in the CourseOfferingServiceValidationDecorator
+		 return new ArrayList<ValidationResultInfo>();
+	}
+
+	@Override
+	public StatusInfo deleteActivityOfferingClusterCascaded(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		List<RegistrationGroupInfo> rgList = getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+		
+		for (RegistrationGroupInfo rg : rgList) {
+			deleteRegistrationGroup(rg.getId(), contextInfo);
+		}
+		
+		deleteActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+		
+		return successStatus();
+	}
+
+	private Map<String, ActivityOfferingClusterInfo> activityOfferingClusterMap = new LinkedHashMap<String, ActivityOfferingClusterInfo>();
     
     @Override
     public ActivityOfferingClusterInfo createActivityOfferingCluster(String activityOfferingClusterId,
@@ -1166,7 +1189,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
 	@Override
 	public StatusInfo deleteActivityOfferingCluster(
-            String registrationGroupTemplateId, ContextInfo context)
+            String activityOfferingClusterId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -1758,5 +1781,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		return aoList;
 	}
     
+	
     
 }
