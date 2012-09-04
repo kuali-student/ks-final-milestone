@@ -107,4 +107,14 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
         if (!this.endTime.equals(ts.endTime)) { return false; }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "TimeSlotInfo{" +
+                "weekdays=" + weekdays +
+                ", id=" + getId() +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
+    }
 }
