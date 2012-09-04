@@ -548,7 +548,7 @@
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to send Complete ad hoc requests for Kuali Documents"
         NM="Send Complete Request Kuali Document" NMSPC_CD="KR-SYS"
-        OBJ_ID="C8E0560C37ECBD06E040720A04830DF0" PERM_ID="3119"
+        OBJ_ID="C8E2A189A60BE8FBE040720A048327E2" PERM_ID="3119"
         PERM_TMPL_ID="49" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to send FYI ad hoc requests for Kuali Documents"

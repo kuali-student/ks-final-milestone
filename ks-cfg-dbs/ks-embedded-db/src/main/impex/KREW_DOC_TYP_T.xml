@@ -229,7 +229,7 @@
         LBL="Kuali Student Admin Maintenance Document"
         OBJ_ID="2F5FDC52-1BEC-E2D5-97B1-15C46D50A563" PARNT_ID="2681"
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
-        RTE_VER_NBR="2" VER_NBR="10"/>
+        RTE_VER_NBR="2" VER_NBR="13"/>
     <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1" DOC_TYP_ID="3010"
         DOC_TYP_NM="AcademicTimePeriodMaintenanceDocument"
         DOC_TYP_VER_NBR="0" LBL="Academic Time Period"
@@ -299,7 +299,7 @@
         DOC_TYP_NM="ActivityOfferingInfoMaintenanceDocument"
         DOC_TYP_VER_NBR="0" GRP_ID="1"
         LBL="org.kuali.student.r2.lum.course.infc.Activity Offering Info Maintenance Document"
-        OBJ_ID="C8E0560C37F2BD06E040720A04830DF0" PARNT_ID="2681"
+        OBJ_ID="C8E2A189A611E8FBE040720A048327E2" PARNT_ID="2681"
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
@@ -309,7 +309,7 @@
         DOC_TYP_NM="FormatOfferingInfoMaintenanceDocument"
         DOC_TYP_VER_NBR="0" GRP_ID="1"
         LBL="org.kuali.student.r2.lum.course.infc.Format Offering Info Maintenance Document"
-        OBJ_ID="C8E0560C37F3BD06E040720A04830DF0" PARNT_ID="2681"
+        OBJ_ID="C8E2A189A612E8FBE040720A048327E2" PARNT_ID="2681"
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
@@ -319,7 +319,7 @@
         DOC_TYP_NM="CourseOfferingEditMaintenanceDocument"
         DOC_TYP_VER_NBR="0" GRP_ID="1"
         LBL="org.kuali.student.r2.lum.course.infc.Course Offering Info Edit Maintenance Document"
-        OBJ_ID="C8E0560C37F4BD06E040720A04830DF0" PARNT_ID="2681"
+        OBJ_ID="C8E2A189A613E8FBE040720A048327E2" PARNT_ID="2681"
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
@@ -329,7 +329,7 @@
         DOC_TYP_NM="CourseOfferingCreateMaintenanceDocument"
         DOC_TYP_VER_NBR="0" GRP_ID="1"
         LBL="org.kuali.student.r2.lum.course.infc.Course Offering Info Maintenance Document"
-        OBJ_ID="C8E0560C37F5BD06E040720A04830DF0" PARNT_ID="2681"
+        OBJ_ID="C8E2A189A614E8FBE040720A048327E2" PARNT_ID="2681"
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
@@ -339,7 +339,7 @@
         DOC_TYP_NM="PopulationWrapperMaintenanceDocument"
         DOC_TYP_VER_NBR="0" GRP_ID="1"
         LBL="Population Maintenance Document"
-        OBJ_ID="C8E0560C37F6BD06E040720A04830DF0" PARNT_ID="2681"
+        OBJ_ID="C8E2A189A615E8FBE040720A048327E2" PARNT_ID="2681"
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
@@ -392,4 +392,18 @@
         OBJ_ID="57e7ee1d-e44a-4154-9ba4-ee562c434c98" PARNT_ID="2681"
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="0"/>
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1" DOC_TYP_ID="3047"
+        DOC_TYP_NM="SubjectCodeMaintenanceDocument" DOC_TYP_VER_NBR="0"
+        LBL="Subject Code" OBJ_ID="2e238fac-fac5-4d43-997b-17de60ba1caf"
+        PARNT_ID="3009" RTE_VER_NBR="2" VER_NBR="1"/>
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1" DOC_TYP_ID="3048"
+        DOC_TYP_NM="SubjectCodeJoinOrgMaintenanceDocument"
+        DOC_TYP_VER_NBR="0" LBL="Subject Code Join Org Type"
+        OBJ_ID="59f17ad8-e7ed-4496-8146-1701474481c8" PARNT_ID="3009"
+        RTE_VER_NBR="2" VER_NBR="1"/>
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1" DOC_TYP_ID="3049"
+        DOC_TYP_NM="SubjectCodeTypeMaintenanceDocument"
+        DOC_TYP_VER_NBR="0" LBL="Subject Code Type"
+        OBJ_ID="41eb416c-155a-4f62-a12e-d5462e793e9b" PARNT_ID="3009"
+        RTE_VER_NBR="2" VER_NBR="1"/>
 </dataset>
