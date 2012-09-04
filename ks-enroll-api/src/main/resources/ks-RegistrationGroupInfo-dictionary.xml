@@ -91,10 +91,25 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="RegistrationGroupInfo.termId-parent" abstract="true" parent="RegistrationGroupInfo.termId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
-
-	<bean id="RegistrationGroupInfo.registrationCode" parent="RegistrationGroupInfo.registrationCode-parent"/>
-	<bean id="RegistrationGroupInfo.registrationCode-parent" abstract="true" parent="RegistrationGroupInfo.registrationCode-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+	
+	<!-- Work around for start of M5 for KSENROLL-2671: alphanumericpatternconstraint fails during test execution. -->
+	<bean id="RegistrationGroupInfo.registrationCode" parent="BaseKuali.codeLoose">
+	<property name="name" value="registrationCode"/>
+		<property name="shortLabel" value="Registration Code"/>
+		<property name="summary">
+			<value>
+Uniquely identifies an instance of the course for the purposes
+of registration.
+			</value>
+		</property>
+		<property name="label" value="Registration Code"/>
+		<property name="description">
+			<value>
+Uniquely identifies an instance of the course for the purposes
+of registration.
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationGroupInfo.activityOfferingIds" parent="RegistrationGroupInfo.activityOfferingIds-parent"/>
