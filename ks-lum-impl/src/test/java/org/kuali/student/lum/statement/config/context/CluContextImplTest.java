@@ -22,7 +22,7 @@ import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.statement.config.context.CluContextImpl;
 
-@Daos( { @Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql") })
+@Daos( { @Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql") })
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class CluContextImplTest extends AbstractServiceTest {
 
