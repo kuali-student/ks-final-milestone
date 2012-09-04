@@ -9,12 +9,10 @@
 
     <bean id="KS-HoldSearch-View" parent="KSFormView">
         <property name="id" value="holdSearchView"/>
-        <property name="headerText" value="Advanced Search: Hold"/>
-        <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoSearchForm"/>
-        <property name="singlePageView" value="true"/>
-        <property name="page">
-            <bean parent="Uif-Page"/>
-        </property>
+        <property name="headerText" value="Manage Hold"/>
+        <property name="renderHeader" value="false"/>
+        <property name="entryPageId" value="holdView-SearchPage"/>
+        <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoForm"/>
         <property name="dialogs">
             <list>
                 <bean id="deleteConfirmationDialog" parent="KS-HoldSearch-DeleteDialog"/>
@@ -28,13 +26,25 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="KS-HoldSearch-CriteriaSection"/>
-                <ref bean="KS-HoldLookup-ResultSection"/>
+                <ref bean="KS-HoldView-SearchPage"/>
+                <ref bean="KS-HoldView-EditPage"/>
+                <ref bean="KS-HoldView-ViewPage"/>
             </list>
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ks-enroll/scripts/common.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HoldView-SearchPage" parent="Uif-Page">
+        <property name="id" value="holdView-SearchPage"/>
+        <property name="headerText" value="Advanced Search: Process"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-HoldSearch-CriteriaSection"/>
+                <ref bean="KS-HoldLookup-ResultSection"/>
             </list>
         </property>
     </bean>
@@ -128,7 +138,7 @@
     <bean id="KS-HoldLookup-Result" parent="Uif-TableCollectionSection"
           p:layoutManager.numberOfColumns="6" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo" />
-        <property name="propertyName" value="holdIssueInfo" />
+        <property name="propertyName" value="holdIssueInfoList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
@@ -173,9 +183,9 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
-                <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="Uif-ActionLink" p:methodToCall="delete" p:hidden="@{#line.state eq 'kuali.hold.issue.state.inactive'}" p:actionLabel="Delete" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="delete" p:hidden="@{#line.state eq 'kuali.hold.issue.state.inactive'}" p:actionLabel="Delete" />
             </list>
         </property>
     </bean>

@@ -25,7 +25,9 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class HoldIssueInfoSearchForm extends UifFormBase {
+public class HoldIssueInfoForm extends UifFormBase {
+    private static final long serialVersionUID = 4898118410378641665L;
+
     private String id;
     private String name;
     private String typeKey;
@@ -34,9 +36,13 @@ public class HoldIssueInfoSearchForm extends UifFormBase {
     private String organizationId;
     private String orgName;
 
-    private List<HoldIssueInfo> holdIssueInfo;
+    private boolean isSaveSuccess;
 
-    public HoldIssueInfoSearchForm(){
+    private HoldIssueInfo holdIssueInfo;
+
+    private List<HoldIssueInfo> holdIssueInfoList;
+
+    public HoldIssueInfoForm(){
         super();
     }
 
@@ -88,12 +94,12 @@ public class HoldIssueInfoSearchForm extends UifFormBase {
         this.organizationId = organizationId;
     }
 
-    public List<HoldIssueInfo> getHoldIssueInfo() {
-        return holdIssueInfo;
+    public List<HoldIssueInfo> getHoldIssueInfoList() {
+        return holdIssueInfoList;
     }
 
-    public void setHoldIssueInfo(List<HoldIssueInfo> holdIssueInfo) {
-        this.holdIssueInfo = holdIssueInfo;
+    public void setHoldIssueInfoList(List<HoldIssueInfo> holdIssueInfos) {
+        this.holdIssueInfoList = holdIssueInfos;
     }
 
     public String getOrgName() {
@@ -102,5 +108,21 @@ public class HoldIssueInfoSearchForm extends UifFormBase {
 
     public void setOrgName(String orgName) {
         this.orgName = orgName;
+    }
+
+    public boolean getIsSaveSuccess() {
+        return isSaveSuccess;
+    }
+
+    public void setIsSaveSuccess(boolean saveSuccess) {
+        isSaveSuccess = saveSuccess;
+    }
+
+    public HoldIssueInfo getHoldIssueInfo() {
+        return holdIssueInfo;
+    }
+
+    public void setHoldIssueInfo(HoldIssueInfo holdIssueInfo) {
+        this.holdIssueInfo = holdIssueInfo;
     }
 }

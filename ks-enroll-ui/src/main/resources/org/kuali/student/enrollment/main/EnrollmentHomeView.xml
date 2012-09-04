@@ -102,9 +102,9 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Create Hold"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/createHold?viewId=holdCreateView&amp;methodToCall=start"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/holdIssueInfoController?viewId=holdCreateView&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Manage Hold"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/holdIssueInfoSearch?viewId=holdSearchView&amp;methodToCall=start"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/holdIssueInfoController?viewId=holdSearchView&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Organization Lookup"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.student.r2.core.organization.dto.OrgInfo&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
             </list>

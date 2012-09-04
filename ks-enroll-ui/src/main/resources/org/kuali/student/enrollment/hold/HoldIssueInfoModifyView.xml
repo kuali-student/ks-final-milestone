@@ -18,10 +18,9 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-HoldIssueInfo-ModifyView" parent="KSFormView" p:applyDirtyCheck="true"
-          p:id="holdModifyView" p:headerText="Edit Hold"
-          p:entryPageId="holdSectionView"
-          p:formClass="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoCreateForm">
+    <bean id="KS-HoldView-EditPage" parent="Uif-Page">
+        <property name="id" value="holdView-EditPage"/>
+        <property name="headerText" value="Edit Hold"/>
         <property name="header">
             <bean parent="Uif-HeaderOne"/>
         </property>
@@ -96,13 +95,12 @@
                 </bean>
             </list>
         </property>
-
         <property name="footer">
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{isSaveSuccess ? 'Back' : 'Update'}" p:methodToCall="@{isSaveSuccess ? 'close' : 'modify'}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel" p:hidden="@{isSaveSuccess}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{isSaveSuccess ? 'Back' : 'Update'}" p:methodToCall="@{isSaveSuccess ? 'back' : 'modify'}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="back" p:hidden="@{isSaveSuccess}"/>
                     </list>
                 </property>
             </bean>

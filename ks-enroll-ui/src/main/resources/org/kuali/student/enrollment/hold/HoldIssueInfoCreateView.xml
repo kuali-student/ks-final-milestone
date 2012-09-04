@@ -22,7 +22,7 @@
     <bean id="HoldIssueInfo-CreateView" parent="KSFormView">
         <property name="id" value="holdCreateView"/>
         <property name="headerText" value="Add Hold"/>
-        <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoCreateForm" />
+        <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoForm" />
         <property name="singlePageView" value="true"/>
         <property name="page">
             <bean parent="Uif-Page"/>
