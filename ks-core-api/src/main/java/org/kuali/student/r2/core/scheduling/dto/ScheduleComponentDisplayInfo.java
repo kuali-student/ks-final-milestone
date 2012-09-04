@@ -16,19 +16,9 @@
  */
 package org.kuali.student.r2.core.scheduling.dto;
 
-import org.kuali.student.r2.common.dto.DateRangeInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.DateRange;
-import org.kuali.student.r2.common.infc.HasId;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.infc.Atp;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
-import org.kuali.student.r2.core.scheduling.infc.MeetingTime;
-import org.kuali.student.r2.core.scheduling.infc.Schedule;
-import org.kuali.student.r2.core.scheduling.infc.ScheduleComponent;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
-import org.kuali.student.r2.core.scheduling.infc.ScheduleDisplay;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -45,9 +35,9 @@ import java.util.List;
  * @Author Mezba Mahtab
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleComponentDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
+@XmlType(name = "ScheduleComponentDisplayInfo", propOrder = {"id",
         "room", "building", "timeSlots",
-        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+        })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class ScheduleComponentDisplayInfo implements ScheduleComponentDisplay, Serializable {
 
     ////////////////////////
