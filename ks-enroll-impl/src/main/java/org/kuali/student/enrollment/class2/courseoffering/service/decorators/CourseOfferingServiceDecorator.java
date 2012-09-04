@@ -220,13 +220,13 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 
     @Override
     public List<ValidationResultInfo> validateActivityOfferingCluster(String validationTypeKey, String formatOfferingId,
-            String activityOfferingClusterTypeKey, ActivityOfferingInfo activityOfferingClusterInfo, ContextInfo contextInfo)
+            ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        return getNextDecorator().validateActivityOfferingCluster(validationTypeKey, formatOfferingId, activityOfferingClusterTypeKey,
-                activityOfferingClusterInfo, contextInfo);
+        return getNextDecorator().validateActivityOfferingCluster(validationTypeKey, formatOfferingId, activityOfferingClusterInfo,
+                contextInfo);
     }
 
     @Override
@@ -422,7 +422,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo deleteActivityOfferingCluster(String activityOfferingClusterId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteActivityOfferingCluster(String activityOfferingClusterId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
         return getNextDecorator().deleteActivityOfferingCluster(activityOfferingClusterId, context);
     }
 

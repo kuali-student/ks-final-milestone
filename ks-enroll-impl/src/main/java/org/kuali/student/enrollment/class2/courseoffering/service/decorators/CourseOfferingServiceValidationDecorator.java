@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -418,6 +419,94 @@ public class CourseOfferingServiceValidationDecorator
 		
 		return getNextDecorator().deleteActivityOffering(activityOfferingId, context);
 	}
+
+	@Override
+	public List<ValidationResultInfo> validateActivityOfferingCluster(
+			String validationTypeKey, String formatOfferingId,
+			ActivityOfferingClusterInfo activityOfferingClusterInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		
+		 // validate 
+        List<ValidationResultInfo> errors;
+        try {
+            errors = ValidationUtils.validateInfo(validator, validationTypeKey, activityOfferingClusterInfo, contextInfo);
+            List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateActivityOfferingCluster(validationTypeKey, formatOfferingId, activityOfferingClusterInfo, contextInfo);
+            errors.addAll(nextDecoratorErrors);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating", ex);
+        }
+        return errors;
+	       
+	}
+
+	@Override
+	public ActivityOfferingClusterInfo createActivityOfferingCluster(
+			String formatOfferingId, String activityOfferingClusterTypeKey,
+			ActivityOfferingClusterInfo activityOfferingClusterInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		
+		 try {
+	            List<ValidationResultInfo> errors =
+	                    this.validateActivityOfferingCluster(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formatOfferingId, activityOfferingClusterInfo, contextInfo);
+	            if (!errors.isEmpty()) { 
+	                throw new DataValidationErrorException("Error(s) occurred validating", errors);
+	            }
+	        } catch (DoesNotExistException ex) {
+	            throw new OperationFailedException("Error validating", ex);
+	        }
+		
+		return getNextDecorator().createActivityOfferingCluster(formatOfferingId,
+				activityOfferingClusterTypeKey, activityOfferingClusterInfo,
+				contextInfo);
+	}
+
+	@Override
+	public ActivityOfferingClusterInfo updateActivityOfferingCluster(
+			String formatOfferingId, String activityOfferingClusterId,
+			ActivityOfferingClusterInfo activityOfferingClusterInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException,
+			VersionMismatchException {
+		
+		 try {
+	            List<ValidationResultInfo> errors =
+	                    this.validateActivityOfferingCluster(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formatOfferingId, activityOfferingClusterInfo, contextInfo);
+	            if (!errors.isEmpty()) { 
+	                throw new DataValidationErrorException("Error(s) occurred validating", errors);
+	            }
+	        } catch (DoesNotExistException ex) {
+	            throw new OperationFailedException("Error validating", ex);
+	        }
+		 
+		return getNextDecorator().updateActivityOfferingCluster(formatOfferingId,
+				activityOfferingClusterId, activityOfferingClusterInfo, contextInfo);
+	}
+
+	@Override
+	public StatusInfo deleteActivityOfferingCluster(
+			String activityOfferingClusterId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, DependentObjectsExistException {
+		
+			
+			List<RegistrationGroupInfo> existingRegGroups = getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, context);
+
+			if (existingRegGroups.size() > 0)
+				throw new DependentObjectsExistException("Registration Groups Exist that refer to this ActivityOfferingClusterId = " + activityOfferingClusterId);
+		
+		
+		return getNextDecorator().deleteActivityOfferingCluster(activityOfferingClusterId, context);
+	}
     
+	
+	
     
 }
