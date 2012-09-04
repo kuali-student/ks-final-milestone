@@ -30,11 +30,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
@@ -68,7 +64,16 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     ////////////////////////////////
     // IMPLEMENTING METHODS
     ////////////////////////////////
-    
+
+    @Override
+    public void clear() {
+        this.scheduleBatchMap.clear();
+        this.scheduleMap.clear();
+        this.scheduleRequestMap.clear();
+        this.scheduleTransactionMap.clear();
+        this.timeSlotMap.clear();
+    }
+
     @Override
     public ScheduleInfo getSchedule(String scheduleId, ContextInfo contextInfo)
             throws DoesNotExistException
@@ -82,16 +87,6 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         }
         return new ScheduleInfo(this.scheduleMap.get (scheduleId));
     }
-
-    @Override
-	public void clear() {
-		
-    	this.scheduleBatchMap.clear();
-    	this.scheduleMap.clear();
-    	this.scheduleRequestMap.clear();
-    	this.scheduleTransactionMap.clear();
-    	this.timeSlotMap.clear();
-	}
 
 	@Override
     public List<ScheduleInfo> getSchedulesByIds(List<String> scheduleIds, ContextInfo contextInfo)
@@ -738,7 +733,20 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("getValidDaysOfWeekByTimeSlotType has not been implemented");
+        List<String> tsIds = getTimeSlotIdsByType(timeSlotTypeKey, contextInfo);
+        List<TimeSlotInfo> ts = new ArrayList<TimeSlotInfo>();
+        for (String id: tsIds) {
+            try { ts.add (this.getTimeSlot(id, contextInfo)); } catch (DoesNotExistException e) { throw new OperationFailedException(); }
+        }
+        List<Integer> days = new ArrayList<Integer> ();
+        for (TimeSlotInfo tsI: ts) {
+            for (Integer d: tsI.getWeekdays()) {
+                if (!days.contains(d)) {
+                    days.add(d);
+                }
+            }
+        }
+        return days;
     }
 
     @Override
@@ -937,6 +945,36 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         TimeSlotInfo timeSlotInfo1 = getTimeSlot(timeSlot1Id, contextInfo);
         TimeSlotInfo timeSlotInfo2 = getTimeSlot(timeSlot2Id, contextInfo);
         return SchedulingServiceUtil.areTimeSlotsInConflict(timeSlotInfo1, timeSlotInfo2);
+    }
+
+    @Override
+    public ScheduleDisplayInfo getScheduleDisplay(String scheduleId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<ScheduleDisplayInfo> getScheduleDisplaysByIds(List<String> scheduleIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<ScheduleDisplayInfo> searchForScheduleDisplays(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ScheduleRequestDisplayInfo getScheduleRequestDisplay(String scheduleRequestId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<ScheduleRequestDisplayInfo> getScheduleRequestDisplaysByIds(List<String> scheduleRequestIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<ScheduleRequestDisplayInfo> searchForScheduleRequestDisplays(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
     }
 
     private StatusInfo newStatus() {

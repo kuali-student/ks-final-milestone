@@ -14,8 +14,8 @@ import org.kuali.student.r2.core.comment.dto.TagInfo;
 public class TestCommentDTOEqualXMLBeanDefinition {
 
 	@Test
-	public void testLoadStatementInfoDictionary() {
-  System.out.println ("testing statement dictionary");
+	public void testLoadCommentInfoDictionary() {
+  System.out.println ("testing comment dictionary");
 		Set<String> startingClasses = new LinkedHashSet();
 		
 		startingClasses.add(CommentInfo.class.getName ());//NullPointerException

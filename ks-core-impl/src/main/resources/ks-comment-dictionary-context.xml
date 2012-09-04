@@ -18,7 +18,7 @@
     <ref bean="commentInfo.typeKey"/>
    </list>
   </property>
-  <property name="hasMetaData" value="true"/>
+  <property name="hasMetaData" value="false"/>
  </bean>
  <bean id="org.kuali.student.r2.core.comment.dto.CommentInfo" parent="org.kuali.student.r2.core.comment.dto.CommentInfo-parent"/>
 
@@ -81,7 +81,7 @@
     <ref bean="tagInfo.value"/>
    </list>
   </property>
-  <property name="hasMetaData" value="true"/>
+  <property name="hasMetaData" value="false"/>
  </bean>
  <bean id="org.kuali.student.r2.core.comment.dto.TagInfo" parent="org.kuali.student.r2.core.comment.dto.TagInfo-parent"/>
 

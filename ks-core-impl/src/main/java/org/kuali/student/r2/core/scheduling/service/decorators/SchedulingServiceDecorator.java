@@ -22,11 +22,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import javax.jws.WebParam;
@@ -335,5 +331,35 @@ public class SchedulingServiceDecorator implements SchedulingService {
     @Override
     public Boolean areTimeSlotsInConflict(@WebParam(name = "timeSlot1Id") String timeSlot1Id, @WebParam(name = "timeSlot2Id") String timeSlot2Id, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().areTimeSlotsInConflict(timeSlot1Id, timeSlot2Id, contextInfo);
+    }
+
+    @Override
+    public ScheduleDisplayInfo getScheduleDisplay(@WebParam(name = "scheduleId") String scheduleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getScheduleDisplay(scheduleId, contextInfo);
+    }
+
+    @Override
+    public List<ScheduleDisplayInfo> getScheduleDisplaysByIds(@WebParam(name = "scheduleIds") List<String> scheduleIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getScheduleDisplaysByIds(scheduleIds, contextInfo);
+    }
+
+    @Override
+    public List<ScheduleDisplayInfo> searchForScheduleDisplays(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForScheduleDisplays(criteria, contextInfo);
+    }
+
+    @Override
+    public ScheduleRequestDisplayInfo getScheduleRequestDisplay(@WebParam(name = "scheduleRequestId") String scheduleRequestId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getScheduleRequestDisplay(scheduleRequestId, contextInfo);
+    }
+
+    @Override
+    public List<ScheduleRequestDisplayInfo> getScheduleRequestDisplaysByIds(@WebParam(name = "scheduleRequestIds") List<String> scheduleRequestIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getScheduleRequestDisplaysByIds(scheduleRequestIds, contextInfo);
+    }
+
+    @Override
+    public List<ScheduleRequestDisplayInfo> searchForScheduleRequestDisplays(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForScheduleRequestDisplays(criteria, contextInfo);
     }
 }

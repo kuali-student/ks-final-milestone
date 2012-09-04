@@ -102,6 +102,10 @@ public class SchedulingServiceUtil {
     }
 
     public static boolean areTimeSlotsInConflict(TimeSlotInfo timeSlotInfo1, TimeSlotInfo timeSlotInfo2) {
+
+        System.out.println("TS 1: " +  timeSlotInfo1);
+        System.out.println("TS 2: " +  timeSlotInfo2);
+
         // Check if any of weekdays is common. If the two TimeSlots are on different weekdays,
         // no need to check for start/end times.
         boolean hasCommonWeekday = false;
@@ -122,12 +126,20 @@ public class SchedulingServiceUtil {
 
         // if first timeslot starts before second time slot, it must end before second timeslot starts
         if (timeSlotInfo1.getStartTime().isBefore(timeSlotInfo2.getStartTime())) {
-            return timeSlotInfo1.getEndTime().isBefore(timeSlotInfo2.getStartTime());
+            if (timeSlotInfo1.getEndTime().isBefore(timeSlotInfo2.getStartTime())) {
+                return false;
+            } else {
+                return true;
+            }
         }
 
         // if first timeslot starts after second time slot, it must start after second timeslot ends
         if (timeSlotInfo1.getStartTime().isAfter(timeSlotInfo2.getStartTime())) {
-            return timeSlotInfo1.getStartTime().isAfter(timeSlotInfo2.getEndTime());
+            if (timeSlotInfo1.getStartTime().isAfter(timeSlotInfo2.getEndTime())) {
+                return false;
+            } else {
+                return true;
+            }
         }
         return false;
     }

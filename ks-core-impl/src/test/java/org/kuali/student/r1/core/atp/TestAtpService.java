@@ -27,7 +27,7 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 
 @Ignore
 @Daos( { @Dao(value = "org.kuali.student.r1.core.atp.dao.impl.AtpDaoImpl", testDataFile = "classpath:atp-test-beans.xml") })
-@PersistenceFileLocation("classpath:META-INF/atp-persistence.xml")
+@PersistenceFileLocation("classpath:META-INF/atp-core-persistence.xml")
 public class TestAtpService extends AbstractServiceTest {
 //	final Logger LOG = Logger.getLogger(TestAtpService.class);
 //

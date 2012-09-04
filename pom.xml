@@ -43,6 +43,7 @@
                 <module>ks-core-sql</module>
                 <module>ks-rice-sql</module>
                 <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
         <profile>
@@ -54,7 +55,7 @@
                 <module>ks-core-sql</module>
                 <module>ks-rice-sql</module>
                 <module>ks-core-ui</module>
-		        <module>ks-core-krms</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
         <profile>
@@ -66,7 +67,7 @@
                 <module>ks-core-sql</module>
                 <module>ks-rice-sql</module>
                 <module>ks-core-ui</module>
-		        <module>ks-core-krms</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
         <profile>
@@ -78,6 +79,7 @@
                 <module>ks-core-sql</module>
                 <module>ks-rice-sql</module>
                 <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
         <profile>
@@ -89,6 +91,7 @@
                 <module>ks-core-sql</module>
                 <module>ks-rice-sql</module>
                 <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
         <profile>
@@ -99,6 +102,7 @@
                 <module>ks-core-impl</module>
                 <module>ks-core-sql</module>
                 <module>ks-rice-sql</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
     </profiles>
