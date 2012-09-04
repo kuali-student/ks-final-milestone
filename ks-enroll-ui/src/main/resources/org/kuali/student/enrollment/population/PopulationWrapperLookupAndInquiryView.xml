@@ -51,7 +51,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />
         <property name="maintenanceUrlMapping" value="population"/>
         <property name="resultsGroup">
-            <bean parent="Uif-LookupResultsCollectionSection" p:id="lookup_population"/>
+            <bean parent="Uif-LookupResultsCollectionSection" p:id="population_lookup"/>
         </property>
         <property name="criteriaFields">
             <list>
@@ -100,22 +100,22 @@
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="populationInfo.name" p:labelPlacement="TOP"/>
-                            <bean parent="Uif-InputField" p:propertyName="populationInfo.descr.plain" p:label="Description" p:labelPlacement="TOP"/>
+                            <bean parent="Uif-InputField" p:propertyName="populationInfo.name" p:labelPlacement="TOP" p:id="name_inquiry"/>
+                            <bean parent="Uif-InputField" p:propertyName="populationInfo.descr.plain" p:label="Description" p:labelPlacement="TOP" p:id="desc_inquiry"/>
                             <bean parent="Uif-InputField" p:propertyName="populationInfo.stateKey"
-                                  p:label="State" p:labelPlacement="TOP">
+                                  p:label="State" p:labelPlacement="TOP" p:id="state_inquiry">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationStateKeyValues" />
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.typeKey"
-                                  p:label="Operation" p:labelPlacement="TOP" p:render="@{#dp.populationRuleInfo.typeKey != 'kuali.population.rule.type.rule'}">
+                                  p:label="Operation" p:labelPlacement="TOP" p:render="@{#dp.populationRuleInfo.typeKey != 'kuali.population.rule.type.rule'}" p:id="type_inquiry">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationRuleTypeKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.name" p:label="Rule" p:inquiry.render="false" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" />
-                            <bean parent="Uif-InputField" p:propertyName="referencePopulation.name" p:label="Reference Population" p:labelPlacement="TOP" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.exclusion'}" />
+                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.name" p:label="Rule" p:inquiry.render="false" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" p:id="rule_inquiry" />
+                            <bean parent="Uif-InputField" p:propertyName="referencePopulation.name" p:label="Reference Population" p:labelPlacement="TOP" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.exclusion'}" p:id="refpop_inquiry" />
 
                             <bean parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{!#dp.childPopulations.empty}"
                                   p:layoutManager.style="width: 50%; ">
@@ -127,9 +127,10 @@
                                 <property name="layoutManager.richTable.render" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="false" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="layoutManager.id" value="population_inquiry" />
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:fieldLabel.render="false" p:propertyName="name" p:style="width:100%"/>
+                                        <bean parent="Uif-DataField" p:fieldLabel.render="false" p:propertyName="name" p:style="width:100%" p:id="popname_inquiry"/>
                                     </list>
                                 </property>
                             </bean>
