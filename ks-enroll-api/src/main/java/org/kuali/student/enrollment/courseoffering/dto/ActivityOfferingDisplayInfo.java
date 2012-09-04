@@ -35,7 +35,8 @@ import java.util.List;
                 "id", "typeKey", "stateKey", "name", "descr", 
                 "typeName", "stateName", "courseOfferingTitle",
                 "courseOfferingCode", "formatOfferingId", "formatOfferingName",
-                "activityOfferingCode", "instructorId",  "instructorName", "isHonorsOffering", "scheduleDisplay",
+                "activityOfferingCode", "instructorId",  "instructorName",
+                "isHonorsOffering", "maximumEnrollment", "scheduleDisplay",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingDisplayInfo
@@ -75,6 +76,9 @@ public class ActivityOfferingDisplayInfo
     private Boolean isHonorsOffering;
 
     @XmlElement
+    private Integer maximumEnrollment;
+
+    @XmlElement
     private ScheduleDisplayInfo scheduleDisplay;
 
     @XmlAnyElement
@@ -110,6 +114,7 @@ public class ActivityOfferingDisplayInfo
         this.instructorId = offeringDisplay.getInstructorId();
         this.instructorName = offeringDisplay.getInstructorName();
         this.isHonorsOffering = offeringDisplay.getIsHonorsOffering();
+        this.maximumEnrollment = offeringDisplay.getMaximumEnrollment();
         this.scheduleDisplay = (null != offeringDisplay.getScheduleDisplay()) ? new ScheduleDisplayInfo(offeringDisplay.getScheduleDisplay()) : null;
     }
 
@@ -203,8 +208,20 @@ public class ActivityOfferingDisplayInfo
         this.isHonorsOffering = isHonorsOffering;
     }
 
+    public Integer getMaximumEnrollment() {
+        return maximumEnrollment;
+    }
+
+    public void setMaximumEnrollment(Integer maximumEnrollment) {
+        this.maximumEnrollment = maximumEnrollment;
+    }
+
     @Override
     public ScheduleDisplayInfo getScheduleDisplay() {
         return this.scheduleDisplay;
+    }
+
+    public void setScheduleDisplay(ScheduleDisplayInfo scheduleDisplay) {
+        this.scheduleDisplay = scheduleDisplay;
     }
 }

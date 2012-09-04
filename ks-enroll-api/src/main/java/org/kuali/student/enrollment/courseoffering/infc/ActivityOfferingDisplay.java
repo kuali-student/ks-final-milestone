@@ -147,4 +147,13 @@ public interface ActivityOfferingDisplay
      * @impl Consult Scheduling service
      */
     public ScheduleDisplay getScheduleDisplay();
+
+    /**
+     * Total maximum number of "seats" or enrollment slots that can be filled
+     * for the offering. Calculated based on sum of all the maximum seats of
+     * primary activity type offerings
+     *
+     * @readOnly
+     */
+    public Integer getMaximumEnrollment();
 }
