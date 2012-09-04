@@ -670,7 +670,7 @@ public class TestSchedulingServiceMockImpl {
     }
 
     // test crud ScheduleBatch
-    //@Test
+    @Test
     public void testCrudScheduleBatch () throws DataValidationErrorException
             ,DoesNotExistException
             ,InvalidParameterException
@@ -688,6 +688,7 @@ public class TestSchedulingServiceMockImpl {
         expected.setRequestingPersonId("222");
         expected.setStatusMessage("COMPLETED");
         ScheduleBatchInfo actual = schedulingService.createScheduleBatch(expected.getTypeKey(), expected, callContext);
+
         crudInfoTester.testCreate(expected, actual);
         assertEquals(expected.getOrgId(), actual.getOrgId());
         assertEquals("111", actual.getOrgId());
@@ -714,16 +715,50 @@ public class TestSchedulingServiceMockImpl {
         expected = actual;
         crudInfoTester.initializeInfoForTestUpdate(expected, SchedulingServiceConstants.SCHEDULE_BATCH_STATE_COMPLETED);
         expected.setOrgId("100");
-        expected.setRequestingPersonId("200");
+        expected.setRequestingPersonId("100");
         expected.setStatusMessage("UPDATED");
         actual = schedulingService.updateScheduleBatch(actual.getId(), expected, callContext);
         crudInfoTester.testUpdate(expected, actual);
         assertEquals(expected.getOrgId(), actual.getOrgId());
         assertEquals("100", actual.getOrgId());
         assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
-        assertEquals("200", actual.getRequestingPersonId());
+        assertEquals("100", actual.getRequestingPersonId());
         assertEquals(expected.getStatusMessage(), actual.getStatusMessage());
         assertEquals("UPDATED", actual.getStatusMessage());
+
+        // create a 2nd ScheduleBatch
+        // -------------------------------
+        ScheduleBatchInfo expected2 = new ScheduleBatchInfo() ;
+        crudInfoTester.initializeInfoForTestCreate(expected2, SchedulingServiceConstants.SCHEDULE_BATCH_TYPE_BATCH, SchedulingServiceConstants.SCHEDULE_BATCH_STATE_COMPLETED);
+        expected.setOrgId("200");
+        expected.setRequestingPersonId("200");
+        expected.setStatusMessage("CLONED");
+        ScheduleBatchInfo actual2 = schedulingService.createScheduleBatch(expected2.getTypeKey(), expected2, callContext);
+
+        // test bulk get
+        // -------------------
+        List<String> IDS = new ArrayList<String>();
+        IDS.add(actual.getId());
+        IDS.add(actual2.getId());
+        List<ScheduleBatchInfo> infos = schedulingService.getScheduleBatchesByIds(IDS, callContext);
+        assertEquals(IDS.size(), infos.size());
+        for (ScheduleBatchInfo info: infos) {
+            if (!IDS.remove(info.getId())) {
+                fail(info.getId());
+            }
+        }
+        assertEquals(0, IDS.size());
+
+        // test get by type
+        // -------------------
+        assertEquals(actual.getTypeKey(), SchedulingServiceConstants.SCHEDULE_BATCH_TYPE_BATCH);
+        assertEquals(actual2.getTypeKey(), SchedulingServiceConstants.SCHEDULE_BATCH_TYPE_BATCH);
+        IDS = schedulingService.getScheduleBatchIdsByType(SchedulingServiceConstants.SCHEDULE_BATCH_TYPE_BATCH, callContext);
+        assertEquals(2, IDS.size());
+        assertEquals(actual.getId(), IDS.get(0));
+        assertEquals(actual2.getId(), IDS.get(1));
+        IDS = schedulingService.getScheduleBatchIdsByType(SchedulingServiceConstants.SCHEDULE_BATCH_TYPE_BATCH + "123", callContext);
+        assertEquals(0, IDS.size());
 
         // test delete
         // -----------------
