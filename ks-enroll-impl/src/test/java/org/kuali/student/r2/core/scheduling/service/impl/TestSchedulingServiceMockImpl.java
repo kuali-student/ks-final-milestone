@@ -604,6 +604,58 @@ public class TestSchedulingServiceMockImpl {
         assertEquals(expected.getStatusMessage(), actual.getStatusMessage());
         assertEquals("2012 - Status Could Not Compute", actual.getStatusMessage());
 
+        // create a 2nd ScheduleTransaction
+        // -------------------------------------
+        ScheduleTransactionInfo expected2 = new ScheduleTransactionInfo() ;
+        crudInfoTester.initializeInfoForTestCreate(expected2, SchedulingServiceConstants.SCHEDULE_TRANSACTION_TYPE_REQUEST_TRANSACTION, SchedulingServiceConstants.SCHEDULE_TRANSACTION_STATE_COMPLETED);
+        expected2.setRefObjectId("421");
+        expected2.setRefObjectTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
+        expected2.setScheduleBatchId("200");
+        expected2.setScheduleId("22");
+        expected2.setStatusMessage("1980 - Status Could Not Compute");
+        expected2.setScheduleRequestComponents(scheduleRequestComponentInfos2);
+        ScheduleTransactionInfo actual2 = schedulingService.createScheduleTransaction(expected2.getScheduleBatchId(), expected2.getTypeKey(), expected2, callContext);
+
+        // test bulk get
+        // -------------------
+        List<String> IDS = new ArrayList<String>();
+        IDS.add(actual.getId());
+        IDS.add(actual2.getId());
+        List<ScheduleTransactionInfo> scheduleTransactionInfos = schedulingService.getScheduleTransactionsByIds(IDS, callContext);
+        assertEquals(IDS.size(), scheduleTransactionInfos.size());
+        for (ScheduleTransactionInfo scheduleTransactionInfo: scheduleTransactionInfos) {
+            if (!IDS.remove(scheduleTransactionInfo.getId())) {
+                fail(scheduleTransactionInfo.getId());
+            }
+        }
+        assertEquals(0, IDS.size());
+
+        // test get by type
+        // -------------------
+        assertEquals(actual.getTypeKey(), SchedulingServiceConstants.SCHEDULE_TRANSACTION_TYPE_REQUEST_TRANSACTION);
+        assertEquals(actual2.getTypeKey(), SchedulingServiceConstants.SCHEDULE_TRANSACTION_TYPE_REQUEST_TRANSACTION);
+        IDS = schedulingService.getScheduleTransactionIdsByType(SchedulingServiceConstants.SCHEDULE_TRANSACTION_TYPE_REQUEST_TRANSACTION, callContext);
+        assertEquals(2, IDS.size());
+        assertEquals(actual.getId(), IDS.get(0));
+        assertEquals(actual2.getId(), IDS.get(1));
+        IDS = schedulingService.getScheduleTransactionIdsByType(SchedulingServiceConstants.SCHEDULE_TRANSACTION_TYPE_REQUEST_TRANSACTION + "123", callContext);
+        assertEquals(0, IDS.size());
+
+        // test get ids by ref object type key
+        // --------------------------------------
+        assertEquals(actual.getRefObjectId(), "420");
+        assertEquals(actual.getRefObjectTypeKey(), CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
+        assertEquals(actual2.getRefObjectId(), "421");
+        assertEquals(actual2.getRefObjectTypeKey(), CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
+        IDS = schedulingService.getScheduleTransactionIdsByRefObject(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY, "420", callContext);
+        assertEquals(1, IDS.size());
+        assertEquals(actual.getId(), IDS.get(0));
+        IDS = schedulingService.getScheduleTransactionIdsByRefObject(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY, "421", callContext);
+        assertEquals(1, IDS.size());
+        assertEquals(actual2.getId(), IDS.get(0));
+        IDS = schedulingService.getScheduleTransactionIdsByRefObject(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY + "123", "421", callContext);
+        assertEquals(0, IDS.size());
+
         // test delete
         // -----------------
         StatusInfo status = schedulingService.deleteScheduleTransaction(actual.getId(), callContext);
