@@ -1561,6 +1561,24 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of ActivityOfferingCluster Id's associated with a
+     * FormatOffering
+     *
+     * @param formatOfferingId Id of the FormatOffering
+     * @param contextInfo      Context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
+     * @return List of ActivityOffering Id's
+     * @throws DoesNotExistException     courseOfferingId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException formatOfferingId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getActivityOfferingClustersIdsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Validates an Activity Offering Cluster. Depending on the value of
      * validationTypeKey, this validation could be limited to tests on just the
      * current object and its directly contained sub-objects or expanded to
@@ -1727,29 +1745,6 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException authorization failure
      */
     public List<ValidationResultInfo> verifyActivityOfferingClusterForGeneration(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-
-    /**
-     * Generates all possible registration groups for the Activity Offering
-     * Cluster
-     *
-     * @param activityOfferingClusterId identifier of the Activity Offering
-     *                                  Cluster
-     * @param contextInfo               Context information containing the
-     *                                  principalId and locale information about
-     *                                  the caller of service operation
-     * @return status of the operation (success, failed)
-     * @throws DoesNotExistException     activityOfferingClusterId does not
-     *                                   exist
-     * @throws AlreadyExistsException RegistrationGroup's already exist for the identified activity offering cluster.
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws DataValidationErrorException verification of the Activity Offering Cluster failed.
-     * @throws MissingParameterException activityOfferingClusterId or
-     *                                   contextInfo is missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure has occurred
-     */
-    public StatusInfo generateRegistrationGroupsForCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve information about a SeatPoolDefinition

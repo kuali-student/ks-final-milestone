@@ -18,6 +18,8 @@ package org.kuali.student.enrollment.courseoffering.service;
 
 import java.util.List;
 
+import javax.jws.WebParam;
+
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -77,4 +79,27 @@ public interface CourseOfferingServiceBusinessLogic {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, AlreadyExistsException, DataValidationErrorException;
+	
+	/**
+     * Generates all possible registration groups for the Activity Offering
+     * Cluster
+     *
+     * @param activityOfferingClusterId identifier of the Activity Offering
+     *                                  Cluster
+     * @param contextInfo               Context information containing the
+     *                                  principalId and locale information about
+     *                                  the caller of service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     activityOfferingClusterId does not
+     *                                   exist
+     * @throws AlreadyExistsException RegistrationGroup's already exist for the identified activity offering cluster.
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws DataValidationErrorException verification of the Activity Offering Cluster failed.
+     * @throws MissingParameterException activityOfferingClusterId or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure has occurred
+     */
+    public StatusInfo generateRegistrationGroupsForCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 }
