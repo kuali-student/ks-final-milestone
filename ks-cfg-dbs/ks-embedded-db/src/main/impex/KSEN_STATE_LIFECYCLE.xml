@@ -117,6 +117,11 @@
         NAME="kuali.scheduling.schedule.request.lifecycle"
         UPDATEID="SYSTEMLOADER" UPDATETIME="20120813000000" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120831000000"
+        DESCR_FORMATTED="Set of Courses State Lifecycle"
+        DESCR_PLAIN="Set of Courses State Lifecycle"
+        ID="kuali.soc.process" NAME="kuali.soc.process" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
         DESCR_FORMATTED="kuali.soc.rollover.result.process state lifecycle"
         DESCR_PLAIN="kuali.soc.rollover.result.process state lifecycle"
