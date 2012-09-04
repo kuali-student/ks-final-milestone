@@ -1157,6 +1157,20 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/scheduling/ScheduleRequestInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/scheduling/SchedulingService"
         TYPE_KEY="kuali.scheduling.schedule.request.type.schedule.request" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120904000000"
+        DESCR_FORMATTED="Time slots that apply to scheduling classrooms for activity offerings"
+        DESCR_PLAIN="Time slots that apply to scheduling classrooms for activity offerings"
+        NAME="Activity Offering"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/scheduling/TimeSlotInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/scheduling/SchedulingService"
+        TYPE_KEY="kuali.scheduling.time.slot.type.activityoffering" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120904000000"
+        DESCR_FORMATTED="Time slots that apply to scheduling classrooms for activity offerings but do not have a day or time. These time slots indicate a TBA."
+        DESCR_PLAIN="Time slots that apply to scheduling classrooms for activity offerings but do not have a day or time. These time slots indicate a TBA."
+        NAME="Activity Offering TBA"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/scheduling/TimeSlotInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/scheduling/SchedulingService"
+        TYPE_KEY="kuali.scheduling.time.slot.type.activityoffering.tba" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The results of trying to reverse a rollover"
         DESCR_PLAIN="The results of trying to reverse a rollover"
