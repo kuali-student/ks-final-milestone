@@ -124,6 +124,14 @@
     <bean id="formatOfferingInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-FormatOfferingInfo-dictionary.xml" />
     </bean>
+    
+     <bean id="activityOfferingClusterInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ActivityOfferingClusterInfo-dictionary.xml" />
+    </bean>
+    
+      <bean id="activityOfferingSetInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ActivityOfferingSetInfo-dictionary.xml" />
+    </bean>
 
     <bean id="registrationGroupInfoDictionaryLocation" class="java.lang.String">
            <constructor-arg value="classpath:ks-RegistrationGroupInfo-dictionary.xml" />
@@ -138,6 +146,9 @@
             <list>
                 <bean parent="courseOfferingInfoDictionaryLocation" />
                 <bean parent="formatOfferingInfoDictionaryLocation"/>
+                <bean parent="activityOfferingInfoDictionaryLocation"/>
+                <bean parent="activityOfferingClusterInfoDictionaryLocation"/>
+                <bean parent="activityOfferingSetInfoDictionaryLocation"/>
                 <bean parent="registrationGroupInfoDictionaryLocation"/>
                 <bean parent="seatPoolDefinitionInfoDictionaryLocation"/>
                 
@@ -166,6 +177,8 @@
                 <bean parent="courseOfferingInfoDictionaryLocation" />
                 <bean parent="activityOfferingInfoDictionaryLocation" />
                 <bean parent="formatOfferingInfoDictionaryLocation" />
+                <bean parent="activityOfferingClusterInfoDictionaryLocation"/>
+                <bean parent="activityOfferingSetInfoDictionaryLocation"/>
                 <bean parent="registrationGroupInfoDictionaryLocation" />
                 <bean parent="seatPoolDefinitionInfoDictionaryLocation" />
                 <bean parent="processInfoDictionaryLocation" />

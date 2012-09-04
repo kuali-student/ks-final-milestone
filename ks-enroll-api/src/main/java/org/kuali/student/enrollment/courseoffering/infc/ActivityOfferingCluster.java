@@ -43,7 +43,7 @@ public interface ActivityOfferingCluster
      * @required
      */
     public String getFormatOfferingId();
-
+    
     /**
      * Gets the activity offering Id combinations. Each list within
      * this list contains a list of Activity Offering Ids.
