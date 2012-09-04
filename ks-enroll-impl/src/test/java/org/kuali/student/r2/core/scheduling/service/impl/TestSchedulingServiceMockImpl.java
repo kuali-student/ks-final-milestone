@@ -79,7 +79,7 @@ public class TestSchedulingServiceMockImpl {
     // test ScheduleComponentInfo
     @Test
     public void testScheduleComponentInfo () {
-        // the primary purpose of this test is to show the equal method of ScheduleComponentInfo works
+        // the primary purpose of this test is to show the equals method of ScheduleComponentInfo works
         String id1 = "10";
         String id2 = "20";
         String roomId1 = "r1";
@@ -203,11 +203,8 @@ public class TestSchedulingServiceMockImpl {
             ,ReadOnlyException
             ,Exception {
 
-        // test create
-        // ----------------
-        ScheduleInfo expected = new ScheduleInfo() ;
-        crudInfoTester.initializeInfoForTestCreate(expected, SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
-        expected.setAtpId("124");
+        // test data
+        // -------------------------
         List<String> timeSlotIds1 = ListOfStringTester.generateRandomListOfStringIds(4, 100);
         List<String> timeSlotIds2 = ListOfStringTester.generateRandomListOfStringIds(2, 100);
         ScheduleComponentInfo sci1 = new ScheduleComponentInfo();
@@ -221,47 +218,94 @@ public class TestSchedulingServiceMockImpl {
         List<ScheduleComponentInfo> scheduleComponentInfos = new ArrayList<ScheduleComponentInfo>();
         scheduleComponentInfos.add(sci1);
         scheduleComponentInfos.add(sci2);
-        expected.setScheduleComponents(scheduleComponentInfos);
-        ScheduleInfo actual = schedulingService.createSchedule(expected.getTypeKey(), expected, callContext);
-        crudInfoTester.testCreate(expected, actual);
-        assertEquals(expected.getAtpId(), actual.getAtpId());
-        assertEquals(actual.getAtpId(), "124");
-        new ListOfObjectTester().check(expected.getScheduleComponents(), actual.getScheduleComponents());
-        new ListOfObjectTester().check(scheduleComponentInfos, actual.getScheduleComponents());
+        List<ScheduleComponentInfo> scheduleComponentInfos_Updated = new ArrayList<ScheduleComponentInfo>();
+        scheduleComponentInfos_Updated.add(sci2);
+        List<String> timeSlotIds_scheduleInfo2 = ListOfStringTester.generateRandomListOfStringIds(5, 100);
+        ScheduleComponentInfo sci_scheduleInfo2 = new ScheduleComponentInfo();
+        sci_scheduleInfo2.setId("77");
+        sci_scheduleInfo2.setRoomId("r77");
+        sci_scheduleInfo2.setTimeSlotIds(timeSlotIds_scheduleInfo2);
+        List<ScheduleComponentInfo> scheduleComponentInfos_scheduleInfo2 = new ArrayList<ScheduleComponentInfo>();
+        scheduleComponentInfos_scheduleInfo2.add(sci_scheduleInfo2);
+
+        // test create
+        // ----------------
+        ScheduleInfo expected_scheduleInfo1 = new ScheduleInfo() ;
+        crudInfoTester.initializeInfoForTestCreate(expected_scheduleInfo1, SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
+        expected_scheduleInfo1.setAtpId("124");
+        expected_scheduleInfo1.setScheduleComponents(scheduleComponentInfos);
+        ScheduleInfo actual_scheduleInfo1 = schedulingService.createSchedule(expected_scheduleInfo1.getTypeKey(), expected_scheduleInfo1, callContext);
+        crudInfoTester.testCreate(expected_scheduleInfo1, actual_scheduleInfo1);
+        assertEquals(expected_scheduleInfo1.getAtpId(), actual_scheduleInfo1.getAtpId());
+        assertEquals(actual_scheduleInfo1.getAtpId(), "124");
+        new ListOfObjectTester().check(expected_scheduleInfo1.getScheduleComponents(), actual_scheduleInfo1.getScheduleComponents());
+        new ListOfObjectTester().check(scheduleComponentInfos, actual_scheduleInfo1.getScheduleComponents());
 
         // test read
         // ----------------
-        expected = actual;
-        actual = schedulingService.getSchedule(expected.getId(), callContext);
-        crudInfoTester.initializeInfoForTestRead(expected);
-        crudInfoTester.testRead(expected, actual);
-        assertEquals(expected.getAtpId(), actual.getAtpId());
-        assertEquals(actual.getAtpId(), "124");
-        new ListOfObjectTester().check(expected.getScheduleComponents(), actual.getScheduleComponents());
-        new ListOfObjectTester().check(scheduleComponentInfos, actual.getScheduleComponents());
+        expected_scheduleInfo1 = actual_scheduleInfo1;
+        actual_scheduleInfo1 = schedulingService.getSchedule(expected_scheduleInfo1.getId(), callContext);
+        crudInfoTester.initializeInfoForTestRead(expected_scheduleInfo1);
+        crudInfoTester.testRead(expected_scheduleInfo1, actual_scheduleInfo1);
+        assertEquals(expected_scheduleInfo1.getAtpId(), actual_scheduleInfo1.getAtpId());
+        assertEquals(actual_scheduleInfo1.getAtpId(), "124");
+        new ListOfObjectTester().check(expected_scheduleInfo1.getScheduleComponents(), actual_scheduleInfo1.getScheduleComponents());
+        new ListOfObjectTester().check(scheduleComponentInfos, actual_scheduleInfo1.getScheduleComponents());
 
         // test update
         // ----------------
-        expected = actual;
-        crudInfoTester.initializeInfoForTestUpdate(expected, SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
-        expected.setAtpId("420");
-        List<ScheduleComponentInfo> scheduleComponentInfos_Updated = new ArrayList<ScheduleComponentInfo>();
-        scheduleComponentInfos_Updated.add(sci2);
-        expected.setScheduleComponents(scheduleComponentInfos_Updated);
-        actual = schedulingService.updateSchedule(actual.getId(), expected, callContext);
-        crudInfoTester.testUpdate(expected, actual);
-        assertEquals(expected.getAtpId(), actual.getAtpId());
-        assertEquals(actual.getAtpId(), "420");
-        new ListOfObjectTester().check(expected.getScheduleComponents(), actual.getScheduleComponents());
-        new ListOfObjectTester().check(scheduleComponentInfos_Updated, actual.getScheduleComponents());
+        expected_scheduleInfo1 = actual_scheduleInfo1;
+        crudInfoTester.initializeInfoForTestUpdate(expected_scheduleInfo1, SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
+        expected_scheduleInfo1.setAtpId("420");
+        expected_scheduleInfo1.setScheduleComponents(scheduleComponentInfos_Updated);
+        actual_scheduleInfo1 = schedulingService.updateSchedule(actual_scheduleInfo1.getId(), expected_scheduleInfo1, callContext);
+        crudInfoTester.testUpdate(expected_scheduleInfo1, actual_scheduleInfo1);
+        assertEquals(expected_scheduleInfo1.getAtpId(), actual_scheduleInfo1.getAtpId());
+        assertEquals(actual_scheduleInfo1.getAtpId(), "420");
+        new ListOfObjectTester().check(expected_scheduleInfo1.getScheduleComponents(), actual_scheduleInfo1.getScheduleComponents());
+        new ListOfObjectTester().check(scheduleComponentInfos_Updated, actual_scheduleInfo1.getScheduleComponents());
+
+        // create a 2nd Schedule
+        // --------------------------
+        ScheduleInfo expected_scheduleInfo2 = new ScheduleInfo() ;
+        crudInfoTester.initializeInfoForTestCreate(expected_scheduleInfo2, SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
+        expected_scheduleInfo1.setAtpId("786");
+        expected_scheduleInfo2.setScheduleComponents(scheduleComponentInfos);
+        ScheduleInfo actual_scheduleInfo2 = schedulingService.createSchedule(expected_scheduleInfo2.getTypeKey(), expected_scheduleInfo2, callContext);
+
+        // test bulk get
+        // -----------------
+        List<String> IDS_SCHEDULE_INFO = new ArrayList<String>();
+        IDS_SCHEDULE_INFO.add(actual_scheduleInfo1.getId());
+        IDS_SCHEDULE_INFO.add(actual_scheduleInfo2.getId());
+
+        List<ScheduleInfo> scheduleInfos = schedulingService.getSchedulesByIds(IDS_SCHEDULE_INFO, callContext);
+        assertEquals(IDS_SCHEDULE_INFO.size(), scheduleInfos.size());
+        for (ScheduleInfo scheduleInfo : scheduleInfos) {
+            if (!IDS_SCHEDULE_INFO.remove(scheduleInfo.getId())) {
+                fail(scheduleInfo.getId());
+            }
+        }
+        assertEquals(0, IDS_SCHEDULE_INFO.size());
+
+        // test get by type
+        // -------------------
+        assertEquals(actual_scheduleInfo1.getTypeKey(), SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
+        assertEquals(actual_scheduleInfo2.getTypeKey(), SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
+        IDS_SCHEDULE_INFO = schedulingService.getScheduleIdsByType(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, callContext);
+        assertEquals(2, IDS_SCHEDULE_INFO.size());
+        assertEquals(actual_scheduleInfo1.getId(), IDS_SCHEDULE_INFO.get(0));
+        assertEquals(actual_scheduleInfo2.getId(), IDS_SCHEDULE_INFO.get(1));
+        IDS_SCHEDULE_INFO = schedulingService.getScheduleIdsByType(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE + "324", callContext);
+        assertEquals(0, IDS_SCHEDULE_INFO.size());
 
         // test delete
         // -----------------
-        StatusInfo status = schedulingService.deleteSchedule(actual.getId(), callContext);
+        StatusInfo status = schedulingService.deleteSchedule(actual_scheduleInfo1.getId(), callContext);
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            actual = schedulingService.getSchedule(actual.getId(), callContext);
+            actual_scheduleInfo1 = schedulingService.getSchedule(actual_scheduleInfo1.getId(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted ScheduleInfo");
         } catch (DoesNotExistException dnee) {
             // expected
