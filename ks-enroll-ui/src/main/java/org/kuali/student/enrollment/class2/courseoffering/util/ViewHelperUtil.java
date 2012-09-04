@@ -29,14 +29,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -51,14 +44,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class //TODO ...
@@ -135,14 +121,16 @@ public class ViewHelperUtil {
                     for (Float creditF : creditValuesF ){
                         creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
                     }
-                    creditCount =  creditCount.substring(2);  //trim leading ", "
+                    if(creditCount.length() >=  2)  {
+                        creditCount =  creditCount.substring(2);  //trim leading ", "
+                    }
                 }
             }
         } else { //Lookup original course values
             if (courseInfo == null) {
                 courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId(), ContextUtils.getContextInfo());
             }
-            String creditOpt = courseInfo.getCreditOptions().get(0).getType();
+            String creditOpt = courseInfo.getCreditOptions().get(0).getTypeKey();
             if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED) ){              //fixed
                 creditCount = trimTrailing0(getLrcService().getResultValue(courseInfo.getCreditOptions().get(0).getResultValueKeys().get(0), ContextUtils.getContextInfo()).getValue());
             } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE) ){    //range
@@ -236,52 +224,112 @@ public class ViewHelperUtil {
 
         List<FormatOfferingInfo> formatOfferings = coService.getFormatOfferingsByCourseOffering(coInfo.getId(), context);
 
-        int draftAOCount;
-        int draftFOCount = 0;
         String oldFoState, newFoState;
+        // Verify each FO, CO state with AO state consistence
+
         for (FormatOfferingInfo fo : formatOfferings) {
-            draftAOCount = 0;
             oldFoState = fo.getStateKey();
             newFoState = null;
             List<ActivityOfferingInfo> activityOfferings = coService.getActivityOfferingsByFormatOffering(fo.getId(), context);
-            for (ActivityOfferingInfo ao : activityOfferings) {
-                if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, ao.getStateKey())) {
-                    draftAOCount++;
-                }
-            }
-
-            // if ALL the AOs within this FO are in a draft state (or if there are no AOs), and the current state of the FO is Planned, update the FO state to Draft
-            if ((activityOfferings.size() == 0 || draftAOCount == activityOfferings.size()) && StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, fo.getStateKey())) {
-                newFoState =  LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY;
-            }
-            // otherwise if any AOs are in a non-draft state, and the FO is in a draft state, update the FO to Planned
-            else if (draftAOCount < activityOfferings.size() && StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY, fo.getStateKey())) {
-                newFoState = LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY;
-            }
+            newFoState = getNewFoState(activityOfferings);
 
             if (newFoState != null && !StringUtils.equals(oldFoState, newFoState)) {
                 fo.setStateKey(newFoState);
                 coService.updateFormatOffering(fo.getId(), fo, context);
             }
-
-            if (StringUtils.equals(fo.getStateKey(), LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY)) {
-                draftFOCount++;
-            }
         }
 
-        String newCoState = null;
-        // if ALL the FOs within the CO are in a draft state (or there are no FOs), and the current state of the CO is Planned, update the CO state to Draft
-        if ((draftFOCount == formatOfferings.size() || formatOfferings.size() == 0) && StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY, coInfo.getStateKey())) {
-            newCoState = LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY;
-        }
-        // otherwise if any FOs are in a non-draft state, and the CO is in a draft state, update the CO to Planned
-        else if(draftFOCount < formatOfferings.size() && StringUtils.equals(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, coInfo.getStateKey())) {
-            newCoState = LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY;
-        }
-
-        if (newCoState != null) {
+        String oldCoState = coInfo.getStateKey();
+        String newCoState = getNewCoState(formatOfferings);
+        if (newCoState != null && !StringUtils.equals(oldCoState, newCoState)) {
             coInfo.setStateKey(newCoState);
             coService.updateCourseOffering(coInfo.getId(), coInfo, context);
         }
+    }
+
+    // if all of the AO states are Draft or Approved, the FO that owns the AO's cannot be Offered.  
+    // If no FO is Offered, then the CO which owns the FO's cannot be Offered.  
+    // It is possible for a CO with multiple FO's to have an Offered FO and one or more FO's in a non-Offered state;
+    // in that case, since at least one of the FO's is Offered, the CO which owns it is Offered.
+
+    // If all of the AO's owned by an FO are deleted, that FO's state will change to Draft.  
+    // As above, if all of the FO's owned by a CO are Draft, the CO's state reverts to Draft;
+    // however, if the CO owns multiple FO's and only one of the FO's reverts to Draft, the CO state doesn't change if any of the other FO's is not in Draft state.
+    public static String getNewFoState(List<ActivityOfferingInfo> activityOfferings) {
+        boolean draftState= false;
+        boolean plannedState= false;
+        boolean offeredState= false;
+        boolean cancelledState= false;
+
+        if(activityOfferings == null || activityOfferings.size() == 0) {
+            return LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY;
+        }
+
+        for (ActivityOfferingInfo ao : activityOfferings) {
+            if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, ao.getStateKey()) ||
+                    StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_SUBMITTED_KEY, ao.getStateKey()) ) {
+                plannedState = true;
+            }  else if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY, ao.getStateKey())) {
+                offeredState = true;
+            }  else if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY, ao.getStateKey())) {
+                cancelledState = true;
+            }  else if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, ao.getStateKey())) {
+                draftState = true;
+            }
+        }
+
+        // if ALL the AOs within this FO are in a draft state (or if there are no AOs), and the current state of the FO is Planned, update the FO state to Draft
+        if (offeredState) {
+            return LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY;
+        }  else if(plannedState) {
+            return LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY;
+        }  else if (draftState) {
+            return LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY;
+        }
+
+        // no offered, planned, and draft state
+        if(cancelledState)  {
+            return LuiServiceConstants.LUI_FO_STATE_CANCELED_KEY;
+        }
+        // If all AOs are suspended
+        return null;
+    }
+
+    public static String getNewCoState(List<FormatOfferingInfo>  formatOfferings) {
+        boolean draftState= false;
+        boolean plannedState= false;
+        boolean offeredState= false;
+        boolean cancelledState= false;
+
+        if(formatOfferings == null || formatOfferings.size() == 0) {
+            return LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY;
+        }
+
+        for (FormatOfferingInfo fo : formatOfferings) {
+             if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY, fo.getStateKey())) {
+                 draftState = true;
+             } else if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, fo.getStateKey())) {
+                 plannedState = true;
+             } else if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY, fo.getStateKey())) {
+                 offeredState = true;
+             } else if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_CANCELED_KEY, fo.getStateKey())) {
+                 cancelledState = true;
+             }
+        }
+
+        if (offeredState) {
+            return LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY;
+        }  else if(plannedState) {
+            return LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY;
+        }  else if (draftState) {
+            return LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY;
+        }
+
+        // no offered, planned, and draft state
+        if(cancelledState)  {
+            return LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY;
+        }
+        // Something wrong return null
+        return null;
     }
 }
