@@ -92,4 +92,19 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
     public void setEndTime(TimeOfDayInfo endTime) {
         this.endTime = endTime;
     }
+
+    /*
+     * An object is equal to this TimeSlotInfo if it's also a
+     * TimeSlotInfo AND the weekdays are the same (in the same order)
+     * AND the start time is same AND the end time is same.
+     */
+    public boolean equals (Object obj) {
+        TimeSlotInfo ts = (TimeSlotInfo) obj; // will throw a ClassCastException
+        for (int i=0; i<this.weekdays.size(); i++)  {
+            if (!this.weekdays.get(i).equals(ts.weekdays.get(i))) { return false; }
+        }
+        if (!this.startTime.equals(ts.startTime)) { return false; }
+        if (!this.endTime.equals(ts.endTime)) { return false; }
+        return true;
+    }
 }
