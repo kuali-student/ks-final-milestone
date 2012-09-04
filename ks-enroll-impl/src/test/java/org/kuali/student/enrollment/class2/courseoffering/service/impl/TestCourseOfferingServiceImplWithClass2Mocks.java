@@ -71,7 +71,6 @@ import static org.junit.Assert.fail;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:co-test-with-class2-mock-context.xml" })
-@Ignore //TODO This test was committed as part of the merge and it was failing. When the servive merge is redone remove the @Ignore
 public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 	private static final Logger log = Logger
@@ -259,6 +258,8 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 			Assert.assertTrue("Failed to generate registration groups", false);
 		}
 		
+		rgList = coService.getRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
+		
 		Assert.assertEquals(8, rgList.size());
 		
 		
@@ -288,7 +289,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 			CourseOfferingInfo co = coService.getCourseOffering("CO-1",
 					callContext);
 			assertNotNull(co);
-			assertEquals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY,
+			assertEquals(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0],
 					co.getStateKey());
 			assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
 					co.getTypeKey());
@@ -338,7 +339,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 			assertNotNull(co);
 			for (CourseOfferingInfo coItem : co) {
-				assertEquals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY,
+				assertEquals(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0],
 						coItem.getStateKey());
 				assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
 						coItem.getTypeKey());
@@ -366,7 +367,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 			assertTrue(co.size() > 0);
 
 			for (CourseOfferingInfo coItem : co) {
-				assertEquals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY,
+				assertEquals(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0],
 						coItem.getStateKey());
 				assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
 						coItem.getTypeKey());
@@ -405,7 +406,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 		assertNotNull(created);
 		assertEquals("CLU-1", created.getCourseId());
 		assertEquals("2012FA", created.getTermId());
-		assertEquals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY,
+		assertEquals(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0],
 				created.getStateKey());
 		assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
 				created.getTypeKey());
@@ -417,7 +418,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 		assertNotNull(retrieved);
 		assertEquals("CLU-1", retrieved.getCourseId());
 		assertEquals("2012FA", retrieved.getTermId());
-		assertEquals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY,
+		assertEquals(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0],
 				retrieved.getStateKey());
 		assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
 				retrieved.getTypeKey());
@@ -655,7 +656,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 		assertNotNull(created);
 		assertEquals("CLU-1", created.getCourseId());
 		assertEquals("2012SP", created.getTermId());
-		assertEquals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY,
+		assertEquals(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0],
 				created.getStateKey());
 		assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
 				created.getTypeKey());

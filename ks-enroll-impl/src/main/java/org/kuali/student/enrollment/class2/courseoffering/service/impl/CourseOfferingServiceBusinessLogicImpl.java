@@ -475,8 +475,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         List<RegistrationGroupInfo> existingRegistrationGroups =
                 coService.getRegistrationGroupsByFormatOffering(formatOfferingId, context);
         if (existingRegistrationGroups.size() > 0) {
-            //throw new AlreadyExistsException("Registration groups already exist for formatOfferingId=" + formatOfferingId);
-            coService.deleteRegistrationGroupsByFormatOffering(formatOfferingId, context);
+            throw new AlreadyExistsException("Registration groups already exist for formatOfferingId=" + formatOfferingId);
         }
         FormatOfferingInfo formatOffering = coService.getFormatOffering(formatOfferingId, context);
 

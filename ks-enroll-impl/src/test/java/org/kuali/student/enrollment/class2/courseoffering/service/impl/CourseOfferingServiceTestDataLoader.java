@@ -27,13 +27,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
-import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.test.TestAwareDataLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -43,33 +36,41 @@ import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.enrollment.class2.acal.service.impl.TermCodeGeneratorImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -107,7 +108,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	private CourseOfferingCodeGenerator courseCodeGenerator;
 	
 	@Resource
-	private RegistrationGroupCodeGenerator registrationGroupCodeGenerator;
+	private RegistrationGroupCodeGeneratorFactory registrationGroupCodeGeneratorFactory;
 	
 	private AtpTestDataLoader atpDataLoader;
 	private AcalTestDataLoader acalDataLoader;
@@ -434,11 +435,13 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			coService.createActivityOffering(fo1.getId(), canonicalLectureOnlyFormatLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureOnlyFormatLectureB, context);
 			
 			// Create a Registration Group
-			List activities;
-			RegistrationGroupInfo regGroupA = CourseOfferingServiceDataUtils.createRegistrationGroup(co.getId(), fo1.getId(), "2012SP", activities = Arrays.asList(new String[] {lectureOnlyFormatLectureA.getId()}), "Reg Group for Lecture A", "REG:LEC-A", false, false,50, LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
+			List<ActivityOfferingInfo> activities = Arrays.asList(new ActivityOfferingInfo[] {lectureOnlyFormatLectureA})
+					;
+			RegistrationGroupInfo regGroupA = CourseOfferingServiceDataUtils.createRegistrationGroup(co.getId(), fo1.getId(), "2012SP", Arrays.asList(new String[] {lectureOnlyFormatLectureA.getId()}), "Reg Group for Lecture A", "REG:LEC-A", false, false,50, LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
 			
 			regGroupA.setId("CO-2:LEC-ONLY:REG-GROUP-LEC-A");
 			
+			RegistrationGroupCodeGenerator registrationGroupCodeGenerator = registrationGroupCodeGeneratorFactory.makeCodeGenerator();
 			regGroupA.setName(registrationGroupCodeGenerator.generateRegistrationGroupCode(fo1, activities, null));
 			
 			

@@ -1119,7 +1119,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     private Map<String, ActivityOfferingClusterInfo> activityOfferingClusterMap = new LinkedHashMap<String, ActivityOfferingClusterInfo>();
     
     @Override
-    public ActivityOfferingClusterInfo createActivityOfferingCluster(String formatOfferingId,
+    public ActivityOfferingClusterInfo createActivityOfferingCluster(String activityOfferingClusterId,
             String activityOfferingClusterTypeKey, ActivityOfferingClusterInfo activityOfferingClusterInfo,
             ContextInfo contextInfo)
             throws DataValidationErrorException,
@@ -1129,7 +1129,19 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             OperationFailedException,
             PermissionDeniedException,
             ReadOnlyException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	
+//    	if (activityOfferingClusterInfo.getId() != null)
+//
+//    	RegistrationGroupInfo copy = new RegistrationGroupInfo(
+//				registrationGroupInfo);
+//		if (copy.getId() == null) {
+//			copy.setId(registrationGroupMap.size() + "");
+//		}
+//		copy.setMeta(newMeta(context));
+//		registrationGroupMap.put(copy.getId(), copy);
+//		return new RegistrationGroupInfo(copy);
+    	
+    	return null;
     }
 
 

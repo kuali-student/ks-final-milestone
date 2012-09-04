@@ -35,6 +35,7 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -285,7 +286,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
     	String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
         
-    	StatusInfo info = getCourseOfferingService().generateRegistrationGroupsForFormatOffering(formatOfferingId, getContextInfo());
+    	try {
+			StatusInfo info = getCourseOfferingService().generateRegistrationGroupsForFormatOffering(formatOfferingId, getContextInfo());
+		} catch (AlreadyExistsException e) {
+			StatusInfo info = getCourseOfferingService().deleteRegistrationGroupsByFormatOffering(formatOfferingId, getContextInfo());
+		}
          
     	List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(formatOfferingId, getContextInfo());
          
