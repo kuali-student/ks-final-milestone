@@ -1168,6 +1168,12 @@ public class TestSchedulingServiceMockImpl {
         assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_1_00_PM);
         assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_2_10_PM);
 
+        // test areTimeSlotsInConflict
+        assertTrue(schedulingService.areTimeSlotsInConflict("1", "2", callContext));
+        assertFalse(schedulingService.areTimeSlotsInConflict("1", "3", callContext)); // different days
+        assertTrue(schedulingService.areTimeSlotsInConflict("5", "6", callContext));
+        assertFalse(schedulingService.areTimeSlotsInConflict("1", "5", callContext));
+        assertFalse(schedulingService.areTimeSlotsInConflict("2", "6", callContext));
     }
 
     private void loadTimeSlotInfo (String ts_id, String stateKey, String typeKey, List<Integer> weekdays, Long startTimeInMillisecs, Long endTimeInMillisecs)
