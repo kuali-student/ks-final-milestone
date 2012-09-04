@@ -24,13 +24,13 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Co
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfoExtended;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -47,6 +47,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.permutation.PermutationUtils;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -114,7 +115,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     }
 
     @Override
-    public CourseOfferingInfo rolloverCourseOffering(String sourceCoId,
+    public SocRolloverResultItemInfo rolloverCourseOffering(String sourceCoId,
             String targetTermId,
             List<String> optionKeys,
             ContextInfo context) throws AlreadyExistsException,
@@ -258,15 +259,19 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     generateRegistrationGroupsForFormatOffering(targetFo.getId(), context);
                 }
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new OperationFailedException ("problem generating reg. groups", e);
             }
         }
-        // TODO: Need to get more info out of this method.  Services may need better way to allow for flexibility in
-        // TODO: returning content to adjust for changes in service calls
-        CourseOfferingInfoExtended targetCoX = new CourseOfferingInfoExtended(targetCo);
-        Map<String, Object> properties = targetCoX.getProperties();
-        properties.put(CourseOfferingInfoExtended.ACTIVITY_OFFERINGS_CREATED, new Integer(aoCount));
-        return targetCoX;
+        SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
+        item.setSourceCourseOfferingId(sourceCoId);
+        item.setTypeKey(CourseOfferingSetServiceConstants.CREATE_RESULT_ITEM_TYPE_KEY);
+        item.setStateKey(CourseOfferingSetServiceConstants.CREATED_RESULT_ITEM_STATE_KEY);
+        item.setTargetCourseOfferingId(targetCo.getId());
+        AttributeInfo aoCountAttr = new AttributeInfo();
+        item.getAttributes().add(aoCountAttr);
+        aoCountAttr.setKey(CourseOfferingSetServiceConstants.ACTIVITY_OFFERINGS_CREATED_SOC_ITEM_DYNAMIC_ATTRIBUTE);
+        aoCountAttr.setValue("" + aoCount);
+        return item;
     }
 
     private CourseOfferingInfo generateTargetCourseOffering(CourseOfferingInfo sourceCo, String targetTermId, List<String> optionKeys, ContextInfo context)

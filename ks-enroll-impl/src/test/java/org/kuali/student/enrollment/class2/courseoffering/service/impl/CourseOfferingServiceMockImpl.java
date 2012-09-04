@@ -44,6 +44,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -1458,7 +1459,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	}
 
 	@Override
-	public CourseOfferingInfo rolloverCourseOffering(
+	public SocRolloverResultItemInfo rolloverCourseOffering(
 			String sourceCourseOfferingId, String targetTermId,
 			List<String> optionKeys, ContextInfo context)
 			throws AlreadyExistsException, DataValidationErrorException,

@@ -60,6 +60,7 @@ import javax.xml.namespace.QName;
 import java.util.*;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 
 @Controller
 @RequestMapping(value = "/courseOfferingManagement")
@@ -378,9 +379,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         //Generate Ids
         optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
 
-        CourseOfferingInfo courseOffering =
-            getCourseOfferingService().rolloverCourseOffering(
-                courseOfferingInfo.getId(), copyWrapper.getTermId(), optionKeys, getContextInfo());
+        SocRolloverResultItemInfo item = getCourseOfferingService().rolloverCourseOffering(
+                courseOfferingInfo.getId(), 
+                copyWrapper.getTermId(), 
+                optionKeys, 
+                getContextInfo());
+        CourseOfferingInfo courseOffering = getCourseOfferingService ().getCourseOffering(item.getTargetCourseOfferingId(), getContextInfo ());
         ExistingCourseOffering newWrapper = new ExistingCourseOffering(courseOffering);
         CourseInfo course = getCourseInfo(copyWrapper.getCourseOfferingCode());
         newWrapper.setCredits(ViewHelperUtil.getCreditCount(courseOffering, course));

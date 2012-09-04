@@ -27,6 +27,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.jws.WebParam;
 import java.util.List;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 
 
 public class CourseOfferingServiceDecorator implements CourseOfferingService {
@@ -518,7 +519,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public CourseOfferingInfo rolloverCourseOffering(String sourceCoId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
+    public SocRolloverResultItemInfo rolloverCourseOffering(String sourceCoId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().rolloverCourseOffering(sourceCoId, targetTermId, optionKeys, context);
