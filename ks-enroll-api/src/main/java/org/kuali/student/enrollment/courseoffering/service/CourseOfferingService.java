@@ -1695,7 +1695,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * offering cluster cascaded style would also delete all the registration groups associated with it.
      *
      * @param activityOfferingClusterId the Id of the ActivityOfferingCluster to be deleted
-     * @param context            Context information containing the principalId
+     * @param contextInfo            Context information containing the principalId
      *                           and locale information about the caller of
      *                           service operation
      * @return status of the operation (success, failed)
