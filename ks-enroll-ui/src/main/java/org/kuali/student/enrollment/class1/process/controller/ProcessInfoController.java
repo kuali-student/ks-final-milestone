@@ -134,7 +134,6 @@ public class ProcessInfoController extends UifControllerBase {
                     if (processInfos.size() > 0) {
                         GlobalVariables.getMessageMap().putErrorForSectionId("processName", " error.enroll.process.save.failed",processInfo.getName());
                         form.setIsSaveSuccess(false);
-
                         return getUIFModelAndView(form);
                     }
                 }

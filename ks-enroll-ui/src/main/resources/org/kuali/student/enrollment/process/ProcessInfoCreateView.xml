@@ -104,7 +104,7 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{isSaveSuccess ? 'Update' : 'Save'}" p:methodToCall="save"/>
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{isSaveSuccess ? 'Update' : 'Create Process Template'}" p:methodToCall="save"/>
                             <bean parent="Uif-ActionLink" p:actionLabel="@{isSaveSuccess ? 'Close' : 'Cancel'}" p:methodToCall="close"/>
                         </list>
                     </property>
