@@ -104,6 +104,8 @@ public class RegistrationGroupInfo
 
         this.formatOfferingId = registrationGroup.getFormatOfferingId();
         this.courseOfferingId = registrationGroup.getCourseOfferingId();
+        this.activityOfferingClusterId = registrationGroup.getActivityOfferingClusterId();
+        
         this.termId = registrationGroup.getTermId();
         
         this.registrationCode = registrationGroup.getRegistrationCode();
