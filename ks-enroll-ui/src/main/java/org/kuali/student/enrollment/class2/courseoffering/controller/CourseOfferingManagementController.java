@@ -34,6 +34,8 @@ import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -58,6 +60,7 @@ import javax.xml.namespace.QName;
 import java.util.*;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 
 @Controller
 @RequestMapping(value = "/courseOfferingManagement")
@@ -282,7 +285,16 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=generateUnconstrainedRegGroups")
     public ModelAndView generateUnconstrainedRegGroups (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().generateRegistrationGroupsForFormatOffering(theForm.getFormatOfferingIdForViewRG(), getContextInfo());
+    	String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
+        
+    	try {
+			StatusInfo info = getCourseOfferingService().generateRegistrationGroupsForFormatOffering(formatOfferingId, getContextInfo());
+		} catch (AlreadyExistsException e) {
+			StatusInfo info = getCourseOfferingService().deleteRegistrationGroupsByFormatOffering(formatOfferingId, getContextInfo());
+		}
+         
+    	List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(formatOfferingId, getContextInfo());
+         
         List<ActivityOfferingWrapper> filteredAOs = theForm.getFilteredAOsForSelectedFO();
         List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, filteredAOs);
         theForm.setFilteredRGsForSelectedFO(filteredRGs);
@@ -367,9 +379,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         //Generate Ids
         optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
 
-        CourseOfferingInfo courseOffering =
-            getCourseOfferingService().rolloverCourseOffering(
-                courseOfferingInfo.getId(), copyWrapper.getTermId(), optionKeys, getContextInfo());
+        SocRolloverResultItemInfo item = getCourseOfferingService().rolloverCourseOffering(
+                courseOfferingInfo.getId(), 
+                copyWrapper.getTermId(), 
+                optionKeys, 
+                getContextInfo());
+        CourseOfferingInfo courseOffering = getCourseOfferingService ().getCourseOffering(item.getTargetCourseOfferingId(), getContextInfo ());
         ExistingCourseOffering newWrapper = new ExistingCourseOffering(courseOffering);
         CourseInfo course = getCourseInfo(copyWrapper.getCourseOfferingCode());
         newWrapper.setCredits(ViewHelperUtil.getCreditCount(courseOffering, course));

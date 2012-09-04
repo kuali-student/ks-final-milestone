@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
@@ -110,12 +111,10 @@ public class TestCourseOfferingSetServiceMockImpl {
         orig.setName("test name updated");
         orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1 updated",
                 "description formatted 1 updated"));
-        orig.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
         new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
                 "value1Updated");
-        info = this.socService.updateSoc(orig.getId(), orig,
-                callContext);
-        assertNotNull(info);
+        info = this.socService.updateSoc(orig.getId(), orig, callContext);
+        assertNotSame (orig, info);
         assertEquals(orig.getId(), info.getId());
         assertEquals(orig.getName(), info.getName());
         assertNotNull(info.getDescr());
@@ -135,7 +134,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         // test get after you do the update
         orig = info;
         info = this.socService.getSoc(orig.getId(), callContext);
-        assertNotNull(info);
+        assertNotSame (orig, info);
         assertEquals(orig.getId(), info.getId());
         assertEquals(orig.getName(), info.getName());
         assertNotNull(info.getDescr());
@@ -152,10 +151,40 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getMeta().getUpdateId(), info.getMeta().getUpdateId());
         assertEquals(orig.getMeta().getUpdateTime(), info.getMeta().getUpdateTime());
 
+        // update the state
+        orig = info;
+        orig.setStateKey(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY);        
+        try {
+            info = this.socService.updateSoc(orig.getId(), orig, callContext);
+            fail("should have gotten readonly exception");
+        } catch (ReadOnlyException ex) {
+            // expected
+        }
+        StatusInfo status = this.socService.updateSocState(orig.getId(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, callContext);
+        assertEquals (Boolean.TRUE, status.getIsSuccess());
+        info = this.socService.getSoc(orig.getId(), callContext);
+        assertNotSame (orig, info);
+        assertEquals(orig.getId(), info.getId());
+        assertEquals(orig.getName(), info.getName());
+        assertNotNull(info.getDescr());
+        assertEquals(orig.getDescr().getPlain(), info.getDescr().getPlain());
+        assertEquals(orig.getDescr().getFormatted(), info.getDescr().getFormatted());
+        assertEquals(orig.getTypeKey(), info.getTypeKey());
+        assertEquals(orig.getStateKey(), info.getStateKey());
+        assertEquals(orig.getTermId(), info.getTermId());
+        assertEquals(orig.getSubjectArea(), info.getSubjectArea());
+        assertEquals (3, info.getAttributes().size());
+        assertNotNull (info.getAttributeValue(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY));
+//        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        assertNotNull(info.getMeta());
+        assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
+        assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
+        assertNotNull(info.getMeta().getUpdateId());
+        assertNotNull(info.getMeta().getUpdateTime());
+
         // delete
         orig = info;
-        StatusInfo status = this.socService.deleteSoc(orig.getId(),
-                callContext);
+        status = this.socService.deleteSoc(orig.getId(), callContext);
         assertEquals(Boolean.TRUE, status.getIsSuccess());
 
         // try getting again
@@ -312,7 +341,6 @@ public class TestCourseOfferingSetServiceMockImpl {
         }
     }
 
-    
     private void testCRUDResultItem() throws Exception {
         SocInfo sourceSoc = new SocInfo();
         sourceSoc.setName("source name");
@@ -344,7 +372,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         result.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
         result.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
         result = socService.createSocRolloverResult(result.getTypeKey(), result, callContext);
-        
+
         // create
         SocRolloverResultItemInfo orig = new SocRolloverResultItemInfo();
         orig.setSocRolloverResultId(result.getId());
@@ -449,14 +477,14 @@ public class TestCourseOfferingSetServiceMockImpl {
             // expected
         }
     }
-    
+
     private void compareStringList(List<String> list1, List<String> list2) {
         assertEquals(list1.size(), list2.size());
         List lst1 = new ArrayList(list1);
         Collections.sort(lst1);
         List lst2 = new ArrayList(list2);
         Collections.sort(lst2);
-        for (int i = 0; i < lst1.size(); i++) {
+        for (int i = 0; i < lst1.size(); i ++) {
             assertEquals(i + "", lst1.get(i), lst2.get(i));
         }
     }

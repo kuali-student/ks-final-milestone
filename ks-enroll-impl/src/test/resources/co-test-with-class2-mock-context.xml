@@ -13,11 +13,12 @@
           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-	<import resource="classpath:META-INF/default-property-config-context-test.xml" />
+<context:annotation-config/>
 
-	<import resource="classpath:ks-data-dictionary-services-configuration.xml" />
-    <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
-	
+	 <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
+    <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
+    <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
+    
 	<bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
 		<property name="properties" value="${propertiesPrefix.systemProperties}" />
 	</bean>
@@ -52,10 +53,8 @@
     
 	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader" autowire="byType" />
 	 
-<!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
-	 <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
+	<bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
 
-	<bean id="courseCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl" />
-	
+	<bean id="courseCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl" />		
 </beans>
 

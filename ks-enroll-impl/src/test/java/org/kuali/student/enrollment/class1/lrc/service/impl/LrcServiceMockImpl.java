@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -42,7 +43,7 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.lrc.service.LrcServiceBusinessLogic;
 import org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl;
 
-public class LrcServiceMockImpl implements LRCService {
+public class LrcServiceMockImpl implements LRCService, MockService {
 
     private LrcServiceBusinessLogic lrcServiceBusinessLogic;
 
@@ -57,6 +58,14 @@ public class LrcServiceMockImpl implements LRCService {
             impl.setLrcService(this);
         }
     }
+
+    @Override
+    public void clear() {
+        this.resultScaleMap.clear();
+        this.resultValueMap.clear();
+        this.resultValuesGroupMap.clear();
+    }
+    
 
     @Override
     public ResultValuesGroupInfo getResultValuesGroup(String resultValuesGroupKey,

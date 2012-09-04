@@ -12,7 +12,6 @@ import java.util.Map;
 
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfoExtended;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -133,8 +132,8 @@ public class CourseOfferingRolloverRunner implements Runnable {
                 this.result = socService.getSocRolloverResult(result.getId(), context);
                 this.result.setStateKey(CourseOfferingSetServiceConstants.ABORTED_RESULT_STATE_KEY);
                 this.result.setDateCompleted(new Date());
-                this.result.setMessage(new RichTextHelper().fromPlain("Got an unexpected exception running rollover:\n" +
-                        ex.toString()));
+                this.result.setMessage(new RichTextHelper().fromPlain("Got an unexpected exception running rollover:\n"
+                        + ex.toString()));
                 this.socService.updateSocRolloverResult(result.getId(), result, context);
             } catch (Exception ex1) {
                 logger.fatal(result, ex);
@@ -176,21 +175,22 @@ public class CourseOfferingRolloverRunner implements Runnable {
             logger.info("Processing: " + sourceCoId);
             // System.out.println("processing: " + sourceCoId);
             try {
-                Object[] result = rolloverOneCourseOfferingReturningItem(sourceCoId);
-                SocRolloverResultItemInfo item = (SocRolloverResultItemInfo) result[0];
+                SocRolloverResultItemInfo item = rolloverOneCourseOfferingReturningItem(sourceCoId);
                 items.add(item);
                 reportProgressIfModulo(items, sourceCoIdsHandled);
                 if (!CourseOfferingSetServiceConstants.SUCCESSFUL_RESULT_ITEM_STATES.contains(item.getStateKey())) {
                     errors++;
                     if (this.haltErrorsMax != -1) {
                         if (errors > this.haltErrorsMax) {
-                            throw new OperationFailedException("Too many errors, exceeded the halt threshold: " + errors +
-                                    " out of " + sourceCoIdsHandled + " course offerings rolled over");
+                            throw new OperationFailedException("Too many errors, exceeded the halt threshold: " + errors
+                                    + " out of " + sourceCoIdsHandled + " course offerings rolled over");
                         }
                     }
                 }
-                if (result.length > 1) {
-                    aoRolledOver += (Integer) result[1];
+                else {
+                    String aoCountStr = item.getAttributeValue(CourseOfferingSetServiceConstants.ACTIVITY_OFFERINGS_CREATED_SOC_ITEM_DYNAMIC_ATTRIBUTE);
+                    int aoCount = Integer.parseInt(aoCountStr);
+                    aoRolledOver += aoCount;
                 }
             } catch (Exception ex) {
                 // log some conetxt for the exception
@@ -247,13 +247,15 @@ public class CourseOfferingRolloverRunner implements Runnable {
         }
     }
 
-    // The return type is a hack, but I need more info out of this private method. cclin
-    private Object[] rolloverOneCourseOfferingReturningItem(String sourceCoId) throws Exception {
-        CourseOfferingInfo targetCo = null;
+    private SocRolloverResultItemInfo rolloverOneCourseOfferingReturningItem(String sourceCoId) throws Exception {
         String error = null;
         try {
-            targetCo = this.coService.rolloverCourseOffering(sourceCoId, this.result.getTargetTermId(), this.result.getOptionKeys(),
+            SocRolloverResultItemInfo item = this.coService.rolloverCourseOffering(sourceCoId,
+                    this.result.getTargetTermId(),
+                    this.result.getOptionKeys(),
                     context);
+            item.setSocRolloverResultId(result.getId());
+            return item;
         } catch (AlreadyExistsException ex) {
             error = ex.getMessage();
         } catch (DataValidationErrorException ex) {
@@ -269,38 +271,14 @@ public class CourseOfferingRolloverRunner implements Runnable {
                 error += ": (" + mesg + ")";
             }
         }
+        // got an error so process it
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
         item.setSocRolloverResultId(result.getId());
         item.setSourceCourseOfferingId(sourceCoId);
         item.setTypeKey(CourseOfferingSetServiceConstants.CREATE_RESULT_ITEM_TYPE_KEY);
-        if (error == null) {
-            item.setStateKey(CourseOfferingSetServiceConstants.CREATED_RESULT_ITEM_STATE_KEY);
-            item.setTargetCourseOfferingId(targetCo.getId());
-            // Compute AO count
-            CourseOfferingInfoExtended coExtended = null;
-            try {
-                coExtended = (CourseOfferingInfoExtended) targetCo;
-            } catch (ClassCastException e) {
-                Object[] result = new Object[1];
-                result[0] = item;
-                return result;
-            }
-            Integer aoCount = 0;
-            if (coExtended != null) {
-                Map<String, Object> properties = coExtended.getProperties();
-                aoCount = (Integer) properties.get(CourseOfferingInfoExtended.ACTIVITY_OFFERINGS_CREATED);
-            }
-            // Return back the item and the AO count
-            Object[] result = new Object[2];
-            result[0] = item;
-            result[1] = aoCount;
-            return result;
-        }
         item.setStateKey(CourseOfferingSetServiceConstants.ERROR_RESULT_ITEM_STATE_KEY);
         item.setTargetCourseOfferingId(null);
         item.setMessage(new RichTextHelper().fromPlain(error));
-        Object[] result = new Object[1];
-        result[0] = item;
-        return result;
+        return item;
     }
 }

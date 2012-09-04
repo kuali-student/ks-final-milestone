@@ -1,21 +1,21 @@
 /**
- * Copyright 2012 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2012 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  *
  * Created by Charles on 2/28/12
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import java.text.SimpleDateFormat;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
@@ -47,6 +47,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.kuali.student.enrollment.class2.courseofferingset.model.*;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 
 public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
@@ -106,11 +108,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new InvalidParameterException("typeKey does not match the value in the info object");
         }
         SocEntity entity = new SocEntity(info);
-        entity.setId(info.getId());
-        entity.setSocType(typeKey);
-        
         entity.setEntityCreated(context);
-        
         socDao.persist(entity);
         return entity.toDto();
     }
@@ -127,9 +125,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         SocRolloverResultEntity entity = new SocRolloverResultEntity(info);
         entity.setId(info.getId());
         entity.setSocRorType(typeKey);
-       
+
         entity.setEntityCreated(context);
-        
+
         socRorDao.persist(entity);
         return entity.toDto();
     }
@@ -146,9 +144,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         SocRolloverResultItemEntity entity = new SocRolloverResultItemEntity(info);
         entity.setId(info.getId());
         entity.setSocRorType(typeKey);
-       
+
         entity.setEntityCreated(context);
-        
+
         socRorItemDao.persist(entity);
         return entity.toDto();
     }
@@ -171,9 +169,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             SocRolloverResultItemEntity entity = new SocRolloverResultItemEntity(info);
             entity.setId(info.getId());
             entity.setSocRorType(typeKey);
-           
+
             entity.setEntityCreated(context);
-            
+
             socRorItemDao.persist(entity);
         }
         return new Integer(count);
@@ -557,9 +555,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo scheduleSoc(String socId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public StatusInfo startScheduleSoc(String socId, List<String> optionKeys, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented yet");
+        throw new OperationFailedException("implement in M5");
     }
 
     @Override
@@ -571,11 +569,15 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         if (entity == null) {
             throw new DoesNotExistException(id);
         }
+        if (!entity.getSocState().equals (info.getStateKey())) {
+            throw new ReadOnlyException ("state key can only be changed by calling updateSocState");
+        }
         entity.fromDTO(info);
-       
+
         entity.setEntityUpdated(context);
-        
+
         entity = socDao.merge(entity);
+        socDao.getEm().flush(); // need to flush to get the version ind to update
         return entity.toDto();
     }
 
@@ -590,11 +592,11 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new DoesNotExistException(id);
         }
         entity.setItemsProcessed(itemsProcessed);
-       
+
         entity.setEntityUpdated(context);
-        
+
         Set<SocRolloverResultAttributeEntity> resultAttributeEntities = entity.getAttributes();
-        for (SocRolloverResultAttributeEntity attr: resultAttributeEntities) {
+        for (SocRolloverResultAttributeEntity attr : resultAttributeEntities) {
             if (CourseOfferingSetServiceConstants.DATE_COMPLETED_RESULT_DYNATTR_KEY.equals(attr.getKey())) {
                 // Update the date completed
                 attr.setValue(TransformUtility.dateTimeToDynamicAttributeString(new Date()));
@@ -628,9 +630,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         }
         entity.setOptions(new HashSet<SocRolloverResultOptionEntity>(notDeletedOptions));
         entity.fromDTO(info);
-       
+
         entity.setEntityUpdated(context);
-        
+
         socRorDao.merge(entity);
         return entity.toDto();
     }
@@ -646,9 +648,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new DoesNotExistException(id);
         }
         entity.fromDTO(info);
-       
+
         entity.setEntityUpdated(context);
-        
+
         socRorItemDao.merge(entity);
         return entity.toDto();
     }
@@ -697,5 +699,54 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
         this.criteriaLookupService = criteriaLookupService;
+    }
+
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public StatusInfo updateSocState(@WebParam(name = "socId") String socId,
+            @WebParam(name = "nextStateKey") String nextStateKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        SocEntity entity = socDao.find(socId);
+        if (entity == null) {
+            throw new DoesNotExistException(socId);
+        }
+        entity.setSocState(nextStateKey);
+        entity.setEntityUpdated(contextInfo);
+        // add the state change to the log
+        // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        Date date = contextInfo.getCurrentDate();
+        AttributeInfo attr = new AttributeInfo(nextStateKey, formatter.format(date));
+        entity.getAttributes().add(new SocAttributeEntity(attr, entity));
+        entity = socDao.merge(entity);
+        socDao.getEm().flush(); // need to flush to get the version ind to update
+        StatusInfo status = new StatusInfo ();
+        status.setSuccess(Boolean.TRUE);
+        return status;
+    }
+
+    @Override
+    public StatusInfo updateSocRolloverResultState(
+            @WebParam(name = "socId") String socId,
+            @WebParam(name = "nextStateKey") String nextStateKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("To be Implemented in M5");
+    }
+
+    @Override
+    public StatusInfo updateSocRolloverResultItemState(
+            @WebParam(name = "socId") String socId,
+            @WebParam(name = "nextStateKey") String nextStateKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("To be Implemented in M5");
     }
 }

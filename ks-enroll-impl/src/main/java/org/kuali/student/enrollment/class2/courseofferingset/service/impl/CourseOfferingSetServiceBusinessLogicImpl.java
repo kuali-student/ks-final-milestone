@@ -151,17 +151,10 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
             }
         } else { // There is already a target SOC, so re-use it?
             // TODO: if foundTargetSoc is true, should we do more cleanup?
-            targetSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY); // Make it draft in the new term
-            try {
-                // Persist the draft state
-                this._getSocService().updateSoc(targetSoc.getId(), targetSoc, context);
-            } catch (DataValidationErrorException ex) {
-                throw new OperationFailedException("Unexpected", ex);
-            } catch (ReadOnlyException ex) {
-                throw new OperationFailedException("Unexpected", ex);
-            } catch (VersionMismatchException ex) {
-                throw new OperationFailedException("Unexpected", ex);
-            }
+            if (!targetSoc.getStateKey().equals(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY))
+            // Make it draft in the new term            
+            // Persist the draft state
+            this._getSocService().updateSocState(targetSoc.getId(), CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY, context);
         }
 
 

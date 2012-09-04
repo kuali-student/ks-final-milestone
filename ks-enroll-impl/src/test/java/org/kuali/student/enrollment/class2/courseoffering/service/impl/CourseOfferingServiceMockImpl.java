@@ -15,16 +15,29 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.jws.WebParam;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -33,9 +46,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -52,15 +63,10 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		MockService {
@@ -68,6 +74,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	private static Logger log = Logger
 			.getLogger(CourseOfferingServiceMockImpl.class);
 
+	
 	@Resource
 	private CourseService courseService;
 	
@@ -90,6 +97,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		this.seatPoolDefinitionMap.clear();
 		
 		activityOfferingToSeatPoolMap.clear();
+		
+		this.activityOfferingClusterMap.clear();
 		
 	}
 
@@ -214,7 +223,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		RegistrationGroupInfo copy = new RegistrationGroupInfo(
 				registrationGroupInfo);
 		if (copy.getId() == null) {
-			copy.setId(registrationGroupMap.size() + "");
+			copy.setId(UUIDHelper.genStringUUID());
 		}
 		copy.setMeta(newMeta(context));
 		registrationGroupMap.put(copy.getId(), copy);
@@ -821,6 +830,16 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			throw new OperationFailedException("Dependent object still exists for Activity Offering with id = " + activityOfferingId, e);
 		}
 	}
+	
+	
+
+	@Override
+	public StatusInfo startSchedulingActivityOffering(String activityOfferingId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new OperationFailedException("implement for M5");
+	}
 
 	@Override
 	public List<ValidationResultInfo> validateActivityOffering(
@@ -945,17 +964,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	// The LinkedHashMap is just so the values come back in a predictable order
 	private Map<String, RegistrationGroupInfo> registrationGroupMap = new LinkedHashMap<String, RegistrationGroupInfo>();
 
-	
-
-	@Override
-	public List<RegistrationGroupInfo> generateRegistrationGroupsForCluster(
-            String registrationGroupTemplateId, ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new OperationFailedException(
-				"generateRegistrationGroupsForFormatOffering has not been implemented");
-	}
 
 	@Override
 	public RegistrationGroupInfo updateRegistrationGroup(
@@ -1056,7 +1064,19 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public StatusInfo deleteRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("unsupported");
+    
+    	Iterator<RegistrationGroupInfo> rgIter = this.registrationGroupMap.values().iterator();
+    	
+    	while (rgIter.hasNext()) {
+
+    		RegistrationGroupInfo rg = rgIter.next();
+		
+    		if (rg.getActivityOfferingClusterId().equals(activityOfferingClusterId)) 
+    			rgIter.remove();
+    	}
+
+    	return successStatus();
+    	
     }
 
     @Override
@@ -1081,9 +1101,17 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// Registration Group Templates are out of scope for M4.
-		throw new OperationFailedException(
-				"getActivityOfferingTypesForActivityType has not been implemented");
+		
+		ActivityOfferingClusterInfo aoc = this.activityOfferingClusterMap
+				.get(activityOfferingClusterId);
+
+		if (aoc == null)
+			throw new DoesNotExistException(
+					"No ActivityOfferingCluster for id = "
+							+ activityOfferingClusterId);
+
+		return aoc;
+			
 	}
 
     @Override
@@ -1091,18 +1119,47 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         throw new OperationFailedException("unsupported");
     }
 
-    @Override
-    public List<ValidationResultInfo> validateActivityOfferingCluster(String validationTypeKey, String formatOfferingId,
-            String activityOfferingClusterTypeKey, ActivityOfferingInfo activityOfferingClusterInfo, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException {// Registration Group Templates are out of scope for M4.
-        return new ArrayList<ValidationResultInfo>();
-    }
+   
 
     @Override
-    public ActivityOfferingClusterInfo createActivityOfferingCluster(String formatOfferingId,
+	public List<ValidationResultInfo> validateActivityOfferingCluster(
+			@WebParam(name = "validationTypeKey") String validationTypeKey,
+			@WebParam(name = "formatOfferingId") String formatOfferingId,
+			@WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+    	// Note: validation is handled in the CourseOfferingServiceValidationDecorator
+		 return new ArrayList<ValidationResultInfo>();
+	}
+
+	@Override
+	public StatusInfo deleteActivityOfferingClusterCascaded(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		List<RegistrationGroupInfo> rgList = getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+		
+		for (RegistrationGroupInfo rg : rgList) {
+			deleteRegistrationGroup(rg.getId(), contextInfo);
+		}
+		
+		try {
+			deleteActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+		} catch (DependentObjectsExistException e) {
+			throw new OperationFailedException("unexpected reg group exists for activityOfferingCluster = " + activityOfferingClusterId);
+		}
+		
+		return successStatus();
+	}
+
+	private Map<String, ActivityOfferingClusterInfo> activityOfferingClusterMap = new LinkedHashMap<String, ActivityOfferingClusterInfo>();
+    
+    @Override
+    public ActivityOfferingClusterInfo createActivityOfferingCluster(String activityOfferingClusterId,
             String activityOfferingClusterTypeKey, ActivityOfferingClusterInfo activityOfferingClusterInfo,
             ContextInfo contextInfo)
             throws DataValidationErrorException,
@@ -1112,12 +1169,24 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             OperationFailedException,
             PermissionDeniedException,
             ReadOnlyException {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+    	ActivityOfferingClusterInfo copy = new ActivityOfferingClusterInfo(
+				activityOfferingClusterInfo);
+    	
+		if (copy.getId() == null)
+			copy.setId(UUIDHelper.genStringUUID());
+		
+		copy.setMeta(newMeta(contextInfo));
+		
+		activityOfferingClusterMap.put(copy.getId(), copy);
+		
+		return copy;
+		
     }
 
 
     @Override
-    public List<ValidationResultInfo> verifyActivityOfferingClusterForGeneration(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> verifyActivityOfferingClusterForGeneration(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("unsupported");
     }
 
@@ -1137,13 +1206,19 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
 	@Override
 	public StatusInfo deleteActivityOfferingCluster(
-            String registrationGroupTemplateId, ContextInfo context)
+            String activityOfferingClusterId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// Registration Group Templates are out of scope for M4.
-		throw new OperationFailedException(
-				"getActivityOfferingTypesForActivityType has not been implemented");
+			PermissionDeniedException, DependentObjectsExistException {
+
+		// note validation is in the validation decorator.
+		ActivityOfferingClusterInfo aoc = this.activityOfferingClusterMap.remove(activityOfferingClusterId);
+		
+		if (aoc == null)
+			throw new DoesNotExistException("No ActivityOfferingCluster for Id = " + activityOfferingClusterId);
+		
+		return successStatus();
+		
 	}
 
 	@Override
@@ -1406,7 +1481,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	}
 
 	@Override
-	public CourseOfferingInfo rolloverCourseOffering(
+	public SocRolloverResultItemInfo rolloverCourseOffering(
 			String sourceCourseOfferingId, String targetTermId,
 			List<String> optionKeys, ContextInfo context)
 			throws AlreadyExistsException, DataValidationErrorException,
@@ -1450,6 +1525,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	}
 
 	private Map<String, List<String>>activityOfferingToSeatPoolMap = new HashMap<String, List<String>>();
+
+	
 
 	@Override
 	public StatusInfo addSeatPoolDefinitionToActivityOffering(
@@ -1506,11 +1583,11 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	}
 
 	@Override
-	public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(
+	public StatusInfo generateRegistrationGroupsForFormatOffering(
 			String formatOfferingId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, AlreadyExistsException {
+			PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
 
 		return businessLogic.generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
 	}
@@ -1531,4 +1608,238 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         }
         return list;
     }
+
+	@Override
+	public StatusInfo updateCourseOfferingState(
+			@WebParam(name = "courseOfferingId") String courseOfferingId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		try {
+			/*
+			 * get won't work because it doesn't return the map bound instance.
+			 * We need to get that instance ourselves manually.
+			 */
+			CourseOfferingInfo co = this.courseOfferingMap.get(courseOfferingId);
+			
+			if (co == null)
+				throw new DoesNotExistException("No CourseOffering for id= " + courseOfferingId);
+			
+			co.setStateKey(nextStateKey);
+			
+			return successStatus();
+			
+		} catch (Exception e) {
+			throw new OperationFailedException("updateCourseOfferingState (id=" + courseOfferingId + ", nextStateKey=" + nextStateKey, e);
+		}
+	}
+
+	@Override
+	public StatusInfo updateFormatOfferingState(
+			@WebParam(name = "formatOfferingId") String formatOfferingId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, MissingParameterException, OperationFailedException
+			 {
+		try {
+			/*
+			 * get won't work because it doesn't return the map bound instance.
+			 * We need to get that instance ourselves manually.
+			 */
+			FormatOfferingInfo fo = this.formatOfferingMap.get(formatOfferingId);
+			
+			if (fo == null)
+				throw new DoesNotExistException("No FormatOffering for id= " + formatOfferingId);
+			
+			fo.setStateKey(nextStateKey);
+			
+			return successStatus();
+			
+		} catch (Exception e) {
+			throw new OperationFailedException("updateFormatOfferingState (id=" + formatOfferingId + ", nextStateKey=" + nextStateKey, e);
+		}
+	}
+
+	@Override
+	public StatusInfo updateActivityOfferingState(
+			@WebParam(name = "activityOfferingId") String activityOfferingId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		try {
+			/*
+			 * get won't work because it doesn't return the map bound instance.
+			 * We need to get that instance ourselves manually.
+			 */
+			ActivityOfferingInfo ao = this.activityOfferingMap.get(activityOfferingId);
+			
+			if (ao == null)
+				throw new DoesNotExistException("No ActivityOffering for id= " + activityOfferingId);
+			
+			ao.setStateKey(nextStateKey);
+			
+			return successStatus();
+			
+		} catch (Exception e) {
+			throw new OperationFailedException("updateActivityOfferingState (id=" + activityOfferingId + ", nextStateKey=" + nextStateKey, e);
+		}
+	}
+
+	@Override
+	public StatusInfo updateRegistrationGroupState(
+			@WebParam(name = "registrationGroupId") String registrationGroupId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		try {
+			/*
+			 * get won't work because it doesn't return the map bound instance.
+			 * We need to get that instance ourselves manually.
+			 */
+			RegistrationGroupInfo rg = this.registrationGroupMap.get(registrationGroupId);
+			
+			if (rg == null)
+				throw new DoesNotExistException("No RegistrationGroup for id= " + registrationGroupId);
+			
+			rg.setStateKey(nextStateKey);
+			
+			return successStatus();
+			
+		} catch (Exception e) {
+			throw new OperationFailedException("updateRegistrationGroupState (id=" + registrationGroupId + ", nextStateKey=" + nextStateKey, e);
+		}
+	}
+
+	@Override
+	public StatusInfo updateActivityOfferingClusterState(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		try {
+			/*
+			 * get won't work because it doesn't return the map bound instance.
+			 * We need to get that instance ourselves manually.
+			 */
+			ActivityOfferingClusterInfo aoc = this.activityOfferingClusterMap.get(activityOfferingClusterId);
+			
+			if (aoc == null)
+				throw new DoesNotExistException("No ActivityOfferingCluster for id= " + activityOfferingClusterId);
+			
+			aoc.setStateKey(nextStateKey);
+			
+			return successStatus();
+			
+		} catch (Exception e) {
+			throw new OperationFailedException("updateActivityOfferingClusterState (id=" + activityOfferingClusterId + ", nextStateKey=" + nextStateKey, e);
+		}
+	}
+
+	@Override
+	public StatusInfo updateSeatPoolDefinitionState(
+			@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
+			@WebParam(name = "nextStateKey") String nextStateKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		try {
+			/*
+			 * get won't work because it doesn't return the map bound instance.
+			 * We need to get that instance ourselves manually.
+			 */
+			SeatPoolDefinitionInfo spd = this.seatPoolDefinitionMap.get(seatPoolDefinitionId);
+			
+			if (spd == null)
+				throw new DoesNotExistException("No SeatPoolDefinition for id= " + seatPoolDefinitionId);
+			
+			spd.setStateKey(nextStateKey);
+			
+			return successStatus();
+			
+		} catch (Exception e) {
+			throw new OperationFailedException("updateSeatPoolDefinitionState (id=" + seatPoolDefinitionId + ", nextStateKey=" + nextStateKey, e);
+		}
+	}
+
+	@Override
+	public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOfferingCluster(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		List<RegistrationGroupInfo>regGroups = new ArrayList<RegistrationGroupInfo>();
+		
+		for (RegistrationGroupInfo regGroup : this.registrationGroupMap.values()) {
+			
+			if (regGroup.getActivityOfferingClusterId().equals(activityOfferingClusterId))
+				regGroups.add(regGroup);
+		}
+		
+		return regGroups;
+	}
+
+	@Override
+	public List<ActivityOfferingInfo> getActivityOfferingsByCluster(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		List<ActivityOfferingInfo> aoList = new ArrayList<ActivityOfferingInfo>();
+		
+		ActivityOfferingClusterInfo aoc = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+		
+		for (ActivityOfferingSetInfo aocSet : aoc.getActivityOfferingSets()) {
+			
+			List<ActivityOfferingInfo> setAos = getActivityOfferingsByIds(aocSet.getActivityOfferingIds(), contextInfo);
+		
+			aoList.addAll(setAos);
+		}
+		
+		return aoList;
+	}
+
+	@Override
+	public List<String> getActivityOfferingClustersIdsByFormatOffering(
+			@WebParam(name = "formatOfferingId") String formatOfferingId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		List<String>aocIdList = new ArrayList<String>();
+		
+		for (ActivityOfferingClusterInfo aoc : this.activityOfferingClusterMap.values()) {
+		
+			if (aoc.getFormatOfferingId().equals(formatOfferingId)) {
+				aocIdList.add(aoc.getId());
+			}
+		}
+		return aocIdList;
+		
+	}
+
+	@Override
+	public StatusInfo generateRegistrationGroupsForCluster(
+			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, AlreadyExistsException,
+			DataValidationErrorException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return businessLogic.generateRegistrationGroupsForCluster(activityOfferingClusterId, contextInfo);
+	}
+    
+	
+	
+    
 }

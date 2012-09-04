@@ -40,6 +40,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-businesslogic-test-with-mocks-context.xml"})
@@ -136,8 +137,11 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
         
         // now try to rollover to new term
         TermInfo targetTerm = acalService.getTerm("2013SP", callContext);
-        CourseOfferingInfo targetCo = coService.rolloverCourseOffering(sourceCo.getId(), targetTerm.getId(), optionKeys,
+        SocRolloverResultItemInfo item = coService.rolloverCourseOffering(sourceCo.getId(), 
+                targetTerm.getId(), 
+                optionKeys,
                 callContext);
+        CourseOfferingInfo targetCo = coService.getCourseOffering(item.getTargetCourseOfferingId(), callContext);
         assertNotNull(targetCo);
         assertEquals(sourceCo.getCourseId(), targetCo.getCourseId());
         assertEquals(targetTerm.getId(), targetCo.getTermId());

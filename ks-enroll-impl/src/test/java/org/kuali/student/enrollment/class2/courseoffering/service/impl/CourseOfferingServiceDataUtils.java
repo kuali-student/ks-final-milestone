@@ -15,17 +15,25 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -35,16 +43,12 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 /**
  * 
@@ -59,6 +63,77 @@ import java.util.List;
  */
 public final class CourseOfferingServiceDataUtils {
 
+	/**
+	 * Create and initialize an ActivityOfferingCluster using some base data aswell as the parameters
+	 * given.
+	 * 
+	 * @param formatOfferingId
+	 * @param activities
+	 * @return the initialized ActivityOfferingCluster.
+	 * 
+	 */
+	public static ActivityOfferingClusterInfo createActivityOfferingCluster(String formatOfferingId, String clusterName, List<ActivityOfferingInfo>activities) {
+		ActivityOfferingClusterInfo aoc = new ActivityOfferingClusterInfo();
+		
+		aoc.setFormatOfferingId(formatOfferingId);
+		
+		aoc.setStateKey(CourseOfferingServiceConstants.AOC_ACTIVE_STATE_KEY);
+		aoc.setTypeKey(CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY);
+		
+		aoc.setName(clusterName);
+		aoc.setDescr(new RichTextInfo(clusterName, clusterName));
+		
+		Map<String, List<ActivityOfferingInfo>>activityTypeMap = new LinkedHashMap<String, List<ActivityOfferingInfo>>();
+		
+		for (ActivityOfferingInfo ao : activities) {
+			
+			List<ActivityOfferingInfo> activityList = activityTypeMap.get(ao.getTypeKey());
+			
+			if (activityList == null) {
+				activityList = new ArrayList<ActivityOfferingInfo>();
+				activityTypeMap.put(ao.getTypeKey(), activityList);
+			}
+			
+			activityList.add(ao);
+		}
+		
+		List<ActivityOfferingSetInfo>aoSetList = new ArrayList<ActivityOfferingSetInfo>();
+		
+		for (String aoTypeKey : activityTypeMap.keySet()) {
+			List<ActivityOfferingInfo> activityList = activityTypeMap.get(aoTypeKey);
+		
+			ActivityOfferingSetInfo aoSet = createActivityOfferingSet(aoTypeKey, activityList);
+		
+			aoSetList.add(aoSet);
+		}
+		
+		aoc.setActivityOfferingSets(aoSetList);
+		
+		return aoc;
+	}
+	
+	/**
+	 * Helper to build an ActivityOfferingSet from a list of the real activities
+	 * @param activityOfferingTypeKey
+	 * @param activities
+	 * @return the initialized ActivityOfferingSetInfo object.
+	 */
+	public static ActivityOfferingSetInfo createActivityOfferingSet (String activityOfferingTypeKey, List<ActivityOfferingInfo>activities) {
+		
+		ActivityOfferingSetInfo aoSet = new ActivityOfferingSetInfo();
+		
+		aoSet.setActivityOfferingType(activityOfferingTypeKey);
+		
+		List<String>aoIdList = new ArrayList<String>();
+		
+		for (ActivityOfferingInfo activityOfferingInfo : activities) {
+			aoIdList.add(activityOfferingInfo.getId());
+		}
+		
+		aoSet.setActivityOfferingIds(aoIdList);
+		
+		return aoSet;
+	}
 	/**
 	 * Create and initialize an ActivityOffering using some base data aswell as
 	 * the parameters given.

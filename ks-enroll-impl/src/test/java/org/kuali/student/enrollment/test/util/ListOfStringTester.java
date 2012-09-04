@@ -4,10 +4,14 @@
  */
 package org.kuali.student.enrollment.test.util;
 
-import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+
+import org.junit.Assert;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Helps create a dynamic 
@@ -15,6 +19,32 @@ import java.util.List;
  */
 public class ListOfStringTester {
 
+	/**
+	 * Verify that the expected elements exist in the actual list.  
+	 * order is not important
+	 * @param expectedList
+	 * @param actualList
+	 * @param failForExtraElements true if we should fail if there are other elements in the actual list.
+	 */
+	public void checkExistsAnyOrder (List<String>expectedList, List<String>actualList, boolean failForExtraElements) {
+		
+		if (failForExtraElements) 
+			Assert.assertFalse(expectedList.size() != actualList.size());
+		
+		List<String>unmatchedList = new ArrayList<String>(expectedList);
+		
+		for (String string : actualList) {
+
+			boolean removed = unmatchedList.remove(string);
+		
+			if (failForExtraElements)
+				Assert.assertTrue(removed);
+		}
+		
+		Assert.assertTrue(unmatchedList.size() == 0);
+	
+	}
+	
     public void check(List<String> expectedList, List<String> actualList) {
         if (expectedList.size () != actualList.size ()) {
             this.dump(expectedList, actualList);
@@ -43,6 +73,22 @@ public class ListOfStringTester {
             String expected = list.get(i);
             System.out.println(i + ".) " + expected);
         }
+    }
+
+    /*
+     * Generates a List<String> object, where each element is the String representation
+     * of a randomly generated int.
+     * @param length the number of elements to return in the List<String> object.
+     * @param upperBound the maximum value to be generated
+     */
+    public static List<String> generateRandomListOfStringIds (int length, int upperBound) {
+        Random generator = new Random();
+        List<String> arr = new ArrayList<String> ();
+        for (int i=0; i<length; i++) {
+            int randomNum = generator.nextInt(upperBound);
+            arr.add("" + randomNum);
+        }
+        return arr;
     }
 
 }
