@@ -470,6 +470,8 @@ public class LrcServiceImpl implements LrcService {
         }
 
         ResultComponent rc = LrcServiceAssembler.toResultComponent(gradeValuesGroupInfo.getTypeKey(), gradeValuesGroupInfo, lrcDao);
+        rc.setCreateId(context.getPrincipalId());
+        rc.setCreateTime(context.getCurrentDate());
         lrcDao.create(rc);
         try {
             return LrcServiceAssembler.toResultValuesGroupInfo(rc);

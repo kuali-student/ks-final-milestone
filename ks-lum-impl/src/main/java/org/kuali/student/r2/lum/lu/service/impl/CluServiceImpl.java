@@ -1988,6 +1988,8 @@ public class CluServiceImpl implements CluService {
                 resOpt.setResultUsageType(resUsageType);
             }
             resOpt.setDesc(CluServiceAssembler.toRichText(LuRichText.class, resOptInfo.getDescr()));
+            resOpt.setCreateId(context.getPrincipalId());
+            resOpt.setCreateTime(context.getCurrentDate());
             luDao.create(resOpt);
             resOptList.add(resOpt);
         }
@@ -2014,6 +2016,8 @@ public class CluServiceImpl implements CluService {
             throw new DoesNotExistException(cluResultTypeKey, ex);
         }
         cluResult.setCluResultType(type);
+        cluResult.setCreateId(context.getPrincipalId());
+        cluResult.setCreateTime(context.getCurrentDate());
 
         luDao.create(cluResult);
 

@@ -62,6 +62,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
     @Test
     public void testResultComponentCrud() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+        contextInfo.setPrincipalId("123");
         ResultValuesGroupInfo rci = new ResultValuesGroupInfo();
         rci.setName("New Result Component");
         RichTextInfo richText = new RichTextInfo();
@@ -87,7 +88,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         rci.setTypeKey("resultComponentType.grade");
         rci.setStateKey("Active");
         try {
-            ResultValuesGroupInfo newRci = client.createResultValuesGroup(rci, ContextInfoTestUtility.getEnglishContextInfo());
+            ResultValuesGroupInfo newRci = client.createResultValuesGroup(rci, contextInfo);
             assertNotNull(newRci);
             String id = newRci.getKey();
             assertNotNull(id);

@@ -2656,6 +2656,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testCreateCluResult() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+        contextInfo.setPrincipalId("123");
 	    
 	    CluResultInfo dto = new CluResultInfo();
 		RichTextInfo desc = new RichTextInfo();
@@ -2684,6 +2685,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testUpdateCluResult() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+        contextInfo.setPrincipalId("123");
 	    
 	    CluResultInfo dto = new CluResultInfo();
 		RichTextInfo desc1 = new RichTextInfo();
@@ -2754,6 +2756,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testUpdateCluResult_RemoveAllCluResultOptions() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+        contextInfo.setPrincipalId("123");
 	    
 	    CluResultInfo dto = new CluResultInfo();
 		RichTextInfo desc1 = new RichTextInfo();
